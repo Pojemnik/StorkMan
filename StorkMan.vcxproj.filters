@@ -19,4 +19,9 @@
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="stork_map_example.xml">
+      <Filter>Pliki zasobów</Filter>
+    </Xml>
+  </ItemGroup>
 </Project>
