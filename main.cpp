@@ -3,10 +3,9 @@
 #include <fstream>
 #include <string>
 
-int main()
+int main(int argc, char** argv)
 {
 	tinyxml2::XMLDocument map;
 	map.LoadFile("stork_map_example.xml");
-	std::string e = map.FirstChildElement("level")->FirstChildElement("platform")->Attribute("position");
 	return 0;
 }
