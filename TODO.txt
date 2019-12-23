@@ -1,0 +1,3 @@
+Ustaliæ ostateczn¹ strukturê klas - patrz core.*
+Zdecydowaæ siê na system zapisu wspó³rzêdnych (sfml, stl, w³asny)
+G³ówna pêtla gry
