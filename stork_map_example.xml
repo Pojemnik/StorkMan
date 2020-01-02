@@ -1,4 +1,4 @@
-<level size="1000,1000" background="bg1">
+<level name="Opowiem kawał. Kawał szynki" background="bg1">
 	<platform position="100,100" size="200,50" texture="brick1"/>
 	<enemy type="asdf" position="150,150" texture="enemy1"/>
 </level>
