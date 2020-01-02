@@ -7,14 +7,9 @@ class Platform : Object
 
 };
 
-class MovingPlatform : MovingObject
-{
-
-};
-
 class Level
 {
 	std::vector<Object> objects;
-	std::vector<MovingObject> movables;
-	std::vector<AnimatedObject> animatables;	//Great name
+	std::vector<Transformable> movables;
+	std::vector<Animatable> animatables;	//Great name
 };
