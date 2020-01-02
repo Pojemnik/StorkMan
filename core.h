@@ -1,21 +1,31 @@
 #pragma once
 
-class Object
+class Transformable
 {
 
 };
 
-class AnimatedObject : Object	//Update method
+class Animatable
 {
 
 };
 
-class MovingObject : AnimatedObject	//Move method
+class Drawable
 {
 
 };
 
-class Entity : MovingObject	//Mabye not derive
+class Colidable
+{
+
+};
+
+class Object : Drawable, Transformable, Colidable
+{
+
+};
+
+class Entity : Drawable, Transformable, Colidable, Animatable
 {
 
 };
