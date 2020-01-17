@@ -1,5 +1,5 @@
-#include <iostream>
 #include <tinyxml2.h>
+#include <iostream>
 #include <fstream>
 #include <string>
 #include <SFML/Graphics.hpp>

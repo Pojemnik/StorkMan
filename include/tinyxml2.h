@@ -23,6 +23,7 @@ distribution.
 
 #ifndef TINYXML2_INCLUDED
 #define TINYXML2_INCLUDED
+#pragma warning( disable : 26812)
 
 #if defined(ANDROID_NDK) || defined(__BORLANDC__) || defined(__QNXNTO__)
 #   include <ctype.h>

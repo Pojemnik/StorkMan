@@ -12,18 +12,23 @@ private:
 	Vectorf local_position;
 };
 
-class Animatable
+class Animatable// : Drawable
 {
 public:
 	virtual void update() = 0;
 	//Jak bêdzie potrzebne to siê napisze
 };
 
-class Drawable
+class Drawable : sf::Drawable
 {
+private:
+	sf::Sprite sprite;
+	std::shared_ptr<sf::Texture> tex;
+	Vectorf pos;
 public:
-	virtual void draw() = 0;
-	//Jak bêdzie potrzebne to siê napisze
+	Drawable();
+	Drawable(Vectorf p, std::shared_ptr<sf::Texture> t);
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
 class Colidable
@@ -33,10 +38,11 @@ class Colidable
 
 class Object : Drawable, Transformable, Colidable
 {
-
+public:
+	Object(Vectorf pos, std::shared_ptr<sf::Texture> t);
 };
 
-class Entity : Drawable, Transformable, Colidable, Animatable
+class Entity : Transformable, Colidable, Animatable
 {
 
 };
