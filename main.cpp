@@ -4,10 +4,11 @@
 #include <string>
 #include <SFML/Graphics.hpp>
 #include "map.h"
+#include "assets.h"
 
 int main(int argc, char** argv)	//Second argument is a map file for editor
 {
-	tinyxml2::XMLDocument map;
+	tinyxml2::XMLDocument map;	//Wydzieliæ do osobnej klasy
 	if (argc == 2)	//Wczytywanie danych poziomu z pliku
 	{
 		map.LoadFile(argv[1]);
@@ -17,6 +18,9 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			std::cout << "B³¹d w pierwszym elemencie pliku!" << std::endl;
 		}
 	}
+
+	Assets assets;
+	assets.loadAssets();
 	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
 	sf::RenderWindow window(sf::VideoMode(1024, 768, desktop.bitsPerPixel), "StorkMan");
 	const int FPS = 60;

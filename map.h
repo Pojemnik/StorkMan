@@ -13,10 +13,10 @@ class Level
 public:
 	Vectori global_pos;
 	bool is_loaded;
-	std::list<Object> objects;
+	//std::list<Object> objects;
 	std::list<Drawable> drawables;
-	std::list<Transformable> movables;
-	std::list<Animatable> animatables;	//Great name
+	//std::list<Transformable> movables;
+	//std::list<Animatable> animatables;	//Great name
 
 	Level();
 	void load();
