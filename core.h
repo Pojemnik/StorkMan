@@ -21,7 +21,20 @@ public:
 	//Jak bêdzie potrzebne to siê napisze
 };
 
-class Drawable : sf::Drawable
+class Texturable : public sf::Drawable
+{
+private:
+	sf::ConvexShape shape;
+	std::shared_ptr<sf::Texture> tex;
+	Vectorf pos;
+
+public:
+	Texturable();
+	Texturable(Vectorf p, std::shared_ptr<sf::Texture> t, std::vector<Vectorf> points);
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+};
+
+class Drawable : public sf::Drawable
 {
 private:
 	sf::Sprite sprite;
@@ -37,6 +50,14 @@ class Colidable
 {
 
 };
+
+
+class Platform : public Texturable
+{
+public:
+	Platform(Vectorf p, std::shared_ptr<sf::Texture> t, std::vector<Vectorf> points);
+};
+
 
 class Object : Drawable, Transformable, Colidable
 {

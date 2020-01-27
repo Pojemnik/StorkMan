@@ -7,5 +7,6 @@ void Assets::loadAssets()
 	{
 		std::cout << "Error" << std::endl;
 	}
-	bricks.push_back(std::shared_ptr<sf::Texture>(&t));
+	t.setRepeated(true);
+	bricks.push_back(t);
 }

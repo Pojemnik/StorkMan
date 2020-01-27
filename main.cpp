@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include "map.h"
 #include "assets.h"
+#include "core.h"
 
 int main(int argc, char** argv)	//Second argument is a map file for editor
 {
@@ -39,6 +40,13 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		}
 		window.clear();
 		//Render
+		std::vector<Vectorf> v;
+		v.push_back(Vectorf(0,0));
+		v.push_back(Vectorf(0,30));
+		v.push_back(Vectorf(100,30));
+		v.push_back(Vectorf(100,0));
+		Platform plat = Platform(Vectorf(100,100), std::make_shared<sf::Texture>(assets.bricks[0]), v);
+		window.draw(plat);
 		window.display();
 		while (clock.getElapsedTime().asMilliseconds() < 1000 / FPS);
 	}

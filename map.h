@@ -3,11 +3,6 @@
 #include <vector>
 #include <list>
 
-class Platform : Object
-{
-
-};
-
 class Level
 {
 public:
