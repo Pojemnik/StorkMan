@@ -13,10 +13,19 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	if (argc == 2)	//Wczytywanie danych poziomu z pliku
 	{
 		map.LoadFile(argv[1]);
-		tinyxml2::XMLNode* root = map.FirstChild();
+		tinyxml2::XMLElement* root = map.FirstChildElement();
 		if (root == NULL)
 		{
 			std::cout << "B³¹d w pierwszym elemencie pliku!" << std::endl;
+		}
+		else
+		{
+			tinyxml2::XMLAttribute* att = (tinyxml2::XMLAttribute*)root->FirstAttribute();
+			while (att != NULL)	//Przejœcie po wszytskich atrybutach g³ównego elementu
+			{
+				std::cout << att->Name() << ' ' << att->Value() << std::endl;
+				att = (tinyxml2::XMLAttribute*)att->Next();
+			}
 		}
 	}
 
@@ -40,12 +49,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		}
 		window.clear();
 		//Render
-		std::vector<Vectorf> v;
-		v.push_back(Vectorf(0,0));
-		v.push_back(Vectorf(0,30));
-		v.push_back(Vectorf(100,30));
-		v.push_back(Vectorf(100,0));
-		Platform plat = Platform(Vectorf(100,100), std::make_shared<sf::Texture>(assets.bricks[0]), v);
+		Platform plat = Platform(Vectorf(100,100), std::make_shared<sf::Texture>(assets.bricks[0]), { Vectorf(0,0), Vectorf(0,30), Vectorf(100,30), Vectorf(100,0) });
 		window.draw(plat);
 		window.display();
 		while (clock.getElapsedTime().asMilliseconds() < 1000 / FPS);
