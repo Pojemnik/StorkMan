@@ -9,13 +9,16 @@ public:
 	Vectori global_pos;
 	bool is_loaded;
 	//std::list<Object> objects;
-	std::list<Drawable> drawables;
+	std::vector<Drawable> drawables;
+	std::vector<Texturable> texturables;
 	//std::list<Transformable> movables;
 	//std::list<Animatable> animatables;	//Great name
 
 	Level();
 	void load();
 	void unload();
+	void addDrawable(Drawable d);
+	void addTexturable(Texturable t);
 };
 
 class Map
