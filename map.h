@@ -7,7 +7,7 @@ class Level
 {
 public:
 	Vectori global_pos;
-	bool is_loaded;
+	bool is_loaded = false;
 	//std::list<Object> objects;
 	std::vector<Drawable> drawables;
 	std::vector<Texturable> texturables;

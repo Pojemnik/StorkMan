@@ -6,6 +6,7 @@
 #include "map.h"
 #include "assets.h"
 #include "core.h"
+#include "parser.h"
 
 int main(int argc, char** argv)	//Second argument is a map file for editor
 {
@@ -23,37 +24,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	{
 		map.LoadFile(argv[1]);
 		tinyxml2::XMLElement* root = map.FirstChildElement();
-		if (root == NULL)
-		{
-			std::cout << "B³¹d w pierwszym elemencie pliku!" << std::endl;
-		}
-		else
-		{
-			tinyxml2::XMLAttribute* att = (tinyxml2::XMLAttribute*)root->FirstAttribute();
-			std::cout << root->Name() << ':' << std::endl;
-			while (att != NULL)	//Przejœcie po wszytskich atrybutach g³ównego elementu
-			{
-				std::cout << att->Name() << ": " << att->Value() << std::endl;
-				att = (tinyxml2::XMLAttribute*)att->Next();
-			}
-			tinyxml2::XMLElement* element = root->FirstChildElement();
-			while (element != NULL)
-			{
-				att = (tinyxml2::XMLAttribute*)element->FirstAttribute();
-				std::string name = element->Name();
-				std::cout << name << ':' << std::endl;
-				if (name == "platform")
-				{
-
-				}
-				while (att != NULL)	//Przejœcie po wszytskich atrybutach g³ównego elementu
-				{
-					std::cout << att->Name() << ": " << att->Value() << std::endl;
-					att = (tinyxml2::XMLAttribute*)att->Next();
-				}
-				element = element->NextSiblingElement();
-			}
-		}
+		Level lvl = parse_level(root, std::make_shared<Assets>(assets));
 	}
 
 	while (window.isOpen())
