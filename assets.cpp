@@ -7,6 +7,6 @@ void Assets::loadAssets()
 	{
 		std::cout << "Error cegly00.png" << std::endl;
 	}
-	t.setRepeated(true);
+	t.setRepeated(true);//Coœ tu jest nie tak(usuniêcie tej linijki nie zmienia efektu)
 	bricks.push_back(t);
 }
