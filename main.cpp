@@ -16,13 +16,13 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	sf::RenderWindow window(sf::VideoMode(1024, 768, desktop.bitsPerPixel), "StorkMan");
 	const int FPS = 60;
 	sf::Clock clock;
-	Level lvl = Level();
-	tinyxml2::XMLDocument map;	//Wydzieliæ do osobnej klasy
+	Map map;
 	if (argc == 2)	//Wczytywanie danych poziomu z pliku
 	{
-		map.LoadFile(argv[1]);
-		tinyxml2::XMLElement* root = map.FirstChildElement();
-		lvl = parse_level(root, std::make_shared<Assets>(assets));
+		tinyxml2::XMLDocument doc;
+		tinyxml2::XMLError tmp= doc.LoadFile(argv[1]);
+		tinyxml2::XMLElement* root = doc.FirstChildElement();
+		map = parse_map(root,std::make_shared<Assets>(assets));
 	}
 
 	while (window.isOpen())
@@ -39,10 +39,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		}
 		window.clear();
 		//Render
-		for (const auto &it : lvl.texturables)
-		{
-			window.draw(it);
-		}
+		window.draw(map);
 		window.display();
 		while (clock.getElapsedTime().asMilliseconds() < 1000 / FPS);
 	}

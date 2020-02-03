@@ -24,25 +24,26 @@ public:
 class Texturable : public sf::Drawable
 {
 private:
-	sf::ConvexShape shape;
+	sf::VertexBuffer shape;
 	std::shared_ptr<sf::Texture> tex;
+	std::vector<sf::Vertex> vertices;
 	Vectorf pos;
 
 public:
 	Texturable();
-	Texturable(Vectorf p, std::shared_ptr<sf::Texture> t, std::vector<Vectorf> points);
+	Texturable(Vectorf p, std::shared_ptr<sf::Texture> t, std::vector<sf::Vertex> points);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
-class Drawable : public sf::Drawable
+class Renderable : public sf::Drawable
 {
 private:
 	sf::Sprite sprite;
 	std::shared_ptr<sf::Texture> tex;
 	Vectorf pos;
 public:
-	Drawable();
-	Drawable(Vectorf p, std::shared_ptr<sf::Texture> t);
+	Renderable();
+	Renderable(Vectorf p, std::shared_ptr<sf::Texture> t);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
@@ -55,11 +56,11 @@ class Colidable
 class Platform : public Texturable
 {
 public:
-	Platform(Vectorf p, std::shared_ptr<sf::Texture> t, std::vector<Vectorf> points);
+	Platform(Vectorf p, std::shared_ptr<sf::Texture> t, std::vector<sf::Vertex> points);
 };
 
 
-class Object : Drawable, Transformable, Colidable
+class Object : Renderable, Transformable, Colidable
 {
 public:
 	Object(Vectorf pos, std::shared_ptr<sf::Texture> t);
