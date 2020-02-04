@@ -1,7 +1,7 @@
 <level name="Opowiem kawał. Kawał szynki" background="bg1">
 	<platform position="100,100" size="200,50" texture="bricks,0"/>
-	<platform position="100,200" size="500,20" texture="bricks,0"/>
-	<platform position="300,100" size="200,200" texture="bricks,0"/>
-	<platform position="0,0" size="50,200" texture="bricks,0"/>
+	<platform position="100,200" size="500,20" texture="bricks,1"/>
+	<platform position="300,100" size="200,200" texture="bricks,2"/>
+	<platform position="0,0" size="50,200" texture="bricks,3"/>
 	<enemy type="asdf" position="150,150" texture="enemy1"/>
 </level>

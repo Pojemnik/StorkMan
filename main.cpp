@@ -17,14 +17,13 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	const int FPS = 60;
 	sf::Clock clock;
 	Map map;
-	if (argc == 2)	//Wczytywanie danych poziomu z pliku
+	if (argc == 2)	//Docelowo w tym miejscu powinien wczytywaæ tylko jeden level
 	{
 		tinyxml2::XMLDocument doc;
 		tinyxml2::XMLError tmp= doc.LoadFile(argv[1]);
 		tinyxml2::XMLElement* root = doc.FirstChildElement();
 		map = parse_map(root,std::make_shared<Assets>(assets));
 	}
-
 	while (window.isOpen())
 	{
 		clock.restart();

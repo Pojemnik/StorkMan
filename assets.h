@@ -3,7 +3,7 @@
 
 struct Assets
 {
-	std::vector<sf::Texture> bricks;//Ju¿ nie rzuca b³êdem, ale trochê temu nie ufam
+	std::vector<sf::Texture> bricks;
 
 	void loadAssets();
 };

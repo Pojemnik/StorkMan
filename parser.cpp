@@ -1,5 +1,6 @@
 #include "parser.h"
 #include <string>
+
 Vectorf parse_num_pairf(std::string val)
 {
 	size_t p = val.find(',');
@@ -7,10 +8,11 @@ Vectorf parse_num_pairf(std::string val)
 	{
 		throw std::invalid_argument("No ',' found");
 	}
-	int x = std::stoi(val.substr(0, p));
+	int x = std::stoi(val.substr(0, p));//Czemu inty skoro maj¹ byæ floaty?
 	int y = std::stoi(val.substr(p + 1));
 	return Vectorf(x,y);
 }
+
 Vectori parse_num_pairi(std::string val)
 {
 	size_t p = val.find(',');
@@ -22,12 +24,14 @@ Vectori parse_num_pairi(std::string val)
 	int y = std::stoi(val.substr(p + 1));
 	return Vectori(x, y);
 }
+
 std::string get_attribute_by_name(std::string name, tinyxml2::XMLElement* element)
 {
 	tinyxml2::XMLAttribute* att = (tinyxml2::XMLAttribute*)(element->FindAttribute(name.c_str()));
 		return std::string(att->Value());
-	throw std::invalid_argument(std::string("Attribute name ") + name + " not found");
+	throw std::invalid_argument(std::string("Attribute name ") + name + " not found");//Ten konstruktor jest niezbêdny?
 }
+
 Level parse_level(tinyxml2::XMLElement* root, std::shared_ptr<Assets> assets)
 {
 	Level lvl = Level();

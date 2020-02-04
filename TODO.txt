@@ -1,1 +1,4 @@
-Naprawiæ wczytywanie tekstur, ¿eby nie rzuca³o b³êdami
+Jednostka dla mapy
+Struktura klas dla gracza, przeciwników i innych rzeczy
+Kolizje
+Poruszanie siê gracza vs poruszanie siê mapy, kamera?

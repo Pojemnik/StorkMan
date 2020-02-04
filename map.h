@@ -26,7 +26,6 @@ private:
 	Vectori size;
 	Vectori current_pos;
 	std::vector<Level> levels;
-	std::list<std::shared_ptr<Level>> loaded_levels;
 	std::shared_ptr<Level>** level_placement;
 	std::list<std::shared_ptr<std::vector<Renderable>>> drawables;
 	std::list<std::shared_ptr<std::vector<Texturable>>> texturables;

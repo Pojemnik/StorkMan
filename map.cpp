@@ -17,7 +17,7 @@ void Level::addTexturable(Texturable t)
 
 Map::Map()
 {
-	
+
 }
 
 Map::Map(Vectori dimensions, std::unique_ptr<std::vector<Level>> lvls, Vectori start_pos) : size(dimensions), current_pos(start_pos)
@@ -38,24 +38,34 @@ Map::Map(Vectori dimensions, std::unique_ptr<std::vector<Level>> lvls, Vectori s
 			}
 		}
 	}
-	for(int x=-1;x<2;x++)
+	for (int x = -1; x < 2; x++)
+	{
 		for (int y = -1; y < 2; y++)
 		{
-			if (start_pos.x + x < size.x && start_pos.y + y < size.y && start_pos.x + x >=0 && start_pos.y + y >= 0)
+			if (start_pos.x + x < size.x && start_pos.y + y < size.y && start_pos.x + x >= 0 && start_pos.y + y >= 0)
 				load_level(Vectori(start_pos.x + x, start_pos.y + y));
 		}
+	}
 }
 
 void Map::load_level(Vectori pos)
 {
-	texturables.push_back(std::make_shared<std::vector<Texturable>>(level_placement[pos.x][pos.y]->texturables));
-	drawables.push_back(std::make_shared<std::vector<Renderable>>(level_placement[pos.x][pos.y]->drawables));
+	if (!level_placement[pos.x][pos.y]->is_loaded)
+	{
+		texturables.push_back(std::make_shared<std::vector<Texturable>>(level_placement[pos.x][pos.y]->texturables));
+		drawables.push_back(std::make_shared<std::vector<Renderable>>(level_placement[pos.x][pos.y]->drawables));
+		level_placement[pos.x][pos.y]->is_loaded = true;
+	}
 }
 
 void Map::unload_level(Vectori pos)
 {
-	texturables.remove_if([=](const std::shared_ptr<std::vector<Texturable>>& a) {return &*a == &level_placement[pos.x][pos.y]->texturables; });
-	drawables.remove_if([=](const std::shared_ptr<std::vector<Renderable>>& a) {return &*a == &level_placement[pos.x][pos.y]->drawables; });
+	if (level_placement[pos.x][pos.y]->is_loaded)
+	{
+		texturables.remove_if([=](const std::shared_ptr<std::vector<Texturable>>& a) {return &*a == &level_placement[pos.x][pos.y]->texturables; });
+		drawables.remove_if([=](const std::shared_ptr<std::vector<Renderable>>& a) {return &*a == &level_placement[pos.x][pos.y]->drawables; });
+		level_placement[pos.x][pos.y]->is_loaded = false;
+	}
 }
 
 void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const

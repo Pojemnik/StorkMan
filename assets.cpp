@@ -2,11 +2,14 @@
 
 void Assets::loadAssets()
 {
-	sf::Texture t;
-	if (!t.loadFromFile("img/tex/CEGLY00.PNG"))
+	bricks.reserve(4);	//sf::Texture nie mo¿e byæ kopiowane
+	for (int i = 0; i < 4; i++)
 	{
-		std::cout << "Error cegly00.png" << std::endl;
+		bricks.push_back(sf::Texture());
+		if (!bricks[i].loadFromFile("img/tex/CEGLY0" + std::to_string(i) + ".PNG"))
+		{
+			std::cout << "Error CEGLY0" + std::to_string(i) + ".png" << std::endl;
+		}
+		bricks[i].setRepeated(true);
 	}
-	t.setRepeated(true);
-	bricks.push_back(t);
 }
