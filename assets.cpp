@@ -57,4 +57,21 @@ void Assets::loadAssets()
 		std::cout << "Error NITY00.png" << std::endl;
 	}
 	rivet.setRepeated(true);
+	stork_run.reserve(80);
+	sf::Image image;
+	if (!image.loadFromFile("img/stork/run_ss_347_358_is_8_10.png"))
+	{
+		std::cout << "Stork run texture error" << std::endl;
+	}
+	for(int i = 0; i < 10; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			stork_run.push_back(sf::Texture());
+			if (!stork_run[i*8+j].loadFromImage(image, sf::IntRect(j * 347, i * 358, 347, 358)))
+			{
+				std::cout << "Stork run texture error" << std::endl;
+			}
+		}
+	}
 }

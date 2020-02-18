@@ -30,6 +30,24 @@ void Texturable::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(shape, states);
 }
 
+Animatable::Animatable(Vectorf p, std::shared_ptr<std::vector<sf::Texture>> t) : tex(t), pos(p)
+{
+	sprite.setPosition(pos);
+	it = tex->begin();
+	sprite = sf::Sprite(*it);
+}
+
+void Animatable::next_frame()
+{
+	if (++it == tex->end())
+		it = tex->begin();
+	sprite.setTexture(*it);
+}
+
+void Animatable::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	target.draw(sprite, states);
+}
 
 Platform::Platform(Vectorf p, std::shared_ptr<sf::Texture> t, std::vector<sf::Vertex> points) : Texturable(p, t, points)
 {
