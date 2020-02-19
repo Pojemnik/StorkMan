@@ -34,9 +34,12 @@ private:
 	sf::Sprite sprite;
 	std::shared_ptr<sf::Texture> tex;
 	Vectorf pos;
+	float height; //[m]
+
 public:
 	Renderable();
 	Renderable(Vectorf p, std::shared_ptr<sf::Texture> t);
+	void rescale(float gs);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
@@ -47,9 +50,10 @@ private:
 	Vectorf pos;
 	sf::Sprite sprite;
 	std::vector<sf::Texture>::iterator it;
+	float height; //[m]
 public:
 	Animatable();
-	Animatable(Vectorf p, std::shared_ptr<std::vector<sf::Texture>> t);
+	Animatable(Vectorf p, std::shared_ptr<std::vector<sf::Texture>> t, float h, float gs);
 	void next_frame();
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

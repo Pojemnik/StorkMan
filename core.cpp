@@ -30,11 +30,19 @@ void Texturable::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(shape, states);
 }
 
-Animatable::Animatable(Vectorf p, std::shared_ptr<std::vector<sf::Texture>> t) : tex(t), pos(p)
+void Renderable::rescale(float gs)
 {
-	sprite.setPosition(pos);
+	float scale = gs * height / sprite.getTexture()->getSize().y;
+	sprite.setScale(scale, scale);
+}
+
+Animatable::Animatable(Vectorf p, std::shared_ptr<std::vector<sf::Texture>> t, float h, float gs) : tex(t), pos(p), height(h)
+{
 	it = tex->begin();
 	sprite = sf::Sprite(*it);
+	sprite.setPosition(pos);
+	float scale = gs * height / sprite.getTexture()->getSize().y;
+	sprite.setScale(scale, scale);
 }
 
 void Animatable::next_frame()
