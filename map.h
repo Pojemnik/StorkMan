@@ -27,8 +27,9 @@ private:
 	Vectori current_pos;
 	std::vector<Level> levels;
 	std::shared_ptr<Level>** level_placement;
-	std::list<std::shared_ptr<std::vector<Renderable>>> drawables;
-	std::list<std::shared_ptr<std::vector<Texturable>>> texturables;
+	//std::list<std::shared_ptr<std::vector<Renderable>>> drawables;
+	//std::list<std::shared_ptr<std::vector<Texturable>>> texturables;
+	std::list<std::shared_ptr<Level>> loaded_levels;
 
 	void load_level(Vectori pos);
 	void unload_level(Vectori pos);

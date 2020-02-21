@@ -1,6 +1,6 @@
 
 #include "map.h"
-
+const sf::Vector2f level_size = { 500,500 };
 Level::Level()
 {
 }
@@ -47,9 +47,10 @@ void Map::load_level(Vectori pos)
 {
 	if (!level_placement[pos.x][pos.y]->is_loaded)
 	{
-		texturables.push_back(std::make_shared<std::vector<Texturable>>(level_placement[pos.x][pos.y]->texturables));
-		drawables.push_back(std::make_shared<std::vector<Renderable>>(level_placement[pos.x][pos.y]->drawables));
+		//texturables.push_back(std::make_shared<std::vector<Texturable>>(level_placement[pos.x][pos.y]->texturables));
+		//drawables.push_back(std::make_shared<std::vector<Renderable>>(level_placement[pos.x][pos.y]->drawables));
 		level_placement[pos.x][pos.y]->is_loaded = true;
+		loaded_levels.push_back(level_placement[pos.x][pos.y]);
 	}
 }
 
@@ -57,14 +58,17 @@ void Map::unload_level(Vectori pos)
 {
 	if (level_placement[pos.x][pos.y]->is_loaded)
 	{
-		texturables.remove_if([=](const std::shared_ptr<std::vector<Texturable>>& a) {return &*a == &level_placement[pos.x][pos.y]->texturables; });
-		drawables.remove_if([=](const std::shared_ptr<std::vector<Renderable>>& a) {return &*a == &level_placement[pos.x][pos.y]->drawables; });
+		//texturables.remove_if([=](const std::shared_ptr<std::vector<Texturable>>& a) {return &*a == &level_placement[pos.x][pos.y]->texturables; });
+		//drawables.remove_if([=](const std::shared_ptr<std::vector<Renderable>>& a) {return &*a == &level_placement[pos.x][pos.y]->drawables; });
 		level_placement[pos.x][pos.y]->is_loaded = false;
+		auto x = &*(level_placement[pos.x][pos.y]);
+		loaded_levels.remove_if([=](const std::shared_ptr<Level>& a) {return &*a == (const Level*)&x; });
 	}
 }
 
 void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
+	/*
 	for (const auto& it : drawables)
 	{
 		for (const auto& it2 : *it)
@@ -78,6 +82,20 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 		{
 			target.draw(it2, states);
 		}
+	}
+	*/
+	for(const auto& it : loaded_levels)
+	{
+		states.transform*=sf::Transform().translate({level_size.x*it->global_pos.x,level_size.y*it->global_pos.y});
+		for(const auto& it2: it->drawables)
+		{
+			target.draw(it2, states);
+		}
+		for (const auto& it2 : it->texturables)
+		{
+			target.draw(it2, states);
+		}
+		states.transform*=sf::Transform().translate({-1*level_size.x*it->global_pos.x,-1*level_size.y*it->global_pos.y});
 	}
 }
 

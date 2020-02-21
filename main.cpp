@@ -23,11 +23,11 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	if (argc == 2)	//Docelowo w tym miejscu powinien wczytywaæ tylko jeden level
 	{
 		tinyxml2::XMLDocument doc;
-		tinyxml2::XMLError tmp= doc.LoadFile(argv[1]);
+		tinyxml2::XMLError tmp = doc.LoadFile(argv[1]);
 		tinyxml2::XMLElement* root = doc.FirstChildElement();
 		map = parse_map(root,std::make_shared<Assets>(assets));
 	}
-	Animatable a(Vectorf(200, 200), std::make_shared<std::vector<sf::Texture>>(assets.stork_run), 1.98f, global_scale);
+	Player player({ 200, 200 }, { std::make_shared<std::vector<sf::Texture>>(assets.stork_idle), std::make_shared<std::vector<sf::Texture>>(assets.stork_run) }, 1.92f, global_scale);
 	while (window.isOpen())
 	{
 		clock.restart();
@@ -43,11 +43,24 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			{
 			}
 		}
+		player.status = Entity_status::IDLE;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+		{
+			player.move({10, 0});
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+		{
+			player.move({ -10, 0 });
+		}
 		window.clear();
+		//Animations
+		player.next_frame();
 		//Render
-		window.draw(map);
-		window.draw(a);
-		a.next_frame();
+		sf::Vector2f camera_pos(0, 0);
+		sf::RenderStates rs= sf::RenderStates::Default;
+		rs.transform = sf::Transform().translate(-camera_pos);
+		window.draw(map,rs);
+		window.draw(player);
 		window.display();
 		while (clock.getElapsedTime().asMilliseconds() < 1000 / FPS);
 	}
