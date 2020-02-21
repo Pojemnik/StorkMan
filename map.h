@@ -34,8 +34,8 @@ private:
 	void unload_level(Vectori pos);
 
 public:
+	Map() = default;
 	Map(Vectori dimensions, std::unique_ptr<std::vector<Level>> levels, Vectori start_pos);
-	Map();
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	void update();
 };

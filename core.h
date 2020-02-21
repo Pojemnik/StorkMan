@@ -37,8 +37,8 @@ private:
 	float height; //[m]
 
 public:
-	Renderable();
-	Renderable(Vectorf p, std::shared_ptr<sf::Texture> t);
+	Renderable() = default;
+	Renderable(Vectorf p, std::shared_ptr<sf::Texture> t, float h);
 	void rescale(float gs);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

@@ -15,11 +15,6 @@ void Level::addTexturable(Texturable t)
 	texturables.push_back(t);
 }
 
-Map::Map()
-{
-
-}
-
 Map::Map(Vectori dimensions, std::unique_ptr<std::vector<Level>> lvls, Vectori start_pos) : size(dimensions), current_pos(start_pos)
 {
 	level_placement = new std::shared_ptr<Level> * [size.y];

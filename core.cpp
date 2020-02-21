@@ -1,11 +1,6 @@
 #include "core.h"
 
-Renderable::Renderable()
-{
-
-}
-
-Renderable::Renderable(Vectorf p, std::shared_ptr<sf::Texture> t) : tex(t), pos(p)
+Renderable::Renderable(Vectorf p, std::shared_ptr<sf::Texture> t, float h) : tex(t), pos(p), height(h)
 {
 	sprite = sf::Sprite(*tex);
 	sprite.setPosition(pos);

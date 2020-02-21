@@ -8,8 +8,8 @@ Vectorf parse_num_pairf(std::string val)
 	{
 		throw std::invalid_argument("No ',' found");
 	}
-	int x = std::stoi(val.substr(0, p));//Czemu inty skoro maj¹ byæ floaty?
-	int y = std::stoi(val.substr(p + 1));
+	float x = std::stof(val.substr(0, p));
+	float y = std::stof(val.substr(p + 1));
 	return Vectorf(x,y);
 }
 
