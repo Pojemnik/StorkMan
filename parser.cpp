@@ -10,7 +10,7 @@ Vectorf parse_num_pairf(std::string val)
 	}
 	float x = std::stof(val.substr(0, p));
 	float y = std::stof(val.substr(p + 1));
-	return Vectorf(x,y);
+	return Vectorf(x, y);
 }
 
 Vectori parse_num_pairi(std::string val)
@@ -28,8 +28,7 @@ Vectori parse_num_pairi(std::string val)
 std::string get_attribute_by_name(std::string name, tinyxml2::XMLElement* element)
 {
 	tinyxml2::XMLAttribute* att = (tinyxml2::XMLAttribute*)(element->FindAttribute(name.c_str()));
-		return std::string(att->Value());
-	throw std::invalid_argument(std::string("Attribute name ") + name + " not found");//Ten konstruktor jest niezbêdny?
+	return std::string(att->Value());
 }
 
 Level parse_level(tinyxml2::XMLElement* root, std::shared_ptr<Assets> assets)
@@ -59,7 +58,7 @@ Level parse_level(tinyxml2::XMLElement* root, std::shared_ptr<Assets> assets)
 				Vectorf pos;
 				Vectorf size;
 				std::shared_ptr<sf::Texture> tex;
-				pos = parse_num_pairf(get_attribute_by_name("position",element));
+				pos = parse_num_pairf(get_attribute_by_name("position", element));
 				size = parse_num_pairf(get_attribute_by_name("size", element));
 				{
 					std::string val = get_attribute_by_name("texture", element);
@@ -167,5 +166,5 @@ Map parse_map(tinyxml2::XMLElement* root, std::shared_ptr<Assets> assets)
 			element = element->NextSiblingElement();
 		}
 	}
-	return Map(map_size,std::make_unique<std::vector<Level>>(vec),map_player_pos);
+	return Map(map_size, std::make_unique<std::vector<Level>>(vec), map_player_pos);
 }
