@@ -77,7 +77,7 @@ public:
 	Object(Vectorf pos, std::shared_ptr<sf::Texture> t);
 };
 
-class Entity : Transformable, Colidable
+class Entity : public Transformable, public Renderable, public Colidable
 {
 
 };

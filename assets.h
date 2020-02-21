@@ -1,18 +1,15 @@
 #pragma once
 #include "core.h"
 
-struct Assets
+class Assets
 {
-	std::vector<sf::Texture> bricks;
-	std::vector<sf::Texture> panels;
-	std::vector<sf::Texture> metal;
+public:
+	std::vector<sf::Texture> map_textures;
 	std::vector<sf::Texture> stork_run;
 	std::vector<sf::Texture> stork_idle;
-	sf::Texture asphalt;
-	sf::Texture concrete;
-	sf::Texture ground;
-	sf::Texture grass;
-	sf::Texture rivet; //nit
-
-	void loadAssets();
+	std::map<std::string, std::shared_ptr<sf::Texture>> textures;
+	void load_assets();
+private:
+	void load_texture(sf::Texture& t, sf::Image img, int y, int x, int sx, int sy, bool rep);
+	void load_textures(std::vector<sf::Texture>& v, std::string path, bool rep);
 };

@@ -14,7 +14,7 @@ float global_scale = 76.8f; //[px/m]
 int main(int argc, char** argv)	//Second argument is a map file for editor
 {
 	Assets assets;
-	assets.loadAssets();
+	assets.load_assets();
 	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
 	sf::RenderWindow window(sf::VideoMode(1024, 768, desktop.bitsPerPixel), "StorkMan", sf::Style::Titlebar | sf::Style::Close);
 	const int FPS = 60;

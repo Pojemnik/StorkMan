@@ -64,15 +64,7 @@ Level parse_level(tinyxml2::XMLElement* root, std::shared_ptr<Assets> assets)
 					std::string val = get_attribute_by_name("texture", element);
 					try
 					{
-						size_t p = val.find(',');
-						if (p == std::string::npos)
-						{
-							throw std::invalid_argument("No ',' found");
-						}
-						std::string tex_name = val.substr(0, p);
-						int tex_n = std::stoi(val.substr(p + 1));
-						if (tex_name == "bricks")
-							tex = std::make_shared<sf::Texture>(assets->bricks[tex_n]);
+						tex = assets->textures[val];
 					}
 					catch (const std::exception & e)
 					{

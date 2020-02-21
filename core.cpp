@@ -56,8 +56,3 @@ Platform::Platform(Vectorf p, std::shared_ptr<sf::Texture> t, std::vector<sf::Ve
 {
 
 }
-
-Object::Object(Vectorf pos, std::shared_ptr<sf::Texture> t)
-{
-
-}
