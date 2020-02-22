@@ -9,14 +9,14 @@
 #include "parser.h"
 
 //Storkman ma 1,92m
-float global_scale = 76.8f; //[px/m]
+float global_scale = 51.2f; //[px/m]
 
 int main(int argc, char** argv)	//Second argument is a map file for editor
 {
 	Assets assets;
 	assets.load_assets();
 	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
-	sf::RenderWindow window(sf::VideoMode(1024, 768, desktop.bitsPerPixel), "StorkMan", sf::Style::Titlebar | sf::Style::Close);
+	sf::RenderWindow window(sf::VideoMode(1024, 576, desktop.bitsPerPixel), "StorkMan", sf::Style::Titlebar | sf::Style::Close);
 	const int FPS = 60;
 	sf::Clock clock;
 	Map map;
@@ -47,11 +47,11 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		player.status = Entity_status::IDLE;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 		{
-			player.move({10, 0});
+			player.move({5, 0});
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		{
-			player.move({ -10, 0 });
+			player.move({-5, 0 });
 		}
 		window.clear();
 		//Animations

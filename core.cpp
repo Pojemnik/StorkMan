@@ -58,7 +58,7 @@ void Animatable::next_frame()
 	sprite.setTexture(*it);
 }
 
-void Animatable::set_animation(std::shared_ptr<std::vector<sf::Texture>> t)
+void Entity::set_animation(std::shared_ptr<std::vector<sf::Texture>> t)
 {
 	tex = t;
 	it = tex->begin();
@@ -114,8 +114,12 @@ void Entity::next_frame()
 	if (&*tex != &*animations[status])
 	{
 		set_animation(animations[status]);
+		sf::Vector2u size = it->getSize();
+		sprite.setTextureRect(sf::IntRect(0,0,size.x,size.y));
 	}
 	if (++it == tex->end())
+	{
 		it = tex->begin();
+	}	
 	sprite.setTexture(*it);
 }

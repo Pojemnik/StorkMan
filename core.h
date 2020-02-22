@@ -57,7 +57,6 @@ public:
 	Animatable();
 	Animatable(Vectorf p, std::shared_ptr<std::vector<sf::Texture>> t, float h, float gs);
 	void next_frame();
-	void set_animation(std::shared_ptr<std::vector<sf::Texture>> t);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
@@ -86,6 +85,7 @@ private:
 	std::vector<std::shared_ptr<std::vector<sf::Texture>>> animations;
 public:
 	Entity_status status;
+	void set_animation(std::shared_ptr<std::vector<sf::Texture>> t);
 	Entity(Vectorf p, std::vector<std::shared_ptr<std::vector<sf::Texture>>> t, float h, float gs);
 	void move(Vectorf delta);
 	void next_frame();
