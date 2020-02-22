@@ -27,7 +27,8 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		tinyxml2::XMLElement* root = doc.FirstChildElement();
 		map = parse_map(root,std::make_shared<Assets>(assets));
 	}
-	Player player({ 200, 200 }, { std::make_shared<std::vector<sf::Texture>>(assets.stork_idle), std::make_shared<std::vector<sf::Texture>>(assets.stork_run) }, 1.92f, global_scale);
+	std::vector<std::shared_ptr<std::vector<sf::Texture>>> v = { std::make_shared<std::vector<sf::Texture>>(assets.stork_idle), std::make_shared<std::vector<sf::Texture>>(assets.stork_run) };
+	Entity player({ 200, 200 }, v, 1.92f, global_scale);
 	while (window.isOpen())
 	{
 		clock.restart();

@@ -43,13 +43,13 @@ public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
-class Animatable : public Renderable
+class Animatable : public sf::Drawable
 {
 protected:
 	std::shared_ptr<std::vector<sf::Texture>> tex;
 	Vectorf pos;
-	sf::Sprite sprite;
 	std::vector<sf::Texture>::iterator it;
+	sf::Sprite sprite;
 	int direction = 1;//x sign
 	float height; //[m]
 
@@ -58,6 +58,7 @@ public:
 	Animatable(Vectorf p, std::shared_ptr<std::vector<sf::Texture>> t, float h, float gs);
 	void next_frame();
 	void set_animation(std::shared_ptr<std::vector<sf::Texture>> t);
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
 class Colidable

@@ -71,6 +71,7 @@ void Assets::load_assets()
 	//load_textures(ship_undockx, "img/ships/WydokowanieX_ss_436_87_is_6_10.png", false);
 	//load_textures(ship_undocky, "img/ships/WydokowanieY_ss_443_442_is_10_12.png", false);
 
+	//Tu mamy problem, make_shared wywyo³uje konstruktor kopiuj¹cy
 	textures["bricks,0"] = std::make_shared<sf::Texture>(map_textures[3]);
 	textures["bricks,1"] = std::make_shared<sf::Texture>(map_textures[4]);
 	textures["bricks,2"] = std::make_shared<sf::Texture>(map_textures[5]);

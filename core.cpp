@@ -45,6 +45,12 @@ Animatable::Animatable(Vectorf p, std::shared_ptr<std::vector<sf::Texture>> t, f
 	sprite.setScale(scale, scale);
 }
 
+/*
+void Animatable::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	target.draw(sprite, states);
+}
+*/
 void Animatable::next_frame()
 {
 	if (++it == tex->end())
@@ -56,6 +62,11 @@ void Animatable::set_animation(std::shared_ptr<std::vector<sf::Texture>> t)
 {
 	tex = t;
 	it = tex->begin();
+}
+
+void Animatable::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	target.draw(sprite, states);
 }
 
 Platform::Platform(Vectorf p, std::shared_ptr<sf::Texture> t, std::vector<sf::Vertex> points) : Texturable(p, t, points)
@@ -70,7 +81,7 @@ Player::Player(Vectorf p, std::vector<std::shared_ptr<std::vector<sf::Texture>>>
 
 Entity::Entity(Vectorf p, std::vector<std::shared_ptr<std::vector<sf::Texture>>> t, float h, float gs) : Animatable(p, t[0], h, gs), animations(t)
 {
-
+	status = Entity_status::IDLE;
 }
 
 void Entity::move(Vectorf delta)
