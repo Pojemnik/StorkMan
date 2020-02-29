@@ -7,6 +7,8 @@ public:
 	std::vector<sf::Texture> map_textures;
 	std::vector<sf::Texture> stork_run;
 	std::vector<sf::Texture> stork_idle;
+	std::vector<sf::Texture> stork_jump_run;
+	std::vector<sf::Texture> stork_jump_idle;
 	std::vector<sf::Texture> ship_dockx;
 	std::vector<sf::Texture> ship_docky;
 	std::vector<sf::Texture> ship_fly;

@@ -6,7 +6,7 @@
 typedef sf::Vector2f Vectorf;
 typedef sf::Vector2i Vectori;
 
-enum Entity_status{IDLE = 0, MOVE, ATTACK, HIT};
+enum Entity_status{IDLE = 0, MOVE, JUMP_IDLE, JUMP_RUN, ATTACK, HIT};
 
 class Transformable
 {

@@ -106,6 +106,7 @@ void Entity::move(Vectorf delta)
 	direction = s;
 	pos += delta;
 	sprite.setPosition(pos);
+	if(status == Entity_status::IDLE)
 	status = Entity_status::MOVE;
 }
 
@@ -119,7 +120,13 @@ void Entity::next_frame()
 	}
 	if (++it == tex->end())
 	{
-		it = tex->begin();
+		if (status != Entity_status::MOVE)
+		{
+			status = Entity_status::IDLE;
+			set_animation(animations[status]);
+		}
+		else
+			it = tex->begin();
 	}	
 	sprite.setTexture(*it);
 }

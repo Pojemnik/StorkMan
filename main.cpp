@@ -25,9 +25,9 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		tinyxml2::XMLDocument doc;
 		tinyxml2::XMLError tmp = doc.LoadFile(argv[1]);
 		tinyxml2::XMLElement* root = doc.FirstChildElement();
-		map = parse_map(root,std::make_shared<Assets>(assets));
+		map = parse_map(root, &assets);
 	}
-	std::vector<std::shared_ptr<std::vector<sf::Texture>>> v = { std::make_shared<std::vector<sf::Texture>>(assets.stork_idle), std::make_shared<std::vector<sf::Texture>>(assets.stork_run) };
+	std::vector<std::shared_ptr<std::vector<sf::Texture>>> v = { std::shared_ptr<std::vector<sf::Texture>>(&assets.stork_idle), std::shared_ptr<std::vector<sf::Texture>>(&assets.stork_run), std::shared_ptr<std::vector<sf::Texture>>(&assets.stork_jump_idle), std::shared_ptr<std::vector<sf::Texture>>(&assets.stork_jump_run) };
 	Entity player({ 200, 200 }, v, 1.92f, global_scale);
 	while (window.isOpen())
 	{
@@ -44,6 +44,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			{
 			}
 		}
+		if(player.status == Entity_status::MOVE)
 		player.status = Entity_status::IDLE;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 		{
@@ -52,6 +53,13 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		{
 			player.move({-5, 0 });
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+		{
+			if (player.status == Entity_status::IDLE)
+				player.status = Entity_status::JUMP_IDLE;
+			if (player.status == Entity_status::MOVE)
+				player.status = Entity_status::JUMP_RUN;
 		}
 		window.clear();
 		//Animations

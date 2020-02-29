@@ -31,7 +31,7 @@ std::string get_attribute_by_name(std::string name, tinyxml2::XMLElement* elemen
 	return std::string(att->Value());
 }
 
-Level parse_level(tinyxml2::XMLElement* root, std::shared_ptr<Assets> assets)
+Level parse_level(tinyxml2::XMLElement* root, Assets* assets)
 {
 	Level lvl = Level();
 	if (root == NULL)
@@ -88,7 +88,7 @@ Level parse_level(tinyxml2::XMLElement* root, std::shared_ptr<Assets> assets)
 	return lvl;
 }
 
-Map parse_map(tinyxml2::XMLElement* root, std::shared_ptr<Assets> assets)
+Map parse_map(tinyxml2::XMLElement* root, Assets* assets)
 {
 	Vectori map_player_pos = Vectori(-1, -1), map_size = Vectori(-1, -1);
 	std::vector<Level> vec;
