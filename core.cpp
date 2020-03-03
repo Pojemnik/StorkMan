@@ -36,7 +36,7 @@ void Renderable::rescale(float gs)
 	sprite.setScale(scale, scale);
 }
 
-Animatable::Animatable(Vectorf p, const std::vector<sf::Texture>* t, float h, float gs) : tex(t), pos(p), height(h)
+Animatable::Animatable(Vectorf p, const Animation* t, float h, float gs) : tex(t), pos(p), height(h)
 {
 	it = tex->begin();
 	sprite = sf::Sprite(*it);
@@ -58,7 +58,7 @@ void Animatable::next_frame()
 	sprite.setTexture(*it);
 }
 
-void Entity::set_animation(const std::vector<sf::Texture>* t)
+void Entity::set_animation(const Animation* t)
 {
 	tex = t;
 	it = tex->begin();
@@ -74,12 +74,12 @@ Platform::Platform(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> poin
 
 }
 
-Player::Player(Vectorf p, std::vector<const std::vector<sf::Texture>*> t, float h, float gs) : Entity(p, t, h, gs)
+Player::Player(Vectorf p, std::vector<const Animation* > t, float h, float gs) : Entity(p, t, h, gs)
 {
 
 }
 
-Entity::Entity(Vectorf p, std::vector<const std::vector<sf::Texture>*> t, float h, float gs) : Animatable(p, t[0], h, gs), animations(t)
+Entity::Entity(Vectorf p, std::vector<const Animation* > t, float h, float gs) : Animatable(p, t[0], h, gs), animations(t)
 {
 	status = Entity_status::IDLE;
 }
@@ -129,4 +129,18 @@ void Entity::next_frame()
 			it = tex->begin();
 	}	
 	sprite.setTexture(*it);
+}
+
+Animation::Animation(std::vector<sf::Texture> &a) : content(a)
+{
+}
+
+std::vector<sf::Texture>::const_iterator Animation::begin() const
+{
+	return content.begin();
+}
+
+std::vector<sf::Texture>::const_iterator Animation::end() const
+{
+	return content.end();
 }

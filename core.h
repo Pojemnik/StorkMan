@@ -8,6 +8,16 @@ typedef sf::Vector2i Vectori;
 
 enum Entity_status{IDLE = 0, MOVE, JUMP_IDLE, JUMP_RUN, ATTACK, HIT};
 
+class Animation
+{
+public:
+	std::vector<sf::Texture> content;
+	std::vector<sf::Texture>::const_iterator begin() const;
+	std::vector<sf::Texture>::const_iterator end() const;
+	Animation() = default;	//Uwaga domyœlny konstruktor wywo³ywany w Assets::load_aninmation
+	Animation(std::vector<sf::Texture> &a);
+};
+
 class Transformable
 {
 public:
@@ -46,7 +56,7 @@ public:
 class Animatable : public sf::Drawable
 {
 protected:
-	const std::vector<sf::Texture>* tex;
+	const Animation* tex;
 	Vectorf pos;
 	std::vector<sf::Texture>::const_iterator it;
 	sf::Sprite sprite;
@@ -55,7 +65,7 @@ protected:
 
 public:
 	Animatable();
-	Animatable(Vectorf p, const std::vector<sf::Texture>* t, float h, float gs);
+	Animatable(Vectorf p, const Animation* t, float h, float gs);
 	void next_frame();
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
@@ -82,11 +92,11 @@ public:
 class Entity : public Animatable, public Colidable, public Transformable
 {
 private:
-	std::vector<const std::vector<sf::Texture>*> animations;
+	std::vector<const Animation*> animations;
 public:
 	Entity_status status;
-	void set_animation(const std::vector<sf::Texture>* t);
-	Entity(Vectorf p, std::vector<const std::vector<sf::Texture>*> t, float h, float gs);
+	void set_animation(const Animation* t);
+	Entity(Vectorf p, std::vector<const Animation*> t, float h, float gs);
 	void move(Vectorf delta);
 	void next_frame();
 };
@@ -94,7 +104,7 @@ public:
 class Player : public Entity
 {
 public:
-	Player(Vectorf p, std::vector<const std::vector<sf::Texture>* > t, float h, float gs);
+	Player(Vectorf p, std::vector<const Animation* > t, float h, float gs);
 };
 
 class Enemy : Entity

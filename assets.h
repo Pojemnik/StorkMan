@@ -5,21 +5,23 @@ class Assets
 {
 public:
 	std::vector<sf::Texture> map_textures;
-	std::vector<sf::Texture> stork_run;
-	std::vector<sf::Texture> stork_idle;
-	std::vector<sf::Texture> stork_jump_run;
-	std::vector<sf::Texture> stork_jump_idle;
-	std::vector<sf::Texture> ship_dockx;
-	std::vector<sf::Texture> ship_docky;
-	std::vector<sf::Texture> ship_fly;
-	std::vector<sf::Texture> ship_idle;
-	std::vector<sf::Texture> ship_ext_hdmi;
-	std::vector<sf::Texture> ship_undockx;
-	std::vector<sf::Texture> ship_undocky;
-	std::vector<sf::Texture> ship_ret_hdmi;
+	Animation stork_run;
+	Animation stork_idle;
+	Animation stork_jump_run;
+	Animation stork_jump_idle;
+	Animation ship_dockx;
+	Animation ship_docky;
+	Animation ship_fly;
+	Animation ship_idle;
+	Animation ship_ext_hdmi;
+	Animation ship_undockx;
+	Animation ship_undocky;
+	Animation ship_ret_hdmi;
 	std::map<std::string, const sf::Texture*> textures;
 	void load_assets();
+
 private:
 	void load_texture(sf::Texture& t, sf::Image& img, int y, int x, int sx, int sy, bool rep);
 	void load_textures(std::vector<sf::Texture>& v, std::string path, bool rep);
+	void load_animation(Animation &a, std::string path);
 };
