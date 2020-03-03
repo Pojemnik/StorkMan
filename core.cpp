@@ -5,7 +5,7 @@ template <typename T> int sgn(T val)
 	return (T(0) < val) - (val < T(0));
 }
 
-Renderable::Renderable(Vectorf p, std::shared_ptr<sf::Texture> t, float h) : tex(t), pos(p), height(h)
+Renderable::Renderable(Vectorf p, sf::Texture* t, float h) : tex(t), pos(p), height(h)
 {
 	sprite = sf::Sprite(*tex);
 	sprite.setPosition(pos);
@@ -16,7 +16,7 @@ void Renderable::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(sprite, states);
 }
 
-Texturable::Texturable(Vectorf p, std::shared_ptr<sf::Texture> t, std::vector<sf::Vertex> v) : tex(t), pos(p), vertices(v)
+Texturable::Texturable(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> points) : tex(t), pos(p), vertices(points)
 {
 	shape = sf::VertexBuffer(sf::TrianglesFan, sf::VertexBuffer::Stream);
 	shape.create(vertices.size());
@@ -36,7 +36,7 @@ void Renderable::rescale(float gs)
 	sprite.setScale(scale, scale);
 }
 
-Animatable::Animatable(Vectorf p, std::shared_ptr<std::vector<sf::Texture>> t, float h, float gs) : tex(t), pos(p), height(h)
+Animatable::Animatable(Vectorf p, const std::vector<sf::Texture>* t, float h, float gs) : tex(t), pos(p), height(h)
 {
 	it = tex->begin();
 	sprite = sf::Sprite(*it);
@@ -58,7 +58,7 @@ void Animatable::next_frame()
 	sprite.setTexture(*it);
 }
 
-void Entity::set_animation(std::shared_ptr<std::vector<sf::Texture>> t)
+void Entity::set_animation(const std::vector<sf::Texture>* t)
 {
 	tex = t;
 	it = tex->begin();
@@ -69,17 +69,17 @@ void Animatable::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(sprite, states);
 }
 
-Platform::Platform(Vectorf p, std::shared_ptr<sf::Texture> t, std::vector<sf::Vertex> points) : Texturable(p, t, points)
+Platform::Platform(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> points) : Texturable(p, t, points)
 {
 
 }
 
-Player::Player(Vectorf p, std::vector<std::shared_ptr<std::vector<sf::Texture>>> t, float h, float gs) : Entity(p, t, h, gs)
+Player::Player(Vectorf p, std::vector<const std::vector<sf::Texture>*> t, float h, float gs) : Entity(p, t, h, gs)
 {
 
 }
 
-Entity::Entity(Vectorf p, std::vector<std::shared_ptr<std::vector<sf::Texture>>> t, float h, float gs) : Animatable(p, t[0], h, gs), animations(t)
+Entity::Entity(Vectorf p, std::vector<const std::vector<sf::Texture>*> t, float h, float gs) : Animatable(p, t[0], h, gs), animations(t)
 {
 	status = Entity_status::IDLE;
 }

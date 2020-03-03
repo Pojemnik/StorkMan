@@ -57,7 +57,7 @@ Level parse_level(tinyxml2::XMLElement* root, Assets* assets)
 			{
 				Vectorf pos;
 				Vectorf size;
-				std::shared_ptr<sf::Texture> tex;
+				const sf::Texture* tex;
 				pos = parse_num_pairf(get_attribute_by_name("position", element));
 				size = parse_num_pairf(get_attribute_by_name("size", element));
 				{
@@ -69,6 +69,7 @@ Level parse_level(tinyxml2::XMLElement* root, Assets* assets)
 					catch (const std::exception & e)
 					{
 						std::cerr << "Wyjatek: " << e.what() << "\nElement: " << name << std::endl;
+						throw std::invalid_argument("Error in XML file!"); //To siê zmieni
 					}
 				}
 				{

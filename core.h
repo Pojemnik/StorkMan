@@ -18,13 +18,13 @@ class Texturable : public sf::Drawable
 {
 protected:
 	sf::VertexBuffer shape;
-	std::shared_ptr<sf::Texture> tex;
+	const sf::Texture* tex;
 	std::vector<sf::Vertex> vertices;
 	Vectorf pos;
 
 public:
 	Texturable();
-	Texturable(Vectorf p, std::shared_ptr<sf::Texture> t, std::vector<sf::Vertex> points);
+	Texturable(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> points);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
@@ -32,13 +32,13 @@ class Renderable : public sf::Drawable
 {
 protected:
 	sf::Sprite sprite;
-	std::shared_ptr<sf::Texture> tex;
+	const sf::Texture* tex;
 	Vectorf pos;
 	float height; //[m]
 
 public:
 	Renderable() = default;
-	Renderable(Vectorf p, std::shared_ptr<sf::Texture> t, float h);
+	Renderable(Vectorf p, sf::Texture* t, float h);
 	void rescale(float gs);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
@@ -46,16 +46,16 @@ public:
 class Animatable : public sf::Drawable
 {
 protected:
-	std::shared_ptr<std::vector<sf::Texture>> tex;
+	const std::vector<sf::Texture>* tex;
 	Vectorf pos;
-	std::vector<sf::Texture>::iterator it;
+	std::vector<sf::Texture>::const_iterator it;
 	sf::Sprite sprite;
 	int direction = 1;//x sign
 	float height; //[m]
 
 public:
 	Animatable();
-	Animatable(Vectorf p, std::shared_ptr<std::vector<sf::Texture>> t, float h, float gs);
+	Animatable(Vectorf p, const std::vector<sf::Texture>* t, float h, float gs);
 	void next_frame();
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
@@ -69,24 +69,24 @@ class Colidable
 class Platform : public Texturable
 {
 public:
-	Platform(Vectorf p, std::shared_ptr<sf::Texture> t, std::vector<sf::Vertex> points);
+	Platform(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> points);
 };
 
 
 class Object : Renderable, Transformable, Colidable
 {
 public:
-	Object(Vectorf pos, std::shared_ptr<sf::Texture> t);
+	Object(Vectorf pos, sf::Texture* t);
 };
 
 class Entity : public Animatable, public Colidable, public Transformable
 {
 private:
-	std::vector<std::shared_ptr<std::vector<sf::Texture>>> animations;
+	std::vector<const std::vector<sf::Texture>*> animations;
 public:
 	Entity_status status;
-	void set_animation(std::shared_ptr<std::vector<sf::Texture>> t);
-	Entity(Vectorf p, std::vector<std::shared_ptr<std::vector<sf::Texture>>> t, float h, float gs);
+	void set_animation(const std::vector<sf::Texture>* t);
+	Entity(Vectorf p, std::vector<const std::vector<sf::Texture>*> t, float h, float gs);
 	void move(Vectorf delta);
 	void next_frame();
 };
@@ -94,7 +94,7 @@ public:
 class Player : public Entity
 {
 public:
-	Player(Vectorf p, std::vector<std::shared_ptr<std::vector<sf::Texture>>> t, float h, float gs);
+	Player(Vectorf p, std::vector<const std::vector<sf::Texture>* > t, float h, float gs);
 };
 
 class Enemy : Entity

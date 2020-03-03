@@ -17,7 +17,7 @@ public:
 	std::vector<sf::Texture> ship_undockx;
 	std::vector<sf::Texture> ship_undocky;
 	std::vector<sf::Texture> ship_ret_hdmi;
-	std::map<std::string, std::shared_ptr<sf::Texture>> textures;
+	std::map<std::string, const sf::Texture*> textures;
 	void load_assets();
 private:
 	void load_texture(sf::Texture& t, sf::Image& img, int y, int x, int sx, int sy, bool rep);
