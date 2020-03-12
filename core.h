@@ -11,11 +11,12 @@ enum Entity_status{IDLE = 0, MOVE, JUMP_IDLE, JUMP_RUN, ATTACK, HIT};
 class Animation
 {
 public:
+	Vectorf center;
 	std::vector<sf::Texture> content;
 	std::vector<sf::Texture>::const_iterator begin() const;
 	std::vector<sf::Texture>::const_iterator end() const;
 	Animation() = default;	//Uwaga domyœlny konstruktor wywo³ywany w Assets::load_aninmation
-	Animation(std::vector<sf::Texture> &a);
+	Animation(std::vector<sf::Texture> &a, Vectorf c);
 };
 
 class Transformable
@@ -62,6 +63,7 @@ protected:
 	sf::Sprite sprite;
 	int direction = 1;//x sign
 	float height; //[m]
+	float scale;
 
 public:
 	Animatable();

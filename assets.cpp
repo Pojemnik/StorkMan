@@ -17,10 +17,11 @@ void Assets::load_texture(sf::Texture& t, sf::Image& img, int x, int y, int sx, 
 	}
 }
 
-void Assets::load_animation(Animation &a, std::string path)
+void Assets::load_animation(Animation &a, std::string path, Vectorf center)
 {
 	a = Animation();
 	load_textures(a.content, path, false);//Trzeba naprawiæ
+	a.center = center;
 }
 
 void Assets::load_textures(std::vector<sf::Texture>& v, std::string path, bool rep)
@@ -66,10 +67,10 @@ void Assets::load_textures(std::vector<sf::Texture>& v, std::string path, bool r
 void Assets::load_assets()
 {
 	std::cout << "Loading assets..." << std::endl;
-	load_animation(stork_run, "img/stork/run_ss_347_358_is_8_10.png");
-	load_animation(stork_idle , "img/stork/idle_ss_158_356_is_10_12.png");
-	load_animation(stork_jump_run, "img/stork/jump_run_ss_363_356_is_10_12.png");
-	load_animation(stork_jump_idle, "img/stork/jump_stop_ss_357_367_is_10_14.png");
+	load_animation(stork_run, "img/stork/run_ss_347_358_is_8_10.png", { 224, 30 });
+	load_animation(stork_idle, "img/stork/idle_ss_158_356_is_10_12.png", { 90,30 });
+	load_animation(stork_jump_run, "img/stork/jump_run_ss_363_356_is_10_12.png", { 215, 30 });
+	load_animation(stork_jump_idle, "img/stork/jump_stop_ss_357_367_is_10_14.png", { 187,30 });
 	load_textures(map_textures, "img/tex_ss_64_64_is_1_17.png", true);
 	//load_textures(ship_dockx, "img/ships/DokowanieX_ss_436_87_is_10_12.png", false);
 	//load_textures(ship_docky, "img/ships/DokowanieY_ss_443_442_is_15_20.png", false);

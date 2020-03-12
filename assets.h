@@ -23,5 +23,5 @@ public:
 private:
 	void load_texture(sf::Texture& t, sf::Image& img, int y, int x, int sx, int sy, bool rep);
 	void load_textures(std::vector<sf::Texture>& v, std::string path, bool rep);
-	void load_animation(Animation &a, std::string path);
+	void load_animation(Animation &a, std::string path, Vectorf center);
 };

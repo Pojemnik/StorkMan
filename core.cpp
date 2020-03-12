@@ -41,16 +41,10 @@ Animatable::Animatable(Vectorf p, const Animation* t, float h, float gs) : tex(t
 	it = tex->begin();
 	sprite = sf::Sprite(*it);
 	sprite.setPosition(pos);
-	float scale = gs * height / sprite.getTexture()->getSize().y;
+	scale = gs * height / sprite.getTexture()->getSize().y;
 	sprite.setScale(scale, scale);
 }
 
-/*
-void Animatable::draw(sf::RenderTarget& target, sf::RenderStates states) const
-{
-	target.draw(sprite, states);
-}
-*/
 void Animatable::next_frame()
 {
 	if (++it == tex->end())
@@ -60,6 +54,9 @@ void Animatable::next_frame()
 
 void Entity::set_animation(const Animation* t)
 {
+	this->pos += -(t->center - tex->center)*this->scale;
+	this->sprite.move(-(t->center - tex->center)*this->scale);
+	//std::cout << pos.x << ' ' << pos.y << std::endl;
 	tex = t;
 	it = tex->begin();
 }
@@ -86,11 +83,17 @@ Entity::Entity(Vectorf p, std::vector<const Animation* > t, float h, float gs) :
 
 void Entity::move(Vectorf delta)
 {
+	if (status == Entity_status::IDLE)
+	{
+		status = Entity_status::MOVE;
+		next_frame();
+	}
 	int s = sgn(delta.x);
 	if (direction != s)
 	{
 		Vectorf tmp = sprite.getScale();
 		tmp.x *= -1;
+		scale = -scale;
 		if (s == -1)
 		{
 			sprite.setOrigin(sprite.getLocalBounds().width, 0);
@@ -106,8 +109,6 @@ void Entity::move(Vectorf delta)
 	direction = s;
 	pos += delta;
 	sprite.setPosition(pos);
-	if(status == Entity_status::IDLE)
-	status = Entity_status::MOVE;
 }
 
 void Entity::next_frame()
@@ -131,7 +132,7 @@ void Entity::next_frame()
 	sprite.setTexture(*it);
 }
 
-Animation::Animation(std::vector<sf::Texture> &a) : content(a)
+Animation::Animation(std::vector<sf::Texture> &a, Vectorf c) : content(a), center(c)
 {
 }
 
