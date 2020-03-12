@@ -86,29 +86,8 @@ void Entity::move(Vectorf delta)
 	if (status == Entity_status::IDLE)
 	{
 		status = Entity_status::MOVE;
-		next_frame();
 	}
-	int s = sgn(delta.x);
-	if (direction != s)
-	{
-		Vectorf tmp = sprite.getScale();
-		tmp.x *= -1;
-		scale = -scale;
-		if (s == -1)
-		{
-			sprite.setOrigin(sprite.getLocalBounds().width, 0);
-			sprite.setScale(-1, 1);
-		}
-		else
-		{
-			sprite.setOrigin(0, 0);
-			sprite.setScale(1, 1);
-		}
-		sprite.setScale(tmp);
-	}
-	direction = s;
-	pos += delta;
-	sprite.setPosition(pos);
+	move_delta += delta;
 }
 
 void Entity::next_frame()
@@ -130,6 +109,28 @@ void Entity::next_frame()
 			it = tex->begin();
 	}	
 	sprite.setTexture(*it);
+	int s = sgn(move_delta.x);
+	if (direction != s && s != 0)
+	{
+		Vectorf tmp = sprite.getScale();
+		tmp.x *= -1;
+		scale = -scale;
+		if (s == -1)
+		{
+			sprite.setOrigin(sprite.getLocalBounds().width, 0);
+			sprite.setScale(-1, 1);
+		}
+		else
+		{
+			sprite.setOrigin(0, 0);
+			sprite.setScale(1, 1);
+		}
+		sprite.setScale(tmp);
+		direction = s;
+	}
+	pos += move_delta;
+	sprite.setPosition(pos);
+	move_delta = { 0,0 };
 }
 
 Animation::Animation(std::vector<sf::Texture> &a, Vectorf c) : content(a), center(c)

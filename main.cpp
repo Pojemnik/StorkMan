@@ -45,7 +45,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			}
 		}
 		if(player.status == Entity_status::MOVE)
-		player.status = Entity_status::IDLE;
+			player.status = Entity_status::IDLE;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 		{
 			player.move({5, 0});

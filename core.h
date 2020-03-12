@@ -95,6 +95,7 @@ class Entity : public Animatable, public Colidable, public Transformable
 {
 private:
 	std::vector<const Animation*> animations;
+	Vectorf move_delta;
 public:
 	Entity_status status;
 	void set_animation(const Animation* t);
