@@ -56,10 +56,9 @@ Level parse_level(tinyxml2::XMLElement* root, Assets* assets)
 			if (name == "platform")//Na razie tylko prostok¹tne
 			{
 				Vectorf pos;
-				Vectorf size;
+				std::vector<sf::Vertex> points;
 				const sf::Texture* tex;
 				pos = parse_num_pairf(get_attribute_by_name("position", element));
-				size = parse_num_pairf(get_attribute_by_name("size", element));
 				{
 					std::string val = get_attribute_by_name("texture", element);
 					try
@@ -72,13 +71,23 @@ Level parse_level(tinyxml2::XMLElement* root, Assets* assets)
 						throw std::invalid_argument("Error in XML file!"); //To siê zmieni
 					}
 				}
+				tinyxml2::XMLElement* e = element->FirstChildElement();
+				while (e != NULL)
 				{
-					std::vector<sf::Vertex> points;
-					points.push_back(sf::Vertex(pos, pos));
-					points.push_back(sf::Vertex(Vectorf(pos.x, pos.y + size.y), Vectorf(pos.x, pos.y + size.y)));
-					points.push_back(sf::Vertex(Vectorf(pos.x + size.x, pos.y + size.y), Vectorf(pos.x + size.x, pos.y + size.y)));
-					points.push_back(sf::Vertex(Vectorf(pos.x + size.x, pos.y), Vectorf(pos.x + size.x, pos.y)));
-
+					std::string n = e->Name();
+					if (n == "v")
+					{
+						Vectorf v = parse_num_pairf(e->GetText());
+						points.push_back(sf::Vertex(v, v));
+					}
+					else
+					{
+						std::cerr << "B³¹d w platformie" << std::endl;
+						throw std::invalid_argument("Error in XML file!"); //To siê zmieni
+					}
+					e = e->NextSiblingElement();
+				}
+				{
 					Platform plat = Platform(pos, tex, points);
 					lvl.addTexturable(plat);
 				}
