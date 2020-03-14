@@ -6,29 +6,50 @@ Level::Level()
 {
 }
 
-void Level::addRenderable(Renderable d)
+Level::Level(const Level& level) : global_pos(level.global_pos), is_loaded(level.is_loaded), global_size(level.global_size), platforms(level.platforms)
+{
+	for (auto& it : platforms)
+	{
+		addColidable(&it);
+		addTexturable(&it);
+	}
+}
+
+void Level::addRenderable(Renderable* d)
 {
 	drawables.push_back(d);
 }
 
-void Level::addTexturable(Texturable t)
+void Level::addTexturable(Texturable* t)
 {
 	texturables.push_back(t);
 }
 
-void Level::addColidable(Colidable &c)
+void Level::addPhysical(Physical* p)
+{
+	physicals.push_back(p);
+}
+
+void Level::addColidable(Colidable* c)
 {
 	colidables.push_back(c);
 }
 
-Map::Map(Vectori dimensions, std::unique_ptr<std::vector<Level>> lvls, Vectori start_pos) : size(dimensions), current_pos(start_pos)
+void Level::addPlatfrom(Platform p)
+{
+	platforms.push_back(p);
+	addColidable(&p);
+	addTexturable(&p);
+}
+
+Map::Map(Vectori dimensions, std::vector<Level> &lvls, Vectori start_pos) : size(dimensions), current_pos(start_pos)
 {
 	level_placement = new Level** [size.y];
 	for (int i = 0; i < size.y; i++)
 	{
 		level_placement[i] = new Level*[size.x];
 	}
-	levels = *lvls.release();
+	levels = lvls;
 	for (auto& it : levels)
 	{
 		for (int i = 0; i < it.global_size.x; i++)
@@ -79,11 +100,11 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 		states.transform*=sf::Transform().translate({level_size.x*it->global_pos.x,level_size.y*it->global_pos.y});
 		for(const auto& it2: it->drawables)
 		{
-			target.draw(it2, states);
+			target.draw(*it2, states);
 		}
 		for (const auto& it2 : it->texturables)
 		{
-			target.draw(it2, states);
+			target.draw(*it2, states);
 		}
 		states.transform*=sf::Transform().translate({-1*level_size.x*it->global_pos.x,-1*level_size.y*it->global_pos.y});
 	}
@@ -92,13 +113,26 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 void Map::update()
 {
-	for (auto& it : loaded_levels)
+	for (auto& level_it : loaded_levels)
 	{
-		for (auto& it2 : it->colidables)
+		for (auto& physical_it : level_it->physicals)
 		{
-			//it2.update();
+			physical_it->update();
+			for (auto& colidable_it : level_it->colidables)
+			{
+				if (physical_it->check_collision(colidable_it))
+				{
+					physical_it->uncolide(colidable_it);
+				}
+
+			}
+		}
+		for (auto& colidable_it : level_it->colidables)
+		{
+			if (player->check_collision(colidable_it))
+			{
+				player->uncolide(colidable_it);
+			}
 		}
 	}
 }
-
-

@@ -10,16 +10,21 @@ public:
 	Vectori global_size;
 	bool is_loaded = false;
 	//std::list<Object> objects;
-	std::vector<Renderable> drawables;
-	std::vector<Texturable> texturables;
-	std::vector<Colidable> colidables;
+	std::vector<Renderable*> drawables;
+	std::vector<Texturable*> texturables;
+	std::vector<Physical*> physicals;
+	std::vector<Colidable*> colidables;
+	std::vector<Platform> platforms;
 	//std::list<Transformable> movables;
 	//std::list<Animatable> animatables;	//Great name
 
 	Level();
-	void addRenderable(Renderable d);
-	void addTexturable(Texturable t);
-	void addColidable(Colidable &c);
+	Level(const Level &level);
+	void addRenderable(Renderable* d);
+	void addTexturable(Texturable* t);
+	void addPhysical(Physical* p);
+	void addColidable(Colidable* c);
+	void addPlatfrom(Platform p);
 };
 
 class Map : public sf::Drawable
@@ -35,8 +40,10 @@ private:
 	void unload_level(Vectori pos);
 
 public:
+	Player* player;//Chyba niezyt eleganckie
+
 	Map() = default;
-	Map(Vectori dimensions, std::unique_ptr<std::vector<Level>> levels, Vectori start_pos);
+	Map(Vectori dimensions, std::vector<Level> &levels, Vectori start_pos);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	void update();
 };

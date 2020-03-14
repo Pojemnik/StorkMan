@@ -17,7 +17,7 @@ Platform::Platform(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> poin
 		if (it.position.y > maxy)
 			maxy = it.position.y;
 	}
-	rect_collision = sf::FloatRect(minx, miny, maxx - minx, maxy - miny);
+	rect_collision = sf::FloatRect(minx + p.x, miny + p.y, maxx - minx, maxy - miny);
 }
 
 Player::Player(Vectorf p, std::vector<const Animation* > t, float h, float gs, float m) : Entity(p, t, h, gs, m) {}
@@ -57,6 +57,10 @@ void Entity::next_frame()
 			it = tex->begin();
 	}
 	sprite.setTexture(*it);
+}
+
+void Entity::update()
+{
 	int s = sgn(move_delta.x);
 	if (direction != s && s != 0)
 	{
@@ -78,11 +82,9 @@ void Entity::next_frame()
 	}
 	pos += move_delta;
 	sprite.setPosition(pos);
+	last_move_delta = move_delta;
+	rect_collision = sprite.getGlobalBounds();
 	move_delta = { 0,0 };
-}
-
-void Entity::update()
-{
 }
 
 void Entity::set_animation(const Animation* t)

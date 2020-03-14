@@ -89,8 +89,7 @@ Level parse_level(tinyxml2::XMLElement* root, Assets* assets)
 				}
 				{
 					Platform plat = Platform(pos, tex, points);
-					lvl.addTexturable(plat);
-					lvl.addColidable(plat);
+					lvl.addPlatfrom(plat);
 				}
 			}
 			element = element->NextSiblingElement();
@@ -169,5 +168,5 @@ Map parse_map(tinyxml2::XMLElement* root, Assets* assets)
 			element = element->NextSiblingElement();
 		}
 	}
-	return Map(map_size, std::make_unique<std::vector<Level>>(vec), map_player_pos);
+	return Map(map_size, vec, map_player_pos);
 }

@@ -30,7 +30,8 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		map = parse_map(root, &assets);
 	}
 	const std::vector<const Animation*> v = { &assets.stork_idle, &assets.stork_run, &assets.stork_jump_idle, &assets.stork_jump_run };
-	Entity player({ 200, 200 }, v, 1.92f, global_scale, 87.f);
+	Player player({ 200, 200 }, v, 1.92f, global_scale, 87.f);
+	map.player = &player;
 	while (window.isOpen())
 	{
 		clock.restart();
@@ -79,6 +80,9 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		window.clear();
 		//Animations
 		player.next_frame();
+		//Physics
+		player.update();
+		map.update();
 		//Render
 		sf::Vector2f camera_pos(0, 0);
 		sf::RenderStates rs= sf::RenderStates::Default;

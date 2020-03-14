@@ -42,9 +42,12 @@ class Physical : public Transformable, public Colidable
 protected:
 	float mass;
 	Vectorf move_delta;
+	Vectorf last_move_delta;
 public:
 	virtual void update() = 0;
 	virtual void move(Vectorf delta) = 0;
+	bool check_collision(const Colidable *c);
+	void uncolide(const Colidable *c);
 };
 
 class Texturable : public sf::Drawable
