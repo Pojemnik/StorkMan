@@ -52,11 +52,6 @@ void Animatable::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(sprite, states);
 }
 
-void Colidable::update()
-{
-	//TODO
-}
-
 Animation::Animation(std::vector<sf::Texture>& a, Vectorf c) : content(a), center(c) {}
 
 std::vector<sf::Texture>::const_iterator Animation::begin() const

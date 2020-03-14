@@ -29,15 +29,21 @@ class Colidable
 public:
 	sf::FloatRect rect_collision;
 	std::vector<Vectorf> mesh_collision;
-	Vectorf pos_collision;
-	float mass;
-
-	void update();
 };
 
 class Transformable
 {
 public:
+	virtual void move(Vectorf delta) = 0;
+};
+
+class Physical : public Transformable, public Colidable
+{
+protected:
+	float mass;
+	Vectorf move_delta;
+public:
+	virtual void update() = 0;
 	virtual void move(Vectorf delta) = 0;
 };
 
