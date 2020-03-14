@@ -64,16 +64,19 @@ std::vector<sf::Texture>::const_iterator Animation::end() const
 	return content.end();
 }
 
-bool Physical::check_collision(const Colidable* c)
-{
-	if (rect_collision.intersects(c->rect_collision))
-	{
-		return true;
-	}
-	return false;
-}
-
 void Physical::uncolide(const Colidable* c)
 {
-	std::cout << "uncolide" << std::endl;
+	sf::FloatRect intersection;
+	if (rect_collision.intersects(c->rect_collision, intersection))
+	{
+		std::cout << "uncolide" << std::endl;
+		while (rect_collision.intersects(c->rect_collision, intersection))
+		{
+			if (intersection.width < intersection.height)
+				move({ last_move_delta.x / -5, 0 });
+			else
+				move({ 0, last_move_delta.y / -5 });
+			update_position();
+		}
+	}
 }

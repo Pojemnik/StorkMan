@@ -20,6 +20,7 @@ public:
 	void move(Vectorf delta);
 	void next_frame();
 	void update();
+	void update_position();
 };
 
 class Player : public Entity

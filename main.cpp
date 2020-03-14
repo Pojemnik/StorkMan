@@ -11,7 +11,7 @@
 
 //Storkman ma 1,92m
 float global_scale = 51.2f; //[px/m]
-float gravity = .0f;
+float gravity = 2.f;
 
 int main(int argc, char** argv)	//Second argument is a map file for editor
 {
@@ -30,7 +30,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		map = parse_map(root, &assets);
 	}
 	const std::vector<const Animation*> v = { &assets.stork_idle, &assets.stork_run, &assets.stork_jump_idle, &assets.stork_jump_run };
-	Player player({ 200, 200 }, v, 1.92f, global_scale, 87.f);
+	Player player({ 400, 100 }, v, 1.92f, global_scale, 87.f);
 	map.player = &player;
 	while (window.isOpen())
 	{
@@ -81,6 +81,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		//Animations
 		player.next_frame();
 		//Physics
+		player.move({ 0, gravity });//Gravity test
 		player.update();
 		map.update();
 		//Render

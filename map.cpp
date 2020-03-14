@@ -42,12 +42,12 @@ void Level::addPlatfrom(Platform p)
 	addTexturable(&p);
 }
 
-Map::Map(Vectori dimensions, std::vector<Level> &lvls, Vectori start_pos) : size(dimensions), current_pos(start_pos)
+Map::Map(Vectori dimensions, std::vector<Level>& lvls, Vectori start_pos) : size(dimensions), current_pos(start_pos)
 {
-	level_placement = new Level** [size.y];
+	level_placement = new Level * *[size.y];
 	for (int i = 0; i < size.y; i++)
 	{
-		level_placement[i] = new Level*[size.x];
+		level_placement[i] = new Level * [size.x];
 	}
 	levels = lvls;
 	for (auto& it : levels)
@@ -95,10 +95,10 @@ void Map::unload_level(Vectori pos)
 
 void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	for(const auto& it : loaded_levels)
+	for (const auto& it : loaded_levels)
 	{
-		states.transform*=sf::Transform().translate({level_size.x*it->global_pos.x,level_size.y*it->global_pos.y});
-		for(const auto& it2: it->drawables)
+		states.transform *= sf::Transform().translate({ level_size.x * it->global_pos.x,level_size.y * it->global_pos.y });
+		for (const auto& it2 : it->drawables)
 		{
 			target.draw(*it2, states);
 		}
@@ -106,7 +106,7 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 		{
 			target.draw(*it2, states);
 		}
-		states.transform*=sf::Transform().translate({-1*level_size.x*it->global_pos.x,-1*level_size.y*it->global_pos.y});
+		states.transform *= sf::Transform().translate({ -1 * level_size.x * it->global_pos.x,-1 * level_size.y * it->global_pos.y });
 	}
 }
 
@@ -120,19 +120,12 @@ void Map::update()
 			physical_it->update();
 			for (auto& colidable_it : level_it->colidables)
 			{
-				if (physical_it->check_collision(colidable_it))
-				{
-					physical_it->uncolide(colidable_it);
-				}
-
+				physical_it->uncolide(colidable_it);
 			}
 		}
 		for (auto& colidable_it : level_it->colidables)
 		{
-			if (player->check_collision(colidable_it))
-			{
-				player->uncolide(colidable_it);
-			}
+			player->uncolide(colidable_it);
 		}
 	}
 }

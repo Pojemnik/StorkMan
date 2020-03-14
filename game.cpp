@@ -80,9 +80,14 @@ void Entity::update()
 		sprite.setScale(tmp);
 		direction = s;
 	}
+	last_move_delta = move_delta;
+	update_position();
+}
+
+void Entity::update_position()
+{
 	pos += move_delta;
 	sprite.setPosition(pos);
-	last_move_delta = move_delta;
 	rect_collision = sprite.getGlobalBounds();
 	move_delta = { 0,0 };
 }
