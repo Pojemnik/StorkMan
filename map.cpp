@@ -1,6 +1,7 @@
-
 #include "map.h"
+
 const sf::Vector2f level_size = { 500,500 };
+
 Level::Level()
 {
 }
@@ -15,21 +16,26 @@ void Level::addTexturable(Texturable t)
 	texturables.push_back(t);
 }
 
+void Level::addColidable(Colidable &c)
+{
+	colidables.push_back(c);
+}
+
 Map::Map(Vectori dimensions, std::unique_ptr<std::vector<Level>> lvls, Vectori start_pos) : size(dimensions), current_pos(start_pos)
 {
-	level_placement = new std::shared_ptr<Level> * [size.y];
+	level_placement = new Level** [size.y];
 	for (int i = 0; i < size.y; i++)
 	{
-		level_placement[i] = new std::shared_ptr<Level>[size.x];
+		level_placement[i] = new Level*[size.x];
 	}
 	levels = *lvls.release();
-	for (const auto& it : levels)
+	for (auto& it : levels)
 	{
 		for (int i = 0; i < it.global_size.x; i++)
 		{
 			for (int j = 0; j < it.global_size.y; j++)
 			{
-				level_placement[it.global_pos.x + i][it.global_pos.y + j] = std::make_shared<Level>(it);
+				level_placement[it.global_pos.x + i][it.global_pos.y + j] = &it;
 			}
 		}
 	}
@@ -62,28 +68,12 @@ void Map::unload_level(Vectori pos)
 		//drawables.remove_if([=](const std::shared_ptr<std::vector<Renderable>>& a) {return &*a == &level_placement[pos.x][pos.y]->drawables; });
 		level_placement[pos.x][pos.y]->is_loaded = false;
 		auto x = &*(level_placement[pos.x][pos.y]);
-		loaded_levels.remove_if([=](const std::shared_ptr<Level>& a) {return &*a == (const Level*)&x; });
+		loaded_levels.remove_if([=](const Level* a) {return &*a == (const Level*)&x; });
 	}
 }
 
 void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	/*
-	for (const auto& it : drawables)
-	{
-		for (const auto& it2 : *it)
-		{
-			target.draw(it2, states);
-		}
-	}
-	for (const auto& it : texturables)
-	{
-		for (const auto& it2 : *it)
-		{
-			target.draw(it2, states);
-		}
-	}
-	*/
 	for(const auto& it : loaded_levels)
 	{
 		states.transform*=sf::Transform().translate({level_size.x*it->global_pos.x,level_size.y*it->global_pos.y});
@@ -102,6 +92,13 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 void Map::update()
 {
+	for (auto& it : loaded_levels)
+	{
+		for (auto& it2 : it->colidables)
+		{
+			//it2.update();
+		}
+	}
 }
 
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "core.h"
+#include "game.h"
 #include <vector>
 #include <list>
 
@@ -12,12 +12,14 @@ public:
 	//std::list<Object> objects;
 	std::vector<Renderable> drawables;
 	std::vector<Texturable> texturables;
+	std::vector<Colidable> colidables;
 	//std::list<Transformable> movables;
 	//std::list<Animatable> animatables;	//Great name
 
 	Level();
 	void addRenderable(Renderable d);
 	void addTexturable(Texturable t);
+	void addColidable(Colidable &c);
 };
 
 class Map : public sf::Drawable
@@ -26,10 +28,8 @@ private:
 	Vectori size;
 	Vectori current_pos;
 	std::vector<Level> levels;
-	std::shared_ptr<Level>** level_placement;
-	//std::list<std::shared_ptr<std::vector<Renderable>>> drawables;
-	//std::list<std::shared_ptr<std::vector<Texturable>>> texturables;
-	std::list<std::shared_ptr<Level>> loaded_levels;
+	Level*** level_placement;
+	std::list<Level*> loaded_levels;
 
 	void load_level(Vectori pos);
 	void unload_level(Vectori pos);

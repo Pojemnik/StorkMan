@@ -90,6 +90,7 @@ Level parse_level(tinyxml2::XMLElement* root, Assets* assets)
 				{
 					Platform plat = Platform(pos, tex, points);
 					lvl.addTexturable(plat);
+					lvl.addColidable(plat);
 				}
 			}
 			element = element->NextSiblingElement();

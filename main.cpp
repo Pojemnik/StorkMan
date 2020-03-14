@@ -5,11 +5,13 @@
 #include <SFML/Graphics.hpp>
 #include "map.h"
 #include "assets.h"
-#include "core.h"
+#include "game.h"
 #include "parser.h"
+
 
 //Storkman ma 1,92m
 float global_scale = 51.2f; //[px/m]
+float gravity = .0f;
 
 int main(int argc, char** argv)	//Second argument is a map file for editor
 {
@@ -28,7 +30,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		map = parse_map(root, &assets);
 	}
 	const std::vector<const Animation*> v = { &assets.stork_idle, &assets.stork_run, &assets.stork_jump_idle, &assets.stork_jump_run };
-	Entity player({ 200, 200 }, v, 1.92f, global_scale);
+	Entity player({ 200, 200 }, v, 1.92f, global_scale, 87.f);
 	while (window.isOpen())
 	{
 		clock.restart();
@@ -39,6 +41,19 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			{
 				window.close();
 				return 0;
+			}
+			if (event.type == sf::Event::KeyPressed)
+			{
+				if (event.key.code == sf::Keyboard::Tilde)
+				{
+					float a, b;
+					std::cin >> a >> b;
+					player.move({ a,b });
+				}
+				if (event.key.code == sf::Keyboard::G)
+				{
+					gravity = gravity == 0 ? 9.81 : 0;
+				}
 			}
 			if (event.type == sf::Event::Resized)
 			{
