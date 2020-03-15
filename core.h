@@ -6,7 +6,10 @@
 typedef sf::Vector2f Vectorf;
 typedef sf::Vector2i Vectori;
 
-enum Entity_status{IDLE = 0, MOVE, JUMP_IDLE, JUMP_RUN, ATTACK, HIT};
+enum Entity_status { IDLE = 0, MOVE, JUMP_IDLE, JUMP_RUN, ATTACK, HIT };
+enum Colidable_type { GROUND, ENEMY, OTHER };
+
+const float max_force = 100.f;
 
 template <typename T> inline int sgn(T val)
 {
@@ -21,7 +24,7 @@ public:
 	std::vector<sf::Texture>::const_iterator begin() const;
 	std::vector<sf::Texture>::const_iterator end() const;
 	Animation() = default;	//Uwaga domyœlny konstruktor wywo³ywany w Assets::load_aninmation
-	Animation(std::vector<sf::Texture> &a, Vectorf c);
+	Animation(std::vector<sf::Texture>& a, Vectorf c);
 };
 
 class Colidable
@@ -29,6 +32,9 @@ class Colidable
 public:
 	sf::FloatRect rect_collision;
 	std::vector<Vectorf> mesh_collision;
+	Colidable_type type;
+	Colidable() = default;
+	Colidable(sf::FloatRect rect, std::vector<Vectorf> mesh, Colidable_type t);
 };
 
 class Transformable
@@ -42,12 +48,17 @@ class Physical : public Transformable, public Colidable
 protected:
 	float mass;
 	Vectorf move_delta;
-	Vectorf last_move_delta;
+	Vectorf last_move_delta = { 0,0 };
+	Vectorf force;
+	Vectori colision_direction = { 0,0 };
 public:
 	virtual void update() = 0;
 	virtual void update_position() = 0;
 	virtual void move(Vectorf delta) = 0;
-	void uncolide(const Colidable *c);
+	virtual void apply_force(Vectorf f);
+	void uncolide(const Colidable* c);
+	Physical(sf::FloatRect rect, std::vector<Vectorf> mesh, Colidable_type t, float m);
+	Physical() = default;
 };
 
 class Texturable : public sf::Drawable

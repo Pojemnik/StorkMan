@@ -31,11 +31,16 @@ Entity::Entity(Vectorf p, std::vector<const Animation* > t, float h, float gs, f
 
 void Entity::move(Vectorf delta)
 {
-	if (status == Entity_status::IDLE)
-	{
-		status = Entity_status::MOVE;
-	}
 	move_delta += delta;
+}
+
+void Entity::jump()
+{
+	apply_force({ 0, -20 });
+	if (status == Entity_status::IDLE)
+		status = Entity_status::JUMP_IDLE;
+	if (status == Entity_status::MOVE)
+		status = Entity_status::JUMP_RUN;
 }
 
 void Entity::next_frame()
@@ -80,8 +85,19 @@ void Entity::update()
 		sprite.setScale(tmp);
 		direction = s;
 	}
+	force = { force.x / 2, force.y / 2 };
+	if (force.x > max_force)
+		force.x = max_force;
+	if (force.y > max_force)
+		force.y = max_force;
+	move_delta += force;
 	last_move_delta = move_delta;
 	update_position();
+	if (last_move_delta.x != 0 && colision_direction.y == 1)
+	{
+		status = Entity_status::MOVE;
+	}
+	colision_direction = { 0,0 };
 }
 
 void Entity::update_position()

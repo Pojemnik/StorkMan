@@ -11,7 +11,7 @@
 
 //Storkman ma 1,92m
 float global_scale = 51.2f; //[px/m]
-float gravity = 2.f;
+float gravity = 5.f;
 
 int main(int argc, char** argv)	//Second argument is a map file for editor
 {
@@ -53,7 +53,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 				}
 				if (event.key.code == sf::Keyboard::G)
 				{
-					gravity = gravity == 0 ? 9.81 : 0;
+					gravity = gravity == 0 ? 4 : 0;
 				}
 			}
 			if (event.type == sf::Event::Resized)
@@ -72,16 +72,13 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 		{
-			if (player.status == Entity_status::IDLE)
-				player.status = Entity_status::JUMP_IDLE;
-			if (player.status == Entity_status::MOVE)
-				player.status = Entity_status::JUMP_RUN;
+			player.jump();
 		}
 		window.clear();
 		//Animations
 		player.next_frame();
 		//Physics
-		player.move({ 0, gravity });//Gravity test
+		player.apply_force({ 0, gravity });//Gravity test
 		player.update();
 		map.update();
 		//Render

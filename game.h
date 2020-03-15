@@ -18,6 +18,7 @@ public:
 	void set_animation(const Animation* t);
 	Entity(Vectorf p, std::vector<const Animation*> t, float h, float gs, float m);
 	void move(Vectorf delta);
+	void jump();
 	void next_frame();
 	void update();
 	void update_position();
