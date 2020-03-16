@@ -21,11 +21,12 @@ class Animation
 {
 public:
 	Vectorf center;
-	std::vector<sf::Texture> content;
+	const std::vector<sf::Texture> content;
+	const sf::FloatRect rect_collision;
 	std::vector<sf::Texture>::const_iterator begin() const;
 	std::vector<sf::Texture>::const_iterator end() const;
 	Animation() = default;	//Uwaga domyœlny konstruktor wywo³ywany w Assets::load_aninmation
-	Animation(std::vector<sf::Texture>& a, Vectorf c);
+	Animation(std::vector<sf::Texture>& a, Vectorf c, sf::FloatRect rect_col);
 };
 
 class Colidable

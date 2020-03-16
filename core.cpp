@@ -52,7 +52,7 @@ void Animatable::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(sprite, states);
 }
 
-Animation::Animation(std::vector<sf::Texture>& a, Vectorf c) : content(a), center(c) {}
+Animation::Animation(std::vector<sf::Texture>& a, Vectorf c, sf::FloatRect rect_col) : content(std::move(a)), center(c), rect_collision(rect_col) {}
 
 std::vector<sf::Texture>::const_iterator Animation::begin() const
 {
