@@ -12,6 +12,7 @@ class Entity : public Animatable, public Physical
 {
 private:
 	std::vector<const Animation*> animations;
+	bool reset_animation = false;
 
 public:
 	Entity_status status;
@@ -22,6 +23,7 @@ public:
 	void next_frame();
 	void update();
 	void update_position();
+	Vectorf get_position();
 };
 
 class Player : public Entity

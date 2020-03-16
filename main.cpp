@@ -30,7 +30,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		map = parse_map(root, &assets);
 	}
 	const std::vector<const Animation*> v = { assets.stork_idle, assets.stork_run, assets.stork_jump_idle, assets.stork_jump_run };
-	Player player({ 400, 100 }, v, 1.92f, global_scale, 87.f);
+	Player player({ 400, -200 }, v, 1.92f, global_scale, 87.f);
 	map.player = &player;
 	while (window.isOpen())
 	{
@@ -76,15 +76,24 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		//Animations
 		player.next_frame();
 		//Physics
-		player.apply_force({ 0, gravity });//Gravity test
+		player.apply_force({ 0, gravity });
 		player.update();
 		map.update();
+		/*
+		sf::ConvexShape r = sf::ConvexShape(4);
+		int i = 0;
+		for (auto& it : player.mesh_collision)
+			r.setPoint(i,it), i++;
+		r.setOutlineColor({255,255,255});
+		*/
 		//Render
-		sf::Vector2f camera_pos(0, 0);
+		sf::Vector2f camera_pos=player.get_position();
+		camera_pos-=sf::Vector2f(512,288);
 		sf::RenderStates rs= sf::RenderStates::Default;
 		rs.transform = sf::Transform().translate(-camera_pos);
+		//window.draw(r,rs);
 		window.draw(map,rs);
-		window.draw(player);
+		window.draw(player,rs);
 		window.display();
 		while (clock.getElapsedTime().asMilliseconds() < 1000 / FPS);
 	}

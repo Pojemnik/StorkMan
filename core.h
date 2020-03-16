@@ -25,7 +25,7 @@ public:
 	const sf::FloatRect rect_collision;
 	std::vector<sf::Texture>::const_iterator begin() const;
 	std::vector<sf::Texture>::const_iterator end() const;
-	Animation() = default;	//Uwaga domyœlny konstruktor wywo³ywany w Assets::load_aninmation
+	Animation() = default;
 	Animation(std::vector<sf::Texture>& a, Vectorf c, sf::FloatRect rect_col);
 };
 
@@ -37,6 +37,7 @@ public:
 	Colidable_type type;
 	Colidable() = default;
 	Colidable(sf::FloatRect rect, std::vector<Vectorf> mesh, Colidable_type t);
+	
 };
 
 class Transformable
@@ -59,6 +60,7 @@ public:
 	virtual void move(Vectorf delta) = 0;
 	virtual void apply_force(Vectorf f);
 	void uncolide(const Colidable* c);
+	bool test_colision(const Colidable& other);
 	Physical(sf::FloatRect rect, std::vector<Vectorf> mesh, Colidable_type t, float m);
 	Physical() = default;
 };
