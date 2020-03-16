@@ -69,8 +69,8 @@ void Assets::load_assets()
 	std::cout << "Loading assets..." << std::endl;
 	load_animation(stork_run, "img/stork/run_ss_347_358_is_8_10.png", { 224, 30 });
 	load_animation(stork_idle, "img/stork/idle_ss_158_356_is_10_12.png", { 90,30 });
-	load_animation(stork_jump_run, "img/stork/jump_run_ss_363_356_is_10_12.png", { 215, 30 });
-	load_animation(stork_jump_idle, "img/stork/jump_stop_ss_357_367_is_10_14.png", { 187,30 });
+	load_animation(stork_jump_run, "img/stork/jump_run_short_ss_344_356_is_10_9.png", { 215, 30 });
+	load_animation(stork_jump_idle, "img/stork/jump_stop_short_ss_303_367_is_9_11.png", { 187,30 });
 	load_textures(map_textures, "img/tex_ss_64_64_is_1_17.png", true);
 	//load_textures(ship_dockx, "img/ships/DokowanieX_ss_436_87_is_10_12.png", false);
 	//load_textures(ship_docky, "img/ships/DokowanieY_ss_443_442_is_15_20.png", false);

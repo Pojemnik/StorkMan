@@ -76,12 +76,12 @@ void Physical::uncolide(const Colidable* c)
 	int i = 0;
 	for (i = 0; i < 6 && rect_collision.intersects(c->rect_collision, intersection); i++)
 	{
-		move({ last_move_delta.x * tab[i].x, last_move_delta.y * tab[i].y });
+		move({ last_speed.x * tab[i].x, last_speed.y * tab[i].y });
 		update_position();
 	}
 	if (i != 0)
 	{
-		colision_direction = { sgn(-last_move_delta.x * tab[i - 1].x), sgn(-last_move_delta.y * tab[i - 1].y) };
+		colision_direction = { sgn(-last_speed.x * tab[i - 1].x), sgn(-last_speed.y * tab[i - 1].y) };
 		if (colision_direction.x)
 			force.x = 0;
 		if (colision_direction.y)

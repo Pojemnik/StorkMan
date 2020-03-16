@@ -31,16 +31,19 @@ Entity::Entity(Vectorf p, std::vector<const Animation* > t, float h, float gs, f
 
 void Entity::move(Vectorf delta)
 {
-	move_delta += delta;
+	speed += delta;
 }
 
 void Entity::jump()
 {
-	apply_force({ 0, -20 });
-	if (status == Entity_status::IDLE)
-		status = Entity_status::JUMP_IDLE;
-	if (status == Entity_status::MOVE)
-		status = Entity_status::JUMP_RUN;
+	if (colision_direction.y == 1)
+	{
+		apply_force({ 0, -20 });
+		if (status == Entity_status::IDLE)
+			status = Entity_status::JUMP_IDLE;
+		if (status == Entity_status::MOVE)
+			status = Entity_status::JUMP_RUN;
+	}
 }
 
 void Entity::next_frame()
@@ -66,12 +69,13 @@ void Entity::next_frame()
 
 void Entity::update()
 {
-	int s = sgn(move_delta.x);
+	int s = sgn(speed.x);
 	if (direction != s && s != 0)
 	{
 		Vectorf tmp = sprite.getScale();
 		tmp.x *= -1;
 		scale = -scale;
+		speed = {speed.x*2, speed.y*2};
 		if (s == -1)
 		{
 			sprite.setOrigin(sprite.getLocalBounds().width, 0);
@@ -85,27 +89,30 @@ void Entity::update()
 		sprite.setScale(tmp);
 		direction = s;
 	}
-	force = { force.x / 2, force.y / 2 };
 	if (force.x > max_force)
 		force.x = max_force;
 	if (force.y > max_force)
 		force.y = max_force;
-	move_delta += force;
-	last_move_delta = move_delta;
+	speed += force;
+	last_speed = speed;
 	update_position();
-	if (last_move_delta.x != 0 && colision_direction.y == 1)
+	if (last_speed.x != 0 && last_speed.y >= 0 && colision_direction.y == 1)
 	{
 		status = Entity_status::MOVE;
+	}
+	if (last_speed.x == 0 && last_speed.y >= 0 && colision_direction.y == 1)
+	{
+		status = Entity_status::IDLE;
 	}
 	colision_direction = { 0,0 };
 }
 
 void Entity::update_position()
 {
-	pos += move_delta;
+	pos += speed;
 	sprite.setPosition(pos);
 	rect_collision = sprite.getGlobalBounds();
-	move_delta = { 0,0 };
+	speed = { 0,0 };
 }
 
 void Entity::set_animation(const Animation* t)

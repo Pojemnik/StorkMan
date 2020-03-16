@@ -9,7 +9,8 @@ typedef sf::Vector2i Vectori;
 enum Entity_status { IDLE = 0, MOVE, JUMP_IDLE, JUMP_RUN, ATTACK, HIT };
 enum Colidable_type { GROUND, ENEMY, OTHER };
 
-const float max_force = 100.f;
+const float max_force = 1000.f;
+const float max_run_speed = 5.f;
 
 template <typename T> inline int sgn(T val)
 {
@@ -47,8 +48,8 @@ class Physical : public Transformable, public Colidable
 {
 protected:
 	float mass;
-	Vectorf move_delta;
-	Vectorf last_move_delta = { 0,0 };
+	Vectorf speed;
+	Vectorf last_speed = { 0,0 };
 	Vectorf force;
 	Vectori colision_direction = { 0,0 };
 public:
