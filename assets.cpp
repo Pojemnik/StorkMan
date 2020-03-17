@@ -69,6 +69,17 @@ void Assets::load_assets()
 {
 	std::cout << "Loading assets..." << std::endl;
 	sf::FloatRect tmp(210, 100, 105, 340);
+	pieces.brz.loadFromFile("img/stork/parts/BRZUCH_ST_00.PNG");
+	pieces.ldl.loadFromFile("img/stork/parts/DLON_L_ST_00.PNG");
+	pieces.pdl.loadFromFile("img/stork/parts/DLON_P_ST_00.png");
+	pieces.glo.loadFromFile("img/stork/parts/GLOWA_ST_00.png");
+	pieces.klp.loadFromFile("img/stork/parts/KL_PIERS_ST_00.PNG");
+	pieces.lyd.loadFromFile("img/stork/parts/LYDKA_ST_00.PNG");
+	pieces.mie.loadFromFile("img/stork/parts/MIEDNICA_ST_00.PNG");
+	pieces.prr.loadFromFile("img/stork/parts/PRZEDRAMIE_ST_00.PNG");
+	pieces.ram.loadFromFile("img/stork/parts/RAMIE_ST_00.PNG");
+	pieces.sto.loadFromFile("img/stork/parts/STOPA_ST_00.PNG");
+	pieces.udo.loadFromFile("img/stork/parts/UDO_ST_00.PNG");
 	stork_run = load_animation("img/new_a/run_ss_512_512_is_8_10.png", { 0, 0 },tmp);
 	stork_idle = load_animation("img/new_a/idle_ss_512_512_is_10_12.png", { 0, 0 },tmp);
 	stork_jump_run = load_animation("img/new_a/jump_run_short_ss_512_512_is_10_10.png", { 0, 0 },tmp);

@@ -1,6 +1,21 @@
 #pragma once
 #include "game.h"
 
+struct Stork
+{
+	sf::Texture brz;
+	sf::Texture ldl;
+	sf::Texture pdl;
+	sf::Texture glo;
+	sf::Texture klp;
+	sf::Texture lyd;
+	sf::Texture mie;
+	sf::Texture prr;
+	sf::Texture ram;
+	sf::Texture sto;
+	sf::Texture udo;
+};
+
 class Assets
 {
 public:
@@ -17,6 +32,7 @@ public:
 	Animation ship_undockx;
 	Animation ship_undocky;
 	Animation ship_ret_hdmi;
+	Stork pieces;
 	std::map<std::string, const sf::Texture*> textures;
 	void load_assets();
 

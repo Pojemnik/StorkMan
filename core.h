@@ -1,13 +1,20 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#define _USE_MATH_DEFINES
 #include <cmath>
 
 typedef sf::Vector2f Vectorf;
 typedef sf::Vector2i Vectori;
 
+const float PI = 3.1415927;
+
 enum Entity_status { IDLE = 0, MOVE, JUMP_IDLE, JUMP_RUN, ATTACK, HIT };
 enum Colidable_type { GROUND, ENEMY, OTHER };
+enum Stork_parts {
+	BELLY = 0, L_HAND, R_HAND, HEAD, CHEST, L_CALF, R_CALF, PELVIS, L_FOREARM,
+	R_FOREARM, L_ARM, R_ARM, L_FOOT, R_FOOT, L_TIGH, R_TIGH
+};
 
 const float max_force = 1000.f;
 const float max_run_speed = 5.f;
@@ -15,6 +22,102 @@ const float max_run_speed = 5.f;
 template <typename T> inline int sgn(T val)
 {
 	return (T(0) < val) - (val < T(0));
+}
+
+static struct Stork_var
+{
+	float GLOxKLA = 36;
+	float GLOyKLA = 96;
+	float KLAxGLO = 60;
+	float KLAyGLO = 42;
+	float KLAxBRZ = 72;
+	float KLAyBRZ = 76;
+	float KLAxPRA = 19;
+	float KLAyPRA = 56;
+	float KLAxLRA = 89;
+	float KLAyLRA = 49;
+	float BRZxKLA = 70;
+	float BRZyKLA = 36;
+	float BRZxMIE = 70;
+	float BRZyMIE = 98;
+	float MIExBRZ = 70;
+	float MIEyBRZ = 62;
+	float MIExPUD = 44;
+	float MIEyPUD = 87;
+	float MIExLUD = 78;
+	float MIEyLUD = 88;
+	float MIExOGO = 51;
+	float MIEyOGO = 77;
+	float PUDxMIE = 63;
+	float PUDyMIE = 28;
+	float PUDxPLY = 66;
+	float PUDyPLY = 99;
+	float PLYxPUD = 68;
+	float PLYyPUD = 26;
+	float PLYxPST = 70;
+	float PLYyPST = 99;
+	float PSTxPLY = 53;
+	float PSTyPLY = 59;
+	float PRAxKLA = 58;
+	float PRAyKLA = 29;
+	float PRAxPPR = 58;
+	float PRAyPPR = 100;
+	float PPRxPRA = 58;
+	float PPRyPRA = 30;
+	float PPRxPDL = 60;
+	float PPRyPDL = 105;
+	float PPRxSK1 = 59;
+	float PPRySK1 = 34;
+	float PPRxSK2 = 59;
+	float PPRySK2 = 49;
+	float PPRxSK3 = 59;
+	float PPRySK3 = 64;
+	float PPRxSK4 = 59;
+	float PPRySK4 = 79;
+	float PPRxSK5 = 59;
+	float PPRySK5 = 94;
+	float PDLxPPR = 61;
+	float PDLyPPR = 53;
+	float LUDxMIE = 63;
+	float LUDyMIE = 28;
+	float LUDxLLY = 66;
+	float LUDyLLY = 99;
+	float LLYxLUD = 68;
+	float LLYyLUD = 26;
+	float LLYxLST = 70;
+	float LLYyLST = 99;
+	float LSTxLLY = 53;
+	float LSTyLLY = 59;
+	float LRAxKLA = 58;
+	float LRAyKLA = 29;
+	float LRAxLPR = 58;
+	float LRAyLPR = 100;
+	float LPRxLRA = 58;
+	float LPRyLRA = 30;
+	float LPRxLDL = 60;
+	float LPRyLDL = 105;
+	float LPRxSK1 = 59;
+	float LPRySK1 = 34;
+	float LPRxSK2 = 59;
+	float LPRySK2 = 49;
+	float LPRxSK3 = 59;
+	float LPRySK3 = 64;
+	float LPRxSK4 = 59;
+	float LPRySK4 = 79;
+	float LPRxSK5 = 59;
+	float LPRySK5 = 94;
+	float LDLxLPR = 63;
+	float LDLyLPR = 50;
+} stork_var;
+
+float rdn(float s)
+{
+	return(s / 180 * PI);
+}
+
+float stp(float r)
+{
+	return(r * 180 / PI);
 }
 
 class Animation
@@ -37,7 +140,7 @@ public:
 	Colidable_type type;
 	Colidable() = default;
 	Colidable(sf::FloatRect rect, std::vector<Vectorf> mesh, Colidable_type t);
-	
+
 };
 
 class Transformable
