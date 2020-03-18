@@ -30,9 +30,9 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		map = parse_map(root, &assets);
 	}
 	const std::vector<const Animation*> v = { assets.stork_idle, assets.stork_run, assets.stork_jump_idle, assets.stork_jump_run };
-	Player player({ 400, -200 }, v, 1.92f, global_scale, 87.f);
+	Player player({ 400, 100 }, v, 1.92f, global_scale, 87.f);
 	map.player = &player;
-	New_animatable a(assets, { 200,200 });
+	New_animatable a(assets.pieces, { 200,200 });
 	while (window.isOpen())
 	{
 		clock.restart();
@@ -48,9 +48,9 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			{
 				if (event.key.code == sf::Keyboard::Tilde)
 				{
-					float a, b;
-					std::cin >> a >> b;
-					player.move({ a,-1*b });
+					float aa, bb;
+					std::cin >> aa >> bb;
+					player.move({ aa,-1*bb });
 				}
 				if (event.key.code == sf::Keyboard::G)
 				{
@@ -80,6 +80,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		player.apply_force({ 0, gravity });
 		player.update();
 		map.update();
+		a.animate(192, 192, 0, 5, 5, 5, 0, -90, 0, 0, -90, 0, -100, 150, 60, -20, 40, 20, 80, 110, 20);
 		/*
 		sf::ConvexShape r = sf::ConvexShape(4);
 		int i = 0;
@@ -95,6 +96,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		//window.draw(r,rs);
 		window.draw(map,rs);
 		window.draw(player,rs);
+		window.draw(a);
 		window.display();
 		while (clock.getElapsedTime().asMilliseconds() < 1000 / FPS);
 	}

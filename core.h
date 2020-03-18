@@ -1,13 +1,12 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#define _USE_MATH_DEFINES
 #include <cmath>
 
 typedef sf::Vector2f Vectorf;
 typedef sf::Vector2i Vectori;
 
-const float PI = 3.1415927;
+const float PI = 3.1415927f;
 
 enum Entity_status { IDLE = 0, MOVE, JUMP_IDLE, JUMP_RUN, ATTACK, HIT };
 enum Colidable_type { GROUND, ENEMY, OTHER };
@@ -24,7 +23,10 @@ template <typename T> inline int sgn(T val)
 	return (T(0) < val) - (val < T(0));
 }
 
-static struct Stork_var
+float rdn(float s);
+float stp(float r);
+
+static const struct Stork_var
 {
 	float GLOxKLA = 36;
 	float GLOyKLA = 96;
@@ -108,17 +110,11 @@ static struct Stork_var
 	float LPRySK5 = 94;
 	float LDLxLPR = 63;
 	float LDLyLPR = 50;
+	float SKRxPRZ = 64;
+	float SKRyPRZ = 11;
+	float OGOxMIE = 63;
+	float OGOyMIE = 15;
 } stork_var;
-
-float rdn(float s)
-{
-	return(s / 180 * PI);
-}
-
-float stp(float r)
-{
-	return(r * 180 / PI);
-}
 
 class Animation
 {

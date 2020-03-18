@@ -1,5 +1,15 @@
 #include "core.h"
 
+float rdn(float s)
+{
+	return(s / 180 * PI);
+}
+
+float stp(float r)
+{
+	return(r * 180 / PI);
+}
+
 Renderable::Renderable(Vectorf p, sf::Texture* t, float h) : tex(t), pos(p), height(h)
 {
 	sprite = sf::Sprite(*tex);

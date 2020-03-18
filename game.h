@@ -1,6 +1,5 @@
 #pragma once
 #include "core.h"
-#include "assets.h"
 
 class Platform : public Texturable, public Colidable
 {
@@ -37,15 +36,15 @@ class New_animatable : public sf::Drawable
 private:
 	Vectorf pos;
 	std::vector<sf::Sprite> parts;
-	Vectorf count_pos(int x, int y, int size1, int size2,
-		int translation_x1, int translation_y1, float angle1,
-		int translation_x2, int translation_y2, float angle2);
+	Vectorf count_pos(float x, float y, float size1, float size2,
+		float translation_x1, float translation_y1, float angle1,
+		float translation_x2, float translation_y2, float angle2);
 public:
-	void animate(int x, int y, float r, float KLArGLO, float BRZrKLA,
+	void animate(float x, float y, float r, float KLArGLO, float BRZrKLA,
 		float MIErBRZ, float KLArPRA, float PRArPPR, float PPRrPDL,
 		float KLArLRA, float LRArLPR, float LPRrLDL, float MIErPUD,
 		float PUDrPLY, float PLYrPST, float MIErLUD, float LUDrLLY,
 		float LLYrLST, float PPRrSKP, float LPRrSKL, float MIErOGO);
-	New_animatable(Assets &a, Vectorf p);
+	New_animatable(std::vector<sf::Texture> &v, Vectorf p);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

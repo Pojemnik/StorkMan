@@ -158,7 +158,9 @@ void Entity::set_animation(const Animation* t)
 }
 
 
-Vectorf New_animatable::count_pos(int x, int y, int size1, int size2, int translation_x1, int translation_y1, float angle1, int translation_x2, int translation_y2, float angle2)
+Vectorf New_animatable::count_pos(float x, float y, float size1, float size2,
+	float translation_x1, float translation_y1, float angle1,
+	float translation_x2, float translation_y2, float angle2)
 {
 	float d1 = sqrt(pow(translation_x1 - size1 / 2, 2) + pow(translation_y1 - size1 / 2, 2));
 	float d2 = sqrt(pow(translation_x2 - size2 / 2, 2) + pow(translation_y2 - size2 / 2, 2));
@@ -170,10 +172,14 @@ Vectorf New_animatable::count_pos(int x, int y, int size1, int size2, int transl
 	float Ly1 = (sinalfa * cos(angle1) + cosalfa * sin(angle1)) * d1;
 	float Lx2 = (cosbeta * cos(angle2) - sinbeta * sin(angle2)) * d2;
 	float Ly2 = (sinbeta * cos(angle2) + cosbeta * sin(angle2)) * d2;
-	return Vectorf({ x + Lx1 - Lx2 + size1 / 2 - size2 / 2 , y + Ly1 - Ly2 + size1 / 2 - size2 / 2 });
+	return Vectorf({ x + Lx1 - Lx2 + size1 / 2 - size2 / 2, y + Ly1 - Ly2 + size1 / 2 - size2 / 2 });
 }
 
-void New_animatable::animate(int x, int y, float r, float KLArGLO, float BRZrKLA, float MIErBRZ, float KLArPRA, float PRArPPR, float PPRrPDL, float KLArLRA, float LRArLPR, float LPRrLDL, float MIErPUD, float PUDrPLY, float PLYrPST, float MIErLUD, float LUDrLLY, float LLYrLST, float PPRrSKP, float LPRrSKL, float MIErOGO)
+void New_animatable::animate(float x, float y, float r, float KLArGLO, float BRZrKLA,
+	float MIErBRZ, float KLArPRA, float PRArPPR, float PPRrPDL,
+	float KLArLRA, float LRArLPR, float LPRrLDL, float MIErPUD,
+	float PUDrPLY, float PLYrPST, float MIErLUD, float LUDrLLY,
+	float LLYrLST, float PPRrSKP, float LPRrSKL, float MIErOGO)
 {
 	float MIEr = r;
 	float MIEx = x;
@@ -223,6 +229,7 @@ void New_animatable::animate(int x, int y, float r, float KLArGLO, float BRZrKLA
 	float LSTr = LLYr + LLYrLST;
 	float LSTx = count_pos(LLYx, LLYy, 128, 128, stork_var.LLYxLST, stork_var.LLYyLST, rdn(LLYr), stork_var.LSTxLLY, stork_var.LSTyLLY, rdn(LSTr)).x;
 	float LSTy = count_pos(LLYx, LLYy, 128, 128, stork_var.LLYxLST, stork_var.LLYyLST, rdn(LLYr), stork_var.LSTxLLY, stork_var.LSTyLLY, rdn(LSTr)).y;
+
 	parts[BELLY].setRotation(BRZr);
 	parts[L_HAND].setRotation(LDLr);
 	parts[R_HAND].setRotation(PDLr);
@@ -239,6 +246,7 @@ void New_animatable::animate(int x, int y, float r, float KLArGLO, float BRZrKLA
 	parts[R_FOOT].setRotation(PSTr);
 	parts[L_TIGH].setRotation(LUDr);
 	parts[R_TIGH].setRotation(PUDr);
+
 	parts[BELLY].setPosition(BRZx, BRZy);
 	parts[L_HAND].setPosition(LDLx, LDLy);
 	parts[R_HAND].setPosition(PDLx, PDLy);
@@ -257,28 +265,44 @@ void New_animatable::animate(int x, int y, float r, float KLArGLO, float BRZrKLA
 	parts[R_TIGH].setPosition(PUDx, PUDy);
 }
 
-New_animatable::New_animatable(Assets& a, Vectorf p) : pos(p)
+New_animatable::New_animatable(std::vector<sf::Texture>&v, Vectorf p) : pos(p)
 {
-	parts.push_back(sf::Sprite(a.pieces.brz));
-	parts.push_back(sf::Sprite(a.pieces.ldl));
-	parts.push_back(sf::Sprite(a.pieces.pdl));
-	parts.push_back(sf::Sprite(a.pieces.glo));
-	parts.push_back(sf::Sprite(a.pieces.klp));
-	parts.push_back(sf::Sprite(a.pieces.lyd));
-	parts.push_back(sf::Sprite(a.pieces.lyd));
-	parts.push_back(sf::Sprite(a.pieces.mie));
-	parts.push_back(sf::Sprite(a.pieces.prr));
-	parts.push_back(sf::Sprite(a.pieces.prr));
-	parts.push_back(sf::Sprite(a.pieces.ram));
-	parts.push_back(sf::Sprite(a.pieces.ram));
-	parts.push_back(sf::Sprite(a.pieces.sto));
-	parts.push_back(sf::Sprite(a.pieces.sto));
-	parts.push_back(sf::Sprite(a.pieces.udo));
-	parts.push_back(sf::Sprite(a.pieces.udo));
+	for(int i = 0; i < v.size(); i++)
+		parts.push_back(sf::Sprite(v[i]));
+	parts[BELLY].setOrigin(64, 64);
+	parts[L_HAND].setOrigin(64, 64);
+	parts[R_HAND].setOrigin(64, 64);
+	parts[HEAD].setOrigin(64, 64);
+	parts[CHEST].setOrigin(64, 64);
+	parts[L_CALF].setOrigin(64, 64);
+	parts[R_CALF].setOrigin(64, 64);
+	parts[PELVIS].setOrigin(64, 64);
+	parts[L_FOREARM].setOrigin(64, 64);
+	parts[R_FOREARM].setOrigin(64, 64);
+	parts[L_ARM].setOrigin(64, 64);
+	parts[R_ARM].setOrigin(64, 64);
+	parts[L_FOOT].setOrigin(64, 64);
+	parts[R_FOOT].setOrigin(64, 64);
+	parts[L_TIGH].setOrigin(64, 64);
+	parts[R_TIGH].setOrigin(64, 64);
 }
 
 void New_animatable::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	for (const auto& it : parts)
-		target.draw(it);
+	target.draw(parts[L_ARM]);
+	target.draw(parts[L_FOREARM]);
+	target.draw(parts[L_HAND]);
+	target.draw(parts[PELVIS]);
+	target.draw(parts[BELLY]);
+	target.draw(parts[CHEST]);
+	target.draw(parts[HEAD]);
+	target.draw(parts[L_CALF]);
+	target.draw(parts[L_FOOT]);
+	target.draw(parts[L_TIGH]);
+	target.draw(parts[R_CALF]);
+	target.draw(parts[R_FOOT]);
+	target.draw(parts[R_TIGH]);
+	target.draw(parts[R_FOREARM]);
+	target.draw(parts[R_ARM]);
+	target.draw(parts[R_HAND]);
 }
