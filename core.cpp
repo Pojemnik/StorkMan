@@ -1,5 +1,6 @@
 #include "core.h"
-
+#include "collisions.h"
+const float gravity = 0.5f;
 Renderable::Renderable(Vectorf p, sf::Texture* t, float h) : tex(t), pos(p), height(h)
 {
 	sprite = sf::Sprite(*tex);
@@ -71,6 +72,8 @@ void Physical::apply_force(Vectorf f)
 
 void Physical::uncolide(const Colidable* c)
 {
+	
+	/*
 	Vectorf tab[6] = { {0, -0.6f},  {0, -0.6f}, {-0.6f, 1.2}, {-0.6f, 0}, {0, -0.6f}, {0, -0.6f} };
 	int i = 0;
 	for (i = 0; i < 6 && test_colision(*c); i++)
@@ -86,6 +89,27 @@ void Physical::uncolide(const Colidable* c)
 		if (colision_direction.y)
 			force.y = 0;
 	}
+	*/
+	if (!rect_collision.intersects(c->rect_collision))
+	{
+		colision_direction = { 0,0 };
+		return;
+
+	}
+	sf::Vector2f tmp = test(&mesh_collision, &c->mesh_collision);
+	move(tmp*-1.0f);
+	std::cout << tmp.x << " " << tmp.y << "\n";
+	colision_direction.x = sgn(tmp.x);
+	colision_direction.y = sgn(tmp.y);
+	if (abs(tmp.x)>0.0001)
+	{
+		force.x = 0;
+	}
+	if (abs(tmp.y) > 0.0001)
+	{
+		force.y = 0;
+	}
+	update_position();
 }
 
 Physical::Physical(sf::FloatRect rect, std::vector<Vectorf> mesh, Colidable_type t, float m) : Colidable(rect, mesh, t), mass(m)
@@ -102,6 +126,7 @@ bool Physical::test_colision(const Colidable& other)
 {
 	if (!rect_collision.intersects(other.rect_collision))
 		return false;
+	/*
 	auto wekt = [](Vectorf& p1, Vectorf& p2, Vectorf& p3) {return (p2.x - p1.x)*(p3.y - p1.y) - (p3.x - p1.x)*(p2.y - p1.y); };
 	for (int i=1;i<mesh_collision.size()+1;i++)
 	{
@@ -126,5 +151,7 @@ bool Physical::test_colision(const Colidable& other)
 		}
 
 	}
+	*/
+	return testBollean(&mesh_collision,&other.mesh_collision);
 	return false;
 }

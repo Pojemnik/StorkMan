@@ -1,16 +1,16 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <vector>
-typedef sf::Vector2f Vector2;
-class colidable
-{
-public:
-	Vector2 lower;
-	sf::FloatRect BB;
-	Vector2* posPTR;
-	std::vector<std::pair<Vector2, Vector2>> colisionlines;
-	virtual Vector2* getPos();
-	void updateBB();
-	void setBB();
+struct CollisionInfo {
+	bool shapeAContained, shapeBContained;
+	bool collides=true;
+	sf::Vector2f vector;
+	float distance;
+	CollisionInfo(bool);
+	CollisionInfo() = default;
+	
+	
 };
-bool test_colision(colidable* a, colidable* b);
+bool testBollean(const std::vector<sf::Vector2f>* a, const std::vector<sf::Vector2f>* b);
+CollisionInfo checkPolygonsForSAT(const std::vector<sf::Vector2f>* a,const std::vector<sf::Vector2f>* b, bool flip, bool docalc);
+sf::Vector2f test(const std::vector<sf::Vector2f>* a,const std::vector<sf::Vector2f>* b);
