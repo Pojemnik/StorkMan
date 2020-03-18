@@ -12,7 +12,9 @@ enum Entity_status { IDLE = 0, MOVE, JUMP_IDLE, JUMP_RUN, ATTACK, HIT };
 enum Colidable_type { GROUND, ENEMY, OTHER };
 enum Stork_parts {
 	BELLY = 0, L_HAND, R_HAND, HEAD, CHEST, L_CALF, R_CALF, PELVIS, L_FOREARM,
-	R_FOREARM, L_ARM, R_ARM, L_FOOT, R_FOOT, L_TIGH, R_TIGH
+	R_FOREARM, L_ARM, R_ARM, L_FOOT, R_FOOT, L_TIGH, R_TIGH, R_WING_1, R_WING_2,
+	R_WING_3, R_WING_4, R_WING_5, L_WING_1, L_WING_2, L_WING_3, L_WING_4, L_WING_5,
+	TAIL
 };
 
 const float max_force = 1000.f;
@@ -208,5 +210,26 @@ public:
 	Animatable();
 	Animatable(Vectorf p, const Animation* t, float h, float gs);
 	void next_frame();
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+};
+
+class New_animatable : public sf::Drawable
+{
+private:
+	Vectorf pos;
+	std::vector<sf::Sprite> parts;
+	int direction = 1;//x sign
+	float height; //[m]
+	float scale;
+	Vectorf count_pos(float x, float y, float size1, float size2,
+		float translation_x1, float translation_y1, float angle1,
+		float translation_x2, float translation_y2, float angle2);
+public:
+	void animate(float x, float y, float r, float KLArGLO, float BRZrKLA,
+		float MIErBRZ, float KLArPRA, float PRArPPR, float PPRrPDL,
+		float KLArLRA, float LRArLPR, float LPRrLDL, float MIErPUD,
+		float PUDrPLY, float PLYrPST, float MIErLUD, float LUDrLLY,
+		float LLYrLST, float PPRrSKP, float LPRrSKL, float MIErOGO);
+	New_animatable(std::vector<sf::Texture>& v, Vectorf p);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

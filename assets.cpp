@@ -69,7 +69,7 @@ void Assets::load_assets()
 {
 	std::cout << "Loading assets..." << std::endl;
 	sf::FloatRect tmp(210, 100, 105, 340);
-	for (int i = 0; i < 16; i++)
+	for (int i = 0; i < 27; i++)
 		pieces.push_back(sf::Texture());
 	pieces[BELLY].loadFromFile("img/stork/parts/BRZUCH_ST_00.PNG");
 	pieces[L_HAND].loadFromFile("img/stork/parts/DLON_L_ST_00.PNG");
@@ -87,6 +87,17 @@ void Assets::load_assets()
 	pieces[R_FOOT].loadFromFile("img/stork/parts/STOPA_ST_00.PNG");
 	pieces[L_TIGH].loadFromFile("img/stork/parts/UDO_ST_00.PNG");
 	pieces[R_TIGH].loadFromFile("img/stork/parts/UDO_ST_00.PNG");
+	pieces[R_WING_1].loadFromFile("img/stork/parts/SKRZYDLO_ST_00.png");
+	pieces[R_WING_2].loadFromFile("img/stork/parts/SKRZYDLO_ST_00.png");
+	pieces[R_WING_3].loadFromFile("img/stork/parts/SKRZYDLO_ST_00.png");
+	pieces[R_WING_4].loadFromFile("img/stork/parts/SKRZYDLO_ST_00.png");
+	pieces[R_WING_5].loadFromFile("img/stork/parts/SKRZYDLO_ST_00.png");
+	pieces[L_WING_1].loadFromFile("img/stork/parts/SKRZYDLO_ST_00.png");
+	pieces[L_WING_2].loadFromFile("img/stork/parts/SKRZYDLO_ST_00.png");
+	pieces[L_WING_3].loadFromFile("img/stork/parts/SKRZYDLO_ST_00.png");
+	pieces[L_WING_4].loadFromFile("img/stork/parts/SKRZYDLO_ST_00.png");
+	pieces[L_WING_5].loadFromFile("img/stork/parts/SKRZYDLO_ST_00.png");
+	pieces[TAIL].loadFromFile("img/stork/parts/OGON_ST_00.png");
 	stork_run = load_animation("img/new_a/run_ss_512_512_is_8_10.png", { 0, 0 },tmp);
 	stork_idle = load_animation("img/new_a/idle_ss_512_512_is_10_12.png", { 0, 0 },tmp);
 	stork_jump_run = load_animation("img/new_a/jump_run_short_ss_512_512_is_10_10.png", { 0, 0 },tmp);
