@@ -301,42 +301,54 @@ void New_animatable::animate(float x, float y, float r, float KLArGLO, float BRZ
 	parts[TAIL].setPosition(OGOx, OGOy);
 }
 
-New_animatable::New_animatable(std::vector<sf::Texture>& v, Vectorf p) : pos(p)
+New_animatable::New_animatable(std::vector<sf::Texture>& v, Vectorf p, float h, float gs) : pos(p), height(h)
 {
 	for (int i = 0; i < v.size(); i++)
 	{
 		parts.push_back(sf::Sprite(v[i]));
 		parts[i].setOrigin(64, 64);
 	}
+	scale = gs * height / 500;
+	if (!tex.create(500, 500))
+		return;
+}
+
+void New_animatable::update()
+{
+	tex.clear(sf::Color());
+	tex.draw(parts[L_ARM]);
+	tex.draw(parts[L_WING_1]);
+	tex.draw(parts[L_WING_2]);
+	tex.draw(parts[L_WING_3]);
+	tex.draw(parts[L_WING_4]);
+	tex.draw(parts[L_WING_5]);
+	tex.draw(parts[L_FOREARM]);
+	tex.draw(parts[L_HAND]);
+	tex.draw(parts[PELVIS]);
+	tex.draw(parts[BELLY]);
+	tex.draw(parts[CHEST]);
+	tex.draw(parts[HEAD]);
+	tex.draw(parts[L_CALF]);
+	tex.draw(parts[L_FOOT]);
+	tex.draw(parts[L_TIGH]);
+	tex.draw(parts[TAIL]);
+	tex.draw(parts[R_CALF]);
+	tex.draw(parts[R_FOOT]);
+	tex.draw(parts[R_TIGH]);
+	tex.draw(parts[R_WING_1]);
+	tex.draw(parts[R_WING_2]);
+	tex.draw(parts[R_WING_3]);
+	tex.draw(parts[R_WING_4]);
+	tex.draw(parts[R_WING_5]);
+	tex.draw(parts[R_FOREARM]);
+	tex.draw(parts[R_ARM]);
+	tex.draw(parts[R_HAND]);
+	tex.display();
+	sprite.setTexture(tex.getTexture());
+	sprite.setScale(scale, scale);
 }
 
 void New_animatable::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	target.draw(parts[L_ARM]);
-	target.draw(parts[L_WING_1]);
-	target.draw(parts[L_WING_2]);
-	target.draw(parts[L_WING_3]);
-	target.draw(parts[L_WING_4]);
-	target.draw(parts[L_WING_5]);
-	target.draw(parts[L_FOREARM]);
-	target.draw(parts[L_HAND]);
-	target.draw(parts[PELVIS]);
-	target.draw(parts[BELLY]);
-	target.draw(parts[CHEST]);
-	target.draw(parts[HEAD]);
-	target.draw(parts[L_CALF]);
-	target.draw(parts[L_FOOT]);
-	target.draw(parts[L_TIGH]);
-	target.draw(parts[TAIL]);
-	target.draw(parts[R_CALF]);
-	target.draw(parts[R_FOOT]);
-	target.draw(parts[R_TIGH]);
-	target.draw(parts[R_WING_1]);
-	target.draw(parts[R_WING_2]);
-	target.draw(parts[R_WING_3]);
-	target.draw(parts[R_WING_4]);
-	target.draw(parts[R_WING_5]);
-	target.draw(parts[R_FOREARM]);
-	target.draw(parts[R_ARM]);
-	target.draw(parts[R_HAND]);
+	target.draw(sprite, states);
 }

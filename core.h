@@ -25,8 +25,14 @@ template <typename T> inline int sgn(T val)
 	return (T(0) < val) - (val < T(0));
 }
 
+struct xyr
+{
+	float x;
+	float y;
+	float r;
+};
+
 float rdn(float s);
-float stp(float r);
 
 static const struct Stork_var
 {
@@ -221,6 +227,8 @@ private:
 	int direction = 1;//x sign
 	float height; //[m]
 	float scale;
+	sf::RenderTexture tex;
+	sf::Sprite sprite;
 	Vectorf count_pos(float x, float y, float size1, float size2,
 		float translation_x1, float translation_y1, float angle1,
 		float translation_x2, float translation_y2, float angle2);
@@ -230,6 +238,7 @@ public:
 		float KLArLRA, float LRArLPR, float LPRrLDL, float MIErPUD,
 		float PUDrPLY, float PLYrPST, float MIErLUD, float LUDrLLY,
 		float LLYrLST, float PPRrSKP, float LPRrSKL, float MIErOGO);
-	New_animatable(std::vector<sf::Texture>& v, Vectorf p);
+	New_animatable(std::vector<sf::Texture>& v, Vectorf p, float h, float gs);
+	void update();
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

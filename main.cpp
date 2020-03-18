@@ -32,7 +32,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	const std::vector<const Animation*> v = { assets.stork_idle, assets.stork_run, assets.stork_jump_idle, assets.stork_jump_run };
 	Player player({ 400, 100 }, v, 1.92f, global_scale, 87.f);
 	map.player = &player;
-	New_animatable a(assets.pieces, { 200,200 });
+	New_animatable a(assets.pieces, { 200,200 }, 1.92f, global_scale);
 	while (window.isOpen())
 	{
 		clock.restart();
@@ -76,11 +76,12 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		window.clear();
 		//Animations
 		player.next_frame();
+		a.animate(192, 192, 0, 5, 5, 5, 0, -90, 0, 0, -90, 0, -100, 150, 60, -20, 40, 20, 80, 110, 20);
 		//Physics
 		player.apply_force({ 0, gravity });
 		player.update();
 		map.update();
-		a.animate(192, 192, 0, 5, 5, 5, 0, -90, 0, 0, -90, 0, -100, 150, 60, -20, 40, 20, 80, 110, 20);
+		a.update();
 		/*
 		sf::ConvexShape r = sf::ConvexShape(4);
 		int i = 0;
