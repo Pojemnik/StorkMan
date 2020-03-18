@@ -156,6 +156,11 @@ Vectorf New_animatable::count_pos(Vectorf start, float size1, float size2,
 	return Vectorf({ start.x + Lx1 - Lx2 + size1 / 2 - size2 / 2, start.y + Ly1 - Ly2 + size1 / 2 - size2 / 2 });
 }
 
+void New_animatable::animate(xyr start, std::array<float, 18> arr)
+{
+	animate(start, arr[0], arr[1], arr[2], arr[3], arr[4], arr[5], arr[6], arr[7], arr[8], arr[9], arr[10], arr[11], arr[12], arr[13], arr[14], arr[15], arr[16], arr[16]);
+}
+
 void New_animatable::animate(xyr start, float KLArGLO, float BRZrKLA,
 	float MIErBRZ, float KLArPRA, float PRArPPR, float PPRrPDL,
 	float KLArLRA, float LRArLPR, float LPRrLDL, float MIErPUD,
@@ -328,4 +333,13 @@ void New_animatable::update()
 void New_animatable::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(sprite, states);
+}
+
+New_animation::New_animation(std::vector<std::array<float, 18>>& kf, std::vector<int>& l) : key_frames(kf), lengths(l)
+{
+	length_sum = 0;
+	for (const auto& it : l)
+	{
+		length_sum += it;
+	}
 }

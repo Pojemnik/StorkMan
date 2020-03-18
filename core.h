@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <cmath>
+#include <array>
 
 typedef sf::Vector2f Vectorf;
 typedef sf::Vector2i Vectori;
@@ -218,6 +219,16 @@ public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
+class New_animation
+{
+public:
+	std::vector<std::array<float, 18>> key_frames;
+	int length_sum;
+	std::vector<int> lengths;
+
+	New_animation(std::vector<std::array<float, 18>>& kf, std::vector<int>& l);
+};
+
 class New_animatable : public sf::Drawable
 {
 private:
@@ -232,6 +243,7 @@ private:
 		float translation_x1, float translation_y1, float angle1,
 		float translation_x2, float translation_y2, float angle2);
 public:
+	void animate(xyr start, std::array<float, 18> arr);
 	void animate(xyr start, float KLArGLO, float BRZrKLA,
 		float MIErBRZ, float KLArPRA, float PRArPPR, float PPRrPDL,
 		float KLArLRA, float LRArLPR, float LPRrLDL, float MIErPUD,
