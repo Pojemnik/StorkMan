@@ -1,6 +1,5 @@
 #include "core.h"
 #include "collisions.h"
-const float gravity = 0.5f;
 Renderable::Renderable(Vectorf p, sf::Texture* t, float h) : tex(t), pos(p), height(h)
 {
 	sprite = sf::Sprite(*tex);
@@ -92,24 +91,24 @@ void Physical::uncolide(const Colidable* c)
 	*/
 	if (!rect_collision.intersects(c->rect_collision))
 	{
-		colision_direction = { 0,0 };
-		return;
-
 	}
-	sf::Vector2f tmp = test(&mesh_collision, &c->mesh_collision);
-	move(tmp*-1.0f);
-	std::cout << tmp.x << " " << tmp.y << "\n";
-	colision_direction.x = sgn(tmp.x);
-	colision_direction.y = sgn(tmp.y);
-	if (abs(tmp.x)>0.0001)
+	else
 	{
-		force.x = 0;
+		sf::Vector2f tmp = test(&mesh_collision, &c->mesh_collision);
+		move(tmp * -1.0f);
+		colision_direction.x+= sgn(tmp.x);
+		colision_direction.y+= sgn(tmp.y);
+		if (abs(tmp.x) > 0.0001)
+		{
+			force.x = 0;
+		}
+		if (abs(tmp.y) > 0.0001)
+		{
+			force.y = 0;
+		}
+		update_position();
 	}
-	if (abs(tmp.y) > 0.0001)
-	{
-		force.y = 0;
-	}
-	update_position();
+	
 }
 
 Physical::Physical(sf::FloatRect rect, std::vector<Vectorf> mesh, Colidable_type t, float m) : Colidable(rect, mesh, t), mass(m)
