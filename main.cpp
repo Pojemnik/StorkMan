@@ -76,7 +76,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		window.clear();
 		//Animations
 		player.next_frame();
-		a.animate(192, 192, 0, 5, 5, 5, 0, -90, 0, 0, -90, 0, -100, 150, 60, -20, 40, 20, 80, 110, 20);
+		a.animate({ {192, 192}, 0 }, 5, 5, 5, 0, -90, 0, 0, -90, 0, -100, 150, 60, -20, 40, 20, 80, 110, 20);
 		//Physics
 		player.apply_force({ 0, gravity });
 		player.update();

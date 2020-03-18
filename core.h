@@ -27,8 +27,7 @@ template <typename T> inline int sgn(T val)
 
 struct xyr
 {
-	float x;
-	float y;
+	Vectorf pos;
 	float r;
 };
 
@@ -229,11 +228,11 @@ private:
 	float scale;
 	sf::RenderTexture tex;
 	sf::Sprite sprite;
-	Vectorf count_pos(float x, float y, float size1, float size2,
+	Vectorf count_pos(Vectorf start, float size1, float size2,
 		float translation_x1, float translation_y1, float angle1,
 		float translation_x2, float translation_y2, float angle2);
 public:
-	void animate(float x, float y, float r, float KLArGLO, float BRZrKLA,
+	void animate(xyr start, float KLArGLO, float BRZrKLA,
 		float MIErBRZ, float KLArPRA, float PRArPPR, float PPRrPDL,
 		float KLArLRA, float LRArLPR, float LPRrLDL, float MIErPUD,
 		float PUDrPLY, float PLYrPST, float MIErLUD, float LUDrLLY,
