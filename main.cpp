@@ -30,8 +30,19 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		map = parse_map(root, &assets);
 	}
 	const std::vector<const Animation*> v = { assets.stork_idle, assets.stork_run, assets.stork_jump_idle, assets.stork_jump_run };
-	Player player({ 400, -200 }, v, 1.92f, global_scale, 87.f);
+	Player player({ 400, 100 }, v, 1.92f, global_scale, 87.f);
 	map.player = &player;
+	std::vector<std::array<float, 21>> keys;
+	keys.push_back({ 192, 192, 0, 5, 5, 5,   0, -90, 0,   0, -90, 0,   -20, 40, 20,   -100, 150, 60,   110, 80, 20 });
+	keys.push_back({ 192, 202, 0, 15, 10, 10,    -45, -90, 0,    45, -60, 0,    60, 80, 30,    -90, 90, 20,  130, 40, 60 });
+	keys.push_back({ 192, 212, 0, 10, 7, 7,    -20, -90, 0,    20, -90, 0,    0, 90, 40,    -45, 0, -20,   70, 130, 40 });
+	keys.push_back({ 192, 192, 0, 5, 5, 5,    0, -90, 0,    0, -90, 0,    -100, 150, 60,    -20, 40, 20,   80, 110, 20 });
+	keys.push_back({ 192, 202, 0, 15, 10, 10,    45, -60, 0,    -45, -90, 0,    -90, 90, 20,    60, 80, 30,   40, 130, 60 });
+	keys.push_back({ 192, 212, 0, 10, 7, 7,    20, -90, 0,    -20, -90, 0,    -45, 0, 20,    0, 90, 40,   130, 70, 40 });
+	std::vector<int> lengths = { 9,19,9,9,19,9 };
+	Dynamic_animation a(keys, lengths);
+	std::vector<Dynamic_animation*> a_vector = { &a };
+	Dynamic_animatable stork2(assets.pieces, { 200,200 }, a_vector, 1.92f, global_scale);
 	while (window.isOpen())
 	{
 		clock.restart();
@@ -47,9 +58,9 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			{
 				if (event.key.code == sf::Keyboard::Tilde)
 				{
-					float a, b;
-					std::cin >> a >> b;
-					player.move({ a,b });
+					float aa, bb;
+					std::cin >> aa >> bb;
+					player.move({ aa,-1*bb });
 				}
 				if (event.key.code == sf::Keyboard::G)
 				{

@@ -1,2 +1,3 @@
-Kolizje
-Poruszanie siê gracza vs poruszanie siê mapy, kamera?
+Interakcje ze skoœnymi platformami (lepsze podbieganie i zbieganie, zsuwanie siê od pewnego k¹ta)
+Uwzglêdnienie masy w fizyce
+Bezw³adniœæ przy ruszaniu i zatrzymywaniu siê (w move daæ apply_force)

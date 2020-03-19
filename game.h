@@ -1,5 +1,4 @@
 #pragma once
-
 #include "core.h"
 
 class Platform : public Texturable, public Colidable
