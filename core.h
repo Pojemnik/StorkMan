@@ -256,12 +256,14 @@ private:
 		float PUDrPLY, float PLYrPST, float MIErLUD, float LUDrLLY,
 		float LLYrLST, float PPRrSKP, float LPRrSKL, float MIErOGO);
 public:
-	Dynamic_animatable(std::vector<sf::Texture>& v, Vectorf p, std::vector<Dynamic_animation*> a, float h, float gs);
+	Dynamic_animatable(std::vector<sf::Texture*>& v, Vectorf p, std::vector<Dynamic_animation*> a, float h, float gs);
 	void next_frame();
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
-};
-class Texture_holder {
+
+
+class Texture_holder
+{
 	sf::Texture tex;
 	sf::VertexBuffer buff;
 	int a, b, c, d;

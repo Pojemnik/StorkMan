@@ -5,10 +5,10 @@ class Assets
 {
 public:
 	std::vector<sf::Texture> map_textures;
-	Animation* stork_run;
-	Animation* stork_idle;
-	Animation* stork_jump_run;
-	Animation* stork_jump_idle;
+	Animation* stork_run = NULL;
+	Animation* stork_idle = NULL;
+	Animation* stork_jump_run = NULL;
+	Animation* stork_jump_idle = NULL;
 	Animation ship_dockx;
 	Animation ship_docky;
 	Animation ship_fly;
@@ -17,7 +17,7 @@ public:
 	Animation ship_undockx;
 	Animation ship_undocky;
 	Animation ship_ret_hdmi;
-	std::vector<sf::Texture> pieces;
+	std::vector<sf::Texture*> pieces;
 	std::map<std::string, const sf::Texture*> textures;
 	void load_assets();
 

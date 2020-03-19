@@ -78,7 +78,7 @@ void Physical::apply_force(Vectorf f)
 
 void Physical::uncolide(const Colidable* c)
 {
-	
+
 	/*
 	Vectorf tab[6] = { {0, -0.6f},  {0, -0.6f}, {-0.6f, 1.2}, {-0.6f, 0}, {0, -0.6f}, {0, -0.6f} };
 	int i = 0;
@@ -103,8 +103,8 @@ void Physical::uncolide(const Colidable* c)
 	{
 		sf::Vector2f tmp = test(&mesh_collision, &c->mesh_collision);
 		move(tmp * -1.0f);
-		colision_direction.x= sgn(tmp.x);
-		colision_direction.y= sgn(tmp.y);
+		colision_direction.x = sgn(tmp.x);
+		colision_direction.y = sgn(tmp.y);
 		if (abs(tmp.x) > 0.0001)
 		{
 			force.x = 0;
@@ -115,7 +115,7 @@ void Physical::uncolide(const Colidable* c)
 		}
 		update_position();
 	}
-	
+
 }
 
 Physical::Physical(sf::FloatRect rect, std::vector<Vectorf> mesh, Colidable_type t, float m) : Colidable(rect, mesh, t), mass(m)
@@ -158,8 +158,7 @@ bool Physical::test_colision(const Colidable& other)
 
 	}
 	*/
-	return testBollean(&mesh_collision,&other.mesh_collision);
-	return false;
+	return testBollean(&mesh_collision, &other.mesh_collision);
 }
 
 Vectorf Dynamic_animatable::count_pos(Vectorf start, float size1, float size2,
@@ -216,37 +215,37 @@ void Dynamic_animatable::animate(float x, float y, float r, float KLArGLO, float
 	LDL.pos = count_pos(LPR.pos, 128, 128, stork_var.LPRxLDL, stork_var.LPRyLDL, rdn(LPR.r), stork_var.LDLxLPR, stork_var.LDLyLPR, rdn(LDL.r));
 	PUD.r = MIE.r + MIErPUD;
 	PUD.pos = count_pos(MIE.pos, 128, 128, stork_var.MIExPUD, stork_var.MIEyPUD, rdn(MIE.r), stork_var.PUDxMIE, stork_var.PUDyMIE, rdn(PUD.r));
-	LUD.r = MIE.r + MIErLUD;																												  
+	LUD.r = MIE.r + MIErLUD;
 	LUD.pos = count_pos(MIE.pos, 128, 128, stork_var.MIExLUD, stork_var.MIEyLUD, rdn(MIE.r), stork_var.LUDxMIE, stork_var.LUDyMIE, rdn(LUD.r));
-	PLY.r = PUD.r + PUDrPLY;																												  
+	PLY.r = PUD.r + PUDrPLY;
 	PLY.pos = count_pos(PUD.pos, 128, 128, stork_var.PUDxPLY, stork_var.PUDyPLY, rdn(PUD.r), stork_var.PLYxPUD, stork_var.PLYyPUD, rdn(PLY.r));
-	LLY.r = LUD.r + LUDrLLY;																												  
+	LLY.r = LUD.r + LUDrLLY;
 	LLY.pos = count_pos(LUD.pos, 128, 128, stork_var.LUDxLLY, stork_var.LUDyLLY, rdn(LUD.r), stork_var.LLYxLUD, stork_var.LLYyLUD, rdn(LLY.r));
-	PST.r = PLY.r + PLYrPST;																												  
+	PST.r = PLY.r + PLYrPST;
 	PST.pos = count_pos(PLY.pos, 128, 128, stork_var.PLYxPST, stork_var.PLYyPST, rdn(PLY.r), stork_var.PSTxPLY, stork_var.PSTyPLY, rdn(PST.r));
-	LST.r = LLY.r + LLYrLST;																												  
+	LST.r = LLY.r + LLYrLST;
 	LST.pos = count_pos(LLY.pos, 128, 128, stork_var.LLYxLST, stork_var.LLYyLST, rdn(LLY.r), stork_var.LSTxLLY, stork_var.LSTyLLY, rdn(LST.r));
-	SP1.r = PPR.r + PPRrSKP;																												  
+	SP1.r = PPR.r + PPRrSKP;
 	SP1.pos = count_pos(PPR.pos, 128, 128, stork_var.PPRxSK1, stork_var.PPRySK1, rdn(PPR.r), stork_var.SKRxPRZ, stork_var.SKRyPRZ, rdn(SP1.r));
-	SP2.r = PPR.r + PPRrSKP;																												  
+	SP2.r = PPR.r + PPRrSKP;
 	SP2.pos = count_pos(PPR.pos, 128, 128, stork_var.PPRxSK2, stork_var.PPRySK2, rdn(PPR.r), stork_var.SKRxPRZ, stork_var.SKRyPRZ, rdn(SP2.r));
-	SP3.r = PPR.r + PPRrSKP;																												  
+	SP3.r = PPR.r + PPRrSKP;
 	SP3.pos = count_pos(PPR.pos, 128, 128, stork_var.PPRxSK3, stork_var.PPRySK3, rdn(PPR.r), stork_var.SKRxPRZ, stork_var.SKRyPRZ, rdn(SP3.r));
-	SP4.r = PPR.r + PPRrSKP;																												  
+	SP4.r = PPR.r + PPRrSKP;
 	SP4.pos = count_pos(PPR.pos, 128, 128, stork_var.PPRxSK4, stork_var.PPRySK4, rdn(PPR.r), stork_var.SKRxPRZ, stork_var.SKRyPRZ, rdn(SP4.r));
-	SP5.r = PPR.r + PPRrSKP;																												  
+	SP5.r = PPR.r + PPRrSKP;
 	SP5.pos = count_pos(PPR.pos, 128, 128, stork_var.PPRxSK5, stork_var.PPRySK5, rdn(PPR.r), stork_var.SKRxPRZ, stork_var.SKRyPRZ, rdn(SP5.r));
-	SL1.r = LPR.r + LPRrSKL;																												  
+	SL1.r = LPR.r + LPRrSKL;
 	SL1.pos = count_pos(LPR.pos, 128, 128, stork_var.LPRxSK1, stork_var.LPRySK1, rdn(LPR.r), stork_var.SKRxPRZ, stork_var.SKRyPRZ, rdn(SL1.r));
-	SL2.r = LPR.r + LPRrSKL;																												  
+	SL2.r = LPR.r + LPRrSKL;
 	SL2.pos = count_pos(LPR.pos, 128, 128, stork_var.LPRxSK2, stork_var.LPRySK2, rdn(LPR.r), stork_var.SKRxPRZ, stork_var.SKRyPRZ, rdn(SL2.r));
-	SL3.r = LPR.r + LPRrSKL;																												  
+	SL3.r = LPR.r + LPRrSKL;
 	SL3.pos = count_pos(LPR.pos, 128, 128, stork_var.LPRxSK3, stork_var.LPRySK3, rdn(LPR.r), stork_var.SKRxPRZ, stork_var.SKRyPRZ, rdn(SL3.r));
-	SL4.r = LPR.r + LPRrSKL;																														  
+	SL4.r = LPR.r + LPRrSKL;
 	SL4.pos = count_pos(LPR.pos, 128, 128, stork_var.LPRxSK4, stork_var.LPRySK4, rdn(LPR.r), stork_var.SKRxPRZ, stork_var.SKRyPRZ, rdn(SL4.r));
-	SL5.r = LPR.r + LPRrSKL;																	  
+	SL5.r = LPR.r + LPRrSKL;
 	SL5.pos = count_pos(LPR.pos, 128, 128, stork_var.LPRxSK5, stork_var.LPRySK5, rdn(LPR.r), stork_var.SKRxPRZ, stork_var.SKRyPRZ, rdn(SL5.r));
-	OGO.r = MIE.r + MIErOGO;																	  
+	OGO.r = MIE.r + MIErOGO;
 	OGO.pos = count_pos(MIE.pos, 128, 128, stork_var.MIExOGO, stork_var.MIEyOGO, rdn(MIE.r), stork_var.OGOxMIE, stork_var.OGOyMIE, rdn(OGO.r));
 
 	parts[BELLY].setRotation(BRZ.r);
@@ -305,7 +304,7 @@ void Dynamic_animatable::animate(float x, float y, float r, float KLArGLO, float
 	parts[L_WING_5].setPosition(SL5.pos.x, SL5.pos.y);
 	parts[TAIL].setPosition(OGO.pos.x, OGO.pos.y);
 
-	tex.clear(sf::Color(0,0,0,0));
+	tex.clear(sf::Color(0, 0, 0, 0));
 	tex.draw(parts[L_ARM]);
 	tex.draw(parts[L_WING_1]);
 	tex.draw(parts[L_WING_2]);
@@ -338,7 +337,7 @@ void Dynamic_animatable::animate(float x, float y, float r, float KLArGLO, float
 	sprite.setScale(scale, scale);
 }
 
-Dynamic_animatable::Dynamic_animatable(std::vector<sf::Texture>& v, Vectorf p, std::vector<Dynamic_animation*> a, float h, float gs) : pos(p), height(h), animations(a)
+Dynamic_animatable::Dynamic_animatable(std::vector<sf::Texture*>& v, Vectorf p, std::vector<Dynamic_animation*> a, float h, float gs) : pos(p), height(h), animations(a)
 {
 	status = Animation_status::A_IDLE;
 	key = 0;
@@ -348,7 +347,7 @@ Dynamic_animatable::Dynamic_animatable(std::vector<sf::Texture>& v, Vectorf p, s
 	actual_frame = *last_key;
 	for (int i = 0; i < v.size(); i++)
 	{
-		parts.push_back(sf::Sprite(v[i]));
+		parts.push_back(sf::Sprite(*v[i]));
 		parts[i].setOrigin(64, 64);
 	}
 	scale = gs * height / 500;
@@ -362,7 +361,7 @@ void Dynamic_animatable::next_frame()
 	{
 		for (int i = 0; i < 21; i++)
 		{
-			actual_frame[i] = actual_frame[i] + ((*next_key)[i] - actual_frame[i])/frames_delta;
+			actual_frame[i] = actual_frame[i] + ((*next_key)[i] - actual_frame[i]) / frames_delta;
 		}
 		frames_delta--;
 	}
@@ -372,7 +371,7 @@ void Dynamic_animatable::next_frame()
 		actual_frame = *last_key;
 		if (++key >= animations[status]->key_frames.size())
 		{
-			frames_delta = animations[status]->lengths[key-1];
+			frames_delta = animations[status]->lengths[key - 1];
 			key = 0;
 		}
 		else
@@ -391,7 +390,6 @@ void Dynamic_animatable::draw(sf::RenderTarget& target, sf::RenderStates states)
 
 Dynamic_animation::Dynamic_animation(std::vector<std::array<float, 21>>& kf, std::vector<int>& l) : key_frames(kf), lengths(l)
 {
-}
 }
 
 Texture_holder::Texture_holder(std::string path)
@@ -424,7 +422,7 @@ Texture_holder::Texture_holder(std::string path)
 
 void Texture_holder::draw(sf::RenderTarget& target, sf::RenderStates states, int i)
 {
-	sf::Vertex tab[4] = { {i%c*a,i/c*b},{i % c * a+a,i / c * b},{i % c * a+a,i / c * b+b},{i % c * a,i / c * b+b} };
+	sf::Vertex tab[4] = { Vectorf(i % c * a,i / c * b), Vectorf(i % c * a + a,i / c * b), Vectorf(i % c * a + a,i / c * b + b), Vectorf(i % c * a,i / c * b + b) };
 	buff.update(tab);
 	states.texture = &tex;
 	target.draw(buff, states);

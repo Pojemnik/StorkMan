@@ -25,7 +25,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	if (argc == 2)	//Docelowo w tym miejscu powinien wczytywaæ tylko jeden level
 	{
 		tinyxml2::XMLDocument doc;
-		tinyxml2::XMLError tmp = doc.LoadFile(argv[1]);
+		tinyxml2::XMLError error = doc.LoadFile(argv[1]);
 		tinyxml2::XMLElement* root = doc.FirstChildElement();
 		map = parse_map(root, &assets);
 	}
