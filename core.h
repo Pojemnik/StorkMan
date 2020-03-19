@@ -10,6 +10,7 @@ typedef sf::Vector2i Vectori;
 const float PI = 3.1415927f;
 
 enum Entity_status { IDLE = 0, MOVE, JUMP_IDLE, JUMP_RUN, ATTACK, HIT };
+enum Animation_status { A_IDLE = 0, A_MOVE, A_JUMP_IDLE, A_JUMP_RUN, A_ATTACK, A_HIT };
 enum Colidable_type { GROUND, ENEMY, OTHER };
 enum Stork_parts {
 	BELLY = 0, L_HAND, R_HAND, HEAD, CHEST, L_CALF, R_CALF, PELVIS, L_FOREARM,
@@ -222,11 +223,10 @@ public:
 class New_animation
 {
 public:
-	std::vector<std::array<float, 18>> key_frames;
-	int length_sum;
-	std::vector<int> lengths;
+	const std::vector<std::array<float, 21>> key_frames;
+	const std::vector<int> lengths;
 
-	New_animation(std::vector<std::array<float, 18>>& kf, std::vector<int>& l);
+	New_animation(std::vector<std::array<float, 21>>& kf, std::vector<int>& l);
 };
 
 class New_animatable : public sf::Drawable
@@ -239,17 +239,25 @@ private:
 	float scale;
 	sf::RenderTexture tex;
 	sf::Sprite sprite;
+	std::vector<New_animation*> animations;
+	int key;
+	int frames_delta;
+	const std::array<float, 21>* last_key;
+	const std::array<float, 21>* next_key;
+	std::array<float, 21> actual_frame;
+	Animation_status status;
 	Vectorf count_pos(Vectorf start, float size1, float size2,
 		float translation_x1, float translation_y1, float angle1,
 		float translation_x2, float translation_y2, float angle2);
-public:
-	void animate(xyr start, std::array<float, 18> arr);
-	void animate(xyr start, float KLArGLO, float BRZrKLA,
+	void animate(std::array<float, 21> arr);
+	void animate(float x, float y, float r, float KLArGLO, float BRZrKLA,
 		float MIErBRZ, float KLArPRA, float PRArPPR, float PPRrPDL,
 		float KLArLRA, float LRArLPR, float LPRrLDL, float MIErPUD,
 		float PUDrPLY, float PLYrPST, float MIErLUD, float LUDrLLY,
 		float LLYrLST, float PPRrSKP, float LPRrSKL, float MIErOGO);
-	New_animatable(std::vector<sf::Texture>& v, Vectorf p, float h, float gs);
+public:
+	New_animatable(std::vector<sf::Texture>& v, Vectorf p, std::vector<New_animation*> a, float h, float gs);
 	void update();
+	void next_frame();
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

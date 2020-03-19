@@ -156,12 +156,12 @@ Vectorf New_animatable::count_pos(Vectorf start, float size1, float size2,
 	return Vectorf({ start.x + Lx1 - Lx2 + size1 / 2 - size2 / 2, start.y + Ly1 - Ly2 + size1 / 2 - size2 / 2 });
 }
 
-void New_animatable::animate(xyr start, std::array<float, 18> arr)
+void New_animatable::animate(std::array<float, 21> arr)
 {
-	animate(start, arr[0], arr[1], arr[2], arr[3], arr[4], arr[5], arr[6], arr[7], arr[8], arr[9], arr[10], arr[11], arr[12], arr[13], arr[14], arr[15], arr[16], arr[16]);
+	animate(arr[0], arr[1], arr[2], arr[3], arr[4], arr[5], arr[6], arr[7], arr[8], arr[9], arr[10], arr[11], arr[12], arr[13], arr[14], arr[15], arr[16], arr[17], arr[18], arr[19], arr[20]);
 }
 
-void New_animatable::animate(xyr start, float KLArGLO, float BRZrKLA,
+void New_animatable::animate(float x, float y, float r, float KLArGLO, float BRZrKLA,
 	float MIErBRZ, float KLArPRA, float PRArPPR, float PPRrPDL,
 	float KLArLRA, float LRArLPR, float LPRrLDL, float MIErPUD,
 	float PUDrPLY, float PLYrPST, float MIErLUD, float LUDrLLY,
@@ -170,9 +170,9 @@ void New_animatable::animate(xyr start, float KLArGLO, float BRZrKLA,
 	xyr MIE, BRZ, KLA, GLO, LRA, PRA, PLY, LLY, PUD, LUD, LPR, PPR,
 		LST, PST, LDL, PDL, SL1, SL2, SL3, SL4, SL5, SP1, SP2, SP3,
 		SP4, SP5, OGO;
-	MIE.r = start.r;
-	MIE.pos.x = start.pos.x;
-	MIE.pos.y = start.pos.y;
+	MIE.r = r;
+	MIE.pos.x = x;
+	MIE.pos.y = y;
 	BRZ.r = MIE.r + MIErBRZ;
 	BRZ.pos = count_pos(MIE.pos, 128, 128, stork_var.MIExBRZ, stork_var.MIEyBRZ, rdn(MIE.r), stork_var.BRZxMIE, stork_var.BRZyMIE, rdn(BRZ.r));
 	KLA.r = BRZ.r + BRZrKLA;
@@ -281,22 +281,7 @@ void New_animatable::animate(xyr start, float KLArGLO, float BRZrKLA,
 	parts[L_WING_4].setPosition(SL4.pos.x, SL4.pos.y);
 	parts[L_WING_5].setPosition(SL5.pos.x, SL5.pos.y);
 	parts[TAIL].setPosition(OGO.pos.x, OGO.pos.y);
-}
 
-New_animatable::New_animatable(std::vector<sf::Texture>& v, Vectorf p, float h, float gs) : pos(p), height(h)
-{
-	for (int i = 0; i < v.size(); i++)
-	{
-		parts.push_back(sf::Sprite(v[i]));
-		parts[i].setOrigin(64, 64);
-	}
-	scale = gs * height / 500;
-	if (!tex.create(500, 500))
-		return;
-}
-
-void New_animatable::update()
-{
 	tex.clear(sf::Color());
 	tex.draw(parts[L_ARM]);
 	tex.draw(parts[L_WING_1]);
@@ -330,16 +315,56 @@ void New_animatable::update()
 	sprite.setScale(scale, scale);
 }
 
+New_animatable::New_animatable(std::vector<sf::Texture>& v, Vectorf p, std::vector<New_animation*> a, float h, float gs) : pos(p), height(h), animations(a)
+{
+	status = Animation_status::A_IDLE;
+	key = 0;
+	last_key = &animations[status]->key_frames[key];
+	frames_delta = animations[status]->lengths[key];
+	next_key = &animations[status]->key_frames[++key];
+	actual_frame = *last_key;
+	for (int i = 0; i < v.size(); i++)
+	{
+		parts.push_back(sf::Sprite(v[i]));
+		parts[i].setOrigin(64, 64);
+	}
+	scale = gs * height / 500;
+	if (!tex.create(500, 500))
+		return;
+}
+
+void New_animatable::update()
+{
+	sprite.setPosition(pos);
+}
+
+void New_animatable::next_frame()
+{
+	if (frames_delta > 1)
+	{
+		for (int i = 0; i < 21; i++)
+		{
+			actual_frame[i] = actual_frame[i] + ((*last_key)[i] - (*next_key)[i])/frames_delta;
+		}
+		frames_delta--;
+	}
+	else
+	{
+		last_key = next_key;
+		actual_frame = *last_key;
+		if (++key >= animations[status]->key_frames.size())
+			key = 0;
+		next_key = &animations[status]->key_frames[key];
+		frames_delta = animations[status]->lengths[key];
+	}
+	animate(actual_frame);
+}
+
 void New_animatable::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(sprite, states);
 }
 
-New_animation::New_animation(std::vector<std::array<float, 18>>& kf, std::vector<int>& l) : key_frames(kf), lengths(l)
+New_animation::New_animation(std::vector<std::array<float, 21>>& kf, std::vector<int>& l) : key_frames(kf), lengths(l)
 {
-	length_sum = 0;
-	for (const auto& it : l)
-	{
-		length_sum += it;
-	}
 }
