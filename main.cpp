@@ -86,7 +86,6 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		window.clear();
 		//Animations
 		player.next_frame();
-		stork2.next_frame();
 		//Physics
 		player.apply_force({ 0, gravity });
 		player.update();
@@ -106,7 +105,6 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		//window.draw(r,rs);
 		window.draw(map,rs);
 		window.draw(player,rs);
-		window.draw(stork2);
 		window.display();
 		while (clock.getElapsedTime().asMilliseconds() < 1000 / FPS);
 	}
