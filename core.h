@@ -220,16 +220,16 @@ public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
-class New_animation
+class Dynamic_animation
 {
 public:
 	const std::vector<std::array<float, 21>> key_frames;
 	const std::vector<int> lengths;
 
-	New_animation(std::vector<std::array<float, 21>>& kf, std::vector<int>& l);
+	Dynamic_animation(std::vector<std::array<float, 21>>& kf, std::vector<int>& l);
 };
 
-class New_animatable : public sf::Drawable
+class Dynamic_animatable : public sf::Drawable
 {
 private:
 	Vectorf pos;
@@ -239,7 +239,7 @@ private:
 	float scale;
 	sf::RenderTexture tex;
 	sf::Sprite sprite;
-	std::vector<New_animation*> animations;
+	std::vector<Dynamic_animation*> animations;
 	int key;
 	int frames_delta;
 	const std::array<float, 21>* last_key;
@@ -256,8 +256,7 @@ private:
 		float PUDrPLY, float PLYrPST, float MIErLUD, float LUDrLLY,
 		float LLYrLST, float PPRrSKP, float LPRrSKL, float MIErOGO);
 public:
-	New_animatable(std::vector<sf::Texture>& v, Vectorf p, std::vector<New_animation*> a, float h, float gs);
-	void update();
+	Dynamic_animatable(std::vector<sf::Texture>& v, Vectorf p, std::vector<Dynamic_animation*> a, float h, float gs);
 	void next_frame();
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

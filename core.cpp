@@ -5,11 +5,6 @@ float rdn(float s)
 	return(s / 180 * PI);
 }
 
-float stp(float r)
-{
-	return(r * 180 / PI);
-}
-
 Renderable::Renderable(Vectorf p, sf::Texture* t, float h) : tex(t), pos(p), height(h)
 {
 	sprite = sf::Sprite(*tex);
@@ -139,7 +134,7 @@ bool Physical::test_colision(const Colidable& other)
 	return false;
 }
 
-Vectorf New_animatable::count_pos(Vectorf start, float size1, float size2,
+Vectorf Dynamic_animatable::count_pos(Vectorf start, float size1, float size2,
 	float translation_x1, float translation_y1, float angle1,
 	float translation_x2, float translation_y2, float angle2)
 {
@@ -156,12 +151,12 @@ Vectorf New_animatable::count_pos(Vectorf start, float size1, float size2,
 	return Vectorf({ start.x + Lx1 - Lx2 + size1 / 2 - size2 / 2, start.y + Ly1 - Ly2 + size1 / 2 - size2 / 2 });
 }
 
-void New_animatable::animate(std::array<float, 21> arr)
+void Dynamic_animatable::animate(std::array<float, 21> arr)
 {
 	animate(arr[0], arr[1], arr[2], arr[3], arr[4], arr[5], arr[6], arr[7], arr[8], arr[9], arr[10], arr[11], arr[12], arr[13], arr[14], arr[15], arr[16], arr[17], arr[18], arr[19], arr[20]);
 }
 
-void New_animatable::animate(float x, float y, float r, float KLArGLO, float BRZrKLA,
+void Dynamic_animatable::animate(float x, float y, float r, float KLArGLO, float BRZrKLA,
 	float MIErBRZ, float KLArPRA, float PRArPPR, float PPRrPDL,
 	float KLArLRA, float LRArLPR, float LPRrLDL, float MIErPUD,
 	float PUDrPLY, float PLYrPST, float MIErLUD, float LUDrLLY,
@@ -282,7 +277,7 @@ void New_animatable::animate(float x, float y, float r, float KLArGLO, float BRZ
 	parts[L_WING_5].setPosition(SL5.pos.x, SL5.pos.y);
 	parts[TAIL].setPosition(OGO.pos.x, OGO.pos.y);
 
-	tex.clear(sf::Color());
+	tex.clear(sf::Color(0,0,0,0));
 	tex.draw(parts[L_ARM]);
 	tex.draw(parts[L_WING_1]);
 	tex.draw(parts[L_WING_2]);
@@ -315,7 +310,7 @@ void New_animatable::animate(float x, float y, float r, float KLArGLO, float BRZ
 	sprite.setScale(scale, scale);
 }
 
-New_animatable::New_animatable(std::vector<sf::Texture>& v, Vectorf p, std::vector<New_animation*> a, float h, float gs) : pos(p), height(h), animations(a)
+Dynamic_animatable::Dynamic_animatable(std::vector<sf::Texture>& v, Vectorf p, std::vector<Dynamic_animation*> a, float h, float gs) : pos(p), height(h), animations(a)
 {
 	status = Animation_status::A_IDLE;
 	key = 0;
@@ -333,18 +328,13 @@ New_animatable::New_animatable(std::vector<sf::Texture>& v, Vectorf p, std::vect
 		return;
 }
 
-void New_animatable::update()
-{
-	sprite.setPosition(pos);
-}
-
-void New_animatable::next_frame()
+void Dynamic_animatable::next_frame()
 {
 	if (frames_delta > 1)
 	{
 		for (int i = 0; i < 21; i++)
 		{
-			actual_frame[i] = actual_frame[i] + ((*last_key)[i] - (*next_key)[i])/frames_delta;
+			actual_frame[i] = actual_frame[i] + ((*next_key)[i] - actual_frame[i])/frames_delta;
 		}
 		frames_delta--;
 	}
@@ -353,18 +343,24 @@ void New_animatable::next_frame()
 		last_key = next_key;
 		actual_frame = *last_key;
 		if (++key >= animations[status]->key_frames.size())
+		{
+			frames_delta = animations[status]->lengths[key-1];
 			key = 0;
+		}
+		else
+		{
+			frames_delta = animations[status]->lengths[key];
+		}
 		next_key = &animations[status]->key_frames[key];
-		frames_delta = animations[status]->lengths[key];
 	}
 	animate(actual_frame);
 }
 
-void New_animatable::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void Dynamic_animatable::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(sprite, states);
 }
 
-New_animation::New_animation(std::vector<std::array<float, 21>>& kf, std::vector<int>& l) : key_frames(kf), lengths(l)
+Dynamic_animation::Dynamic_animation(std::vector<std::array<float, 21>>& kf, std::vector<int>& l) : key_frames(kf), lengths(l)
 {
 }
