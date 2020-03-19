@@ -6,6 +6,7 @@ float rdn(float s)
 	return(s / 180 * PI);
 }
 
+#include<sstream>
 Renderable::Renderable(Vectorf p, sf::Texture* t, float h) : tex(t), pos(p), height(h)
 {
 	sprite = sf::Sprite(*tex);
@@ -102,8 +103,8 @@ void Physical::uncolide(const Colidable* c)
 	{
 		sf::Vector2f tmp = test(&mesh_collision, &c->mesh_collision);
 		move(tmp * -1.0f);
-		colision_direction.x+= sgn(tmp.x);
-		colision_direction.y+= sgn(tmp.y);
+		colision_direction.x= sgn(tmp.x);
+		colision_direction.y= sgn(tmp.y);
 		if (abs(tmp.x) > 0.0001)
 		{
 			force.x = 0;
@@ -390,4 +391,41 @@ void Dynamic_animatable::draw(sf::RenderTarget& target, sf::RenderStates states)
 
 Dynamic_animation::Dynamic_animation(std::vector<std::array<float, 21>>& kf, std::vector<int>& l) : key_frames(kf), lengths(l)
 {
+}
+}
+
+Texture_holder::Texture_holder(std::string path)
+{
+	int l = path.rfind("_ss_");
+	if (l == std::string::npos)
+	{
+		l = -1;
+	}
+	l++;
+	int r = path.find(".", l);
+	std::string tmp = path.substr(l, r - l);
+	for (auto& it : tmp)
+	{
+		if (it > '9' || it < '0')
+			it = ' ';
+
+	}
+	std::stringstream tmps(tmp);
+	if (!(tmps >> a >> b >> c >> d))
+	{
+		std::cout << "error reading sizes " + path << std::endl;
+		return;
+	}
+	tex.loadFromFile(path);
+	buff.create(4);
+	buff.setPrimitiveType(sf::TriangleFan);
+	buff.setUsage(sf::VertexBuffer::Stream);
+}
+
+void Texture_holder::draw(sf::RenderTarget& target, sf::RenderStates states, int i)
+{
+	sf::Vertex tab[4] = { {i%c*a,i/c*b},{i % c * a+a,i / c * b},{i % c * a+a,i / c * b+b},{i % c * a,i / c * b+b} };
+	buff.update(tab);
+	states.texture = &tex;
+	target.draw(buff, states);
 }

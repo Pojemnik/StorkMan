@@ -260,3 +260,12 @@ public:
 	void next_frame();
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
+};
+class Texture_holder {
+	sf::Texture tex;
+	sf::VertexBuffer buff;
+	int a, b, c, d;
+public:
+	Texture_holder(std::string path);
+	void draw(sf::RenderTarget& target, sf::RenderStates states, int i);
+};
