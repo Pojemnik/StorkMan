@@ -14,7 +14,7 @@ private:
 	bool reset_animation = false;
 
 public:
-	Entity_status status;
+	Entity_status animation_status;
 	void set_animation(const Animation* t);
 	Entity(Vectorf p, std::vector<const Animation*> t, float h, float gs, float m);
 	void move(Vectorf delta);

@@ -7,7 +7,7 @@ Platform::Platform(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> poin
 	maxy = miny = vertices[0].position.y;
 	for (auto it : vertices)
 	{
-		mesh_collision.push_back({ it.position.x + pos.x, it.position.y + pos.y});
+		mesh_collision.push_back({ it.position.x + pos.x, it.position.y + pos.y });
 		if (it.position.x < minx)
 			minx = it.position.x;
 		if (it.position.y < miny)
@@ -24,7 +24,7 @@ Player::Player(Vectorf p, std::vector<const Animation* > t, float h, float gs, f
 
 Entity::Entity(Vectorf p, std::vector<const Animation* > t, float h, float gs, float m) : Animatable(p, t[0], h, gs), animations(t)
 {
-	status = Entity_status::IDLE;
+	animation_status = Entity_status::IDLE;
 	rect_collision = sf::FloatRect(tex->rect_collision.left * scale + p.x, tex->rect_collision.top * scale + p.y, tex->rect_collision.width * scale, tex->rect_collision.height * scale);
 	mesh_collision = std::vector<Vectorf>();
 	mesh_collision.push_back({ tex->rect_collision.left * scale + p.x, tex->rect_collision.top * scale + p.y });
@@ -36,7 +36,15 @@ Entity::Entity(Vectorf p, std::vector<const Animation* > t, float h, float gs, f
 
 void Entity::move(Vectorf delta)
 {
-	speed += delta;
+	move_force += delta;
+	if (delta.x > 0 && move_speed.x < MIN_MOVE_SPEED.x)
+		move_speed.x = MIN_MOVE_SPEED.x;
+	if (delta.x < 0 && move_speed.x > -MIN_MOVE_SPEED.x)
+		move_speed.x = -MIN_MOVE_SPEED.x;
+	if (colision_direction.y == 1)
+	{
+		animation_status = Entity_status::MOVE;
+	}
 }
 
 void Entity::jump()
@@ -44,14 +52,14 @@ void Entity::jump()
 	if (colision_direction.y == 1)
 	{
 		apply_force({ 0, -20 });
-		if (status == Entity_status::IDLE || status == Entity_status::JUMP_IDLE)
+		if (animation_status == Entity_status::IDLE || animation_status == Entity_status::JUMP_IDLE)
 		{
-			status = Entity_status::JUMP_IDLE;
+			animation_status = Entity_status::JUMP_IDLE;
 			reset_animation = true;
 		}
-		if (status == Entity_status::MOVE || status == Entity_status::JUMP_RUN)
+		if (animation_status == Entity_status::MOVE || animation_status == Entity_status::JUMP_RUN)
 		{
-			status = Entity_status::JUMP_RUN;
+			animation_status = Entity_status::JUMP_RUN;
 			reset_animation = true;
 		}
 
@@ -60,19 +68,19 @@ void Entity::jump()
 
 void Entity::next_frame()
 {
-	if (&*tex != &*animations[status] || reset_animation)
+	if (&*tex != &*animations[animation_status] || reset_animation)
 	{
-		set_animation(animations[status]);
+		set_animation(animations[animation_status]);
 		sf::Vector2u size = it->getSize();
 		sprite.setTextureRect(sf::IntRect(0, 0, size.x, size.y));
 		reset_animation = false;
 	}
 	if (++it == tex->end())
 	{
-		if (status != Entity_status::MOVE)
+		if (animation_status != Entity_status::MOVE)
 		{
-			status = Entity_status::IDLE;
-			set_animation(animations[status]);
+			animation_status = Entity_status::IDLE;
+			set_animation(animations[animation_status]);
 		}
 		else
 			it = tex->begin();
@@ -82,13 +90,48 @@ void Entity::next_frame()
 
 void Entity::update()
 {
-	int s = sgn(speed.x);
+	move_speed += move_force;
+	if (move_speed.x > MAX_MOVE_SPEED.x)
+		move_speed.x = MAX_MOVE_SPEED.x;
+	if (move_speed.x < -MAX_MOVE_SPEED.x)
+		move_speed.x = -MAX_MOVE_SPEED.x;
+	if (move_speed.y > MAX_MOVE_SPEED.y)
+		move_speed.y = MAX_MOVE_SPEED.y;
+	if (move_speed.y < -MAX_MOVE_SPEED.y)
+		move_speed.y = -MAX_MOVE_SPEED.y;
+	total_speed += force;
+	last_speed = total_speed;
+	if (move_force == Vectorf(0, 0))
+	{
+		if (move_speed.x > 0)
+			move_speed.x -= MOVE_SPEED_REDUCTION.x;
+		if (move_speed.x < 0)
+			move_speed.x += MOVE_SPEED_REDUCTION.x;
+		if (move_speed.y > 0)
+			move_speed.y -= MOVE_SPEED_REDUCTION.y;
+		if (move_speed.y < 0)
+			move_speed.y += MOVE_SPEED_REDUCTION.y;
+		if (fabs(move_speed.x) < 1)
+		{
+			move_speed.x = 0;
+			if (animation_status == Entity_status::MOVE)
+				animation_status = Entity_status::IDLE;
+		}
+		if (fabs(move_speed.y) < 1)
+		{
+			move_speed.y = 0;
+			if (animation_status == Entity_status::MOVE)
+				animation_status = Entity_status::IDLE;
+		}
+	}
+	total_speed += move_speed;
+	int s = sgn(total_speed.x);
 	if (direction != s && s != 0)
 	{
 		Vectorf tmp = sprite.getScale();
 		tmp.x *= -1;
 		scale = -scale;
-		speed = { speed.x * 2, speed.y * 2 };
+		total_speed = { total_speed.x * 2, total_speed.y * 2 };
 		if (s == -1)
 		{
 			sprite.setOrigin(sprite.getLocalBounds().width, 0);
@@ -106,23 +149,20 @@ void Entity::update()
 		force.x = max_force;
 	if (force.y > max_force)
 		force.y = max_force;
-	speed += force;
-	last_speed = speed;
+	if (force.x < -max_force)
+		force.x = -max_force;
+	if (force.y < -max_force)
+		force.y = -max_force;
+	if (colision_direction.y == 1 && (animation_status == Entity_status::JUMP_IDLE || animation_status == Entity_status::JUMP_RUN))
+		animation_status = Entity_status::IDLE;
 	update_position();
-	if (last_speed.x != 0 && last_speed.y >= 0 && colision_direction.y == 1)
-	{
-		status = Entity_status::MOVE;
-	}
-	if (last_speed.x == 0 && last_speed.y >= 0 && colision_direction.y == 1)
-	{
-		status = Entity_status::IDLE;
-	}
+	move_force = { 0,0 };
 	colision_direction = { 0,0 };
 }
 
 void Entity::update_position()
 {
-	pos += speed;
+	pos += total_speed;
 	sprite.setPosition(pos);
 	if (scale > 0)
 	{
@@ -131,13 +171,13 @@ void Entity::update_position()
 	else
 	{
 		rect_collision = sf::FloatRect((tex->rect_collision.left) * -scale + pos.x, (540 - tex->rect_collision.top) * -scale + pos.y, tex->rect_collision.width * -scale, tex->rect_collision.height * scale);
-	}	
+	}
 	mesh_collision = std::vector<Vectorf>();
-	mesh_collision.push_back({ rect_collision.left, rect_collision.top});
-	mesh_collision.push_back({ rect_collision.left + rect_collision.width, rect_collision.top});
-	mesh_collision.push_back({ rect_collision.left + rect_collision.width, rect_collision.top + rect_collision.height});
+	mesh_collision.push_back({ rect_collision.left, rect_collision.top });
+	mesh_collision.push_back({ rect_collision.left + rect_collision.width, rect_collision.top });
+	mesh_collision.push_back({ rect_collision.left + rect_collision.width, rect_collision.top + rect_collision.height });
 	mesh_collision.push_back({ rect_collision.left, rect_collision.top + rect_collision.height });
-	speed = { 0,0 };
+	total_speed = { 0,0 };
 }
 Vectorf Entity::get_position()
 {

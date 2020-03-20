@@ -158,10 +158,15 @@ class Physical : public Transformable, public Colidable
 {
 protected:
 	float mass;
-	Vectorf speed;
+	Vectorf total_speed;
+	Vectorf move_speed;
 	Vectorf last_speed = { 0,0 };
 	Vectorf force;
+	Vectorf move_force;
 	Vectori colision_direction = { 0,0 };
+	const Vectorf MIN_MOVE_SPEED = { 2,0 };
+	const Vectorf MAX_MOVE_SPEED = { 5,5 };
+	const Vectorf MOVE_SPEED_REDUCTION = { 0.5f, 0.5f };
 public:
 	virtual void update() = 0;
 	virtual void update_position() = 0;

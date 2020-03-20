@@ -102,7 +102,7 @@ void Physical::uncolide(const Colidable* c)
 	else
 	{
 		sf::Vector2f tmp = test(&mesh_collision, &c->mesh_collision);
-		move(tmp * -1.0f);
+		total_speed += tmp * -1.0f;
 		colision_direction.x = sgn(tmp.x);
 		colision_direction.y = sgn(tmp.y);
 		if (abs(tmp.x) > 0.0001)
