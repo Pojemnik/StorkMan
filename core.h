@@ -244,13 +244,14 @@ private:
 	float scale;
 	sf::RenderTexture tex;
 	sf::Sprite sprite;
-	std::vector<Dynamic_animation*> animations;
+	std::vector<const Dynamic_animation*> animations;
 	int key;
 	int frames_delta;
 	const std::array<float, 21>* last_key;
 	const std::array<float, 21>* next_key;
 	std::array<float, 21> actual_frame;
 	Animation_status status;
+	const int ANIMATION_CHANGE_DELTA = 10;
 	Vectorf count_pos(Vectorf start, float size1, float size2,
 		float translation_x1, float translation_y1, float angle1,
 		float translation_x2, float translation_y2, float angle2);
@@ -261,8 +262,9 @@ private:
 		float PUDrPLY, float PLYrPST, float MIErLUD, float LUDrLLY,
 		float LLYrLST, float PPRrSKP, float LPRrSKL, float MIErOGO);
 public:
-	Dynamic_animatable(std::vector<sf::Texture*>& v, Vectorf p, std::vector<Dynamic_animation*> a, float h, float gs);
+	Dynamic_animatable(std::vector<sf::Texture*>& v, Vectorf p, std::vector<const Dynamic_animation*> a, float h, float gs);
 	void next_frame();
+	void set_animation(Animation_status s);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 

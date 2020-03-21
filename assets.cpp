@@ -25,6 +25,25 @@ Animation* Assets::load_animation(std::string path, Vectorf center, sf::FloatRec
 	return a;
 }
 
+Dynamic_animation* Assets::load_dynamic_animation(std::string path)
+{
+	std::ifstream f(path);
+	int n;
+	f >> n;
+	std::vector<std::array<float, 21>> kf(n);
+	std::vector<int> l(n);
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < 21; j++)
+		{
+			f >> kf[i][j];
+		}
+	}
+	for (int i = 0; i < n; i++)
+		f >> l[i];
+	return new Dynamic_animation(kf, l);
+}
+
 void Assets::load_textures(std::vector<sf::Texture>& v, std::string path, bool rep)
 {
 	int a, b, c, d;
@@ -98,6 +117,10 @@ void Assets::load_assets()
 	pieces[L_WING_4] = pieces[R_WING_1];
 	pieces[L_WING_5] = pieces[R_WING_1];
 	pieces[TAIL]->loadFromFile("img/stork/parts/OGON_ST_00.png");
+	animations.push_back(load_dynamic_animation("animations/stork/idle.txt"));
+	animations.push_back(load_dynamic_animation("animations/stork/run.txt"));
+	animations.push_back(load_dynamic_animation("animations/stork/jump_idle.txt"));
+	animations.push_back(load_dynamic_animation("animations/stork/jump_run.txt"));
 	stork_run = load_animation("img/new_a/run_ss_512_512_is_8_10.png", { 0, 0 },tmp);
 	stork_idle = load_animation("img/new_a/idle_ss_512_512_is_10_12.png", { 0, 0 },tmp);
 	stork_jump_run = load_animation("img/new_a/jump_run_short_ss_512_512_is_10_10.png", { 0, 0 },tmp);

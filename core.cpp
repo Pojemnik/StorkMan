@@ -276,33 +276,33 @@ void Dynamic_animatable::animate(float x, float y, float r, float KLArGLO, float
 	parts[R_WING_5].setRotation(SP5.r);
 	parts[TAIL].setRotation(OGO.r);
 
-	parts[BELLY].setPosition(BRZ.pos.x, BRZ.pos.y);
-	parts[L_HAND].setPosition(LDL.pos.x, LDL.pos.y);
-	parts[R_HAND].setPosition(PDL.pos.x, PDL.pos.y);
-	parts[HEAD].setPosition(GLO.pos.x, GLO.pos.y);
-	parts[CHEST].setPosition(KLA.pos.x, KLA.pos.y);
-	parts[L_CALF].setPosition(LLY.pos.x, LLY.pos.y);
-	parts[R_CALF].setPosition(PLY.pos.x, PLY.pos.y);
-	parts[PELVIS].setPosition(MIE.pos.x, MIE.pos.y);
-	parts[L_FOREARM].setPosition(LPR.pos.x, LPR.pos.y);
-	parts[R_FOREARM].setPosition(PPR.pos.x, PPR.pos.y);
-	parts[L_ARM].setPosition(LRA.pos.x, LRA.pos.y);
-	parts[R_ARM].setPosition(PRA.pos.x, PRA.pos.y);
-	parts[L_FOOT].setPosition(LST.pos.x, LST.pos.y);
-	parts[R_FOOT].setPosition(PST.pos.x, PST.pos.y);
-	parts[L_TIGH].setPosition(LUD.pos.x, LUD.pos.y);
-	parts[R_TIGH].setPosition(PUD.pos.x, PUD.pos.y);
-	parts[R_WING_1].setPosition(SP1.pos.x, SP1.pos.y);
-	parts[R_WING_2].setPosition(SP2.pos.x, SP2.pos.y);
-	parts[R_WING_3].setPosition(SP3.pos.x, SP3.pos.y);
-	parts[R_WING_4].setPosition(SP4.pos.x, SP4.pos.y);
-	parts[R_WING_5].setPosition(SP5.pos.x, SP5.pos.y);
-	parts[L_WING_1].setPosition(SL1.pos.x, SL1.pos.y);
-	parts[L_WING_2].setPosition(SL2.pos.x, SL2.pos.y);
-	parts[L_WING_3].setPosition(SL3.pos.x, SL3.pos.y);
-	parts[L_WING_4].setPosition(SL4.pos.x, SL4.pos.y);
-	parts[L_WING_5].setPosition(SL5.pos.x, SL5.pos.y);
-	parts[TAIL].setPosition(OGO.pos.x, OGO.pos.y);
+	parts[BELLY].setPosition(BRZ.pos);
+	parts[L_HAND].setPosition(LDL.pos);
+	parts[R_HAND].setPosition(PDL.pos);
+	parts[HEAD].setPosition(GLO.pos);
+	parts[CHEST].setPosition(KLA.pos);
+	parts[L_CALF].setPosition(LLY.pos);
+	parts[R_CALF].setPosition(PLY.pos);
+	parts[PELVIS].setPosition(MIE.pos);
+	parts[L_FOREARM].setPosition(LPR.pos);
+	parts[R_FOREARM].setPosition(PPR.pos);
+	parts[L_ARM].setPosition(LRA.pos);
+	parts[R_ARM].setPosition(PRA.pos);
+	parts[L_FOOT].setPosition(LST.pos);
+	parts[R_FOOT].setPosition(PST.pos);
+	parts[L_TIGH].setPosition(LUD.pos);
+	parts[R_TIGH].setPosition(PUD.pos);
+	parts[R_WING_1].setPosition(SP1.pos);
+	parts[R_WING_2].setPosition(SP2.pos);
+	parts[R_WING_3].setPosition(SP3.pos);
+	parts[R_WING_4].setPosition(SP4.pos);
+	parts[R_WING_5].setPosition(SP5.pos);
+	parts[L_WING_1].setPosition(SL1.pos);
+	parts[L_WING_2].setPosition(SL2.pos);
+	parts[L_WING_3].setPosition(SL3.pos);
+	parts[L_WING_4].setPosition(SL4.pos);
+	parts[L_WING_5].setPosition(SL5.pos);
+	parts[TAIL].setPosition(OGO.pos);
 
 	tex.clear(sf::Color(0, 0, 0, 0));
 	tex.draw(parts[L_ARM]);
@@ -337,7 +337,7 @@ void Dynamic_animatable::animate(float x, float y, float r, float KLArGLO, float
 	sprite.setScale(scale, scale);
 }
 
-Dynamic_animatable::Dynamic_animatable(std::vector<sf::Texture*>& v, Vectorf p, std::vector<Dynamic_animation*> a, float h, float gs) : pos(p), height(h), animations(a)
+Dynamic_animatable::Dynamic_animatable(std::vector<sf::Texture*>& v, Vectorf p, std::vector<const Dynamic_animation*> a, float h, float gs) : pos(p), height(h), animations(a)
 {
 	status = Animation_status::A_IDLE;
 	key = 0;
@@ -353,6 +353,14 @@ Dynamic_animatable::Dynamic_animatable(std::vector<sf::Texture*>& v, Vectorf p, 
 	scale = gs * height / 500;
 	if (!tex.create(500, 500))
 		return;
+}
+
+void Dynamic_animatable::set_animation(Animation_status s)
+{
+	status = s;
+	frames_delta = ANIMATION_CHANGE_DELTA;
+	key = 0;
+	next_key = &animations[status]->key_frames[0];
 }
 
 void Dynamic_animatable::next_frame()
