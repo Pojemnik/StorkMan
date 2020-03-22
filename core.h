@@ -158,11 +158,11 @@ class Physical : public Transformable, public Colidable
 {
 protected:
 	float mass;
-	Vectorf total_speed;
-	Vectorf move_speed;
+	Vectorf total_speed = { 0,0 };
+	Vectorf move_speed = { 0,0 };
 	Vectorf last_speed = { 0,0 };
-	Vectorf force;
-	Vectorf move_force;
+	Vectorf force = { 0,0 };
+	Vectorf move_force = { 0,0 };
 	Vectori colision_direction = { 0,0 };
 	const Vectorf MIN_MOVE_SPEED = { 2,0 };
 	const Vectorf MAX_MOVE_SPEED = { 5,5 };
@@ -236,7 +236,7 @@ public:
 
 class Dynamic_animatable : public sf::Drawable
 {
-private:
+protected:
 	Vectorf pos;
 	std::vector<sf::Sprite> parts;
 	int direction = 1;//x sign
@@ -251,7 +251,8 @@ private:
 	const std::array<float, 21>* next_key;
 	std::array<float, 21> actual_frame;
 	Animation_status status;
-	const int ANIMATION_CHANGE_DELTA = 10;
+	Animation_status last_status;
+	const int ANIMATION_CHANGE_DELTA = 15;
 	Vectorf count_pos(Vectorf start, float size1, float size2,
 		float translation_x1, float translation_y1, float angle1,
 		float translation_x2, float translation_y2, float angle2);

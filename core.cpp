@@ -334,12 +334,12 @@ void Dynamic_animatable::animate(float x, float y, float r, float KLArGLO, float
 	tex.draw(parts[R_HAND]);
 	tex.display();
 	sprite.setTexture(tex.getTexture());
-	sprite.setScale(scale, scale);
+	sprite.setScale(scale, fabs(scale));
 }
 
 Dynamic_animatable::Dynamic_animatable(std::vector<sf::Texture*>& v, Vectorf p, std::vector<const Dynamic_animation*> a, float h, float gs) : pos(p), height(h), animations(a)
 {
-	status = Animation_status::A_IDLE;
+	last_status = status = Animation_status::A_IDLE;
 	key = 0;
 	last_key = &animations[status]->key_frames[key];
 	frames_delta = animations[status]->lengths[key];
@@ -365,6 +365,10 @@ void Dynamic_animatable::set_animation(Animation_status s)
 
 void Dynamic_animatable::next_frame()
 {
+	if (last_status != status)
+	{
+		set_animation(status);
+	}
 	if (frames_delta > 1)
 	{
 		for (int i = 0; i < 21; i++)
@@ -389,6 +393,7 @@ void Dynamic_animatable::next_frame()
 		next_key = &animations[status]->key_frames[key];
 	}
 	animate(actual_frame);
+	last_status = status;
 }
 
 void Dynamic_animatable::draw(sf::RenderTarget& target, sf::RenderStates states) const

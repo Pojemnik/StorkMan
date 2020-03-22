@@ -121,10 +121,10 @@ void Assets::load_assets()
 	animations.push_back(load_dynamic_animation("animations/stork/run.txt"));
 	animations.push_back(load_dynamic_animation("animations/stork/jump_idle.txt"));
 	animations.push_back(load_dynamic_animation("animations/stork/jump_run.txt"));
-	stork_run = load_animation("img/new_a/run_ss_512_512_is_8_10.png", { 0, 0 },tmp);
-	stork_idle = load_animation("img/new_a/idle_ss_512_512_is_10_12.png", { 0, 0 },tmp);
-	stork_jump_run = load_animation("img/new_a/jump_run_short_ss_512_512_is_10_10.png", { 0, 0 },tmp);
-	stork_jump_idle = load_animation("img/new_a/jump_idle_short_ss_512_512_is_10_10.png", { 0, 0 },tmp);
+	//stork_run = load_animation("img/new_a/run_ss_512_512_is_8_10.png", { 0, 0 },tmp);
+	//stork_idle = load_animation("img/new_a/idle_ss_512_512_is_10_12.png", { 0, 0 },tmp);
+	//stork_jump_run = load_animation("img/new_a/jump_run_short_ss_512_512_is_10_10.png", { 0, 0 },tmp);
+	//stork_jump_idle = load_animation("img/new_a/jump_idle_short_ss_512_512_is_10_10.png", { 0, 0 },tmp);
 	load_textures(map_textures, "img/tex_ss_64_64_is_1_17.png", true);
 	//load_textures(ship_dockx, "img/ships/DokowanieX_ss_436_87_is_10_12.png", false);
 	//load_textures(ship_docky, "img/ships/DokowanieY_ss_443_442_is_15_20.png", false);

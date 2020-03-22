@@ -25,8 +25,22 @@ public:
 	Vectorf get_position();
 };
 
-class Player : public Entity
+class Dynamic_entity : public Dynamic_animatable, public Physical
+{
+private:
+	bool reset_animation = false;
+
+public:
+	Dynamic_entity(Vectorf p, std::vector<sf::Texture*>& v, std::vector<const Dynamic_animation*> a, sf::FloatRect rc, float h, float gs, float m);
+	void move(Vectorf delta);
+	void jump();
+	void update();
+	void update_position();
+	Vectorf get_position();
+};
+
+class Player : public Dynamic_entity
 {
 public:
-	Player(Vectorf p, std::vector<const Animation* > t, float h, float gs, float m);
+	Player(Vectorf p, std::vector<sf::Texture*>& v, std::vector<const Dynamic_animation*> a, sf::FloatRect rc, float h, float gs, float m);
 };

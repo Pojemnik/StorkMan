@@ -29,10 +29,9 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		tinyxml2::XMLElement* root = doc.FirstChildElement();
 		map = parse_map(root, &assets);
 	}
-	const std::vector<const Animation*> v = { assets.stork_idle, assets.stork_run, assets.stork_jump_idle, assets.stork_jump_run };
-	Player player({ 400, 100 }, v, 1.92f, global_scale, 87.f);
+	sf::FloatRect f(380, 55, 20, 70);
+	Player player({ 400, 100 }, assets.pieces,  assets.animations, f, 1.92f, global_scale, 87.f);
 	map.player = &player;
-	Dynamic_animatable stork2(assets.pieces, { 200,200 }, assets.animations, 1.92f, global_scale);
 	while (window.isOpen())
 	{
 		clock.restart();
@@ -48,9 +47,6 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			{
 				if (event.key.code == sf::Keyboard::Tilde)
 				{
-					int x;
-					std::cin >> x;
-					stork2.set_animation((Animation_status)x);
 				}
 				if (event.key.code == sf::Keyboard::G)
 				{
@@ -76,28 +72,25 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		window.clear();
 		//Animations
 		player.next_frame();
-		stork2.next_frame();
 		//Physics
 		player.apply_force({ 0, gravity });
-		player.update();
-		//stork2.update();
+		player.update();		
 		map.update();
 		/*
 		sf::ConvexShape r = sf::ConvexShape(4);
 		int i = 0;
 		for (auto& it : player.mesh_collision)
 			r.setPoint(i,it), i++;
-		r.setOutlineColor({255,255,255});
+		r.setOutlineColor({255,0,0});
 		*/
 		//Render
 		sf::Vector2f camera_pos=player.get_position();
 		camera_pos-=sf::Vector2f(512,288);
 		sf::RenderStates rs= sf::RenderStates::Default;
 		rs.transform = sf::Transform().translate(-camera_pos);
-		//window.draw(r,rs);
 		window.draw(map,rs);
 		window.draw(player,rs);
-		window.draw(stork2);
+		//window.draw(r, rs);
 		window.display();
 		while (clock.getElapsedTime().asMilliseconds() < 1000 / FPS);
 	}
