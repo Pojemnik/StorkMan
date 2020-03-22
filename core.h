@@ -252,7 +252,7 @@ protected:
 	std::array<float, 21> actual_frame;
 	Animation_status status;
 	Animation_status last_status;
-	const int ANIMATION_CHANGE_DELTA = 15;
+	const int ANIMATION_CHANGE_DELTA = 10;
 	Vectorf count_pos(Vectorf start, float size1, float size2,
 		float translation_x1, float translation_y1, float angle1,
 		float translation_x2, float translation_y2, float angle2);

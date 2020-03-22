@@ -36,6 +36,7 @@ public:
 	void jump();
 	void update();
 	void update_position();
+	void next_frame();
 	Vectorf get_position();
 };
 

@@ -268,13 +268,19 @@ void Dynamic_entity::update()
 		{
 			move_speed.x = 0;
 			if (status == Animation_status::A_MOVE)
+			{
 				status = Animation_status::A_IDLE;
+				reset_animation = true;
+			}
 		}
 		if (fabs(move_speed.y) < 1)
 		{
 			move_speed.y = 0;
 			if (status == Animation_status::A_MOVE)
+			{
 				status = Animation_status::A_IDLE;
+				reset_animation = true;
+			}
 		}
 	}
 	total_speed += move_speed;
@@ -306,9 +312,13 @@ void Dynamic_entity::update()
 		force.x = -max_force;
 	if (force.y < -max_force)
 		force.y = -max_force;
-	if (colision_direction.y == 1 && (status == Animation_status::A_JUMP_IDLE || status == Animation_status::A_JUMP_RUN))
+	if (colision_direction.y == 1 && (status == Animation_status::A_JUMP_IDLE  || status == Animation_status::A_JUMP_RUN) && last_status == status)
+	{ 
 		status = Animation_status::A_IDLE;
+		reset_animation = true;
+	}
 	update_position();
+	last_status = status;
 	move_force = { 0,0 };
 	colision_direction = { 0,0 };
 }
@@ -324,6 +334,17 @@ void Dynamic_entity::update_position()
 	mesh_collision.push_back({ rect_collision.left + rect_collision.width, rect_collision.top + rect_collision.height });
 	mesh_collision.push_back({ rect_collision.left, rect_collision.top + rect_collision.height });
 	total_speed = { 0,0 };
+}
+
+void Dynamic_entity::next_frame()
+{
+	if (reset_animation)
+	{
+		set_animation(status);
+		reset_animation = false;
+	}
+		
+	Dynamic_animatable::next_frame();
 }
 
 Vectorf Dynamic_entity::get_position()

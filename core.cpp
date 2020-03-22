@@ -383,7 +383,7 @@ void Dynamic_animatable::next_frame()
 		actual_frame = *last_key;
 		if (++key >= animations[status]->key_frames.size())
 		{
-			frames_delta = animations[status]->lengths[key - 1];
+			frames_delta = animations[status]->lengths.back();//Animation loop
 			key = 0;
 		}
 		else
@@ -393,7 +393,6 @@ void Dynamic_animatable::next_frame()
 		next_key = &animations[status]->key_frames[key];
 	}
 	animate(actual_frame);
-	last_status = status;
 }
 
 void Dynamic_animatable::draw(sf::RenderTarget& target, sf::RenderStates states) const
