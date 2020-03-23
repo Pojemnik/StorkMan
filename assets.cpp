@@ -121,6 +121,7 @@ void Assets::load_assets()
 	animations.push_back(load_dynamic_animation("animations/stork/run.txt"));
 	animations.push_back(load_dynamic_animation("animations/stork/jump_idle.txt"));
 	animations.push_back(load_dynamic_animation("animations/stork/jump_run.txt"));
+	animations.push_back(load_dynamic_animation("animations/stork/jump_run2.txt"));
 	//stork_run = load_animation("img/new_a/run_ss_512_512_is_8_10.png", { 0, 0 },tmp);
 	//stork_idle = load_animation("img/new_a/idle_ss_512_512_is_10_12.png", { 0, 0 },tmp);
 	//stork_jump_run = load_animation("img/new_a/jump_run_short_ss_512_512_is_10_10.png", { 0, 0 },tmp);

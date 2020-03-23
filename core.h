@@ -10,7 +10,7 @@ typedef sf::Vector2i Vectori;
 const float PI = 3.1415927f;
 
 enum Entity_status { IDLE = 0, MOVE, JUMP_IDLE, JUMP_RUN, ATTACK, HIT, IN_AIR };
-enum Animation_status { A_IDLE = 0, A_MOVE, A_JUMP_IDLE, A_JUMP_RUN, A_ATTACK, A_HIT };
+enum Animation_status { A_IDLE = 0, A_MOVE, A_JUMP_IDLE, A_JUMP_RUN, A_JUMP_RUN2, A_ATTACK, A_HIT };
 enum Colidable_type { GROUND, ENEMY, OTHER };
 enum Stork_parts {
 	BELLY = 0, L_HAND, R_HAND, HEAD, CHEST, L_CALF, R_CALF, PELVIS, L_FOREARM,
@@ -255,7 +255,7 @@ protected:
 	Animation_status last_animation_status;
 	Entity_status status;
 	Entity_status last_status;
-	const int ANIMATION_CHANGE_DELTA = 10;
+	const int ANIMATION_CHANGE_DELTA = 5;
 	Vectorf count_pos(Vectorf start, float size1, float size2,
 		float translation_x1, float translation_y1, float angle1,
 		float translation_x2, float translation_y2, float angle2);

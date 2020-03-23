@@ -59,11 +59,13 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 		{
-			player.move({0.1, 0});
+			if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+				player.move({0.1, 0});
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		{
-			player.move({-0.1, 0 });
+			if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+				player.move({-0.1, 0 });
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 		{

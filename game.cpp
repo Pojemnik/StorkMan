@@ -219,7 +219,7 @@ void Dynamic_entity::move(Vectorf delta)
 		move_speed.x = -MIN_MOVE_SPEED.x;
 	if(status == IDLE)
 		status = Entity_status::MOVE;
-	if (colision_direction.y == 1 && animation_status != Animation_status::A_JUMP_RUN)
+	if (colision_direction.y == 1 && animation_status != Animation_status::A_JUMP_RUN && animation_status != Animation_status::A_JUMP_RUN2)
 	{
 		animation_status = Animation_status::A_MOVE;
 	}
@@ -236,9 +236,12 @@ void Dynamic_entity::jump()
 			status = Entity_status::JUMP_IDLE;
 			reset_animation = true;
 		}
-		if (animation_status == Animation_status::A_MOVE || (animation_status == Animation_status::A_JUMP_RUN && last_status == IN_AIR))
+		if (animation_status == Animation_status::A_MOVE || ((animation_status == Animation_status::A_JUMP_RUN || animation_status == Animation_status::A_JUMP_RUN2) && last_status == IN_AIR))
 		{
-			animation_status = Animation_status::A_JUMP_RUN;
+			if(key == 1 || key == 2 || key == 3)
+				animation_status = Animation_status::A_JUMP_RUN;
+			else
+				animation_status = Animation_status::A_JUMP_RUN2;
 			status = Entity_status::JUMP_RUN;
 			reset_animation = true;
 		}
@@ -298,7 +301,7 @@ void Dynamic_entity::update()
 		apply_force({ 0, -20 });
 		status = IN_AIR;
 	}
-	if (animation_status == Animation_status::A_JUMP_RUN && key == 2 && frames_delta == 1)
+	if ((animation_status == Animation_status::A_JUMP_RUN || animation_status == Animation_status::A_JUMP_RUN2) && key == 2 && frames_delta == 1)
 	{
 		apply_force({ 0, -20 });
 		status = IN_AIR;
