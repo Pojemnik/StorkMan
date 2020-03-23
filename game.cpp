@@ -199,10 +199,10 @@ void Entity::set_animation(const Animation* t)
 
 Dynamic_entity::Dynamic_entity(Vectorf p, std::vector<sf::Texture*>& v, std::vector<const Dynamic_animation*> a, sf::FloatRect rc, float h, float gs, float m) : Dynamic_animatable(v, p, a, h, gs)
 {
-	status = Animation_status::A_IDLE;
+	animation_status = Animation_status::A_IDLE;
 	rect_collision = rc;
 	mesh_collision = std::vector<Vectorf>();
-	mesh_collision.push_back({ rect_collision.left, rect_collision.top});
+	mesh_collision.push_back({ rect_collision.left, rect_collision.top });
 	mesh_collision.push_back({ rect_collision.left + rect_collision.width, rect_collision.top });
 	mesh_collision.push_back({ rect_collision.left + rect_collision.width, rect_collision.top + rect_collision.height });
 	mesh_collision.push_back({ rect_collision.left, rect_collision.top + rect_collision.height });
@@ -217,9 +217,11 @@ void Dynamic_entity::move(Vectorf delta)
 		move_speed.x = MIN_MOVE_SPEED.x;
 	if (delta.x < 0 && move_speed.x > -MIN_MOVE_SPEED.x)
 		move_speed.x = -MIN_MOVE_SPEED.x;
-	if (colision_direction.y == 1)
+	if(status == IDLE)
+		status = Entity_status::MOVE;
+	if (colision_direction.y == 1 && animation_status != Animation_status::A_JUMP_RUN)
 	{
-		status = Animation_status::A_MOVE;
+		animation_status = Animation_status::A_MOVE;
 	}
 }
 
@@ -227,15 +229,17 @@ void Dynamic_entity::jump()
 {
 	if (colision_direction.y == 1)
 	{
-		apply_force({ 0, -20 });
-		if (status == Animation_status::A_IDLE || status == Animation_status::A_JUMP_IDLE)
+		//apply_force({ 0, -20 });
+		if (animation_status == Animation_status::A_IDLE || (animation_status == Animation_status::A_JUMP_IDLE && last_status == IN_AIR))
 		{
-			status = Animation_status::A_JUMP_IDLE;
+			animation_status = Animation_status::A_JUMP_IDLE;
+			status = Entity_status::JUMP_IDLE;
 			reset_animation = true;
 		}
-		if (status == Animation_status::A_MOVE || status == Animation_status::A_JUMP_RUN)
+		if (animation_status == Animation_status::A_MOVE || (animation_status == Animation_status::A_JUMP_RUN && last_status == IN_AIR))
 		{
-			status = Animation_status::A_JUMP_RUN;
+			animation_status = Animation_status::A_JUMP_RUN;
+			status = Entity_status::JUMP_RUN;
 			reset_animation = true;
 		}
 	}
@@ -252,8 +256,6 @@ void Dynamic_entity::update()
 		move_speed.y = MAX_MOVE_SPEED.y;
 	if (move_speed.y < -MAX_MOVE_SPEED.y)
 		move_speed.y = -MAX_MOVE_SPEED.y;
-	total_speed += force;
-	last_speed = total_speed;
 	if (move_force == Vectorf(0, 0))
 	{
 		if (move_speed.x > 0)
@@ -267,22 +269,42 @@ void Dynamic_entity::update()
 		if (fabs(move_speed.x) < 1)
 		{
 			move_speed.x = 0;
-			if (status == Animation_status::A_MOVE)
+			if (animation_status == Animation_status::A_MOVE)
 			{
-				status = Animation_status::A_IDLE;
+				animation_status = Animation_status::A_IDLE;
+				status = Entity_status::IDLE;
 				reset_animation = true;
 			}
 		}
 		if (fabs(move_speed.y) < 1)
 		{
 			move_speed.y = 0;
-			if (status == Animation_status::A_MOVE)
+			if (animation_status == Animation_status::A_MOVE)
 			{
-				status = Animation_status::A_IDLE;
+				animation_status = Animation_status::A_IDLE;
+				status = Entity_status::IDLE;
 				reset_animation = true;
 			}
 		}
 	}
+	if (colision_direction.y == 1 && status == IN_AIR && last_status == status)
+	{
+		animation_status = Animation_status::A_IDLE;
+		status = Entity_status::IDLE;
+		reset_animation = true;
+	}
+	if (animation_status == Animation_status::A_JUMP_IDLE && key == 2 && frames_delta == 15)
+	{
+		apply_force({ 0, -20 });
+		status = IN_AIR;
+	}
+	if (animation_status == Animation_status::A_JUMP_RUN && key == 2 && frames_delta == 1)
+	{
+		apply_force({ 0, -20 });
+		status = IN_AIR;
+	}
+	total_speed += force;
+	last_speed = total_speed;
 	total_speed += move_speed;
 	int s = sgn(total_speed.x);
 	if (direction != s && s != 0)
@@ -312,12 +334,8 @@ void Dynamic_entity::update()
 		force.x = -max_force;
 	if (force.y < -max_force)
 		force.y = -max_force;
-	if (colision_direction.y == 1 && (status == Animation_status::A_JUMP_IDLE  || status == Animation_status::A_JUMP_RUN) && last_status == status)
-	{ 
-		status = Animation_status::A_IDLE;
-		reset_animation = true;
-	}
 	update_position();
+	last_animation_status = animation_status;
 	last_status = status;
 	move_force = { 0,0 };
 	colision_direction = { 0,0 };
@@ -327,7 +345,7 @@ void Dynamic_entity::update_position()
 {
 	pos += total_speed;
 	sprite.setPosition(pos);
-	rect_collision = sf::FloatRect(rect_collision.left + total_speed.x, rect_collision.top + total_speed.y, rect_collision.width, rect_collision.height );
+	rect_collision = sf::FloatRect(rect_collision.left + total_speed.x, rect_collision.top + total_speed.y, rect_collision.width, rect_collision.height);
 	mesh_collision = std::vector<Vectorf>();
 	mesh_collision.push_back({ rect_collision.left, rect_collision.top });
 	mesh_collision.push_back({ rect_collision.left + rect_collision.width, rect_collision.top });
@@ -340,10 +358,10 @@ void Dynamic_entity::next_frame()
 {
 	if (reset_animation)
 	{
-		set_animation(status);
+		set_animation(animation_status);
 		reset_animation = false;
 	}
-		
+
 	Dynamic_animatable::next_frame();
 }
 

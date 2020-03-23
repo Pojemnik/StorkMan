@@ -339,11 +339,11 @@ void Dynamic_animatable::animate(float x, float y, float r, float KLArGLO, float
 
 Dynamic_animatable::Dynamic_animatable(std::vector<sf::Texture*>& v, Vectorf p, std::vector<const Dynamic_animation*> a, float h, float gs) : pos(p), height(h), animations(a)
 {
-	last_status = status = Animation_status::A_IDLE;
+	last_animation_status = animation_status = Animation_status::A_IDLE;
 	key = 0;
-	last_key = &animations[status]->key_frames[key];
-	frames_delta = animations[status]->lengths[key];
-	next_key = &animations[status]->key_frames[++key];
+	last_key = &animations[animation_status]->key_frames[key];
+	frames_delta = animations[animation_status]->lengths[key];
+	next_key = &animations[animation_status]->key_frames[++key];
 	actual_frame = *last_key;
 	for (int i = 0; i < v.size(); i++)
 	{
@@ -357,17 +357,17 @@ Dynamic_animatable::Dynamic_animatable(std::vector<sf::Texture*>& v, Vectorf p, 
 
 void Dynamic_animatable::set_animation(Animation_status s)
 {
-	status = s;
+	animation_status = s;
 	frames_delta = ANIMATION_CHANGE_DELTA;
 	key = 0;
-	next_key = &animations[status]->key_frames[0];
+	next_key = &animations[animation_status]->key_frames[0];
 }
 
 void Dynamic_animatable::next_frame()
 {
-	if (last_status != status)
+	if (last_animation_status != animation_status)
 	{
-		set_animation(status);
+		set_animation(animation_status);
 	}
 	if (frames_delta > 1)
 	{
@@ -381,16 +381,16 @@ void Dynamic_animatable::next_frame()
 	{
 		last_key = next_key;
 		actual_frame = *last_key;
-		if (++key >= animations[status]->key_frames.size())
+		if (++key >= animations[animation_status]->key_frames.size())
 		{
-			frames_delta = animations[status]->lengths.back();//Animation loop
+			frames_delta = animations[animation_status]->lengths.back();//Animation loop
 			key = 0;
 		}
 		else
 		{
-			frames_delta = animations[status]->lengths[key];
+			frames_delta = animations[animation_status]->lengths[key];
 		}
-		next_key = &animations[status]->key_frames[key];
+		next_key = &animations[animation_status]->key_frames[key];
 	}
 	animate(actual_frame);
 }

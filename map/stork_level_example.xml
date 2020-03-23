@@ -12,16 +12,10 @@
 		<v>150,70</v>
 		<v>200,0</v>
 	</platform>
-	<platform position="100,500" texture="bricks,0">
+	<platform position="50,500" texture="bricks,0">
 		<v>0,0</v>
-		<v>200,0</v>
-		<v>200,50</v>
-		<v>0,50</v>
-	</platform>
-	<platform position="500,500" texture="bricks,2">
-		<v>0,0</v>
-		<v>200,0</v>
-		<v>200,50</v>
+		<v>800,0</v>
+		<v>800,50</v>
 		<v>0,50</v>
 	</platform>
 	<enemy type="asdf" position="150,150" texture="enemy1"/>

@@ -9,7 +9,7 @@ typedef sf::Vector2i Vectori;
 
 const float PI = 3.1415927f;
 
-enum Entity_status { IDLE = 0, MOVE, JUMP_IDLE, JUMP_RUN, ATTACK, HIT };
+enum Entity_status { IDLE = 0, MOVE, JUMP_IDLE, JUMP_RUN, ATTACK, HIT, IN_AIR };
 enum Animation_status { A_IDLE = 0, A_MOVE, A_JUMP_IDLE, A_JUMP_RUN, A_ATTACK, A_HIT };
 enum Colidable_type { GROUND, ENEMY, OTHER };
 enum Stork_parts {
@@ -237,6 +237,7 @@ public:
 class Dynamic_animatable : public sf::Drawable
 {
 protected:
+	Vectori last_collision_direction = { 0,0 };
 	Vectorf pos;
 	std::vector<sf::Sprite> parts;
 	int direction = 1;//x sign
@@ -250,8 +251,10 @@ protected:
 	const std::array<float, 21>* last_key;
 	const std::array<float, 21>* next_key;
 	std::array<float, 21> actual_frame;
-	Animation_status status;
-	Animation_status last_status;
+	Animation_status animation_status;
+	Animation_status last_animation_status;
+	Entity_status status;
+	Entity_status last_status;
 	const int ANIMATION_CHANGE_DELTA = 10;
 	Vectorf count_pos(Vectorf start, float size1, float size2,
 		float translation_x1, float translation_y1, float angle1,
