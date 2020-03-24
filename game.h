@@ -33,7 +33,7 @@ private:
 public:
 	Dynamic_entity(Vectorf p, std::vector<sf::Texture*>& v, std::vector<const Dynamic_animation*> a, sf::FloatRect rc, float h, float gs, float m);
 	void move(Vectorf delta);
-	void jump();
+	void jump(bool run);
 	void update();
 	void update_position();
 	void next_frame();

@@ -225,25 +225,30 @@ void Dynamic_entity::move(Vectorf delta)
 	}
 }
 
-void Dynamic_entity::jump()
+void Dynamic_entity::jump(bool move)
 {
 	if (colision_direction.y == 1)
 	{
-		//apply_force({ 0, -20 });
-		if (animation_status == Animation_status::A_IDLE || (animation_status == Animation_status::A_JUMP_IDLE && last_status == IN_AIR))
+		if (move)
 		{
-			animation_status = Animation_status::A_JUMP_IDLE;
-			status = Entity_status::JUMP_IDLE;
-			reset_animation = true;
+			if (animation_status == Animation_status::A_MOVE || ((animation_status == Animation_status::A_JUMP_RUN || animation_status == Animation_status::A_JUMP_RUN2) && last_status == IN_AIR))
+			{
+				if (key == 1 || key == 2 || key == 3)
+					animation_status = Animation_status::A_JUMP_RUN;
+				else
+					animation_status = Animation_status::A_JUMP_RUN2;
+				status = Entity_status::JUMP_RUN;
+				reset_animation = true;
+			}
 		}
-		if (animation_status == Animation_status::A_MOVE || ((animation_status == Animation_status::A_JUMP_RUN || animation_status == Animation_status::A_JUMP_RUN2) && last_status == IN_AIR))
+		else
 		{
-			if(key == 1 || key == 2 || key == 3)
-				animation_status = Animation_status::A_JUMP_RUN;
-			else
-				animation_status = Animation_status::A_JUMP_RUN2;
-			status = Entity_status::JUMP_RUN;
-			reset_animation = true;
+			if (animation_status == Animation_status::A_IDLE || (animation_status == Animation_status::A_JUMP_IDLE && last_status == IN_AIR))
+			{
+				animation_status = Animation_status::A_JUMP_IDLE;
+				status = Entity_status::JUMP_IDLE;
+				reset_animation = true;
+			}
 		}
 	}
 }

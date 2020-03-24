@@ -15,6 +15,7 @@ float gravity = .5f;
 
 int main(int argc, char** argv)	//Second argument is a map file for editor
 {
+	std::cout << "Stork'man version 0.2.0" << std::endl;
 	Assets assets;
 	assets.load_assets();
 	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
@@ -69,7 +70,10 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 		{
-			player.jump();
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+				player.jump(true);
+			else
+				player.jump(false);
 		}
 		window.clear();
 		//Animations
