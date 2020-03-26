@@ -53,7 +53,7 @@ Level parse_level(tinyxml2::XMLElement* root, Assets* assets)
 		{
 			att = (tinyxml2::XMLAttribute*)element->FirstAttribute();
 			std::string name = element->Name();
-			if (name == "platform")//Na razie tylko prostok¹tne
+			if (name == "platform")
 			{
 				Vectorf pos;
 				std::vector<sf::Vertex> points;

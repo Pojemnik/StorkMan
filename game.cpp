@@ -217,7 +217,7 @@ void Dynamic_entity::move(Vectorf delta)
 		move_speed.x = MIN_MOVE_SPEED.x;
 	if (delta.x < 0 && move_speed.x > -MIN_MOVE_SPEED.x)
 		move_speed.x = -MIN_MOVE_SPEED.x;
-	if(status == IDLE)
+	if (status == IDLE)
 		status = Entity_status::MOVE;
 	if (colision_direction.y == 1 && animation_status != Animation_status::A_JUMP_RUN && animation_status != Animation_status::A_JUMP_RUN2)
 	{
@@ -303,36 +303,47 @@ void Dynamic_entity::update()
 	}
 	if (animation_status == Animation_status::A_JUMP_IDLE && key == 2 && frames_delta == 15)
 	{
-		apply_force({ 0, -20 });
+		if (colision_direction.y == 1)
+			apply_force({ 0, -20 });
 		status = IN_AIR;
 	}
 	if ((animation_status == Animation_status::A_JUMP_RUN || animation_status == Animation_status::A_JUMP_RUN2) && key == 2 && frames_delta == 1)
 	{
-		apply_force({ 0, -20 });
+		if (colision_direction.y == 1)
+			apply_force({ 0, -20 });
 		status = IN_AIR;
 	}
 	total_speed += force;
 	last_speed = total_speed;
 	total_speed += move_speed;
 	int s = sgn(total_speed.x);
-	if (direction != s && s != 0)
+	if (s != 0)
 	{
-		Vectorf tmp = sprite.getScale();
-		tmp.x *= -1;
-		scale = -scale;
-		total_speed = { total_speed.x * 2, total_speed.y * 2 };
 		if (s == -1)
 		{
 			sprite.setOrigin({ actual_frame[0] - 64, actual_frame[1] + 64 });
-			sprite.setScale(-1, 1);
 		}
 		else
 		{
 			sprite.setOrigin({ actual_frame[0] + 64, actual_frame[1] + 64 });
-			sprite.setScale(1, 1);
 		}
-		sprite.setScale(tmp);
-		direction = s;
+		if (direction != s)
+		{
+			Vectorf tmp = sprite.getScale();
+			tmp.x *= -1;
+			scale = -scale;
+			total_speed = { total_speed.x * 2, total_speed.y * 2 };
+			if (s == -1)
+			{
+				sprite.setScale(-1, 1);
+			}
+			else
+			{
+				sprite.setScale(1, 1);
+			}
+			sprite.setScale(tmp);
+			direction = s;
+		}
 	}
 	if (force.x > max_force)
 		force.x = max_force;

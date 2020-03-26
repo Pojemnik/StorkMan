@@ -59,6 +59,15 @@ Map::Map(Vectori dimensions, std::vector<Level>& lvls, Vectori start_pos) : size
 				level_placement[it.global_pos.x + i][it.global_pos.y + j] = &it;
 			}
 		}
+		for (auto& col_it : it.colidables)
+		{
+			col_it->rect_collision.left += it.global_pos.x * level_size.x;
+			col_it->rect_collision.top += it.global_pos.y * level_size.y;
+			for (auto& vertex_it : col_it->mesh_collision)
+			{
+				vertex_it += Vectorf(it.global_pos.x * level_size.x, it.global_pos.y * level_size.y);
+			}
+		}
 	}
 	for (int x = -1; x < 2; x++)
 	{
@@ -74,8 +83,6 @@ void Map::load_level(Vectori pos)
 {
 	if (!level_placement[pos.x][pos.y]->is_loaded)
 	{
-		//texturables.push_back(std::make_shared<std::vector<Texturable>>(level_placement[pos.x][pos.y]->texturables));
-		//drawables.push_back(std::make_shared<std::vector<Renderable>>(level_placement[pos.x][pos.y]->drawables));
 		level_placement[pos.x][pos.y]->is_loaded = true;
 		loaded_levels.push_back(level_placement[pos.x][pos.y]);
 	}
@@ -85,8 +92,6 @@ void Map::unload_level(Vectori pos)
 {
 	if (level_placement[pos.x][pos.y]->is_loaded)
 	{
-		//texturables.remove_if([=](const std::shared_ptr<std::vector<Texturable>>& a) {return &*a == &level_placement[pos.x][pos.y]->texturables; });
-		//drawables.remove_if([=](const std::shared_ptr<std::vector<Renderable>>& a) {return &*a == &level_placement[pos.x][pos.y]->drawables; });
 		level_placement[pos.x][pos.y]->is_loaded = false;
 		auto x = &*(level_placement[pos.x][pos.y]);
 		loaded_levels.remove_if([=](const Level* a) {return &*a == (const Level*)&x; });

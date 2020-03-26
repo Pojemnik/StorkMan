@@ -30,6 +30,16 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		tinyxml2::XMLElement* root = doc.FirstChildElement();
 		map = parse_map(root, &assets);
 	}
+	else
+	{
+		if (argc == 1)
+		{
+			tinyxml2::XMLDocument doc;
+			tinyxml2::XMLError error = doc.LoadFile("map\stork_map_example.xml");
+			tinyxml2::XMLElement* root = doc.FirstChildElement();
+			map = parse_map(root, &assets);
+		}
+	}
 	sf::FloatRect f(380, 55, 20, 70);
 	Player player({ 400, 100 }, assets.pieces,  assets.animations, f, 1.92f, global_scale, 87.f);
 	map.player = &player;
@@ -95,8 +105,8 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		sf::RenderStates rs= sf::RenderStates::Default;
 		rs.transform = sf::Transform().translate(-camera_pos);
 		window.draw(map,rs);
-		window.draw(player,rs);
 		//window.draw(r, rs);
+		window.draw(player,rs);
 		window.display();
 		while (clock.getElapsedTime().asMilliseconds() < 1000 / FPS);
 	}
