@@ -31,7 +31,7 @@ private:
 	bool reset_animation = false;
 
 public:
-	Dynamic_entity(Vectorf p, std::vector<sf::Texture*>& v, std::vector<const Dynamic_animation*> a, sf::FloatRect rc, float h, float gs, float m);
+	Dynamic_entity(Vectorf p, sf::Texture* texture, std::vector<sf::IntRect>& v, std::vector<const Dynamic_animation*> a, sf::FloatRect rc, float h, float gs, float m);
 	void move(Vectorf delta);
 	void jump(bool run);
 	void update();
@@ -43,5 +43,5 @@ public:
 class Player : public Dynamic_entity
 {
 public:
-	Player(Vectorf p, std::vector<sf::Texture*>& v, std::vector<const Dynamic_animation*> a, sf::FloatRect rc, float h, float gs, float m);
+	Player(Vectorf p, sf::Texture* texture, std::vector<sf::IntRect>& v, std::vector<const Dynamic_animation*> a, sf::FloatRect rc, float h, float gs, float m);
 };

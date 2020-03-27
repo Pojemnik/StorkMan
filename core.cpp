@@ -337,7 +337,8 @@ void Dynamic_animatable::animate(float x, float y, float r, float KLArGLO, float
 	sprite.setScale(scale, fabs(scale));
 }
 
-Dynamic_animatable::Dynamic_animatable(std::vector<sf::Texture*>& v, Vectorf p, std::vector<const Dynamic_animation*> a, float h, float gs) : pos(p), height(h), animations(a)
+
+Dynamic_animatable::Dynamic_animatable(sf::Texture* texture, std::vector<sf::IntRect>& v, Vectorf p, std::vector<const Dynamic_animation*> a, float h, float gs) : pos(p), height(h), animations(a)
 {
 	last_animation_status = animation_status = Animation_status::A_IDLE;
 	key = 0;
@@ -347,7 +348,7 @@ Dynamic_animatable::Dynamic_animatable(std::vector<sf::Texture*>& v, Vectorf p, 
 	actual_frame = *last_key;
 	for (int i = 0; i < v.size(); i++)
 	{
-		parts.push_back(sf::Sprite(*v[i]));
+		parts.push_back(sf::Sprite(*texture,v[i]));
 		parts[i].setOrigin(64, 64);
 	}
 	scale = gs * height / 500;
@@ -402,40 +403,4 @@ void Dynamic_animatable::draw(sf::RenderTarget& target, sf::RenderStates states)
 
 Dynamic_animation::Dynamic_animation(std::vector<std::array<float, 21>>& kf, std::vector<int>& l) : key_frames(kf), lengths(l)
 {
-}
-
-Texture_holder::Texture_holder(std::string path)
-{
-	int l = path.rfind("_ss_");
-	if (l == std::string::npos)
-	{
-		l = -1;
-	}
-	l++;
-	int r = path.find(".", l);
-	std::string tmp = path.substr(l, r - l);
-	for (auto& it : tmp)
-	{
-		if (it > '9' || it < '0')
-			it = ' ';
-
-	}
-	std::stringstream tmps(tmp);
-	if (!(tmps >> a >> b >> c >> d))
-	{
-		std::cout << "error reading sizes " + path << std::endl;
-		return;
-	}
-	tex.loadFromFile(path);
-	buff.create(4);
-	buff.setPrimitiveType(sf::TriangleFan);
-	buff.setUsage(sf::VertexBuffer::Stream);
-}
-
-void Texture_holder::draw(sf::RenderTarget& target, sf::RenderStates states, int i)
-{
-	sf::Vertex tab[4] = { Vectorf(i % c * a,i / c * b), Vectorf(i % c * a + a,i / c * b), Vectorf(i % c * a + a,i / c * b + b), Vectorf(i % c * a,i / c * b + b) };
-	buff.update(tab);
-	states.texture = &tex;
-	target.draw(buff, states);
 }

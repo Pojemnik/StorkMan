@@ -18,7 +18,8 @@ public:
 	Animation ship_undockx;
 	Animation ship_undocky;
 	Animation ship_ret_hdmi;
-	std::vector<sf::Texture*> pieces;
+	sf::Texture* pieces = NULL;
+	std::vector<sf::IntRect> piecesRect;
 	std::map<std::string, const sf::Texture*> textures;
 	std::vector<const Dynamic_animation *> animations;
 	void load_assets();

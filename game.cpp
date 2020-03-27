@@ -20,7 +20,7 @@ Platform::Platform(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> poin
 	rect_collision = sf::FloatRect(minx + p.x, miny + p.y, maxx - minx, maxy - miny);
 }
 
-Player::Player(Vectorf p, std::vector<sf::Texture*>& v, std::vector<const Dynamic_animation*> a, sf::FloatRect rc, float h, float gs, float m) : Dynamic_entity(p, v, a, rc, h, gs, m) {}
+Player::Player(Vectorf p, sf::Texture* texture, std::vector<sf::IntRect>& v, std::vector<const Dynamic_animation*> a, sf::FloatRect rc, float h, float gs, float m) : Dynamic_entity(p,texture, v, a, rc, h, gs, m) {}
 
 Entity::Entity(Vectorf p, std::vector<const Animation* > t, float h, float gs, float m) : Animatable(p, t[0], h, gs), animations(t)
 {
@@ -197,7 +197,7 @@ void Entity::set_animation(const Animation* t)
 	it = tex->begin();
 }
 
-Dynamic_entity::Dynamic_entity(Vectorf p, std::vector<sf::Texture*>& v, std::vector<const Dynamic_animation*> a, sf::FloatRect rc, float h, float gs, float m) : Dynamic_animatable(v, p, a, h, gs)
+Dynamic_entity::Dynamic_entity(Vectorf p, sf::Texture* texture, std::vector<sf::IntRect>& v, std::vector<const Dynamic_animation*> a, sf::FloatRect rc, float h, float gs, float m) : Dynamic_animatable(texture,v, p, a, h, gs)
 {
 	animation_status = Animation_status::A_IDLE;
 	rect_collision = rc;

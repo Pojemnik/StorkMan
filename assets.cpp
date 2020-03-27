@@ -88,6 +88,11 @@ void Assets::load_assets()
 {
 	std::cout << "Loading assets..." << std::endl;
 	sf::FloatRect tmp(210, 100, 105, 340);
+	pieces = new sf::Texture();
+	pieces->loadFromFile("img/stork/parts_ss_128_128_is_3_9.png");
+	for (int i = 0; i < 27; i++)
+		piecesRect.push_back({128*(i%3),128*(i/3),128,128});
+	/*
 	for (int i = 0; i < 27; i++)
 		pieces.push_back(new sf::Texture);
 	pieces[BELLY]->loadFromFile("img/stork/parts/BRZUCH_ST_00.PNG");
@@ -117,6 +122,8 @@ void Assets::load_assets()
 	pieces[L_WING_4] = pieces[R_WING_1];
 	pieces[L_WING_5] = pieces[R_WING_1];
 	pieces[TAIL]->loadFromFile("img/stork/parts/OGON_ST_00.png");
+	*/
+
 	animations.push_back(load_dynamic_animation("animations/stork/idle.txt"));
 	animations.push_back(load_dynamic_animation("animations/stork/run.txt"));
 	animations.push_back(load_dynamic_animation("animations/stork/jump_idle.txt"));
