@@ -15,7 +15,7 @@ float gravity = .5f;
 
 int main(int argc, char** argv)	//Second argument is a map file for editor
 {
-	std::cout << "Stork'man version 0.2.0" << std::endl;
+	std::cout << "Stork'man version 0.2.1" << std::endl;
 	Assets assets;
 	sf::Clock* test=new sf::Clock();
 	test->restart();

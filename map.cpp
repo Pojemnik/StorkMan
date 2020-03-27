@@ -1,6 +1,6 @@
 #include "map.h"
 
-const sf::Vector2f level_size = { 500,500 };
+const sf::Vector2f level_size = { 1024,1024 };
 
 Level::Level()
 {
@@ -88,7 +88,7 @@ void Map::load_level(Vectori pos)
 	}
 }
 
-void Map::unload_level(Vectori pos)
+void Map::unload_level(Vectori pos)//Never called
 {
 	if (level_placement[pos.x][pos.y]->is_loaded)
 	{
@@ -96,6 +96,12 @@ void Map::unload_level(Vectori pos)
 		auto x = &*(level_placement[pos.x][pos.y]);
 		loaded_levels.remove_if([=](const Level* a) {return &*a == (const Level*)&x; });
 	}
+}
+
+void Map::unload_level(std::list<Level*>::iterator& lvl)
+{
+	(*lvl)->is_loaded = false;
+	lvl=loaded_levels.erase(lvl);
 }
 
 void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -123,6 +129,27 @@ void Map::update()
 	{
 		Vectori delta = pos - current_pos;
 		current_pos = pos;
+		int removed = 1;
+		for (auto level_it = loaded_levels.begin(); level_it != loaded_levels.end(); std::advance(level_it, removed))
+		{
+			removed = 1;
+			if ((*level_it)->global_pos.x +(*level_it)->global_size.x < current_pos.x - 1 || (*level_it)->global_pos.x > current_pos.x + 1 || (*level_it)->global_pos.y + (*level_it)->global_size.y < current_pos.y - 1 || (*level_it)->global_pos.y > current_pos.y + 1)
+			{
+				if ((*level_it)->is_loaded)
+				{
+					removed = 0;
+					unload_level(level_it);
+				}
+			}
+		}
+		for (int x = -1; x < 2; x++)
+		{
+			for (int y = -1; y < 2; y++)
+			{
+				if (current_pos.x + x < size.x && current_pos.y + y < size.y && current_pos.x + x >= 0 && current_pos.y + y >= 0 && !level_placement[current_pos.x+x][current_pos.y+y]->is_loaded)
+					load_level(Vectori(current_pos.x + x, current_pos.y + y));
+			}
+		}
 	}
 	for (auto& level_it : loaded_levels)
 	{

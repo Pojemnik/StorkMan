@@ -35,6 +35,7 @@ private:
 
 	void load_level(Vectori pos);
 	void unload_level(Vectori pos);
+	void unload_level(std::list<Level*>::iterator& lvl);
 
 public:
 	Player* player;//Chyba niezyt eleganckie
