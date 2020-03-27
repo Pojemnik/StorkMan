@@ -43,5 +43,5 @@ public:
 	Map() = default;
 	Map(Vectori dimensions, std::vector<Level> &levels, Vectori start_pos);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-	void update();
+	void update(float dt);
 };

@@ -122,7 +122,7 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 }
 
 
-void Map::update()
+void Map::update(float dt)
 {
 	Vectori pos = { int(player->get_position().x) / int(level_size.x), int(player->get_position().y) / int(level_size.y) };
 	if (pos != current_pos)
@@ -155,15 +155,15 @@ void Map::update()
 	{
 		for (auto& physical_it : level_it->physicals)
 		{
-			physical_it->update();
+			physical_it->update(dt);
 			for (auto& colidable_it : level_it->colidables)
 			{
-				physical_it->uncolide(colidable_it);
+				physical_it->uncolide(colidable_it, dt);
 			}
 		}
 		for (auto& colidable_it : level_it->colidables)
 		{
-			player->uncolide(colidable_it);
+			player->uncolide(colidable_it, dt);
 		}
 	}
 }

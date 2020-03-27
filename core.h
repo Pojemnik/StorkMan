@@ -168,11 +168,11 @@ protected:
 	const Vectorf MAX_MOVE_SPEED = { 5,5 };
 	const Vectorf MOVE_SPEED_REDUCTION = { 0.5f, 0.5f };
 public:
-	virtual void update() = 0;
-	virtual void update_position() = 0;
+	virtual void update(float dt) = 0;
+	virtual void update_position(float dt) = 0;
 	virtual void move(Vectorf delta) = 0;
 	virtual void apply_force(Vectorf f);
-	void uncolide(const Colidable* c);
+	void uncolide(const Colidable* c, float dt);
 	bool test_colision(const Colidable& other);
 	Physical(sf::FloatRect rect, std::vector<Vectorf> mesh, Colidable_type t, float m);
 	Physical() = default;

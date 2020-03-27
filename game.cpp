@@ -88,7 +88,7 @@ void Entity::next_frame()
 	sprite.setTexture(*it);
 }
 
-void Entity::update()
+void Entity::update(float dt)
 {
 	move_speed += move_force;
 	if (move_speed.x > MAX_MOVE_SPEED.x)
@@ -253,9 +253,9 @@ void Dynamic_entity::jump(bool move)
 	}
 }
 
-void Dynamic_entity::update()
+void Dynamic_entity::update(float dt)
 {
-	move_speed += move_force;
+	move_speed += move_force*dt;
 	if (move_speed.x > MAX_MOVE_SPEED.x)
 		move_speed.x = MAX_MOVE_SPEED.x;
 	if (move_speed.x < -MAX_MOVE_SPEED.x)
@@ -313,9 +313,9 @@ void Dynamic_entity::update()
 			apply_force({ 0, -20 });
 		status = IN_AIR;
 	}
-	total_speed += force;
+	total_speed += force*dt;
 	last_speed = total_speed;
-	total_speed += move_speed;
+	total_speed += move_speed*dt;
 	int s = sgn(total_speed.x);
 	if (s != 0)
 	{
@@ -353,16 +353,16 @@ void Dynamic_entity::update()
 		force.x = -max_force;
 	if (force.y < -max_force)
 		force.y = -max_force;
-	update_position();
+	update_position(dt);
 	last_animation_status = animation_status;
 	last_status = status;
 	move_force = { 0,0 };
 	colision_direction = { 0,0 };
 }
 
-void Dynamic_entity::update_position()
+void Dynamic_entity::update_position(float dt)
 {
-	pos += total_speed;
+	pos += total_speed * dt;
 	sprite.setPosition(pos);
 	rect_collision = sf::FloatRect(rect_collision.left + total_speed.x, rect_collision.top + total_speed.y, rect_collision.width, rect_collision.height);
 	mesh_collision = std::vector<Vectorf>();

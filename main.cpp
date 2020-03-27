@@ -10,11 +10,31 @@
 
 
 //Storkman ma 1,92m
-float global_scale = 51.2f; //[px/m]
+const float global_scale = 51.2f; //[px/m]
 float gravity = .5f;
+const float updatedt = 0.1f;
+
+bool update(float dt, Map& map)
+{
+	static float acc(0);
+	acc += dt;
+	bool updated = 0;
+	if (acc >= 1000.0f / 60)
+		updated = 1;
+	while (acc >= 1000.0f / 60)
+	{
+		map.player->next_frame();
+		map.player->apply_force({ 0, gravity });
+		map.player->update(1);
+		map.update(1);
+		acc -= 1000.0f / 60;
+	}
+	return updated;
+}
 
 int main(int argc, char** argv)	//Second argument is a map file for editor
 {
+	std::cout.sync_with_stdio(false);
 	std::cout << "Stork'man version 0.2.1" << std::endl;
 	Assets assets;
 	sf::Clock* test=new sf::Clock();
@@ -44,13 +64,12 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			map = parse_map(root, &assets);
 		}
 	}
-	std::cout << test->getElapsedTime().asMilliseconds() << "\n";
 	sf::FloatRect f(380, 55, 20, 70);
 	Player player({ 400, 100 }, assets.pieces,assets.piecesRect,  assets.animations, f, 1.92f, global_scale, 87.f);
 	map.player = &player;
+	std::cout << test->getElapsedTime().asMilliseconds() << "\n";	
 	while (window.isOpen())
 	{
-		clock.restart();
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
@@ -90,13 +109,27 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			else
 				player.jump(false);
 		}
-		window.clear();
-		//Animations
-		player.next_frame();
+		
 		//Physics
-		player.apply_force({ 0, gravity });
-		player.update();		
-		map.update();
+		float time = clock.getElapsedTime().asMicroseconds();
+		time /= 1000;
+		if (time > 2500 / FPS)
+		{
+			time = 2500 / FPS;
+		}
+		clock.restart();
+		if(update(time, map))
+		{
+			window.clear();
+			sf::Vector2f camera_pos=player.get_position();
+			camera_pos-=sf::Vector2f(512,288);
+			sf::RenderStates rs= sf::RenderStates::Default;
+			rs.transform = sf::Transform().translate(-camera_pos);
+			window.draw(map,rs);
+		//window.draw(r, rs);
+			window.draw(player,rs);
+			window.display();
+		}
 		/*
 		sf::ConvexShape r = sf::ConvexShape(4);
 		int i = 0;
@@ -105,15 +138,8 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		r.setOutlineColor({255,0,0});
 		*/
 		//Render
-		sf::Vector2f camera_pos=player.get_position();
-		camera_pos-=sf::Vector2f(512,288);
-		sf::RenderStates rs= sf::RenderStates::Default;
-		rs.transform = sf::Transform().translate(-camera_pos);
-		window.draw(map,rs);
-		//window.draw(r, rs);
-		window.draw(player,rs);
-		window.display();
-		while (clock.getElapsedTime().asMilliseconds() < 1000 / FPS);
+		
+		//while (clock.getElapsedTime().asMilliseconds() < 1000 / FPS);
 	}
 	return 0;
 }

@@ -76,7 +76,7 @@ void Physical::apply_force(Vectorf f)
 	force += f;
 }
 
-void Physical::uncolide(const Colidable* c)
+void Physical::uncolide(const Colidable* c, float dt)
 {
 
 	/*
@@ -113,7 +113,7 @@ void Physical::uncolide(const Colidable* c)
 		{
 			force.y = 0;
 		}
-		update_position();
+		update_position(dt);
 	}
 
 }

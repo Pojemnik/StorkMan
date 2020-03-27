@@ -20,7 +20,7 @@ public:
 	void move(Vectorf delta);
 	void jump();
 	void next_frame();
-	void update();
+	void update(float dt);
 	void update_position();
 	Vectorf get_position();
 };
@@ -34,8 +34,8 @@ public:
 	Dynamic_entity(Vectorf p, sf::Texture* texture, std::vector<sf::IntRect>& v, std::vector<const Dynamic_animation*> a, sf::FloatRect rc, float h, float gs, float m);
 	void move(Vectorf delta);
 	void jump(bool run);
-	void update();
-	void update_position();
+	void update(float dt);
+	void update_position(float dt);
 	void next_frame();
 	Vectorf get_position();
 };
