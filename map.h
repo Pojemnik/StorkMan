@@ -9,14 +9,11 @@ public:
 	Vectori global_pos;
 	Vectori global_size;
 	bool is_loaded = false;
-	//std::list<Object> objects;
 	std::vector<Renderable*> drawables;
 	std::vector<Texturable*> texturables;
 	std::vector<Physical*> physicals;
 	std::vector<Colidable*> colidables;
 	std::vector<Platform> platforms;
-	//std::list<Transformable> movables;
-	//std::list<Animatable> animatables;	//Great name
 
 	Level();
 	Level(const Level &level);

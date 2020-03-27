@@ -118,6 +118,12 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 void Map::update()
 {
+	Vectori pos = { int(player->get_position().x) / int(level_size.x), int(player->get_position().y) / int(level_size.y) };
+	if (pos != current_pos)
+	{
+		Vectori delta = pos - current_pos;
+		current_pos = pos;
+	}
 	for (auto& level_it : loaded_levels)
 	{
 		for (auto& physical_it : level_it->physicals)
