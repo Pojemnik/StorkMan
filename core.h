@@ -266,19 +266,8 @@ protected:
 		float PUDrPLY, float PLYrPST, float MIErLUD, float LUDrLLY,
 		float LLYrLST, float PPRrSKP, float LPRrSKL, float MIErOGO);
 public:
-	Dynamic_animatable(std::vector<sf::Texture*>& v, Vectorf p, std::vector<const Dynamic_animation*> a, float h, float gs);
+	Dynamic_animatable(sf::Texture* texture,std::vector<sf::IntRect>& v, Vectorf p, std::vector<const Dynamic_animation*> a, float h, float gs);
 	void next_frame();
 	void set_animation(Animation_status s);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-};
-
-
-class Texture_holder
-{
-	sf::Texture tex;
-	sf::VertexBuffer buff;
-	int a, b, c, d;
-public:
-	Texture_holder(std::string path);
-	void draw(sf::RenderTarget& target, sf::RenderStates states, int i);
 };
