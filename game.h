@@ -33,6 +33,8 @@ private:
 	bool reset_animation = false;
 
 	void update_position(float dt);
+	void flip(int s);
+	void set_idle();
 
 public:
 	Dynamic_entity(Vectorf p, sf::Texture* texture, std::vector<sf::IntRect>& v, std::vector<const Dynamic_animation*> a, sf::FloatRect rc, float h, float gs, float m);

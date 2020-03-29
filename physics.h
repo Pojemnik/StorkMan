@@ -39,7 +39,7 @@ protected:
 	Vectorf force = { 0,0 };
 	Vectorf move_force = { 0,0 };
 	Vectori colision_direction = { 0,0 };
-	const Vectorf MIN_MOVE_SPEED = { 2,0 };
+	const Vectorf MIN_MOVE_SPEED = { 1,0 };
 	const Vectorf MAX_MOVE_SPEED = { 5,5 };
 	const Vectorf MOVE_SPEED_REDUCTION = { 0.5f, 0.5f };
 

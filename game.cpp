@@ -116,21 +116,16 @@ void Entity::update(float dt)
 	int s = sgn(total_speed.x);
 	if (direction != s && s != 0)
 	{
-		Vectorf tmp = sprite.getScale();
-		tmp.x *= -1;
 		scale = -scale;
-		total_speed = { total_speed.x * 2, total_speed.y * 2 };
 		if (s == -1)
 		{
 			sprite.setOrigin(sprite.getLocalBounds().width, 0);
-			sprite.setScale(-1, 1);
 		}
 		else
 		{
 			sprite.setOrigin(0, 0);
-			sprite.setScale(1, 1);
 		}
-		sprite.setScale(tmp);
+		sprite.setScale(-1,1);
 		direction = s;
 	}
 	force = saturate(force, max_force);
@@ -224,6 +219,31 @@ void Dynamic_entity::jump(bool move)
 	}
 }
 
+void Dynamic_entity::flip(int sign)
+{
+	if (sign == -1)
+	{
+		sprite.setOrigin({ actual_frame[0] - 64, actual_frame[1] + 64 });
+	}
+	else
+	{
+		sprite.setOrigin({ actual_frame[0] + 64, actual_frame[1] + 64 });
+	}
+	if (direction != sign)
+	{
+		scale = -scale;
+		sprite.scale(-1,1);
+		direction = sign;
+	}
+}
+
+void Dynamic_entity::set_idle()
+{
+	animation_status = Animation_status::A_IDLE;
+	status = Entity_status::IDLE;
+	reset_animation = true;
+}
+
 void Dynamic_entity::update(float dt)
 {
 	move_speed += move_force*dt;
@@ -243,9 +263,7 @@ void Dynamic_entity::update(float dt)
 			move_speed.x = 0;
 			if (animation_status == Animation_status::A_MOVE)
 			{
-				animation_status = Animation_status::A_IDLE;
-				status = Entity_status::IDLE;
-				reset_animation = true;
+				set_idle();
 			}
 		}
 		if (fabs(move_speed.y) < 1)
@@ -253,17 +271,13 @@ void Dynamic_entity::update(float dt)
 			move_speed.y = 0;
 			if (animation_status == Animation_status::A_MOVE)
 			{
-				animation_status = Animation_status::A_IDLE;
-				status = Entity_status::IDLE;
-				reset_animation = true;
+				set_idle();
 			}
 		}
 	}
 	if (colision_direction.y == 1 && status == IN_AIR && last_status == status)
 	{
-		animation_status = Animation_status::A_IDLE;
-		status = Entity_status::IDLE;
-		reset_animation = true;
+		set_idle();
 	}
 	if (animation_status == Animation_status::A_JUMP_IDLE && key == 2 && frames_delta == 15)
 	{
@@ -280,34 +294,10 @@ void Dynamic_entity::update(float dt)
 	total_speed += force*dt;
 	last_speed = total_speed;
 	total_speed += move_speed*dt;
-	int s = sgn(total_speed.x);
-	if (s != 0)
+	int x_speed_sign = sgn(total_speed.x);
+	if (x_speed_sign != 0)
 	{
-		if (s == -1)
-		{
-			sprite.setOrigin({ actual_frame[0] - 64, actual_frame[1] + 64 });
-		}
-		else
-		{
-			sprite.setOrigin({ actual_frame[0] + 64, actual_frame[1] + 64 });
-		}
-		if (direction != s)
-		{
-			Vectorf tmp = sprite.getScale();
-			tmp.x *= -1;
-			scale = -scale;
-			total_speed = { total_speed.x * 2, total_speed.y * 2 };
-			if (s == -1)
-			{
-				sprite.setScale(-1, 1);
-			}
-			else
-			{
-				sprite.setScale(1, 1);
-			}
-			sprite.setScale(tmp);
-			direction = s;
-		}
+		flip(x_speed_sign);
 	}
 	force = saturate(force, max_force);
 	update_position(dt);
