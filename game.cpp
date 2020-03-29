@@ -7,7 +7,7 @@ Platform::Platform(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> poin
 	maxy = miny = vertices[0].position.y;
 	for (auto it : vertices)
 	{
-		mesh_collision.push_back({ it.position.x + pos.x, it.position.y + pos.y });
+		mesh.vertices.push_back({ it.position.x + pos.x, it.position.y + pos.y });
 		if (it.position.x < minx)
 			minx = it.position.x;
 		if (it.position.y < miny)
@@ -26,11 +26,7 @@ Entity::Entity(Vectorf p, std::vector<const Animation* > t, float h, float gs, f
 {
 	animation_status = Entity_status::IDLE;
 	rect_collision = sf::FloatRect(tex->rect_collision.left * scale + p.x, tex->rect_collision.top * scale + p.y, tex->rect_collision.width * scale, tex->rect_collision.height * scale);
-	mesh_collision = std::vector<Vectorf>();
-	mesh_collision.push_back({ tex->rect_collision.left * scale + p.x, tex->rect_collision.top * scale + p.y });
-	mesh_collision.push_back({ tex->rect_collision.left * scale + p.x + tex->rect_collision.width * scale, tex->rect_collision.top * scale + p.y });
-	mesh_collision.push_back({ tex->rect_collision.left * scale + p.x + tex->rect_collision.width * scale, tex->rect_collision.top * scale + p.y + tex->rect_collision.height * scale });
-	mesh_collision.push_back({ tex->rect_collision.left * scale + p.x, tex->rect_collision.top * scale + p.y + tex->rect_collision.height * scale });
+	mesh = Mesh_collision(tex->rect_collision, scale, p);
 	mass = m;
 }
 
@@ -91,14 +87,7 @@ void Entity::next_frame()
 void Entity::update(float dt)
 {
 	move_speed += move_force;
-	if (move_speed.x > MAX_MOVE_SPEED.x)
-		move_speed.x = MAX_MOVE_SPEED.x;
-	if (move_speed.x < -MAX_MOVE_SPEED.x)
-		move_speed.x = -MAX_MOVE_SPEED.x;
-	if (move_speed.y > MAX_MOVE_SPEED.y)
-		move_speed.y = MAX_MOVE_SPEED.y;
-	if (move_speed.y < -MAX_MOVE_SPEED.y)
-		move_speed.y = -MAX_MOVE_SPEED.y;
+	move_speed = saturate(move_speed, MAX_MOVE_SPEED);
 	total_speed += force;
 	last_speed = total_speed;
 	if (move_force == Vectorf(0, 0))
@@ -145,14 +134,7 @@ void Entity::update(float dt)
 		sprite.setScale(tmp);
 		direction = s;
 	}
-	if (force.x > max_force)
-		force.x = max_force;
-	if (force.y > max_force)
-		force.y = max_force;
-	if (force.x < -max_force)
-		force.x = -max_force;
-	if (force.y < -max_force)
-		force.y = -max_force;
+	force = saturate(force, max_force);
 	if (colision_direction.y == 1 && (animation_status == Entity_status::JUMP_IDLE || animation_status == Entity_status::JUMP_RUN))
 		animation_status = Entity_status::IDLE;
 	update_position();
@@ -172,11 +154,7 @@ void Entity::update_position()
 	{
 		rect_collision = sf::FloatRect((tex->rect_collision.left) * -scale + pos.x, (540 - tex->rect_collision.top) * -scale + pos.y, tex->rect_collision.width * -scale, tex->rect_collision.height * scale);
 	}
-	mesh_collision = std::vector<Vectorf>();
-	mesh_collision.push_back({ rect_collision.left, rect_collision.top });
-	mesh_collision.push_back({ rect_collision.left + rect_collision.width, rect_collision.top });
-	mesh_collision.push_back({ rect_collision.left + rect_collision.width, rect_collision.top + rect_collision.height });
-	mesh_collision.push_back({ rect_collision.left, rect_collision.top + rect_collision.height });
+	mesh = Mesh_collision(rect_collision);
 	total_speed = { 0,0 };
 }
 Vectorf Entity::get_position()
@@ -188,11 +166,7 @@ void Entity::set_animation(const Animation* t)
 	//this->pos += -(t->center - tex->center) * this->scale;
 	//this->sprite.move(-(t->center - tex->center) * this->scale);
 	rect_collision = sf::FloatRect(tex->rect_collision.left * scale + pos.x, tex->rect_collision.top * scale + pos.y, tex->rect_collision.width * scale, tex->rect_collision.height * scale);
-	mesh_collision = std::vector<Vectorf>();
-	mesh_collision.push_back({ rect_collision.left, rect_collision.top });
-	mesh_collision.push_back({ rect_collision.left + rect_collision.width, rect_collision.top });
-	mesh_collision.push_back({ rect_collision.left + rect_collision.width, rect_collision.top + rect_collision.height });
-	mesh_collision.push_back({ rect_collision.left, rect_collision.top + rect_collision.height });
+	mesh = Mesh_collision(rect_collision);
 	tex = t;
 	it = tex->begin();
 }
@@ -201,11 +175,7 @@ Dynamic_entity::Dynamic_entity(Vectorf p, sf::Texture* texture, std::vector<sf::
 {
 	animation_status = Animation_status::A_IDLE;
 	rect_collision = rc;
-	mesh_collision = std::vector<Vectorf>();
-	mesh_collision.push_back({ rect_collision.left, rect_collision.top });
-	mesh_collision.push_back({ rect_collision.left + rect_collision.width, rect_collision.top });
-	mesh_collision.push_back({ rect_collision.left + rect_collision.width, rect_collision.top + rect_collision.height });
-	mesh_collision.push_back({ rect_collision.left, rect_collision.top + rect_collision.height });
+	mesh = Mesh_collision(rect_collision);
 	mass = m;
 	sprite.setOrigin({ actual_frame[0] + 64, actual_frame[1] + 64 });
 }
@@ -256,14 +226,7 @@ void Dynamic_entity::jump(bool move)
 void Dynamic_entity::update(float dt)
 {
 	move_speed += move_force*dt;
-	if (move_speed.x > MAX_MOVE_SPEED.x)
-		move_speed.x = MAX_MOVE_SPEED.x;
-	if (move_speed.x < -MAX_MOVE_SPEED.x)
-		move_speed.x = -MAX_MOVE_SPEED.x;
-	if (move_speed.y > MAX_MOVE_SPEED.y)
-		move_speed.y = MAX_MOVE_SPEED.y;
-	if (move_speed.y < -MAX_MOVE_SPEED.y)
-		move_speed.y = -MAX_MOVE_SPEED.y;
+	move_speed = saturate(move_speed, MAX_MOVE_SPEED);
 	if (move_force == Vectorf(0, 0))
 	{
 		if (move_speed.x > 0)
@@ -345,14 +308,7 @@ void Dynamic_entity::update(float dt)
 			direction = s;
 		}
 	}
-	if (force.x > max_force)
-		force.x = max_force;
-	if (force.y > max_force)
-		force.y = max_force;
-	if (force.x < -max_force)
-		force.x = -max_force;
-	if (force.y < -max_force)
-		force.y = -max_force;
+	force = saturate(force, max_force);
 	update_position(dt);
 	last_animation_status = animation_status;
 	last_status = status;
@@ -365,11 +321,7 @@ void Dynamic_entity::update_position(float dt)
 	pos += total_speed * dt;
 	sprite.setPosition(pos);
 	rect_collision = sf::FloatRect(rect_collision.left + total_speed.x, rect_collision.top + total_speed.y, rect_collision.width, rect_collision.height);
-	mesh_collision = std::vector<Vectorf>();
-	mesh_collision.push_back({ rect_collision.left, rect_collision.top });
-	mesh_collision.push_back({ rect_collision.left + rect_collision.width, rect_collision.top });
-	mesh_collision.push_back({ rect_collision.left + rect_collision.width, rect_collision.top + rect_collision.height });
-	mesh_collision.push_back({ rect_collision.left, rect_collision.top + rect_collision.height });
+	mesh = Mesh_collision(rect_collision);
 	total_speed = { 0,0 };
 }
 

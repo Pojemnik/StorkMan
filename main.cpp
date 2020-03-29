@@ -35,17 +35,17 @@ bool update(float dt, Map& map)
 int main(int argc, char** argv)	//Second argument is a map file for editor
 {
 	std::cout.sync_with_stdio(false);
-	std::cout << "Stork'man version 0.2.1" << std::endl;
+	std::cout << "Stork'man version 0.2.2" << std::endl;
 	Assets assets;
 	sf::Clock* test=new sf::Clock();
 	test->restart();
 	assets.load_assets();
-	std::cout << test->getElapsedTime().asMilliseconds()<<"\n";
+	std::cout << test->getElapsedTime().asMilliseconds()<<std::endl;
 	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
 	sf::RenderWindow window(sf::VideoMode(1024, 576, desktop.bitsPerPixel), "StorkMan", sf::Style::Titlebar | sf::Style::Close);
 	const int FPS = 60;
 	sf::Clock clock;
-	std::cout << test->getElapsedTime().asMilliseconds() << "\n";
+	std::cout << test->getElapsedTime().asMilliseconds() << std::endl;
 	Map map;
 	if (argc == 2)	//Docelowo w tym miejscu powinien wczytywaæ tylko jeden level
 	{
@@ -67,7 +67,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	sf::FloatRect f(380, 55, 20, 70);
 	Player player({ 400, 100 }, assets.pieces,assets.piecesRect,  assets.animations, f, 1.92f, global_scale, 87.f);
 	map.player = &player;
-	std::cout << test->getElapsedTime().asMilliseconds() << "\n";	
+	std::cout << test->getElapsedTime().asMilliseconds() << std::endl;;
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -133,7 +133,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		/*
 		sf::ConvexShape r = sf::ConvexShape(4);
 		int i = 0;
-		for (auto& it : player.mesh_collision)
+		for (auto& it : player.mesh)
 			r.setPoint(i,it), i++;
 		r.setOutlineColor({255,0,0});
 		*/

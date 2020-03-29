@@ -63,7 +63,7 @@ Map::Map(Vectori dimensions, std::vector<Level>& lvls, Vectori start_pos) : size
 		{
 			col_it->rect_collision.left += it.global_pos.x * level_size.x;
 			col_it->rect_collision.top += it.global_pos.y * level_size.y;
-			for (auto& vertex_it : col_it->mesh_collision)
+			for (auto& vertex_it : col_it->mesh.vertices)
 			{
 				vertex_it += Vectorf(it.global_pos.x * level_size.x, it.global_pos.y * level_size.y);
 			}
