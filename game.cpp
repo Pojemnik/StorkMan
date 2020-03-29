@@ -58,7 +58,6 @@ void Entity::jump()
 			animation_status = Entity_status::JUMP_RUN;
 			reset_animation = true;
 		}
-
 	}
 }
 
@@ -157,10 +156,12 @@ void Entity::update_position()
 	mesh = Mesh_collision(rect_collision);
 	total_speed = { 0,0 };
 }
+
 Vectorf Entity::get_position()
 {
 	return pos;
 }
+
 void Entity::set_animation(const Animation* t)
 {
 	//this->pos += -(t->center - tex->center) * this->scale;

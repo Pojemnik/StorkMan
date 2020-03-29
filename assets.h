@@ -1,6 +1,8 @@
 #pragma once
 #include "game.h"
 #include <fstream>
+#include <iostream>
+#include <sstream>
 
 class Assets
 {
@@ -19,7 +21,7 @@ public:
 	Animation ship_undocky;
 	Animation ship_ret_hdmi;
 	sf::Texture* pieces = NULL;
-	std::vector<sf::IntRect> piecesRect;
+	std::vector<sf::IntRect> pieces_rect;
 	std::map<std::string, const sf::Texture*> textures;
 	std::vector<const Dynamic_animation *> animations;
 	void load_assets();

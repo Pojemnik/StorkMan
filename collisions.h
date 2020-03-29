@@ -1,16 +1,16 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <vector>
-struct CollisionInfo {
-	bool shapeAContained, shapeBContained;
+struct Collision_info {
+	bool shapeA_contained, shapeB_contained;
 	bool collides=true;
 	sf::Vector2f vector;
 	float distance;
 
-	CollisionInfo(bool);
-	CollisionInfo() = default;
+	Collision_info(bool);
+	Collision_info() = default;
 };
 
-bool testBollean(const std::vector<sf::Vector2f>* a, const std::vector<sf::Vector2f>* b);
-CollisionInfo checkPolygonsForSAT(const std::vector<sf::Vector2f>* a,const std::vector<sf::Vector2f>* b, bool flip, bool docalc);
-sf::Vector2f test(const std::vector<sf::Vector2f>* a,const std::vector<sf::Vector2f>* b);
+bool test_bollean(const std::vector<sf::Vector2f>* a, const std::vector<sf::Vector2f>* b);
+Collision_info check_polygons_for_SAT(const std::vector<sf::Vector2f>* a,const std::vector<sf::Vector2f>* b, bool flip, bool docalc);
+sf::Vector2f test_collision(const std::vector<sf::Vector2f>* a,const std::vector<sf::Vector2f>* b);

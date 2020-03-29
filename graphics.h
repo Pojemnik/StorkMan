@@ -1,10 +1,8 @@
 #pragma once
-#include <iostream>
 #include <cmath>
 #include <array>
 
 #include "util.h"
-#include "physics.h"
 
 class Animation
 {

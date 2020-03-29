@@ -27,7 +27,7 @@ void Physical::uncolide(const Colidable* c, float dt)
 {
 	if (rect_collision.intersects(c->rect_collision))
 	{
-		sf::Vector2f tmp = test(&mesh.vertices, &c->mesh.vertices);
+		sf::Vector2f tmp = test_collision(&mesh.vertices, &c->mesh.vertices);
 		total_speed += tmp * -1.0f;
 		colision_direction.x = sgn(tmp.x);
 		colision_direction.y = sgn(tmp.y);
@@ -41,7 +41,6 @@ void Physical::uncolide(const Colidable* c, float dt)
 		}
 		update_position(dt);
 	}
-
 }
 
 Physical::Physical(sf::FloatRect rect, std::vector<Vectorf> mesh, Colidable_type t, float m) : Colidable(rect, mesh, t), mass(m)
@@ -58,5 +57,5 @@ bool Physical::test_colision(const Colidable& other)
 {
 	if (!rect_collision.intersects(other.rect_collision))
 		return false;
-	return testBollean(&mesh.vertices, &other.mesh.vertices);
+	return test_bollean(&mesh.vertices, &other.mesh.vertices);
 }

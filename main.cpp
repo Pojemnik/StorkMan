@@ -8,11 +8,11 @@
 #include "game.h"
 #include "parser.h"
 
-
 //Storkman ma 1,92m
 const float global_scale = 51.2f; //[px/m]
 float gravity = .5f;
 const float updatedt = 0.1f;
+bool draw_collisions = false;
 
 bool update(float dt, Map& map)
 {
@@ -47,7 +47,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	sf::Clock clock;
 	std::cout << test->getElapsedTime().asMilliseconds() << std::endl;
 	Map map;
-	if (argc == 2)	//Docelowo w tym miejscu powinien wczytywaæ tylko jeden level
+	if (argc == 2)
 	{
 		tinyxml2::XMLDocument doc;
 		tinyxml2::XMLError error = doc.LoadFile(argv[1]);
@@ -65,7 +65,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		}
 	}
 	sf::FloatRect f(380, 55, 20, 70);
-	Player player({ 400, 100 }, assets.pieces,assets.piecesRect,  assets.animations, f, 1.92f, global_scale, 87.f);
+	Player player({ 400, 100 }, assets.pieces,assets.pieces_rect,  assets.animations, f, 1.92f, global_scale, 87.f);
 	map.player = &player;
 	std::cout << test->getElapsedTime().asMilliseconds() << std::endl;;
 	while (window.isOpen())
@@ -82,6 +82,10 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			{
 				if (event.key.code == sf::Keyboard::Tilde)
 				{
+					std::string command;
+					std::cin >> command;
+					if (command == "col")
+						draw_collisions = !draw_collisions;
 				}
 				if (event.key.code == sf::Keyboard::G)
 				{
@@ -109,8 +113,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			else
 				player.jump(false);
 		}
-		
-		//Physics
+
 		float time = clock.getElapsedTime().asMicroseconds();
 		time /= 1000;
 		if (time > 2500 / FPS)
@@ -122,24 +125,22 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		{
 			window.clear();
 			sf::Vector2f camera_pos=player.get_position();
-			camera_pos-=sf::Vector2f(512,288);
-			sf::RenderStates rs= sf::RenderStates::Default;
+			camera_pos -= sf::Vector2f(512,288);
+			sf::RenderStates rs = sf::RenderStates::Default;
 			rs.transform = sf::Transform().translate(-camera_pos);
+			if (draw_collisions)
+			{
+				sf::ConvexShape r = sf::ConvexShape(4);
+				int i = 0;
+				for (auto& it : player.mesh.vertices)
+					r.setPoint(i, it), i++;
+				r.setOutlineColor({ 255,0,0 });
+				window.draw(r, rs);
+			}
 			window.draw(map,rs);
-		//window.draw(r, rs);
 			window.draw(player,rs);
 			window.display();
 		}
-		/*
-		sf::ConvexShape r = sf::ConvexShape(4);
-		int i = 0;
-		for (auto& it : player.mesh)
-			r.setPoint(i,it), i++;
-		r.setOutlineColor({255,0,0});
-		*/
-		//Render
-		
-		//while (clock.getElapsedTime().asMilliseconds() < 1000 / FPS);
 	}
 	return 0;
 }

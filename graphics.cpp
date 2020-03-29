@@ -1,6 +1,4 @@
-#include "core.h"
-#include<sstream>
-
+#include "graphics.h"
 
 Renderable::Renderable(Vectorf p, sf::Texture* t, float h) : tex(t), pos(p), height(h)
 {
