@@ -68,6 +68,7 @@ std::vector<sf::Texture>::const_iterator Animation::end() const
 Vectorf Dynamic_animatable::count_pos(Vectorf start, float size1, float size2,
 	float translation_x1, float translation_y1, float angle1,
 	float translation_x2, float translation_y2, float angle2)
+	//Should convert angles inside and take 2 xyrs and Vectorf instead of 6 floats
 {
 	float d1 = sqrt(pow(translation_x1 - size1 / 2, 2) + pow(translation_y1 - size1 / 2, 2));
 	float d2 = sqrt(pow(translation_x2 - size2 / 2, 2) + pow(translation_y2 - size2 / 2, 2));
@@ -85,9 +86,11 @@ Vectorf Dynamic_animatable::count_pos(Vectorf start, float size1, float size2,
 void Dynamic_animatable::animate(std::vector<float> frame)
 {
 	std::vector<xyr> vec(tree.count);
-	vec[tree.root].r = frame[0];
-	vec[tree.root].pos.x = frame[1];
-	vec[tree.root].pos.y = frame[2];
+	vec[tree.root].pos.x = frame[0];
+	vec[tree.root].pos.y = frame[1];
+	vec[tree.root].r = frame[2];
+	parts[map_stork_drawing_sequence_to_enum[tree.root]].setRotation(vec[tree.root].r);
+	parts[map_stork_drawing_sequence_to_enum[tree.root]].setPosition(vec[tree.root].pos);
 	std::queue<int> q;
 	q.push(tree.root);
 	while (!q.empty())
@@ -98,18 +101,16 @@ void Dynamic_animatable::animate(std::vector<float> frame)
 		{
 			int next = tree.tree[current][i];
 			q.push(next);
-			vec[next].r = vec[current].r + frame[tree.position_of_element_in_animation_array[next]];
+			vec[next].r = vec[current].r + frame[tree.position_of_element_in_animation_array[next]+3];
 			vec[next].pos = count_pos(vec[current].pos, 128, 128,
-				tree.draw_sequence[next].delta_pos[0], tree.draw_sequence[next].delta_pos[1],
-				rdn(vec[current].r), tree.draw_sequence[next].delta_pos[2],
-				tree.draw_sequence[next].delta_pos[3], rdn(vec[next].r));
+				tree.nodes[next].delta_pos[0], tree.nodes[next].delta_pos[1],
+				rdn(vec[current].r), tree.nodes[next].delta_pos[2],
+				tree.nodes[next].delta_pos[3], rdn(vec[next].r));
 			parts[map_stork_drawing_sequence_to_enum[next]].setRotation(vec[next].r);
 			parts[map_stork_drawing_sequence_to_enum[next]].setPosition(vec[next].pos);
 		}
-		parts[map_stork_drawing_sequence_to_enum[tree.root]].setRotation(vec[tree.root].r);
-		parts[map_stork_drawing_sequence_to_enum[tree.root]].setPosition(vec[tree.root].pos);
 		tex.clear(sf::Color(0, 0, 0, 0));
-		for (int i = 0; i < tree.draw_sequence.size(); i++)
+		for (int i = 0; i < tree.nodes.size(); i++)
 		{
 			tex.draw(parts[map_stork_drawing_sequence_to_enum[i]]);
 		}
@@ -289,7 +290,7 @@ Dynamic_animatable::Dynamic_animatable(sf::Texture* texture, std::vector<sf::Int
 		parts.push_back(sf::Sprite(*texture, v[i]));
 		parts[i].setOrigin(v[i].width / 2, v[i].height / 2);
 	}
-	scale = gs * height / 350;
+	scale = gs * height / 500;
 	if (!tex.create(500, 500))
 		return;
 }

@@ -29,11 +29,11 @@ Dynamic_animation* Assets::load_dynamic_animation(std::string path)
 	std::ifstream f(path);
 	int frames, parts;
 	f >> parts >> frames;
-	std::vector<std::vector<float>> kf(frames, std::vector<float>(parts+3));
+	std::vector<std::vector<float>> kf(frames, std::vector<float>(parts + 3));
 	std::vector<int> l(frames);
 	for (int i = 0; i < frames; i++)
 	{
-		for (int j = 0; j < parts+3; j++)
+		for (int j = 0; j < parts + 3; j++)
 		{
 			f >> kf[i][j];
 		}
@@ -47,7 +47,7 @@ Animation_tree::Animation_tree(int _count, int i_count) : count(_count), indepen
 {
 	tree.resize(count);
 	position_of_element_in_animation_array.resize(count);
-	draw_sequence.resize(count);
+	nodes.resize(count);
 }
 
 Animation_tree Assets::load_animation_tree(std::string path)
@@ -70,16 +70,16 @@ Animation_tree Assets::load_animation_tree(std::string path)
 		node_names[name] = i;
 		tree.position_of_element_in_animation_array[node_names[name]] = position;
 	}
-	for (int i = 0; i < count-1; i++)
+	for (int i = 0; i < count - 1; i++)
 	{
 		std::string a, b;
 		int ax, ay, bx, by;
 		file >> a >> b;
 		file >> ax >> ay >> bx >> by;
-		tree.draw_sequence[node_names[b]].delta_pos = { ax,ay,bx,by };
+		tree.nodes[node_names[b]].delta_pos = { ax,ay,bx,by };
 		tree.tree[node_names[a]].push_back(node_names[b]);
 	}
-	tree.draw_sequence[tree.root].delta_pos = { 0,0,0,0 };
+	tree.nodes[tree.root].delta_pos = { 0,0,0,0 };
 	return tree;
 }
 
@@ -130,7 +130,7 @@ void Assets::load_assets()
 	pieces = new sf::Texture();
 	pieces->loadFromFile("img/stork/parts_ss_128_128_is_3_9.png");
 	for (int i = 0; i < 27; i++)
-		pieces_rect.push_back({128*(i%3),128*(i/3),128,128});
+		pieces_rect.push_back({ 128 * (i % 3),128 * (i / 3),128,128 });
 	animations.push_back(load_dynamic_animation("animations/stork/idle.txt"));
 	animations.push_back(load_dynamic_animation("animations/stork/run.txt"));
 	animations.push_back(load_dynamic_animation("animations/stork/jump_idle.txt"));

@@ -75,7 +75,7 @@ public:
 	int count;
 	int independent_count;
 	std::vector<int> position_of_element_in_animation_array;	//Longest name ever
-	std::vector<Animation_node> draw_sequence;
+	std::vector<Animation_node> nodes;
 	std::vector<std::vector<int>> tree;
 	int root;
 	Animation_tree() = default;
