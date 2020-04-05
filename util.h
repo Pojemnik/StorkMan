@@ -16,6 +16,9 @@ enum Stork_parts {
 	TAIL
 };
 
+const int map_stork_drawing_sequence_to_enum[] = {10, 21, 22, 23, 24, 25, 8, 1,
+	7, 0, 4, 3, 5, 12, 14, 26, 6, 13, 15, 16, 17, 18, 19, 20, 9, 11, 2};
+
 const Vectorf max_force = { 1000.f, 1000.0f };
 const float max_run_speed = 5.f;
 

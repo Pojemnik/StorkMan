@@ -82,9 +82,41 @@ Vectorf Dynamic_animatable::count_pos(Vectorf start, float size1, float size2,
 	return Vectorf({ start.x + Lx1 - Lx2 + size1 / 2 - size2 / 2, start.y + Ly1 - Ly2 + size1 / 2 - size2 / 2 });
 }
 
-void Dynamic_animatable::animate(std::array<float, 21> arr)
+void Dynamic_animatable::animate(std::vector<float> frame)
 {
-	animate(arr[0], arr[1], arr[2], arr[3], arr[4], arr[5], arr[6], arr[7], arr[8], arr[9], arr[10], arr[11], arr[12], arr[13], arr[14], arr[15], arr[16], arr[17], arr[18], arr[19], arr[20]);
+	std::vector<xyr> vec(tree.count);
+	vec[tree.root].r = frame[0];
+	vec[tree.root].pos.x = frame[1];
+	vec[tree.root].pos.y = frame[2];
+	std::queue<int> q;
+	q.push(tree.root);
+	while (!q.empty())
+	{
+		int current = q.front();
+		q.pop();
+		for (int i = 0; i < tree.tree[current].size(); i++)
+		{
+			int next = tree.tree[current][i];
+			q.push(next);
+			vec[next].r = vec[current].r + frame[tree.position_of_element_in_animation_array[next]];
+			vec[next].pos = count_pos(vec[current].pos, 128, 128,
+				tree.draw_sequence[next].delta_pos[0], tree.draw_sequence[next].delta_pos[1],
+				rdn(vec[current].r), tree.draw_sequence[next].delta_pos[2],
+				tree.draw_sequence[next].delta_pos[3], rdn(vec[next].r));
+			parts[map_stork_drawing_sequence_to_enum[next]].setRotation(vec[next].r);
+			parts[map_stork_drawing_sequence_to_enum[next]].setPosition(vec[next].pos);
+		}
+		parts[map_stork_drawing_sequence_to_enum[tree.root]].setRotation(vec[tree.root].r);
+		parts[map_stork_drawing_sequence_to_enum[tree.root]].setPosition(vec[tree.root].pos);
+		tex.clear(sf::Color(0, 0, 0, 0));
+		for (int i = 0; i < tree.draw_sequence.size(); i++)
+		{
+			tex.draw(parts[map_stork_drawing_sequence_to_enum[i]]);
+		}
+		tex.display();
+		sprite.setTexture(tex.getTexture());
+		sprite.setScale(scale, fabs(scale));
+	}
 }
 
 void Dynamic_animatable::animate(float x, float y, float r, float KLArGLO, float BRZrKLA,
@@ -242,7 +274,9 @@ void Dynamic_animatable::animate(float x, float y, float r, float KLArGLO, float
 }
 
 
-Dynamic_animatable::Dynamic_animatable(sf::Texture* texture, std::vector<sf::IntRect>& v, Vectorf p, std::vector<const Dynamic_animation*> a, float h, float gs) : pos(p), height(h), animations(a)
+Dynamic_animatable::Dynamic_animatable(sf::Texture* texture, std::vector<sf::IntRect>& v,
+	Vectorf p, std::vector<const Dynamic_animation*> a, Animation_tree t, float h, float gs)
+	: pos(p), height(h), animations(a), tree(t)
 {
 	last_animation_status = animation_status = Animation_status::A_IDLE;
 	key = 0;
@@ -252,10 +286,10 @@ Dynamic_animatable::Dynamic_animatable(sf::Texture* texture, std::vector<sf::Int
 	actual_frame = *last_key;
 	for (int i = 0; i < v.size(); i++)
 	{
-		parts.push_back(sf::Sprite(*texture,v[i]));
-		parts[i].setOrigin(64, 64);
+		parts.push_back(sf::Sprite(*texture, v[i]));
+		parts[i].setOrigin(v[i].width / 2, v[i].height / 2);
 	}
-	scale = gs * height / 500;
+	scale = gs * height / 350;
 	if (!tex.create(500, 500))
 		return;
 }
@@ -276,7 +310,7 @@ void Dynamic_animatable::next_frame()
 	}
 	if (frames_delta > 1)
 	{
-		for (int i = 0; i < 21; i++)
+		for (int i = 0; i < tree.independent_count + 3; i++)
 		{
 			actual_frame[i] = actual_frame[i] + ((*next_key)[i] - actual_frame[i]) / frames_delta;
 		}
@@ -305,6 +339,6 @@ void Dynamic_animatable::draw(sf::RenderTarget& target, sf::RenderStates states)
 	target.draw(sprite, states);
 }
 
-Dynamic_animation::Dynamic_animation(std::vector<std::array<float, 21>>& kf, std::vector<int>& l) : key_frames(kf), lengths(l)
+Dynamic_animation::Dynamic_animation(std::vector<std::vector<float>>& kf, std::vector<int>& l) : key_frames(kf), lengths(l)
 {
 }

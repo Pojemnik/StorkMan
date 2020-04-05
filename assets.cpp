@@ -27,20 +27,60 @@ Animation* Assets::load_animation(std::string path, Vectorf center, sf::FloatRec
 Dynamic_animation* Assets::load_dynamic_animation(std::string path)
 {
 	std::ifstream f(path);
-	int n;
-	f >> n;
-	std::vector<std::array<float, 21>> kf(n);
-	std::vector<int> l(n);
-	for (int i = 0; i < n; i++)
+	int frames, parts;
+	f >> parts >> frames;
+	std::vector<std::vector<float>> kf(frames, std::vector<float>(parts+3));
+	std::vector<int> l(frames);
+	for (int i = 0; i < frames; i++)
 	{
-		for (int j = 0; j < 21; j++)
+		for (int j = 0; j < parts+3; j++)
 		{
 			f >> kf[i][j];
 		}
 	}
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < frames; i++)
 		f >> l[i];
 	return new Dynamic_animation(kf, l);
+}
+
+Animation_tree::Animation_tree(int _count, int i_count) : count(_count), independent_count(i_count)
+{
+	tree.resize(count);
+	position_of_element_in_animation_array.resize(count);
+	draw_sequence.resize(count);
+}
+
+Animation_tree Assets::load_animation_tree(std::string path)
+{
+	std::ifstream file;
+	file.open(path);
+	int count, independent_count;
+	file >> count >> independent_count;
+	Animation_tree tree(count, independent_count);
+	std::map<std::string, int> node_names;
+	for (int i = 0; i < count; i++)
+	{
+		std::string name;
+		int position;
+		file >> name >> position;
+		if (position == -1)
+		{
+			tree.root = i;
+		}
+		node_names[name] = i;
+		tree.position_of_element_in_animation_array[node_names[name]] = position;
+	}
+	for (int i = 0; i < count-1; i++)
+	{
+		std::string a, b;
+		int ax, ay, bx, by;
+		file >> a >> b;
+		file >> ax >> ay >> bx >> by;
+		tree.draw_sequence[node_names[b]].delta_pos = { ax,ay,bx,by };
+		tree.tree[node_names[a]].push_back(node_names[b]);
+	}
+	tree.draw_sequence[tree.root].delta_pos = { 0,0,0,0 };
+	return tree;
 }
 
 void Assets::load_textures(std::vector<sf::Texture>& v, std::string path, bool rep)
@@ -97,6 +137,7 @@ void Assets::load_assets()
 	animations.push_back(load_dynamic_animation("animations/stork/jump_run.txt"));
 	animations.push_back(load_dynamic_animation("animations/stork/jump_run2.txt"));
 	load_textures(map_textures, "img/tex_ss_64_64_is_1_17.png", true);
+	stork_tree = load_animation_tree("animations/stork/tree.txt");
 	//load_textures(ship_dockx, "img/ships/DokowanieX_ss_436_87_is_10_12.png", false);
 	//load_textures(ship_docky, "img/ships/DokowanieY_ss_443_442_is_15_20.png", false);
 	//load_textures(ship_fly, "img/ships/Lot_ss_466_87_is_6_10.png", false);

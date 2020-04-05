@@ -65,7 +65,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		}
 	}
 	sf::FloatRect f(380, 55, 20, 70);
-	Player player({ 400, 100 }, assets.pieces,assets.pieces_rect,  assets.animations, f, 1.92f, global_scale, 87.f);
+	Player player({ 400, 100 }, assets.pieces,assets.pieces_rect,  assets.animations, f, assets.stork_tree, 1.92f, global_scale, 87.f);
 	map.player = &player;
 	std::cout << test->getElapsedTime().asMilliseconds() << std::endl;;
 	while (window.isOpen())

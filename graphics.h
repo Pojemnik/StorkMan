@@ -1,6 +1,7 @@
 #pragma once
 #include <cmath>
 #include <array>
+#include <queue>
 
 #include "util.h"
 
@@ -63,18 +64,37 @@ public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
+struct Animation_node
+{	
+	std::array<int, 4> delta_pos;
+};
+
+class Animation_tree
+{
+public:
+	int count;
+	int independent_count;
+	std::vector<int> position_of_element_in_animation_array;	//Longest name ever
+	std::vector<Animation_node> draw_sequence;
+	std::vector<std::vector<int>> tree;
+	int root;
+	Animation_tree() = default;
+	Animation_tree(int _count, int i_count);
+};
+
 class Dynamic_animation
 {
 public:
-	const std::vector<std::array<float, 21>> key_frames;
+	const std::vector<std::vector<float>> key_frames;
 	const std::vector<int> lengths;
 
-	Dynamic_animation(std::vector<std::array<float, 21>>& kf, std::vector<int>& l);
+	Dynamic_animation(std::vector<std::vector<float>>& kf, std::vector<int>& l);
 };
 
 class Dynamic_animatable : public sf::Drawable
 {
 protected:
+	const Animation_tree tree;
 	Vectori last_collision_direction = { 0,0 };
 	Vectorf pos;
 	std::vector<sf::Sprite> parts;
@@ -86,9 +106,9 @@ protected:
 	std::vector<const Dynamic_animation*> animations;
 	int key;
 	int frames_delta;
-	const std::array<float, 21>* last_key;
-	const std::array<float, 21>* next_key;
-	std::array<float, 21> actual_frame;
+	const std::vector<float>* last_key;
+	const std::vector<float>* next_key;
+	std::vector<float> actual_frame;
 	Animation_status animation_status;
 	Animation_status last_animation_status;
 	Entity_status status;
@@ -97,14 +117,15 @@ protected:
 	Vectorf count_pos(Vectorf start, float size1, float size2,
 		float translation_x1, float translation_y1, float angle1,
 		float translation_x2, float translation_y2, float angle2);
-	void animate(std::array<float, 21> arr);
+	void animate(std::vector<float> arr);
 	void animate(float x, float y, float r, float KLArGLO, float BRZrKLA,
 		float MIErBRZ, float KLArPRA, float PRArPPR, float PPRrPDL,
 		float KLArLRA, float LRArLPR, float LPRrLDL, float MIErPUD,
 		float PUDrPLY, float PLYrPST, float MIErLUD, float LUDrLLY,
 		float LLYrLST, float PPRrSKP, float LPRrSKL, float MIErOGO);
 public:
-	Dynamic_animatable(sf::Texture* texture,std::vector<sf::IntRect>& v, Vectorf p, std::vector<const Dynamic_animation*> a, float h, float gs);
+	Dynamic_animatable(sf::Texture* texture, std::vector<sf::IntRect>& v,
+		Vectorf p, std::vector<const Dynamic_animation*> a, Animation_tree t, float h, float gs);
 	void next_frame();
 	void set_animation(Animation_status s);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

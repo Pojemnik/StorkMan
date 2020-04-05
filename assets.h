@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <map>
 
 class Assets
 {
@@ -24,6 +25,7 @@ public:
 	std::vector<sf::IntRect> pieces_rect;
 	std::map<std::string, const sf::Texture*> textures;
 	std::vector<const Dynamic_animation *> animations;
+	Animation_tree stork_tree;
 	void load_assets();
 
 private:
@@ -31,4 +33,5 @@ private:
 	void load_textures(std::vector<sf::Texture>& v, std::string path, bool rep);
 	Animation* load_animation(std::string path, Vectorf center, sf::FloatRect rect);
 	Dynamic_animation* load_dynamic_animation(std::string path);
+	Animation_tree load_animation_tree(std::string path);
 };
