@@ -45,7 +45,7 @@ void Level::addPlatfrom(Platform p)
 Map::Map(Vectori dimensions, std::vector<Level>& lvls, Vectori start_pos, sf::Texture& bg) : size(dimensions), current_pos(start_pos)
 {
 	background.setTexture(bg);
-	level_placement = new Level** [size.y];
+	level_placement = new Level * *[size.y];
 	for (int i = 0; i < size.y; i++)
 	{
 		level_placement[i] = new Level * [size.x];
@@ -102,13 +102,15 @@ void Map::unload_level(Vectori pos)//Never called
 void Map::unload_level(std::list<Level*>::iterator& lvl)
 {
 	(*lvl)->is_loaded = false;
-	lvl=loaded_levels.erase(lvl);
+	lvl = loaded_levels.erase(lvl);
 }
 
 void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
+	const float* matrix = states.transform.getMatrix();
+	Vectorf move = { matrix[12]/100, matrix[13]/100 };
 	sf::RenderStates bg_states = states;
-	//bg_states.transform.scale(0.5f, 0.5f);
+	bg_states.transform.translate(move);
 	target.draw(background, bg_states);
 	for (const auto& it : loaded_levels)
 	{
@@ -137,7 +139,7 @@ void Map::update(float dt)
 		for (auto level_it = loaded_levels.begin(); level_it != loaded_levels.end(); std::advance(level_it, removed))
 		{
 			removed = 1;
-			if ((*level_it)->global_pos.x +(*level_it)->global_size.x < current_pos.x - 1 || (*level_it)->global_pos.x > current_pos.x + 1 || (*level_it)->global_pos.y + (*level_it)->global_size.y < current_pos.y - 1 || (*level_it)->global_pos.y > current_pos.y + 1)
+			if ((*level_it)->global_pos.x + (*level_it)->global_size.x < current_pos.x - 1 || (*level_it)->global_pos.x > current_pos.x + 1 || (*level_it)->global_pos.y + (*level_it)->global_size.y < current_pos.y - 1 || (*level_it)->global_pos.y > current_pos.y + 1)
 			{
 				if ((*level_it)->is_loaded)
 				{
@@ -150,7 +152,7 @@ void Map::update(float dt)
 		{
 			for (int y = -1; y < 2; y++)
 			{
-				if (current_pos.x + x < size.x && current_pos.y + y < size.y && current_pos.x + x >= 0 && current_pos.y + y >= 0 && !level_placement[current_pos.x+x][current_pos.y+y]->is_loaded)
+				if (current_pos.x + x < size.x && current_pos.y + y < size.y && current_pos.x + x >= 0 && current_pos.y + y >= 0 && !level_placement[current_pos.x + x][current_pos.y + y]->is_loaded)
 					load_level(Vectori(current_pos.x + x, current_pos.y + y));
 			}
 		}
