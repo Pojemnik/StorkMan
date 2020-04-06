@@ -29,7 +29,7 @@ public:
 
 class Dynamic_entity : public Dynamic_animatable, public Physical
 {
-private:
+protected:
 	bool reset_animation = false;
 
 	void update_position(float dt);
@@ -49,4 +49,5 @@ class Player : public Dynamic_entity
 {
 public:
 	Player(Vectorf p, sf::Texture* texture, std::vector<sf::IntRect>& v, std::vector<const Dynamic_animation*> a, sf::FloatRect rc, Animation_tree t, float h, float gs, float m);
+	void attack(int type);
 };

@@ -43,6 +43,19 @@ void Entity::move(Vectorf delta)
 	}
 }
 
+void Player::attack(int type)
+{
+	if (type == 1)
+	{
+		if (animation_status == Entity_status::IDLE || animation_status == Entity_status::JUMP_IDLE)
+		{
+			status = Entity_status::PUNCH_1;
+			animation_status = Animation_status::A_PUNCH_1;
+			reset_animation = true;
+		}
+	}
+}
+
 void Entity::jump()
 {
 	if (colision_direction.y == 1)

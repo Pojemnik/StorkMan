@@ -40,7 +40,9 @@ Dynamic_animation* Assets::load_dynamic_animation(std::string path)
 	}
 	for (int i = 0; i < frames; i++)
 		f >> l[i];
-	return new Dynamic_animation(kf, l);
+	bool repeat;
+	f >> repeat;
+	return new Dynamic_animation(kf, l, repeat);
 }
 
 Animation_tree::Animation_tree(int _count, int i_count) : count(_count), independent_count(i_count)
@@ -136,6 +138,7 @@ void Assets::load_assets()
 	animations.push_back(load_dynamic_animation("animations/stork/jump_idle.txt"));
 	animations.push_back(load_dynamic_animation("animations/stork/jump_run.txt"));
 	animations.push_back(load_dynamic_animation("animations/stork/jump_run2.txt"));
+	animations.push_back(load_dynamic_animation("animations/stork/straight_punch.txt"));
 	load_textures(map_textures, "img/tex_ss_64_64_is_1_17.png", true);
 	stork_tree = load_animation_tree("animations/stork/tree.txt");
 	//load_textures(ship_dockx, "img/ships/DokowanieX_ss_436_87_is_10_12.png", false);

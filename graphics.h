@@ -87,8 +87,9 @@ class Dynamic_animation
 public:
 	const std::vector<std::vector<float>> key_frames;
 	const std::vector<int> lengths;
+	const bool repeat = false;
 
-	Dynamic_animation(std::vector<std::vector<float>>& kf, std::vector<int>& l);
+	Dynamic_animation(std::vector<std::vector<float>>& kf, std::vector<int>& l, bool r);
 };
 
 class Dynamic_animatable : public sf::Drawable
@@ -118,10 +119,10 @@ protected:
 		Vectorf translation1, float a1,
 		Vectorf translation2, float a2);
 	void animate(std::vector<float> arr);
+	void set_animation(Animation_status s);
 public:
 	Dynamic_animatable(sf::Texture* texture, std::vector<sf::IntRect>& v,
 		Vectorf p, std::vector<const Dynamic_animation*> a, Animation_tree t, float h, float gs);
 	void next_frame();
-	void set_animation(Animation_status s);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

@@ -6,8 +6,8 @@ typedef sf::Vector2i Vectori;
 
 const float PI = 3.1415927f;
 
-enum Entity_status { IDLE = 0, MOVE, JUMP_IDLE, JUMP_RUN, ATTACK, HIT, IN_AIR };
-enum Animation_status { A_IDLE = 0, A_MOVE, A_JUMP_IDLE, A_JUMP_RUN, A_JUMP_RUN2, A_ATTACK, A_HIT };
+enum Entity_status { IDLE = 0, MOVE, JUMP_IDLE, JUMP_RUN, PUNCH_1, HIT, IN_AIR };
+enum Animation_status { A_IDLE = 0, A_MOVE, A_JUMP_IDLE, A_JUMP_RUN, A_JUMP_RUN2, A_PUNCH_1, A_HIT };
 enum Colidable_type { GROUND, ENEMY, OTHER };
 enum Stork_parts {
 	BELLY = 0, L_HAND, R_HAND, HEAD, CHEST, L_CALF, R_CALF, PELVIS, L_FOREARM,

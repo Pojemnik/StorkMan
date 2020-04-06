@@ -172,8 +172,16 @@ void Dynamic_animatable::next_frame()
 		actual_frame = *last_key;
 		if (++key >= animations[animation_status]->key_frames.size())
 		{
-			frames_delta = animations[animation_status]->lengths.back();//Animation loop
-			key = 0;
+			if (animations[animation_status]->repeat)
+			{
+				frames_delta = animations[animation_status]->lengths.back();//Animation loop
+				key = 0;
+			}
+			else
+			{
+				animation_status = Animation_status::A_IDLE;
+				set_animation(animation_status);
+			}
 		}
 		else
 		{
@@ -189,7 +197,7 @@ void Dynamic_animatable::draw(sf::RenderTarget& target, sf::RenderStates states)
 	target.draw(sprite, states);
 }
 
-Dynamic_animation::Dynamic_animation(std::vector<std::vector<float>>& kf, std::vector<int>& l)
-	: key_frames(kf), lengths(l)
+Dynamic_animation::Dynamic_animation(std::vector<std::vector<float>>& kf, std::vector<int>& l, bool r)
+	: key_frames(kf), lengths(l), repeat(r)
 {
 }
