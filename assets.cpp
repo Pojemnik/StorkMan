@@ -76,10 +76,10 @@ Animation_tree Assets::load_animation_tree(std::string path)
 		int ax, ay, bx, by;
 		file >> a >> b;
 		file >> ax >> ay >> bx >> by;
-		tree.nodes[node_names[b]].delta_pos = { ax,ay,bx,by };
+		tree.nodes[node_names[b]].delta_pos = { Vectorf(ax,ay),Vectorf(bx,by) };
 		tree.tree[node_names[a]].push_back(node_names[b]);
 	}
-	tree.nodes[tree.root].delta_pos = { 0,0,0,0 };
+	tree.nodes[tree.root].delta_pos = { Vectorf(0,0),Vectorf(0,0) };
 	return tree;
 }
 

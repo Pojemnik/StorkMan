@@ -66,7 +66,7 @@ public:
 
 struct Animation_node
 {	
-	std::array<int, 4> delta_pos;
+	std::array<Vectorf, 2> delta_pos;
 };
 
 class Animation_tree
@@ -115,14 +115,9 @@ protected:
 	Entity_status last_status;
 	const int ANIMATION_CHANGE_DELTA = 5;
 	Vectorf count_pos(Vectorf start, float size1, float size2,
-		float translation_x1, float translation_y1, float angle1,
-		float translation_x2, float translation_y2, float angle2);
+		Vectorf translation1, float a1,
+		Vectorf translation2, float a2);
 	void animate(std::vector<float> arr);
-	void animate(float x, float y, float r, float KLArGLO, float BRZrKLA,
-		float MIErBRZ, float KLArPRA, float PRArPPR, float PPRrPDL,
-		float KLArLRA, float LRArLPR, float LPRrLDL, float MIErPUD,
-		float PUDrPLY, float PLYrPST, float MIErLUD, float LUDrLLY,
-		float LLYrLST, float PPRrSKP, float LPRrSKL, float MIErOGO);
 public:
 	Dynamic_animatable(sf::Texture* texture, std::vector<sf::IntRect>& v,
 		Vectorf p, std::vector<const Dynamic_animation*> a, Animation_tree t, float h, float gs);
