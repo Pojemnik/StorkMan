@@ -1,2 +1,4 @@
 Interakcje ze skoœnymi platformami (lepsze podbieganie i zbieganie, zsuwanie siê od pewnego k¹ta)
 W¹tki
+Zmieniæ kolejnoœæ grafik w pliku z czêœciami Storkmana i tak samo zmieniæ enuma. Bêdzie mo¿na pozbyæ siê tej dziwnej tablicy mapuj¹cej.
+Warstwy mapy i paralaksa

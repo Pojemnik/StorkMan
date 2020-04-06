@@ -25,6 +25,7 @@ public:
 	std::vector<sf::IntRect> pieces_rect;
 	std::map<std::string, const sf::Texture*> textures;
 	std::vector<const Dynamic_animation *> animations;
+	sf::Texture* bg;
 	Animation_tree stork_tree;
 	void load_assets();
 

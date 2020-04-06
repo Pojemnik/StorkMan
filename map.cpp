@@ -42,9 +42,10 @@ void Level::addPlatfrom(Platform p)
 	addTexturable(&p);
 }
 
-Map::Map(Vectori dimensions, std::vector<Level>& lvls, Vectori start_pos) : size(dimensions), current_pos(start_pos)
+Map::Map(Vectori dimensions, std::vector<Level>& lvls, Vectori start_pos, sf::Texture& bg) : size(dimensions), current_pos(start_pos)
 {
-	level_placement = new Level * *[size.y];
+	background.setTexture(bg);
+	level_placement = new Level** [size.y];
 	for (int i = 0; i < size.y; i++)
 	{
 		level_placement[i] = new Level * [size.x];
@@ -106,6 +107,9 @@ void Map::unload_level(std::list<Level*>::iterator& lvl)
 
 void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
+	sf::RenderStates bg_states = states;
+	//bg_states.transform.scale(0.5f, 0.5f);
+	target.draw(background, bg_states);
 	for (const auto& it : loaded_levels)
 	{
 		states.transform *= sf::Transform().translate({ level_size.x * it->global_pos.x,level_size.y * it->global_pos.y });

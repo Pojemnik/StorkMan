@@ -32,6 +32,7 @@ private:
 	std::vector<Level> levels;
 	Level*** level_placement;
 	std::list<Level*> loaded_levels;
+	sf::Sprite background;
 
 	void load_level(Vectori pos);
 	void unload_level(Vectori pos);
@@ -41,7 +42,7 @@ public:
 	Player* player;//Chyba niezyt eleganckie
 
 	Map() = default;
-	Map(Vectori dimensions, std::vector<Level> &levels, Vectori start_pos);
+	Map(Vectori dimensions, std::vector<Level> &levels, Vectori start_pos, sf::Texture& bg);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	void update(float dt);
 };
