@@ -92,8 +92,8 @@ void Dynamic_animatable::animate(std::vector<float> frame)
 	vec[tree.root].pos.x = frame[0];
 	vec[tree.root].pos.y = frame[1];
 	vec[tree.root].r = frame[2];
-	parts[map_stork_drawing_sequence_to_enum[tree.root]].setRotation(vec[tree.root].r);
-	parts[map_stork_drawing_sequence_to_enum[tree.root]].setPosition(vec[tree.root].pos);
+	parts[tree.root].setRotation(vec[tree.root].r);
+	parts[tree.root].setPosition(vec[tree.root].pos);
 	std::queue<int> q;
 	q.push(tree.root);
 	while (!q.empty())
@@ -109,13 +109,13 @@ void Dynamic_animatable::animate(std::vector<float> frame)
 			vec[next].pos = count_pos(vec[current].pos, 128, 128,
 				tree.nodes[next].delta_pos[0], vec[current].r,
 				tree.nodes[next].delta_pos[1], vec[next].r);
-			parts[map_stork_drawing_sequence_to_enum[next]].setRotation(vec[next].r);
-			parts[map_stork_drawing_sequence_to_enum[next]].setPosition(vec[next].pos);
+			parts[next].setRotation(vec[next].r);
+			parts[next].setPosition(vec[next].pos);
 		}
 		tex.clear(sf::Color(0, 0, 0, 0));
 		for (int i = 0; i < tree.nodes.size(); i++)
 		{
-			tex.draw(parts[map_stork_drawing_sequence_to_enum[i]]);
+			tex.draw(parts[i]);
 		}
 		tex.display();
 		sprite.setTexture(tex.getTexture());
