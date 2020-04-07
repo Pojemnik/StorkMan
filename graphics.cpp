@@ -138,7 +138,7 @@ Dynamic_animatable::Dynamic_animatable(sf::Texture* texture, std::vector<sf::Int
 		parts.push_back(sf::Sprite(*texture, v[i]));
 		parts[i].setOrigin(v[i].width / 2, v[i].height / 2);
 	}
-	scale = gs * height / 500;
+	scale = gs * height / 350;
 	if (!tex.create(500, 500))
 		return;
 }

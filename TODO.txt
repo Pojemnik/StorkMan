@@ -2,3 +2,4 @@ Interakcje ze skoœnymi platformami (lepsze podbieganie i zbieganie, zsuwanie siê
 W¹tki
 Warstwy mapy i paralaksa
 Spadanie i l¹dowanie - lepiej rozwi¹zaæ animacje
+Uwzglêdniæ skalê w edycji poziomów

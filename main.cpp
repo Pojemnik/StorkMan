@@ -9,7 +9,7 @@
 #include "parser.h"
 
 //Storkman ma 1,92m
-const float global_scale = 51.2f; //[px/m]
+const float global_scale = 35.84f; //[px/m]
 float gravity = .5f;
 const float updatedt = 0.1f;
 bool draw_collisions = false;
@@ -35,7 +35,7 @@ bool update(float dt, Map& map)
 int main(int argc, char** argv)	//Second argument is a map file for editor
 {
 	std::cout.sync_with_stdio(false);
-	std::cout << "Stork'man version 0.2.2" << std::endl;
+	std::cout << "Stork'man version 0.3.0" << std::endl;
 	Assets assets;
 	sf::Clock* test = new sf::Clock();
 	test->restart();
@@ -92,9 +92,6 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 				{
 					gravity = -gravity;
 				}
-			}
-			if (event.type == sf::Event::Resized)
-			{
 			}
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
