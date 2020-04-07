@@ -32,13 +32,13 @@ private:
 	std::vector<Level> levels;
 	Level*** level_placement;
 	std::list<Level*> loaded_levels;
-	sf::Sprite background;
 
 	void load_level(Vectori pos);
 	void unload_level(Vectori pos);
 	void unload_level(std::list<Level*>::iterator& lvl);
 
 public:
+	sf::Sprite background;
 	Player* player;//Chyba niezyt eleganckie
 
 	Map() = default;

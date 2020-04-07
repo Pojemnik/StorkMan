@@ -64,6 +64,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			map = parse_map(root, &assets);
 		}
 	}
+	map.background.setPosition(-1000, -2000);
 	sf::FloatRect f(380, 55, 20, 70);
 	Player player({ 400, 100 }, assets.pieces, assets.pieces_rect, assets.animations, f, assets.stork_tree, 1.92f, global_scale, 87.f);
 	map.player = &player;
