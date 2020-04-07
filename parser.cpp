@@ -59,6 +59,7 @@ Level parse_level(tinyxml2::XMLElement* root, Assets* assets)
 				std::vector<sf::Vertex> points;
 				const sf::Texture* tex;
 				pos = parse_num_pairf(get_attribute_by_name("position", element));
+				pos *= global_scale;
 				{
 					std::string val = get_attribute_by_name("texture", element);
 					try
@@ -78,6 +79,7 @@ Level parse_level(tinyxml2::XMLElement* root, Assets* assets)
 					if (n == "v")
 					{
 						Vectorf v = parse_num_pairf(e->GetText());
+						v *= global_scale;
 						points.push_back(sf::Vertex(v, v));
 					}
 					else

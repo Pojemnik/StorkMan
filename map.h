@@ -3,6 +3,8 @@
 #include <vector>
 #include <list>
 
+const sf::Vector2f level_size = { 30 * global_scale,30 * global_scale };
+
 class Level
 {
 public:
@@ -16,7 +18,7 @@ public:
 	std::vector<Platform> platforms;
 
 	Level();
-	Level(const Level &level);
+	Level(const Level& level);
 	void addRenderable(Renderable* d);
 	void addTexturable(Texturable* t);
 	void addPhysical(Physical* p);
@@ -42,7 +44,7 @@ public:
 	Player* player;//Chyba niezyt eleganckie
 
 	Map() = default;
-	Map(Vectori dimensions, std::vector<Level> &levels, Vectori start_pos, sf::Texture& bg);
+	Map(Vectori dimensions, std::vector<Level>& levels, Vectori start_pos, sf::Texture& bg);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	void update(float dt);
 };

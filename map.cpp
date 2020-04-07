@@ -1,7 +1,5 @@
 #include "map.h"
 
-const sf::Vector2f level_size = { 1024,1024 };
-
 Level::Level()
 {
 }

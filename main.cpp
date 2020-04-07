@@ -9,7 +9,6 @@
 #include "parser.h"
 
 //Storkman ma 1,92m
-const float global_scale = 35.84f; //[px/m]
 float gravity = .5f;
 const float updatedt = 0.1f;
 bool draw_collisions = false;
@@ -59,7 +58,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		if (argc == 1)
 		{
 			tinyxml2::XMLDocument doc;
-			tinyxml2::XMLError error = doc.LoadFile("map\stork_map_example.xml");
+			tinyxml2::XMLError error = doc.LoadFile("map/stork_map_example.xml");
 			tinyxml2::XMLElement* root = doc.FirstChildElement();
 			map = parse_map(root, &assets);
 		}
