@@ -1,6 +1,6 @@
 #include "util.h"
 
-Vectorf saturate(Vectorf val, const Vectorf max_val)
+Vectorf util::saturate(Vectorf val, const Vectorf max_val)
 {
 	if (val.x > max_val.x)
 		val.x = max_val.x;
@@ -13,7 +13,7 @@ Vectorf saturate(Vectorf val, const Vectorf max_val)
 	return val;
 }
 
-float rdn(float s)
+float util::rdn(float s)
 {
 	return(s / 180 * PI);
 }

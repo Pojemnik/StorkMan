@@ -33,6 +33,7 @@ bool update(float dt, Map& map)
 
 int main(int argc, char** argv)	//Second argument is a map file for editor
 {
+	const int FPS = 60;
 	std::cout.sync_with_stdio(false);
 	std::cout << "Stork'man version 0.3.0" << std::endl;
 	Assets assets;
@@ -42,7 +43,6 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	std::cout << test->getElapsedTime().asMilliseconds() << std::endl;
 	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
 	sf::RenderWindow window(sf::VideoMode(1024, 576, desktop.bitsPerPixel), "StorkMan", sf::Style::Titlebar | sf::Style::Close);
-	const int FPS = 60;
 	sf::Clock clock;
 	std::cout << test->getElapsedTime().asMilliseconds() << std::endl;
 	Map map;

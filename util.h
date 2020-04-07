@@ -16,17 +16,40 @@ const Vectorf max_force = { 1000.f, 1000.0f };
 const float max_run_speed = 5.f;
 
 //Maybe some namespace?
-struct xyr
-{
-	Vectorf pos;
-	float r;
-};
 
-template <typename T> inline int sgn(T val)
+namespace util
 {
-	return (T(0) < val) - (val < T(0));
+	inline sf::Vector2f normalize(sf::Vector2f x, float l);
+	inline sf::Vector2f get_axis_normal(const std::vector<sf::Vector2f>* a, int i);
+	inline float vector_dot_product(sf::Vector2f a, sf::Vector2f b);
+	Vectorf saturate(Vectorf val, const Vectorf max_val);
+	float rdn(float s);
+
+	struct xyr
+	{
+		Vectorf pos;
+		float r;
+	};
+
+	inline sf::Vector2f normalize(sf::Vector2f x, float l)
+	{
+		return x / float(sqrt(x.x * x.x + x.y * x.y) * l);
+	}
+
+	inline sf::Vector2f get_axis_normal(const std::vector<sf::Vector2f>* a, int i)
+	{
+		sf::Vector2f p1 = (*a)[i], p2 = (i >= a->size() - 1) ? (*a)[0] : (*a)[i + 1];
+		return util::normalize({ p1.y - p2.y,p2.x - p1.x }, 1);
+	}
+
+	inline float vector_dot_product(sf::Vector2f a, sf::Vector2f b)
+	{
+		return a.x * b.x + a.y * b.y;
+	}
+
+
+	template <typename T> inline int sgn(T val)
+	{
+		return (T(0) < val) - (val < T(0));
+	}
 }
-
-Vectorf saturate(Vectorf val, const Vectorf max_val);
-
-float rdn(float s);

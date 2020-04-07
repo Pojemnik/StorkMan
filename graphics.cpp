@@ -70,8 +70,8 @@ std::vector<sf::Texture>::const_iterator Animation::end() const
 Vectorf Dynamic_animatable::count_pos(Vectorf start, float size1, float size2,
 	Vectorf translation1, float a1, Vectorf translation2, float a2)
 {
-	float angle1 = rdn(a1);
-	float angle2 = rdn(a2);
+	float angle1 = util::rdn(a1);
+	float angle2 = util::rdn(a2);
 	float d1 = sqrt(pow(translation1.x - size1 / 2, 2) + pow(translation1.y - size1 / 2, 2));
 	float d2 = sqrt(pow(translation2.x - size2 / 2, 2) + pow(translation2.y - size2 / 2, 2));
 	float sinalfa = (translation1.y - size1 / 2) / d1;
@@ -88,7 +88,7 @@ Vectorf Dynamic_animatable::count_pos(Vectorf start, float size1, float size2,
 
 void Dynamic_animatable::animate(std::vector<float> frame)
 {
-	std::vector<xyr> vec(tree.count);
+	std::vector<util::xyr> vec(tree.count);
 	vec[tree.root].pos.x = frame[0];
 	vec[tree.root].pos.y = frame[1];
 	vec[tree.root].r = frame[2];

@@ -1,21 +1,6 @@
 #include "collisions.h"
-
-inline sf::Vector2f normalize(sf::Vector2f x, float l)
-{
-	return x / sqrt(x.x * x.x + x.y * x.y) * l;
-}
-
-inline sf::Vector2f get_axis_normal(const std::vector<sf::Vector2f>* a, int i)
-{
-	sf::Vector2f p1 = (*a)[i], p2 = (i >= a->size() - 1) ? (*a)[0] : (*a)[i + 1];
-	return normalize({ p1.y - p2.y,p2.x - p1.x }, 1);
-}
-
-inline float vector_dot_product(sf::Vector2f a, sf::Vector2f b)
-{
-	return a.x * b.x + a.y * b.y;
-}
-
+#include <cfloat>
+using namespace util;
 bool test_bollean(const std::vector<sf::Vector2f>* a, const std::vector<sf::Vector2f>* b)
 {
 	if (!check_polygons_for_SAT(a, b, 0, 0).collides)

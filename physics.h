@@ -48,7 +48,7 @@ public:
 	virtual void update(float dt) = 0;
 	virtual void move(Vectorf delta) = 0;
 	virtual void apply_force(Vectorf f);
-	void uncolide(const Colidable* c, float dt);
+	sf::Vector2f uncolide(const Colidable* c, float dt);
 	bool test_colision(const Colidable& other);
 	Physical(sf::FloatRect rect, std::vector<Vectorf> mesh, Colidable_type t, float m);
 	Physical() = default;

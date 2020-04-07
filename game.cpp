@@ -99,7 +99,7 @@ void Entity::next_frame()
 void Entity::update(float dt)
 {
 	move_speed += move_force;
-	move_speed = saturate(move_speed, MAX_MOVE_SPEED);
+	move_speed = util::saturate(move_speed, MAX_MOVE_SPEED);
 	total_speed += force;
 	last_speed = total_speed;
 	if (move_force == Vectorf(0, 0))
@@ -126,7 +126,7 @@ void Entity::update(float dt)
 		}
 	}
 	total_speed += move_speed;
-	int s = sgn(total_speed.x);
+	int s = util::sgn(total_speed.x);
 	if (direction != s && s != 0)
 	{
 		scale = -scale;
@@ -141,7 +141,7 @@ void Entity::update(float dt)
 		sprite.setScale(-1,1);
 		direction = s;
 	}
-	force = saturate(force, max_force);
+	force = util::saturate(force, max_force);
 	if (colision_direction.y == 1 && (animation_status == Entity_status::JUMP_IDLE || animation_status == Entity_status::JUMP_RUN))
 		animation_status = Entity_status::IDLE;
 	update_position();
@@ -260,7 +260,7 @@ void Dynamic_entity::set_idle()
 void Dynamic_entity::update(float dt)
 {
 	move_speed += move_force*dt;
-	move_speed = saturate(move_speed, MAX_MOVE_SPEED);
+	move_speed = util::saturate(move_speed, MAX_MOVE_SPEED);
 	if (move_force == Vectorf(0, 0))
 	{
 		if (move_speed.x > 0)
@@ -307,12 +307,12 @@ void Dynamic_entity::update(float dt)
 	total_speed += force*dt;
 	last_speed = total_speed;
 	total_speed += move_speed*dt;
-	int x_speed_sign = sgn(total_speed.x);
+	int x_speed_sign = util::sgn(total_speed.x);
 	if (x_speed_sign != 0)
 	{
 		flip(x_speed_sign);
 	}
-	force = saturate(force, max_force);
+	force = util::saturate(force, max_force);
 	update_position(dt);
 	last_animation_status = animation_status;
 	last_status = status;

@@ -106,7 +106,7 @@ void Map::unload_level(std::list<Level*>::iterator& lvl)
 void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	const float* matrix = states.transform.getMatrix();
-	Vectorf move = { matrix[12]/-1.5f, matrix[13]/-1.5f };
+	Vectorf move = { matrix[12] / -1.5f, matrix[13] / -1.5f };
 	sf::RenderStates bg_states = states;
 	bg_states.transform.translate(move);
 	target.draw(background, bg_states);
@@ -165,9 +165,13 @@ void Map::update(float dt)
 				physical_it->uncolide(colidable_it, dt);
 			}
 		}
+		Vectorf maxv = { 0,0 };
 		for (auto& colidable_it : level_it->colidables)
 		{
-			player->uncolide(colidable_it, dt);
+			Vectorf tmp = player->uncolide(colidable_it, dt);
+			if (abs(tmp.y) > abs(maxv.y))
+				maxv = tmp;
 		}
+
 	}
 }
