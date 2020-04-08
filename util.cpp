@@ -142,7 +142,7 @@ void util::execute_command(util::command cmd)
 			if (!err)
 			{
 				context.min_move_speed = { tab[0],tab[1] };
-				std::cout << "Stokman minimal speed set to " << context.min_move_speed.x << context.min_move_speed.y << std::endl;
+				std::cout << "Stokman minimal speed set to " << context.min_move_speed.x << ' ' << context.min_move_speed.y << std::endl;
 			}
 
 		}
@@ -172,7 +172,7 @@ void util::execute_command(util::command cmd)
 			if (!err)
 			{
 				context.max_move_speed = { tab[0],tab[1] };
-				std::cout << "Stokman maximal speed set to " << context.max_move_speed.x << context.max_move_speed.y << std::endl;
+				std::cout << "Stokman maximal speed set to " << context.max_move_speed.x << ' ' << context.max_move_speed.y << std::endl;
 			}
 
 		}
@@ -202,7 +202,7 @@ void util::execute_command(util::command cmd)
 			if (!err)
 			{
 				context.move_speed_reduction = { tab[0],tab[1] };
-				std::cout << "Move speed reduction set to " << context.move_speed_reduction.x << context.move_speed_reduction.y << std::endl;
+				std::cout << "Move speed reduction set to " << context.move_speed_reduction.x << ' ' << context.move_speed_reduction.y << std::endl;
 			}
 
 		}
@@ -232,7 +232,7 @@ void util::execute_command(util::command cmd)
 			if (!err)
 			{
 				context.player_move_speed = { tab[0],tab[1] };
-				std::cout << "Stokman move speed set to " << context.player_move_speed.x << context.player_move_speed.y << std::endl;
+				std::cout << "Stokman move speed set to " << context.player_move_speed.x << ' ' << context.player_move_speed.y << std::endl;
 			}
 
 		}

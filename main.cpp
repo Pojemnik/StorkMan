@@ -28,7 +28,7 @@ bool update(float dt, Map& map)
 int main(int argc, char** argv)	//Second argument is a map file for editor
 {
 	std::cout.sync_with_stdio(false);
-	std::cout << "Stork'man version 0.3.0" << std::endl;
+	std::cout << "Stork'man version 0.3.1" << std::endl;
 	Assets assets;
 	sf::Clock* test = new sf::Clock();
 	test->restart();
