@@ -23,7 +23,7 @@
 		<v>1,1</v>
 		<v>0,1</v>
 	</platform>
-	<platform position="0,29.5" texture="bricks,0">
+	<platform position="0,29.5" texture="asphalt,0">
 		<v>0,0</v>
 		<v>30,0</v>
 		<v>30,0.5</v>

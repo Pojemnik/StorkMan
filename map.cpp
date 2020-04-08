@@ -106,7 +106,7 @@ void Map::unload_level(std::list<Level*>::iterator& lvl)
 void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	const float* matrix = states.transform.getMatrix();
-	Vectorf move = { matrix[12] / -1.5f, matrix[13] / -1.5f };
+	Vectorf move = { matrix[12] / util::context.parrallax, matrix[13] / util::context.parrallax };
 	sf::RenderStates bg_states = states;
 	bg_states.transform.translate(move);
 	target.draw(background, bg_states);

@@ -3,3 +3,6 @@ W¹tki
 Warstwy mapy i paralaksa
 Spadanie i l¹dowanie - lepiej rozwi¹zaæ animacje
 Uwzglêdniæ skalê w edycji poziomów
+Przesuniêcie Y w animacjach
+K¹ty w animacjach (>360)
+Lepsza konsola

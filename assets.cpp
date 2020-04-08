@@ -152,9 +152,23 @@ void Assets::load_assets()
 	//load_textures(ship_undockx, "img/ships/WydokowanieX_ss_436_87_is_6_10.png", false);
 	//load_textures(ship_undocky, "img/ships/WydokowanieY_ss_443_442_is_10_12.png", false);
 
+	textures["asphalt,0"] = &map_textures[0];
+	textures["concrete,0"] = &map_textures[1];
+	textures["construction,0"] = &map_textures[2];
 	textures["bricks,0"] = &map_textures[3];
 	textures["bricks,1"] = &map_textures[4];
 	textures["bricks,2"] = &map_textures[5];
 	textures["bricks,3"] = &map_textures[6];
+	textures["tile,0"] = &map_textures[7];
+	textures["rivets,0"] = &map_textures[8];
+	textures["panels,0"] = &map_textures[9];
+	textures["panels,1"] = &map_textures[10];
+	textures["panels,2"] = &map_textures[11];
+	textures["grass,0"] = &map_textures[12];
+	textures["ribbing,0"] = &map_textures[13];
+	textures["ribbing,1"] = &map_textures[14];
+	textures["ribbing,2"] = &map_textures[15];
+	textures["dirt,0"] = &map_textures[16];
+
 	std::cout << "done!" << std::endl;
 }

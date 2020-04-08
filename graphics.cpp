@@ -91,7 +91,7 @@ void Dynamic_animatable::animate(std::vector<float> frame)
 	std::vector<util::xyr> vec(tree.count);
 	vec[tree.root].pos.x = frame[0];
 	vec[tree.root].pos.y = frame[1];
-	vec[tree.root].r = frame[2];
+	vec[tree.root].r = util::ang_reduce(frame[2]);
 	parts[tree.root].setRotation(vec[tree.root].r);
 	parts[tree.root].setPosition(vec[tree.root].pos);
 	std::queue<int> q;
@@ -104,8 +104,8 @@ void Dynamic_animatable::animate(std::vector<float> frame)
 		{
 			int next = tree.tree[current][i];
 			q.push(next);
-			vec[next].r = vec[current].r
-				+ frame[tree.position_of_element_in_animation_array[next] + 3];
+			vec[next].r = util::ang_reduce(vec[current].r
+				+ frame[tree.position_of_element_in_animation_array[next] + 3]);
 			vec[next].pos = count_pos(vec[current].pos, 128, 128,
 				tree.nodes[next].delta_pos[0], vec[current].r,
 				tree.nodes[next].delta_pos[1], vec[next].r);
@@ -161,8 +161,10 @@ void Dynamic_animatable::next_frame()
 	{
 		for (int i = 0; i < tree.independent_count + 3; i++)
 		{
+			float a1 = util::ang_reduce((*next_key)[i] - actual_frame[i]);
+			float a2 = a1 - 360 * util::sgn(a1);
 			actual_frame[i] = actual_frame[i]
-				+ ((*next_key)[i] - actual_frame[i]) / frames_delta;
+				+ (abs(a1)<abs(a2)? a1:a2) / frames_delta;
 		}
 		frames_delta--;
 	}

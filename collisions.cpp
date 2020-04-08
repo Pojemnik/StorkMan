@@ -14,7 +14,7 @@ Collision_info check_polygons_for_SAT(const std::vector<sf::Vector2f>* a, const 
 {
 	float min0, max0, min1, max1;
 	sf::Vector2f vAxis;
-	float sOffset;
+	//float sOffset;
 	float t;
 	int i, j;
 	Collision_info result;
@@ -28,7 +28,7 @@ Collision_info check_polygons_for_SAT(const std::vector<sf::Vector2f>* a, const 
 	{
 		vAxis = get_axis_normal(a, i);
 		max0 = min0 = vector_dot_product(vAxis, (*a)[0]);
-		for (int j = 1; j < a->size(); j++)
+		for (j = 1; j < a->size(); j++)
 		{
 			t = vector_dot_product(vAxis, (*a)[j]);
 			if (t < min0)
@@ -37,7 +37,7 @@ Collision_info check_polygons_for_SAT(const std::vector<sf::Vector2f>* a, const 
 				max0 = t;
 		}
 		max1 = min1 = vector_dot_product(vAxis, (*b)[0]);
-		for (int j = 1; j < b->size(); j++)
+		for (j = 1; j < b->size(); j++)
 		{
 			t = vector_dot_product(vAxis, (*b)[j]);
 			if (t < min1)

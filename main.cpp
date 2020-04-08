@@ -1,39 +1,32 @@
 #include <tinyxml2.h>
-#include <iostream>
 #include <fstream>
-#include <string>
 #include <SFML/Graphics.hpp>
 #include "map.h"
 #include "assets.h"
 #include "game.h"
 #include "parser.h"
-
-//Storkman ma 1,92m
-float gravity = .5f;
-const float updatedt = 0.1f;
-bool draw_collisions = false;
+#include "util.h"
 
 bool update(float dt, Map& map)
 {
 	static float acc(0);
 	acc += dt;
 	bool updated = 0;
-	if (acc >= 1000.0f / 60)
+	if (acc >= 1000.0f / util::context.fps)
 		updated = 1;
-	while (acc >= 1000.0f / 60)
+	while (acc >= 1000.0f / util::context.fps)
 	{
 		map.player->next_frame();
-		map.player->apply_force({ 0, gravity });
+		map.player->apply_force({ 0, util::context.gravity });
 		map.player->update(1);
 		map.update(1);
-		acc -= 1000.0f / 60;
+		acc -= 1000.0f / util::context.fps;
 	}
 	return updated;
 }
 
 int main(int argc, char** argv)	//Second argument is a map file for editor
 {
-	const int FPS = 60;
 	std::cout.sync_with_stdio(false);
 	std::cout << "Stork'man version 0.3.0" << std::endl;
 	Assets assets;
@@ -82,14 +75,11 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			{
 				if (event.key.code == sf::Keyboard::Tilde)
 				{
-					std::string command;
-					std::cin >> command;
-					if (command == "col")
-						draw_collisions = !draw_collisions;
+					util::execute_command(util::get_command());
 				}
 				if (event.key.code == sf::Keyboard::G)
 				{
-					gravity = -gravity;
+					util::context.gravity = -util::context.gravity;
 				}
 			}
 		}
@@ -100,12 +90,12 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 		{
 			if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-				player.move({ 0.1, 0 });
+				player.move(util::context.player_move_speed);
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		{
 			if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-				player.move({ -0.1, 0 });
+				player.move(-util::context.player_move_speed);
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 		{
@@ -117,9 +107,9 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 
 		float time = clock.getElapsedTime().asMicroseconds();
 		time /= 1000;
-		if (time > 2500 / FPS)
+		if (time > 2500.0f / util::context.fps)
 		{
-			time = 2500 / FPS;
+			time = 2500.0f / util::context.fps;
 		}
 		clock.restart();
 		if (update(time, map))
@@ -129,7 +119,8 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			camera_pos -= sf::Vector2f(512, 288);
 			sf::RenderStates rs = sf::RenderStates::Default;
 			rs.transform = sf::Transform().translate(-camera_pos);
-			if (draw_collisions)
+			window.draw(map, rs);
+			if (util::context.draw_collisions)
 			{
 				sf::ConvexShape r = sf::ConvexShape(4);
 				int i = 0;
@@ -138,7 +129,6 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 				r.setOutlineColor({ 255,0,0 });
 				window.draw(r, rs);
 			}
-			window.draw(map, rs);
 			window.draw(player, rs);
 			window.display();
 		}
