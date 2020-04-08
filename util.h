@@ -18,6 +18,21 @@ enum Colidable_type { GROUND, ENEMY, OTHER };
 
 const Vectorf max_force = { 1000.f, 1000.0f };
 
+struct Context
+{
+	bool draw_collisions = false;
+	float fps = 60.f;
+	float gravity = .5f;
+	float jump_force = 20.f;
+	float parrallax = -1.5f;
+	Vectorf max_move_speed = { 5,5 };
+	Vectorf min_move_speed = { 1,0 };
+	Vectorf move_speed_reduction = { 0.5f, 0.5f };
+	Vectorf player_move_speed = { 0.1,0 };
+};
+
+extern struct Context context;
+
 namespace util
 {
 	struct xyr
@@ -25,18 +40,6 @@ namespace util
 		Vectorf pos;
 		float r;
 	};
-
-	static struct {
-		bool draw_collisions = false;
-		float fps = 60.f;
-		float gravity = .5f;
-		float jump_force = 20.f;
-		float parrallax = -1.5f;
-		Vectorf max_move_speed = { 5,5 };
-		Vectorf min_move_speed = { 1,0 };
-		Vectorf move_speed_reduction = { 0.5f, 0.5f };
-		Vectorf player_move_speed = { 0.1,0 };
-	} context;
 
 	struct command
 	{

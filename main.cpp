@@ -12,15 +12,15 @@ bool update(float dt, Map& map)
 	static float acc(0);
 	acc += dt;
 	bool updated = 0;
-	if (acc >= 1000.0f / util::context.fps)
+	if (acc >= 1000.0f / context.fps)
 		updated = 1;
-	while (acc >= 1000.0f / util::context.fps)
+	while (acc >= 1000.0f / context.fps)
 	{
 		map.player->next_frame();
-		map.player->apply_force({ 0, util::context.gravity });
+		map.player->apply_force({ 0, context.gravity });
 		map.player->update(1);
 		map.update(1);
-		acc -= 1000.0f / util::context.fps;
+		acc -= 1000.0f / context.fps;
 	}
 	return updated;
 }
@@ -79,7 +79,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 				}
 				if (event.key.code == sf::Keyboard::G)
 				{
-					util::context.gravity = -util::context.gravity;
+					context.gravity = -context.gravity;
 				}
 			}
 		}
@@ -90,12 +90,12 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 		{
 			if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-				player.move(util::context.player_move_speed);
+				player.move(context.player_move_speed);
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		{
 			if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-				player.move(-util::context.player_move_speed);
+				player.move(-context.player_move_speed);
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 		{
@@ -107,9 +107,9 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 
 		float time = clock.getElapsedTime().asMicroseconds();
 		time /= 1000;
-		if (time > 2500.0f / util::context.fps)
+		if (time > 2500.0f / context.fps)
 		{
-			time = 2500.0f / util::context.fps;
+			time = 2500.0f / context.fps;
 		}
 		clock.restart();
 		if (update(time, map))
@@ -120,7 +120,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			sf::RenderStates rs = sf::RenderStates::Default;
 			rs.transform = sf::Transform().translate(-camera_pos);
 			window.draw(map, rs);
-			if (util::context.draw_collisions)
+			if (context.draw_collisions)
 			{
 				sf::ConvexShape r = sf::ConvexShape(4);
 				int i = 0;

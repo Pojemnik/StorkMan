@@ -1,5 +1,6 @@
 #include "game.h"
 
+
 Platform::Platform(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> points) : Texturable(p, t, points)
 {
 	float maxx, maxy, miny, minx;
@@ -33,10 +34,10 @@ Entity::Entity(Vectorf p, std::vector<const Animation* > t, float h, float gs, f
 void Entity::move(Vectorf delta)
 {
 	move_force += delta;
-	if (delta.x > 0 && move_speed.x < util::context.min_move_speed.x)
-		move_speed.x = util::context.min_move_speed.x;
-	if (delta.x < 0 && move_speed.x > -util::context.min_move_speed.x)
-		move_speed.x = -util::context.min_move_speed.x;
+	if (delta.x > 0 && move_speed.x < context.min_move_speed.x)
+		move_speed.x = context.min_move_speed.x;
+	if (delta.x < 0 && move_speed.x > -context.min_move_speed.x)
+		move_speed.x = -context.min_move_speed.x;
 	if (colision_direction.y == 1)
 	{
 		animation_status = Entity_status::MOVE;
@@ -99,19 +100,19 @@ void Entity::next_frame()
 void Entity::update(float dt)
 {
 	move_speed += move_force;
-	move_speed = util::saturate(move_speed, util::context.max_move_speed);
+	move_speed = util::saturate(move_speed, context.max_move_speed);
 	total_speed += force;
 	last_speed = total_speed;
 	if (move_force == Vectorf(0, 0))
 	{
 		if (move_speed.x > 0)
-			move_speed.x -= util::context.move_speed_reduction.x;
+			move_speed.x -= context.move_speed_reduction.x;
 		if (move_speed.x < 0)
-			move_speed.x += util::context.move_speed_reduction.x;
+			move_speed.x += context.move_speed_reduction.x;
 		if (move_speed.y > 0)
-			move_speed.y -= util::context.move_speed_reduction.y;
+			move_speed.y -= context.move_speed_reduction.y;
 		if (move_speed.y < 0)
-			move_speed.y += util::context.move_speed_reduction.y;
+			move_speed.y += context.move_speed_reduction.y;
 		if (fabs(move_speed.x) < 1)
 		{
 			move_speed.x = 0;
@@ -192,10 +193,10 @@ Dynamic_entity::Dynamic_entity(Vectorf p, sf::Texture* texture, std::vector<sf::
 void Dynamic_entity::move(Vectorf delta)
 {
 	move_force += delta;
-	if (delta.x > 0 && move_speed.x < util::context.min_move_speed.x)
-		move_speed.x = util::context.min_move_speed.x;
-	if (delta.x < 0 && move_speed.x > -util::context.min_move_speed.x)
-		move_speed.x = -util::context.min_move_speed.x;
+	if (delta.x > 0 && move_speed.x < context.min_move_speed.x)
+		move_speed.x = context.min_move_speed.x;
+	if (delta.x < 0 && move_speed.x > -context.min_move_speed.x)
+		move_speed.x = -context.min_move_speed.x;
 	if (status == IDLE)
 		status = Entity_status::MOVE;
 	if (colision_direction.y == 1 && animation_status != Animation_status::A_JUMP_RUN && animation_status != Animation_status::A_JUMP_RUN2)
@@ -260,17 +261,17 @@ void Dynamic_entity::set_idle()
 void Dynamic_entity::update(float dt)
 {
 	move_speed += move_force*dt;
-	move_speed = util::saturate(move_speed, util::context.max_move_speed);
+	move_speed = util::saturate(move_speed, context.max_move_speed);
 	if (move_force == Vectorf(0, 0))
 	{
 		if (move_speed.x > 0)
-			move_speed.x -= util::context.move_speed_reduction.x;
+			move_speed.x -= context.move_speed_reduction.x;
 		if (move_speed.x < 0)
-			move_speed.x += util::context.move_speed_reduction.x;
+			move_speed.x += context.move_speed_reduction.x;
 		if (move_speed.y > 0)
-			move_speed.y -= util::context.move_speed_reduction.y;
+			move_speed.y -= context.move_speed_reduction.y;
 		if (move_speed.y < 0)
-			move_speed.y += util::context.move_speed_reduction.y;
+			move_speed.y += context.move_speed_reduction.y;
 		if (fabs(move_speed.x) < 1)
 		{
 			move_speed.x = 0;
@@ -295,13 +296,13 @@ void Dynamic_entity::update(float dt)
 	if (animation_status == Animation_status::A_JUMP_IDLE && key == 2 && frames_delta == 15)
 	{
 		if (colision_direction.y == 1)
-			apply_force({ 0, -util::context.jump_force });
+			apply_force({ 0, -context.jump_force });
 		status = IN_AIR;
 	}
 	if ((animation_status == Animation_status::A_JUMP_RUN || animation_status == Animation_status::A_JUMP_RUN2) && key == 2 && frames_delta == 1)
 	{
 		if (colision_direction.y == 1)
-			apply_force({ 0, -util::context.jump_force });
+			apply_force({ 0, -context.jump_force });
 		status = IN_AIR;
 	}
 	total_speed += force*dt;

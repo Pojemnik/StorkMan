@@ -29,11 +29,5 @@
 		<v>30,0.5</v>
 		<v>0,0.5</v>
 	</platform>
-	<platform position="5,15" texture="bricks,2">
-		<v>30,0</v>
-		<v>0,15</v>
-		<v>0,15.5</v>
-		<v>30,0.5</v>
-	</platform>
 	<enemy type="asdf" position="150,150" texture="enemy1"/>
 </level>
