@@ -96,6 +96,8 @@ void Dynamic_animatable::animate(std::vector<float> frame)
 	parts[tree.root].setPosition(vec[tree.root].pos);
 	std::queue<int> q;
 	q.push(tree.root);
+	maxy = 0;
+	miny = 500;
 	while (!q.empty())
 	{
 		int current = q.front();
@@ -111,6 +113,15 @@ void Dynamic_animatable::animate(std::vector<float> frame)
 				tree.nodes[next].delta_pos[1], vec[next].r);
 			parts[next].setRotation(vec[next].r);
 			parts[next].setPosition(vec[next].pos);
+			if (vec[next].pos.y < miny)
+			{
+				miny = vec[next].pos.y;
+			}
+			else
+			{
+				if (vec[next].pos.y > maxy)
+					maxy = vec[next].pos.y;
+			}
 		}
 		tex.clear(sf::Color(0, 0, 0, 0));
 		for (int i = 0; i < tree.nodes.size(); i++)
@@ -119,6 +130,7 @@ void Dynamic_animatable::animate(std::vector<float> frame)
 		}
 		tex.display();
 		sprite.setTexture(tex.getTexture());
+		sf::FloatRect rect = sprite.getGlobalBounds();
 		sprite.setScale(scale, fabs(scale));
 	}
 }
@@ -164,7 +176,7 @@ void Dynamic_animatable::next_frame()
 			float a1 = util::ang_reduce((*next_key)[i] - actual_frame[i]);
 			float a2 = a1 - 360 * util::sgn(a1);
 			actual_frame[i] = actual_frame[i]
-				+ (abs(a1)<abs(a2)? a1:a2) / frames_delta;
+				+ (abs(a1) < abs(a2) ? a1 : a2) / frames_delta;
 		}
 		frames_delta--;
 	}

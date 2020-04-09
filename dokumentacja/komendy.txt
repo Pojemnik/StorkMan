@@ -17,5 +17,5 @@ storkmaxspeed 10 10
 
 Uwagi:
 W przypadku komend: storkminspeed, storkmaxspeed, storkspeedreduction i storkmovespeed drugi argument dotyczy osi y,
-nie jest uwzględaniany w grze (chyba) i nie powinien być inny niż wartość domyślna. Możliwość jego zmiany jest zostawiona
+nie powinien być inny niż wartość domyślna, bo może to coś zepsuć. Możliwość jego zmiany jest zostawiona
 z myślą o przyszłośći (nie wiadomo co będzie trzeba dodać).

@@ -115,6 +115,9 @@ protected:
 	Entity_status status;
 	Entity_status last_status;
 	const int ANIMATION_CHANGE_DELTA = 5;
+	float maxy;
+	float miny;
+
 	Vectorf count_pos(Vectorf start, float size1, float size2,
 		Vectorf translation1, float a1,
 		Vectorf translation2, float a2);

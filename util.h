@@ -20,7 +20,7 @@ const Vectorf max_force = { 1000.f, 1000.0f };
 
 struct Context
 {
-	bool draw_collisions = false;
+	bool draw_collisions = true;
 	float fps = 60.f;
 	float gravity = .5f;
 	float jump_force = 20.f;

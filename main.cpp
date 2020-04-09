@@ -7,6 +7,8 @@
 #include "parser.h"
 #include "util.h"
 
+const std::string VERSION = "0.3.1";
+
 bool update(float dt, Map& map)
 {
 	static float acc(0);
@@ -28,14 +30,14 @@ bool update(float dt, Map& map)
 int main(int argc, char** argv)	//Second argument is a map file for editor
 {
 	std::cout.sync_with_stdio(false);
-	std::cout << "Stork'man version 0.3.1" << std::endl;
+	std::cout << "Stork'man version " + VERSION << std::endl;
 	Assets assets;
 	sf::Clock* test = new sf::Clock();
 	test->restart();
 	assets.load_assets();
 	std::cout << test->getElapsedTime().asMilliseconds() << std::endl;
 	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
-	sf::RenderWindow window(sf::VideoMode(1024, 576, desktop.bitsPerPixel), "StorkMan", sf::Style::Titlebar | sf::Style::Close);
+	sf::RenderWindow window(sf::VideoMode(1024, 576, desktop.bitsPerPixel), "StorkMan " + VERSION, sf::Style::Titlebar | sf::Style::Close);
 	sf::Clock clock;
 	std::cout << test->getElapsedTime().asMilliseconds() << std::endl;
 	Map map;

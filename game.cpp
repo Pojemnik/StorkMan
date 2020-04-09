@@ -21,7 +21,9 @@ Platform::Platform(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> poin
 	rect_collision = sf::FloatRect(minx + p.x, miny + p.y, maxx - minx, maxy - miny);
 }
 
-Player::Player(Vectorf p, sf::Texture* texture, std::vector<sf::IntRect>& v, std::vector<const Dynamic_animation*> a, sf::FloatRect rc, Animation_tree t, float h, float gs, float m) : Dynamic_entity(p,texture, v, a, rc, t, h, gs, m) {}
+Player::Player(Vectorf p, sf::Texture* texture, std::vector<sf::IntRect>& v,
+	std::vector<const Dynamic_animation*> a, sf::FloatRect rc, Animation_tree t, float h, float gs, float m)
+	: Dynamic_entity(p, texture, v, a, rc, t, h, gs, m) {}
 
 Entity::Entity(Vectorf p, std::vector<const Animation* > t, float h, float gs, float m) : Animatable(p, t[0], h, gs), animations(t)
 {
@@ -139,7 +141,7 @@ void Entity::update(float dt)
 		{
 			sprite.setOrigin(0, 0);
 		}
-		sprite.setScale(-1,1);
+		sprite.setScale(-1, 1);
 		direction = s;
 	}
 	force = util::saturate(force, max_force);
@@ -181,7 +183,9 @@ void Entity::set_animation(const Animation* t)
 	it = tex->begin();
 }
 
-Dynamic_entity::Dynamic_entity(Vectorf p, sf::Texture* texture, std::vector<sf::IntRect>& v, std::vector<const Dynamic_animation*> a, sf::FloatRect rc, Animation_tree t, float h, float gs, float m) : Dynamic_animatable(texture, v, p, a, t, h, gs)
+Dynamic_entity::Dynamic_entity(Vectorf p, sf::Texture* texture, std::vector<sf::IntRect>& v,
+	std::vector<const Dynamic_animation*> a, sf::FloatRect rc, Animation_tree t, float h, float gs, float m)
+	: Dynamic_animatable(texture, v, p, a, t, h, gs)
 {
 	animation_status = Animation_status::A_IDLE;
 	rect_collision = rc;
@@ -199,7 +203,8 @@ void Dynamic_entity::move(Vectorf delta)
 		move_speed.x = -context.min_move_speed.x;
 	if (status == IDLE)
 		status = Entity_status::MOVE;
-	if (colision_direction.y == 1 && animation_status != Animation_status::A_JUMP_RUN && animation_status != Animation_status::A_JUMP_RUN2)
+	if (colision_direction.y == 1 && animation_status != Animation_status::A_JUMP_RUN && animation_status
+		!= Animation_status::A_JUMP_RUN2)
 	{
 		animation_status = Animation_status::A_MOVE;
 	}
@@ -211,7 +216,9 @@ void Dynamic_entity::jump(bool move)
 	{
 		if (move)
 		{
-			if (animation_status == Animation_status::A_MOVE || ((animation_status == Animation_status::A_JUMP_RUN || animation_status == Animation_status::A_JUMP_RUN2) && last_status == IN_AIR))
+			if (animation_status == Animation_status::A_MOVE ||
+				((animation_status == Animation_status::A_JUMP_RUN || animation_status == Animation_status::A_JUMP_RUN2)
+					&& last_status == IN_AIR))
 			{
 				if (key == 1 || key == 2 || key == 3)
 					animation_status = Animation_status::A_JUMP_RUN;
@@ -223,7 +230,8 @@ void Dynamic_entity::jump(bool move)
 		}
 		else
 		{
-			if (animation_status == Animation_status::A_IDLE || (animation_status == Animation_status::A_JUMP_IDLE && last_status == IN_AIR))
+			if (animation_status == Animation_status::A_IDLE ||
+				(animation_status == Animation_status::A_JUMP_IDLE && last_status == IN_AIR))
 			{
 				animation_status = Animation_status::A_JUMP_IDLE;
 				status = Entity_status::JUMP_IDLE;
@@ -246,7 +254,7 @@ void Dynamic_entity::flip(int sign)
 	if (direction != sign)
 	{
 		scale = -scale;
-		sprite.scale(-1,1);
+		sprite.scale(-1, 1);
 		direction = sign;
 	}
 }
@@ -260,7 +268,7 @@ void Dynamic_entity::set_idle()
 
 void Dynamic_entity::update(float dt)
 {
-	move_speed += move_force*dt;
+	move_speed += move_force * dt;
 	move_speed = util::saturate(move_speed, context.max_move_speed);
 	if (move_force == Vectorf(0, 0))
 	{
@@ -299,15 +307,16 @@ void Dynamic_entity::update(float dt)
 			apply_force({ 0, -context.jump_force });
 		status = IN_AIR;
 	}
-	if ((animation_status == Animation_status::A_JUMP_RUN || animation_status == Animation_status::A_JUMP_RUN2) && key == 2 && frames_delta == 1)
+	if ((animation_status == Animation_status::A_JUMP_RUN ||
+		animation_status == Animation_status::A_JUMP_RUN2) && key == 2 && frames_delta == 1)
 	{
 		if (colision_direction.y == 1)
 			apply_force({ 0, -context.jump_force });
 		status = IN_AIR;
 	}
-	total_speed += force*dt;
+	total_speed += force * dt;
 	last_speed = total_speed;
-	total_speed += move_speed*dt;
+	total_speed += move_speed * dt;
 	int x_speed_sign = util::sgn(total_speed.x);
 	if (x_speed_sign != 0)
 	{
@@ -323,9 +332,16 @@ void Dynamic_entity::update(float dt)
 
 void Dynamic_entity::update_position(float dt)
 {
-	pos += total_speed * dt;
+	pos += total_speed * dt;	//ogarn¹æ to coœ!!!
 	sprite.setPosition(pos);
-	rect_collision = sf::FloatRect(rect_collision.left + total_speed.x, rect_collision.top + total_speed.y, rect_collision.width, rect_collision.height);
+	rect_collision = sf::FloatRect(pos.x - 20,
+		pos.y + miny*fabs(scale), 20,
+		(maxy - miny) * fabs(scale));
+	/*
+	rect_collision = sf::FloatRect(rect_collision.left + total_speed.x,
+		rect_collision.top + total_speed.y, rect_collision.width,
+		(55+maxy-miny)*fabs(scale));
+		*/
 	mesh = Mesh_collision(rect_collision);
 	total_speed = { 0,0 };
 }

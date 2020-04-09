@@ -1,0 +1,18 @@
+"asphalt,0" img/tex/ASFALT.png
+"concrete,0" img/tex/BETON.png
+"construction,0" img/tex/BUDOWA.png
+"bricks,0" img/tex/CEGLY00.PNG
+"bricks,1" img/tex/CEGLY01.PNG
+"bricks,2" img/tex/CEGLY02.PNG
+"bricks,3" img/tex/CEGLY03.PNG
+"tile,0" img/tex/KAFLE00.PNG
+"rivets,0" img/tex/NITY00.PNG
+"panels,0" img/tex/PANELE00.PNG
+"panels,1" img/tex/PANELE01.PNG
+"panels,2" img/tex/PANELE02.PNG
+"grass,0" img/tex/TRAWA.png
+"ribbing,0" img/tex/ZEBROWANIE00.PNG
+"ribbing,1" img/tex/ZEBROWANIE01.PNG
+"ribbing,2" img/tex/ZEBROWANIE02.PNG
+"dirt,0" img/tex/ZIEMIA.png
+
