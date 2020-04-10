@@ -20,10 +20,10 @@ const Vectorf max_force = { 1000.f, 1000.0f };
 
 struct Context
 {
-	bool draw_collisions = true;
+	bool draw_collisions = false;
 	float fps = 60.f;
-	float gravity = .5f;
-	float jump_force = 20.f;
+	float gravity = .3f;
+	float jump_force = 10.f;
 	float parrallax = -1.5f;
 	Vectorf max_move_speed = { 5,5 };
 	Vectorf min_move_speed = { 1,0 };

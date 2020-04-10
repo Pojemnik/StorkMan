@@ -181,7 +181,7 @@ void util::execute_command(util::command cmd)
 			util::print_argument_number_error(2);
 		}
 	}
-	else if (cmd.name == "movespeedreduction")
+	else if (cmd.name == "storkspeedreduction")
 	{
 		if (cmd.args.size() == 2)
 		{
