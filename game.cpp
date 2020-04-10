@@ -48,14 +48,24 @@ void Entity::move(Vectorf delta)
 
 void Player::attack(int attack_type)
 {
-	if (attack_type == 1)
+	switch(attack_type)
 	{
+	case 1:
 		if (animation_status == Entity_status::IDLE || animation_status == Entity_status::JUMP_IDLE)
 		{
 			status = Entity_status::PUNCH_1;
 			animation_status = Animation_status::A_PUNCH_1;
 			reset_animation = true;
 		}
+		break;
+	case 2:
+		if (animation_status == Entity_status::IDLE || animation_status == Entity_status::JUMP_IDLE)
+		{
+			status = Entity_status::PUNCH_2;
+			animation_status = Animation_status::A_PUNCH_2;
+			reset_animation = true;
+		}
+		break;
 	}
 }
 
@@ -268,7 +278,8 @@ void Dynamic_entity::set_idle()
 
 void Dynamic_entity::update(float dt)
 {
-	move_speed += move_force * dt;
+	Vectorf move_acc = move_force / mass;
+	move_speed += move_acc * dt;
 	move_speed = util::saturate(move_speed, context.max_move_speed);
 	if (move_force == Vectorf(0, 0))
 	{
@@ -314,7 +325,8 @@ void Dynamic_entity::update(float dt)
 			apply_force({ 0, -context.jump_force });
 		status = IN_AIR;
 	}
-	total_speed += force * dt;
+	Vectorf acc = force / mass;
+	total_speed += acc * dt;
 	last_speed = total_speed;
 	total_speed += move_speed * dt;
 	int x_speed_sign = util::sgn(total_speed.x);

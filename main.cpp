@@ -91,6 +91,10 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			{
 				player.attack(1);
 			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+			{
+				player.attack(2);
+			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 			{
 				if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Left))

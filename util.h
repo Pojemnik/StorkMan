@@ -12,8 +12,10 @@ const float PI = 3.1415927f;
 
 const float global_scale = 35.84f; //[px/m]
 
-enum Entity_status { IDLE = 0, MOVE, JUMP_IDLE, JUMP_RUN, PUNCH_1, HIT, IN_AIR };
-enum Animation_status { A_IDLE = 0, A_MOVE, A_JUMP_IDLE, A_JUMP_RUN, A_JUMP_RUN2, A_PUNCH_1, A_HIT };
+enum Entity_status { IDLE = 0, MOVE, JUMP_IDLE, JUMP_RUN,
+	PUNCH_1, PUNCH_2, HIT, IN_AIR };
+enum Animation_status { A_IDLE = 0, A_MOVE, A_JUMP_IDLE,
+	A_JUMP_RUN, A_JUMP_RUN2, A_PUNCH_1, A_PUNCH_2, A_HIT };
 enum Colidable_type { GROUND, ENEMY, OTHER };
 
 const Vectorf max_force = { 1000.f, 1000.0f };
@@ -22,8 +24,8 @@ struct Context
 {
 	bool draw_collisions = false;
 	float fps = 60.f;
-	float gravity = .3f;
-	float jump_force = 10.f;
+	float gravity = 26;
+	float jump_force = 870.f;
 	float parrallax = -1.5f;
 	Vectorf max_move_speed = { 5,5 };
 	Vectorf min_move_speed = { 1,0 };

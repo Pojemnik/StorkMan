@@ -140,7 +140,8 @@ void Assets::load_assets()
 	animations.push_back(load_dynamic_animation("animations/stork/jump_idle.txt"));
 	animations.push_back(load_dynamic_animation("animations/stork/jump_run.txt"));
 	animations.push_back(load_dynamic_animation("animations/stork/jump_run2.txt"));
-	animations.push_back(load_dynamic_animation("animations/stork/straight_punch.txt"));
+	animations.push_back(load_dynamic_animation("animations/stork/punch1.txt"));
+	animations.push_back(load_dynamic_animation("animations/stork/punch2.txt"));
 	load_textures(map_textures, "img/tex_ss_64_64_is_1_17.png", true);
 	stork_tree = load_animation_tree("animations/stork/tree.txt");
 	//load_textures(ship_dockx, "img/ships/DokowanieX_ss_436_87_is_10_12.png", false);
