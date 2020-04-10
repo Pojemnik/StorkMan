@@ -245,11 +245,11 @@ void Dynamic_entity::flip(int sign)
 {
 	if (sign == -1)
 	{
-		sprite.setOrigin({ actual_frame[0] - 64, actual_frame[1] + 64 });
+		sprite.setOrigin({ actual_frame[0] - 64, 192 + 64 });
 	}
 	else
 	{
-		sprite.setOrigin({ actual_frame[0] + 64, actual_frame[1] + 64 });
+		sprite.setOrigin({ actual_frame[0] + 64, 192 + 64 });
 	}
 	if (direction != sign)
 	{
@@ -334,11 +334,11 @@ void Dynamic_entity::update_position(float dt)
 {
 	pos += total_speed * dt;	//ogarn¹æ to coœ!!!
 	sprite.setPosition(pos);
-	//rect_collision = sf::FloatRect(pos.x - 20,
-	//	pos.y + miny*fabs(scale), 20,
-	//	(maxy - miny) * fabs(scale));
-	rect_collision = sf::FloatRect(rect_collision.left + total_speed.x,
-		rect_collision.top + total_speed.y, rect_collision.width, rect_collision.height);
+	rect_collision = sf::FloatRect(pos.x - 20,
+		pos.y-47, 20,
+		rect_collision.height);
+	//rect_collision = sf::FloatRect(rect_collision.left + total_speed.x,
+	//	rect_collision.top + total_speed.y, rect_collision.width, rect_collision.height);
 	mesh = Mesh_collision(rect_collision);
 	total_speed = { 0,0 };
 }
