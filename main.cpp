@@ -73,7 +73,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 				window.close();
 				return 0;
 			}
-			if (event.type == sf::Event::KeyPressed)
+			if (event.type == sf::Event::KeyPressed && window.hasFocus())
 			{
 				if (event.key.code == sf::Keyboard::Tilde)
 				{
@@ -85,28 +85,30 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 				}
 			}
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+		if (window.hasFocus())
 		{
-			player.attack(1);
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+			{
+				player.attack(1);
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+			{
+				if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+					player.move(context.player_move_speed);
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+			{
+				if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+					player.move(-context.player_move_speed);
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+			{
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+					player.jump(true);
+				else
+					player.jump(false);
+			}
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-		{
-			if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-				player.move(context.player_move_speed);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-		{
-			if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-				player.move(-context.player_move_speed);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-		{
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-				player.jump(true);
-			else
-				player.jump(false);
-		}
-
 		float time = clock.getElapsedTime().asMicroseconds();
 		time /= 1000;
 		if (time > 2500.0f / context.fps)
