@@ -18,8 +18,6 @@ enum Animation_status { A_IDLE = 0, A_MOVE, A_JUMP_IDLE,
 	A_JUMP_RUN, A_JUMP_RUN2, A_PUNCH_1, A_PUNCH_2, A_HIT };
 enum Colidable_type { GROUND, ENEMY, OTHER };
 
-const Vectorf max_force = { 1000.f, 1000.0f };
-
 struct Context
 {
 	bool draw_collisions = false;
@@ -31,6 +29,7 @@ struct Context
 	Vectorf min_move_speed = { 1,0 };
 	Vectorf move_speed_reduction = { 0.5f, 0.5f };
 	Vectorf player_move_speed = { 0.1,0 };
+	Vectorf max_force = { 1000.f, 3000.0f };
 };
 
 extern struct Context context;

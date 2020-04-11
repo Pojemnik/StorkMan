@@ -173,10 +173,9 @@ void Dynamic_animatable::next_frame()
 	{
 		for (int i = 0; i < tree.independent_count + 3; i++)
 		{
-			float a1 = util::ang_reduce((*next_key)[i] - actual_frame[i]);
-			float a2 = a1 - 360 * util::sgn(a1);
+			float a1 = (*next_key)[i] - actual_frame[i];
 			actual_frame[i] = actual_frame[i]
-				+ (abs(a1) < abs(a2) ? a1 : a2) / frames_delta;
+				+ a1 / frames_delta;
 		}
 		frames_delta--;
 	}
