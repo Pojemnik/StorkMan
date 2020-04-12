@@ -38,7 +38,6 @@ private:
 	void load_level(Vectori pos);
 	void unload_level(Vectori pos);
 	void unload_level(std::list<Level*>::iterator& lvl);
-	const sf::Texture& generate_lightmap(sf::RenderStates states) const;
 
 public:
 	sf::Sprite background;

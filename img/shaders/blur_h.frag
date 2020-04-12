@@ -14,8 +14,14 @@ const float pi = 3.14159265f;
 
 // The following are all mutually exclusive macros for various 
 // seperable blurs of varying kernel size
-#define HORIZONTAL_BLUR_5
-#if defined(VERTICAL_BLUR_9)
+#define HORIZONTAL_BLUR_11
+#if defined(VERTICAL_BLUR_11)
+const float numBlurPixelsPerSide = 5.0f;
+const vec2  blurMultiplyVec      = vec2(0.0f, 1.0f);
+#elif defined(HORIZONTAL_BLUR_11)
+const float numBlurPixelsPerSide = 5.0f;
+const vec2  blurMultiplyVec      = vec2(1.0f, 0.0f);
+#elif defined(VERTICAL_BLUR_9)
 const float numBlurPixelsPerSide = 4.0f;
 const vec2  blurMultiplyVec      = vec2(0.0f, 1.0f);
 #elif defined(HORIZONTAL_BLUR_9)

@@ -30,7 +30,9 @@ struct Context
 	Vectorf move_speed_reduction = { 0.5f, 0.5f };
 	Vectorf player_move_speed = { 0.1,0 };
 	Vectorf max_force = { 1000.f, 3000.0f };
-	sf::Shader generate_map, black, blur, blend;
+	sf::Shader generate_map, black, blurh, blurv, blend;
+	sf::RenderTexture lightmap, lm2, lm3, lm4;
+	sf::RenderStates bg_states, states_black, map_states, blurh_states, blurv_states, final_states;
 };
 
 extern struct Context context;
