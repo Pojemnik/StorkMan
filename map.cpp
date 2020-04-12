@@ -88,6 +88,7 @@ Map::Map(Vectori dimensions, std::vector<Level>& lvls, Vectori start_pos, sf::Te
 	context.blurh_states.shader = &context.blurh;
 	context.blurv_states.shader = &context.blurv;
 	context.final_states.blendMode = sf::BlendMultiply;
+	lightmap.setPosition(0, 0);
 }
 
 void Map::load_level(Vectori pos)
@@ -120,13 +121,32 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	const float* matrix = states.transform.getMatrix();
 	Vectorf move = { matrix[12], matrix[13] };
 	Vectorf move_parallax = move / context.parrallax;
+	context.bg_states = states;
+	context.bg_states.transform.translate(move_parallax);
+	target.draw(background, context.bg_states);
+	for (const auto& it : loaded_levels)
+	{
+		states.transform *= sf::Transform().translate({ level_size.x * it->global_pos.x,level_size.y * it->global_pos.y });
+		for (const auto& it2 : it->drawables)
+		{
+			target.draw(*it2, states);
+		}
+		for (const auto& it2 : it->texturables)
+		{
+			target.draw(*it2, states);
+		}
+		states.transform *= sf::Transform().translate({ -1 * level_size.x * it->global_pos.x,-1 * level_size.y * it->global_pos.y });
+	}
+}
+
+void Map::generate_lightmap(sf::RenderStates states)
+{
+	const float* matrix = states.transform.getMatrix();
+	Vectorf move = { matrix[12], matrix[13] };
 	context.lightmap.clear(sf::Color(255, 255, 255, 255));
 	context.lm2.clear();
 	context.lm3.clear();
 	context.lm4.clear();
-	context.bg_states = states;
-	context.bg_states.transform.translate(move_parallax);
-	target.draw(background, context.bg_states);
 	context.states_black = states;
 	context.states_black.shader = &context.black;
 	for (const auto& it : loaded_levels)
@@ -141,35 +161,19 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	context.lightmap.display();
 	Vectorf source = { 0.7f + move.x / 1024.0f, 0.7f - move.y / 576.0f };
 	context.generate_map.setUniform("light_pos", source);
-	sf::Sprite s;
-	s.setTexture(context.lightmap.getTexture());
-	s.setPosition(0, 0);
-	s.setScale(.5f, .5f);
-	context.lm2.draw(s, context.map_states);
+	lightmap.setTexture(context.lightmap.getTexture());
+	lightmap.setScale(.5f, .5f);
+	context.lm2.draw(lightmap, context.map_states);
 	context.lm2.display();
-	s.setScale(1.f, 1.f);
-	s.setTexture(context.lm2.getTexture());
-	context.lm3.draw(s, context.blurh_states);
+	lightmap.setScale(1.f, 1.f);
+	lightmap.setTexture(context.lm2.getTexture());
+	context.lm3.draw(lightmap, context.blurh_states);
 	context.lm3.display();
-	s.setTexture(context.lm3.getTexture());
-	context.lm4.draw(s, context.blurv_states);
+	lightmap.setTexture(context.lm3.getTexture());
+	context.lm4.draw(lightmap, context.blurv_states);
 	context.lm4.display();
-	s.setTexture(context.lm4.getTexture());
-	for (const auto& it : loaded_levels)
-	{
-		states.transform *= sf::Transform().translate({ level_size.x * it->global_pos.x,level_size.y * it->global_pos.y });
-		for (const auto& it2 : it->drawables)
-		{
-			target.draw(*it2, states);
-		}
-		for (const auto& it2 : it->texturables)
-		{
-			target.draw(*it2, states);
-		}
-		states.transform *= sf::Transform().translate({ -1 * level_size.x * it->global_pos.x,-1 * level_size.y * it->global_pos.y });
-	}
-	s.setScale(2.f, 2.f);
-	target.draw(s, context.final_states);
+	lightmap.setTexture(context.lm4.getTexture());
+	lightmap.setScale(2.f, 2.f);
 }
 
 void Map::update(float dt)

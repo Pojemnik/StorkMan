@@ -127,6 +127,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			camera_pos -= sf::Vector2f(512, 288);
 			sf::RenderStates rs = sf::RenderStates::Default;
 			rs.transform = sf::Transform().translate(-camera_pos);
+			map.generate_lightmap(rs);
 			window.draw(map, rs);
 			if (context.draw_collisions)
 			{
@@ -138,6 +139,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 				window.draw(r, rs);
 			}
 			window.draw(player, rs);
+			window.draw(map.lightmap, context.final_states);
 			window.display();
 		}
 	}

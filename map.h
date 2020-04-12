@@ -41,10 +41,12 @@ private:
 
 public:
 	sf::Sprite background;
+	sf::Sprite lightmap;
 	Player* player;//Chyba niezyt eleganckie
 
 	Map() = default;
 	Map(Vectori dimensions, std::vector<Level>& levels, Vectori start_pos, sf::Texture& bg);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	void update(float dt);
+	void generate_lightmap(sf::RenderStates states);
 };
