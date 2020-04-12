@@ -103,26 +103,114 @@ void Map::unload_level(std::list<Level*>::iterator& lvl)
 	lvl = loaded_levels.erase(lvl);
 }
 
-void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
+const sf::Texture& Map::generate_lightmap(sf::RenderStates states) const
 {
-	const float* matrix = states.transform.getMatrix();
-	Vectorf move = { matrix[12] / context.parrallax, matrix[13] / context.parrallax };
-	sf::RenderStates bg_states = states;
-	bg_states.transform.translate(move);
-	target.draw(background, bg_states);
+	sf::RenderTexture lightmap;
+	if (!lightmap.create(1024, 576))
+	{
+		std::cout << "aaaa" << std::endl;
+	}
+	lightmap.clear(sf::Color(255, 255, 255, 0));
+	states.shader = &context.black;
 	for (const auto& it : loaded_levels)
 	{
 		states.transform *= sf::Transform().translate({ level_size.x * it->global_pos.x,level_size.y * it->global_pos.y });
 		for (const auto& it2 : it->drawables)
 		{
-			target.draw(*it2, states);
+			lightmap.draw(*it2, states);
 		}
 		for (const auto& it2 : it->texturables)
 		{
-			target.draw(*it2, states);
+			lightmap.draw(*it2, states);
 		}
 		states.transform *= sf::Transform().translate({ -1 * level_size.x * it->global_pos.x,-1 * level_size.y * it->global_pos.y });
 	}
+	lightmap.display();
+	return lightmap.getTexture();
+}
+
+void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	const float* matrix = states.transform.getMatrix();
+	Vectorf move = { matrix[12] / context.parrallax, matrix[13] / context.parrallax };
+	sf::RenderStates bg_states = states;
+	sf::RenderTexture lightmap, lm2, lm3, final_map;
+	if (!lightmap.create(1024, 576))
+	{
+		std::cout << "aaaa" << std::endl;
+	}
+	if (!lm2.create(1024, 576))
+	{
+		std::cout << "aaaa2" << std::endl;
+	}
+	if (!lm3.create(1024, 576))
+	{
+		std::cout << "aaaa3" << std::endl;
+	}
+	if (!final_map.create(1024, 576))
+	{
+		std::cout << "final aaaa" << std::endl;
+	}
+	lightmap.clear(sf::Color(255, 255, 255, 255));
+	lm2.clear();
+	lm3.clear();
+	final_map.clear();
+	bg_states.transform.translate(move);
+	final_map.draw(background, bg_states);
+	sf::RenderStates states_black = states;
+	states_black.shader = &context.black;
+	for (const auto& it : loaded_levels)
+	{
+		states_black.transform *= sf::Transform().translate({ level_size.x * it->global_pos.x,level_size.y * it->global_pos.y });
+		for (const auto& it2 : it->texturables)
+		{
+			lightmap.draw(*it2, states_black);
+		}
+		states_black.transform *= sf::Transform().translate({ -1 * level_size.x * it->global_pos.x,-1 * level_size.y * it->global_pos.y });
+	}
+	lightmap.display();
+	Vectorf source = { 0.7f - move.x / 1024.0f, 0.7f - move.y / 576.0f };
+	sf::Texture tex = lightmap.getTexture();
+	sf::Sprite s;
+	s.setTexture(tex);
+	s.setPosition(0, 0);
+	sf::RenderStates map_states;
+	context.generate_map.setUniform("texture", sf::Shader::CurrentTexture);
+	context.generate_map.setUniform("light_pos", source);
+	context.generate_map.setUniform("samples", 100.0f);
+	map_states.shader = &context.generate_map;
+	lm2.draw(s, map_states);
+	lm2.display();
+	sf::Texture tex2 = lm2.getTexture();
+	s.setTexture(tex2);
+	sf::RenderStates blur_states;
+	context.blur.setUniform("sigma", 5.0f);
+	context.blur.setUniform("blurSize", 1.0f/1024.0f);
+	context.blur.setUniform("blurSampler", sf::Shader::CurrentTexture);
+	blur_states.shader = &context.blur;
+	lm3.draw(s, blur_states);
+	lm3.display();
+	sf::Texture tex3 = lm3.getTexture();
+	for (const auto& it : loaded_levels)
+	{
+		states.transform *= sf::Transform().translate({ level_size.x * it->global_pos.x,level_size.y * it->global_pos.y });
+		for (const auto& it2 : it->drawables)
+		{
+			final_map.draw(*it2, states);
+		}
+		for (const auto& it2 : it->texturables)
+		{
+			final_map.draw(*it2, states);
+		}
+		states.transform *= sf::Transform().translate({ -1 * level_size.x * it->global_pos.x,-1 * level_size.y * it->global_pos.y });
+	}
+	sf::RenderStates final_states;
+	final_map.display();
+	s.setTexture(final_map.getTexture());
+	context.blend.setUniform("texture", sf::Shader::CurrentTexture);
+	context.blend.setUniform("light", tex3);
+	final_states.shader = &context.blend;
+	target.draw(s, final_states);
 }
 
 

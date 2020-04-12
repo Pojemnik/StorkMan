@@ -30,6 +30,7 @@ struct Context
 	Vectorf move_speed_reduction = { 0.5f, 0.5f };
 	Vectorf player_move_speed = { 0.1,0 };
 	Vectorf max_force = { 1000.f, 3000.0f };
+	sf::Shader generate_map, black, blur, blend;
 };
 
 extern struct Context context;
@@ -74,7 +75,6 @@ namespace util
 	{
 		return a.x * b.x + a.y * b.y;
 	}
-
 
 	template <typename T> inline int sgn(T val)
 	{
