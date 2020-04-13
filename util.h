@@ -33,6 +33,7 @@ struct Context
 	sf::Shader generate_map, black, blurh, blurv, blend;
 	sf::RenderTexture lightmap, lm2, lm3, lm4;
 	sf::RenderStates bg_states, states_black, map_states, blurh_states, blurv_states, final_states;
+	const Vectorf resolution = { 1024, 576 };
 };
 
 extern struct Context context;

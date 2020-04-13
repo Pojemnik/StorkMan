@@ -37,7 +37,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	assets.load_assets();
 	std::cout << test->getElapsedTime().asMilliseconds() << std::endl;
 	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
-	sf::RenderWindow window(sf::VideoMode(1024, 576, desktop.bitsPerPixel), "StorkMan " + VERSION, sf::Style::Titlebar | sf::Style::Close);
+	sf::RenderWindow window(sf::VideoMode(context.resolution.x, context.resolution.y, desktop.bitsPerPixel), "StorkMan " + VERSION, sf::Style::Titlebar | sf::Style::Close);
 	sf::Clock clock;
 	std::cout << test->getElapsedTime().asMilliseconds() << std::endl;
 	Map map;

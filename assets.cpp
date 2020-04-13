@@ -150,11 +150,12 @@ void Assets::load_assets()
 	context.blurv.loadFromFile("img/shaders/blur_v.frag", sf::Shader::Fragment);
 	context.generate_map.setUniform("texture", sf::Shader::CurrentTexture);
 	context.generate_map.setUniform("samples", 100.0f);
+	context.generate_map.setUniform("dimensions", context.resolution);
 	context.blurh.setUniform("sigma", 20.0f);
-	context.blurh.setUniform("blurSize", 1.0f / 1024.0f);
+	context.blurh.setUniform("blurSize", 1.0f / context.resolution.x);
 	context.blurh.setUniform("blurSampler", sf::Shader::CurrentTexture);
 	context.blurv.setUniform("sigma", 20.0f);
-	context.blurv.setUniform("blurSize", 1.0f / 576.0f);
+	context.blurv.setUniform("blurSize", 1.0f / context.resolution.y);
 	context.blurv.setUniform("blurSampler", sf::Shader::CurrentTexture);
 	//load_textures(ship_dockx, "img/ships/DokowanieX_ss_436_87_is_10_12.png", false);
 	//load_textures(ship_docky, "img/ships/DokowanieY_ss_443_442_is_15_20.png", false);

@@ -76,11 +76,11 @@ Map::Map(Vectori dimensions, std::vector<Level>& lvls, Vectori start_pos, sf::Te
 				load_level(Vectori(start_pos.x + x, start_pos.y + y));
 		}
 	}
-	if (!(context.lightmap.create(1024, 576)))
+	if (!(context.lightmap.create(context.resolution.x, context.resolution.y)))
 	{
 		std::cerr << "Error creating lightmaps" << std::endl;
 	}
-	if (!(context.lm2.create(1024, 576) && context.lm3.create(1024, 576) && context.lm4.create(1024, 576)))
+	if (!(context.lm2.create(context.resolution.x, context.resolution.y) && context.lm3.create(context.resolution.x, context.resolution.y) && context.lm4.create(context.resolution.x, context.resolution.y)))
 	{
 		std::cerr << "Error creating lightmaps" << std::endl;
 	}
@@ -159,8 +159,12 @@ void Map::generate_lightmap(sf::RenderStates states)
 		context.states_black.transform *= sf::Transform().translate({ -1 * level_size.x * it->global_pos.x,-1 * level_size.y * it->global_pos.y });
 	}
 	context.lightmap.display();
-	Vectorf source = { 0.7f + move.x / 1024.0f, 0.7f - move.y / 576.0f };
+	Vectorf source = { 0.7f, 0.7f };
+	Vectorf delta = { move.x / context.resolution.x, -move.y / context.resolution.y };
+	source += delta;
 	context.generate_map.setUniform("light_pos", source);
+	context.generate_map.setUniform("delta", delta);
+	context.generate_map.setUniform("light_range", 0.7f);
 	lightmap.setTexture(context.lightmap.getTexture());
 	lightmap.setScale(.5f, .5f);
 	context.lm2.draw(lightmap, context.map_states);
