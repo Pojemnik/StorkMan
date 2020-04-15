@@ -164,7 +164,7 @@ void Map::generate_lightmap(sf::RenderStates states)
 	source += delta;
 	context.generate_map.setUniform("light_pos", source);
 	context.generate_map.setUniform("delta", delta);
-	context.generate_map.setUniform("light_range", 0.7f);
+	context.generate_map.setUniform("light_range", 2.f);
 	lightmap.setTexture(context.lightmap.getTexture());
 	lightmap.setScale(.5f, .5f);
 	context.lm2.draw(lightmap, context.map_states);
