@@ -7,7 +7,7 @@
 #include "parser.h"
 #include "util.h"
 
-const std::string VERSION = "0.3.2";
+const std::string VERSION = "0.3.3";
 
 bool update(float dt, Map& map)
 {
@@ -58,7 +58,9 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			map = parse_map(root, &assets);
 		}
 	}
-	map.background.setPosition(-1000, -2000);
+	map.background.setPosition(context.background_position);
+	map.layer2.setTexture(*assets.layer2);
+	map.layer2.setPosition(context.layer2_position);
 	sf::FloatRect f(380, 55, 20, 70);
 	Player player({ 400, 100 }, assets.pieces, assets.pieces_rect, assets.animations, f, assets.stork_tree, 1.92f, global_scale, 87.f);
 	map.player = &player;
@@ -127,7 +129,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			camera_pos -= sf::Vector2f(512, 288);
 			sf::RenderStates rs = sf::RenderStates::Default;
 			rs.transform = sf::Transform().translate(-camera_pos);
-			map.generate_lightmap(rs);
+			//map.generate_lightmap(rs);
 			window.draw(map, rs);
 			if (context.draw_collisions)
 			{
@@ -139,7 +141,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 				window.draw(r, rs);
 			}
 			window.draw(player, rs);
-			window.draw(map.lightmap, context.final_states);
+			//window.draw(map.lightmap, context.final_states);
 			window.display();
 		}
 	}

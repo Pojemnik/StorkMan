@@ -3,7 +3,7 @@
 #include <vector>
 #include <list>
 
-const sf::Vector2f level_size = { 30 * global_scale,30 * global_scale };
+const sf::Vector2f level_size = { 100 * global_scale,100 * global_scale };
 
 class Level
 {
@@ -42,7 +42,8 @@ private:
 public:
 	sf::Sprite background;
 	sf::Sprite lightmap;
-	Player* player;//Chyba niezyt eleganckie
+	sf::Sprite layer2;	//Lepiej rozwi¹zaæ
+	Player* player;		//Chyba niezyt eleganckie
 
 	Map() = default;
 	Map(Vectori dimensions, std::vector<Level>& levels, Vectori start_pos, sf::Texture& bg);

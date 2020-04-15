@@ -9,23 +9,12 @@ class Assets
 {
 public:
 	std::vector<sf::Texture> map_textures;
-	Animation* stork_run = NULL;
-	Animation* stork_idle = NULL;
-	Animation* stork_jump_run = NULL;
-	Animation* stork_jump_idle = NULL;
-	Animation ship_dockx;
-	Animation ship_docky;
-	Animation ship_fly;
-	Animation ship_idle;
-	Animation ship_ext_hdmi;
-	Animation ship_undockx;
-	Animation ship_undocky;
-	Animation ship_ret_hdmi;
 	sf::Texture* pieces = NULL;
 	std::vector<sf::IntRect> pieces_rect;
 	std::map<std::string, const sf::Texture*> textures;
 	std::vector<const Dynamic_animation *> animations;
 	sf::Texture* bg;
+	sf::Texture* layer2;
 	Animation_tree stork_tree;
 	void load_assets();
 

@@ -9,6 +9,11 @@ storkmaxspeed			float float		5 5					Masymalna prędkość ruchu
 storkspeedreduction		float float		0.5 0.5				Wartość, o jaką postać zwalnia po puszczeniu klawisza ruchu
 storkmovespeed			float float		0.1 0				Wartość przyspieszenia storkmana
 jumpforce				float			20					Siła skoku
+bgscale					float			1					Skala tła
+layer2scale				float			1					Skala warstwy 2 (lasu)
+layer2parallax			float			-2					Paralaksa warstwy 2
+bgpos					float float 	-1000 -2500			Pozycja tła
+layer2pos				float float 	-1000 -1800			Pozycja warstwy 2
 
 Komendy podajesz wraz z argumentami w jednej linii.
 Gra nie powinna się wywalać w przypadku nieprawidłowych argumentów

@@ -134,7 +134,9 @@ void Assets::load_assets()
 	for (int i = 0; i < 27; i++)
 		pieces_rect.push_back({ 128 * (i % 3),128 * (i / 3),128,128 });
 	bg = new sf::Texture();
-	bg->loadFromFile("img/bg.jpg");
+	bg->loadFromFile("img/bg/bg.jpg");
+	layer2 = new sf::Texture();
+	layer2->loadFromFile("img/bg/LAS.png");
 	animations.push_back(load_dynamic_animation("animations/stork/idle.txt"));
 	animations.push_back(load_dynamic_animation("animations/stork/run.txt"));
 	animations.push_back(load_dynamic_animation("animations/stork/jump_idle.txt"));
