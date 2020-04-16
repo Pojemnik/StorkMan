@@ -142,7 +142,7 @@ void Assets::load_assets()
 	animations.push_back(load_dynamic_animation("animations/stork/jump_run2.txt"));
 	animations.push_back(load_dynamic_animation("animations/stork/punch1.txt"));
 	animations.push_back(load_dynamic_animation("animations/stork/punch2.txt"));
-	load_textures(map_textures, "img/tex_ss_64_64_is_1_17.png", true);
+	load_textures(map_textures, "img/tex_ss_64_64_is_3_9.png", true);
 	stork_tree = load_animation_tree("animations/stork/tree.txt");
 	context.generate_map.loadFromFile("img/shaders/generate_map.frag", sf::Shader::Fragment);
 	context.black.loadFromFile("img/shaders/black.frag", sf::Shader::Fragment);
@@ -183,6 +183,16 @@ void Assets::load_assets()
 	textures["ribbing,1"] = &map_textures[14];
 	textures["ribbing,2"] = &map_textures[15];
 	textures["dirt,0"] = &map_textures[16];
+	textures["bruk,1"] = &map_textures[17];
+	textures["bruk,2"] = &map_textures[18];
+	textures["bruk,3"] = &map_textures[19];
+	textures["bruk,4"] = &map_textures[20];
+	textures["bruk,5"] = &map_textures[21];
+	textures["bruk,6"] = &map_textures[22];
+	textures["bruk,7"] = &map_textures[23];
+	textures["bruk,8"] = &map_textures[24];
+	textures["bruk,9"] = &map_textures[25];
+	textures["bruk,10"] = &map_textures[26];
 
 	std::cout << "done!" << std::endl;
 }
