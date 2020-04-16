@@ -28,6 +28,57 @@ float util::ang_reduce(float ang)
 	return ang;
 }
 
+void util::set_vectorf(Vectorf& vector, command& cmd, std::string var_name)
+{
+	if (cmd.args.size() == 2)
+	{
+		float tab[2];
+		bool err = 0;
+		for (int i = 0; i < 2; i++)
+		{
+			try
+			{
+				tab[i] = std::stof(cmd.args[i]);
+			}
+			catch (std::invalid_argument e)
+			{
+				err = 1;
+				util::print_incorrect_argument_error(cmd.name, cmd.args[i]);
+			}
+		}
+		if (!err)
+		{
+			vector = { tab[0],tab[1] };
+			std::cout << var_name + " set to " << vector.x << ' ' << vector.y << std::endl;
+		}
+
+	}
+	else
+	{
+		util::print_argument_number_error(2);
+	}
+}
+
+void util::set_float(float& var, command& cmd, std::string var_name)
+{
+	if (cmd.args.size() == 1)
+	{
+		try
+		{
+			var = std::stof(cmd.args[0]);
+			std::cout << var_name + " set to " << var << std::endl;
+		}
+		catch (std::invalid_argument e)
+		{
+			util::print_incorrect_argument_error(cmd.name, cmd.args[0]);
+		}
+	}
+	else
+	{
+		util::print_argument_number_error(1);
+	}
+}
+
 void util::execute_command(util::command cmd)
 {
 	if (cmd.name == "col")
@@ -47,199 +98,55 @@ void util::execute_command(util::command cmd)
 	}
 	else if (cmd.name == "fps")
 	{
-		if (cmd.args.size() == 1)
-		{
-			try
-			{
-				context.fps = std::stof(cmd.args[0]);
-				std::cout << "FPS set to " << context.fps << std::endl;
-			}
-			catch (std::invalid_argument e)
-			{
-				util::print_incorrect_argument_error(cmd.name, cmd.args[0]);
-			}
-		}
-		else
-		{
-			util::print_argument_number_error(1);
-		}
+		set_float(context.fps, cmd, "FPS");
 	}
 	else if (cmd.name == "gravity")
 	{
-		if (cmd.args.size() == 1)
-		{
-			try
-			{
-				context.gravity = std::stof(cmd.args[0]);
-				std::cout << "Gravity set to " << context.gravity << std::endl;
-			}
-			catch (std::invalid_argument e)
-			{
-				util::print_incorrect_argument_error(cmd.name, cmd.args[0]);
-			}
-		}
-		else
-		{
-			util::print_argument_number_error(1);
-		}
+		set_float(context.gravity, cmd, "Gravity");
 	}
 	else if (cmd.name == "bgparallax")
 	{
-		if (cmd.args.size() == 1)
-		{
-			try
-			{
-				context.parrallax = std::stof(cmd.args[0]);
-				std::cout << "Background parallax set to " << context.parrallax << std::endl;
-			}
-			catch (std::invalid_argument e)
-			{
-				util::print_incorrect_argument_error(cmd.name, cmd.args[0]);
-			}
-		}
-		else
-		{
-			util::print_argument_number_error(1);
-		}
+		set_float(context.parrallax, cmd, "Background parallax");
+	}
+	else if (cmd.name == "layer2parallax")
+	{
+		set_float(context.parrallax2, cmd, "Layer 2 parallax");
 	}
 	else if (cmd.name == "jumpforce")
 	{
-		if (cmd.args.size() == 1)
-		{
-			try
-			{
-				context.jump_force = std::stof(cmd.args[0]);
-				std::cout << "Storkman jump force set to " << context.jump_force << std::endl;
-			}
-			catch (std::invalid_argument e)
-			{
-				util::print_incorrect_argument_error(cmd.name, cmd.args[0]);
-			}
-		}
-		else
-		{
-			util::print_argument_number_error(1);
-		}
+		set_float(context.jump_force, cmd, "Storkman jump force");
 	}
 	else if (cmd.name == "storkminspeed")
 	{
-		if (cmd.args.size() == 2)
-		{
-			float tab[2];
-			bool err = 0;
-			for (int i = 0; i < 2; i++)
-			{
-				try
-				{
-					tab[i] = std::stof(cmd.args[i]);
-				}
-				catch (std::invalid_argument e)
-				{
-					err = 1;
-					util::print_incorrect_argument_error(cmd.name, cmd.args[i]);
-				}
-			}
-			if (!err)
-			{
-				context.min_move_speed = { tab[0],tab[1] };
-				std::cout << "Stokman minimal speed set to " << context.min_move_speed.x << ' ' << context.min_move_speed.y << std::endl;
-			}
-
-		}
-		else
-		{
-			util::print_argument_number_error(2);
-		}
+		set_vectorf(context.min_move_speed, cmd, "Minimal storkman speed");
 	}
 	else if (cmd.name == "storkmaxspeed")
 	{
-		if (cmd.args.size() == 2)
-		{
-			float tab[2];
-			bool err = 0;
-			for (int i = 0; i < 2; i++)
-			{
-				try
-				{
-					tab[i] = std::stof(cmd.args[i]);
-				}
-				catch (std::invalid_argument e)
-				{
-					err = 1;
-					util::print_incorrect_argument_error(cmd.name, cmd.args[i]);
-				}
-			}
-			if (!err)
-			{
-				context.max_move_speed = { tab[0],tab[1] };
-				std::cout << "Stokman maximal speed set to " << context.max_move_speed.x << ' ' << context.max_move_speed.y << std::endl;
-			}
-
-		}
-		else
-		{
-			util::print_argument_number_error(2);
-		}
+		set_vectorf(context.max_move_speed, cmd, "Maximal storkman speed");
 	}
 	else if (cmd.name == "storkspeedreduction")
 	{
-		if (cmd.args.size() == 2)
-		{
-			float tab[2];
-			bool err = 0;
-			for (int i = 0; i < 2; i++)
-			{
-				try
-				{
-					tab[i] = std::stof(cmd.args[i]);
-				}
-				catch (std::invalid_argument e)
-				{
-					err = 1;
-					util::print_incorrect_argument_error(cmd.name, cmd.args[i]);
-				}
-			}
-			if (!err)
-			{
-				context.move_speed_reduction = { tab[0],tab[1] };
-				std::cout << "Move speed reduction set to " << context.move_speed_reduction.x << ' ' << context.move_speed_reduction.y << std::endl;
-			}
-
-		}
-		else
-		{
-			util::print_argument_number_error(2);
-		}
+		set_vectorf(context.move_speed_reduction, cmd, "Move speed reduction");
 	}
 	else if (cmd.name == "storkmovespeed")
 	{
-		if (cmd.args.size() == 2)
-		{
-			float tab[2];
-			bool err = 0;
-			for (int i = 0; i < 2; i++)
-			{
-				try
-				{
-					tab[i] = std::stof(cmd.args[i]);
-				}
-				catch (std::invalid_argument e)
-				{
-					err = true;
-					util::print_incorrect_argument_error(cmd.name, cmd.args[i]);
-				}
-			}
-			if (!err)
-			{
-				context.player_move_speed = { tab[0],tab[1] };
-				std::cout << "Stokman move speed set to " << context.player_move_speed.x << ' ' << context.player_move_speed.y << std::endl;
-			}
-
-		}
-		else
-		{
-			util::print_argument_number_error(2);
-		}
+		set_vectorf(context.player_move_speed, cmd, "Move speed");
+	}
+	else if (cmd.name == "bgpos")
+	{
+		set_vectorf(context.background_position, cmd, "Background position");	
+	}
+	else if (cmd.name == "layer2pos")
+	{
+		set_vectorf(context.layer2_position, cmd, "Layer 2 position");
+	}
+	else if (cmd.name == "bgscale")
+	{
+		set_float(context.background_scale, cmd, "Background scale");
+	}
+	else if (cmd.name == "layer2scale")
+	{
+		set_float(context.layer2_scale, cmd, "Layer 2 scale");
 	}
 	else
 		std::cerr << "Unknown command: " + cmd.name << std::endl;

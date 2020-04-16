@@ -25,14 +25,19 @@ struct Context
 	float gravity = 26;
 	float jump_force = 870.f;
 	float parrallax = -1.5f;
+	float parrallax2 = -2.f;
 	Vectorf max_move_speed = { 5,5 };
 	Vectorf min_move_speed = { 1,0 };
 	Vectorf move_speed_reduction = { 0.5f, 0.5f };
 	Vectorf player_move_speed = { 0.1,0 };
-	Vectorf max_force = { 1000.f, 3000.0f };
+	Vectorf background_position = { -1000,-2500 };
+	float background_scale = 1.f;
+	Vectorf layer2_position = { -1000, -1800 };
+	float layer2_scale = 1.f;
+	const Vectorf max_force = { 1000.f, 3000.0f };
 	sf::Shader generate_map, black, blurh, blurv, blend;
 	sf::RenderTexture lightmap, lm2, lm3, lm4;
-	sf::RenderStates bg_states, states_black, map_states, blurh_states, blurv_states, final_states;
+	sf::RenderStates bg_states, layer2_states, states_black, map_states, blurh_states, blurv_states, final_states;
 	const Vectorf resolution = { 1024, 576 };
 };
 
@@ -58,6 +63,8 @@ namespace util
 	Vectorf saturate(Vectorf val, const Vectorf max_val);
 	float rdn(float s);
 	float ang_reduce(float ang);
+	void set_vectorf(Vectorf& vector, command& cmd, std::string var_name);
+	void set_float(float& var, command& cmd, std::string var_name);
 	void print_argument_number_error(int correct_number);
 	void print_incorrect_argument_error(std::string command, std::string what);
 	command get_command();

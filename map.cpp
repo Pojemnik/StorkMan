@@ -120,10 +120,14 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	const float* matrix = states.transform.getMatrix();
 	Vectorf move = { matrix[12], matrix[13] };
-	Vectorf move_parallax = move / context.parrallax;
+	Vectorf bg_move_parallax = move / context.parrallax;
 	context.bg_states = states;
-	context.bg_states.transform.translate(move_parallax);
+	context.bg_states.transform.translate(bg_move_parallax);
 	target.draw(background, context.bg_states);
+	Vectorf layer2_move_parallax = move / context.parrallax2;
+	context.layer2_states = states;
+	context.layer2_states.transform.translate(layer2_move_parallax);
+	target.draw(layer2, context.layer2_states);
 	for (const auto& it : loaded_levels)
 	{
 		states.transform *= sf::Transform().translate({ level_size.x * it->global_pos.x,level_size.y * it->global_pos.y });
@@ -164,7 +168,7 @@ void Map::generate_lightmap(sf::RenderStates states)
 	source += delta;
 	context.generate_map.setUniform("light_pos", source);
 	context.generate_map.setUniform("delta", delta);
-	context.generate_map.setUniform("light_range", 0.7f);
+	context.generate_map.setUniform("light_range", 2.f);
 	lightmap.setTexture(context.lightmap.getTexture());
 	lightmap.setScale(.5f, .5f);
 	context.lm2.draw(lightmap, context.map_states);
@@ -182,6 +186,10 @@ void Map::generate_lightmap(sf::RenderStates states)
 
 void Map::update(float dt)
 {
+	background.setPosition(context.background_position);
+	background.setScale(context.background_scale, context.background_scale);
+	layer2.setPosition(context.layer2_position);
+	layer2.setScale(context.layer2_scale, context.layer2_scale);
 	Vectori pos = { int(player->get_position().x) / int(level_size.x), int(player->get_position().y) / int(level_size.y) };
 	if (pos != current_pos)
 	{
