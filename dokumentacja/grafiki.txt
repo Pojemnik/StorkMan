@@ -15,4 +15,13 @@
 "ribbing,1" img/tex/ZEBROWANIE01.PNG
 "ribbing,2" img/tex/ZEBROWANIE02.PNG
 "dirt,0" img/tex/ZIEMIA.png
-
+"pipe,1" img/tex/RURY01.png
+"wood,0" img/tex/DREWNO00.png
+"wood,1" img/tex/DREWNO01.png
+"wood,2" img/tex/DREWNO02.png
+"wood,3" img/tex/DREWNO03.png
+"wood,4" img/tex/DREWNO04.png
+"tile,1" img/tex/RURY01.png
+"pipe,0" img/tex/RURY00.png
+"paving,0" img/tex/BRUK00.png
+"paving,1" img/tex/BRUK01.png

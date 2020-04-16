@@ -7,7 +7,7 @@
 #include "parser.h"
 #include "util.h"
 
-const std::string VERSION = "0.3.3";
+const std::string VERSION = "0.3.3b";
 
 bool update(float dt, Map& map)
 {

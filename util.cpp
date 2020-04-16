@@ -43,7 +43,7 @@ void util::set_vectorf(Vectorf& vector, command& cmd, std::string var_name)
 			catch (std::invalid_argument e)
 			{
 				err = 1;
-				util::print_incorrect_argument_error(cmd.name, cmd.args[i]);
+				print_incorrect_argument_error(cmd.name, cmd.args[i]);
 			}
 		}
 		if (!err)
@@ -55,7 +55,7 @@ void util::set_vectorf(Vectorf& vector, command& cmd, std::string var_name)
 	}
 	else
 	{
-		util::print_argument_number_error(2);
+		print_argument_number_error(2);
 	}
 }
 
@@ -70,12 +70,12 @@ void util::set_float(float& var, command& cmd, std::string var_name)
 		}
 		catch (std::invalid_argument e)
 		{
-			util::print_incorrect_argument_error(cmd.name, cmd.args[0]);
+			print_incorrect_argument_error(cmd.name, cmd.args[0]);
 		}
 	}
 	else
 	{
-		util::print_argument_number_error(1);
+		print_argument_number_error(1);
 	}
 }
 
