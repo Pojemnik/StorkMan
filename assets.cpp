@@ -150,6 +150,7 @@ void Assets::load_assets()
 	context.black.loadFromFile("img/shaders/black.frag", sf::Shader::Fragment);
 	context.blurh.loadFromFile("img/shaders/blur_h.frag", sf::Shader::Fragment);
 	context.blurv.loadFromFile("img/shaders/blur_v.frag", sf::Shader::Fragment);
+	context.shade.loadFromFile("img/shaders/shade.frag", sf::Shader::Fragment);
 	context.generate_map.setUniform("texture", sf::Shader::CurrentTexture);
 	context.generate_map.setUniform("samples", 0.01f);
 	context.generate_map.setUniform("dimensions", context.resolution);

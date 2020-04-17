@@ -35,7 +35,7 @@ struct Context
 	Vectorf layer2_position = { -1000, -1800 };
 	float layer2_scale = 1.f;
 	const Vectorf max_force = { 1000.f, 3000.0f };
-	sf::Shader generate_map, black, blurh, blurv, blend;
+	sf::Shader generate_map, black, blurh, blurv, blend, shade;
 	sf::RenderTexture lightmap, lm2, lm3, lm4;
 	sf::RenderStates bg_states, layer2_states, states_black, map_states, blurh_states, blurv_states, final_states;
 	const Vectorf resolution = { 1024, 576 };

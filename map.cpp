@@ -76,6 +76,7 @@ Map::Map(Vectori dimensions, std::vector<Level>& lvls, Vectori start_pos, sf::Te
 				load_level(Vectori(start_pos.x + x, start_pos.y + y));
 		}
 	}
+	calc_map_vertices();
 	if (!(context.lightmap.create(context.resolution.x, context.resolution.y)))
 	{
 		std::cerr << "Error creating lightmaps" << std::endl;
@@ -116,6 +117,56 @@ void Map::unload_level(std::list<Level*>::iterator& lvl)
 	lvl = loaded_levels.erase(lvl);
 }
 
+std::pair<float, Vectorf> Map::cast_ray(Vectorf source, Vectorf alfa) const
+{
+	Vectorf beta;
+	float min_t1 = INFINITY;
+	Vectorf point = source;
+	for (auto& it : map_vertices)
+	{
+		beta = { it.first.x - it.second.x, it.first.y - it.second.y };
+		float t2 = ((alfa.x * (it.second.y - source.y) + alfa.y * (source.x - it.second.x))
+			/ (beta.x * alfa.y - beta.y * alfa.x));
+		if (t2 >= 0 && t2 <= 1)
+		{
+			float t1 = (it.second.x + beta.x * t2 - source.x) / alfa.x;
+			if (t1 > 0)
+			{
+				if (t1 < min_t1)
+				{
+					min_t1 = t1;
+					point = { t1 * alfa.x + source.x, t1 * alfa.y + source.y };
+				}
+			}
+		}
+	}
+	return std::pair<float, Vectorf>(atan2(alfa.y, alfa.x), point);
+}
+std::vector<std::pair<float, Vectorf>> Map::calc_light_source(Vectorf source) const
+{
+	std::vector<std::pair<float, Vectorf>> points;
+	Vectorf point;
+	Vectorf alfa;
+	for (const auto& level_it : loaded_levels)
+	{
+		for (const auto& texturables_it : level_it->texturables)
+		{
+			for (int i = 0; i < texturables_it->vertices.size(); i++)
+			{
+				alfa = texturables_it->vertices[i].position + texturables_it->pos - source;
+				points.push_back(cast_ray(source, alfa));
+				float angle = atan2(alfa.y, alfa.x);
+				points.push_back(cast_ray(source, Vectorf(1, tan(angle + 0.00001f))));
+				points.push_back(cast_ray(source, Vectorf(1, tan(angle - 0.00001f))));
+			}
+		}
+	}
+	std::sort(points.begin(), points.end(),
+		[](const std::pair<float, Vectorf>& a, const std::pair<float, Vectorf>& b)
+	{return a.first > b.first; });
+	return points;
+}
+
 void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	const float* matrix = states.transform.getMatrix();
@@ -141,6 +192,41 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 		}
 		states.transform *= sf::Transform().translate({ -1 * level_size.x * it->global_pos.x,-1 * level_size.y * it->global_pos.y });
 	}
+	/*
+	Vectorf source = { 300, 300 };
+	Vectorf delta = { move.x, -move.y};
+	source += delta;
+	std::vector<std::pair<float, Vectorf>> points = calc_light_source(source);
+	sf::VertexArray light(sf::TriangleFan, points.size() + 2);
+	light[0].position = source;
+	light[0].color = sf::Color(255, 255, 255, 255);
+	for (int i = 1; i < points.size() + 1; i++)
+	{
+		light[i].position = points[i - 1].second;
+		light[i].color = sf::Color(255, 255, 255, 255);
+	}
+	light[points.size() + 1].position = points[0].second;
+	light[points.size() + 1].color = sf::Color(255, 255, 255, 255);
+	context.lightmap.clear(sf::Color(0, 0, 0, 0));
+	context.lm2.clear(sf::Color(0, 0, 0, 0));
+	sf::RenderStates st;
+	context.shade.setUniform("light_pos", Vectorf(source.x/context.resolution.x, 1.f-source.y/context.resolution.y));
+	context.shade.setUniform("texture", sf::Shader::CurrentTexture);
+	context.shade.setUniform("dark", .2f);
+	context.shade.setUniform("delta", Vectorf(delta.x/context.resolution.x, delta.y / context.resolution.y));
+	context.shade.setUniform("aspect", context.resolution.x/context.resolution.y);
+	st.shader = &context.shade;
+	context.lightmap.draw(light, states);
+	context.lightmap.display();
+	sf::Texture tex = context.lightmap.getTexture();
+	sf::Sprite s;
+	s.setTexture(tex);
+	context.lm2.draw(s, st);
+	context.lm2.display();
+	tex = context.lm2.getTexture();
+	s.setTexture(tex);
+	context.final_states.transform = states.transform;
+	target.draw(s, context.final_states);*/
 }
 
 void Map::generate_lightmap(sf::RenderStates states)
@@ -183,7 +269,26 @@ void Map::generate_lightmap(sf::RenderStates states)
 	lightmap.setTexture(context.lm4.getTexture());
 	lightmap.setScale(2.f, 2.f);
 }
-
+void Map::calc_map_vertices()
+{
+		map_vertices.clear();
+		for (const auto& it : loaded_levels)
+		{
+			for (const auto& it2 : it->texturables)
+			{
+				for (int i = 1; i < it2->vertices.size(); i++)
+				{
+					map_vertices.push_back(std::make_pair(it2->vertices[i].position + it2->pos, it2->vertices[i - 1].position + it2->pos));
+				}
+				map_vertices.push_back(std::make_pair(
+					it2->vertices.back().position + it2->pos, it2->vertices.front().position + it2->pos));
+			}
+		}
+		map_vertices.push_back({ {0,0}, {0,context.resolution.x} });
+		map_vertices.push_back({ {0,context.resolution.x}, {context.resolution.x,context.resolution.y} });
+		map_vertices.push_back({ {context.resolution.x,context.resolution.y}, {context.resolution.x,0} });
+		map_vertices.push_back({ {context.resolution.x,0}, {0,0} });
+}
 void Map::update(float dt)
 {
 	background.setPosition(context.background_position);
@@ -216,6 +321,7 @@ void Map::update(float dt)
 					load_level(Vectori(current_pos.x + x, current_pos.y + y));
 			}
 		}
+		calc_map_vertices();
 	}
 	for (auto& level_it : loaded_levels)
 	{
@@ -234,6 +340,6 @@ void Map::update(float dt)
 			if (abs(tmp.y) > abs(maxv.y))
 				maxv = tmp;
 		}
-
+		player->maxcollisionvector=maxv;
 	}
 }

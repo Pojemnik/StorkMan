@@ -34,11 +34,13 @@ private:
 	std::vector<Level> levels;
 	Level*** level_placement;
 	std::list<Level*> loaded_levels;
-
+	std::vector<std::pair<Vectorf, Vectorf>> map_vertices;
 	void load_level(Vectori pos);
 	void unload_level(Vectori pos);
 	void unload_level(std::list<Level*>::iterator& lvl);
-
+	void calc_map_vertices();
+	std::pair<float, Vectorf> cast_ray(Vectorf source, Vectorf alfa) const;
+	std::vector<std::pair<float, Vectorf>> calc_light_source(Vectorf source) const;
 public:
 	sf::Sprite background;
 	sf::Sprite lightmap;

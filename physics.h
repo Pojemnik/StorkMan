@@ -42,6 +42,7 @@ protected:
 	
 	virtual void update_position(float dt) = 0;
 public:
+	Vectorf maxcollisionvector = {0,0};
 	virtual void update(float dt) = 0;
 	virtual void move(Vectorf delta) = 0;
 	virtual void apply_force(Vectorf f);

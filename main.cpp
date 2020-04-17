@@ -100,12 +100,26 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 			{
 				if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-					player.move(context.player_move_speed);
+					{
+					float ang;
+					if(player.maxcollisionvector.y==0 && player.maxcollisionvector.x==0)
+						ang=0;
+					else
+						ang=-atan2(player.maxcollisionvector.x,player.maxcollisionvector.y);
+					player.move({context.player_move_speed.x*cos(ang)-context.player_move_speed.y*sin(ang),context.player_move_speed.x*sin(ang)+context.player_move_speed.y*cos(ang)});
+					}
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 			{
 				if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-					player.move(-context.player_move_speed);
+					{
+					float ang;
+					if(player.maxcollisionvector.y==0 && player.maxcollisionvector.x==0)
+						ang=0;
+					else
+						ang=-atan2(player.maxcollisionvector.x,player.maxcollisionvector.y);
+					player.move({-context.player_move_speed.x*cos(ang)-context.player_move_speed.y*sin(ang),-context.player_move_speed.x*sin(ang)+context.player_move_speed.y*cos(ang)});
+					}
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 			{
