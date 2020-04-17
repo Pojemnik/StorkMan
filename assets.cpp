@@ -137,6 +137,8 @@ void Assets::load_assets()
 	bg->loadFromFile("img/bg/bg.jpg");
 	layer2 = new sf::Texture();
 	layer2->loadFromFile("img/bg/LAS.png");
+	light = new sf::Texture();
+	light->loadFromFile("img/light.png");
 	animations.push_back(load_dynamic_animation("animations/stork/idle.txt"));
 	animations.push_back(load_dynamic_animation("animations/stork/run.txt"));
 	animations.push_back(load_dynamic_animation("animations/stork/jump_idle.txt"));
@@ -160,6 +162,7 @@ void Assets::load_assets()
 	context.blurv.setUniform("sigma", 20.0f);
 	context.blurv.setUniform("blurSize", 1.0f / context.resolution.y);
 	context.blurv.setUniform("blurSampler", sf::Shader::CurrentTexture);
+	context.light_states.texture = light;
 	//load_textures(ship_dockx, "img/ships/DokowanieX_ss_436_87_is_10_12.png", false);
 	//load_textures(ship_docky, "img/ships/DokowanieY_ss_443_442_is_15_20.png", false);
 	//load_textures(ship_fly, "img/ships/Lot_ss_466_87_is_6_10.png", false);

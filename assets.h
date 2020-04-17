@@ -15,6 +15,7 @@ public:
 	std::vector<const Dynamic_animation *> animations;
 	sf::Texture* bg;
 	sf::Texture* layer2;
+	sf::Texture* light;
 	Animation_tree stork_tree;
 	void load_assets();
 

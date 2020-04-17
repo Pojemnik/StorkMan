@@ -37,7 +37,8 @@ struct Context
 	const Vectorf max_force = { 1000.f, 3000.0f };
 	sf::Shader generate_map, black, blurh, blurv, blend, shade;
 	sf::RenderTexture lightmap, lm2, lm3, lm4;
-	sf::RenderStates bg_states, layer2_states, states_black, map_states, blurh_states, blurv_states, final_states;
+	sf::RenderStates bg_states, layer2_states, states_black,
+		map_states, blurh_states, blurv_states, final_states, light_states;
 	const Vectorf resolution = { 1024, 576 };
 };
 
