@@ -169,6 +169,7 @@ std::vector<std::pair<float, Vectorf>> Map::calc_light_source(Vectorf source) co
 
 void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
+	Vectorf source = { 300, 300 };
 	const float* matrix = states.transform.getMatrix();
 	Vectorf move = { matrix[12], matrix[13] };
 	Vectorf bg_move_parallax = move / context.parrallax;
@@ -193,9 +194,7 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 		states.transform *= sf::Transform().translate({ -1 * level_size.x * it->global_pos.x,-1 * level_size.y * it->global_pos.y });
 	}
 	/*
-	Vectorf source = { 300, 300 };
 	Vectorf delta = { move.x, -move.y};
-	source += delta;
 	std::vector<std::pair<float, Vectorf>> points = calc_light_source(source);
 	sf::VertexArray light(sf::TriangleFan, points.size() + 2);
 	light[0].position = source;
@@ -207,13 +206,13 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	}
 	light[points.size() + 1].position = points[0].second;
 	light[points.size() + 1].color = sf::Color(255, 255, 255, 255);
+	source += delta;
 	context.lightmap.clear(sf::Color(0, 0, 0, 0));
 	context.lm2.clear(sf::Color(0, 0, 0, 0));
 	sf::RenderStates st;
 	context.shade.setUniform("light_pos", Vectorf(source.x/context.resolution.x, 1.f-source.y/context.resolution.y));
 	context.shade.setUniform("texture", sf::Shader::CurrentTexture);
 	context.shade.setUniform("dark", .2f);
-	context.shade.setUniform("delta", Vectorf(delta.x/context.resolution.x, delta.y / context.resolution.y));
 	context.shade.setUniform("aspect", context.resolution.x/context.resolution.y);
 	st.shader = &context.shade;
 	context.lightmap.draw(light, states);
@@ -225,8 +224,8 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	context.lm2.display();
 	tex = context.lm2.getTexture();
 	s.setTexture(tex);
-	context.final_states.transform = states.transform;
-	target.draw(s, context.final_states);*/
+	target.draw(s, context.final_states);
+	*/
 }
 
 void Map::generate_lightmap(sf::RenderStates states)
@@ -337,7 +336,7 @@ void Map::update(float dt)
 		for (auto& colidable_it : level_it->colidables)
 		{
 			Vectorf tmp = player->uncolide(colidable_it, dt);
-			if (abs(tmp.y) > abs(maxv.y))
+			if (tmp.y > maxv.y)
 				maxv = tmp;
 		}
 		player->maxcollisionvector=maxv;
