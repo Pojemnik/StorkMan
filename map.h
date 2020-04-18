@@ -40,7 +40,7 @@ private:
 	void unload_level(std::list<Level*>::iterator& lvl);
 	void calc_map_vertices();
 	std::pair<float, Vectorf> cast_ray(Vectorf source, Vectorf alfa) const;
-	std::vector<std::pair<float, Vectorf>> calc_light_source(Vectorf source) const;
+	std::vector<std::pair<float, Vectorf>> calc_light_source(Vectorf source, Vectorf delta) const;
 public:
 	sf::Sprite background;
 	sf::Sprite lightmap;

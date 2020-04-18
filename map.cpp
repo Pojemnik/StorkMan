@@ -142,7 +142,7 @@ std::pair<float, Vectorf> Map::cast_ray(Vectorf source, Vectorf alfa) const
 	}
 	return std::pair<float, Vectorf>(atan2(alfa.y, alfa.x), point);
 }
-std::vector<std::pair<float, Vectorf>> Map::calc_light_source(Vectorf source) const
+std::vector<std::pair<float, Vectorf>> Map::calc_light_source(Vectorf source, Vectorf delta) const
 {
 	std::vector<std::pair<float, Vectorf>> points;
 	Vectorf point;
@@ -161,6 +161,14 @@ std::vector<std::pair<float, Vectorf>> Map::calc_light_source(Vectorf source) co
 			}
 		}
 	}
+	Vectorf a = { -context.resolution.x,-context.resolution.y };
+	Vectorf b = { -context.resolution.x,context.resolution.y*2 };
+	Vectorf c = { context.resolution.x,context.resolution.y * 2 };
+	Vectorf d = { context.resolution.x,-context.resolution.y };
+	points.push_back(std::make_pair(atan2(a.y - source.y, a.x - source.x), a));
+	points.push_back(std::make_pair(atan2(b.y - source.y, b.x - source.x), b));
+	points.push_back(std::make_pair(atan2(c.y - source.y, c.x - source.x), c));
+	points.push_back(std::make_pair(atan2(d.y - source.y, d.x - source.x), d));
 	std::sort(points.begin(), points.end(),
 		[](const std::pair<float, Vectorf>& a, const std::pair<float, Vectorf>& b)
 	{return a.first > b.first; });
@@ -193,19 +201,18 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 		states.transform *= sf::Transform().translate({ -1 * level_size.x * it->global_pos.x,-1 * level_size.y * it->global_pos.y });
 	}
 	Vectorf source = { 300, 300 };
-	Vectorf delta = { move.x, -move.y };
-	std::vector<std::pair<float, Vectorf>> points = calc_light_source(source);
+	std::vector<std::pair<float, Vectorf>> points = calc_light_source(source, move);
 	sf::VertexArray light(sf::TriangleFan, points.size() + 2);
 	light[0].position = source;
 	light[0].texCoords = { 500,500 };
 	for (int i = 1; i < points.size() + 1; i++)
 	{
 		light[i].position = points[i - 1].second;
-		light[i].texCoords = points[i - 1].second + Vectorf(500,500) - source;
+		light[i].texCoords = points[i - 1].second + Vectorf(500, 500) - source;
 	}
 	light[points.size() + 1].position = points[0].second;
 	light[points.size() + 1].texCoords = points[0].second + Vectorf(500, 500) - source;
-	context.lightmap.clear(sf::Color(0, 0, 0, 0));
+	context.lightmap.clear(sf::Color(50, 50, 50, 255));
 	context.light_states.transform = states.transform;
 	context.lightmap.draw(light, context.light_states);
 	context.lightmap.display();
@@ -290,10 +297,10 @@ void Map::calc_map_vertices()
 				it2->vertices.back().position + it2->pos, it2->vertices.front().position + it2->pos));
 		}
 	}
-	map_vertices.push_back({ {0,0}, {0,context.resolution.x} });
-	map_vertices.push_back({ {0,context.resolution.x}, {context.resolution.x,context.resolution.y} });
-	map_vertices.push_back({ {context.resolution.x,context.resolution.y}, {context.resolution.x,0} });
-	map_vertices.push_back({ {context.resolution.x,0}, {0,0} });
+	map_vertices.push_back({ {-context.resolution.x,-context.resolution.y}, {-context.resolution.x,context.resolution.y * 2} });
+	map_vertices.push_back({ {-context.resolution.x,context.resolution.y * 2}, {context.resolution.x * 2,context.resolution.y * 2} });
+	map_vertices.push_back({ {context.resolution.x * 2,context.resolution.y * 2}, {context.resolution.x * 2,-context.resolution.y} });
+	map_vertices.push_back({ {context.resolution.x * 2,-context.resolution.y}, {-context.resolution.x,-context.resolution.y} });
 }
 void Map::update(float dt)
 {
