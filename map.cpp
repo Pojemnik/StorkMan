@@ -81,7 +81,7 @@ Map::Map(Vectori dimensions, std::vector<Level>& lvls, Vectori start_pos, sf::Te
 	{
 		std::cerr << "Error creating lightmaps" << std::endl;
 	}
-	if (!(context.lm2.create(context.resolution.x, context.resolution.y) && context.lm3.create(context.resolution.x, context.resolution.y) && context.lm4.create(context.resolution.x, context.resolution.y)))
+	if (!(context.lm2.create(context.resolution.x/2, context.resolution.y/2) && context.lm3.create(context.resolution.x/2, context.resolution.y/2) && context.lm4.create(context.resolution.x, context.resolution.y)))
 	{
 		std::cerr << "Error creating lightmaps" << std::endl;
 	}
@@ -142,7 +142,7 @@ std::pair<float, Vectorf> Map::cast_ray(Vectorf source, Vectorf alfa) const
 	}
 	return std::pair<float, Vectorf>(atan2(alfa.y, alfa.x), point);
 }
-std::vector<std::pair<float, Vectorf>> Map::calc_light_source(Vectorf source, Vectorf delta) const
+std::vector<std::pair<float, Vectorf>> Map::calc_light_source(Vectorf source) const
 {
 	std::vector<std::pair<float, Vectorf>> points;
 	Vectorf point;
@@ -161,18 +161,49 @@ std::vector<std::pair<float, Vectorf>> Map::calc_light_source(Vectorf source, Ve
 			}
 		}
 	}
-	Vectorf a = { -context.resolution.x,-context.resolution.y };
-	Vectorf b = { -context.resolution.x,context.resolution.y*2 };
-	Vectorf c = { context.resolution.x,context.resolution.y * 2 };
-	Vectorf d = { context.resolution.x,-context.resolution.y };
-	points.push_back(std::make_pair(atan2(a.y - source.y, a.x - source.x), a));
-	points.push_back(std::make_pair(atan2(b.y - source.y, b.x - source.x), b));
-	points.push_back(std::make_pair(atan2(c.y - source.y, c.x - source.x), c));
-	points.push_back(std::make_pair(atan2(d.y - source.y, d.x - source.x), d));
+	Vectorf a = { float(-context.resolution.x),float(-context.resolution.y) };
+	Vectorf b = { float(-context.resolution.x),float(context.resolution.y*2) };
+	Vectorf c = { float(context.resolution.x),float(context.resolution.y * 2) };
+	Vectorf d = { float(context.resolution.x),float(-context.resolution.y) };
+	points.push_back(cast_ray(source, Vectorf(a.y - source.y, a.x - source.x)));
+	points.push_back(cast_ray(source, Vectorf(b.y - source.y, b.x - source.x)));
+	points.push_back(cast_ray(source, Vectorf(c.y - source.y, c.x - source.x)));
+	points.push_back(cast_ray(source, Vectorf(d.y - source.y, d.x - source.x)));
 	std::sort(points.begin(), points.end(),
 		[](const std::pair<float, Vectorf>& a, const std::pair<float, Vectorf>& b)
 	{return a.first > b.first; });
 	return points;
+}
+
+sf::Texture Map::calc_light(std::vector<Vectorf>& sources, sf::Transform transform) const
+{
+	context.lightmap.clear(sf::Color(20, 20, 20, 255));
+	for(Vectorf source : sources)
+	{
+		std::vector<std::pair<float, Vectorf>> points = calc_light_source(source);
+		sf::VertexArray light(sf::TriangleFan, points.size() + 2);
+		light[0].position = source;
+		light[0].texCoords = { 500,500 };
+		for (int i = 1; i < points.size() + 1; i++)
+		{
+			light[i].position = points[i - 1].second;
+			light[i].texCoords = points[i - 1].second + Vectorf(500, 500) - source;
+		}
+		light[points.size() + 1].position = points[0].second;
+		light[points.size() + 1].texCoords = points[0].second + Vectorf(500, 500) - source;
+		context.light_states.transform = transform;
+		context.lightmap.draw(light, context.light_states);
+	}
+	context.lightmap.display();
+	sf::Sprite lightmap;
+	lightmap.setTexture(context.lightmap.getTexture());
+	//lightmap.setScale(.5f, .5f);
+	context.lm2.draw(lightmap, context.blurh_states);
+	context.lm2.display();
+	lightmap.setTexture(context.lm2.getTexture());
+	context.lm3.draw(lightmap, context.blurv_states);
+	context.lm3.display();
+	return context.lm3.getTexture();
 }
 
 void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -200,25 +231,6 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 		}
 		states.transform *= sf::Transform().translate({ -1 * level_size.x * it->global_pos.x,-1 * level_size.y * it->global_pos.y });
 	}
-	Vectorf source = { 300, 300 };
-	std::vector<std::pair<float, Vectorf>> points = calc_light_source(source, move);
-	sf::VertexArray light(sf::TriangleFan, points.size() + 2);
-	light[0].position = source;
-	light[0].texCoords = { 500,500 };
-	for (int i = 1; i < points.size() + 1; i++)
-	{
-		light[i].position = points[i - 1].second;
-		light[i].texCoords = points[i - 1].second + Vectorf(500, 500) - source;
-	}
-	light[points.size() + 1].position = points[0].second;
-	light[points.size() + 1].texCoords = points[0].second + Vectorf(500, 500) - source;
-	context.lightmap.clear(sf::Color(50, 50, 50, 255));
-	context.light_states.transform = states.transform;
-	context.lightmap.draw(light, context.light_states);
-	context.lightmap.display();
-	sf::Texture tex = context.lightmap.getTexture();
-	sf::Sprite s(tex);
-	target.draw(s, context.final_states);
 	/*
 	context.lightmap.clear(sf::Color(0, 0, 0, 0));
 	context.lm2.clear(sf::Color(0, 0, 0, 0));
@@ -282,6 +294,7 @@ void Map::generate_lightmap(sf::RenderStates states)
 	lightmap.setTexture(context.lm4.getTexture());
 	lightmap.setScale(2.f, 2.f);
 }
+
 void Map::calc_map_vertices()
 {
 	map_vertices.clear();
@@ -297,11 +310,12 @@ void Map::calc_map_vertices()
 				it2->vertices.back().position + it2->pos, it2->vertices.front().position + it2->pos));
 		}
 	}
-	map_vertices.push_back({ {-context.resolution.x,-context.resolution.y}, {-context.resolution.x,context.resolution.y * 2} });
-	map_vertices.push_back({ {-context.resolution.x,context.resolution.y * 2}, {context.resolution.x * 2,context.resolution.y * 2} });
-	map_vertices.push_back({ {context.resolution.x * 2,context.resolution.y * 2}, {context.resolution.x * 2,-context.resolution.y} });
-	map_vertices.push_back({ {context.resolution.x * 2,-context.resolution.y}, {-context.resolution.x,-context.resolution.y} });
+	map_vertices.push_back({ Vectorf(-context.resolution.x,-context.resolution.y), Vectorf(-context.resolution.x,context.resolution.y * 2) });
+	map_vertices.push_back({ Vectorf(-context.resolution.x,context.resolution.y * 2), Vectorf(context.resolution.x * 2,context.resolution.y * 2) });
+	map_vertices.push_back({ Vectorf(context.resolution.x * 2,context.resolution.y * 2), Vectorf(context.resolution.x * 2,-context.resolution.y) });
+	map_vertices.push_back({ Vectorf(context.resolution.x * 2,-context.resolution.y), Vectorf(-context.resolution.x,-context.resolution.y) });
 }
+
 void Map::update(float dt)
 {
 	background.setPosition(context.background_position);

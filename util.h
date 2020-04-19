@@ -27,9 +27,9 @@ struct Context
 	float parrallax = -1.5f;
 	float parrallax2 = -2.f;
 	Vectorf max_move_speed = { 5,5 };
-	Vectorf min_move_speed = { 1,0 };
+	float min_move_speed = 1;
 	Vectorf move_speed_reduction = { 0.5f, 0.5f };
-	Vectorf player_move_speed = { 0.1,0 };
+	Vectorf player_move_speed = { 1,0 };
 	Vectorf background_position = { -1000,-2500 };
 	float background_scale = 1.f;
 	Vectorf layer2_position = { -1000, -1800 };
@@ -39,7 +39,9 @@ struct Context
 	sf::RenderTexture lightmap, lm2, lm3, lm4;
 	sf::RenderStates bg_states, layer2_states, states_black,
 		map_states, blurh_states, blurv_states, final_states, light_states;
-	const Vectorf resolution = { 1024, 576 };
+	Vectori resolution = {1280,1024};//{ 1024, 576 };
+	sf::Font arial;
+	sf::Text fps_counter;
 };
 
 extern struct Context context;
@@ -65,11 +67,12 @@ namespace util
 	float rdn(float s);
 	float ang_reduce(float ang);
 	void set_vectorf(Vectorf& vector, command& cmd, std::string var_name);
+	void set_vectori(Vectori& vector, command& cmd, std::string var_name);
 	void set_float(float& var, command& cmd, std::string var_name);
 	void print_argument_number_error(int correct_number);
 	void print_incorrect_argument_error(std::string command, std::string what);
 	command get_command();
-	void execute_command(util::command cmd);
+	int execute_command(util::command cmd);
 
 	inline sf::Vector2f normalize(sf::Vector2f x, float l)
 	{
@@ -91,4 +94,5 @@ namespace util
 	{
 		return (T(0) < val) - (val < T(0));
 	}
+	
 }

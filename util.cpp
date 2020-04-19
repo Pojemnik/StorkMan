@@ -59,6 +59,37 @@ void util::set_vectorf(Vectorf& vector, command& cmd, std::string var_name)
 	}
 }
 
+void util::set_vectori(Vectori& vector, command& cmd, std::string var_name)
+{
+	if (cmd.args.size() == 2)
+	{
+		int tab[2];
+		bool err = 0;
+		for (int i = 0; i < 2; i++)
+		{
+			try
+			{
+				tab[i] = std::stoi(cmd.args[i]);
+			}
+			catch (std::invalid_argument e)
+			{
+				err = 1;
+				print_incorrect_argument_error(cmd.name, cmd.args[i]);
+			}
+		}
+		if (!err)
+		{
+			vector = { tab[0],tab[1] };
+			std::cout << var_name + " set to " << vector.x << ' ' << vector.y << std::endl;
+		}
+
+	}
+	else
+	{
+		print_argument_number_error(2);
+	}
+}
+
 void util::set_float(float& var, command& cmd, std::string var_name)
 {
 	if (cmd.args.size() == 1)
@@ -79,7 +110,7 @@ void util::set_float(float& var, command& cmd, std::string var_name)
 	}
 }
 
-void util::execute_command(util::command cmd)
+int util::execute_command(util::command cmd)
 {
 	if (cmd.name == "col")
 	{
@@ -118,7 +149,7 @@ void util::execute_command(util::command cmd)
 	}
 	else if (cmd.name == "storkminspeed")
 	{
-		set_vectorf(context.min_move_speed, cmd, "Minimal storkman speed");
+		set_float(context.min_move_speed, cmd, "Minimal storkman speed");
 	}
 	else if (cmd.name == "storkmaxspeed")
 	{
@@ -148,8 +179,14 @@ void util::execute_command(util::command cmd)
 	{
 		set_float(context.layer2_scale, cmd, "Layer 2 scale");
 	}
+	else if (cmd.name == "resolution")
+	{
+		set_vectori(context.resolution, cmd, "Resolution");
+		return 1;
+	}
 	else
 		std::cerr << "Unknown command: " + cmd.name << std::endl;
+	return 0;
 }
 
 util::command util::get_command()

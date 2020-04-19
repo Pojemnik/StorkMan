@@ -38,10 +38,10 @@ private:
 	void load_level(Vectori pos);
 	void unload_level(Vectori pos);
 	void unload_level(std::list<Level*>::iterator& lvl);
-	void calc_map_vertices();
 	std::pair<float, Vectorf> cast_ray(Vectorf source, Vectorf alfa) const;
-	std::vector<std::pair<float, Vectorf>> calc_light_source(Vectorf source, Vectorf delta) const;
+	std::vector<std::pair<float, Vectorf>> calc_light_source(Vectorf source) const;
 public:
+	void calc_map_vertices();
 	sf::Sprite background;
 	sf::Sprite lightmap;
 	sf::Sprite layer2;	//Lepiej rozwi¹zaæ
@@ -52,4 +52,5 @@ public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	void update(float dt);
 	void generate_lightmap(sf::RenderStates states);
+	sf::Texture calc_light(std::vector<Vectorf>& sources, sf::Transform transform) const;
 };

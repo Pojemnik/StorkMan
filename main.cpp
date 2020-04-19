@@ -7,9 +7,9 @@
 #include "parser.h"
 #include "util.h"
 
-const std::string VERSION = "0.3.3b";
+const std::string VERSION = "0.3.3d";
 
-bool update(float dt, Map& map)
+bool update(float dt, Map& map, int move)
 {
 	static float acc(0);
 	acc += dt;
@@ -23,8 +23,41 @@ bool update(float dt, Map& map)
 		map.player->update(1);
 		map.update(1);
 		acc -= 1000.0f / context.fps;
+		float ang;
+		switch (move)
+		{
+		case 0:
+			break;
+		case 1:
+
+			if (map.player->maxcollisionvector.y == 0 && map.player->maxcollisionvector.x == 0)
+				ang = 0;
+			else
+				ang = -atan2(map.player->maxcollisionvector.x, map.player->maxcollisionvector.y);
+			map.player->move({ context.player_move_speed.x * cos(ang) - context.player_move_speed.y * sin(ang),context.player_move_speed.x * sin(ang) + context.player_move_speed.y * cos(ang) });
+			break;
+		case -1:
+			if (map.player->maxcollisionvector.y == 0 && map.player->maxcollisionvector.x == 0)
+				ang = 0;
+			else
+				ang = -atan2(map.player->maxcollisionvector.x, map.player->maxcollisionvector.y);
+			map.player->move({ -context.player_move_speed.x * cos(ang) - context.player_move_speed.y * sin(ang),-context.player_move_speed.x * sin(ang) + context.player_move_speed.y * cos(ang) });
+		}
 	}
 	return updated;
+}
+
+void resize_window(Map& map, sf::RenderWindow& window)
+{
+
+	context.blurh.setUniform("blurSize", 1.0f / context.resolution.x);
+	context.blurv.setUniform("blurSize", 1.0f / context.resolution.y);
+	context.lightmap.create(context.resolution.x, context.resolution.y);
+	context.lm2.create(context.resolution.x / 2, context.resolution.y / 2);
+	context.lm3.create(context.resolution.x / 2, context.resolution.y / 2);
+	context.lm4.create(context.resolution.x, context.resolution.y);
+	map.calc_map_vertices();
+	window.setSize(sf::Vector2u(context.resolution.x, context.resolution.y));
 }
 
 int main(int argc, char** argv)	//Second argument is a map file for editor
@@ -41,6 +74,8 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	sf::Clock clock;
 	std::cout << test->getElapsedTime().asMilliseconds() << std::endl;
 	Map map;
+	context.fps_counter.setFont(context.arial);
+	context.fps_counter.setPosition(0, 0);
 	if (argc == 2)
 	{
 		tinyxml2::XMLDocument doc;
@@ -64,7 +99,9 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	sf::FloatRect f(380, 55, 20, 70);
 	Player player({ 400, 100 }, assets.pieces, assets.pieces_rect, assets.animations, f, assets.stork_tree, 1.92f, global_scale, 87.f);
 	map.player = &player;
-	std::cout << test->getElapsedTime().asMilliseconds() << std::endl;;
+	std::cout << test->getElapsedTime().asMilliseconds() << std::endl;
+	int moved = 0;
+	float acc = 0;
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -79,7 +116,14 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			{
 				if (event.key.code == sf::Keyboard::Tilde)
 				{
-					util::execute_command(util::get_command());
+					int flag = util::execute_command(util::get_command());//Daæ tu enum
+					switch (flag)
+					{
+					case 1:
+						resize_window(map, window);
+					default:
+						break;
+					}
 				}
 				if (event.key.code == sf::Keyboard::G)
 				{
@@ -87,6 +131,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 				}
 			}
 		}
+		moved = 0;
 		if (window.hasFocus())
 		{
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
@@ -100,26 +145,16 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 			{
 				if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-					{
-					float ang;
-					if(player.maxcollisionvector.y==0 && player.maxcollisionvector.x==0)
-						ang=0;
-					else
-						ang=-atan2(player.maxcollisionvector.x,player.maxcollisionvector.y);
-					player.move({context.player_move_speed.x*cos(ang)-context.player_move_speed.y*sin(ang),context.player_move_speed.x*sin(ang)+context.player_move_speed.y*cos(ang)});
-					}
+				{
+					moved = 1;
+				}
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 			{
 				if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-					{
-					float ang;
-					if(player.maxcollisionvector.y==0 && player.maxcollisionvector.x==0)
-						ang=0;
-					else
-						ang=-atan2(player.maxcollisionvector.x,player.maxcollisionvector.y);
-					player.move({-context.player_move_speed.x*cos(ang)-context.player_move_speed.y*sin(ang),-context.player_move_speed.x*sin(ang)+context.player_move_speed.y*cos(ang)});
-					}
+				{
+					moved = -1;
+				}
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 			{
@@ -130,20 +165,22 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			}
 		}
 		float time = clock.getElapsedTime().asMicroseconds();
-		time /= 1000;
-		if (time > 2500.0f / context.fps)
-		{
-			time = 2500.0f / context.fps;
-		}
+		time /= 1000.0f;
+		//if (time > 2500.0f / context.fps)
+		//{
+		//	time = 2500.0f / context.fps;
+		//}
+		acc += time;
 		clock.restart();
-		if (update(time, map))
+		if (update(time, map, moved))
 		{
+			context.fps_counter.setString(std::to_string(int(1000.f / acc)));
+			acc = 0;
 			window.clear();
 			sf::Vector2f camera_pos = player.get_position();
-			camera_pos -= sf::Vector2f(512, 288);
+			camera_pos -= sf::Vector2f(context.resolution.x / 2, context.resolution.y / 2);
 			sf::RenderStates rs = sf::RenderStates::Default;
 			rs.transform = sf::Transform().translate(-camera_pos);
-			//map.generate_lightmap(rs);
 			window.draw(map, rs);
 			if (context.draw_collisions)
 			{
@@ -155,7 +192,12 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 				window.draw(r, rs);
 			}
 			window.draw(player, rs);
-			//window.draw(map.lightmap, context.final_states);
+			std::vector<Vectorf> sources = { { 300, 300 }, {500,500}, {300,-1} };
+			sf::Texture tex = map.calc_light(sources, rs.transform);
+			sf::Sprite s(tex);
+			s.setScale(1, 1);
+			window.draw(s, context.final_states);
+			window.draw(context.fps_counter);
 			window.display();
 		}
 	}

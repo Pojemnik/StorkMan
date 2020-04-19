@@ -36,10 +36,10 @@ Entity::Entity(Vectorf p, std::vector<const Animation* > t, float h, float gs, f
 void Entity::move(Vectorf delta)
 {
 	move_force += delta;
-	if (delta.x > 0 && move_speed.x < context.min_move_speed.x)
-		move_speed.x = context.min_move_speed.x;
-	if (delta.x < 0 && move_speed.x > -context.min_move_speed.x)
-		move_speed.x = -context.min_move_speed.x;
+	if (move_speed.x * move_speed.x + move_speed.y * move_speed.x < context.min_move_speed * context.min_move_speed)
+	{
+		move_speed = util::normalize(delta, context.min_move_speed);
+	}
 	if (colision_direction.y == 1)
 	{
 		animation_status = Entity_status::MOVE;
@@ -206,17 +206,20 @@ Dynamic_entity::Dynamic_entity(Vectorf p, sf::Texture* texture, std::vector<sf::
 
 void Dynamic_entity::move(Vectorf delta)
 {
-	move_force += delta;
-	if (delta.x > 0 && move_speed.x < context.min_move_speed.x)
-		move_speed.x = context.min_move_speed.x;
-	if (delta.x < 0 && move_speed.x > -context.min_move_speed.x)
-		move_speed.x = -context.min_move_speed.x;
-	if (status == IDLE)
-		status = Entity_status::MOVE;
-	if (colision_direction.y == 1 && animation_status != Animation_status::A_JUMP_RUN && animation_status
-		!= Animation_status::A_JUMP_RUN2)
+	//if (util::sgn(delta.x) != colision_direction.x)
 	{
-		animation_status = Animation_status::A_MOVE;
+		move_force += delta;
+		if (move_speed.x * move_speed.x + move_speed.y * move_speed.x < context.min_move_speed * context.min_move_speed)
+		{
+			move_speed = util::normalize(delta, context.min_move_speed);
+		}
+		if (status == IDLE)
+			status = Entity_status::MOVE;
+		if (colision_direction.y == 1 && animation_status != Animation_status::A_JUMP_RUN && animation_status
+			!= Animation_status::A_JUMP_RUN2)
+		{
+			animation_status = Animation_status::A_MOVE;
+		}
 	}
 }
 
