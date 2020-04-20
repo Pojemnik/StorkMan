@@ -35,11 +35,15 @@ private:
 	Level*** level_placement;
 	std::list<Level*> loaded_levels;
 	std::vector<std::pair<Vectorf, Vectorf>> map_vertices;
+	sf::Sprite map_sprite;
+	sf::RenderTexture* map_texture;
 	void load_level(Vectori pos);
 	void unload_level(Vectori pos);
 	void unload_level(std::list<Level*>::iterator& lvl);
 	std::pair<float, Vectorf> cast_ray(Vectorf source, Vectorf alfa) const;
 	std::vector<std::pair<float, Vectorf>> calc_light_source(Vectorf source) const;
+	void redraw();
+
 public:
 	void calc_map_vertices();
 	sf::Sprite background;
@@ -48,9 +52,9 @@ public:
 	Player* player;		//Chyba niezyt eleganckie
 
 	Map() = default;
+	//Map(const Map &map);
 	Map(Vectori dimensions, std::vector<Level>& levels, Vectori start_pos, sf::Texture& bg);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	void update(float dt);
-	void generate_lightmap(sf::RenderStates states);
 	sf::Texture calc_light(std::vector<Vectorf>& sources, sf::Transform transform) const;
 };

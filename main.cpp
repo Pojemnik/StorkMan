@@ -7,7 +7,7 @@
 #include "parser.h"
 #include "util.h"
 
-const std::string VERSION = "0.3.3d";
+const std::string VERSION = "0.3.3e";
 
 bool update(float dt, Map& map, int move)
 {
@@ -85,13 +85,10 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	}
 	else
 	{
-		if (argc == 1)
-		{
-			tinyxml2::XMLDocument doc;
-			tinyxml2::XMLError error = doc.LoadFile("map/stork_map_example.xml");
-			tinyxml2::XMLElement* root = doc.FirstChildElement();
-			map = parse_map(root, &assets);
-		}
+		tinyxml2::XMLDocument doc;
+		tinyxml2::XMLError error = doc.LoadFile("map/stork_map_example.xml");
+		tinyxml2::XMLElement* root = doc.FirstChildElement();
+		map = parse_map(root, &assets);
 	}
 	map.background.setPosition(context.background_position);
 	map.layer2.setTexture(*assets.layer2);
@@ -195,7 +192,6 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			std::vector<Vectorf> sources = { { 300, 300 }, {500,500}, {300,-1} };
 			sf::Texture tex = map.calc_light(sources, rs.transform);
 			sf::Sprite s(tex);
-			s.setScale(1, 1);
 			window.draw(s, context.final_states);
 			window.draw(context.fps_counter);
 			window.display();

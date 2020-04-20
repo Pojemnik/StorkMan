@@ -39,7 +39,7 @@ struct Context
 	sf::RenderTexture lightmap, lm2, lm3, lm4;
 	sf::RenderStates bg_states, layer2_states, states_black,
 		map_states, blurh_states, blurv_states, final_states, light_states;
-	Vectori resolution = {1280,1024};//{ 1024, 576 };
+	Vectori resolution = { 1024, 576 };
 	sf::Font arial;
 	sf::Text fps_counter;
 };
