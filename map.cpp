@@ -285,30 +285,34 @@ void Map::calc_map_vertices()
 	tab.push_back({ Vectorf(-context.resolution.x,context.resolution.y * 2), Vectorf(context.resolution.x * 2,context.resolution.y * 2) });
 	tab.push_back({ Vectorf(context.resolution.x * 2,context.resolution.y * 2), Vectorf(context.resolution.x * 2,-context.resolution.y) });
 	tab.push_back({ Vectorf(context.resolution.x * 2,-context.resolution.y), Vectorf(-context.resolution.x,-context.resolution.y) });
-	map_vertices.insert(map_vertices.begin(), tab.begin(), tab.end());
+
 	for (auto it1 = tab.begin(); it1 != tab.end(); it1++)
 	{
-		Vectorf normal = util::normalize({ it1->first.y - it1->second.y,it1->second.x - it1->first.x }, 1);
+		Vectorf normal = it1->second-it1->first;
 		float a = util::vector_dot_product(normal, it1->first), b = util::vector_dot_product(normal, it1->second);
 		int removed = 1;
 		for (auto it2 = (++it1)--; it2 != tab.end(); std::advance(it2, removed))
 		{
-			Vectorf normal2 = util::normalize({ it1->first.y - it1->second.y,it1->second.x - it1->first.x }, 1);
+			Vectorf normal2 =it2->second-it2->first;
 			removed = 1;
-			if (fabs(normal.x * normal2.y - normal.y * normal2.x) > 0.0001)
+			if (fabs(normal.x * normal2.y - normal.y * normal2.x) > 0.0001 || fabs(normal.y*(it2->first.x-it1->first.x)-normal.x*(it2->first.y - it1->first.y)) > 0.0001)
 				continue;
 			float c = util::vector_dot_product(normal, it2->first), d = util::vector_dot_product(normal, it2->second);
-			if (std::min(a, b) <= std::max(c, d) || std::min(c, d) >= std::max(a, b))
+			if (std::min(a, b) <= std::max(c, d) && std::min(a, b) >= std::min(c, d)|| std::max(a, b) <= std::max(c, d) && std::max(a, b) >= std::min(c, d))
 			{
 				std::pair<Vectorf, float> tmp[4] = { {it1->first,a},{it1->second,b},{it2->first,c},{it2->second,d} };
 				std::sort(tmp, tmp + 4, [](std::pair<Vectorf, float> a, std::pair<Vectorf, float> b) {return a.second < b.second; });
 				it1->first = tmp[0].first;
 				it1->second = tmp[3].first;
+				a = tmp[0].second;
+				b = tmp[3].second;
 				removed = 0;
 				it2 = tab.erase(it2);
 			}
 		}
 	}
+	map_vertices.insert(map_vertices.begin(), tab.begin(), tab.end());
+
 }
 
 void Map::update(float dt)

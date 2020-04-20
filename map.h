@@ -34,7 +34,6 @@ private:
 	std::vector<Level> levels;
 	Level*** level_placement;
 	std::list<Level*> loaded_levels;
-	std::vector<std::pair<Vectorf, Vectorf>> map_vertices;
 	sf::Sprite map_sprite;
 	sf::RenderTexture* map_texture;
 	void load_level(Vectori pos);
@@ -45,6 +44,7 @@ private:
 	void redraw();
 
 public:
+	std::vector<std::pair<Vectorf, Vectorf>> map_vertices;
 	void calc_map_vertices();
 	sf::Sprite background;
 	sf::Sprite lightmap;
