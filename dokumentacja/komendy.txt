@@ -4,7 +4,7 @@ komenda					argumenty		wart. domyślna		opis
 fps						float			60					Docelowa lość klatek na sekundę
 gravity					float			-0.5				Przyspieszenie grawitacyjne (chwilowo gra nie uwzględnia masy)
 bgparallax				float			-1.5				Paralaksa tła
-storkminspeed			float float		1 0					Minimalna prędkość ruchu - z tą prędkością strokman rusza
+storkminspeed			float			1					Minimalna prędkość ruchu - z tą prędkością strokman rusza
 storkmaxspeed			float float		5 5					Masymalna prędkość ruchu
 storkspeedreduction		float float		0.5 0.5				Wartość, o jaką postać zwalnia po puszczeniu klawisza ruchu
 storkmovespeed			float float		0.1 0				Wartość przyspieszenia storkmana
@@ -14,13 +14,20 @@ layer2scale				float			1					Skala warstwy 2 (lasu)
 layer2parallax			float			-2					Paralaksa warstwy 2
 bgpos					float float 	-1000 -2500			Pozycja tła
 layer2pos				float float 	-1000 -1800			Pozycja warstwy 2
+mapvertices				bool			0					Rysowanie krawędzi platform
 
 Komendy podajesz wraz z argumentami w jednej linii.
-Gra nie powinna się wywalać w przypadku nieprawidłowych argumentów
 Przykład:
 storkmaxspeed 10 10
 
 Uwagi:
-W przypadku komend: storkminspeed, storkmaxspeed, storkspeedreduction i storkmovespeed drugi argument dotyczy osi y,
+Gra nie powinna się wywalać w przypadku nieprawidłowych argumentów.
+
+W przypadku komend: storkmaxspeed, storkspeedreduction i storkmovespeed drugi argument dotyczy osi y,
 nie powinien być inny niż wartość domyślna, bo może to coś zepsuć. Możliwość jego zmiany jest zostawiona
 z myślą o przyszłośći (nie wiadomo co będzie trzeba dodać).
+
+Argumenty typu bool to 1 i 0, a nie true o false. Przykład:
+mapvertices 1
+
+Ruszanie zmiennej fps jest raczej złym pomysłem

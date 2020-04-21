@@ -189,18 +189,21 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 				window.draw(r, rs);
 			}
 			window.draw(player, rs);
-			std::vector<Vectorf> sources = { { 300, 300 }, {500,500}, {300,-1} };
+			std::vector<Vectorf> sources = { { 300, 400 }, {500,400}, {300,-1} };
 			sf::Texture tex = map.calc_light(sources, rs.transform);
 			sf::Sprite s(tex);
-			sf::VertexArray tmp(sf::Lines,2*map.map_vertices.size());
-			for (int i = 0; i < map.map_vertices.size(); i++)
-			{
-				tmp[2*i] = sf::Vertex(map.map_vertices[i].first,sf::Color(255,255,255,255));
-				tmp[2*i+1] = sf::Vertex(map.map_vertices[i].second, sf::Color(255, 255, 255, 255));
-			}
 			window.draw(s, context.final_states);
 			window.draw(context.fps_counter);
-			window.draw(tmp,rs);
+			if (context.draw_map_vertices)
+			{
+				sf::VertexArray tmp(sf::Lines, 2 * map.map_vertices.size());
+				for (int i = 0; i < map.map_vertices.size(); i++)
+				{
+					tmp[2 * i] = sf::Vertex(map.map_vertices[i].first, sf::Color(255, 255, 255, 255));
+					tmp[2 * i + 1] = sf::Vertex(map.map_vertices[i].second, sf::Color(255, 255, 255, 255));
+				}
+				window.draw(tmp, rs);
+			}
 			window.display();
 		}
 	}

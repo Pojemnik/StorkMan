@@ -127,6 +127,21 @@ int util::execute_command(util::command cmd)
 			util::print_argument_number_error(1);
 		}
 	}
+	else if (cmd.name == "mapvertices")
+	{
+		if (cmd.args.size() == 1)
+		{
+			if (cmd.args[0] == "1")
+				context.draw_map_vertices = true;
+			else
+				context.draw_map_vertices = false;
+			std::cout << "Map vertices " << ((context.draw_map_vertices) ? "drawn" : "hidden") << std::endl;
+		}
+		else
+		{
+			util::print_argument_number_error(1);
+		}
+	}
 	else if (cmd.name == "fps")
 	{
 		set_float(context.fps, cmd, "FPS");

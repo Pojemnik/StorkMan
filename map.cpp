@@ -91,51 +91,11 @@ Map::Map(Vectori dimensions, std::vector<Level>& lvls, Vectori start_pos, sf::Te
 	context.blurh_states.shader = &context.blurh;
 	context.blurv_states.shader = &context.blurv;
 	context.final_states.blendMode = sf::BlendMultiply;
+	context.light_states.blendMode = sf::BlendAdd;
 	lightmap.setPosition(0, 0);
 	map_texture = nullptr;
 }
-/*
-Map::Map(const Map& map) : size(map.size),
-current_pos(map.current_pos), levels(map.levels),
-map_vertices(map.map_vertices), map_sprite(map.map_sprite)
-{
-	map_texture->create(level_size.x * 3, level_size.y * 3);
-	level_placement = new Level * *[size.y];
-	for (int i = 0; i < size.y; i++)
-	{
-		level_placement[i] = new Level * [size.x];
-	}
-	for (auto& it : levels)
-	{
-		for (int i = 0; i < it.global_size.x; i++)
-		{
-			for (int j = 0; j < it.global_size.y; j++)
-			{
-				level_placement[it.global_pos.x + i][it.global_pos.y + j] = &it;
-			}
-		}
-		for (auto& col_it : it.colidables)
-		{
-			col_it->rect_collision.left += it.global_pos.x * level_size.x;
-			col_it->rect_collision.top += it.global_pos.y * level_size.y;
-			for (auto& vertex_it : col_it->mesh.vertices)
-			{
-				vertex_it += Vectorf(it.global_pos.x * level_size.x, it.global_pos.y * level_size.y);
-			}
-		}
-	}
-	for (int x = -1; x < 2; x++)
-	{
-		for (int y = -1; y < 2; y++)
-		{
-			if (current_pos.x + x < size.x && current_pos.y + y < size.y && current_pos.x + x >= 0 && current_pos.y + y >= 0)
-			{
-				load_level(Vectori(current_pos.x + x, current_pos.y + y));
-			}
-		}
-	}
-}
-*/
+
 void Map::load_level(Vectori pos)
 {
 	if (!level_placement[pos.x][pos.y]->is_loaded)
@@ -186,7 +146,7 @@ std::pair<float, Vectorf> Map::cast_ray(Vectorf source, Vectorf alfa) const
 	}
 	return std::pair<float, Vectorf>(atan2(alfa.y, alfa.x), point);
 }
-std::vector<std::pair<float, Vectorf>> Map::calc_light_source(Vectorf source) const
+std::vector<std::pair<float, Vectorf>> Map::calc_light_source(Vectorf source, Vectorf move) const
 {
 	std::vector<std::pair<float, Vectorf>> points;
 	Vectorf point;
@@ -197,11 +157,15 @@ std::vector<std::pair<float, Vectorf>> Map::calc_light_source(Vectorf source) co
 		{
 			for (int i = 0; i < texturables_it->vertices.size(); i++)
 			{
-				alfa = texturables_it->vertices[i].position + texturables_it->pos - source;
-				points.push_back(cast_ray(source, alfa));
-				float angle = atan2(alfa.y, alfa.x);
-				points.push_back(cast_ray(source, Vectorf(1, tan(angle + 0.00001f))));
-				points.push_back(cast_ray(source, Vectorf(1, tan(angle - 0.00001f))));
+				Vectorf dist = texturables_it->pos - source;
+				if (sqrt(pow(dist.x, 2) + pow(dist.y, 2)) < 500 * sqrt(2))
+				{
+					alfa = texturables_it->vertices[i].position + texturables_it->pos - source;
+					points.push_back(cast_ray(source, alfa));
+					float angle = atan2(alfa.y, alfa.x);
+					points.push_back(cast_ray(source, Vectorf(1, tan(angle + 0.00001f))));
+					points.push_back(cast_ray(source, Vectorf(1, tan(angle - 0.00001f))));
+				}
 			}
 		}
 	}
@@ -222,9 +186,11 @@ std::vector<std::pair<float, Vectorf>> Map::calc_light_source(Vectorf source) co
 sf::Texture Map::calc_light(std::vector<Vectorf>& sources, sf::Transform transform) const
 {
 	context.lightmap.clear(sf::Color(20, 20, 20, 255));
+	const float* matrix = transform.getMatrix();
+	Vectorf move = { matrix[12], matrix[13] };
 	for (Vectorf source : sources)
 	{
-		std::vector<std::pair<float, Vectorf>> points = calc_light_source(source);
+		std::vector<std::pair<float, Vectorf>> points = calc_light_source(source, move);
 		sf::VertexArray light(sf::TriangleFan, points.size() + 2);
 		light[0].position = source;
 		light[0].texCoords = { 500,500 };
