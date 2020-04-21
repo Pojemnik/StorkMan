@@ -4,6 +4,9 @@
 #include <string>
 #include <iostream>
 #include <sstream>
+#include <algorithm>
+#include <vector>
+#include <list>
 
 typedef sf::Vector2f Vectorf;
 typedef sf::Vector2i Vectori;
@@ -21,7 +24,7 @@ enum Colidable_type { GROUND, ENEMY, OTHER };
 struct Context
 {
 	bool draw_collisions = false;
-	bool draw_map_vertices = true;
+	bool draw_map_vertices = false;
 	float fps = 60.f;
 	float gravity = 26;
 	float jump_force = 870.f;
@@ -74,6 +77,8 @@ namespace util
 	void print_incorrect_argument_error(std::string command, std::string what);
 	command get_command();
 	int execute_command(util::command cmd);
+	bool vectorf_compare(const Vectorf& a, const Vectorf& b);
+	bool vectorf_binary_predicate(const Vectorf& a, const Vectorf& b);
 
 	inline sf::Vector2f normalize(sf::Vector2f x, float l)
 	{

@@ -1,7 +1,5 @@
 #pragma once
 #include "game.h"
-#include <vector>
-#include <list>
 
 const sf::Vector2f level_size = { 100 * global_scale,100 * global_scale };
 
@@ -36,15 +34,17 @@ private:
 	std::list<Level*> loaded_levels;
 	sf::Sprite map_sprite;
 	sf::RenderTexture* map_texture;
+	std::vector<Vectorf> map_vertices;
+
 	void load_level(Vectori pos);
 	void unload_level(Vectori pos);
 	void unload_level(std::list<Level*>::iterator& lvl);
 	std::pair<float, Vectorf> cast_ray(Vectorf source, Vectorf alfa) const;
-	std::vector<std::pair<float, Vectorf>> calc_light_source(Vectorf source, Vectorf move) const;
+	std::vector<std::pair<float, Vectorf>> calc_light_source(Vectorf source, Vectorf move);
 	void redraw();
 
 public:
-	std::vector<std::pair<Vectorf, Vectorf>> map_vertices;
+	std::vector<std::pair<Vectorf, Vectorf>> map_edges;
 	void calc_map_vertices();
 	sf::Sprite background;
 	sf::Sprite lightmap;
@@ -56,5 +56,5 @@ public:
 	Map(Vectori dimensions, std::vector<Level>& levels, Vectori start_pos, sf::Texture& bg);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	void update(float dt);
-	sf::Texture calc_light(std::vector<Vectorf>& sources, sf::Transform transform) const;
+	sf::Texture calc_light(std::vector<Vectorf>& sources, sf::Transform transform);
 };

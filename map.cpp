@@ -126,7 +126,7 @@ std::pair<float, Vectorf> Map::cast_ray(Vectorf source, Vectorf alfa) const
 	Vectorf beta;
 	float min_t1 = INFINITY;
 	Vectorf point = source;
-	for (auto& it : map_vertices)
+	for (auto& it : map_edges)
 	{
 		beta = { it.first.x - it.second.x, it.first.y - it.second.y };
 		float t2 = ((alfa.x * (it.second.y - source.y) + alfa.y * (source.x - it.second.x))
@@ -144,48 +144,50 @@ std::pair<float, Vectorf> Map::cast_ray(Vectorf source, Vectorf alfa) const
 			}
 		}
 	}
-	return std::pair<float, Vectorf>(atan2(alfa.y, alfa.x), point);
+	return std::pair<float, Vectorf>(atan2(-alfa.y, alfa.x), point);
 }
-std::vector<std::pair<float, Vectorf>> Map::calc_light_source(Vectorf source, Vectorf move) const
+std::vector<std::pair<float, Vectorf>> Map::calc_light_source(Vectorf source, Vectorf move)
 {
 	std::vector<std::pair<float, Vectorf>> points;
 	Vectorf point;
 	Vectorf alfa;
-	for (const auto& level_it : loaded_levels)
+	map_edges.push_back(std::make_pair(source + Vectorf(-500, 500), source + Vectorf(500, 500)));
+	map_edges.push_back(std::make_pair(source + Vectorf(500, 500), source + Vectorf(500, -500)));
+	map_edges.push_back(std::make_pair(source + Vectorf(500, -500), source + Vectorf(-500, -500)));
+	map_edges.push_back(std::make_pair(source + Vectorf(-500, -500), source + Vectorf(-500, 500)));
+	map_vertices.push_back(source + Vectorf(-500, 500));
+	map_vertices.push_back(source + Vectorf(500, 500));
+	map_vertices.push_back(source + Vectorf(500, -500));
+	map_vertices.push_back(source + Vectorf(-500, -500));
+	for (const auto& vertex_it : map_vertices)
 	{
-		for (const auto& texturables_it : level_it->texturables)
+		Vectorf dist = vertex_it - source;
+		if (sqrt(pow(dist.x, 2) + pow(dist.y, 2)) < 500 * sqrt(2) + 50)
 		{
-			for (int i = 0; i < texturables_it->vertices.size(); i++)
-			{
-				Vectorf dist = texturables_it->pos - source;
-				if (sqrt(pow(dist.x, 2) + pow(dist.y, 2)) < 500 * sqrt(2))
-				{
-					alfa = texturables_it->vertices[i].position + texturables_it->pos - source;
-					points.push_back(cast_ray(source, alfa));
-					float angle = atan2(alfa.y, alfa.x);
-					points.push_back(cast_ray(source, Vectorf(1, tan(angle + 0.00001f))));
-					points.push_back(cast_ray(source, Vectorf(1, tan(angle - 0.00001f))));
-				}
-			}
+			alfa = vertex_it - source;
+			points.push_back(cast_ray(source, alfa));
+			float angle = atan2(-alfa.y, alfa.x);
+			points.push_back(cast_ray(source, Vectorf(1 * util::sgn(alfa.x), tan(angle + 0.0001f) * -util::sgn(alfa.x))));
+			points.push_back(cast_ray(source, Vectorf(1 * util::sgn(alfa.x), tan(angle - 0.0001f) * -util::sgn(alfa.x))));
 		}
 	}
-	Vectorf a = { float(-context.resolution.x),float(-context.resolution.y) };
-	Vectorf b = { float(-context.resolution.x),float(context.resolution.y * 2) };
-	Vectorf c = { float(context.resolution.x),float(context.resolution.y * 2) };
-	Vectorf d = { float(context.resolution.x),float(-context.resolution.y) };
-	points.push_back(cast_ray(source, Vectorf(a.y - source.y, a.x - source.x)));
-	points.push_back(cast_ray(source, Vectorf(b.y - source.y, b.x - source.x)));
-	points.push_back(cast_ray(source, Vectorf(c.y - source.y, c.x - source.x)));
-	points.push_back(cast_ray(source, Vectorf(d.y - source.y, d.x - source.x)));
+	map_edges.pop_back();
+	map_edges.pop_back();
+	map_edges.pop_back();
+	map_edges.pop_back();
+	map_vertices.pop_back();
+	map_vertices.pop_back();
+	map_vertices.pop_back();
+	map_vertices.pop_back();
 	std::sort(points.begin(), points.end(),
 		[](const std::pair<float, Vectorf>& a, const std::pair<float, Vectorf>& b)
 	{return a.first > b.first; });
 	return points;
 }
 
-sf::Texture Map::calc_light(std::vector<Vectorf>& sources, sf::Transform transform) const
+sf::Texture Map::calc_light(std::vector<Vectorf>& sources, sf::Transform transform)
 {
-	context.lightmap.clear(sf::Color(20, 20, 20, 255));
+	context.lightmap.clear(sf::Color(70, 70, 70, 255));
 	const float* matrix = transform.getMatrix();
 	Vectorf move = { matrix[12], matrix[13] };
 	for (Vectorf source : sources)
@@ -234,7 +236,7 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 void Map::calc_map_vertices()
 {
 	std::list<std::pair<Vectorf, Vectorf> > tab;
-	map_vertices.clear();
+	map_edges.clear();
 	for (const auto& it : loaded_levels)
 	{
 		for (const auto& it2 : it->texturables)
@@ -247,24 +249,19 @@ void Map::calc_map_vertices()
 				it2->vertices.back().position + it2->pos, it2->vertices.front().position + it2->pos));
 		}
 	}
-	tab.push_back({ Vectorf(-context.resolution.x,-context.resolution.y), Vectorf(-context.resolution.x,context.resolution.y * 2) });
-	tab.push_back({ Vectorf(-context.resolution.x,context.resolution.y * 2), Vectorf(context.resolution.x * 2,context.resolution.y * 2) });
-	tab.push_back({ Vectorf(context.resolution.x * 2,context.resolution.y * 2), Vectorf(context.resolution.x * 2,-context.resolution.y) });
-	tab.push_back({ Vectorf(context.resolution.x * 2,-context.resolution.y), Vectorf(-context.resolution.x,-context.resolution.y) });
-
 	for (auto it1 = tab.begin(); it1 != tab.end(); it1++)
 	{
-		Vectorf normal = it1->second-it1->first;
+		Vectorf normal = it1->second - it1->first;
 		float a = util::vector_dot_product(normal, it1->first), b = util::vector_dot_product(normal, it1->second);
 		int removed = 1;
 		for (auto it2 = (++it1)--; it2 != tab.end(); std::advance(it2, removed))
 		{
-			Vectorf normal2 =it2->second-it2->first;
+			Vectorf normal2 = it2->second - it2->first;
 			removed = 1;
-			if (fabs(normal.x * normal2.y - normal.y * normal2.x) > 0.0001 || fabs(normal.y*(it2->first.x-it1->first.x)-normal.x*(it2->first.y - it1->first.y)) > 0.0001)
+			if (fabs(normal.x * normal2.y - normal.y * normal2.x) > 0.0001 || fabs(normal.y * (it2->first.x - it1->first.x) - normal.x * (it2->first.y - it1->first.y)) > 0.0001)
 				continue;
 			float c = util::vector_dot_product(normal, it2->first), d = util::vector_dot_product(normal, it2->second);
-			if (std::min(a, b) <= std::max(c, d) && std::min(a, b) >= std::min(c, d)|| std::max(a, b) <= std::max(c, d) && std::max(a, b) >= std::min(c, d))
+			if (std::min(a, b) <= std::max(c, d) && std::min(a, b) >= std::min(c, d) || std::max(a, b) <= std::max(c, d) && std::max(a, b) >= std::min(c, d))
 			{
 				std::pair<Vectorf, float> tmp[4] = { {it1->first,a},{it1->second,b},{it2->first,c},{it2->second,d} };
 				std::sort(tmp, tmp + 4, [](std::pair<Vectorf, float> a, std::pair<Vectorf, float> b) {return a.second < b.second; });
@@ -277,8 +274,16 @@ void Map::calc_map_vertices()
 			}
 		}
 	}
-	map_vertices.insert(map_vertices.begin(), tab.begin(), tab.end());
-
+	map_edges.insert(map_edges.begin(), tab.begin(), tab.end());
+	map_vertices.clear();
+	for (const auto it : map_edges)
+	{
+		map_vertices.push_back(it.first);
+		map_vertices.push_back(it.second);
+	}
+	std::sort(map_vertices.begin(), map_vertices.end(), util::vectorf_compare);
+	const auto last = std::unique(map_vertices.begin(), map_vertices.end(), util::vectorf_binary_predicate);
+	map_vertices.erase(last, map_vertices.end());
 }
 
 void Map::update(float dt)

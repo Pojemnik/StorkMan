@@ -227,3 +227,20 @@ void util::print_incorrect_argument_error(std::string command, std::string what)
 {
 	std::cerr << command + ": " + "incorrect argument: " + what << std::endl;
 }
+
+bool util::vectorf_compare(const Vectorf& a, const Vectorf& b)
+{
+	if (a.x != b.x)
+	{
+		return a.x > b.x;
+	}
+	else
+	{
+		return a.y > b.y;
+	}
+}
+
+bool util::vectorf_binary_predicate(const Vectorf& a, const Vectorf& b)
+{
+	return fabs(a.x - b.x) < 1 && fabs(a.y - b.y) < 1;
+}
