@@ -1,5 +1,4 @@
 #include "parser.h"
-#include <string>
 
 Vectorf Parser::parse_num_pairf(std::string val)
 {
@@ -87,7 +86,7 @@ Platform Parser::parse_platform_raw(tinyxml2::XMLElement* element)
 	std::vector<sf::Vertex> points;
 	const sf::Texture* tex;
 	pos = parse_num_pairf(get_attribute_by_name("position", element));
-	pos *= global_scale;
+	pos *= context.global_scale;
 	std::string val = get_attribute_by_name("texture", element);
 	tex = assets->textures.at(val);
 	tinyxml2::XMLElement* e = element->FirstChildElement();
@@ -97,7 +96,7 @@ Platform Parser::parse_platform_raw(tinyxml2::XMLElement* element)
 		if (n == "v")
 		{
 			Vectorf v = parse_num_pairf(e->GetText());
-			v *= global_scale;
+			v *= context.global_scale;
 			points.push_back(sf::Vertex(v, v));
 		}
 		else

@@ -24,7 +24,13 @@ Texturable::Texturable(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> 
 	shape.create(vertices.size());
 	shape.update(&vertices[0]);
 }
-
+void Texturable::rescale(float ratio){
+	for(auto& it : vertices)
+	{
+		it.position *= ratio;
+	}
+	shape.update(&vertices[0]);
+}
 void Texturable::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	states.transform *= sf::Transform().translate(pos);
@@ -213,4 +219,10 @@ void Dynamic_animatable::draw(sf::RenderTarget& target, sf::RenderStates states)
 Dynamic_animation::Dynamic_animation(std::vector<std::vector<float>>& kf, std::vector<int>& l, bool r)
 	: key_frames(kf), lengths(l), repeat(r)
 {
+}
+
+void Dynamic_animatable::rescale(float new_global_scale)
+{
+	pos = pos * new_global_scale / scale;
+	scale = new_global_scale * height / 350;
 }

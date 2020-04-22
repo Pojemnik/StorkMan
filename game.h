@@ -6,6 +6,7 @@ class Platform : public Texturable, public Colidable
 {
 public:
 	Platform(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> points);
+	void rescale(float ratio);
 };
 
 class Entity : public Animatable, public Physical

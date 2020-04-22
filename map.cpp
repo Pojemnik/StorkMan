@@ -50,11 +50,10 @@ Map::Map(Vectori dimensions, std::vector<Level>& lvls, Vectori start_pos, sf::Te
 	{
 		std::cerr << "Error creating lightmaps" << std::endl;
 	}
-	if (!(context.lm2.create(context.resolution.x, context.resolution.y) && context.lm3.create(context.resolution.x, context.resolution.y) && context.lm4.create(context.resolution.x, context.resolution.y)))
+	if (!(context.lm2.create(context.resolution.x, context.resolution.y) && context.lm3.create(context.resolution.x, context.resolution.y)))
 	{
 		std::cerr << "Error creating lightmaps" << std::endl;
 	}
-	context.map_states.shader = &context.generate_map;
 	context.blurh_states.shader = &context.blurh;
 	context.blurv_states.shader = &context.blurv;
 	context.final_states.blendMode = sf::BlendMultiply;
@@ -69,16 +68,6 @@ void Map::load_level(Vectori pos)
 	{
 		level_placement[pos.x][pos.y]->is_loaded = true;
 		loaded_levels.push_back(level_placement[pos.x][pos.y]);
-	}
-}
-
-void Map::unload_level(Vectori pos)//Never called
-{
-	if (level_placement[pos.x][pos.y]->is_loaded)
-	{
-		level_placement[pos.x][pos.y]->is_loaded = false;
-		auto x = &*(level_placement[pos.x][pos.y]);
-		loaded_levels.remove_if([=](const Level* a) {return &*a == (const Level*)&x; });
 	}
 }
 
@@ -336,4 +325,15 @@ void Map::redraw()
 	}
 	map_texture->display();
 	map_sprite.setTexture(map_texture->getTexture());
+}
+
+void Map::rescale(float new_global_scale)
+{
+	level_size = { 100 * new_global_scale, 100 * new_global_scale };
+	float ratio = new_global_scale / global_scale;
+	global_scale = new_global_scale;
+	for(auto& it : levels)
+	{
+		it.rescale(ratio);
+	}
 }

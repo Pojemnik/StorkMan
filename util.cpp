@@ -127,7 +127,7 @@ void util::set_float(float& var, const command& cmd, const std::string var_name)
 	}
 }
 
-int util::execute_command(util::command cmd)
+Command_code util::execute_command(util::command cmd)
 {
 	if (cmd.name == "col")
 	{
@@ -196,11 +196,16 @@ int util::execute_command(util::command cmd)
 	else if (cmd.name == "resolution")
 	{
 		set_vectori(context.resolution, cmd, "Resolution");
-		return 1;
+		return Command_code::CHANGE_RESOLUTION;
+	}
+	else if (cmd.name == "scale")
+	{
+		set_float(context.global_scale, cmd, "Global scale");
+		return Command_code::CHANGE_SCALE;
 	}
 	else
 		std::cerr << "Unknown command: " + cmd.name << std::endl;
-	return 0;
+	return Command_code::NOTHING;
 }
 
 util::command util::get_command()

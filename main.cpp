@@ -55,7 +55,6 @@ void resize_window(Map& map, sf::RenderWindow& window)
 	context.lightmap.create(context.resolution.x, context.resolution.y);
 	context.lm2.create(context.resolution.x / 2, context.resolution.y / 2);
 	context.lm3.create(context.resolution.x / 2, context.resolution.y / 2);
-	context.lm4.create(context.resolution.x, context.resolution.y);
 	map.calc_map_vertices();
 	window.setSize(sf::Vector2u(context.resolution.x, context.resolution.y));
 }
@@ -87,7 +86,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	map.layer2.setTexture(*assets.layer2);
 	map.layer2.setPosition(context.layer2_position);
 	sf::FloatRect f(380, 55, 20, 70);
-	Player player({ 400, 100 }, assets.pieces, assets.pieces_rect, assets.animations, f, assets.stork_tree, 1.92f, global_scale, 87.f);
+	Player player({ 400, 100 }, assets.pieces, assets.pieces_rect, assets.animations, f, assets.stork_tree, 1.92f, context.global_scale, 87.f);
 	map.player = &player;
 	int moved = 0;
 	float acc = 0;
@@ -105,11 +104,15 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			{
 				if (event.key.code == sf::Keyboard::Tilde)
 				{
-					int flag = util::execute_command(util::get_command());//Daæ tu enum
-					switch (flag)
+					Command_code code = util::execute_command(util::get_command());
+					switch (code)
 					{
-					case 1:
+					case Command_code::CHANGE_RESOLUTION:
 						resize_window(map, window);
+						break;
+					case Command_code::CHANGE_SCALE:
+						map.rescale(context.global_scale);
+						player.rescale(context.global_scale);
 					default:
 						break;
 					}

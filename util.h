@@ -14,13 +14,12 @@ typedef sf::Vector2i Vectori;
 
 const float PI = 3.1415927f;
 
-const float global_scale = 35.84f; //[px/m]
-
 enum Entity_status { IDLE = 0, MOVE, JUMP_IDLE, JUMP_RUN,
 	PUNCH_1, PUNCH_2, HIT, IN_AIR };
 enum Animation_status { A_IDLE = 0, A_MOVE, A_JUMP_IDLE,
 	A_JUMP_RUN, A_JUMP_RUN2, A_PUNCH_1, A_PUNCH_2, A_HIT };
 enum Colidable_type { GROUND, ENEMY, OTHER };
+enum class Command_code {NOTHING, CHANGE_RESOLUTION, CHANGE_SCALE};
 
 struct Context
 {
@@ -32,6 +31,7 @@ struct Context
 	float jump_force = 870.f;
 	float parrallax = -1.5f;
 	float parrallax2 = -2.f;
+	float global_scale = 35.84f;	//[px/m]
 	Vectorf max_move_speed = { 5,5 };
 	float min_move_speed = 1;
 	Vectorf move_speed_reduction = { 0.5f, 0.5f };
@@ -41,9 +41,9 @@ struct Context
 	Vectorf layer2_position = { -1000, -1800 };
 	float layer2_scale = 1.f;
 	const Vectorf max_force = { 1000.f, 3000.0f };
-	sf::Shader generate_map, black, blurh, blurv, blend, shade;
-	sf::RenderTexture lightmap, lm2, lm3, lm4;
-	sf::RenderStates bg_states, layer2_states, states_black,
+	sf::Shader blurh, blurv, shade;
+	sf::RenderTexture lightmap, lm2, lm3;
+	sf::RenderStates bg_states, layer2_states,
 		map_states, blurh_states, blurv_states, final_states, light_states;
 	Vectori resolution = { 1024, 576 };
 	sf::Font arial;
@@ -79,7 +79,7 @@ namespace util
 	void print_argument_number_error(int correct_number);
 	void print_incorrect_argument_error(std::string command, std::string what);
 	command get_command();
-	int execute_command(util::command cmd);
+	Command_code execute_command(util::command cmd);
 	bool vectorf_compare(const Vectorf& a, const Vectorf& b);
 	bool vectorf_binary_predicate(const Vectorf& a, const Vectorf& b);
 

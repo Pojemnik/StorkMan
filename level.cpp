@@ -38,3 +38,8 @@ void Level::addPlatfrom(Platform p)
 	addColidable(&p);
 	addTexturable(&p);
 }
+void Level::rescale(float ratio)
+{
+	for (auto& it : platforms)
+		it.rescale(ratio);
+}

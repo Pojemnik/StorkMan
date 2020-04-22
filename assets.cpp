@@ -149,14 +149,8 @@ void Assets::load_assets()
 	animations.push_back(load_dynamic_animation("animations/stork/punch2.txt"));
 	load_textures(map_textures, "img/tex_ss_64_64_is_3_9.png", true);
 	stork_tree = load_animation_tree("animations/stork/tree.txt");
-	//context.generate_map.loadFromFile("img/shaders/generate_map.frag", sf::Shader::Fragment);
-	//context.black.loadFromFile("img/shaders/black.frag", sf::Shader::Fragment);
 	context.blurh.loadFromFile("img/shaders/blur_h.frag", sf::Shader::Fragment);
 	context.blurv.loadFromFile("img/shaders/blur_v.frag", sf::Shader::Fragment);
-	//context.shade.loadFromFile("img/shaders/shade.frag", sf::Shader::Fragment);
-	//context.generate_map.setUniform("texture", sf::Shader::CurrentTexture);
-	//context.generate_map.setUniform("samples", 0.01f);
-	//context.generate_map.setUniform("dimensions", context.resolution);
 	context.blurh.setUniform("sigma", 50.0f);
 	context.blurh.setUniform("blurSize", 1.0f / context.resolution.x);
 	context.blurh.setUniform("blurSampler", sf::Shader::CurrentTexture);
@@ -164,8 +158,7 @@ void Assets::load_assets()
 	context.blurv.setUniform("blurSize", 1.0f / context.resolution.y);
 	context.blurv.setUniform("blurSampler", sf::Shader::CurrentTexture);
 	context.light_states.texture = light;
-	//context.light_states.transform.scale(.5f, .5f);
-	//context.final_states.transform.scale(2, 2);
+	context.light_states.blendMode == sf::BlendAdd;
 	//load_textures(ship_dockx, "img/ships/DokowanieX_ss_436_87_is_10_12.png", false);
 	//load_textures(ship_docky, "img/ships/DokowanieY_ss_443_442_is_15_20.png", false);
 	//load_textures(ship_fly, "img/ships/Lot_ss_466_87_is_6_10.png", false);

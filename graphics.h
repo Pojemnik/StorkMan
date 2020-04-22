@@ -29,6 +29,7 @@ public:
 	Texturable();
 	Texturable(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> points);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	void rescale(float ratio);
 };
 
 class Renderable : public sf::Drawable
@@ -127,5 +128,6 @@ public:
 	Dynamic_animatable(sf::Texture* texture, std::vector<sf::IntRect>& v,
 		Vectorf p, std::vector<const Dynamic_animation*> a, Animation_tree t, float h, float gs);
 	void next_frame();
+	void rescale(float new_global_scale);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

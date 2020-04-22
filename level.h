@@ -19,4 +19,5 @@ struct Level
 	void addPhysical(Physical* p);
 	void addColidable(Colidable* c);
 	void addPlatfrom(Platform p);
+	void rescale(float ratio);
 };

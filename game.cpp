@@ -20,7 +20,27 @@ Platform::Platform(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> poin
 	}
 	rect_collision = sf::FloatRect(minx + p.x, miny + p.y, maxx - minx, maxy - miny);
 }
-
+void Platform::rescale(float ratio)
+{
+	Texturable::rescale(ratio);
+	float maxx, maxy, miny, minx;
+	maxx = minx = vertices[0].position.x;
+	maxy = miny = vertices[0].position.y;
+	mesh.vertices.clear();
+	for (auto it : vertices)
+	{
+		mesh.vertices.push_back({ it.position.x + pos.x, it.position.y + pos.y });
+		if (it.position.x < minx)
+			minx = it.position.x;
+		if (it.position.y < miny)
+			miny = it.position.y;
+		if (it.position.x > maxx)
+			maxx = it.position.x;
+		if (it.position.y > maxy)
+			maxy = it.position.y;
+	}
+	rect_collision = sf::FloatRect(minx + pos.x, miny + pos.y, maxx - minx, maxy - miny);
+}
 Player::Player(Vectorf p, sf::Texture* texture, std::vector<sf::IntRect>& v,
 	std::vector<const Dynamic_animation*> a, sf::FloatRect rc, Animation_tree t, float h, float gs, float m)
 	: Dynamic_entity(p, texture, v, a, rc, t, h, gs, m) {}
