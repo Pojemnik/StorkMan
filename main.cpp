@@ -7,7 +7,7 @@
 #include "parser.h"
 #include "util.h"
 
-const std::string VERSION = "0.3.3f";
+const std::string VERSION = "0.3.4";
 
 bool update(float dt, Map& map, int move)
 {
@@ -65,38 +65,30 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	std::cout.sync_with_stdio(false);
 	std::cout << "Stork'man version " + VERSION << std::endl;
 	Assets assets;
-	sf::Clock* test = new sf::Clock();
-	test->restart();
 	assets.load_assets();
-	std::cout << test->getElapsedTime().asMilliseconds() << std::endl;
+	Parser parser(&assets);
 	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
 	sf::RenderWindow window(sf::VideoMode(context.resolution.x, context.resolution.y, desktop.bitsPerPixel), "StorkMan " + VERSION, sf::Style::Titlebar | sf::Style::Close);
 	sf::Clock clock;
-	std::cout << test->getElapsedTime().asMilliseconds() << std::endl;
 	Map map;
 	context.fps_counter.setFont(context.arial);
 	context.fps_counter.setPosition(0, 0);
-	if (argc == 2)
+	std::string path = (argc == 2) ? argv[1] : "map/stork_map_example.xml";
+	tinyxml2::XMLDocument doc;
+	tinyxml2::XMLError error = doc.LoadFile(path.c_str());
+	if (error != tinyxml2::XMLError::XML_SUCCESS)
 	{
-		tinyxml2::XMLDocument doc;
-		tinyxml2::XMLError error = doc.LoadFile(argv[1]);
-		tinyxml2::XMLElement* root = doc.FirstChildElement();
-		map = parse_map(root, &assets);
+		std::cerr << "Brak poziomu" << std::endl;
+		return -1;
 	}
-	else
-	{
-		tinyxml2::XMLDocument doc;
-		tinyxml2::XMLError error = doc.LoadFile("map/stork_map_example.xml");
-		tinyxml2::XMLElement* root = doc.FirstChildElement();
-		map = parse_map(root, &assets);
-	}
+	tinyxml2::XMLElement* root = doc.FirstChildElement();
+	map = parser.parse_map(root);
 	map.background.setPosition(context.background_position);
 	map.layer2.setTexture(*assets.layer2);
 	map.layer2.setPosition(context.layer2_position);
 	sf::FloatRect f(380, 55, 20, 70);
 	Player player({ 400, 100 }, assets.pieces, assets.pieces_rect, assets.animations, f, assets.stork_tree, 1.92f, global_scale, 87.f);
 	map.player = &player;
-	std::cout << test->getElapsedTime().asMilliseconds() << std::endl;
 	int moved = 0;
 	float acc = 0;
 	while (window.isOpen())
@@ -161,7 +153,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 					player.jump(false);
 			}
 		}
-		float time = clock.getElapsedTime().asMicroseconds();
+		float time = (float)clock.getElapsedTime().asMicroseconds();
 		time /= 1000.0f;
 		if (time > 2500.0f / context.fps)
 		{
@@ -175,7 +167,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			acc = 0;
 			window.clear();
 			sf::Vector2f camera_pos = player.get_position();
-			camera_pos -= sf::Vector2f(context.resolution.x / 2, context.resolution.y / 2);
+			camera_pos -= sf::Vector2f((float)context.resolution.x / 2, (float)context.resolution.y / 2);
 			sf::RenderStates rs = sf::RenderStates::Default;
 			rs.transform = sf::Transform().translate(-camera_pos);
 			window.draw(map, rs);
@@ -189,15 +181,16 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 				window.draw(r, rs);
 			}
 			window.draw(player, rs);
-			std::vector<Vectorf> sources = { {300,-1} ,{ 500, 400 }, { 300, 400 } };
+			std::vector<Vectorf> sources = { {300,-1}, { 500, 400 }, { 300, 400 } };
 			sf::Texture tex = map.calc_light(sources, rs.transform);
 			sf::Sprite s(tex);
 			window.draw(s, context.final_states);
-			window.draw(context.fps_counter);
+			if (context.draw_fps_counter)
+				window.draw(context.fps_counter);
 			if (context.draw_map_vertices)
 			{
 				sf::VertexArray tmp(sf::Lines, 2 * map.map_edges.size());
-				for (int i = 0; i < map.map_edges.size(); i++)
+				for (size_t i = 0; i < map.map_edges.size(); i++)
 				{
 					tmp[2 * i] = sf::Vertex(map.map_edges[i].first, sf::Color(255, 255, 255, 255));
 					tmp[2 * i + 1] = sf::Vertex(map.map_edges[i].second, sf::Color(255, 255, 255, 255));

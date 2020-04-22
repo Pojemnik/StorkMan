@@ -9,13 +9,13 @@ class Assets
 {
 public:
 	std::vector<sf::Texture> map_textures;
-	sf::Texture* pieces = NULL;
+	sf::Texture* pieces = nullptr;
 	std::vector<sf::IntRect> pieces_rect;
 	std::map<std::string, const sf::Texture*> textures;
 	std::vector<const Dynamic_animation *> animations;
-	sf::Texture* bg;
-	sf::Texture* layer2;
-	sf::Texture* light;
+	sf::Texture* bg = nullptr;
+	sf::Texture* layer2 = nullptr;
+	sf::Texture* light = nullptr;
 	Animation_tree stork_tree;
 	void load_assets();
 

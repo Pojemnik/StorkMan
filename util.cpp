@@ -28,7 +28,7 @@ float util::ang_reduce(float ang)
 	return ang;
 }
 
-void util::set_vectorf(Vectorf& vector, command& cmd, std::string var_name)
+void util::set_vectorf(Vectorf& vector, const command& cmd, const std::string var_name)
 {
 	if (cmd.args.size() == 2)
 	{
@@ -59,7 +59,7 @@ void util::set_vectorf(Vectorf& vector, command& cmd, std::string var_name)
 	}
 }
 
-void util::set_vectori(Vectori& vector, command& cmd, std::string var_name)
+void util::set_vectori(Vectori& vector, const command& cmd, const std::string var_name)
 {
 	if (cmd.args.size() == 2)
 	{
@@ -90,7 +90,24 @@ void util::set_vectori(Vectori& vector, command& cmd, std::string var_name)
 	}
 }
 
-void util::set_float(float& var, command& cmd, std::string var_name)
+void util::set_bool(bool& val, const command& cmd, const std::string var_name, std::array<std::string, 2> true_false_string)
+{
+	if (cmd.args.size() == 1)
+	{
+		if (cmd.args[0] == "1" || cmd.args[0] == "true" || cmd.args[0] == "True" || cmd.args[0] == "treu")
+			val = true;
+		else
+			val = false;
+
+		std::cout << var_name + " " << ((val) ? true_false_string[0] : true_false_string[1]) << std::endl;
+	}
+	else
+	{
+		util::print_argument_number_error(1);
+	}
+}
+
+void util::set_float(float& var, const command& cmd, const std::string var_name)
 {
 	if (cmd.args.size() == 1)
 	{
@@ -114,33 +131,15 @@ int util::execute_command(util::command cmd)
 {
 	if (cmd.name == "col")
 	{
-		if (cmd.args.size() == 1)
-		{
-			if (cmd.args[0] == "1")
-				context.draw_collisions = true;
-			else
-				context.draw_collisions = false;
-			std::cout << "Player collision mesh " << ((context.draw_collisions) ? "drawn" : "hidden") << std::endl;
-		}
-		else
-		{
-			util::print_argument_number_error(1);
-		}
+		set_bool(context.draw_collisions, cmd, "Player collision mesh", { "drawn", "hidden" });
 	}
 	else if (cmd.name == "mapvertices")
 	{
-		if (cmd.args.size() == 1)
-		{
-			if (cmd.args[0] == "1")
-				context.draw_map_vertices = true;
-			else
-				context.draw_map_vertices = false;
-			std::cout << "Map vertices " << ((context.draw_map_vertices) ? "drawn" : "hidden") << std::endl;
-		}
-		else
-		{
-			util::print_argument_number_error(1);
-		}
+		set_bool(context.draw_map_vertices, cmd, "Map vertices", { "drawn", "hidden" });
+	}
+	else if (cmd.name == "fpscounter")
+	{
+		set_bool(context.draw_fps_counter, cmd, "FPS counter", { "drawn", "hidden" });
 	}
 	else if (cmd.name == "fps")
 	{
@@ -180,7 +179,7 @@ int util::execute_command(util::command cmd)
 	}
 	else if (cmd.name == "bgpos")
 	{
-		set_vectorf(context.background_position, cmd, "Background position");	
+		set_vectorf(context.background_position, cmd, "Background position");
 	}
 	else if (cmd.name == "layer2pos")
 	{

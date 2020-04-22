@@ -209,7 +209,7 @@ void Dynamic_entity::move(Vectorf delta)
 	//if (util::sgn(delta.x) != colision_direction.x)
 	{
 		move_force += delta;
-		if (move_speed.x * move_speed.x + move_speed.y * move_speed.x < context.min_move_speed * context.min_move_speed)
+		if (move_speed.x * move_speed.x + move_speed.y * move_speed.x < context.min_move_speed * context.min_move_speed||util::vector_dot_product(move_speed,delta)<0)
 		{
 			move_speed = util::normalize(delta, context.min_move_speed);
 		}

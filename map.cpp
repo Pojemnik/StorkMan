@@ -1,43 +1,10 @@
 #include "map.h"
 
-Level::Level()
+Map::Map()
 {
-}
-
-Level::Level(const Level& level) : global_pos(level.global_pos), is_loaded(level.is_loaded), global_size(level.global_size), platforms(level.platforms)
-{
-	for (auto& it : platforms)
-	{
-		addColidable(&it);
-		addTexturable(&it);
-	}
-}
-
-void Level::addRenderable(Renderable* d)
-{
-	drawables.push_back(d);
-}
-
-void Level::addTexturable(Texturable* t)
-{
-	texturables.push_back(t);
-}
-
-void Level::addPhysical(Physical* p)
-{
-	physicals.push_back(p);
-}
-
-void Level::addColidable(Colidable* c)
-{
-	colidables.push_back(c);
-}
-
-void Level::addPlatfrom(Platform p)
-{
-	platforms.push_back(p);
-	addColidable(&p);
-	addTexturable(&p);
+	level_placement = nullptr;
+	map_texture = nullptr;
+	player = nullptr;
 }
 
 Map::Map(Vectori dimensions, std::vector<Level>& lvls, Vectori start_pos, sf::Texture& bg) : size(dimensions), current_pos(start_pos)
@@ -146,7 +113,7 @@ std::pair<float, Vectorf> Map::cast_ray(Vectorf source, Vectorf alfa) const
 	}
 	return std::pair<float, Vectorf>(atan2(-alfa.y, alfa.x), point);
 }
-std::vector<std::pair<float, Vectorf>> Map::calc_light_source(Vectorf source, Vectorf move)
+std::vector<std::pair<float, Vectorf>> Map::calc_light_source(Vectorf source)
 {
 	std::vector<std::pair<float, Vectorf>> points;
 	Vectorf point;
@@ -162,7 +129,7 @@ std::vector<std::pair<float, Vectorf>> Map::calc_light_source(Vectorf source, Ve
 	for (const auto& vertex_it : map_vertices)
 	{
 		Vectorf dist = vertex_it - source;
-		if (sqrt(pow(dist.x, 2) + pow(dist.y, 2)) < 500 * sqrt(2) + 50)
+		if (util::sq(dist.x) + util::sq(dist.y) < 500050)
 		{
 			alfa = vertex_it - source;
 			points.push_back(cast_ray(source, alfa));
@@ -188,15 +155,13 @@ std::vector<std::pair<float, Vectorf>> Map::calc_light_source(Vectorf source, Ve
 sf::Texture Map::calc_light(std::vector<Vectorf>& sources, sf::Transform transform)
 {
 	context.lightmap.clear(sf::Color(70, 70, 70, 255));
-	const float* matrix = transform.getMatrix();
-	Vectorf move = { matrix[12], matrix[13] };
 	for (Vectorf source : sources)
 	{
-		std::vector<std::pair<float, Vectorf>> points = calc_light_source(source, move);
+		std::vector<std::pair<float, Vectorf>> points = calc_light_source(source);
 		sf::VertexArray light(sf::TriangleFan, points.size() + 2);
 		light[0].position = source;
 		light[0].texCoords = { 500,500 };
-		for (int i = 1; i < points.size() + 1; i++)
+		for (size_t i = 1; i < points.size() + 1; i++)
 		{
 			light[i].position = points[i - 1].second;
 			light[i].texCoords = points[i - 1].second + Vectorf(500, 500) - source;
@@ -241,7 +206,7 @@ void Map::calc_map_vertices()
 	{
 		for (const auto& it2 : it->texturables)
 		{
-			for (int i = 1; i < it2->vertices.size(); i++)
+			for (size_t i = 1; i < it2->vertices.size(); i++)
 			{
 				tab.push_back(std::make_pair(it2->vertices[i].position + it2->pos, it2->vertices[i - 1].position + it2->pos));
 			}
@@ -258,7 +223,7 @@ void Map::calc_map_vertices()
 		{
 			Vectorf normal2 = it2->second - it2->first;
 			removed = 1;
-			if (fabs(normal.x * normal2.y - normal.y * normal2.x) > 0.0001 || fabs(normal.y * (it2->first.x - it1->first.x) - normal.x * (it2->first.y - it1->first.y)) > 0.0001)
+			if (fabs(util::vector_cross_product(normal,normal2)) > 0.0001 || fabs(util::vector_cross_product(normal,it2->first-it1->first)) > 0.0001)
 				continue;
 			float c = util::vector_dot_product(normal, it2->first), d = util::vector_dot_product(normal, it2->second);
 			if (std::min(a, b) <= std::max(c, d) && std::min(a, b) >= std::min(c, d) || std::max(a, b) <= std::max(c, d) && std::max(a, b) >= std::min(c, d))

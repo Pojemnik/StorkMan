@@ -66,7 +66,7 @@ public:
 
 struct Animation_node
 {	
-	std::array<Vectorf, 2> delta_pos;
+	std::array<Vectori, 2> delta_pos;
 };
 
 class Animation_tree
@@ -119,8 +119,8 @@ protected:
 	float miny;
 
 	Vectorf count_pos(Vectorf start, float size1, float size2,
-		Vectorf translation1, float a1,
-		Vectorf translation2, float a2);
+		Vectori translation1, float a1,
+		Vectori translation2, float a2);
 	void animate(std::vector<float> arr);
 	void set_animation(Animation_status s);
 public:

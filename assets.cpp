@@ -29,7 +29,7 @@ Dynamic_animation* Assets::load_dynamic_animation(std::string path)
 	std::ifstream f(path);
 	int frames, parts;
 	f >> parts >> frames;
-	std::vector<std::vector<float>> kf(frames, std::vector<float>(parts + 3));
+	std::vector<std::vector<float>> kf(frames, std::vector<float>((size_t)parts + 3));
 	std::vector<int> l(frames);
 	for (int i = 0; i < frames; i++)
 	{
@@ -47,6 +47,7 @@ Dynamic_animation* Assets::load_dynamic_animation(std::string path)
 
 Animation_tree::Animation_tree(int _count, int i_count) : count(_count), independent_count(i_count)
 {
+	root = 0;
 	tree.resize(count);
 	position_of_element_in_animation_array.resize(count);
 	nodes.resize(count);
@@ -78,23 +79,23 @@ Animation_tree Assets::load_animation_tree(std::string path)
 		int ax, ay, bx, by;
 		file >> a >> b;
 		file >> ax >> ay >> bx >> by;
-		tree.nodes[node_names[b]].delta_pos = { Vectorf(ax,ay),Vectorf(bx,by) };
+		tree.nodes[node_names[b]].delta_pos = { Vectori(ax,ay),Vectori(bx,by) };
 		tree.tree[node_names[a]].push_back(node_names[b]);
 	}
-	tree.nodes[tree.root].delta_pos = { Vectorf(0,0),Vectorf(0,0) };
+	tree.nodes[tree.root].delta_pos = { Vectori(0,0),Vectori(0,0) };
 	return tree;
 }
 
 void Assets::load_textures(std::vector<sf::Texture>& v, std::string path, bool rep)
 {
 	int a, b, c, d;
-	int l = path.rfind("_ss_");
+	int l = (int)path.rfind("_ss_");
 	if (l == std::string::npos)
 	{
 		l = -1;
 	}
 	l++;
-	int r = path.find(".", l);
+	size_t r = path.find(".", l);
 	std::string tmp = path.substr(l, r - l);
 	for (auto& it : tmp)
 	{
@@ -108,7 +109,7 @@ void Assets::load_textures(std::vector<sf::Texture>& v, std::string path, bool r
 		std::cout << "error reading sizes " + path << std::endl;
 		return;
 	}
-	v.reserve(c * d);
+	v.reserve((uint64_t)c * d);
 	sf::Image image;
 	if (!image.loadFromFile(path))
 	{

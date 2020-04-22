@@ -68,7 +68,7 @@ std::vector<sf::Texture>::const_iterator Animation::end() const
 }
 
 Vectorf Dynamic_animatable::count_pos(Vectorf start, float size1, float size2,
-	Vectorf translation1, float a1, Vectorf translation2, float a2)
+	Vectori translation1, float a1, Vectori translation2, float a2)
 {
 	float angle1 = util::rdn(a1);
 	float angle2 = util::rdn(a2);
@@ -148,7 +148,7 @@ Dynamic_animatable::Dynamic_animatable(sf::Texture* texture, std::vector<sf::Int
 	for (int i = 0; i < v.size(); i++)
 	{
 		parts.push_back(sf::Sprite(*texture, v[i]));
-		parts[i].setOrigin(v[i].width / 2, v[i].height / 2);
+		parts[i].setOrigin((float)v[i].width / 2, (float)v[i].height / 2);
 	}
 	scale = gs * height / 350;
 	if (!tex.create(500, 500))

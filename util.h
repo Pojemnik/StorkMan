@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <vector>
 #include <list>
+#include <array>
 
 typedef sf::Vector2f Vectorf;
 typedef sf::Vector2i Vectori;
@@ -25,6 +26,7 @@ struct Context
 {
 	bool draw_collisions = false;
 	bool draw_map_vertices = false;
+	bool draw_fps_counter = false;
 	float fps = 60.f;
 	float gravity = 26;
 	float jump_force = 870.f;
@@ -65,14 +67,15 @@ namespace util
 	};
 
 	inline sf::Vector2f normalize(sf::Vector2f x, float l);
-	inline sf::Vector2f get_axis_normal(const std::vector<sf::Vector2f>* a, int i);
+	inline sf::Vector2f get_axis_normal(const std::vector<sf::Vector2f>* a, size_t i);
 	inline float vector_dot_product(sf::Vector2f a, sf::Vector2f b);
 	Vectorf saturate(Vectorf val, const Vectorf max_val);
 	float rdn(float s);
 	float ang_reduce(float ang);
-	void set_vectorf(Vectorf& vector, command& cmd, std::string var_name);
-	void set_vectori(Vectori& vector, command& cmd, std::string var_name);
-	void set_float(float& var, command& cmd, std::string var_name);
+	void set_vectorf(Vectorf& vector, const command& cmd, std::string var_name);
+	void set_vectori(Vectori& vector, const command& cmd, std::string var_name);
+	void set_float(float& var, const command& cmd, std::string var_name);
+	void set_bool(bool& val, const command& cmd, std::string var_name, std::array<std::string,2> true_false_string);
 	void print_argument_number_error(int correct_number);
 	void print_incorrect_argument_error(std::string command, std::string what);
 	command get_command();
@@ -85,7 +88,7 @@ namespace util
 		return x / float(sqrt(x.x * x.x + x.y * x.y) * l);
 	}
 
-	inline sf::Vector2f get_axis_normal(const std::vector<sf::Vector2f>* a, int i)
+	inline sf::Vector2f get_axis_normal(const std::vector<sf::Vector2f>* a, size_t i)
 	{
 		sf::Vector2f p1 = (*a)[i], p2 = (i >= a->size() - 1) ? (*a)[0] : (*a)[i + 1];
 		return util::normalize({ p1.y - p2.y,p2.x - p1.x }, 1);
@@ -96,9 +99,18 @@ namespace util
 		return a.x * b.x + a.y * b.y;
 	}
 
+	inline float vector_cross_product(sf::Vector2f a, sf::Vector2f b)
+	{
+		return a.x * b.y - a.y * b.x;
+	}
+
 	template <typename T> inline int sgn(T val)
 	{
 		return (T(0) < val) - (val < T(0));
 	}
-	
+
+	template <typename T> inline T sq(T a)
+	{
+		return a * a;
+	}
 }
