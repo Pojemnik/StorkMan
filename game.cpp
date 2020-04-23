@@ -33,7 +33,7 @@ Player::Player(Vectorf p, sf::Texture* texture, std::vector<sf::IntRect>& v,
 
 void Player::attack(int attack_type)
 {
-	switch(attack_type)
+	switch (attack_type)
 	{
 	case 1:
 		if (animation_status == Entity_status::IDLE || animation_status == Entity_status::JUMP_IDLE)
@@ -67,10 +67,10 @@ Dynamic_entity::Dynamic_entity(Vectorf p, sf::Texture* texture, std::vector<sf::
 
 void Dynamic_entity::move(Vectorf delta)
 {
-	//if (util::sgn(delta.x) != colision_direction.x)
+	if (util::sgn(delta.x) != colision_direction.x || (platform_angle != -0.f && platform_angle != 0.f))
 	{
 		move_force += delta;
-		if (move_speed.x * move_speed.x + move_speed.y * move_speed.x < context.min_move_speed * context.min_move_speed||util::vector_dot_product(move_speed,delta)<0)
+		if (move_speed.x * move_speed.x + move_speed.y * move_speed.x < context.min_move_speed * context.min_move_speed || util::vector_dot_product(move_speed, delta) < 0)
 		{
 			move_speed = util::normalize(delta, context.min_move_speed);
 		}
@@ -82,6 +82,18 @@ void Dynamic_entity::move(Vectorf delta)
 			animation_status = Animation_status::A_MOVE;
 		}
 	}
+	else
+	{
+		set_idle();
+	}
+}
+
+void Dynamic_entity::move_angled(int direction)
+{
+	if (direction == 1)
+		move(util::rotate_vector(context.player_move_speed,platform_angle));
+	else if (direction == -1)
+		move(util::rotate_vector({ -context.player_move_speed.x,context.player_move_speed.y }, platform_angle));
 }
 
 void Dynamic_entity::jump(bool move)
@@ -142,6 +154,10 @@ void Dynamic_entity::set_idle()
 
 void Dynamic_entity::update(float dt)
 {
+	if (maxcollisionvector.y == 0 && maxcollisionvector.x == 0)
+		platform_angle = 0;
+	else
+		platform_angle = -atan2(maxcollisionvector.x, maxcollisionvector.y);
 	Vectorf move_acc = move_force / mass;
 	move_speed += move_acc * dt;
 	move_speed = util::saturate(move_speed, context.max_move_speed);
@@ -210,8 +226,8 @@ void Dynamic_entity::update_position(float dt)
 {
 	pos += total_speed * dt;	//ogarn¹æ to coœ!!!
 	sprite.setPosition(pos);
-	rect_collision = sf::FloatRect(pos.x - 20,
-		pos.y-47, 20,
+	rect_collision = sf::FloatRect(pos.x - 20/35.84f*context.global_scale,
+		pos.y - 47/35.84f*context.global_scale, 20/35.84f*context.global_scale,
 		rect_collision.height);
 	//rect_collision = sf::FloatRect(rect_collision.left + total_speed.x,
 	//	rect_collision.top + total_speed.y, rect_collision.width, rect_collision.height);
@@ -241,7 +257,7 @@ void Dynamic_entity::set_position(Vectorf new_position)
 
 void Dynamic_entity::rescale(float new_scale)
 {
-	float ratio=new_scale/(scale * 350 / height);
+	float ratio = new_scale / (scale * 350 / height);
 	Dynamic_animatable::rescale(new_scale);
 	Colidable::rescale(ratio);
 }

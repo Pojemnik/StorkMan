@@ -24,26 +24,7 @@ bool update(float dt, Map& map, int move)
 		map.player->update(1);
 		map.update(1);
 		acc -= 1000.0f / context.fps;
-		float ang;
-		switch (move)
-		{
-		case 0:
-			break;
-		case 1:
-
-			if (map.player->maxcollisionvector.y == 0 && map.player->maxcollisionvector.x == 0)
-				ang = 0;
-			else
-				ang = -atan2(map.player->maxcollisionvector.x, map.player->maxcollisionvector.y);
-			map.player->move({ context.player_move_speed.x * cos(ang) - context.player_move_speed.y * sin(ang),context.player_move_speed.x * sin(ang) + context.player_move_speed.y * cos(ang) });
-			break;
-		case -1:
-			if (map.player->maxcollisionvector.y == 0 && map.player->maxcollisionvector.x == 0)
-				ang = 0;
-			else
-				ang = -atan2(map.player->maxcollisionvector.x, map.player->maxcollisionvector.y);
-			map.player->move({ -context.player_move_speed.x * cos(ang) - context.player_move_speed.y * sin(ang),-context.player_move_speed.x * sin(ang) + context.player_move_speed.y * cos(ang) });
-		}
+		map.player->move_angled(move);
 	}
 	return updated;
 }

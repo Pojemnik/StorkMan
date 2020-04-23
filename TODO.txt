@@ -1,9 +1,27 @@
+* - nastêpny release
+
 Interakcje ze skoœnymi platformami (lepsze podbieganie i zbieganie, zsuwanie siê od pewnego k¹ta)
-W¹tki
+* W¹tki
 Warstwy mapy i paralaksa
 Spadanie i l¹dowanie - lepiej rozwi¹zaæ animacje
 Uwzglêdniæ skalê w edycji poziomów
+* Dziedzina funkcji trygonometrycznych w œwietle i dzielenie przez zero
+* Swiat³o w osobnym w¹tku
+* Statyczne œwiat³a liczyæ statycznie
+* Interakcja miêdzy œwiat³em a œcianami
 
 B³êdy:
-Blokowanie siê na ³¹czenich œcian
-Wbieganie w skoœne œciany
+* Zsuwanie siê z platform
+* Skalowanie odc. 0xDEADBEEF
+
+Lista priorytetowa by Adam:
+* 1. Zmiana skoków na lepiej obs³ugiwalne
+2. Dodanie prostych przeciwników
+* 3. Dodanie podczepiania t³a I stopnia
+4. "Trzymanie siê w pionie"
+5. Dodanie peleryny
+6. Rozbudowanie obszaru gry do docelowego rozmiaru i stworzenie
+dopasowania przejœcia t³a z podziemiami
+7. Dodanie mo¿liwoœci otrzymania obra¿eñ i œmierci Stork'mana w
+interakcji z przeciwnikiem
+8. Dodanie trybu walki wrêcz i odpowiednio przeciwników

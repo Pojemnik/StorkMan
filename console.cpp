@@ -227,6 +227,7 @@ std::pair<Command_code, Vectorf> Console::execute_command(Command cmd)
 	}
 	catch (std::invalid_argument e)
 	{
+		return std::make_pair<Command_code, Vectorf>(Command_code::NOTHING, { 0,0 });
 	}
 }
 

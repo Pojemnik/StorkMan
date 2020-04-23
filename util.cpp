@@ -15,9 +15,14 @@ Vectorf util::saturate(Vectorf val, const Vectorf max_val)
 	return val;
 }
 
-float util::rdn(float s)
+float util::deg_to_rad(float s)
 {
 	return(s / 180 * PI);
+}
+
+float util::rad_to_deg(float rdn)
+{
+	return rdn / PI * 180;
 }
 
 float util::ang_reduce(float ang)
@@ -26,6 +31,14 @@ float util::ang_reduce(float ang)
 	if (ang < 0)
 		ang += 360.0f;
 	return ang;
+}
+
+Vectorf util::rotate_vector(Vectorf vec, float ang)
+{
+	return { vec.x * cos(ang) -
+			vec.y * sin(ang),
+			vec.x * sin(ang) +
+			vec.y * cos(ang) };
 }
 
 bool util::vectorf_compare(const Vectorf& a, const Vectorf& b)

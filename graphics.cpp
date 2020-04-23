@@ -44,8 +44,8 @@ void Texturable::draw(sf::RenderTarget& target, sf::RenderStates states) const
 Vectorf Dynamic_animatable::count_pos(Vectorf start, float size1, float size2,
 	Vectori translation1, float a1, Vectori translation2, float a2)
 {
-	float angle1 = util::rdn(a1);
-	float angle2 = util::rdn(a2);
+	float angle1 = util::deg_to_rad(a1);
+	float angle2 = util::deg_to_rad(a2);
 	float d1 = sqrt(pow(translation1.x - size1 / 2, 2) + pow(translation1.y - size1 / 2, 2));
 	float d2 = sqrt(pow(translation2.x - size2 / 2, 2) + pow(translation2.y - size2 / 2, 2));
 	float sinalfa = (translation1.y - size1 / 2) / d1;

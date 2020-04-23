@@ -66,7 +66,9 @@ namespace util
 	inline sf::Vector2f get_axis_normal(const std::vector<sf::Vector2f>* a, size_t i);
 	inline float vector_dot_product(sf::Vector2f a, sf::Vector2f b);
 	Vectorf saturate(Vectorf val, const Vectorf max_val);
-	float rdn(float s);
+	float deg_to_rad(float s);
+	float rad_to_deg(float rdn);
+	Vectorf rotate_vector(Vectorf vec, float ang);
 	float ang_reduce(float ang);
 	bool vectorf_compare(const Vectorf& a, const Vectorf& b);
 	bool vectorf_binary_predicate(const Vectorf& a, const Vectorf& b);

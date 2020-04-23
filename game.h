@@ -13,6 +13,7 @@ class Dynamic_entity : public Dynamic_animatable, public Physical
 {
 protected:
 	bool reset_animation = false;
+	float platform_angle;
 
 	void update_position(float dt);
 	void flip(int s);
@@ -21,6 +22,7 @@ protected:
 public:
 	Dynamic_entity(Vectorf p, sf::Texture* texture, std::vector<sf::IntRect>& v, std::vector<const Dynamic_animation*> a, sf::FloatRect rc, Animation_tree t, float h, float gs, float m);
 	void move(Vectorf delta);
+	void move_angled(int direction);
 	void set_position(Vectorf new_position);
 	void jump(bool run);
 	void update(float dt);
