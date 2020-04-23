@@ -6,6 +6,7 @@
 #include "game.h"
 #include "parser.h"
 #include "util.h"
+#include "console.h"
 
 const std::string VERSION = "0.3.4";
 
@@ -104,8 +105,8 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			{
 				if (event.key.code == sf::Keyboard::Tilde)
 				{
-					Command_code code = util::execute_command(util::get_command());
-					switch (code)
+					std::pair<Command_code, Vectorf> code = Console::get_and_execute_command();
+					switch (code.first)
 					{
 					case Command_code::CHANGE_RESOLUTION:
 						resize_window(map, window);
@@ -113,6 +114,8 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 					case Command_code::CHANGE_SCALE:
 						map.rescale(context.global_scale);
 						player.rescale(context.global_scale);
+					case Command_code::MOVE_PLAYER:
+						player.set_position(code.second);
 					default:
 						break;
 					}

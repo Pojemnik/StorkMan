@@ -16,14 +16,6 @@ void Assets::load_texture(sf::Texture& t, sf::Image& img, int x, int y, int sx, 
 	}
 }
 
-Animation* Assets::load_animation(std::string path, Vectorf center, sf::FloatRect rect)
-{
-	std::vector<sf::Texture> v;
-	load_textures(v, path, false);
-	Animation* a = new Animation(v, center, rect);
-	return a;
-}
-
 Dynamic_animation* Assets::load_dynamic_animation(std::string path)
 {
 	std::ifstream f(path);

@@ -24,6 +24,7 @@ Texturable::Texturable(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> 
 	shape.create(vertices.size());
 	shape.update(&vertices[0]);
 }
+
 void Texturable::rescale(float ratio){
 	for(auto& it : vertices)
 	{
@@ -31,46 +32,12 @@ void Texturable::rescale(float ratio){
 	}
 	shape.update(&vertices[0]);
 }
+
 void Texturable::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	states.transform *= sf::Transform().translate(pos);
 	states.texture = &*tex;
 	target.draw(shape, states);
-}
-
-Animatable::Animatable(Vectorf p, const Animation* t, float h, float gs)
-	: tex(t), pos(p), height(h)
-{
-	it = tex->begin();
-	sprite = sf::Sprite(*it);
-	sprite.setPosition(pos);
-	scale = gs * height / sprite.getTexture()->getSize().y;
-	sprite.setScale(scale, scale);
-}
-
-void Animatable::next_frame()
-{
-	if (++it == tex->end())
-		it = tex->begin();
-	sprite.setTexture(*it);
-}
-
-void Animatable::draw(sf::RenderTarget& target, sf::RenderStates states) const
-{
-	target.draw(sprite, states);
-}
-
-Animation::Animation(std::vector<sf::Texture>& a, Vectorf c, sf::FloatRect rect_col)
-	: content(std::move(a)), center(c), rect_collision(rect_col) {}
-
-std::vector<sf::Texture>::const_iterator Animation::begin() const
-{
-	return content.begin();
-}
-
-std::vector<sf::Texture>::const_iterator Animation::end() const
-{
-	return content.end();
 }
 
 Vectorf Dynamic_animatable::count_pos(Vectorf start, float size1, float size2,

@@ -8,6 +8,9 @@
 #include <vector>
 #include <list>
 #include <array>
+#include <queue>
+#include <fstream>
+#include <map>
 
 typedef sf::Vector2f Vectorf;
 typedef sf::Vector2i Vectori;
@@ -19,7 +22,6 @@ enum Entity_status { IDLE = 0, MOVE, JUMP_IDLE, JUMP_RUN,
 enum Animation_status { A_IDLE = 0, A_MOVE, A_JUMP_IDLE,
 	A_JUMP_RUN, A_JUMP_RUN2, A_PUNCH_1, A_PUNCH_2, A_HIT };
 enum Colidable_type { GROUND, ENEMY, OTHER };
-enum class Command_code {NOTHING, CHANGE_RESOLUTION, CHANGE_SCALE};
 
 struct Context
 {
@@ -60,26 +62,12 @@ namespace util
 		float r;
 	};
 
-	struct command
-	{
-		std::string name;
-		std::vector<std::string> args;
-	};
-
 	inline sf::Vector2f normalize(sf::Vector2f x, float l);
 	inline sf::Vector2f get_axis_normal(const std::vector<sf::Vector2f>* a, size_t i);
 	inline float vector_dot_product(sf::Vector2f a, sf::Vector2f b);
 	Vectorf saturate(Vectorf val, const Vectorf max_val);
 	float rdn(float s);
 	float ang_reduce(float ang);
-	void set_vectorf(Vectorf& vector, const command& cmd, std::string var_name);
-	void set_vectori(Vectori& vector, const command& cmd, std::string var_name);
-	void set_float(float& var, const command& cmd, std::string var_name);
-	void set_bool(bool& val, const command& cmd, std::string var_name, std::array<std::string,2> true_false_string);
-	void print_argument_number_error(int correct_number);
-	void print_incorrect_argument_error(std::string command, std::string what);
-	command get_command();
-	Command_code execute_command(util::command cmd);
 	bool vectorf_compare(const Vectorf& a, const Vectorf& b);
 	bool vectorf_binary_predicate(const Vectorf& a, const Vectorf& b);
 

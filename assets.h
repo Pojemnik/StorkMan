@@ -1,9 +1,5 @@
 #pragma once
 #include "game.h"
-#include <fstream>
-#include <iostream>
-#include <sstream>
-#include <map>
 
 class Assets
 {
@@ -22,7 +18,6 @@ public:
 private:
 	void load_texture(sf::Texture& t, sf::Image& img, int y, int x, int sx, int sy, bool rep);
 	void load_textures(std::vector<sf::Texture>& v, std::string path, bool rep);
-	Animation* load_animation(std::string path, Vectorf center, sf::FloatRect rect);
 	Dynamic_animation* load_dynamic_animation(std::string path);
 	Animation_tree load_animation_tree(std::string path);
 };
