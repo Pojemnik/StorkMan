@@ -19,7 +19,6 @@ private:
 	void unload_level(std::list<Level*>::iterator& lvl);
 	std::pair<float, Vectorf> cast_ray(Vectorf source, Vectorf alfa) const;
 	std::vector<std::pair<float, Vectorf>> calc_light_source(Vectorf source);
-	void redraw();
 
 public:
 	std::vector<std::pair<Vectorf, Vectorf>> map_edges;
@@ -33,6 +32,7 @@ public:
 	void calc_map_vertices();
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	void update(float dt);
+	void redraw();
 	sf::Texture calc_light(std::vector<Vectorf>& sources, sf::Transform transform);
 	void rescale(float new_global_scale);
 };

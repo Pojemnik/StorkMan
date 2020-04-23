@@ -20,7 +20,7 @@ public:
 	Colidable_type type;
 	Colidable() = default;
 	Colidable(sf::FloatRect rect, std::vector<Vectorf> _mesh, Colidable_type t);
-
+	void rescale(float ratio);
 };
 
 class Transformable

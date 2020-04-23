@@ -58,6 +58,7 @@ Map::Map(Vectori dimensions, std::vector<Level>& lvls, Vectori start_pos, sf::Te
 	context.blurv_states.shader = &context.blurv;
 	context.final_states.blendMode = sf::BlendMultiply;
 	context.light_states.blendMode = sf::BlendAdd;
+	global_scale = context.global_scale;
 	lightmap.setPosition(0, 0);
 	map_texture = nullptr;
 }

@@ -44,6 +44,7 @@ public:
 	void update(float dt);
 	void next_frame();
 	Vectorf get_position();
+	void rescale(float new_scale);
 };
 
 class Player : public Dynamic_entity
