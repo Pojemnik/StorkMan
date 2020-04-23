@@ -54,9 +54,22 @@ Physical::Physical(sf::FloatRect rect, std::vector<Vectorf> mesh, Colidable_type
 
 }
 
+
 Colidable::Colidable(sf::FloatRect rect, std::vector<Vectorf> _mesh, Colidable_type t) : rect_collision(rect), type(t)
 {
 	mesh.vertices = _mesh;
+}
+
+void Colidable::rescale(float ratio)
+{
+	for (auto& it : mesh.vertices)
+	{
+		it *= ratio;
+	}
+	rect_collision.height *= ratio;
+	rect_collision.width *= ratio;
+	rect_collision.left *= ratio;
+	rect_collision.top *= ratio;
 }
 
 bool Physical::test_colision(const Colidable& other)

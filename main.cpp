@@ -113,6 +113,8 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 						break;
 					case Command_code::CHANGE_SCALE:
 						map.rescale(context.global_scale);
+						map.calc_map_vertices();
+						map.redraw();
 						player.rescale(context.global_scale);
 					case Command_code::MOVE_PLAYER:
 						player.set_position(code.second);

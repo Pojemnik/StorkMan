@@ -26,6 +26,7 @@ Texturable::Texturable(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> 
 }
 
 void Texturable::rescale(float ratio){
+	pos *= ratio;
 	for(auto& it : vertices)
 	{
 		it.position *= ratio;
@@ -190,6 +191,6 @@ Dynamic_animation::Dynamic_animation(std::vector<std::vector<float>>& kf, std::v
 
 void Dynamic_animatable::rescale(float new_global_scale)
 {
-	pos = pos * new_global_scale / scale;
+	pos = pos * new_global_scale / (scale*350/height);
 	scale = new_global_scale * height / 350;
 }
