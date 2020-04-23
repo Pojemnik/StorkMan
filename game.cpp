@@ -20,11 +20,13 @@ Platform::Platform(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> poin
 	}
 	rect_collision = sf::FloatRect(minx + p.x, miny + p.y, maxx - minx, maxy - miny);
 }
+
 void Platform::rescale(float ratio)
 {
 	Texturable::rescale(ratio);
 	Colidable::rescale(ratio);
 }
+
 Player::Player(Vectorf p, sf::Texture* texture, std::vector<sf::IntRect>& v,
 	std::vector<const Dynamic_animation*> a, sf::FloatRect rc, Animation_tree t, float h, float gs, float m)
 	: Dynamic_entity(p, texture, v, a, rc, t, h, gs, m) {}
@@ -230,6 +232,11 @@ void Dynamic_entity::next_frame()
 Vectorf Dynamic_entity::get_position()
 {
 	return pos;
+}
+
+void Dynamic_entity::set_position(Vectorf new_position)
+{
+	pos = new_position;
 }
 
 void Dynamic_entity::rescale(float new_scale)
