@@ -177,16 +177,16 @@ void Assets::load_assets()
 	textures["ribbing,1"] = &map_textures[14];
 	textures["ribbing,2"] = &map_textures[15];
 	textures["dirt,0"] = &map_textures[16];
-	textures["bruk,1"] = &map_textures[17];
-	textures["bruk,2"] = &map_textures[18];
-	textures["bruk,3"] = &map_textures[19];
-	textures["bruk,4"] = &map_textures[20];
-	textures["bruk,5"] = &map_textures[21];
-	textures["bruk,6"] = &map_textures[22];
-	textures["bruk,7"] = &map_textures[23];
-	textures["bruk,8"] = &map_textures[24];
-	textures["bruk,9"] = &map_textures[25];
-	textures["bruk,10"] = &map_textures[26];
+	textures["paving,0"] = &map_textures[17];
+	textures["paving,1"] = &map_textures[18];
+	textures["pipe,1"] = &map_textures[19];
+	textures["wood,0"] = &map_textures[20];
+	textures["wood,1"] = &map_textures[21];
+	textures["wood,2"] = &map_textures[22];
+	textures["wood,3"] = &map_textures[23];
+	textures["wood,4"] = &map_textures[24];
+	textures["tile,1"] = &map_textures[25];
+	textures["pipe,0"] = &map_textures[26];
 
 	context.arial.loadFromFile("Arial.ttf");
 	std::cout << "done!" << std::endl;

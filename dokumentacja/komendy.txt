@@ -2,19 +2,20 @@ Lista komend:
 
 komenda					argumenty		wart. domyślna		opis
 fps						float			60					Docelowa lość klatek na sekundę
-gravity					float			-0.5				Przyspieszenie grawitacyjne (chwilowo gra nie uwzględnia masy)
+gravity					float			22					Przyspieszenie grawitacyjne
 bgparallax				float			-1.5				Paralaksa tła
-storkminspeed			float			1					Minimalna prędkość ruchu - z tą prędkością strokman rusza
-storkmaxspeed			float float		5 5					Masymalna prędkość ruchu
+storkminspeed			float			0.5					Minimalna prędkość ruchu - z tą prędkością strokman rusza
+storkmaxspeed			float float		6 5					Masymalna prędkość ruchu
 storkspeedreduction		float float		0.5 0.5				Wartość, o jaką postać zwalnia po puszczeniu klawisza ruchu
-storkmovespeed			float float		0.1 0				Wartość przyspieszenia storkmana
-jumpforce				float			20					Siła skoku
+storkmovespeed			float float		4 0					Wartość przyspieszenia storkmana
+jumpforce				float			870					Siła skoku
 bgscale					float			1					Skala tła
 layer2scale				float			1					Skala warstwy 2 (lasu)
 layer2parallax			float			-2					Paralaksa warstwy 2
 bgpos					float float 	-1000 -2500			Pozycja tła
 layer2pos				float float 	-1000 -1800			Pozycja warstwy 2
 mapvertices				bool			0					Rysowanie krawędzi platform
+fpscounter				bool			0					Wyświetla licznik fps
 
 Komendy podajesz wraz z argumentami w jednej linii.
 Przykład:
@@ -27,7 +28,10 @@ W przypadku komend: storkmaxspeed, storkspeedreduction i storkmovespeed drugi ar
 nie powinien być inny niż wartość domyślna, bo może to coś zepsuć. Możliwość jego zmiany jest zostawiona
 z myślą o przyszłośći (nie wiadomo co będzie trzeba dodać).
 
-Argumenty typu bool to 1 i 0, a nie true o false. Przykład:
+Argumenty typu bool oprócz 0 i 1 mogą też przyjąć true i false. Przykład:
 mapvertices 1
+mapvertices true
+
+storkminspeed działa źle - zmniejszenie wartości zwiększa prędkość. Lepiej nie tykać
 
 Ruszanie zmiennej fps jest raczej złym pomysłem
