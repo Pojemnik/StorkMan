@@ -192,14 +192,14 @@ void Dynamic_entity::update(float dt)
 	{
 		set_idle();
 	}
-	if (animation_status == Animation_status::A_JUMP_IDLE && key == 2 && frames_delta == 15)
+	if (animation_status == Animation_status::A_JUMP_IDLE && key == 2)
 	{
 		if (colision_direction.y == 1)
 			apply_force({ 0, -context.jump_force });
 		status = IN_AIR;
 	}
 	if ((animation_status == Animation_status::A_JUMP_RUN ||
-		animation_status == Animation_status::A_JUMP_RUN2) && key == 2 && frames_delta == 1)
+		animation_status == Animation_status::A_JUMP_RUN2) && key == 3 && frames_delta == 7)
 	{
 		if (colision_direction.y == 1)
 			apply_force({ 0, -context.jump_force });

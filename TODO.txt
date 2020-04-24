@@ -1,27 +1,31 @@
-* - nastêpny release
+ï»¿* - nastÄ™pny release
 
-Interakcje ze skoœnymi platformami (lepsze podbieganie i zbieganie, zsuwanie siê od pewnego k¹ta)
-* W¹tki
+Interakcje ze skoÅ›nymi platformami (lepsze podbieganie i zbieganie, zsuwanie siÄ™ od pewnego kÄ…ta)
+* WÄ…tki
 Warstwy mapy i paralaksa
-Spadanie i l¹dowanie - lepiej rozwi¹zaæ animacje
-Uwzglêdniæ skalê w edycji poziomów
-* Dziedzina funkcji trygonometrycznych w œwietle i dzielenie przez zero
-* Swiat³o w osobnym w¹tku
-* Statyczne œwiat³a liczyæ statycznie
-* Interakcja miêdzy œwiat³em a œcianami
+Spadanie i lÄ…dowanie - lepiej rozwiÄ…zaÄ‡ animacje
+UwzglÄ™dniÄ‡ skalÄ™ w edycji poziomÃ³w
+* Dziedzina funkcji trygonometrycznych w Å›wietle i dzielenie przez zero âœ“
+* SwiatÅ‚o w osobnym wÄ…tku
+* Statyczne Å›wiatÅ‚a liczyÄ‡ statycznie
+* Interakcja miÄ™dzy Å›wiatÅ‚em a Å›cianami
+* Kolorowe Å›wiatÅ‚a
+* SiÅ‚a Å›wiatÅ‚a
+* Interakcje Å›ciany - Å›wiatÅ‚o
+* Shadery dla statycznych Å›wiateÅ‚
 
-B³êdy:
-* Zsuwanie siê z platform
+BÅ‚Ä™dy:
+* Zsuwanie siÄ™ z platform
 * Skalowanie odc. 0xDEADBEEF
 
 Lista priorytetowa by Adam:
-* 1. Zmiana skoków na lepiej obs³ugiwalne
-2. Dodanie prostych przeciwników
-* 3. Dodanie podczepiania t³a I stopnia
-4. "Trzymanie siê w pionie"
+* 1. Zmiana skokÃ³w na lepiej obsÅ‚ugiwalne
+2. Dodanie prostych przeciwnikÃ³w
+* 3. Dodanie podczepiania tÅ‚a I stopnia
+4. "Trzymanie siÄ™ w pionie"
 5. Dodanie peleryny
 6. Rozbudowanie obszaru gry do docelowego rozmiaru i stworzenie
-dopasowania przejœcia t³a z podziemiami
-7. Dodanie mo¿liwoœci otrzymania obra¿eñ i œmierci Stork'mana w
+dopasowania przejÅ›cia tÅ‚a z podziemiami
+7. Dodanie moÅ¼liwoÅ›ci otrzymania obraÅ¼eÅ„ i Å›mierci Stork'mana w
 interakcji z przeciwnikiem
-8. Dodanie trybu walki wrêcz i odpowiednio przeciwników
+8. Dodanie trybu walki wrÄ™cz i odpowiednio przeciwnikÃ³w
