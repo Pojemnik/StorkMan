@@ -88,7 +88,7 @@ std::pair<float, Vectorf> Map::cast_ray(Vectorf source, Vectorf alfa) const
 		beta = { it.first.x - it.second.x, it.first.y - it.second.y };
 		float t2 = ((alfa.x * (it.second.y - source.y) + alfa.y * (source.x - it.second.x))
 			/ (beta.x * alfa.y - beta.y * alfa.x));
-		if (t2 >= 0 && t2 <= 1)
+		if (t2 >= 0 && t2 <= 1 && alfa.x != 0)
 		{
 			float t1 = (it.second.x + beta.x * t2 - source.x) / alfa.x;
 			if (t1 > 0)
@@ -119,6 +119,8 @@ std::vector<std::pair<float, Vectorf>> Map::calc_light_source(Vectorf source)
 	for (const auto& vertex_it : map_vertices)
 	{
 		Vectorf dist = vertex_it - source;
+		if (dist == Vectorf(0, 0))	//atan2 domain
+			continue;
 		if (util::sq(dist.x) + util::sq(dist.y) < 500050)
 		{
 			alfa = vertex_it - source;
@@ -163,14 +165,6 @@ sf::Texture Map::calc_light(std::vector<Vectorf>& sources, sf::Transform transfo
 	}
 	context.lightmap.display();
 	return context.lightmap.getTexture();
-	//sf::Sprite lightmap;
-	//lightmap.setTexture(context.lightmap.getTexture());
-	//context.lm2.draw(lightmap, context.blurh_states);
-	//context.lm2.display();
-	//lightmap.setTexture(context.lm2.getTexture());
-	//context.lm3.draw(lightmap, context.blurv_states);
-	//context.lm3.display();
-	//return context.lm3.getTexture();
 }
 
 void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -213,7 +207,7 @@ void Map::calc_map_vertices()
 		{
 			Vectorf normal2 = it2->second - it2->first;
 			removed = 1;
-			if (fabs(util::vector_cross_product(normal,normal2)) > 0.0001 || fabs(util::vector_cross_product(normal,it2->first-it1->first)) > 0.0001)
+			if (fabs(util::vector_cross_product(normal, normal2)) > 0.0001 || fabs(util::vector_cross_product(normal, it2->first - it1->first)) > 0.0001)
 				continue;
 			float c = util::vector_dot_product(normal, it2->first), d = util::vector_dot_product(normal, it2->second);
 			if (std::min(a, b) <= std::max(c, d) && std::min(a, b) >= std::min(c, d) || std::max(a, b) <= std::max(c, d) && std::max(a, b) >= std::min(c, d))
@@ -333,7 +327,7 @@ void Map::rescale(float new_global_scale)
 	level_size = { 100 * new_global_scale, 100 * new_global_scale };
 	float ratio = new_global_scale / global_scale;
 	global_scale = new_global_scale;
-	for(auto& it : levels)
+	for (auto& it : levels)
 	{
 		it.rescale(ratio);
 	}
