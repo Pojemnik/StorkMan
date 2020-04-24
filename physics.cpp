@@ -29,8 +29,8 @@ sf::Vector2f Physical::uncolide(const Colidable* c, float dt)
 	{
 		sf::Vector2f tmp = test_collision(&mesh.vertices, &c->mesh.vertices);
 		total_speed += tmp * -1.0f;
-		float sgnx = util::sgn(tmp.x);
-		float sgny = util::sgn(tmp.y);
+		int sgnx = util::sgn(tmp.x);
+		int sgny = util::sgn(tmp.y);
 		if (sgnx != 0)
 			colision_direction.x = sgnx;
 		if (sgny != 0)
@@ -54,9 +54,22 @@ Physical::Physical(sf::FloatRect rect, std::vector<Vectorf> mesh, Colidable_type
 
 }
 
+
 Colidable::Colidable(sf::FloatRect rect, std::vector<Vectorf> _mesh, Colidable_type t) : rect_collision(rect), type(t)
 {
 	mesh.vertices = _mesh;
+}
+
+void Colidable::rescale(float ratio)
+{
+	for (auto& it : mesh.vertices)
+	{
+		it *= ratio;
+	}
+	rect_collision.height *= ratio;
+	rect_collision.width *= ratio;
+	rect_collision.left *= ratio;
+	rect_collision.top *= ratio;
 }
 
 bool Physical::test_colision(const Colidable& other)

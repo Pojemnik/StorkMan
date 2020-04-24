@@ -16,20 +16,12 @@ void Assets::load_texture(sf::Texture& t, sf::Image& img, int x, int y, int sx, 
 	}
 }
 
-Animation* Assets::load_animation(std::string path, Vectorf center, sf::FloatRect rect)
-{
-	std::vector<sf::Texture> v;
-	load_textures(v, path, false);
-	Animation* a = new Animation(v, center, rect);
-	return a;
-}
-
 Dynamic_animation* Assets::load_dynamic_animation(std::string path)
 {
 	std::ifstream f(path);
 	int frames, parts;
 	f >> parts >> frames;
-	std::vector<std::vector<float>> kf(frames, std::vector<float>(parts + 3));
+	std::vector<std::vector<float>> kf(frames, std::vector<float>((size_t)parts + 3));
 	std::vector<int> l(frames);
 	for (int i = 0; i < frames; i++)
 	{
@@ -47,6 +39,7 @@ Dynamic_animation* Assets::load_dynamic_animation(std::string path)
 
 Animation_tree::Animation_tree(int _count, int i_count) : count(_count), independent_count(i_count)
 {
+	root = 0;
 	tree.resize(count);
 	position_of_element_in_animation_array.resize(count);
 	nodes.resize(count);
@@ -78,23 +71,23 @@ Animation_tree Assets::load_animation_tree(std::string path)
 		int ax, ay, bx, by;
 		file >> a >> b;
 		file >> ax >> ay >> bx >> by;
-		tree.nodes[node_names[b]].delta_pos = { Vectorf(ax,ay),Vectorf(bx,by) };
+		tree.nodes[node_names[b]].delta_pos = { Vectori(ax,ay),Vectori(bx,by) };
 		tree.tree[node_names[a]].push_back(node_names[b]);
 	}
-	tree.nodes[tree.root].delta_pos = { Vectorf(0,0),Vectorf(0,0) };
+	tree.nodes[tree.root].delta_pos = { Vectori(0,0),Vectori(0,0) };
 	return tree;
 }
 
 void Assets::load_textures(std::vector<sf::Texture>& v, std::string path, bool rep)
 {
 	int a, b, c, d;
-	int l = path.rfind("_ss_");
+	int l = (int)path.rfind("_ss_");
 	if (l == std::string::npos)
 	{
 		l = -1;
 	}
 	l++;
-	int r = path.find(".", l);
+	size_t r = path.find(".", l);
 	std::string tmp = path.substr(l, r - l);
 	for (auto& it : tmp)
 	{
@@ -108,7 +101,7 @@ void Assets::load_textures(std::vector<sf::Texture>& v, std::string path, bool r
 		std::cout << "error reading sizes " + path << std::endl;
 		return;
 	}
-	v.reserve(c * d);
+	v.reserve((uint64_t)c * d);
 	sf::Image image;
 	if (!image.loadFromFile(path))
 	{
@@ -137,6 +130,8 @@ void Assets::load_assets()
 	bg->loadFromFile("img/bg/bg.jpg");
 	layer2 = new sf::Texture();
 	layer2->loadFromFile("img/bg/LAS.png");
+	light = new sf::Texture();
+	light->loadFromFile("img/light.png");
 	animations.push_back(load_dynamic_animation("animations/stork/idle.txt"));
 	animations.push_back(load_dynamic_animation("animations/stork/run.txt"));
 	animations.push_back(load_dynamic_animation("animations/stork/jump_idle.txt"));
@@ -146,19 +141,16 @@ void Assets::load_assets()
 	animations.push_back(load_dynamic_animation("animations/stork/punch2.txt"));
 	load_textures(map_textures, "img/tex_ss_64_64_is_3_9.png", true);
 	stork_tree = load_animation_tree("animations/stork/tree.txt");
-	context.generate_map.loadFromFile("img/shaders/generate_map.frag", sf::Shader::Fragment);
-	context.black.loadFromFile("img/shaders/black.frag", sf::Shader::Fragment);
 	context.blurh.loadFromFile("img/shaders/blur_h.frag", sf::Shader::Fragment);
 	context.blurv.loadFromFile("img/shaders/blur_v.frag", sf::Shader::Fragment);
-	context.generate_map.setUniform("texture", sf::Shader::CurrentTexture);
-	context.generate_map.setUniform("samples", 0.01f);
-	context.generate_map.setUniform("dimensions", context.resolution);
-	context.blurh.setUniform("sigma", 20.0f);
+	context.blurh.setUniform("sigma", 50.0f);
 	context.blurh.setUniform("blurSize", 1.0f / context.resolution.x);
 	context.blurh.setUniform("blurSampler", sf::Shader::CurrentTexture);
-	context.blurv.setUniform("sigma", 20.0f);
+	context.blurv.setUniform("sigma", 50.0f);
 	context.blurv.setUniform("blurSize", 1.0f / context.resolution.y);
 	context.blurv.setUniform("blurSampler", sf::Shader::CurrentTexture);
+	context.light_states.texture = light;
+	context.light_states.blendMode == sf::BlendAdd;
 	//load_textures(ship_dockx, "img/ships/DokowanieX_ss_436_87_is_10_12.png", false);
 	//load_textures(ship_docky, "img/ships/DokowanieY_ss_443_442_is_15_20.png", false);
 	//load_textures(ship_fly, "img/ships/Lot_ss_466_87_is_6_10.png", false);
@@ -196,5 +188,6 @@ void Assets::load_assets()
 	textures["bruk,9"] = &map_textures[25];
 	textures["bruk,10"] = &map_textures[26];
 
+	context.arial.loadFromFile("Arial.ttf");
 	std::cout << "done!" << std::endl;
 }

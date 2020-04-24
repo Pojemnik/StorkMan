@@ -1,0 +1,14 @@
+﻿<level name="Budowa domu - poziom testowy 01" background="bg1">
+	<platform position="0,29.5" texture="dirt,0">
+		<v>0,0</v>
+		<v>30,0</v>
+		<v>30,0.5</v>
+		<v>0,0.5</v>
+	</platform>
+	<platform position="0,27" texture="dirt,0">
+		<v>1,0</v>
+		<v>30,0</v>
+		<v>30,0.5</v>
+		<v>1,0.5</v>
+	</platform>
+</level>

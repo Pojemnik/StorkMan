@@ -1,7 +1,6 @@
 #include "parser.h"
-#include <string>
 
-Vectorf parse_num_pairf(std::string val)
+Vectorf Parser::parse_num_pairf(std::string val)
 {
 	size_t p = val.find(',');
 	if (p == std::string::npos)
@@ -13,7 +12,7 @@ Vectorf parse_num_pairf(std::string val)
 	return Vectorf(x, y);
 }
 
-Vectori parse_num_pairi(std::string val)
+Vectori Parser::parse_num_pairi(std::string val)
 {
 	size_t p = val.find(',');
 	if (p == std::string::npos)
@@ -25,13 +24,13 @@ Vectori parse_num_pairi(std::string val)
 	return Vectori(x, y);
 }
 
-std::string get_attribute_by_name(std::string name, tinyxml2::XMLElement* element)
+std::string Parser::get_attribute_by_name(std::string name, tinyxml2::XMLElement* element)
 {
 	tinyxml2::XMLAttribute* att = (tinyxml2::XMLAttribute*)(element->FindAttribute(name.c_str()));
 	return std::string(att->Value());
 }
 
-Level parse_level(tinyxml2::XMLElement* root, Assets* assets)
+Level Parser::parse_level(tinyxml2::XMLElement* root)
 {
 	Level lvl = Level();
 	if (root == NULL)
@@ -47,52 +46,14 @@ Level parse_level(tinyxml2::XMLElement* root, Assets* assets)
 			std::cerr << "Brak elementu level" << std::endl;
 			throw std::invalid_argument("No level node");
 		}
-		tinyxml2::XMLAttribute* att = (tinyxml2::XMLAttribute*)root->FirstAttribute();
+		//tinyxml2::XMLAttribute* att = (tinyxml2::XMLAttribute*)root->FirstAttribute();
 		tinyxml2::XMLElement* element = root->FirstChildElement();
 		while (element != NULL)
 		{
-			att = (tinyxml2::XMLAttribute*)element->FirstAttribute();
 			std::string name = element->Name();
 			if (name == "platform")
 			{
-				Vectorf pos;
-				std::vector<sf::Vertex> points;
-				const sf::Texture* tex;
-				pos = parse_num_pairf(get_attribute_by_name("position", element));
-				pos *= global_scale;
-				{
-					std::string val = get_attribute_by_name("texture", element);
-					try
-					{
-						tex = assets->textures[val];
-					}
-					catch (const std::exception & e)
-					{
-						std::cerr << "Wyjatek: " << e.what() << "\nElement: " << name << std::endl;
-						throw std::invalid_argument("Error in XML file!"); //To siê zmieni
-					}
-				}
-				tinyxml2::XMLElement* e = element->FirstChildElement();
-				while (e != NULL)
-				{
-					std::string n = e->Name();
-					if (n == "v")
-					{
-						Vectorf v = parse_num_pairf(e->GetText());
-						v *= global_scale;
-						points.push_back(sf::Vertex(v, v));
-					}
-					else
-					{
-						std::cerr << "B³¹d w platformie" << std::endl;
-						throw std::invalid_argument("Error in XML file!"); //To siê zmieni
-					}
-					e = e->NextSiblingElement();
-				}
-				{
-					Platform plat = Platform(pos, tex, points);
-					lvl.addPlatfrom(plat);
-				}
+				lvl.addPlatfrom(parse_platform(element));
 			}
 			element = element->NextSiblingElement();
 		}
@@ -100,7 +61,55 @@ Level parse_level(tinyxml2::XMLElement* root, Assets* assets)
 	return lvl;
 }
 
-Map parse_map(tinyxml2::XMLElement* root, Assets* assets)
+Platform Parser::parse_platform(tinyxml2::XMLElement* element)
+{
+	try
+	{
+		return parse_platform_raw(element);
+	}
+	catch (const std::invalid_argument &e)
+	{
+		std::cerr << "Wyjatek: " << e.what() << std::endl << "Element: " << "platform" << std::endl;
+		std::cerr << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trze platformy" << std::endl;
+	}
+	catch (const std::out_of_range &e)
+	{
+		std::cerr << "Wyjatek: " << e.what() << std::endl << "Element: " << "platform" << std::endl;
+		std::cerr << "Prawdopodobnie nieprawid³owa tekstura" << std::endl;
+	}
+	throw std::runtime_error("Platform error");
+}
+
+Platform Parser::parse_platform_raw(tinyxml2::XMLElement* element)
+{
+	Vectorf pos;
+	std::vector<sf::Vertex> points;
+	const sf::Texture* tex;
+	pos = parse_num_pairf(get_attribute_by_name("position", element));
+	pos *= context.global_scale;
+	std::string val = get_attribute_by_name("texture", element);
+	tex = assets->textures.at(val);
+	tinyxml2::XMLElement* e = element->FirstChildElement();
+	while (e != NULL)
+	{
+		std::string n = e->Name();
+		if (n == "v")
+		{
+			Vectorf v = parse_num_pairf(e->GetText());
+			v *= context.global_scale;
+			points.push_back(sf::Vertex(v, v));
+		}
+		else
+		{
+			std::cerr << "B³¹d w platformie" << std::endl;
+			throw std::invalid_argument("Error in platfrom vertices");
+		}
+		e = e->NextSiblingElement();
+	}
+	return Platform(pos, tex, points);
+}
+
+Map Parser::parse_map(tinyxml2::XMLElement* root)
 {
 	Vectori map_player_pos = Vectori(-1, -1), map_size = Vectori(-1, -1);
 	std::vector<Level> vec;
@@ -161,7 +170,7 @@ Map parse_map(tinyxml2::XMLElement* root, Assets* assets)
 				{
 					tinyxml2::XMLDocument lvl_root;
 					lvl_root.LoadFile(filepath.c_str());
-					Level lvl = parse_level(lvl_root.FirstChildElement(), assets);
+					Level lvl = parse_level(lvl_root.FirstChildElement());
 					lvl.global_size = size;
 					lvl.global_pos = pos;
 					vec.push_back(lvl);
@@ -172,3 +181,4 @@ Map parse_map(tinyxml2::XMLElement* root, Assets* assets)
 	}
 	return Map(map_size, vec, map_player_pos, *assets->bg);
 }
+Parser::Parser(Assets* const _assets) : assets(_assets) {};

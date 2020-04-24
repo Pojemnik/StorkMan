@@ -6,10 +6,11 @@
 #include "game.h"
 #include "parser.h"
 #include "util.h"
+#include "console.h"
 
-const std::string VERSION = "0.3.3";
+const std::string VERSION = "0.3.4";
 
-bool update(float dt, Map& map)
+bool update(float dt, Map& map, int move)
 {
 	static float acc(0);
 	acc += dt;
@@ -23,8 +24,21 @@ bool update(float dt, Map& map)
 		map.player->update(1);
 		map.update(1);
 		acc -= 1000.0f / context.fps;
+		map.player->move_angled(move);
 	}
 	return updated;
+}
+
+void resize_window(Map& map, sf::RenderWindow& window)
+{
+
+	context.blurh.setUniform("blurSize", 1.0f / context.resolution.x);
+	context.blurv.setUniform("blurSize", 1.0f / context.resolution.y);
+	context.lightmap.create(context.resolution.x, context.resolution.y);
+	context.lm2.create(context.resolution.x / 2, context.resolution.y / 2);
+	context.lm3.create(context.resolution.x / 2, context.resolution.y / 2);
+	map.calc_map_vertices();
+	window.setSize(sf::Vector2u(context.resolution.x, context.resolution.y));
 }
 
 int main(int argc, char** argv)	//Second argument is a map file for editor
@@ -32,39 +46,32 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	std::cout.sync_with_stdio(false);
 	std::cout << "Stork'man version " + VERSION << std::endl;
 	Assets assets;
-	sf::Clock* test = new sf::Clock();
-	test->restart();
 	assets.load_assets();
-	std::cout << test->getElapsedTime().asMilliseconds() << std::endl;
+	Parser parser(&assets);
 	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
 	sf::RenderWindow window(sf::VideoMode(context.resolution.x, context.resolution.y, desktop.bitsPerPixel), "StorkMan " + VERSION, sf::Style::Titlebar | sf::Style::Close);
 	sf::Clock clock;
-	std::cout << test->getElapsedTime().asMilliseconds() << std::endl;
 	Map map;
-	if (argc == 2)
+	context.fps_counter.setFont(context.arial);
+	context.fps_counter.setPosition(0, 0);
+	std::string path = (argc == 2) ? argv[1] : "map/stork_map_example.xml";
+	tinyxml2::XMLDocument doc;
+	tinyxml2::XMLError error = doc.LoadFile(path.c_str());
+	if (error != tinyxml2::XMLError::XML_SUCCESS)
 	{
-		tinyxml2::XMLDocument doc;
-		tinyxml2::XMLError error = doc.LoadFile(argv[1]);
-		tinyxml2::XMLElement* root = doc.FirstChildElement();
-		map = parse_map(root, &assets);
+		std::cerr << "Brak poziomu" << std::endl;
+		return -1;
 	}
-	else
-	{
-		if (argc == 1)
-		{
-			tinyxml2::XMLDocument doc;
-			tinyxml2::XMLError error = doc.LoadFile("map/stork_map_example.xml");
-			tinyxml2::XMLElement* root = doc.FirstChildElement();
-			map = parse_map(root, &assets);
-		}
-	}
+	tinyxml2::XMLElement* root = doc.FirstChildElement();
+	map = parser.parse_map(root);
 	map.background.setPosition(context.background_position);
 	map.layer2.setTexture(*assets.layer2);
 	map.layer2.setPosition(context.layer2_position);
 	sf::FloatRect f(380, 55, 20, 70);
-	Player player({ 400, 100 }, assets.pieces, assets.pieces_rect, assets.animations, f, assets.stork_tree, 1.92f, global_scale, 87.f);
+	Player player({ 400, 100 }, assets.pieces, assets.pieces_rect, assets.animations, f, assets.stork_tree, 1.92f, context.global_scale, 87.f);
 	map.player = &player;
-	std::cout << test->getElapsedTime().asMilliseconds() << std::endl;;
+	int moved = 0;
+	float acc = 0;
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -79,7 +86,22 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			{
 				if (event.key.code == sf::Keyboard::Tilde)
 				{
-					util::execute_command(util::get_command());
+					std::pair<Command_code, Vectorf> code = Console::get_and_execute_command();
+					switch (code.first)
+					{
+					case Command_code::CHANGE_RESOLUTION:
+						resize_window(map, window);
+						break;
+					case Command_code::CHANGE_SCALE:
+						map.rescale(context.global_scale);
+						map.calc_map_vertices();
+						map.redraw();
+						player.rescale(context.global_scale);
+					case Command_code::MOVE_PLAYER:
+						player.set_position(code.second);
+					default:
+						break;
+					}
 				}
 				if (event.key.code == sf::Keyboard::G)
 				{
@@ -87,6 +109,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 				}
 			}
 		}
+		moved = 0;
 		if (window.hasFocus())
 		{
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
@@ -100,12 +123,16 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 			{
 				if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-					player.move(context.player_move_speed);
+				{
+					moved = 1;
+				}
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 			{
 				if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-					player.move(-context.player_move_speed);
+				{
+					moved = -1;
+				}
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 			{
@@ -115,21 +142,23 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 					player.jump(false);
 			}
 		}
-		float time = clock.getElapsedTime().asMicroseconds();
-		time /= 1000;
+		float time = (float)clock.getElapsedTime().asMicroseconds();
+		time /= 1000.0f;
 		if (time > 2500.0f / context.fps)
 		{
 			time = 2500.0f / context.fps;
 		}
+		acc += time;
 		clock.restart();
-		if (update(time, map))
+		if (update(time, map, moved))
 		{
+			context.fps_counter.setString(std::to_string(int(1000.f / acc)));
+			acc = 0;
 			window.clear();
 			sf::Vector2f camera_pos = player.get_position();
-			camera_pos -= sf::Vector2f(512, 288);
+			camera_pos -= sf::Vector2f((float)context.resolution.x / 2, (float)context.resolution.y / 2);
 			sf::RenderStates rs = sf::RenderStates::Default;
 			rs.transform = sf::Transform().translate(-camera_pos);
-			//map.generate_lightmap(rs);
 			window.draw(map, rs);
 			if (context.draw_collisions)
 			{
@@ -141,7 +170,22 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 				window.draw(r, rs);
 			}
 			window.draw(player, rs);
-			//window.draw(map.lightmap, context.final_states);
+			std::vector<Vectorf> sources = { {300,-1}, { 500, 400 }, { 300, 400 } };
+			sf::Texture tex = map.calc_light(sources, rs.transform);
+			sf::Sprite s(tex);
+			window.draw(s, context.final_states);
+			if (context.draw_fps_counter)
+				window.draw(context.fps_counter);
+			if (context.draw_map_vertices)
+			{
+				sf::VertexArray tmp(sf::Lines, 2 * map.map_edges.size());
+				for (size_t i = 0; i < map.map_edges.size(); i++)
+				{
+					tmp[2 * i] = sf::Vertex(map.map_edges[i].first, sf::Color(255, 255, 255, 255));
+					tmp[2 * i + 1] = sf::Vertex(map.map_edges[i].second, sf::Color(255, 255, 255, 255));
+				}
+				window.draw(tmp, rs);
+			}
 			window.display();
 		}
 	}

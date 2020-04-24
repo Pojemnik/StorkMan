@@ -1,10 +1,31 @@
-Interakcje ze sko�nymi platformami (lepsze podbieganie i zbieganie, zsuwanie si� od pewnego k�ta)
-W�tki
-Warstwy mapy i paralaksa
-Spadanie i l�dowanie - lepiej rozwi�za� animacje
-Uwzgl�dni� skal� w edycji poziom�w
+﻿* - następny release
 
-B��dy:
-Blokowanie si� na ��czenich �cian
-Skakanie na skosach
-Wbieganie w sko�ne �ciany
+Interakcje ze skośnymi platformami (lepsze podbieganie i zbieganie, zsuwanie się od pewnego kąta)
+* Wątki
+Warstwy mapy i paralaksa
+Spadanie i lądowanie - lepiej rozwiązać animacje
+Uwzględnić skalę w edycji poziomów
+* Dziedzina funkcji trygonometrycznych w świetle i dzielenie przez zero ✓
+* Swiatło w osobnym wątku
+* Statyczne światła liczyć statycznie
+* Interakcja między światłem a ścianami
+* Kolorowe światła
+* Siła światła
+* Interakcje ściany - światło
+* Shadery dla statycznych świateł
+
+Błędy:
+* Zsuwanie się z platform
+* Skalowanie odc. 0xDEADBEEF
+
+Lista priorytetowa by Adam:
+* 1. Zmiana skoków na lepiej obsługiwalne
+2. Dodanie prostych przeciwników
+* 3. Dodanie podczepiania tła I stopnia
+4. "Trzymanie się w pionie"
+5. Dodanie peleryny
+6. Rozbudowanie obszaru gry do docelowego rozmiaru i stworzenie
+dopasowania przejścia tła z podziemiami
+7. Dodanie możliwości otrzymania obrażeń i śmierci Stork'mana w
+interakcji z przeciwnikiem
+8. Dodanie trybu walki wręcz i odpowiednio przeciwników

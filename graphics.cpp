@@ -25,6 +25,15 @@ Texturable::Texturable(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> 
 	shape.update(&vertices[0]);
 }
 
+void Texturable::rescale(float ratio){
+	pos *= ratio;
+	for(auto& it : vertices)
+	{
+		it.position *= ratio;
+	}
+	shape.update(&vertices[0]);
+}
+
 void Texturable::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	states.transform *= sf::Transform().translate(pos);
@@ -32,46 +41,11 @@ void Texturable::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(shape, states);
 }
 
-Animatable::Animatable(Vectorf p, const Animation* t, float h, float gs)
-	: tex(t), pos(p), height(h)
-{
-	it = tex->begin();
-	sprite = sf::Sprite(*it);
-	sprite.setPosition(pos);
-	scale = gs * height / sprite.getTexture()->getSize().y;
-	sprite.setScale(scale, scale);
-}
-
-void Animatable::next_frame()
-{
-	if (++it == tex->end())
-		it = tex->begin();
-	sprite.setTexture(*it);
-}
-
-void Animatable::draw(sf::RenderTarget& target, sf::RenderStates states) const
-{
-	target.draw(sprite, states);
-}
-
-Animation::Animation(std::vector<sf::Texture>& a, Vectorf c, sf::FloatRect rect_col)
-	: content(std::move(a)), center(c), rect_collision(rect_col) {}
-
-std::vector<sf::Texture>::const_iterator Animation::begin() const
-{
-	return content.begin();
-}
-
-std::vector<sf::Texture>::const_iterator Animation::end() const
-{
-	return content.end();
-}
-
 Vectorf Dynamic_animatable::count_pos(Vectorf start, float size1, float size2,
-	Vectorf translation1, float a1, Vectorf translation2, float a2)
+	Vectori translation1, float a1, Vectori translation2, float a2)
 {
-	float angle1 = util::rdn(a1);
-	float angle2 = util::rdn(a2);
+	float angle1 = util::deg_to_rad(a1);
+	float angle2 = util::deg_to_rad(a2);
 	float d1 = sqrt(pow(translation1.x - size1 / 2, 2) + pow(translation1.y - size1 / 2, 2));
 	float d2 = sqrt(pow(translation2.x - size2 / 2, 2) + pow(translation2.y - size2 / 2, 2));
 	float sinalfa = (translation1.y - size1 / 2) / d1;
@@ -148,7 +122,7 @@ Dynamic_animatable::Dynamic_animatable(sf::Texture* texture, std::vector<sf::Int
 	for (int i = 0; i < v.size(); i++)
 	{
 		parts.push_back(sf::Sprite(*texture, v[i]));
-		parts[i].setOrigin(v[i].width / 2, v[i].height / 2);
+		parts[i].setOrigin((float)v[i].width / 2, (float)v[i].height / 2);
 	}
 	scale = gs * height / 350;
 	if (!tex.create(500, 500))
@@ -213,4 +187,10 @@ void Dynamic_animatable::draw(sf::RenderTarget& target, sf::RenderStates states)
 Dynamic_animation::Dynamic_animation(std::vector<std::vector<float>>& kf, std::vector<int>& l, bool r)
 	: key_frames(kf), lengths(l), repeat(r)
 {
+}
+
+void Dynamic_animatable::rescale(float new_global_scale)
+{
+	pos = pos * new_global_scale / (scale*350/height);
+	scale = new_global_scale * height / 350;
 }
