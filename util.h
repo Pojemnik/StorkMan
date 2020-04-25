@@ -30,14 +30,14 @@ struct Context
 	bool draw_fps_counter = false;
 	float fps = 60.f;
 	float gravity = 22;
-	float jump_force = 870.f;
+	float jump_force = 825.f;
 	float parrallax = -1.5f;
 	float parrallax2 = -2.f;
 	float global_scale = 35.84f;	//[px/m]
-	Vectorf max_move_speed = { 6,5 };
+	Vectorf max_move_speed = { 5,5 };
 	float min_move_speed = 0.5;
 	Vectorf move_speed_reduction = { 0.5f, 0.5f };
-	Vectorf player_move_speed = { 4,0 };
+	Vectorf player_move_speed = { 8,0 };
 	Vectorf background_position = { -1000,-2500 };
 	float background_scale = 1.f;
 	Vectorf layer2_position = { -1000, -1800 };

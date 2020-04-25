@@ -12,7 +12,9 @@ Uwzględnić skalę w edycji poziomów
 * Kolorowe światła
 * Siła światła
 * Interakcje ściany - światło
-* Shadery dla statycznych świateł
+*? Shadery dla statycznych świateł
+* Skoki ze skośnych platform
+* Poruszanie się i skoki dotykając ściany
 
 Błędy:
 * Zsuwanie się z platform
