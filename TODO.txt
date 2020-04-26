@@ -13,12 +13,13 @@ Uwzględnić skalę w edycji poziomów
 * Siła światła
 * Interakcje ściany - światło
 *? Shadery dla statycznych świateł
-* Skoki ze skośnych platform
-* Poruszanie się i skoki dotykając ściany
 
 Błędy:
 * Zsuwanie się z platform
 * Skalowanie odc. 0xDEADBEEF
+* Animacje dotykając ściany
+* Grawitacja dziala inaczej na platfromach pochylonych w różne strony
+* Skoki ze skośnych platform ✓(chyba)
 
 Lista priorytetowa by Adam:
 * 1. Zmiana skoków na lepiej obsługiwalne

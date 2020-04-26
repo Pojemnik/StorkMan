@@ -2,7 +2,7 @@
 #include "util.h"
 #include "collisions.h"
 
-class Mesh_collision
+struct Mesh_collision
 {
 public:
 	std::vector<Vectorf> vertices;

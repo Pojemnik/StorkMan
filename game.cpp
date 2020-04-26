@@ -84,14 +84,14 @@ void Dynamic_entity::move(Vectorf delta)
 	}
 	else
 	{
-		set_idle();
+		//set_idle();
 	}
 }
 
 void Dynamic_entity::move_angled(int direction)
 {
 	if (direction == 1)
-		move(util::rotate_vector(context.player_move_speed,platform_angle));
+		move(util::rotate_vector(context.player_move_speed, platform_angle));
 	else if (direction == -1)
 		move(util::rotate_vector({ -context.player_move_speed.x,context.player_move_speed.y }, platform_angle));
 }
@@ -179,14 +179,6 @@ void Dynamic_entity::update(float dt)
 				set_idle();
 			}
 		}
-		if (fabs(move_speed.y) < 1)
-		{
-			move_speed.y = 0;
-			if (animation_status == Animation_status::A_MOVE)
-			{
-				set_idle();
-			}
-		}
 	}
 	if (colision_direction.y == 1 && status == IN_AIR && last_status == status)
 	{
@@ -195,14 +187,22 @@ void Dynamic_entity::update(float dt)
 	if (animation_status == Animation_status::A_JUMP_IDLE && key == 2)
 	{
 		if (colision_direction.y == 1)
+		{
+			force.y = 0;
+			move_speed.y = 0;
 			apply_force({ 0, -context.jump_force });
+		}
 		status = IN_AIR;
 	}
 	if ((animation_status == Animation_status::A_JUMP_RUN ||
 		animation_status == Animation_status::A_JUMP_RUN2) && key == 3 && frames_delta == 7)
 	{
 		if (colision_direction.y == 1)
+		{
+			force.y = 0;
+			move_speed.y = 0;
 			apply_force({ 0, -context.jump_force });
+		}
 		status = IN_AIR;
 	}
 	Vectorf acc = force / mass;
@@ -226,12 +226,37 @@ void Dynamic_entity::update_position(float dt)
 {
 	pos += total_speed * dt;	//ogarn¹æ to coœ!!!
 	sprite.setPosition(pos);
-	rect_collision = sf::FloatRect(pos.x - 20/35.84f*context.global_scale,
-		pos.y - 47/35.84f*context.global_scale, 20/35.84f*context.global_scale,
+	rect_collision = sf::FloatRect(pos.x - 20 / 35.84f * context.global_scale,
+		pos.y - 47 / 35.84f * context.global_scale, 20 / 35.84f * context.global_scale,
 		rect_collision.height);
-	//rect_collision = sf::FloatRect(rect_collision.left + total_speed.x,
-	//	rect_collision.top + total_speed.y, rect_collision.width, rect_collision.height);
-	mesh = Mesh_collision(rect_collision);
+	Vectorf mid = { pos.x - 10 / 35.84f * context.global_scale, pos.y - 47 / 35.84f * context.global_scale + 10 / 35.84f * context.global_scale * tan(platform_angle) };
+	if (platform_angle == 0.f || platform_angle == -0.f)
+	{
+		mesh = Mesh_collision(rect_collision);
+	}
+	else
+	{
+		std::vector<Vectorf> mesh_vect;
+		if (platform_angle > 0.f)
+		{
+			mesh_vect = {
+				Vectorf(pos.x - 20 / 35.84f * context.global_scale, mid.y - 10 / 35.84f * context.global_scale * tan(platform_angle)),
+				Vectorf(pos.x, mid.y + 10 / 35.84f * context.global_scale * tan(platform_angle)),
+				Vectorf(pos.x, mid.y + rect_collision.height + 10 / 35.84f * context.global_scale * tan(platform_angle)),
+				Vectorf(pos.x - 20 / 35.84f * context.global_scale, mid.y + rect_collision.height - 10 / 35.84f * context.global_scale * tan(platform_angle))
+			};
+		}
+		else
+		{
+			mesh_vect = {
+				Vectorf(pos.x - 20 / 35.84f * context.global_scale, mid.y - 30 / 35.84f * context.global_scale * tan(platform_angle)),
+				Vectorf(pos.x, mid.y - 10 / 35.84f * context.global_scale * tan(platform_angle)),
+				Vectorf(pos.x, mid.y + rect_collision.height - 10 / 35.84f * context.global_scale * tan(platform_angle)),
+				Vectorf(pos.x - 20 / 35.84f * context.global_scale, mid.y + rect_collision.height - 30 / 35.84f * context.global_scale * tan(platform_angle))
+			};
+		}
+		mesh.vertices = mesh_vect;
+	}
 	total_speed = { 0,0 };
 }
 
