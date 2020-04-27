@@ -34,9 +34,6 @@ void resize_window(Map& map, sf::RenderWindow& window)
 
 	context.blurh.setUniform("blurSize", 1.0f / context.resolution.x);
 	context.blurv.setUniform("blurSize", 1.0f / context.resolution.y);
-	context.lightmap.create(context.resolution.x, context.resolution.y);
-	context.lm2.create(context.resolution.x / 2, context.resolution.y / 2);
-	context.lm3.create(context.resolution.x / 2, context.resolution.y / 2);
 	map.calc_map_vertices();
 	window.setSize(sf::Vector2u(context.resolution.x, context.resolution.y));
 }
@@ -170,10 +167,8 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 				window.draw(r, rs);
 			}
 			window.draw(player, rs);
-			std::vector<Vectorf> sources = { {300,-1}, { 500, 400 }, { 300, 400 } };
-			sf::Texture tex = map.calc_light(sources, rs.transform);
-			sf::Sprite s(tex);
-			window.draw(s, context.final_states);
+			context.final_states.transform = rs.transform.translate(-map.level_size.x / 2, -map.level_size.y / 2);
+			window.draw(map.lightmap, context.final_states);
 			if (context.draw_fps_counter)
 				window.draw(context.fps_counter);
 			if (context.draw_map_vertices)

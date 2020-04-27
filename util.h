@@ -25,7 +25,7 @@ enum Colidable_type { GROUND, ENEMY, OTHER };
 
 struct Context
 {
-	bool draw_collisions = true;
+	bool draw_collisions = false;
 	bool draw_map_vertices = false;
 	bool draw_fps_counter = false;
 	float fps = 60.f;
@@ -44,7 +44,7 @@ struct Context
 	float layer2_scale = 1.f;
 	const Vectorf max_force = { 1000.f, 3000.0f };
 	sf::Shader blurh, blurv, shade;
-	sf::RenderTexture lightmap, lm2, lm3;
+	sf::RenderTexture lightmap;
 	sf::RenderStates bg_states, layer2_states,
 		map_states, blurh_states, blurv_states, final_states, light_states;
 	Vectori resolution = { 1024, 576 };

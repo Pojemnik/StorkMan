@@ -46,13 +46,9 @@ Map::Map(Vectori dimensions, std::vector<Level>& lvls, Vectori start_pos, sf::Te
 		}
 	}
 	calc_map_vertices();
-	if (!(context.lightmap.create(context.resolution.x, context.resolution.y)))
+	if (!(context.lightmap.create(level_size.x * 2, level_size.y * 2)))
 	{
-		std::cerr << "Error creating lightmaps" << std::endl;
-	}
-	if (!(context.lm2.create(context.resolution.x, context.resolution.y) && context.lm3.create(context.resolution.x, context.resolution.y)))
-	{
-		std::cerr << "Error creating lightmaps" << std::endl;
+		std::cerr << "Error creating lightmap" << std::endl;
 	}
 	context.blurh_states.shader = &context.blurh;
 	context.blurv_states.shader = &context.blurv;
@@ -240,6 +236,11 @@ void Map::update(float dt)
 	if (map_texture == nullptr)
 	{
 		redraw();
+		calc_map_vertices();
+		std::vector<Vectorf> sources = { {300,-1}, { 500, 400 }, { 300, 400 } };
+		sf::Transform transform = sf::Transform().translate(level_size.x / 2, level_size.y / 2);
+		light_texture = calc_light(sources, transform);
+		lightmap.setTexture(light_texture);
 	}
 	background.setPosition(context.background_position);
 	background.setScale(context.background_scale, context.background_scale);
@@ -273,6 +274,10 @@ void Map::update(float dt)
 		}
 		redraw();
 		calc_map_vertices();
+		std::vector<Vectorf> sources = { {300,-1}, { 500, 400 }, { 300, 400 } };
+		sf::Transform transform = sf::Transform().translate(-level_size.x / 2, -level_size.y / 2);
+		light_texture = calc_light(sources, transform);
+		lightmap.setTexture(light_texture);
 	}
 	for (auto& level_it : loaded_levels)
 	{
