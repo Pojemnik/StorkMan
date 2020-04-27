@@ -149,7 +149,8 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		clock.restart();
 		if (update(time, map, moved))
 		{
-			context.fps_counter.setString(std::to_string(int(1000.f / acc)));
+			if (context.draw_fps_counter)
+				context.fps_counter.setString(std::to_string(int(1000.f / acc)));
 			acc = 0;
 			window.clear();
 			sf::Vector2f camera_pos = player.get_position();
@@ -168,7 +169,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			}
 			window.draw(player, rs);
 			context.final_states.transform = rs.transform.translate(-map.level_size.x / 2, -map.level_size.y / 2);
-			window.draw(map.lightmap, context.final_states);
+			window.draw(map.light.lightmap, context.final_states);
 			if (context.draw_fps_counter)
 				window.draw(context.fps_counter);
 			if (context.draw_map_vertices)

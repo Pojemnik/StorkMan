@@ -7,7 +7,7 @@ Map::Map()
 	player = nullptr;
 }
 
-Map::Map(Vectori dimensions, std::vector<Level>& lvls, Vectori start_pos, sf::Texture& bg) : size(dimensions), current_pos(start_pos)
+Map::Map(Vectori dimensions, std::vector<Level>& lvls, Vectori start_pos, sf::Texture& bg, sf::Texture* light_tex) : size(dimensions), current_pos(start_pos), light(level_size, light_tex)
 {
 	background.setTexture(bg);
 	level_placement = new Level * *[size.y];
@@ -46,16 +46,11 @@ Map::Map(Vectori dimensions, std::vector<Level>& lvls, Vectori start_pos, sf::Te
 		}
 	}
 	calc_map_vertices();
-	if (!(context.lightmap.create(level_size.x * 2, level_size.y * 2)))
-	{
-		std::cerr << "Error creating lightmap" << std::endl;
-	}
 	context.blurh_states.shader = &context.blurh;
 	context.blurv_states.shader = &context.blurv;
 	context.final_states.blendMode = sf::BlendMultiply;
-	context.light_states.blendMode = sf::BlendAdd;
 	global_scale = context.global_scale;
-	lightmap.setPosition(0, 0);
+	light.lightmap.setPosition(0, 0);
 	map_texture = nullptr;
 }
 
@@ -72,95 +67,6 @@ void Map::unload_level(std::list<Level*>::iterator& lvl)
 {
 	(*lvl)->is_loaded = false;
 	lvl = loaded_levels.erase(lvl);
-}
-
-std::pair<float, Vectorf> Map::cast_ray(Vectorf source, Vectorf alfa) const
-{
-	Vectorf beta;
-	float min_t1 = INFINITY;
-	Vectorf point = source;
-	for (auto& it : map_edges)
-	{
-		beta = { it.first.x - it.second.x, it.first.y - it.second.y };
-		float t2 = ((alfa.x * (it.second.y - source.y) + alfa.y * (source.x - it.second.x))
-			/ (beta.x * alfa.y - beta.y * alfa.x));
-		if (t2 >= 0 && t2 <= 1 && alfa.x != 0)
-		{
-			float t1 = (it.second.x + beta.x * t2 - source.x) / alfa.x;
-			if (t1 > 0)
-			{
-				if (t1 < min_t1)
-				{
-					min_t1 = t1;
-					point = { t1 * alfa.x + source.x, t1 * alfa.y + source.y };
-				}
-			}
-		}
-	}
-	return std::pair<float, Vectorf>(atan2(-alfa.y, alfa.x), point);
-}
-std::vector<std::pair<float, Vectorf>> Map::calc_light_source(Vectorf source)
-{
-	std::vector<std::pair<float, Vectorf>> points;
-	Vectorf point;
-	Vectorf alfa;
-	map_edges.push_back(std::make_pair(source + Vectorf(-500, 500), source + Vectorf(500, 500)));
-	map_edges.push_back(std::make_pair(source + Vectorf(500, 500), source + Vectorf(500, -500)));
-	map_edges.push_back(std::make_pair(source + Vectorf(500, -500), source + Vectorf(-500, -500)));
-	map_edges.push_back(std::make_pair(source + Vectorf(-500, -500), source + Vectorf(-500, 500)));
-	map_vertices.push_back(source + Vectorf(-500, 500));
-	map_vertices.push_back(source + Vectorf(500, 500));
-	map_vertices.push_back(source + Vectorf(500, -500));
-	map_vertices.push_back(source + Vectorf(-500, -500));
-	for (const auto& vertex_it : map_vertices)
-	{
-		Vectorf dist = vertex_it - source;
-		if (dist == Vectorf(0, 0))	//atan2 domain
-			continue;
-		if (util::sq(dist.x) + util::sq(dist.y) < 500050)
-		{
-			alfa = vertex_it - source;
-			points.push_back(cast_ray(source, alfa));
-			float angle = atan2(-alfa.y, alfa.x);
-			points.push_back(cast_ray(source, Vectorf(1 * util::sgn(alfa.x), tan(angle + 0.0001f) * -util::sgn(alfa.x))));
-			points.push_back(cast_ray(source, Vectorf(1 * util::sgn(alfa.x), tan(angle - 0.0001f) * -util::sgn(alfa.x))));
-		}
-	}
-	map_edges.pop_back();
-	map_edges.pop_back();
-	map_edges.pop_back();
-	map_edges.pop_back();
-	map_vertices.pop_back();
-	map_vertices.pop_back();
-	map_vertices.pop_back();
-	map_vertices.pop_back();
-	std::sort(points.begin(), points.end(),
-		[](const std::pair<float, Vectorf>& a, const std::pair<float, Vectorf>& b)
-	{return a.first > b.first; });
-	return points;
-}
-
-sf::Texture Map::calc_light(std::vector<Vectorf>& sources, sf::Transform transform)
-{
-	context.lightmap.clear(sf::Color(70, 70, 70, 255));
-	for (Vectorf source : sources)
-	{
-		std::vector<std::pair<float, Vectorf>> points = calc_light_source(source);
-		sf::VertexArray light(sf::TriangleFan, points.size() + 2);
-		light[0].position = source;
-		light[0].texCoords = { 500,500 };
-		for (size_t i = 1; i < points.size() + 1; i++)
-		{
-			light[i].position = points[i - 1].second;
-			light[i].texCoords = points[i - 1].second + Vectorf(500, 500) - source;
-		}
-		light[points.size() + 1].position = points[0].second;
-		light[points.size() + 1].texCoords = points[0].second + Vectorf(500, 500) - source;
-		context.light_states.transform = transform;
-		context.lightmap.draw(light, context.light_states);
-	}
-	context.lightmap.display();
-	return context.lightmap.getTexture();
 }
 
 void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -239,8 +145,7 @@ void Map::update(float dt)
 		calc_map_vertices();
 		std::vector<Vectorf> sources = { {300,-1}, { 500, 400 }, { 300, 400 } };
 		sf::Transform transform = sf::Transform().translate(level_size.x / 2, level_size.y / 2);
-		light_texture = calc_light(sources, transform);
-		lightmap.setTexture(light_texture);
+		light.calc_light(sources, transform, map_edges, map_vertices);
 	}
 	background.setPosition(context.background_position);
 	background.setScale(context.background_scale, context.background_scale);
@@ -276,8 +181,7 @@ void Map::update(float dt)
 		calc_map_vertices();
 		std::vector<Vectorf> sources = { {300,-1}, { 500, 400 }, { 300, 400 } };
 		sf::Transform transform = sf::Transform().translate(-level_size.x / 2, -level_size.y / 2);
-		light_texture = calc_light(sources, transform);
-		lightmap.setTexture(light_texture);
+		light.calc_light(sources, transform, map_edges, map_vertices);
 	}
 	for (auto& level_it : loaded_levels)
 	{

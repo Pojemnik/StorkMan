@@ -149,8 +149,6 @@ void Assets::load_assets()
 	context.blurv.setUniform("sigma", 50.0f);
 	context.blurv.setUniform("blurSize", 1.0f / context.resolution.y);
 	context.blurv.setUniform("blurSampler", sf::Shader::CurrentTexture);
-	context.light_states.texture = light;
-	context.light_states.blendMode == sf::BlendAdd;
 	//load_textures(ship_dockx, "img/ships/DokowanieX_ss_436_87_is_10_12.png", false);
 	//load_textures(ship_docky, "img/ships/DokowanieY_ss_443_442_is_15_20.png", false);
 	//load_textures(ship_fly, "img/ships/Lot_ss_466_87_is_6_10.png", false);
