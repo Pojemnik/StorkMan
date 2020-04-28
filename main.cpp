@@ -20,7 +20,6 @@ bool update(float dt, Map& map, int move)
 	while (acc >= 1000.0f / context.fps)
 	{
 		map.player->next_frame();
-		map.player->apply_force({ 0, context.gravity });
 		map.player->update(1);
 		map.update(1);
 		acc -= 1000.0f / context.fps;

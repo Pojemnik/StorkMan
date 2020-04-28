@@ -1,7 +1,8 @@
 #include "game.h"
 
 
-Platform::Platform(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> points) : Texturable(p, t, points)
+Platform::Platform(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> points)
+	: Texturable(p, t, points)
 {
 	float maxx, maxy, miny, minx;
 	maxx = minx = vertices[0].position.x;
@@ -36,7 +37,8 @@ void Player::attack(int attack_type)
 	switch (attack_type)
 	{
 	case 1:
-		if (animation_status == Entity_status::IDLE || animation_status == Entity_status::JUMP_IDLE)
+		if (animation_status == Entity_status::IDLE ||
+			animation_status == Entity_status::JUMP_IDLE)
 		{
 			status = Entity_status::PUNCH_1;
 			animation_status = Animation_status::A_PUNCH_1;
@@ -44,7 +46,8 @@ void Player::attack(int attack_type)
 		}
 		break;
 	case 2:
-		if (animation_status == Entity_status::IDLE || animation_status == Entity_status::JUMP_IDLE)
+		if (animation_status == Entity_status::IDLE ||
+			animation_status == Entity_status::JUMP_IDLE)
 		{
 			status = Entity_status::PUNCH_2;
 			animation_status = Animation_status::A_PUNCH_2;
@@ -60,6 +63,7 @@ Dynamic_entity::Dynamic_entity(Vectorf p, sf::Texture* texture, std::vector<sf::
 {
 	animation_status = Animation_status::A_IDLE;
 	rect_collision = rc;
+	col_height = rc.height;
 	mesh = Mesh_collision(rect_collision);
 	mass = m;
 	sprite.setOrigin({ actual_frame[0] + 64, actual_frame[1] + 64 });
@@ -67,17 +71,20 @@ Dynamic_entity::Dynamic_entity(Vectorf p, sf::Texture* texture, std::vector<sf::
 
 void Dynamic_entity::move(Vectorf delta)
 {
-	if (util::sgn(delta.x) != colision_direction.x || (platform_angle != -0.f && platform_angle != 0.f))
+	if (util::sgn(delta.x) != colision_direction.x || (platform_angle != -0.f &&
+		platform_angle != 0.f))
 	{
 		move_force += delta;
+		//Czy w tym if'ie nie ma b³êdu?
 		if (move_speed.x * move_speed.x + move_speed.y * move_speed.x < context.min_move_speed * context.min_move_speed || util::vector_dot_product(move_speed, delta) < 0)
 		{
 			move_speed = util::normalize(delta, context.min_move_speed);
 		}
 		if (status == IDLE)
 			status = Entity_status::MOVE;
-		if (colision_direction.y == 1 && animation_status != Animation_status::A_JUMP_RUN && animation_status
-			!= Animation_status::A_JUMP_RUN2)
+		if (colision_direction.y == 1 &&
+			animation_status != Animation_status::A_JUMP_RUN &&
+			animation_status != Animation_status::A_JUMP_RUN2)
 		{
 			animation_status = Animation_status::A_MOVE;
 		}
@@ -93,7 +100,8 @@ void Dynamic_entity::move_angled(int direction)
 	if (direction == 1)
 		move(util::rotate_vector(context.player_move_speed, platform_angle));
 	else if (direction == -1)
-		move(util::rotate_vector({ -context.player_move_speed.x,context.player_move_speed.y }, platform_angle));
+		move(util::rotate_vector({ -context.player_move_speed.x,context.player_move_speed.y },
+			platform_angle));
 }
 
 void Dynamic_entity::jump(bool move)
@@ -103,7 +111,8 @@ void Dynamic_entity::jump(bool move)
 		if (move)
 		{
 			if (animation_status == Animation_status::A_MOVE ||
-				((animation_status == Animation_status::A_JUMP_RUN || animation_status == Animation_status::A_JUMP_RUN2)
+				((animation_status == Animation_status::A_JUMP_RUN ||
+					animation_status == Animation_status::A_JUMP_RUN2)
 					&& last_status == IN_AIR))
 			{
 				if (key == 1 || key == 2 || key == 3)
@@ -154,6 +163,7 @@ void Dynamic_entity::set_idle()
 
 void Dynamic_entity::update(float dt)
 {
+	apply_force({ 0, context.gravity });
 	if (maxcollisionvector.y == 0 && maxcollisionvector.x == 0)
 		platform_angle = 0;
 	else
@@ -224,39 +234,78 @@ void Dynamic_entity::update(float dt)
 
 void Dynamic_entity::update_position(float dt)
 {
+	const float scale_factor = 35.84f / context.global_scale;
 	pos += total_speed * dt;	//ogarn¹æ to coœ!!!
 	sprite.setPosition(pos);
-	rect_collision = sf::FloatRect(pos.x - 20 / 35.84f * context.global_scale,
-		pos.y - 47 / 35.84f * context.global_scale, 20 / 35.84f * context.global_scale,
-		rect_collision.height);
-	Vectorf mid = { pos.x - 10 / 35.84f * context.global_scale, pos.y - 47 / 35.84f * context.global_scale + 10 / 35.84f * context.global_scale * tan(platform_angle) };
-	if (platform_angle == 0.f || platform_angle == -0.f)
+	std::vector<Vectorf> mesh_vect;
+	//rect_collision = sf::FloatRect(pos.x - 20 / scale_factor,
+	//	pos.y - 47 / scale_factor, 20 / scale_factor,
+	//	rect_collision.height);
+	Vectorf mid = {
+		pos.x - 10 / scale_factor,
+		pos.y - 47 / scale_factor + 10 / scale_factor * tan(platform_angle)
+	};
+	if (platform_angle == 0.f || platform_angle == -0.f || fabs(platform_angle) > 0.8f)
 	{
-		mesh = Mesh_collision(rect_collision);
+		mesh_vect = {
+			Vectorf(
+				pos.x - 20 / scale_factor,
+				pos.y - 47 / scale_factor),
+			Vectorf(
+				pos.x,
+				pos.y - 47 / scale_factor),
+			Vectorf(
+				pos.x,
+				pos.y - 47 / scale_factor + col_height),
+			Vectorf(
+				pos.x - 20 / scale_factor,
+				pos.y - 47 / scale_factor + col_height)
+		};
 	}
 	else
 	{
-		std::vector<Vectorf> mesh_vect;
 		if (platform_angle > 0.f)
 		{
 			mesh_vect = {
-				Vectorf(pos.x - 20 / 35.84f * context.global_scale, mid.y - 10 / 35.84f * context.global_scale * tan(platform_angle)),
-				Vectorf(pos.x, mid.y + 10 / 35.84f * context.global_scale * tan(platform_angle)),
-				Vectorf(pos.x, mid.y + rect_collision.height + 10 / 35.84f * context.global_scale * tan(platform_angle)),
-				Vectorf(pos.x - 20 / 35.84f * context.global_scale, mid.y + rect_collision.height - 10 / 35.84f * context.global_scale * tan(platform_angle))
+				Vectorf(
+					pos.x - 20 / scale_factor,
+					mid.y - 10 / scale_factor * tan(platform_angle)),
+				Vectorf(
+					pos.x,
+					mid.y + 10 / scale_factor * tan(platform_angle)),
+				Vectorf(
+					pos.x, 
+					mid.y + col_height + 10 / scale_factor * tan(platform_angle)),
+				Vectorf(
+					pos.x - 20 / scale_factor,
+					mid.y + col_height - 10 / scale_factor * tan(platform_angle))
 			};
 		}
 		else
 		{
 			mesh_vect = {
-				Vectorf(pos.x - 20 / 35.84f * context.global_scale, mid.y - 30 / 35.84f * context.global_scale * tan(platform_angle)),
-				Vectorf(pos.x, mid.y - 10 / 35.84f * context.global_scale * tan(platform_angle)),
-				Vectorf(pos.x, mid.y + rect_collision.height - 10 / 35.84f * context.global_scale * tan(platform_angle)),
-				Vectorf(pos.x - 20 / 35.84f * context.global_scale, mid.y + rect_collision.height - 30 / 35.84f * context.global_scale * tan(platform_angle))
+				Vectorf(
+					pos.x - 20 / scale_factor,
+					mid.y - 30 / scale_factor * tan(platform_angle)),
+				Vectorf(
+					pos.x,
+					mid.y - 10 / scale_factor * tan(platform_angle)),
+				Vectorf(
+					pos.x,
+					mid.y + col_height - 10 / scale_factor * tan(platform_angle)),
+				Vectorf(
+					pos.x - 20 / scale_factor,
+					mid.y + col_height - 30 / scale_factor * tan(platform_angle))
 			};
 		}
-		mesh.vertices = mesh_vect;
 	}
+	rect_collision = sf::FloatRect(
+		pos.x - 20 / scale_factor, std::min(mesh_vect[0].y, mesh_vect[1].y),
+		20 / scale_factor,
+		std::max(mesh_vect[2].y, mesh_vect[3].y) - std::min(mesh_vect[0].y,
+			mesh_vect[1].y)
+	);
+	mesh.vertices = mesh_vect;
 	total_speed = { 0,0 };
 }
 

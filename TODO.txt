@@ -1,6 +1,6 @@
 ﻿* - następny release
 
-Interakcje ze skośnymi platformami (lepsze podbieganie i zbieganie, zsuwanie się od pewnego kąta)
+Interakcje ze skośnymi platformami (lepsze podbieganie i zbieganie,zsuwanie się od pewnego kąta)
 * Wątki
 Warstwy mapy i paralaksa
 Spadanie i lądowanie - lepiej rozwiązać animacje
@@ -15,6 +15,7 @@ Uwzględnić skalę w edycji poziomów
 * Siła światła
 * Interakcje ściany - światło
 *? Shadery dla statycznych świateł
+* Trzeba by inaczej liczyć Dynamic_enitity.platfrom_angle
 
 Błędy:
 * Zsuwanie się z platform

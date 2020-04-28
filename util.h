@@ -25,7 +25,7 @@ enum Colidable_type { GROUND, ENEMY, OTHER };
 
 struct Context
 {
-	bool draw_collisions = false;
+	bool draw_collisions = true;
 	bool draw_map_vertices = false;
 	bool draw_fps_counter = false;
 	float fps = 60.f;
