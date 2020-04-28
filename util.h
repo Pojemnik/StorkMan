@@ -25,7 +25,7 @@ enum Colidable_type { GROUND, ENEMY, OTHER };
 
 struct Context
 {
-	bool draw_collisions = true;
+	bool draw_collisions = false;
 	bool draw_map_vertices = false;
 	bool draw_fps_counter = false;
 	float fps = 60.f;
@@ -43,9 +43,8 @@ struct Context
 	Vectorf layer2_position = { -1000, -1800 };
 	float layer2_scale = 1.f;
 	const Vectorf max_force = { 1000.f, 3000.0f };
-	sf::Shader blurh, blurv, shade;
-	sf::RenderStates bg_states, layer2_states,
-		map_states, blurh_states, blurv_states, final_states;
+	sf::RenderStates bg_states, layer2_states, blurh_states, blurv_states,
+		final_states;
 	Vectori resolution = { 1024, 576 };
 	sf::Font arial;
 	sf::Text fps_counter;
@@ -62,24 +61,27 @@ namespace util
 	};
 
 	inline sf::Vector2f normalize(sf::Vector2f x, float l);
-	inline sf::Vector2f get_axis_normal(const std::vector<sf::Vector2f>* a, size_t i);
+	inline sf::Vector2f get_axis_normal(const std::vector<sf::Vector2f>* a,
+		size_t i);
 	inline float vector_dot_product(sf::Vector2f a, sf::Vector2f b);
-	Vectorf saturate(Vectorf val, const Vectorf max_val);
-	float deg_to_rad(float s);
-	float rad_to_deg(float rdn);
-	Vectorf rotate_vector(Vectorf vec, float ang);
-	float ang_reduce(float ang);
-	bool vectorf_compare(const Vectorf& a, const Vectorf& b);
-	bool vectorf_binary_predicate(const Vectorf& a, const Vectorf& b);
+	inline Vectorf saturate(Vectorf val, const Vectorf max_val);
+	inline float deg_to_rad(float s);
+	inline float rad_to_deg(float rdn);
+	inline Vectorf rotate_vector(Vectorf vec, float ang);
+	inline float ang_reduce(float ang);
+	inline bool vectorf_compare(const Vectorf& a, const Vectorf& b);
+	inline bool vectorf_binary_predicate(const Vectorf& a, const Vectorf& b);
 
 	inline sf::Vector2f normalize(sf::Vector2f x, float l)
 	{
 		return x / float(sqrt(x.x * x.x + x.y * x.y) * l);
 	}
 
-	inline sf::Vector2f get_axis_normal(const std::vector<sf::Vector2f>* a, size_t i)
+	inline sf::Vector2f get_axis_normal(const std::vector<sf::Vector2f>* a,
+		size_t i)
 	{
-		sf::Vector2f p1 = (*a)[i], p2 = (i >= a->size() - 1) ? (*a)[0] : (*a)[i + 1];
+		Vectorf p1 = (*a)[i];
+		Vectorf p2 = (i >= a->size() - 1) ? (*a)[0] : (*a)[i + 1];
 		return util::normalize({ p1.y - p2.y,p2.x - p1.x }, 1);
 	}
 
@@ -101,5 +103,62 @@ namespace util
 	template <typename T> inline T sq(T a)
 	{
 		return a * a;
+	}
+
+	inline Vectorf util::saturate(Vectorf val, const Vectorf max_val)
+	{
+		if (val.x > max_val.x)
+			val.x = max_val.x;
+		if (val.x < -max_val.x)
+			val.x = -max_val.x;
+		if (val.y > max_val.y)
+			val.y = max_val.y;
+		if (val.y < -max_val.y)
+			val.y = -max_val.y;
+		return val;
+	}
+
+	inline float util::deg_to_rad(float s)
+	{
+		return(s / 180 * PI);
+	}
+
+	inline float util::rad_to_deg(float rdn)
+	{
+		return rdn / PI * 180;
+	}
+
+	inline float util::ang_reduce(float ang)
+	{
+		ang = fmod(ang, 360.0f);
+		if (ang < 0)
+			ang += 360.0f;
+		return ang;
+	}
+
+	inline Vectorf util::rotate_vector(Vectorf vec, float ang)
+	{
+		return { vec.x * cos(ang) -
+				vec.y * sin(ang),
+				vec.x * sin(ang) +
+				vec.y * cos(ang) };
+	}
+
+	inline bool util::vectorf_compare(const Vectorf& a, const Vectorf& b)
+	{
+		if (a.x != b.x)
+		{
+			return a.x > b.x;
+		}
+		else
+		{
+			return a.y > b.y;
+		}
+	}
+
+	inline bool util::vectorf_binary_predicate(const Vectorf& a,
+		const Vectorf& b)
+	{
+		return fabs(a.x - b.x) < 1 && fabs(a.y - b.y) < 1;
 	}
 }

@@ -9,7 +9,7 @@ Uwzględnić skalę w edycji poziomów
 * Swiatło w osobnym wątku
 * Statyczne światła liczyć statycznie ✓
 * Opis świateł w XML
-* Ogarnąć kod w map, przeczyścić context odc. 2
+* Ogarnąć kod w map, przeczyścić context odc. 2 ✓
 * Interakcja między światłem a ścianami
 * Kolorowe światła
 * Siła światła

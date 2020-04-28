@@ -98,14 +98,14 @@ void Assets::load_textures(std::vector<sf::Texture>& v, std::string path, bool r
 	std::stringstream tmps(tmp);
 	if (!(tmps >> a >> b >> c >> d))
 	{
-		std::cout << "error reading sizes " + path << std::endl;
+		std::cerr << "error reading sizes " + path << std::endl;
 		return;
 	}
 	v.reserve((uint64_t)c * d);
 	sf::Image image;
 	if (!image.loadFromFile(path))
 	{
-		std::cout << "Error while loading" + path << std::endl;
+		std::cerr << "Error while loading" + path << std::endl;
 		return;
 	}
 	for (int j = 0; j < d; j++)
@@ -116,6 +116,18 @@ void Assets::load_textures(std::vector<sf::Texture>& v, std::string path, bool r
 			load_texture(v.back(), image, i * a, j * b, a, b, rep);
 		}
 	}
+}
+
+void Assets::load_shaders()
+{
+	blurh.loadFromFile("img/shaders/blur_h.frag", sf::Shader::Fragment);
+	blurv.loadFromFile("img/shaders/blur_v.frag", sf::Shader::Fragment);
+	blurh.setUniform("sigma", 50.0f);
+	blurh.setUniform("blurSize", 1.0f / context.resolution.x);
+	blurh.setUniform("blurSampler", sf::Shader::CurrentTexture);
+	blurv.setUniform("sigma", 50.0f);
+	blurv.setUniform("blurSize", 1.0f / context.resolution.y);
+	blurv.setUniform("blurSampler", sf::Shader::CurrentTexture);
 }
 
 void Assets::load_assets()
@@ -141,22 +153,7 @@ void Assets::load_assets()
 	animations.push_back(load_dynamic_animation("animations/stork/punch2.txt"));
 	load_textures(map_textures, "img/tex_ss_64_64_is_3_9.png", true);
 	stork_tree = load_animation_tree("animations/stork/tree.txt");
-	context.blurh.loadFromFile("img/shaders/blur_h.frag", sf::Shader::Fragment);
-	context.blurv.loadFromFile("img/shaders/blur_v.frag", sf::Shader::Fragment);
-	context.blurh.setUniform("sigma", 50.0f);
-	context.blurh.setUniform("blurSize", 1.0f / context.resolution.x);
-	context.blurh.setUniform("blurSampler", sf::Shader::CurrentTexture);
-	context.blurv.setUniform("sigma", 50.0f);
-	context.blurv.setUniform("blurSize", 1.0f / context.resolution.y);
-	context.blurv.setUniform("blurSampler", sf::Shader::CurrentTexture);
-	//load_textures(ship_dockx, "img/ships/DokowanieX_ss_436_87_is_10_12.png", false);
-	//load_textures(ship_docky, "img/ships/DokowanieY_ss_443_442_is_15_20.png", false);
-	//load_textures(ship_fly, "img/ships/Lot_ss_466_87_is_6_10.png", false);
-	//load_textures(ship_idle, "img/ships/Postój_ss_446_87_is_6_10.png", false);
-	//load_textures(ship_ext_hdmi, "img/ships/Wysuniêcie HDMI_ss_446_209_is_6_10.png", false);
-	//load_textures(ship_ret_hdmi, "img/ships/Schowanie HDMI_ss_446_209_is_6_10.png", false);
-	//load_textures(ship_undockx, "img/ships/WydokowanieX_ss_436_87_is_6_10.png", false);
-	//load_textures(ship_undocky, "img/ships/WydokowanieY_ss_443_442_is_10_12.png", false);
+	load_shaders();
 
 	textures["asphalt,0"] = &map_textures[0];
 	textures["concrete,0"] = &map_textures[1];
@@ -185,6 +182,10 @@ void Assets::load_assets()
 	textures["wood,4"] = &map_textures[24];
 	textures["tile,1"] = &map_textures[25];
 	textures["pipe,0"] = &map_textures[26];
+
+	context.blurh_states.shader = &blurh;
+	context.blurv_states.shader = &blurv;
+	context.final_states.blendMode = sf::BlendMultiply;
 
 	context.arial.loadFromFile("Arial.ttf");
 	std::cout << "done!" << std::endl;

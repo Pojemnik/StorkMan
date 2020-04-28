@@ -179,6 +179,6 @@ Map Parser::parse_map(tinyxml2::XMLElement* root)
 			element = element->NextSiblingElement();
 		}
 	}
-	return Map(map_size, vec, map_player_pos, *assets->bg, assets->light);
+	return Map(map_size, vec, map_player_pos, *assets->bg, *assets->layer2, assets->light);
 }
 Parser::Parser(Assets* const _assets) : assets(_assets) {};

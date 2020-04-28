@@ -7,15 +7,28 @@ Map::Map()
 	player = nullptr;
 }
 
-Map::Map(Vectori dimensions, std::vector<Level>& lvls, Vectori start_pos, sf::Texture& bg, sf::Texture* light_tex) : size(dimensions), current_pos(start_pos), light(level_size, light_tex)
+Map::Map(Vectori dimensions, std::vector<Level>& lvls, Vectori start_pos,
+	sf::Texture& bg_tex, sf::Texture& layer2_tex, sf::Texture* light_tex)
+	: size(dimensions), current_pos(start_pos), light(level_size, light_tex)
 {
-	background.setTexture(bg);
+	background.setTexture(bg_tex);
+	layer2.setTexture(layer2_tex);
 	level_placement = new Level * *[size.y];
 	for (int i = 0; i < size.y; i++)
 	{
 		level_placement[i] = new Level * [size.x];
 	}
 	levels = lvls;
+	place_levels();
+	load_levels_in_bounds(start_pos);
+	calc_map_vertices();
+	global_scale = context.global_scale;
+	light.lightmap.setPosition(0, 0);
+	map_texture = nullptr;
+}
+
+void Map::place_levels()
+{
 	for (auto& it : levels)
 	{
 		for (int i = 0; i < it.global_size.x; i++)
@@ -31,27 +44,11 @@ Map::Map(Vectori dimensions, std::vector<Level>& lvls, Vectori start_pos, sf::Te
 			col_it->rect_collision.top += it.global_pos.y * level_size.y;
 			for (auto& vertex_it : col_it->mesh.vertices)
 			{
-				vertex_it += Vectorf(it.global_pos.x * level_size.x, it.global_pos.y * level_size.y);
+				vertex_it += Vectorf(it.global_pos.x * level_size.x,
+					it.global_pos.y * level_size.y);
 			}
 		}
 	}
-	for (int x = -1; x < 2; x++)
-	{
-		for (int y = -1; y < 2; y++)
-		{
-			if (start_pos.x + x < size.x && start_pos.y + y < size.y && start_pos.x + x >= 0 && start_pos.y + y >= 0)
-			{
-				load_level(Vectori(start_pos.x + x, start_pos.y + y));
-			}
-		}
-	}
-	calc_map_vertices();
-	context.blurh_states.shader = &context.blurh;
-	context.blurv_states.shader = &context.blurv;
-	context.final_states.blendMode = sf::BlendMultiply;
-	global_scale = context.global_scale;
-	light.lightmap.setPosition(0, 0);
-	map_texture = nullptr;
 }
 
 void Map::load_level(Vectori pos)
@@ -137,6 +134,46 @@ void Map::calc_map_vertices()
 	map_vertices.erase(last, map_vertices.end());
 }
 
+void Map::unload_levels_out_of_bounds()
+{
+	int removed;
+	for (auto level_it = loaded_levels.begin();
+		level_it != loaded_levels.end();
+		std::advance(level_it, removed))
+	{
+		const Vectori level_pos = {
+			(*level_it)->global_pos.x,
+			(*level_it)->global_pos.y
+		};
+		removed = 1;
+		if (level_pos.x + (*level_it)->global_size.x < current_pos.x - 1 ||
+			level_pos.x > current_pos.x + 1 ||
+			level_pos.y + (*level_it)->global_size.y < current_pos.y - 1 ||
+			level_pos.y > current_pos.y + 1)
+		{
+			if ((*level_it)->is_loaded)
+			{
+				removed = 0;
+				unload_level(level_it);
+			}
+		}
+	}
+}
+
+void Map::load_levels_in_bounds(Vectori pos)
+{
+	for (int x = -1; x < 2; x++)
+	{
+		for (int y = -1; y < 2; y++)
+		{
+			if (pos.x + x < size.x && pos.y + y < size.y &&
+				pos.x + x >= 0 && pos.y + y >= 0 &&
+				!level_placement[pos.x + x][pos.y + y]->is_loaded)
+				load_level(Vectori(pos.x + x, pos.y + y));
+		}
+	}
+}
+
 void Map::update(float dt)
 {
 	if (map_texture == nullptr)
@@ -144,43 +181,28 @@ void Map::update(float dt)
 		redraw();
 		calc_map_vertices();
 		std::vector<Vectorf> sources = { {300,-1}, { 500, 400 }, { 300, 400 } };
-		sf::Transform transform = sf::Transform().translate(level_size.x / 2, level_size.y / 2);
+		sf::Transform transform = sf::Transform().translate(level_size.x / 2,
+			level_size.y / 2);
 		light.calc_light(sources, transform, map_edges, map_vertices);
 	}
 	background.setPosition(context.background_position);
 	background.setScale(context.background_scale, context.background_scale);
 	layer2.setPosition(context.layer2_position);
 	layer2.setScale(context.layer2_scale, context.layer2_scale);
-	Vectori pos = { int(player->get_position().x) / int(level_size.x), int(player->get_position().y) / int(level_size.y) };
+	Vectori pos = {
+		int(player->get_position().x) / int(level_size.x),
+		int(player->get_position().y) / int(level_size.y)
+	};
 	if (pos != current_pos)
 	{
-		Vectori delta = pos - current_pos;
 		current_pos = pos;
-		int removed = 1;
-		for (auto level_it = loaded_levels.begin(); level_it != loaded_levels.end(); std::advance(level_it, removed))
-		{
-			removed = 1;
-			if ((*level_it)->global_pos.x + (*level_it)->global_size.x < current_pos.x - 1 || (*level_it)->global_pos.x > current_pos.x + 1 || (*level_it)->global_pos.y + (*level_it)->global_size.y < current_pos.y - 1 || (*level_it)->global_pos.y > current_pos.y + 1)
-			{
-				if ((*level_it)->is_loaded)
-				{
-					removed = 0;
-					unload_level(level_it);
-				}
-			}
-		}
-		for (int x = -1; x < 2; x++)
-		{
-			for (int y = -1; y < 2; y++)
-			{
-				if (current_pos.x + x < size.x && current_pos.y + y < size.y && current_pos.x + x >= 0 && current_pos.y + y >= 0 && !level_placement[current_pos.x + x][current_pos.y + y]->is_loaded)
-					load_level(Vectori(current_pos.x + x, current_pos.y + y));
-			}
-		}
+		unload_levels_out_of_bounds();
+		load_levels_in_bounds(current_pos);
 		redraw();
 		calc_map_vertices();
 		std::vector<Vectorf> sources = { {300,-1}, { 500, 400 }, { 300, 400 } };
-		sf::Transform transform = sf::Transform().translate(-level_size.x / 2, -level_size.y / 2);
+		sf::Transform transform = sf::Transform().translate(-level_size.x / 2,
+			-level_size.y / 2);
 		light.calc_light(sources, transform, map_edges, map_vertices);
 	}
 	for (auto& level_it : loaded_levels)
@@ -216,7 +238,10 @@ void Map::redraw()
 	sf::RenderStates states;
 	for (const auto& it : loaded_levels)
 	{
-		states.transform *= sf::Transform().translate({ level_size.x * it->global_pos.x,level_size.y * it->global_pos.y });
+		states.transform *= sf::Transform().translate(
+			{ level_size.x * it->global_pos.x,
+			level_size.y * it->global_pos.y }
+		);
 		for (const auto& it2 : it->drawables)
 		{
 			map_texture->draw(*it2, states);
@@ -225,7 +250,10 @@ void Map::redraw()
 		{
 			map_texture->draw(*it2, states);
 		}
-		states.transform *= sf::Transform().translate({ -1 * level_size.x * it->global_pos.x,-1 * level_size.y * it->global_pos.y });
+		states.transform *= sf::Transform().translate(
+			{ -1 * level_size.x * it->global_pos.x,
+			-1 * level_size.y * it->global_pos.y }
+		);
 	}
 	map_texture->display();
 	map_sprite.setTexture(map_texture->getTexture());

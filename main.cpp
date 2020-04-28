@@ -28,11 +28,11 @@ bool update(float dt, Map& map, int move)
 	return updated;
 }
 
-void resize_window(Map& map, sf::RenderWindow& window)
+void resize_window(Map& map, sf::RenderWindow& window, Assets& assets)
 {
 
-	context.blurh.setUniform("blurSize", 1.0f / context.resolution.x);
-	context.blurv.setUniform("blurSize", 1.0f / context.resolution.y);
+	assets.blurh.setUniform("blurSize", 1.0f / context.resolution.x);
+	assets.blurv.setUniform("blurSize", 1.0f / context.resolution.y);
 	map.calc_map_vertices();
 	window.setSize(sf::Vector2u(context.resolution.x, context.resolution.y));
 }
@@ -61,7 +61,6 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	tinyxml2::XMLElement* root = doc.FirstChildElement();
 	map = parser.parse_map(root);
 	map.background.setPosition(context.background_position);
-	map.layer2.setTexture(*assets.layer2);
 	map.layer2.setPosition(context.layer2_position);
 	sf::FloatRect f(380, 55, 20, 70);
 	Player player({ 400, 100 }, assets.pieces, assets.pieces_rect, assets.animations, f, assets.stork_tree, 1.92f, context.global_scale, 87.f);
@@ -86,7 +85,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 					switch (code.first)
 					{
 					case Command_code::CHANGE_RESOLUTION:
-						resize_window(map, window);
+						resize_window(map, window, assets);
 						break;
 					case Command_code::CHANGE_SCALE:
 						map.rescale(context.global_scale);

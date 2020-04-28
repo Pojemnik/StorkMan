@@ -17,6 +17,9 @@ private:
 
 	void load_level(Vectori pos);
 	void unload_level(std::list<Level*>::iterator& lvl);
+	void unload_levels_out_of_bounds();
+	void load_levels_in_bounds(Vectori pos);
+	void place_levels();
 
 public:
 	std::vector<std::pair<Vectorf, Vectorf>> map_edges;
@@ -27,7 +30,8 @@ public:
 	Light light;
 
 	Map();
-	Map(Vectori dimensions, std::vector<Level>& levels, Vectori start_pos, sf::Texture& bg, sf::Texture* light_tex);
+	Map(Vectori dimensions, std::vector<Level>& lvls, Vectori start_pos,
+		sf::Texture& bg_tex, sf::Texture& layer2_tex, sf::Texture* light_tex);
 	void calc_map_vertices();
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	void update(float dt);
