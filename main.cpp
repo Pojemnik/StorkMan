@@ -8,7 +8,7 @@
 #include "util.h"
 #include "console.h"
 
-const std::string VERSION = "0.3.4";
+const std::string VERSION = "0.3.4a";
 
 bool update(float dt, Map& map, int move)
 {
@@ -58,10 +58,12 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		std::cerr << "Brak poziomu" << std::endl;
 		return -1;
 	}
+	std::cout << "Initializing map..." << std::endl;
 	tinyxml2::XMLElement* root = doc.FirstChildElement();
 	map = parser.parse_map(root);
 	map.background.setPosition(context.background_position);
 	map.layer2.setPosition(context.layer2_position);
+	std::cout << "done!" << std::endl;
 	sf::FloatRect f(380, 55, 20, 70);
 	Player player({ 400, 100 }, assets.pieces, assets.pieces_rect, assets.animations, f, assets.stork_tree, 1.92f, context.global_scale, 87.f);
 	map.player = &player;

@@ -19,7 +19,7 @@ Light::Light(Vectorf level_size, sf::Texture* light_tex) : light_texture(light_t
 
 void Light::calc_light(std::vector<Light_source>& sources,
 	sf::Transform transform, std::vector<std::pair<Vectorf,
-	Vectorf>>& map_edges, std::vector<Vectorf>& map_vertices)
+	Vectorf>>&map_edges, std::vector<Vectorf>& map_vertices)
 {
 	target->clear(sf::Color(70, 70, 70, 255));
 	for (Light_source source : sources)
@@ -40,12 +40,15 @@ void Light::calc_light(std::vector<Light_source>& sources,
 			- source.pos;
 		states.transform = transform;
 		target->draw(light, states);
-		sf::RenderStates source_states;
-		source_states.transform = transform;
-		sf::CircleShape source_point(5);
-		source_point.setFillColor(sf::Color::Red);
-		source_point.setPosition(source.pos-Vectorf(5,5));
-		target->draw(source_point, source_states);
+		if (context.draw_light_sources)
+		{
+			sf::RenderStates source_states;
+			source_states.transform = transform;
+			sf::CircleShape source_point(5);
+			source_point.setFillColor(sf::Color::Red);
+			source_point.setPosition(source.pos - Vectorf(5, 5));
+			target->draw(source_point, source_states);
+		}
 	}
 	target->display();
 	lightmap_texture = target->getTexture();
@@ -55,6 +58,10 @@ void Light::calc_light(std::vector<Light_source>& sources,
 std::pair<float, Vectorf> Light::cast_ray(Vectorf source, Vectorf alfa,
 	std::vector<std::pair<Vectorf, Vectorf>>& map_edges)
 {
+	if (fabs(alfa.x) < eps)
+	{
+		return std::pair<float, Vectorf>(atan2(-alfa.y, alfa.x), source);
+	}
 	Vectorf beta;
 	float min_t1 = INFINITY;
 	Vectorf point = source;
@@ -64,7 +71,7 @@ std::pair<float, Vectorf> Light::cast_ray(Vectorf source, Vectorf alfa,
 		float t2 = ((alfa.x * (it.second.y - source.y) +
 			alfa.y * (source.x - it.second.x))
 			/ (beta.x * alfa.y - beta.y * alfa.x));
-		if (t2 >= 0 && t2 <= 1 && alfa.x != 0)
+		if (t2 >= 0 && t2 <= 1)
 		{
 			float t1 = (it.second.x + beta.x * t2 - source.x) / alfa.x;
 			if (t1 > 0)
@@ -82,51 +89,77 @@ std::pair<float, Vectorf> Light::cast_ray(Vectorf source, Vectorf alfa,
 
 std::vector<std::pair<float, Vectorf>> Light::calc_light_source(
 	Light_source source, std::vector<std::pair<Vectorf,
-	Vectorf>>& map_edges, std::vector<Vectorf>& map_vertices)
+	Vectorf>>&map_edges, std::vector<Vectorf>& map_vertices)
 {
 	std::vector<std::pair<float, Vectorf>> points;
-	Vectorf point;
 	Vectorf alfa;
-	map_edges.push_back(std::make_pair(
-		source.pos + Vectorf(-500, 500), source.pos + Vectorf(500, 500)));
-	map_edges.push_back(std::make_pair(
-		source.pos + Vectorf(500, 500), source.pos + Vectorf(500, -500)));
-	map_edges.push_back(std::make_pair(
-		source.pos + Vectorf(500, -500), source.pos + Vectorf(-500, -500)));
-	map_edges.push_back(std::make_pair(
-		source.pos + Vectorf(-500, -500), source.pos + Vectorf(-500, 500)));
-	map_vertices.push_back(source.pos + Vectorf(-500, 500));
-	map_vertices.push_back(source.pos + Vectorf(500, 500));
-	map_vertices.push_back(source.pos + Vectorf(500, -500));
-	map_vertices.push_back(source.pos + Vectorf(-500, -500));
+	int added_vertices = add_light_edges(source.pos, map_edges, map_vertices);
 	for (const auto& vertex_it : map_vertices)
 	{
 		Vectorf dist = vertex_it - source.pos;
 		if (dist == Vectorf(0, 0))	//atan2 domain
 			continue;
-		if (util::sq(dist.x) + util::sq(dist.y) < 1000050)//500050
+		if (util::sq(dist.x) + util::sq(dist.y) < light_const)
 		{
 			alfa = vertex_it - source.pos;
-			points.push_back(cast_ray(source.pos, alfa, map_edges));
+			std::pair<float, Vectorf> point;
+			point = cast_ray(source.pos, alfa, map_edges);
+			if (point.second != source.pos)
+				points.push_back(point);
 			float angle = atan2(-alfa.y, alfa.x);
-			points.push_back(cast_ray(source.pos,
-				Vectorf(1 * util::sgn(alfa.x),
-					tan(angle + 0.0001f) * -util::sgn(alfa.x)), map_edges));
-			points.push_back(cast_ray(source.pos,
-				Vectorf(1 * util::sgn(alfa.x),
-					tan(angle - 0.0001f) * -util::sgn(alfa.x)), map_edges));
+			point = cast_ray(source.pos, Vectorf(1 * util::sgn(alfa.x),
+				tan(angle + 0.0001f) * -util::sgn(alfa.x)), map_edges);
+			if (point.second != source.pos)
+				points.push_back(point);
+			point = cast_ray(source.pos, Vectorf(1 * util::sgn(alfa.x),
+				tan(angle - 0.0001f) * -util::sgn(alfa.x)), map_edges);
+			if (point.second != source.pos)
+				points.push_back(point);
 		}
 	}
-	map_edges.pop_back();
-	map_edges.pop_back();
-	map_edges.pop_back();
-	map_edges.pop_back();
-	map_vertices.pop_back();
-	map_vertices.pop_back();
-	map_vertices.pop_back();
-	map_vertices.pop_back();
+	remove_light_edges(added_vertices, map_edges, map_vertices);
 	std::sort(points.begin(), points.end(),
 		[](const std::pair<float, Vectorf>& a, const std::pair<float, Vectorf>& b)
 	{return a.first > b.first; });
 	return points;
+}
+
+int Light::add_light_edges(Vectorf source_pos, std::vector<std::pair<Vectorf,
+	Vectorf>>&map_edges, std::vector<Vectorf>& map_vertices)
+{
+	int added = 0;
+	map_edges.push_back(std::make_pair(
+		source_pos + Vectorf(-500, 500), source_pos + Vectorf(500, 500)));
+	map_edges.push_back(std::make_pair(
+		source_pos + Vectorf(500, 500), source_pos + Vectorf(500, -500)));
+	map_edges.push_back(std::make_pair(
+		source_pos + Vectorf(500, -500), source_pos + Vectorf(-500, -500)));
+	map_edges.push_back(std::make_pair(
+		source_pos + Vectorf(-500, -500), source_pos + Vectorf(-500, 500)));
+	for (int j = 0; j < 4; j++)
+	{
+		for (int i = 0; i < map_edges.size() - 3; i++)
+		{
+			Vectorf inter =
+				util::intersection(map_edges[i], map_edges[map_edges.size() - 1 - j]);
+			if (inter != Vectorf(FLT_MAX, FLT_MAX))
+			{
+				map_vertices.push_back(inter);
+				added++;
+			}
+		}
+	}
+	return added;
+}
+
+void Light::remove_light_edges(int number, std::vector<std::pair<Vectorf, Vectorf>>& map_edges, std::vector<Vectorf>& map_vertices)
+{
+	map_edges.pop_back();
+	map_edges.pop_back();
+	map_edges.pop_back();
+	map_edges.pop_back();
+	while (number--)
+	{
+		map_vertices.pop_back();
+	}
 }

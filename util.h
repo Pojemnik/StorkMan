@@ -16,6 +16,7 @@ typedef sf::Vector2f Vectorf;
 typedef sf::Vector2i Vectori;
 
 const float PI = 3.1415927f;
+const float eps = 0.0001f;
 
 enum Entity_status { IDLE = 0, MOVE, JUMP_IDLE, JUMP_RUN,
 	PUNCH_1, PUNCH_2, HIT, IN_AIR };
@@ -28,6 +29,7 @@ struct Context
 	bool draw_collisions = false;
 	bool draw_map_vertices = false;
 	bool draw_fps_counter = false;
+	bool draw_light_sources = false;
 	float fps = 60.f;
 	float gravity = 22;
 	float jump_force = 825.f;
@@ -71,6 +73,7 @@ namespace util
 	inline float ang_reduce(float ang);
 	inline bool vectorf_compare(const Vectorf& a, const Vectorf& b);
 	inline bool vectorf_binary_predicate(const Vectorf& a, const Vectorf& b);
+	Vectorf intersection(std::pair<Vectorf, Vectorf> a, std::pair<Vectorf, Vectorf> b);
 
 	inline sf::Vector2f normalize(sf::Vector2f x, float l)
 	{
