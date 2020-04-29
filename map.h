@@ -1,6 +1,5 @@
 #pragma once
 #include "level.h"
-#include "light.h"
 
 class Map : public sf::Drawable
 {
@@ -36,5 +35,6 @@ public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	void update(float dt);
 	void redraw();
+	void recalc();
 	void rescale(float new_global_scale);
 };

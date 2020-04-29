@@ -1,6 +1,5 @@
 #include "game.h"
 
-
 Platform::Platform(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> points)
 	: Texturable(p, t, points)
 {

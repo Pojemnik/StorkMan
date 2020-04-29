@@ -1,5 +1,6 @@
 #pragma once
 #include "game.h"
+#include "light.h"
 
 struct Level
 {
@@ -11,13 +12,15 @@ struct Level
 	std::vector<Physical*> physicals;
 	std::vector<Colidable*> colidables;
 	std::vector<Platform> platforms;
+	std::vector<Light_source> light_sources;
 
 	Level();
 	Level(const Level& level);
-	void addRenderable(Renderable* d);
-	void addTexturable(Texturable* t);
-	void addPhysical(Physical* p);
-	void addColidable(Colidable* c);
-	void addPlatfrom(Platform p);
+	void add_renderable(Renderable* d);
+	void add_texturable(Texturable* t);
+	void add_physical(Physical* p);
+	void add_colidable(Colidable* c);
+	void add_platfrom(Platform p);
+	void add_light_source(Light_source l);
 	void rescale(float ratio);
 };

@@ -53,12 +53,29 @@ Level Parser::parse_level(tinyxml2::XMLElement* root)
 			std::string name = element->Name();
 			if (name == "platform")
 			{
-				lvl.addPlatfrom(parse_platform(element));
+				lvl.add_platfrom(parse_platform(element));
+			}
+			if (name == "light")
+			{
+				lvl.add_light_source(parse_light_source(element));
 			}
 			element = element->NextSiblingElement();
 		}
 	}
 	return lvl;
+}
+
+Light_source Parser::parse_light_source(tinyxml2::XMLElement* element)
+{
+	Vectorf pos;
+	const sf::Texture* tex;
+	sf::Color color;
+	float intensity;
+	pos = parse_num_pairf(get_attribute_by_name("position", element));
+	pos *= context.global_scale;
+	tex = assets->light;
+	intensity = 0;
+	return Light_source(pos, tex, color, intensity);
 }
 
 Platform Parser::parse_platform(tinyxml2::XMLElement* element)

@@ -48,6 +48,11 @@ void Map::place_levels()
 					it.global_pos.y * level_size.y);
 			}
 		}
+		for (auto& light_it : it.light_sources)
+		{
+			light_it.pos.x += it.global_pos.x * level_size.x;
+			light_it.pos.y += it.global_pos.y * level_size.y;
+		}
 	}
 }
 
@@ -179,11 +184,7 @@ void Map::update(float dt)
 	if (map_texture == nullptr)
 	{
 		redraw();
-		calc_map_vertices();
-		std::vector<Vectorf> sources = { {300,-1}, { 500, 400 }, { 300, 400 } };
-		sf::Transform transform = sf::Transform().translate(level_size.x / 2,
-			level_size.y / 2);
-		light.calc_light(sources, transform, map_edges, map_vertices);
+		recalc();
 	}
 	background.setPosition(context.background_position);
 	background.setScale(context.background_scale, context.background_scale);
@@ -199,11 +200,7 @@ void Map::update(float dt)
 		unload_levels_out_of_bounds();
 		load_levels_in_bounds(current_pos);
 		redraw();
-		calc_map_vertices();
-		std::vector<Vectorf> sources = { {300,-1}, { 500, 400 }, { 300, 400 } };
-		sf::Transform transform = sf::Transform().translate(-level_size.x / 2,
-			-level_size.y / 2);
-		light.calc_light(sources, transform, map_edges, map_vertices);
+		recalc();
 	}
 	for (auto& level_it : loaded_levels)
 	{
@@ -224,6 +221,19 @@ void Map::update(float dt)
 		}
 		player->maxcollisionvector = maxv;
 	}
+}
+
+void Map::recalc()
+{
+	calc_map_vertices();
+	std::vector<Light_source> sources;
+	for (const auto& level_it : loaded_levels)
+	{
+		sources.insert(sources.begin(), level_it->light_sources.begin(), level_it->light_sources.end());
+	}
+	sf::Transform transform = sf::Transform().translate(level_size.x / 2,
+		level_size.y / 2);
+	light.calc_light(sources, transform, map_edges, map_vertices);
 }
 
 void Map::redraw()
