@@ -22,6 +22,16 @@ Vectorf util::intersection(std::pair<Vectorf, Vectorf> a, std::pair<Vectorf, Vec
 	{
 		double x = (b2 * c1 - b1 * c2) / determinant;
 		double y = (a1 * c2 - a2 * c1) / determinant;
-		return Vectorf(x, y);
+		if (x >= std::min(a.first.x, a.second.x) && x <= std::max(a.first.x, a.second.x) &&
+			x >= std::min(b.first.x, b.second.x) && x <= std::max(b.first.x, b.second.x) &&
+			y >= std::min(a.first.y, a.second.y) && y <= std::max(a.first.y, a.second.y) &&
+			y >= std::min(b.first.y, b.second.y) && y <= std::max(b.first.y, b.second.y))
+		{
+			return Vectorf(x, y);
+		}
+		else
+		{
+			return Vectorf(FLT_MAX, FLT_MAX);
+		}
 	}
 }

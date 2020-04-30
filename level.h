@@ -13,6 +13,7 @@ struct Level
 	std::vector<Colidable*> colidables;
 	std::vector<Platform> platforms;
 	std::vector<Light_source> light_sources;
+	std::vector<Wall> walls;
 
 	Level();
 	Level(const Level& level);
@@ -22,5 +23,6 @@ struct Level
 	void add_colidable(Colidable* c);
 	void add_platfrom(Platform p);
 	void add_light_source(Light_source l);
+	void add_wall(Wall w);
 	void rescale(float ratio);
 };

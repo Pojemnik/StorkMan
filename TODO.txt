@@ -1,14 +1,12 @@
 ﻿* - następny release
 
 * Swiatło w osobnym wątku
-
-* Sciany
 * Interakcja między światłem a ścianami
 *? Shadery dla statycznych świateł
 * Trzeba by inaczej liczyć Dynamic_enitity.platfrom_angle
-* Wątki
 * Cień Storkmana
 
+Wątki
 Interakcje ze skośnymi platformami (lepsze podbieganie i zbieganie, zsuwanie się od pewnego kąta)
 Warstwy mapy i paralaksa
 Spadanie i lądowanie - lepiej rozwiązać animacje
@@ -23,6 +21,7 @@ Zrobione:
 * Ogarnąć kod w map, przeczyścić context odc. 2 ✓
 * Kolorowe światła (✓)
 * Siła światła ✓
+* Sciany ✓
 
 Błędy:
 * Światło źle się nakłada - trzeba dać inny blend mode?

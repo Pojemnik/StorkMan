@@ -7,11 +7,15 @@ Level::Level()
 Level::Level(const Level& level)
 	: global_pos(level.global_pos), is_loaded(level.is_loaded),
 	global_size(level.global_size), platforms(level.platforms),
-	light_sources(level.light_sources)
+	light_sources(level.light_sources), walls(level.walls)
 {
 	for (auto& it : platforms)
 	{
 		add_colidable(&it);
+		add_texturable(&it);
+	}
+	for (auto& it : walls)
+	{
 		add_texturable(&it);
 	}
 }
@@ -47,8 +51,17 @@ void Level::add_platfrom(Platform p)
 	add_colidable(&p);
 	add_texturable(&p);
 }
+
 void Level::rescale(float ratio)
 {
 	for (auto& it : platforms)
 		it.rescale(ratio);
+	for (auto& it : walls)
+		it.rescale(ratio);
+}
+
+void Level::add_wall(Wall w)
+{
+	walls.push_back(w);
+	add_texturable(&w);
 }

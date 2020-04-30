@@ -27,8 +27,15 @@ void Platform::rescale(float ratio)
 	Colidable::rescale(ratio);
 }
 
+Wall::Wall(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> points)
+	: Texturable(p, t, points)
+{
+
+}
+
 Player::Player(Vectorf p, sf::Texture* texture, std::vector<sf::IntRect>& v,
-	std::vector<const Dynamic_animation*> a, sf::FloatRect rc, Animation_tree t, float h, float gs, float m)
+	std::vector<const Dynamic_animation*> a, sf::FloatRect rc, Animation_tree t,
+	float h, float gs, float m)
 	: Dynamic_entity(p, texture, v, a, rc, t, h, gs, m) {}
 
 void Player::attack(int attack_type)
@@ -273,7 +280,7 @@ void Dynamic_entity::update_position(float dt)
 					pos.x,
 					mid.y + 10 / scale_factor * tan(platform_angle)),
 				Vectorf(
-					pos.x, 
+					pos.x,
 					mid.y + col_height + 10 / scale_factor * tan(platform_angle)),
 				Vectorf(
 					pos.x - 20 / scale_factor,

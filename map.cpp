@@ -92,14 +92,14 @@ void Map::calc_map_vertices()
 	map_edges.clear();
 	for (const auto& it : loaded_levels)
 	{
-		for (const auto& it2 : it->texturables)
+		for (const auto& it2 : it->platforms)
 		{
-			for (size_t i = 1; i < it2->vertices.size(); i++)
+			for (size_t i = 1; i < it2.vertices.size(); i++)
 			{
-				tab.push_back(std::make_pair(it2->vertices[i].position + it2->pos, it2->vertices[i - 1].position + it2->pos));
+				tab.push_back(std::make_pair(it2.vertices[i].position + it2.pos, it2.vertices[i - 1].position + it2.pos));
 			}
 			tab.push_back(std::make_pair(
-				it2->vertices.back().position + it2->pos, it2->vertices.front().position + it2->pos));
+				it2.vertices.back().position + it2.pos, it2.vertices.front().position + it2.pos));
 		}
 	}
 	for (auto it1 = tab.begin(); it1 != tab.end(); it1++)
@@ -256,9 +256,13 @@ void Map::redraw()
 		{
 			map_texture->draw(*it2, states);
 		}
-		for (const auto& it2 : it->texturables)
+		for (const auto& it2 : it->walls)
 		{
-			map_texture->draw(*it2, states);
+			map_texture->draw(it2, states);
+		}
+		for (const auto& it2 : it->platforms)
+		{
+			map_texture->draw(it2, states);
 		}
 		states.transform *= sf::Transform().translate(
 			{ -1 * level_size.x * it->global_pos.x,

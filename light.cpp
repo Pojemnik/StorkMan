@@ -131,7 +131,7 @@ std::vector<std::pair<float, Vectorf>> Light::calc_light_source(
 int Light::add_light_edges(Light_source& source, std::vector<std::pair<Vectorf,
 	Vectorf>>&map_edges, std::vector<Vectorf>& map_vertices)
 {
-	int added = 0;
+	int added = 4;
 	const float edge = 500 * source.intensity;
 	map_edges.push_back(std::make_pair(
 		source.pos + Vectorf(-edge, edge), source.pos + Vectorf(edge, edge)));
@@ -143,7 +143,7 @@ int Light::add_light_edges(Light_source& source, std::vector<std::pair<Vectorf,
 		source.pos + Vectorf(-edge, -edge), source.pos + Vectorf(-edge, edge)));
 	for (int j = 0; j < 4; j++)
 	{
-		for (int i = 0; i < map_edges.size() - 3; i++)
+		for (int i = 0; i < map_edges.size() - 4; i++)
 		{
 			Vectorf inter =
 				util::intersection(map_edges[i], map_edges[map_edges.size() - 1 - j]);
@@ -154,6 +154,10 @@ int Light::add_light_edges(Light_source& source, std::vector<std::pair<Vectorf,
 			}
 		}
 	}
+	map_vertices.push_back(source.pos + Vectorf(edge, edge));
+	map_vertices.push_back(source.pos + Vectorf(-edge, edge));
+	map_vertices.push_back(source.pos + Vectorf(-edge, -edge));
+	map_vertices.push_back(source.pos + Vectorf(edge, -edge));
 	return added;
 }
 

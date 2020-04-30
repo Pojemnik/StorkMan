@@ -45,7 +45,8 @@ Vectori Parser::parse_num_pairi(std::string val)
 
 std::string Parser::get_attribute_by_name(std::string name, tinyxml2::XMLElement* element)
 {
-	tinyxml2::XMLAttribute* att = (tinyxml2::XMLAttribute*)(element->FindAttribute(name.c_str()));
+	tinyxml2::XMLAttribute* att =
+		(tinyxml2::XMLAttribute*)(element->FindAttribute(name.c_str()));
 	return std::string(att->Value());
 }
 
@@ -77,6 +78,10 @@ Level Parser::parse_level(tinyxml2::XMLElement* root)
 			{
 				lvl.add_light_source(parse_light_source(element));
 			}
+			if (name == "wall")
+			{
+				lvl.add_wall(parse_wall(element));
+			}
 			element = element->NextSiblingElement();
 		}
 	}
@@ -91,7 +96,8 @@ Light_source Parser::parse_light_source(tinyxml2::XMLElement* element)
 	}
 	catch (const std::invalid_argument &e)
 	{
-		std::cerr << "Wyjatek: " << e.what() << std::endl << "Element: " << "light_source" << std::endl;
+		std::cerr << "Wyjatek: " << e.what() << std::endl;
+		std::cerr << "Element: " << "light_source" << std::endl;
 		std::cerr << "Nieprawid³owa pozycja lub kolor" << std::endl;
 	}
 	throw std::runtime_error("Light source error");
@@ -121,12 +127,14 @@ Platform Parser::parse_platform(tinyxml2::XMLElement* element)
 	}
 	catch (const std::invalid_argument & e)
 	{
-		std::cerr << "Wyjatek: " << e.what() << std::endl << "Element: " << "platform" << std::endl;
+		std::cerr << "Wyjatek: " << e.what() << std::endl;
+		std::cerr << "Element: " << "platform" << std::endl;
 		std::cerr << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz platformy" << std::endl;
 	}
 	catch (const std::out_of_range & e)
 	{
-		std::cerr << "Wyjatek: " << e.what() << std::endl << "Element: " << "platform" << std::endl;
+		std::cerr << "Wyjatek: " << e.what() << std::endl;
+		std::cerr << "Element: " << "platform" << std::endl;
 		std::cerr << "Prawdopodobnie nieprawid³owa tekstura" << std::endl;
 	}
 	throw std::runtime_error("Platform error");
@@ -134,10 +142,9 @@ Platform Parser::parse_platform(tinyxml2::XMLElement* element)
 
 Platform Parser::parse_platform_raw(tinyxml2::XMLElement* element)
 {
-	Vectorf pos;
 	std::vector<sf::Vertex> points;
 	const sf::Texture* tex;
-	pos = parse_num_pairf(get_attribute_by_name("position", element));
+	Vectorf pos = parse_num_pairf(get_attribute_by_name("position", element));
 	pos *= context.global_scale;
 	std::string val = get_attribute_by_name("texture", element);
 	tex = assets->textures.at(val);
@@ -159,6 +166,55 @@ Platform Parser::parse_platform_raw(tinyxml2::XMLElement* element)
 		e = e->NextSiblingElement();
 	}
 	return Platform(pos, tex, points);
+}
+
+Wall Parser::parse_wall(tinyxml2::XMLElement* element)
+{
+	try
+	{
+		return parse_wall_raw(element);
+	}
+	catch (const std::invalid_argument & e)
+	{
+		std::cerr << "Wyjatek: " << e.what() << std::endl;
+		std::cerr << "Element: " << "wall" << std::endl;
+		std::cerr << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz œciany" << std::endl;
+	}
+	catch (const std::out_of_range & e)
+	{
+		std::cerr << "Wyjatek: " << e.what() << std::endl;
+		std::cerr << "Element: " << "wall" << std::endl;
+		std::cerr << "Prawdopodobnie nieprawid³owa tekstura" << std::endl;
+	}
+	throw std::runtime_error("Wall error");
+}
+
+Wall Parser::parse_wall_raw(tinyxml2::XMLElement* element)
+{
+	std::vector<sf::Vertex> points;
+	const sf::Texture* tex;
+	Vectorf pos = parse_num_pairf(get_attribute_by_name("position", element));
+	pos *= context.global_scale;
+	std::string val = get_attribute_by_name("texture", element);
+	tex = assets->textures.at(val);
+	tinyxml2::XMLElement* e = element->FirstChildElement();
+	while (e != NULL)
+	{
+		std::string n = e->Name();
+		if (n == "v")
+		{
+			Vectorf v = parse_num_pairf(e->GetText());
+			v *= context.global_scale;
+			points.push_back(sf::Vertex(v, v));
+		}
+		else
+		{
+			std::cerr << "B³¹d w œcianie" << std::endl;
+			throw std::invalid_argument("Error in wall vertices");
+		}
+		e = e->NextSiblingElement();
+	}
+	return Wall(pos, tex, points);
 }
 
 Map Parser::parse_map(tinyxml2::XMLElement* root)
@@ -231,6 +287,7 @@ Map Parser::parse_map(tinyxml2::XMLElement* root)
 			element = element->NextSiblingElement();
 		}
 	}
-	return Map(map_size, vec, map_player_pos, *assets->bg, *assets->layer2, assets->light);
+	return Map(map_size, vec, map_player_pos, *assets->bg,
+		*assets->layer2, assets->light);
 }
 Parser::Parser(Assets* const _assets) : assets(_assets) {};

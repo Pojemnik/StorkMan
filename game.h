@@ -8,6 +8,11 @@ struct Platform : public Texturable, public Colidable
 	void rescale(float ratio);
 };
 
+struct Wall : public Texturable
+{
+	Wall(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> points);
+};
+
 class Dynamic_entity : public Dynamic_animatable, public Physical
 {
 protected:
