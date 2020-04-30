@@ -6,10 +6,7 @@
 		<v>7,1.92</v>
 		<v>0,1.92</v>
 	</platform>
-	<light position="0.7,0.7" color="255,255,255" intensity="500"/>
-	<light position="20.7,0.7" color="255,255,255" intensity="500"/>
-	<light position="20.7,20.7" color="255,255,255" intensity="500"/>
-	<light position="0.7,20.7" color="255,255,255" intensity="500"/>
+	<light position="0.7,0.7" color="255,255,255" intensity="2"/>
 	<platform position="10,99" texture="wood,0">
 		<v>0,0</v>
 		<v>10,0</v>

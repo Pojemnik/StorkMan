@@ -1,28 +1,37 @@
 ﻿* - następny release
 
-Interakcje ze skośnymi platformami (lepsze podbieganie i zbieganie,zsuwanie się od pewnego kąta)
+* Swiatło w osobnym wątku
+
+* Sciany
+* Interakcja między światłem a ścianami
+*? Shadery dla statycznych świateł
+* Trzeba by inaczej liczyć Dynamic_enitity.platfrom_angle
 * Wątki
+* Cień Storkmana
+
+Interakcje ze skośnymi platformami (lepsze podbieganie i zbieganie, zsuwanie się od pewnego kąta)
 Warstwy mapy i paralaksa
 Spadanie i lądowanie - lepiej rozwiązać animacje
 Uwzględnić skalę w edycji poziomów
+Przyspieszyć obliczenia światła - szybsza trygonometria
+Przyspieszyć obliczenia światła - wektory zamiast trygonometrii
+
+Zrobione:
 * Dziedzina funkcji trygonometrycznych w świetle i dzielenie przez zero ✓
-* Swiatło w osobnym wątku
 * Statyczne światła liczyć statycznie ✓
 * Opis świateł w XML ✓
 * Ogarnąć kod w map, przeczyścić context odc. 2 ✓
-* Interakcja między światłem a ścianami
-* Kolorowe światła
-* Siła światła
-* Interakcje ściany - światło
-*? Shadery dla statycznych świateł
-* Trzeba by inaczej liczyć Dynamic_enitity.platfrom_angle
+* Kolorowe światła (✓)
+* Siła światła ✓
 
 Błędy:
+* Światło źle się nakłada - trzeba dać inny blend mode?
 * Zsuwanie się z platform
 * Skalowanie odc. 0xDEADBEEF
 * Animacje dotykając ściany
 * Grawitacja dziala inaczej na platfromach pochylonych w różne strony
-* Skoki ze skośnych platform ✓(chyba)
+
+* Skoki ze skośnych platform (✓)
 
 Lista priorytetowa by Adam:
 * 1. Zmiana skoków na lepiej obsługiwalne

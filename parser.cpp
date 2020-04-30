@@ -12,6 +12,25 @@ Vectorf Parser::parse_num_pairf(std::string val)
 	return Vectorf(x, y);
 }
 
+sf::Color Parser::parse_color(std::string val)
+{
+	size_t p1, p2;
+	p1 = val.find(',');
+	if (p1 == std::string::npos)
+	{
+		throw std::invalid_argument("No ',' found");
+	}
+	p2 = val.find(',', p1);
+	if (p2 == std::string::npos)
+	{
+		throw std::invalid_argument("Only one ',' found");
+	}
+	uint8_t r = std::stoi(val.substr(0, p1));
+	uint8_t g = std::stoi(val.substr(p1+1, p2));
+	uint8_t b = std::stoi(val.substr(p2+1));
+	return sf::Color(r, g, b);
+}
+
 Vectori Parser::parse_num_pairi(std::string val)
 {
 	size_t p = val.find(',');
@@ -46,7 +65,6 @@ Level Parser::parse_level(tinyxml2::XMLElement* root)
 			std::cerr << "Brak elementu level" << std::endl;
 			throw std::invalid_argument("No level node");
 		}
-		//tinyxml2::XMLAttribute* att = (tinyxml2::XMLAttribute*)root->FirstAttribute();
 		tinyxml2::XMLElement* element = root->FirstChildElement();
 		while (element != NULL)
 		{
@@ -67,14 +85,31 @@ Level Parser::parse_level(tinyxml2::XMLElement* root)
 
 Light_source Parser::parse_light_source(tinyxml2::XMLElement* element)
 {
-	Vectorf pos;
+	try
+	{
+		return parse_light_source_raw(element);
+	}
+	catch (const std::invalid_argument &e)
+	{
+		std::cerr << "Wyjatek: " << e.what() << std::endl << "Element: " << "light_source" << std::endl;
+		std::cerr << "Nieprawid³owa pozycja lub kolor" << std::endl;
+	}
+	throw std::runtime_error("Light source error");
+}
+
+Light_source Parser::parse_light_source_raw(tinyxml2::XMLElement* element)
+{
 	const sf::Texture* tex;
 	sf::Color color;
-	float intensity;
-	pos = parse_num_pairf(get_attribute_by_name("position", element));
+	Vectorf pos = parse_num_pairf(get_attribute_by_name("position", element));
 	pos *= context.global_scale;
 	tex = assets->light;
-	intensity = 0;
+	float intensity = std::stof(get_attribute_by_name("intensity", element));
+	color = parse_color(get_attribute_by_name("color", element));
+	if (intensity <= 0)
+	{
+		throw std::invalid_argument("Invalid light intensity");
+	}
 	return Light_source(pos, tex, color, intensity);
 }
 
@@ -84,12 +119,12 @@ Platform Parser::parse_platform(tinyxml2::XMLElement* element)
 	{
 		return parse_platform_raw(element);
 	}
-	catch (const std::invalid_argument &e)
+	catch (const std::invalid_argument & e)
 	{
 		std::cerr << "Wyjatek: " << e.what() << std::endl << "Element: " << "platform" << std::endl;
-		std::cerr << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trze platformy" << std::endl;
+		std::cerr << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz platformy" << std::endl;
 	}
-	catch (const std::out_of_range &e)
+	catch (const std::out_of_range & e)
 	{
 		std::cerr << "Wyjatek: " << e.what() << std::endl << "Element: " << "platform" << std::endl;
 		std::cerr << "Prawdopodobnie nieprawid³owa tekstura" << std::endl;

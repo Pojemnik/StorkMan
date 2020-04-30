@@ -29,24 +29,28 @@ void Light::calc_light(std::vector<Light_source>& sources,
 		sf::VertexArray light(sf::TriangleFan, points.size() + 2);
 		light[0].position = source.pos;
 		light[0].texCoords = { 500,500 };
+		light[0].color = source.color;
 		for (size_t i = 1; i < points.size() + 1; i++)
 		{
 			light[i].position = points[i - 1].second;
-			light[i].texCoords = points[i - 1].second + Vectorf(500, 500)
-				- source.pos;
+			light[i].texCoords = Vectorf(500, 500) +
+				(points[i - 1].second - source.pos) / source.intensity;
+			light[i].color = source.color;
 		}
 		light[points.size() + 1].position = points[0].second;
-		light[points.size() + 1].texCoords = points[0].second + Vectorf(500, 500)
-			- source.pos;
+		light[points.size() + 1].texCoords = Vectorf(500, 500) +
+			(points[0].second - source.pos) / source.intensity;
+		light[points.size() + 1].color = source.color;
 		states.transform = transform;
 		target->draw(light, states);
 		if (context.draw_light_sources)
 		{
 			sf::RenderStates source_states;
 			source_states.transform = transform;
-			sf::CircleShape source_point(5);
+			sf::CircleShape source_point(5 * source.intensity);
 			source_point.setFillColor(sf::Color::Red);
-			source_point.setPosition(source.pos - Vectorf(5, 5));
+			source_point.setPosition(source.pos -
+				Vectorf(5 * source.intensity, 5 * source.intensity));
 			target->draw(source_point, source_states);
 		}
 	}
@@ -93,13 +97,13 @@ std::vector<std::pair<float, Vectorf>> Light::calc_light_source(
 {
 	std::vector<std::pair<float, Vectorf>> points;
 	Vectorf alfa;
-	int added_vertices = add_light_edges(source.pos, map_edges, map_vertices);
+	int added_vertices = add_light_edges(source, map_edges, map_vertices);
 	for (const auto& vertex_it : map_vertices)
 	{
 		Vectorf dist = vertex_it - source.pos;
 		if (dist == Vectorf(0, 0))	//atan2 domain
 			continue;
-		if (util::sq(dist.x) + util::sq(dist.y) < light_const)
+		if (util::sq(dist.x) + util::sq(dist.y) < light_const * util::sq(500*source.intensity) + 50)
 		{
 			alfa = vertex_it - source.pos;
 			std::pair<float, Vectorf> point;
@@ -124,18 +128,19 @@ std::vector<std::pair<float, Vectorf>> Light::calc_light_source(
 	return points;
 }
 
-int Light::add_light_edges(Vectorf source_pos, std::vector<std::pair<Vectorf,
+int Light::add_light_edges(Light_source& source, std::vector<std::pair<Vectorf,
 	Vectorf>>&map_edges, std::vector<Vectorf>& map_vertices)
 {
 	int added = 0;
+	const float edge = 500 * source.intensity;
 	map_edges.push_back(std::make_pair(
-		source_pos + Vectorf(-500, 500), source_pos + Vectorf(500, 500)));
+		source.pos + Vectorf(-edge, edge), source.pos + Vectorf(edge, edge)));
 	map_edges.push_back(std::make_pair(
-		source_pos + Vectorf(500, 500), source_pos + Vectorf(500, -500)));
+		source.pos + Vectorf(edge, edge), source.pos + Vectorf(edge, -edge)));
 	map_edges.push_back(std::make_pair(
-		source_pos + Vectorf(500, -500), source_pos + Vectorf(-500, -500)));
+		source.pos + Vectorf(edge, -edge), source.pos + Vectorf(-edge, -edge)));
 	map_edges.push_back(std::make_pair(
-		source_pos + Vectorf(-500, -500), source_pos + Vectorf(-500, 500)));
+		source.pos + Vectorf(-edge, -edge), source.pos + Vectorf(-edge, edge)));
 	for (int j = 0; j < 4; j++)
 	{
 		for (int i = 0; i < map_edges.size() - 3; i++)

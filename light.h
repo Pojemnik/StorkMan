@@ -1,7 +1,7 @@
 #pragma once
 #include "util.h"
 
-const int light_const = 500050;//default for dynamic light: 500050
+const float light_const = 2;//default for dynamic light: 2
 
 struct Light_source
 {
@@ -24,7 +24,7 @@ private:
 
 	std::pair<float, Vectorf>cast_ray(Vectorf source, Vectorf alfa, std::vector<std::pair<Vectorf, Vectorf>>& map_edges);
 	std::vector<std::pair<float, Vectorf>> calc_light_source(Light_source source, std::vector<std::pair<Vectorf, Vectorf>>& map_edges, std::vector<Vectorf>& map_vertices);
-	int add_light_edges(Vectorf source_pos, std::vector<std::pair<Vectorf,
+	int add_light_edges(Light_source& source, std::vector<std::pair<Vectorf,
 		Vectorf>>&map_edges, std::vector<Vectorf>& map_vertices);
 	void remove_light_edges(int number, std::vector<std::pair<Vectorf,
 		Vectorf>>&map_edges, std::vector<Vectorf>& map_vertices);
