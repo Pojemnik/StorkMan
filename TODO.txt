@@ -5,6 +5,9 @@
 *? Shadery dla statycznych świateł
 * Trzeba by inaczej liczyć Dynamic_enitity.platfrom_angle
 * Cień Storkmana
+* Możliwość zmiany tekstur "z zewnątrz"
+* Słońce
+* Rozjaśnianie tekstur przez światło (pewnie shader)
 
 Wątki
 Interakcje ze skośnymi platformami (lepsze podbieganie i zbieganie, zsuwanie się od pewnego kąta)
