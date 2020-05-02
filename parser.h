@@ -7,7 +7,7 @@
 class Parser
 {
 private:
-	Assets* const assets;
+	Assets* assets;
 
 	Vectorf parse_num_pairf(std::string val);
 	sf::Color parse_color(std::string val);
@@ -20,8 +20,11 @@ private:
 	Light_source parse_light_source(tinyxml2::XMLElement* element);
 	Wall parse_wall_raw(tinyxml2::XMLElement* element);
 	Wall parse_wall(tinyxml2::XMLElement* element);
+	Object parse_object_raw(tinyxml2::XMLElement* element);
+	Object parse_object(tinyxml2::XMLElement* element);
 
 public:
 	Map parse_map(tinyxml2::XMLElement* root);
-	Parser(Assets* const _assets);
+	void parse_additional_textures(std::string path);
+	Parser(Assets* _assets);
 };

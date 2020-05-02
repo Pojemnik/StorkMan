@@ -13,6 +13,11 @@ struct Wall : public Texturable
 	Wall(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> points);
 };
 
+struct Object : public Renderable
+{
+	Object(Vectorf p, const sf::Texture* t, float h);
+};
+
 class Dynamic_entity : public Dynamic_animatable, public Physical
 {
 protected:

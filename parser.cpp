@@ -1,5 +1,7 @@
 #include "parser.h"
 
+Parser::Parser(Assets* _assets) : assets(_assets) {};
+
 Vectorf Parser::parse_num_pairf(std::string val)
 {
 	size_t p = val.find(',');
@@ -26,8 +28,8 @@ sf::Color Parser::parse_color(std::string val)
 		throw std::invalid_argument("Only one ',' found");
 	}
 	uint8_t r = std::stoi(val.substr(0, p1));
-	uint8_t g = std::stoi(val.substr(p1+1, p2));
-	uint8_t b = std::stoi(val.substr(p2+1));
+	uint8_t g = std::stoi(val.substr(p1 + 1, p2));
+	uint8_t b = std::stoi(val.substr(p2 + 1));
 	return sf::Color(r, g, b);
 }
 
@@ -72,7 +74,7 @@ Level Parser::parse_level(tinyxml2::XMLElement* root)
 			std::string name = element->Name();
 			if (name == "platform")
 			{
-				lvl.add_platfrom(parse_platform(element));
+				lvl.add_platform(parse_platform(element));
 			}
 			if (name == "light")
 			{
@@ -81,6 +83,10 @@ Level Parser::parse_level(tinyxml2::XMLElement* root)
 			if (name == "wall")
 			{
 				lvl.add_wall(parse_wall(element));
+			}
+			if (name == "object")
+			{
+				lvl.add_object(parse_object(element));
 			}
 			element = element->NextSiblingElement();
 		}
@@ -94,7 +100,7 @@ Light_source Parser::parse_light_source(tinyxml2::XMLElement* element)
 	{
 		return parse_light_source_raw(element);
 	}
-	catch (const std::invalid_argument &e)
+	catch (const std::invalid_argument & e)
 	{
 		std::cerr << "Wyjatek: " << e.what() << std::endl;
 		std::cerr << "Element: " << "light_source" << std::endl;
@@ -217,6 +223,32 @@ Wall Parser::parse_wall_raw(tinyxml2::XMLElement* element)
 	return Wall(pos, tex, points);
 }
 
+Object Parser::parse_object(tinyxml2::XMLElement* element)
+{
+	try
+	{
+		return parse_object_raw(element);
+	}
+	catch (const std::out_of_range & e)
+	{
+		std::cerr << "Wyjatek: " << e.what() << std::endl;
+		std::cerr << "Element: " << "object" << std::endl;
+		std::cerr << "Prawdopodobnie nieprawid³owa tekstura" << std::endl;
+	}
+	throw std::runtime_error("Object error");
+}
+
+Object Parser::parse_object_raw(tinyxml2::XMLElement* element)
+{
+	const sf::Texture* tex;
+	Vectorf pos = parse_num_pairf(get_attribute_by_name("position", element));
+	pos *= context.global_scale;
+	std::string val = get_attribute_by_name("texture", element);
+	tex = assets->textures.at(val);
+	float height = std::stof(get_attribute_by_name("height", element));
+	return Object(pos, tex, height);
+}
+
 Map Parser::parse_map(tinyxml2::XMLElement* root)
 {
 	Vectori map_player_pos = Vectori(-1, -1), map_size = Vectori(-1, -1);
@@ -290,4 +322,20 @@ Map Parser::parse_map(tinyxml2::XMLElement* root)
 	return Map(map_size, vec, map_player_pos, *assets->bg,
 		*assets->layer2, assets->light);
 }
-Parser::Parser(Assets* const _assets) : assets(_assets) {};
+
+void Parser::parse_additional_textures(std::string path)
+{
+	std::ifstream file;
+	std::string p, name;
+	int repeat;
+
+	file.open(path);
+	if (file.good())
+	{
+		while (!file.eof())
+		{
+			file >> p >> name >> repeat;
+			assets->load_additional_texture(p, name, repeat);
+		}
+	}
+}

@@ -26,7 +26,7 @@ protected:
 
 public:
 	Renderable() = default;
-	Renderable(Vectorf p, sf::Texture* t, float h);
+	Renderable(Vectorf p, const sf::Texture* t, float h);
 	void rescale(float gs);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

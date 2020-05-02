@@ -1,0 +1,2 @@
+img/tex/TAPETA00.png tapeta0 1
+img/tex/STRZALKA00.png arrow0 0

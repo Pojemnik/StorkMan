@@ -5,7 +5,6 @@
 *? Shadery dla statycznych świateł
 * Trzeba by inaczej liczyć Dynamic_enitity.platfrom_angle
 * Cień Storkmana
-* Możliwość zmiany tekstur "z zewnątrz"
 * Słońce
 * Rozjaśnianie tekstur przez światło (pewnie shader)
 
@@ -25,6 +24,7 @@ Zrobione:
 * Kolorowe światła (✓)
 * Siła światła ✓
 * Sciany ✓
+* Możliwość zmiany tekstur "z zewnątrz" ✓
 
 Błędy:
 * Światło źle się nakłada - trzeba dać inny blend mode?

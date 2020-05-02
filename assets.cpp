@@ -101,7 +101,7 @@ void Assets::load_textures(std::vector<sf::Texture>& v, std::string path, bool r
 		std::cerr << "error reading sizes " + path << std::endl;
 		return;
 	}
-	v.reserve((uint64_t)c * d);
+	v.reserve((uint64_t)c * d + 50);
 	sf::Image image;
 	if (!image.loadFromFile(path))
 	{
@@ -128,6 +128,17 @@ void Assets::load_shaders()
 	blurv.setUniform("sigma", 50.0f);
 	blurv.setUniform("blurSize", 1.0f / context.resolution.y);
 	blurv.setUniform("blurSampler", sf::Shader::CurrentTexture);
+}
+
+void Assets::load_additional_texture(std::string path, std::string name, int repeat)
+{
+	map_textures.push_back(sf::Texture());
+	map_textures.back().loadFromFile(path);
+	if (repeat == 1)
+	{
+		map_textures.back().setRepeated(true);
+	}
+	textures[name] = &map_textures.back();
 }
 
 void Assets::load_assets()

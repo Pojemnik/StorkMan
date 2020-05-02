@@ -252,11 +252,11 @@ void Map::redraw()
 			{ level_size.x * it->global_pos.x,
 			level_size.y * it->global_pos.y }
 		);
-		for (const auto& it2 : it->drawables)
-		{
-			map_texture->draw(*it2, states);
-		}
 		for (const auto& it2 : it->walls)
+		{
+			map_texture->draw(it2, states);
+		}
+		for (const auto& it2 : it->objects)
 		{
 			map_texture->draw(it2, states);
 		}

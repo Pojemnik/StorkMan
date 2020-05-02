@@ -44,6 +44,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	Assets assets;
 	assets.load_assets();
 	Parser parser(&assets);
+	parser.parse_additional_textures("img/textures.txt");
 	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
 	sf::RenderWindow window(sf::VideoMode(context.resolution.x, context.resolution.y, desktop.bitsPerPixel), "StorkMan " + VERSION, sf::Style::Titlebar | sf::Style::Close);
 	sf::Clock clock;

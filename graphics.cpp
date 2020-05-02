@@ -1,9 +1,10 @@
 #include "graphics.h"
 
-Renderable::Renderable(Vectorf p, sf::Texture* t, float h) : tex(t), pos(p), height(h)
+Renderable::Renderable(Vectorf p, const sf::Texture* t, float h) : tex(t), pos(p), height(h)
 {
 	sprite = sf::Sprite(*tex);
 	sprite.setPosition(pos);
+	rescale(context.global_scale);
 }
 
 void Renderable::draw(sf::RenderTarget& target, sf::RenderStates states) const

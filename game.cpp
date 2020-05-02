@@ -33,6 +33,10 @@ Wall::Wall(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> points)
 
 }
 
+Object::Object(Vectorf p, const sf::Texture* t, float h) : Renderable(p, t, h)
+{
+}
+
 Player::Player(Vectorf p, sf::Texture* texture, std::vector<sf::IntRect>& v,
 	std::vector<const Dynamic_animation*> a, sf::FloatRect rc, Animation_tree t,
 	float h, float gs, float m)

@@ -15,6 +15,7 @@ public:
 	Animation_tree stork_tree;
 	sf::Shader blurv, blurh;
 	void load_assets();
+	void load_additional_texture(std::string path, std::string name, int repeat);
 
 private:
 	void load_texture(sf::Texture& t, sf::Image& img, int y, int x, int sx, int sy, bool rep);
