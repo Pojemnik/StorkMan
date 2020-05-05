@@ -8,7 +8,7 @@
 #include "util.h"
 #include "console.h"
 
-const std::string VERSION = "0.3.4b";
+const std::string VERSION = "0.3.4c";
 
 bool update(float dt, Map& map, int move)
 {
@@ -170,7 +170,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			}
 			window.draw(player, rs);
 			context.final_states.transform = rs.transform.translate(-map.level_size.x / 2, -map.level_size.y / 2);
-			window.draw(map.light.lightmap, context.final_states);
+			window.draw(map.light_sprite, context.final_states);
 			if (context.draw_fps_counter)
 				window.draw(context.fps_counter);
 			if (context.draw_map_vertices)

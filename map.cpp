@@ -5,6 +5,7 @@ Map::Map()
 	level_placement = nullptr;
 	map_texture = nullptr;
 	player = nullptr;
+	light_texture = nullptr;
 }
 
 Map::Map(Vectori dimensions, std::vector<Level>& lvls, Vectori start_pos,
@@ -25,6 +26,7 @@ Map::Map(Vectori dimensions, std::vector<Level>& lvls, Vectori start_pos,
 	global_scale = context.global_scale;
 	light.lightmap.setPosition(0, 0);
 	map_texture = nullptr;
+	light_texture = nullptr;
 }
 
 void Map::place_levels()
@@ -234,6 +236,11 @@ void Map::recalc()
 	sf::Transform transform = sf::Transform().translate(level_size.x / 2,
 		level_size.y / 2);
 	light.calc_light(sources, transform, map_edges, map_vertices);
+	sf::RenderStates states;
+	states.blendMode = sf::BlendMultiply;
+	light_texture->draw(light.lightmap, states);
+	light_texture->display();
+	light_sprite.setTexture(light_texture->getTexture());
 }
 
 void Map::redraw()
@@ -242,19 +249,40 @@ void Map::redraw()
 	{
 		map_texture = new sf::RenderTexture();
 		if (!map_texture->create(level_size.x * 2, level_size.y * 2))
+		{
 			std::cerr << "Error creating map" << std::endl;
+			throw std::runtime_error("Memory error");
+		}
+	}
+	if (light_texture == nullptr)
+	{
+		light_texture = new sf::RenderTexture();
+		if (!light_texture->create(level_size.x * 2, level_size.y * 2))
+		{
+			std::cerr << "Error creating walls buffer" << std::endl;
+			throw std::runtime_error("Memory error");
+		}	
 	}
 	map_texture->clear(sf::Color(0, 0, 0, 0));
+	light_texture->clear(sf::Color(0, 0, 0, 0));
 	sf::RenderStates states;
+	sf::RenderStates walls_states;
 	for (const auto& it : loaded_levels)
 	{
 		states.transform *= sf::Transform().translate(
 			{ level_size.x * it->global_pos.x,
 			level_size.y * it->global_pos.y }
 		);
-		for (const auto& it2 : it->walls)
+		context.white_states.transform *= sf::Transform().translate(
+			{ level_size.x * it->global_pos.x,
+			level_size.y * it->global_pos.y }
+		);
+		context.white_states.transform *= sf::Transform().translate(level_size.x / 2,
+			level_size.y / 2);
+		for (auto& it2 : it->walls)
 		{
 			map_texture->draw(it2, states);
+			light_texture->draw(it2, context.white_states);
 		}
 		for (const auto& it2 : it->objects)
 		{
@@ -268,9 +296,14 @@ void Map::redraw()
 			{ -1 * level_size.x * it->global_pos.x,
 			-1 * level_size.y * it->global_pos.y }
 		);
+		context.white_states.transform *= sf::Transform().translate(
+			{ -1 * level_size.x * it->global_pos.x,
+			-1 * level_size.y * it->global_pos.y }
+		);
 	}
 	map_texture->display();
 	map_sprite.setTexture(map_texture->getTexture());
+	context.global.setUniform("texture", map_texture->getTexture());
 }
 
 void Map::rescale(float new_global_scale)

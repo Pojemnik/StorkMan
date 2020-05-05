@@ -9,9 +9,9 @@
 	<object position="0.5, 4" texture="arrow0" height="1"/>
 	<wall position="0,0" texture="tapeta0">
 		<v>0,0</v>
-		<v>7,0</v>
-		<v>7,7</v>
-		<v>0,7</v>
+		<v>7.5,0</v>
+		<v>7.5,7.5</v>
+		<v>0,7.5</v>
 	</wall>
 	<light position="2, 0.5" color="255,255,255" intensity="1"/>
 	<platform position="10,99" texture="wood,0">

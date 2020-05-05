@@ -46,7 +46,8 @@ struct Context
 	float layer2_scale = 1.f;
 	const Vectorf max_force = { 1000.f, 3000.0f };
 	sf::RenderStates bg_states, layer2_states, blurh_states, blurv_states,
-		final_states;
+		final_states, white_states;
+	sf::Shader global;
 	Vectori resolution = { 1024, 576 };
 	sf::Font arial;
 	sf::Text fps_counter;

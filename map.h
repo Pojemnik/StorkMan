@@ -11,6 +11,7 @@ private:
 	std::list<Level*> loaded_levels;
 	sf::Sprite map_sprite;
 	sf::RenderTexture* map_texture;
+	sf::RenderTexture* light_texture;
 	std::vector<Vectorf> map_vertices;
 	float global_scale;
 
@@ -27,6 +28,7 @@ public:
 	Player* player;		//Chyba niezyt eleganckie
 	sf::Vector2f level_size = { 100 * context.global_scale,100 * context.global_scale };
 	Light light;
+	sf::Sprite light_sprite;
 
 	Map();
 	Map(Vectori dimensions, std::vector<Level>& lvls, Vectori start_pos,
