@@ -75,11 +75,11 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	const float* matrix = states.transform.getMatrix();
 	Vectorf move = { matrix[12], matrix[13] };
-	Vectorf bg_move_parallax = move / context.parrallax;
+	Vectorf bg_move_parallax = move / context.parallax;
 	context.bg_states = states;
 	context.bg_states.transform.translate(bg_move_parallax);
 	target.draw(background, context.bg_states);
-	Vectorf layer2_move_parallax = move / context.parrallax2;
+	Vectorf layer2_move_parallax = move / context.parallax2;
 	context.layer2_states = states;
 	context.layer2_states.transform.translate(layer2_move_parallax);
 	target.draw(layer2, context.layer2_states);

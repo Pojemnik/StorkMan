@@ -7,7 +7,11 @@
 * Cień Storkmana
 * Słońce
 * Rozjaśnianie tekstur przez światło (pewnie shader)
+* Przeskalować do 32px/m
 
+Więcej warstw dla obiektów
+Obracanie i odbijanie obiektów z xml'a
+Przezroczyste platformy
 Wątki
 Interakcje ze skośnymi platformami (lepsze podbieganie i zbieganie, zsuwanie się od pewnego kąta)
 Warstwy mapy i paralaksa
@@ -27,11 +31,12 @@ Zrobione:
 * Możliwość zmiany tekstur "z zewnątrz" ✓
 
 Błędy:
-* Światło źle się nakłada - trzeba dać inny blend mode?
+* Światłooooo
 * Zsuwanie się z platform
 * Skalowanie odc. 0xDEADBEEF
 * Animacje dotykając ściany
 * Grawitacja dziala inaczej na platfromach pochylonych w różne strony
+* Kolizje na dziwnych wielokątach
 
 * Skoki ze skośnych platform (✓)
 

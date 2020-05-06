@@ -169,7 +169,8 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 				window.draw(r, rs);
 			}
 			window.draw(player, rs);
-			context.final_states.transform = rs.transform.translate(-map.level_size.x / 2, -map.level_size.y / 2);
+			context.final_states.transform = rs.transform;
+			context.final_states.transform.translate(-map.level_size.x / 2, -map.level_size.y / 2);
 			window.draw(map.light.lightmap, context.final_states);
 			if (context.draw_fps_counter)
 				window.draw(context.fps_counter);

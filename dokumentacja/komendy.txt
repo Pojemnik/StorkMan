@@ -5,10 +5,10 @@ fps						float			60					Docelowa lość klatek na sekundę
 gravity					float			22					Przyspieszenie grawitacyjne
 bgparallax				float			-1.5				Paralaksa tła
 storkminspeed			float			0.5					Minimalna prędkość ruchu - z tą prędkością strokman rusza
-storkmaxspeed			float float		6 5					Masymalna prędkość ruchu
+storkmaxspeed			float float		5 5					Masymalna prędkość ruchu
 storkspeedreduction		float float		0.5 0.5				Wartość, o jaką postać zwalnia po puszczeniu klawisza ruchu
-storkmovespeed			float float		4 0					Wartość przyspieszenia storkmana
-jumpforce				float			870					Siła skoku
+storkmovespeed			float float		8 0					Wartość przyspieszenia storkmana
+jumpforce				float			825					Siła skoku
 bgscale					float			1					Skala tła
 layer2scale				float			1					Skala warstwy 2 (lasu)
 layer2parallax			float			-2					Paralaksa warstwy 2

@@ -143,11 +143,11 @@ std::pair<Command_code, Vectorf> Console::execute_command_raw(Command cmd)
 	}
 	else if (cmd.name == "bgparallax")
 	{
-		context.parrallax = get_float(cmd, "Background parallax");
+		context.parallax = get_float(cmd, "Background parallax");
 	}
 	else if (cmd.name == "layer2parallax")
 	{
-		context.parrallax2 = get_float(cmd, "Layer 2 parallax");
+		context.parallax2 = get_float(cmd, "Layer 2 parallax");
 	}
 	else if (cmd.name == "jumpforce")
 	{
