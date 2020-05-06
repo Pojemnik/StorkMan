@@ -227,6 +227,41 @@ void Map::update(float dt)
 
 void Map::recalc()
 {
+	if (context.night)
+	{
+		context.final_states.shader = NULL;
+		light_texture->clear(sf::Color(255, 255, 255));
+	}
+	else
+	{
+		light_texture->clear(sf::Color(0, 0, 0, 0));
+		context.final_states.shader = &context.global;
+		sf::RenderStates walls_states;
+		context.white_states.transform *= sf::Transform().translate(level_size.x / 2,
+			level_size.y / 2);
+		for (const auto& it : loaded_levels)
+		{
+			context.white_states.transform *= sf::Transform().translate(
+				{ level_size.x * it->global_pos.x,
+				level_size.y * it->global_pos.y }
+			);
+			for (auto& it2 : it->walls)
+			{
+				light_texture->draw(it2, context.white_states);
+			}
+			for (const auto& it2 : it->platforms)
+			{
+				light_texture->draw(it2, context.white_states);
+			}
+			context.white_states.transform *= sf::Transform().translate(
+				{ -1 * level_size.x * it->global_pos.x,
+				-1 * level_size.y * it->global_pos.y }
+			);
+		}
+		context.white_states.transform *= sf::Transform().translate(-level_size.x / 2,
+			-level_size.y / 2);
+		light_texture->display();
+	}
 	calc_map_vertices();
 	std::vector<Light_source> sources;
 	for (const auto& level_it : loaded_levels)
@@ -264,25 +299,16 @@ void Map::redraw()
 		}	
 	}
 	map_texture->clear(sf::Color(0, 0, 0, 0));
-	light_texture->clear(sf::Color(0, 0, 0, 0));
 	sf::RenderStates states;
-	sf::RenderStates walls_states;
 	for (const auto& it : loaded_levels)
 	{
 		states.transform *= sf::Transform().translate(
 			{ level_size.x * it->global_pos.x,
 			level_size.y * it->global_pos.y }
 		);
-		context.white_states.transform *= sf::Transform().translate(
-			{ level_size.x * it->global_pos.x,
-			level_size.y * it->global_pos.y }
-		);
-		context.white_states.transform *= sf::Transform().translate(level_size.x / 2,
-			level_size.y / 2);
 		for (auto& it2 : it->walls)
 		{
 			map_texture->draw(it2, states);
-			light_texture->draw(it2, context.white_states);
 		}
 		for (const auto& it2 : it->objects)
 		{
@@ -296,14 +322,9 @@ void Map::redraw()
 			{ -1 * level_size.x * it->global_pos.x,
 			-1 * level_size.y * it->global_pos.y }
 		);
-		context.white_states.transform *= sf::Transform().translate(
-			{ -1 * level_size.x * it->global_pos.x,
-			-1 * level_size.y * it->global_pos.y }
-		);
 	}
 	map_texture->display();
 	map_sprite.setTexture(map_texture->getTexture());
-	context.global.setUniform("texture", map_texture->getTexture());
 }
 
 void Map::rescale(float new_global_scale)

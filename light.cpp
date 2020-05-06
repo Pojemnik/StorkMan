@@ -21,7 +21,7 @@ void Light::calc_light(std::vector<Light_source>& sources,
 	sf::Transform transform, std::vector<std::pair<Vectorf,
 	Vectorf>>&map_edges, std::vector<Vectorf>& map_vertices)
 {
-	target->clear(sf::Color(0, 0, 0, 255));
+	target->clear(sf::Color(70, 70, 70, 255));
 	for (Light_source source : sources)
 	{
 		std::vector<std::pair<float, Vectorf>> points = calc_light_source(source,

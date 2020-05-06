@@ -1,716 +1,61 @@
-﻿<level name="Ścieżka zdrowia - poziom testowy 02" background="bg1">
-	/---------------------------------------------------------------------DREWNIANA KONSTRUKCJA - POZIOM 1
-	<platform position="0.5,97.5" texture="wood,0">
-		<v>0,0</v>
-		<v>7,0</v>
-		<v>7,1.92</v>
-		<v>0,1.92</v>
+﻿<level name="Tajna Kryjówka Generała - poziom testowy 03" background="bg1">
+	/---------------------------------------------------------------------HELIKOPTER
+	<object position="6, 1" texture="helikopter0" height="4"/>
+	<object position="4.5, 0" texture="dymek0" height="3.6"/>
+	<platform position="6,4.5" texture="rivets,0">
+		<v>0,0.2</v>
+		<v>0.5,0</v>
+		<v>0.5,0.1</v>
+		<v>0,0.3</v>
 	</platform>
-	<object position="0.5, 4" texture="arrow0" height="1"/>
-	<wall position="0,0" texture="tapeta0">
+	<platform position="6.5,4.6" texture="rivets,0">
 		<v>0,0</v>
-		<v>7.5,0</v>
-		<v>7.5,7.5</v>
-		<v>0,7.5</v>
-	</wall>
-	<light position="2, 0.5" color="255,255,255" intensity="1"/>
-	<platform position="10,99" texture="wood,0">
-		<v>0,0</v>
-		<v>10,0</v>
-		<v>10,0.5</v>
-		<v>0,0.5</v>
+		<v>0.1,0</v>
+		<v>-0.1,0.5</v>
+		<v>-0.2,0.5</v>
 	</platform>
-	<platform position="10.52,98.52" texture="wood,0">
-		<v>0,0</v>
-		<v>9.48,0</v>
-		<v>9.48,0.48</v>
-		<v>0,0.48</v>
-	</platform>
-	<platform position="11.04,98.04" texture="wood,0">
-		<v>0,0</v>
-		<v>8.96,0</v>
-		<v>8.96,0.48</v>
-		<v>0,0.48</v>
-	</platform>
-	<platform position="11.56,97.56" texture="wood,0">
-		<v>0,0</v>
-		<v>8.44,0</v>
-		<v>8.44,0.48</v>
-		<v>0,0.48</v>
-	</platform>
-	<platform position="12.08,97.08" texture="wood,0">
-		<v>0,0</v>
-		<v>7.92,0</v>
-		<v>7.92,0.48</v>
-		<v>0,0.48</v>
-	</platform>
-	<platform position="12.6,96.6" texture="wood,0">
-		<v>0,0</v>
-		<v>7.4,0</v>
-		<v>7.4,0.48</v>
-		<v>0,0.48</v>
-	</platform>
-	<platform position="13.12,96.12" texture="wood,0">
-		<v>0,0</v>
-		<v>6.88,0</v>
-		<v>6.88,0.48</v>
-		<v>0,0.48</v>
-	</platform>
-	<platform position="20.5,97" texture="wood,0">
-		<v>0,0</v>
-		<v>8.5,0</v>
-		<v>8.5,2.88</v>
-		<v>0,2.88</v>
-	</platform>
-	<platform position="13.8,53.5" texture="wood,3">
-		<v>2.2,0</v>
-		<v>2.7,0</v>
-		<v>0.7,2</v>
-		<v>0.2,2</v>
-	</platform>
-	<platform position="20,64" texture="wood,1">
+	<platform position="9,1.5" texture="rivets,0">
 		<v>0,0</v>
 		<v>0.5,0</v>
-		<v>0.5,7</v>
-		<v>0,7</v>
-	</platform>
-	<platform position="20,71" texture="wood,3">
-		<v>0,0</v>
-		<v>0.5,0</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="20,78.7" texture="wood,1">
-		<v>0,0</v>
-		<v>0.5,0</v>
-		<v>0.5,15</v>
-		<v>0,15</v>
-	</platform>
-	<platform position="20,96.12" texture="wood,1">
-		<v>0,0</v>
-		<v>0.5,0</v>
-		<v>0.5,3.88</v>
-		<v>0,3.88</v>
-	</platform>
-	<platform position="7.5,86.5" texture="wood,4">
-		<v>0,0.5</v>
-		<v>5,5.5</v>
-		<v>5.5,5.5</v>
-		<v>0,0</v>
-	</platform>
-	<platform position="2.5,91.5" texture="wood,2">
-		<v>0,0</v>
-		<v>11,0</v>
-		<v>11,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="2,91.5" texture="wood,4">
-		<v>0,0</v>
-		<v>0.5,0</v>
-		<v>0.5,0.5</v>
-	</platform>
-	<platform position="18,87" texture="wood,2">
-		<v>0,0</v>
-		<v>2,0</v>
-		<v>2,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="11.5,82.5" texture="wood,2">
-		<v>0,0</v>
-		<v>2,0</v>
-		<v>2,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="11.5,75.5" texture="wood,2">
-		<v>0,0</v>
-		<v>2,0</v>
-		<v>2,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="18,71" texture="wood,2">
-		<v>0,0</v>
-		<v>2,0</v>
-		<v>2,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="11.5,66.5" texture="wood,2">
-		<v>0,0</v>
-		<v>2,0</v>
-		<v>2,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="0.5,65" texture="wood,2">
-		<v>0,0</v>
-		<v>2,0</v>
-		<v>2,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="9,61.5" texture="wood,2">
-		<v>0,0</v>
-		<v>2,0</v>
-		<v>2,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="0.5,58" texture="wood,2">
-		<v>0,0</v>
-		<v>2,0</v>
-		<v>2,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="11.5,63.5" texture="wood,2">
-		<v>0,0</v>
-		<v>8.5,0</v>
-		<v>8.5,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="20,63.5" texture="wood,4">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>0.5,0.5</v>
-	</platform>
-	<platform position="11,63.5" texture="wood,4">
-		<v>0,0</v>
-		<v>0.5,0</v>
-		<v>0.5,0.5</v>
-	</platform>
-	<platform position="11,56.5" texture="wood,1">
-		<v>0,0</v>
-		<v>0,7</v>
-		<v>0.5,7</v>
-		<v>0.5,0</v>
-	</platform>
-	<platform position="2.5,82.5" texture="wood,3">
-		<v>0,9</v>
-		<v>9,0</v>
-		<v>9,0.5</v>
-		<v>0.5,9</v>
-	</platform>
-	<platform position="1.65,66.5" texture="wood,3">
-		<v>0.35,9.5</v>
-		<v>9.85,0</v>
-		<v>9.85,0.5</v>
-		<v>0.85,9.5</v>
-	</platform>
-	<platform position="2,76" texture="wood,1">
-		<v>0,0</v>
-		<v>0.5,0</v>
-		<v>0.5,15.5</v>
-		<v>0,15.5</v>
-	</platform>
-	<platform position="0,0" texture="wood,1">
-		<v>0,0</v>
-		<v>0.5,0</v>
-		<v>0.5,100</v>
-		<v>0,100</v>
-	</platform>
-	<platform position="8,50" texture="wood,2">
-		<v>0,0</v>
-		<v>6,0</v>
-		<v>6,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="8,41" texture="wood,2">
-		<v>0,0</v>
-		<v>5,0</v>
-		<v>5,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="8.5,29" texture="wood,2">
-		<v>0,0</v>
-		<v>4.5,0</v>
-		<v>4.5,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="14,29" texture="wood,2">
-		<v>0,0</v>
-		<v>4.5,0</v>
-		<v>4.5,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="8.5,26" texture="wood,2">
-		<v>0,0</v>
-		<v>4.5,0</v>
-		<v>4.5,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="14,26" texture="wood,2">
-		<v>0,0</v>
-		<v>4.5,0</v>
-		<v>4.5,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="8.5,23" texture="wood,2">
-		<v>0,0</v>
-		<v>4.5,0</v>
-		<v>4.5,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="14,23" texture="wood,2">
-		<v>0,0</v>
-		<v>4.5,0</v>
-		<v>4.5,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="8,23.5" texture="wood,1">
-		<v>0,0</v>
-		<v>0.5,0</v>
-		<v>0.5,8.5</v>
-		<v>0,8.5</v>
-	</platform>
-	<platform position="18.5,23.5" texture="wood,1">
-		<v>0,0</v>
-		<v>0.5,0</v>
-		<v>0.5,5.5</v>
-		<v>0,5.5</v>
-	</platform>
-	<platform position="8.5,32" texture="wood,2">
-		<v>0,0</v>
-		<v>4.5,0</v>
-		<v>4.5,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="14,32" texture="wood,2">
-		<v>0,0</v>
-		<v>4.5,0</v>
-		<v>4.5,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="8,23" texture="wood,3">
-		<v>0.5,0</v>
-		<v>0,0.5</v>
-		<v>0.5,0.5</v>
-	</platform>
-	<platform position="8,32" texture="wood,4">
-		<v>0.5,0</v>
-		<v>0,0</v>
-		<v>0.5,0.5</v>
-	</platform>
-	<platform position="18.5,23" texture="wood,4">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>0.5,0.5</v>
-	</platform>
-	<platform position="18.5,29" texture="wood,3">
-		<v>0.5,0</v>
-		<v>0,0</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="3,45.5" texture="wood,0">
-		<v>0.11,0</v>
-		<v>0.34,0</v>
-		<v>0.45,0.11</v>
-		<v>0.45,0.34</v>
-		<v>0.34,0.45</v>
-		<v>0.11,0.45</v>
-		<v>0,0.34</v>
-		<v>0,0.11</v>
-	</platform>
-	<platform position="23,45.5" texture="wood,0">
-		<v>0.11,0</v>
-		<v>0.34,0</v>
-		<v>0.45,0.11</v>
-		<v>0.45,0.34</v>
-		<v>0.34,0.45</v>
-		<v>0.11,0.45</v>
-		<v>0,0.34</v>
-		<v>0,0.11</v>
-	</platform>
-	<platform position="23,41" texture="wood,0">
-		<v>0.11,0</v>
-		<v>0.34,0</v>
-		<v>0.45,0.11</v>
-		<v>0.45,0.34</v>
-		<v>0.34,0.45</v>
-		<v>0.11,0.45</v>
-		<v>0,0.34</v>
-		<v>0,0.11</v>
-	</platform>
-	<platform position="3.5,11.5" texture="wood,0">
-		<v>0.11,0</v>
-		<v>0.34,0</v>
-		<v>0.45,0.11</v>
-		<v>0.45,0.34</v>
-		<v>0.34,0.45</v>
-		<v>0.11,0.45</v>
-		<v>0,0.34</v>
-		<v>0,0.11</v>
-	</platform>
-	<platform position="3.5,20.5" texture="wood,0">
-		<v>0.11,0</v>
-		<v>0.34,0</v>
-		<v>0.45,0.11</v>
-		<v>0.45,0.34</v>
-		<v>0.34,0.45</v>
-		<v>0.11,0.45</v>
-		<v>0,0.34</v>
-		<v>0,0.11</v>
-	</platform>
-	<platform position="3.5,16" texture="wood,0">
-		<v>0.11,0</v>
-		<v>0.34,0</v>
-		<v>0.45,0.11</v>
-		<v>0.45,0.34</v>
-		<v>0.34,0.45</v>
-		<v>0.11,0.45</v>
-		<v>0,0.34</v>
-		<v>0,0.11</v>
-	</platform>
-	<platform position="23,36.5" texture="wood,0">
-		<v>0.11,0</v>
-		<v>0.34,0</v>
-		<v>0.45,0.11</v>
-		<v>0.45,0.34</v>
-		<v>0.34,0.45</v>
-		<v>0.11,0.45</v>
-		<v>0,0.34</v>
-		<v>0,0.11</v>
-	</platform>
-	<platform position="0.5,5" texture="wood,2">
-		<v>0,0</v>
-		<v>2.7,0</v>
-		<v>2.7,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="0.5,5.5" texture="wood,3">
-		<v>2.2,0</v>
-		<v>2.7,0</v>
-		<v>0.7,2</v>
-		<v>0.2,2</v>
-	</platform>
-	<platform position="0.5,7" texture="wood,2">
-		<v>0,0</v>
-		<v>22,0</v>
-		<v>22,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="8,11.5" texture="wood,2">
-		<v>0,0</v>
-		<v>4,0</v>
-		<v>4,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="23,11" texture="wood,2">
-		<v>0,0</v>
-		<v>1,0</v>
-		<v>1,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="25,15.5" texture="wood,2">
-		<v>0,0</v>
-		<v>1,0</v>
-		<v>1,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="13,14" texture="wood,2">
-		<v>0,0</v>
-		<v>4,0</v>
-		<v>4,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="22.5,7" texture="wood,4">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>0.5,0.5</v>
-	</platform>
-	<platform position="22.5,7.5" texture="wood,1">
-		<v>0,0</v>
-		<v>0.5,0</v>
-		<v>0.5,8</v>
-		<v>0,8</v>
-	</platform>
-	<platform position="22.5,18" texture="wood,2">
-		<v>0,0</v>
-		<v>3.5,0</v>
-		<v>3.5,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="14,50" texture="wood,4">
-		<v>0,0</v>
-		<v>0.5,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="14,50.5" texture="wood,1">
-		<v>0,0</v>
-		<v>0.5,0</v>
-		<v>0.5,9.5</v>
-		<v>0,9.5</v>
-	</platform>
-	<platform position="14,60" texture="wood,4">
-		<v>0,0</v>
-		<v>0.5,0</v>
-		<v>0.5,0.5</v>
-	</platform>
-	<platform position="14.5,60" texture="wood,2">
-		<v>0,0</v>
-		<v>5.5,0</v>
-		<v>5.5,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="20,60" texture="wood,3">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>0.5,0</v>
-	</platform>
-	<platform position="23,56" texture="wood,1">
-		<v>0,0</v>
-		<v>0.5,0</v>
-		<v>0.5,38</v>
-		<v>0,38</v>
-	</platform>
-	<platform position="26,4" texture="wood,1">
-		<v>0,0</v>
-		<v>0.5,0</v>
-		<v>0.5,90</v>
-		<v>0,90</v>
-	</platform>
-	<platform position="29,1.5" texture="wood,1">
-		<v>0,0</v>
-		<v>0.5,0</v>
-		<v>0.5,98.5</v>
-		<v>0,98.5</v>
-	</platform>
-	<platform position="14.5,53" texture="wood,2">
-		<v>0,0</v>
-		<v>2,0</v>
-		<v>2,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="10.5,3.5" texture="wood,2">
-		<v>0,0</v>
-		<v>15.5,0</v>
-		<v>15.5,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="12.5,1" texture="wood,2">
-		<v>0,0</v>
-		<v>16.5,0</v>
-		<v>16.5,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="26,3.5" texture="wood,4">
-		<v>0,0</v>
-		<v>0.5,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="29,1" texture="wood,4">
-		<v>0,0</v>
-		<v>0.5,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="10,1.5" texture="wood,1">
-		<v>0,0</v>
-		<v>0.5,0</v>
-		<v>0.5,2</v>
-		<v>0,2</v>
-	</platform>
-	<platform position="10,1" texture="wood,3">
-		<v>0.5,0</v>
-		<v>0.5,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="10,3.5" texture="wood,4">
-		<v>0,0</v>
-		<v>0.5,0.5</v>
-		<v>0.5,0</v>
-	</platform>
-	/---------------------------------------------------------------------LEŚNICZÓWKA - POZIOM 2
-	<platform position="29.5,96" texture="paving,1">
-		<v>0,0</v>
-		<v>0,4</v>
-		<v>22,4</v>
-		<v>22,0</v>
-	</platform>
-	<platform position="58,97" texture="asphalt,0">
-		<v>0,0</v>
+		<v>0.5,3</v>
 		<v>0,3</v>
-		<v>33,3</v>
-		<v>33,0</v>
 	</platform>
-	<platform position="34,90" texture="wood,2">
+	<platform position="9,1" texture="panels,0">
 		<v>0,0</v>
+		<v>4,0</v>
+		<v>4,0.5</v>
 		<v>0,0.5</v>
-		<v>5,0.5</v>
-		<v>5,0</v>
 	</platform>
-	<platform position="34,81.5" texture="wood,2">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>17,0.5</v>
-		<v>17,0</v>
-	</platform>
-	<platform position="36,85.5" texture="wood,2">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>3.5,0.5</v>
-		<v>3.5,0</v>
-	</platform>
-	<platform position="41,85.5" texture="wood,2">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>3.5,0.5</v>
-		<v>3.5,0</v>
-	</platform>
-	<platform position="46,85.5" texture="wood,2">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>3.5,0.5</v>
-		<v>3.5,0</v>
-	</platform>
-	<platform position="33.5,82" texture="wood,1">
-		<v>0,0</v>
-		<v>0,8</v>
-		<v>0.5,8</v>
-		<v>0.5,0</v>
-	</platform>
-	<platform position="35,75" texture="wood,1">
-		<v>0,0</v>
-		<v>0,6.5</v>
-		<v>0.5,6.5</v>
-		<v>0.5,0</v>
-	</platform>
-	<platform position="55.5,68" texture="wood,1">
-		<v>0,0</v>
-		<v>0,6.5</v>
-		<v>0.5,6.5</v>
-		<v>0.5,0</v>
-	</platform>
-	<platform position="35.5,74.5" texture="wood,2">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>20.5,0.5</v>
-		<v>20.5,0</v>
-	</platform>
-	<platform position="37,77" texture="wood,2">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>19,0.5</v>
-		<v>19,0</v>
-	</platform>
-	<platform position="33.5,90" texture="wood,4">
+	<platform position="13,1" texture="panels,2">
 		<v>0,0</v>
 		<v>0.5,0</v>
-		<v>0.5,0.5</v>
+		<v>0.5,4</v>
+		<v>0,4</v>
 	</platform>
-	<platform position="55.5,63.5" texture="wood,0">
-		<v>0.11,0</v>
-		<v>0.34,0</v>
-		<v>0.45,0.11</v>
-		<v>0.45,0.34</v>
-		<v>0.34,0.45</v>
-		<v>0.11,0.45</v>
-		<v>0,0.34</v>
-		<v>0,0.11</v>
-	</platform>
-	<platform position="55.5,59" texture="wood,0">
-		<v>0.11,0</v>
-		<v>0.34,0</v>
-		<v>0.45,0.11</v>
-		<v>0.45,0.34</v>
-		<v>0.34,0.45</v>
-		<v>0.11,0.45</v>
-		<v>0,0.34</v>
-		<v>0,0.11</v>
-	</platform>
-	<platform position="55.5,54.5" texture="wood,0">
-		<v>0.11,0</v>
-		<v>0.34,0</v>
-		<v>0.45,0.11</v>
-		<v>0.45,0.34</v>
-		<v>0.34,0.45</v>
-		<v>0.11,0.45</v>
-		<v>0,0.34</v>
-		<v>0,0.11</v>
-	</platform>
-	<platform position="33.5,81.5" texture="wood,3">
-		<v>0.5,0</v>
-		<v>0,0.5</v>
-		<v>0.5,0.5</v>
-	</platform>
-	<platform position="35,74.5" texture="wood,3">
-		<v>0.5,0</v>
-		<v>0,0.5</v>
-		<v>0.5,0.5</v>
-	</platform>
-	<platform position="34,95.55" texture="concrete,0">
+	<platform position="9,4.5" texture="panels,2">
 		<v>0,0</v>
-		<v>0,0.45</v>
-		<v>4.5,0.45</v>
-		<v>4.5,0</v>
-	</platform>
-	<platform position="34.45,95.10" texture="concrete,0">
-		<v>0,0</v>
-		<v>0,0.45</v>
-		<v>4.05,0.45</v>
-		<v>4.05,0</v>
-	</platform>
-	<platform position="34.9,94.65" texture="concrete,0">
-		<v>0,0</v>
-		<v>0,0.45</v>
-		<v>3.6,0.45</v>
-		<v>3.6,0</v>
-	</platform>
-	<platform position="35.35,94.20" texture="concrete,0">
-		<v>0,0</v>
-		<v>0,0.45</v>
-		<v>3.15,0.45</v>
-		<v>3.15,0</v>
-	</platform>
-	<platform position="35.8,93.75" texture="concrete,0">
-		<v>0,0</v>
-		<v>0,0.45</v>
-		<v>2.7,0.45</v>
-		<v>2.7,0</v>
-	</platform>
-	<platform position="51,86" texture="wood,1">
-		<v>0,0</v>
-		<v>0,7</v>
-		<v>0.5,7</v>
-		<v>0.5,0</v>
-	</platform>
-	<platform position="36,63" texture="wood,1">
-		<v>0,0</v>
-		<v>0,11.5</v>
-		<v>0.5,11.5</v>
-		<v>0.5,0</v>
-	</platform>
-	<platform position="36.5,72" texture="wood,4">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>2,2.5</v>
-		<v>2.5,2.5</v>
-	</platform>
-	<platform position="40.5,67.5" texture="wood,0">
-		<v>0.11,0</v>
-		<v>0.34,0</v>
-		<v>0.45,0.11</v>
-		<v>0.45,0.34</v>
-		<v>0.34,0.45</v>
-		<v>0.11,0.45</v>
-		<v>0,0.34</v>
-		<v>0,0.11</v>
-	</platform>
-	<platform position="51,85.5" texture="wood,4">
-		<v>0,0</v>
-		<v>0.5,0.5</v>
+		<v>3,0</v>
+		<v>3,0.5</v>
 		<v>0,0.5</v>
 	</platform>
-	<platform position="60.5,72.5" texture="paving,1">
+	<platform position="13,5" texture="rivets,0">
 		<v>0,0</v>
-		<v>0,22</v>
-		<v>0.9,22</v>
-		<v>0.9,0</v>
+		<v>0.5,0</v>
+		<v>0.5,1.5</v>
+		<v>0,1.5</v>
 	</platform>
-	<platform position="60.5,50" texture="paving,1">
+	<platform position="11,0" texture="panels,1">
 		<v>0,0</v>
-		<v>0,20</v>
-		<v>0.9,20</v>
-		<v>0.9,0</v>
+		<v>0.5,0</v>
+		<v>0.5,1</v>
+		<v>0,1</v>
 	</platform>
-	<platform position="63.5,50" texture="paving,1">
-		<v>0,0</v>
-		<v>0,47</v>
-		<v>0.9,47</v>
-		<v>0.9,0</v>
-	</platform>
+	<light position="15.5, 2.5" color="64,255,64" intensity="0.20"/>
+	<light position="6, 2" color="255,255,255" intensity="0.25"/>
+	<light position="6.4, 4.7" color="255,255,255" intensity="1"/>
+	<light position="9.5, 1.5" color="255,255,255" intensity="0.5"/>
+	<light position="11, 1" color="64,255,64" intensity="0.33"/>
+	<light position="11.5, 1" color="255,64,64" intensity="0.33"/>
 	/---------------------------------------------------------------------PODŁOŻE
 	<platform position="0,99.5" texture="dirt,0">
 		<v>0,0</v>
@@ -718,47 +63,1326 @@
 		<v>100,0.5</v>
 		<v>0,0.5</v>
 	</platform>
-	<platform position="0,97" texture="dirt,0">
-		<v>10,2.5</v>
-		<v>0,2.5</v>
-		<v>4.5,1</v>
-		<v>9,0</v>
-		<v>14.5,1</v>
-		<v>20,2.5</v>
+	/---------------------------------------------------------------------OGRODZENIE
+	<platform position="0.5,40" texture="wood,1">
+		<v>0,0</v>
+		<v>0,59</v>
+		<v>0.5,59</v>
+		<v>0.5,0</v>
 	</platform>
-	<platform position="18,97.5" texture="dirt,0">
-		<v>10,2</v>
+	<platform position="0.5,39.5" texture="wood,4">
+		<v>0,0</v>
+		<v>0,0.5</v>
+		<v>0.5,0.5</v>
+	</platform>
+	<platform position="0,39.5" texture="wood,3">
+		<v>0.5,0</v>
+		<v>0,0.5</v>
+		<v>0.5,0.5</v>
+	</platform>
+	<platform position="0,64.5" texture="wood,3">
+		<v>0.5,0</v>
+		<v>0,0.5</v>
+		<v>0.5,0.5</v>
+	</platform>
+	<platform position="0,89.5" texture="wood,3">
+		<v>0.5,0</v>
+		<v>0,0.5</v>
+		<v>0.5,0.5</v>
+	</platform>
+	<platform position="99,40" texture="wood,1">
+		<v>0,0</v>
+		<v>0,59</v>
+		<v>0.5,59</v>
+		<v>0.5,0</v>
+	</platform>
+	<platform position="99,39.5" texture="wood,3">
+		<v>0.5,0</v>
+		<v>0,0.5</v>
+		<v>0.5,0.5</v>
+	</platform>
+	<platform position="99.5,39.5" texture="wood,4">
+		<v>0,0</v>
+		<v>0,0.5</v>
+		<v>0.5,0.5</v>
+	</platform>
+	<platform position="99.5,64.5" texture="wood,4">
+		<v>0,0</v>
+		<v>0,0.5</v>
+		<v>0.5,0.5</v>
+	</platform>
+	<platform position="99.5,89.5" texture="wood,4">
+		<v>0,0</v>
+		<v>0,0.5</v>
+		<v>0.5,0.5</v>
+	</platform>
+	<light position="0.5, 40" color="255,255,255" intensity="0.25"/>
+	<light position="0.5, 65" color="255,255,255" intensity="0.25"/>
+	<light position="0.5, 90" color="255,255,255" intensity="0.25"/>
+	<light position="99.5, 40" color="255,255,255" intensity="0.25"/>
+	<light position="99.5, 65" color="255,255,255" intensity="0.25"/>
+	<light position="99.5, 90" color="255,255,255" intensity="0.25"/>
+	/---------------------------------------------------------------------OGRÓD PRZEDNI
+	<platform position="0,99" texture="grass,0">
+		<v>0,0</v>
+		<v>24,0</v>
+		<v>24,0.5</v>
+		<v>0,0.5</v>
+	</platform>
+	<object position="10, 91.5" texture="tree0" height="8"/>
+	<object position="16, 87.5" texture="tree0" height="12"/>
+	<object position="1, 89.5" texture="tree0" height="10"/>
+	<object position="6, 95" texture="lamp0" height="4"/>
+	<light position="6, 96" color="255,255,000" intensity="0.25"/>
+	<object position="12, 95" texture="lamp0" height="4"/>
+	<light position="12, 96" color="255,255,000" intensity="0.25"/>
+	<object position="18, 95" texture="lamp0" height="4"/>
+	<light position="18, 96" color="255,255,000" intensity="0.25"/>
+	<object position="5, 97" texture="arrow0" height="2"/>
+	/---------------------------------------------------------------------PARTER
+	<wall position="26,92" texture="tapeta2">
+		<v>0,0</v>
+		<v>36,0</v>
+		<v>36,5.5</v>
+		<v>0,5.5</v>
+	</wall>
+	<object position="28, 94.5" texture="general0" height="2.5"/>
+	<object position="34, 94.5" texture="general0" height="2.5"/>
+	<object position="40, 94.5" texture="general0" height="2.5"/>
+	<object position="46, 94.5" texture="general0" height="2.5"/>
+	<object position="49, 95" texture="winda0" height="2.5"/>
+	<object position="52, 94.5" texture="general0" height="2.5"/>
+	<object position="58, 94.5" texture="general0" height="2.5"/>
+	<light position="41.25, 93.5" color="255,128,128" intensity="0.4"/>
+	<light position="29.25, 93.5" color="255,128,128" intensity="0.4"/>
+	<light position="35.25, 93.5" color="255,128,128" intensity="0.4"/>
+	<light position="47.25, 93.5" color="255,128,128" intensity="0.4"/>
+	<light position="53.25, 93.5" color="255,128,128" intensity="0.4"/>
+	<light position="59.25, 93.5" color="255,128,128" intensity="0.4"/>
+	<platform position="24,97.5" texture="bricks,0">
 		<v>0,2</v>
-		<v>7.5,1</v>
-		<v>14,0</v>
-		<v>20.5,0.7</v>
-		<v>28,2</v>
-	</platform>
-	<platform position="33,96" texture="dirt,0">
-		<v>24,3.5</v>
-		<v>0,3.5</v>
-		<v>6,2</v>
-		<v>12,0.5</v>
-		<v>18,0</v>
-		<v>24,0.8</v>
-		<v>30,2</v>
-		<v>36,3.5</v>
-	</platform>
-	<platform position="61,98" texture="dirt,0">
-		<v>12,1.5</v>
 		<v>0,1.5</v>
-		<v>3,0.6</v>
-		<v>9,0.3</v>
-		<v>12,0</v>
-		<v>17,0.7</v>
-		<v>22,1.5</v>
+		<v>40,1.5</v>
+		<v>40,2</v>
 	</platform>
-	<platform position="80,97" texture="dirt,0">
-		<v>10,2.5</v>
+	<platform position="24,97.5" texture="bricks,0">
+		<v>0.5,1.5</v>
+		<v>0.5,1</v>
+		<v>39.5,1</v>
+		<v>39.5,1.5</v>
+	</platform>
+	<platform position="24,97.5" texture="bricks,0">
+		<v>1,1</v>
+		<v>1,0.5</v>
+		<v>39,0.5</v>
+		<v>39,1</v>
+	</platform>
+	<platform position="24,97.5" texture="bricks,0">
+		<v>1.5,0.5</v>
+		<v>1.5,0</v>
+		<v>38.5,0</v>
+		<v>38.5,0.5</v>
+	</platform>
+	<platform position="26,93" texture="bricks,0">
+		<v>-3,0</v>
+		<v>-3,1</v>
+		<v>3,1</v>
+		<v>3,0</v>
+	</platform>
+	<platform position="29,93" texture="bricks,0">
+		<v>0,0</v>
+		<v>0,0.5</v>
+		<v>0.5,0.5</v>
+		<v>0.5,0</v>
+	</platform>
+	<platform position="29.5,93" texture="bricks,0">
+		<v>0,0</v>
+		<v>0,1</v>
+		<v>5.5,1</v>
+		<v>5.5,0</v>
+	</platform>
+	<platform position="35,93" texture="bricks,0">
+		<v>0,0</v>
+		<v>0,0.5</v>
+		<v>0.5,0.5</v>
+		<v>0.5,0</v>
+	</platform>
+	<platform position="35.5,93" texture="bricks,0">
+		<v>0,0</v>
+		<v>0,1</v>
+		<v>5.5,1</v>
+		<v>5.5,0</v>
+	</platform>
+	<platform position="41,93" texture="bricks,0">
+		<v>0,0</v>
+		<v>0,0.5</v>
+		<v>0.5,0.5</v>
+		<v>0.5,0</v>
+	</platform>
+	<platform position="41.5,93" texture="bricks,0">
+		<v>0,0</v>
+		<v>0,1</v>
+		<v>5.5,1</v>
+		<v>5.5,0</v>
+	</platform>
+	<platform position="47,93" texture="bricks,0">
+		<v>0,0</v>
+		<v>0,0.5</v>
+		<v>0.5,0.5</v>
+		<v>0.5,0</v>
+	</platform>
+	<platform position="47.5,93" texture="bricks,0">
+		<v>0,0</v>
+		<v>0,1</v>
+		<v>5.5,1</v>
+		<v>5.5,0</v>
+	</platform>
+	<platform position="53,93" texture="bricks,0">
+		<v>0,0</v>
+		<v>0,0.5</v>
+		<v>0.5,0.5</v>
+		<v>0.5,0</v>
+	</platform>
+	<platform position="53.5,93" texture="bricks,0">
+		<v>0,0</v>
+		<v>0,1</v>
+		<v>5.5,1</v>
+		<v>5.5,0</v>
+	</platform>
+	<platform position="59,93" texture="bricks,0">
+		<v>0,0</v>
+		<v>0,0.5</v>
+		<v>0.5,0.5</v>
+		<v>0.5,0</v>
+	</platform>
+	<platform position="59.5,93" texture="bricks,0">
+		<v>0,0</v>
+		<v>0,1</v>
+		<v>5.5,1</v>
+		<v>5.5,0</v>
+	</platform>
+	/---------------------------------------------------------------------OGRÓD TYLNY
+	<platform position="64,99" texture="grass,0">
+		<v>0,0</v>
+		<v>36,0</v>
+		<v>36,0.5</v>
+		<v>0,0.5</v>
+	</platform>
+	<platform position="85,94.5" texture="wood,0">
+		<v>0.11,0</v>
+		<v>0.34,0</v>
+		<v>0.45,0.11</v>
+		<v>0.45,0.34</v>
+		<v>0.34,0.45</v>
+		<v>0.11,0.45</v>
+		<v>0,0.34</v>
+		<v>0,0.11</v>
+	</platform>
+	<platform position="89.5,90" texture="wood,0">
+		<v>0.11,0</v>
+		<v>0.34,0</v>
+		<v>0.45,0.11</v>
+		<v>0.45,0.34</v>
+		<v>0.34,0.45</v>
+		<v>0.11,0.45</v>
+		<v>0,0.34</v>
+		<v>0,0.11</v>
+	</platform>
+	<platform position="85,85.5" texture="wood,0">
+		<v>0.11,0</v>
+		<v>0.34,0</v>
+		<v>0.45,0.11</v>
+		<v>0.45,0.34</v>
+		<v>0.34,0.45</v>
+		<v>0.11,0.45</v>
+		<v>0,0.34</v>
+		<v>0,0.11</v>
+	</platform>
+	<platform position="73,90" texture="wood,0">
+		<v>0.11,0</v>
+		<v>0.34,0</v>
+		<v>0.45,0.11</v>
+		<v>0.45,0.34</v>
+		<v>0.34,0.45</v>
+		<v>0.11,0.45</v>
+		<v>0,0.34</v>
+		<v>0,0.11</v>
+	</platform>
+	<object position="95, 92.5" texture="tree0" height="7"/>
+	<object position="85.5, 83.5" texture="tree0" height="16"/>
+	<object position="69, 36.5" texture="tree1" height="64"/>
+	<object position="70, 86.5" texture="tree0" height="13"/>
+	<object position="95, 97" texture="arrow1" height="2"/>
+	<object position="70, 95" texture="lamp0" height="4"/>
+	<light position="70, 96" color="255,255,000" intensity="0.25"/>
+	<object position="76, 95" texture="lamp0" height="4"/>
+	<light position="76, 96" color="255,255,000" intensity="0.25"/>
+	<object position="82, 95" texture="lamp0" height="4"/>
+	<light position="82, 96" color="255,255,000" intensity="0.25"/>
+	<object position="88, 95" texture="lamp0" height="4"/>
+	<light position="88, 96" color="255,255,000" intensity="0.25"/>
+	<object position="94, 95" texture="lamp0" height="4"/>
+	<light position="94, 96" color="255,255,000" intensity="0.25"/>
+	/---------------------------------------------------------------------PIERWSZE PIĘTRO
+	<wall position="22,69" texture="tapeta2">
+		<v>0,0</v>
+		<v>43,0</v>
+		<v>43,24</v>
+		<v>0,24</v>
+	</wall>
+	<platform position="22,69" texture="bricks,0">
+		<v>1,25</v>
+		<v>1,0</v>
+		<v>0,0</v>
+		<v>0,25</v>
+	</platform>
+	<platform position="64,70" texture="bricks,0">
+		<v>1,20</v>
+		<v>1,0</v>
+		<v>0,0</v>
+		<v>0,20</v>
+	</platform>
+	<platform position="64,92" texture="bricks,0">
+		<v>1,1</v>
+		<v>1,0</v>
+		<v>0,0</v>
+		<v>0,1</v>
+	</platform>
+	<platform position="25,69" texture="bricks,0">
+		<v>40,1</v>
+		<v>40,0</v>
+		<v>0,0</v>
+		<v>0,1</v>
+	</platform>
+	<platform position="23,88" texture="concrete,0">
+		<v>2,0.5</v>
+		<v>2,0</v>
+		<v>0,0</v>
 		<v>0,2.5</v>
-		<v>6,1</v>
-		<v>11,0</v>
-		<v>15,1</v>
-		<v>20,2.5</v>
 	</platform>
+	<platform position="32,84.5" texture="bricks,2">
+		<v>1,0.5</v>
+		<v>1,0</v>
+		<v>0,0</v>
+		<v>0,0.5</v>
+	</platform>
+	<platform position="42.5,84.5" texture="bricks,2">
+		<v>1,0.5</v>
+		<v>1,0</v>
+		<v>0,0</v>
+		<v>0,0.5</v>
+	</platform>
+	<platform position="53,84.5" texture="bricks,2">
+		<v>1,0.5</v>
+		<v>1,0</v>
+		<v>0,0</v>
+		<v>0,0.5</v>
+	</platform>
+	<platform position="62,81" texture="concrete,0">
+		<v>2,2.5</v>
+		<v>2,0</v>
+		<v>0,0</v>
+		<v>0,0.5</v>
+	</platform>
+	<platform position="32,77.5" texture="bricks,2">
+		<v>1,0.5</v>
+		<v>1,0</v>
+		<v>0,0</v>
+		<v>0,0.5</v>
+	</platform>
+	<platform position="42.5,77.5" texture="bricks,2">
+		<v>1,0.5</v>
+		<v>1,0</v>
+		<v>0,0</v>
+		<v>0,0.5</v>
+	</platform>
+	<platform position="53,77.5" texture="bricks,2">
+		<v>1,0.5</v>
+		<v>1,0</v>
+		<v>0,0</v>
+		<v>0,0.5</v>
+	</platform>
+	<platform position="23,73" texture="panels,0">
+		<v>2,0.5</v>
+		<v>2,0</v>
+		<v>0,0</v>
+		<v>0,0.5</v>
+	</platform>
+	<platform position="23,69" texture="panels,1">
+		<v>0.5,4</v>
+		<v>0.5,0</v>
+		<v>0,0</v>
+		<v>0,4</v>
+	</platform>
+	<platform position="24.5,69" texture="panels,2">
+		<v>0.5,2</v>
+		<v>0.5,0</v>
+		<v>0,0</v>
+		<v>0,2</v>
+	</platform>
+	<object position="49, 90.5" texture="winda0" height="2.5"/>
+	<object position="24, 80" texture="general0" height="6"/>
+	<object position="34.5, 80" texture="general0" height="6"/>
+	<object position="45, 80" texture="general0" height="6"/>
+	<object position="55.5, 80" texture="general0" height="6"/>
+	<object position="60, 89" texture="swiecznik1" height="4"/>
+	<light position="61, 91" color="255,205,255" intensity="0.8"/>
+	<object position="42, 89" texture="swiecznik1" height="4"/>
+	<light position="43, 91" color="255,205,255" intensity="0.8"/>
+	<object position="24, 89" texture="swiecznik1" height="4"/>
+	<light position="25, 91" color="255,205,255" intensity="0.8"/>
+	<object position="29.75, 85" texture="swiecznik3" height="4"/>
+	<light position="30.5, 87" color="255,205,255" intensity="0.6"/>
+	<light position="34.5, 87" color="255,205,255" intensity="0.6"/>
+	<object position="40.25, 85" texture="swiecznik3" height="4"/>
+	<light position="41, 87" color="255,205,255" intensity="0.6"/>
+	<light position="45, 87" color="255,205,255" intensity="0.6"/>
+	<object position="50.75, 85" texture="swiecznik3" height="4"/>
+	<light position="51.5, 87" color="255,205,255" intensity="0.6"/>
+	<light position="55.5, 87" color="255,205,255" intensity="0.6"/>
+	<object position="29.75, 78" texture="swiecznik3" height="4"/>
+	<light position="30.5, 80" color="255,205,255" intensity="0.6"/>
+	<light position="34.5, 80" color="255,205,255" intensity="0.6"/>
+	<object position="40.25, 78" texture="swiecznik3" height="4"/>
+	<light position="41, 80" color="255,205,255" intensity="0.6"/>
+	<light position="45, 80" color="255,205,255" intensity="0.6"/>
+	<object position="50.75, 78" texture="swiecznik3" height="4"/>
+	<light position="51.5, 80" color="255,205,255" intensity="0.6"/>
+	<light position="55.5, 80" color="255,205,255" intensity="0.6"/>
+	/---------------------------------------------------------------------DRUGIE PIĘTRO
+	<wall position="23,60.5" texture="tapeta3">
+		<v>0,3.5</v>
+		<v>3.5,0</v>
+		<v>44,0</v>
+		<v>44,5.5</v>
+		<v>0,5.5</v>
+	</wall>
+	<platform position="22.5,65" texture="tile,0">
+		<v>44.5,1</v>
+		<v>44.5,0</v>
+		<v>0,0</v>
+		<v>0,1</v>
+	</platform>
+	<platform position="66,64" texture="tile,0">
+		<v>1,1</v>
+		<v>1,0</v>
+		<v>0,0</v>
+		<v>0,1</v>
+	</platform>
+	<platform position="26,60.5" texture="tile,0">
+		<v>6,1</v>
+		<v>6,0</v>
+		<v>0,0</v>
+		<v>0,1</v>
+	</platform>
+	<platform position="34,60.5" texture="tile,0">
+		<v>33,1</v>
+		<v>33,0</v>
+		<v>0,0</v>
+		<v>0,1</v>
+	</platform>
+	<platform position="66,61.5" texture="tile,0">
+		<v>1,0.5</v>
+		<v>1,0</v>
+		<v>0,0</v>
+		<v>0,0.5</v>
+	</platform>
+	<platform position="22.5,64" texture="tile,0">
+		<v>1,1</v>
+		<v>1,0</v>
+		<v>0,0</v>
+		<v>0,1</v>
+	</platform>
+	<platform position="22.5,60.5" texture="tile,0">
+		<v>1,3.5</v>
+		<v>0,3.5</v>
+		<v>3.5,0</v>
+		<v>3.5,1</v>
+	</platform>
+	<object position="28.5, 61.5" texture="lamp1" height="1"/>
+	<light position="29.5, 61.75" color="255,205,255" intensity="0.4"/>
+	<object position="35.5, 61.5" texture="lamp1" height="1"/>
+	<light position="36.5, 61.75" color="255,205,255" intensity="0.4"/>
+	<object position="41, 61.5" texture="lamp1" height="1"/>
+	<light position="42, 61.75" color="255,205,255" intensity="0.4"/>
+	<object position="46.5, 61.5" texture="lamp1" height="1"/>
+	<light position="47.5, 61.75" color="255,205,255" intensity="0.4"/>
+	<object position="52.5, 61.5" texture="lamp1" height="1"/>
+	<light position="53.5, 61.75" color="255,205,255" intensity="0.4"/>
+	<object position="58, 61.5" texture="lamp1" height="1"/>
+	<light position="59, 61.75" color="255,205,255" intensity="0.4"/>
+	<object position="63.5, 61.5" texture="lamp1" height="1"/>
+	<light position="64.5, 61.75" color="255,205,255" intensity="0.4"/>
+	<object position="49, 62.5" texture="winda0" height="2.5"/>
+	/---------------------------------------------------------------------WENTYLACJA
+	<wall position="20.25,63" texture="vent1">
+		<v>0,0</v>
+		<v>2,0</v>
+		<v>2,6</v>
+		<v>0,6</v>
+	</wall>
+	<wall position="20,58" texture="vent1">
+		<v>0,6</v>
+		<v>0,5</v>
+		<v>5,0</v>
+		<v>6,0</v>
+		<v>6,2</v>
+		<v>2,6</v>
+	</wall>
+	<wall position="25.5,58" texture="vent0">
+		<v>0,0</v>
+		<v>41.5,0</v>
+		<v>41.5,2</v>
+		<v>0,2</v>
+	</wall>
+	<wall position="22,66.5" texture="vent0">
+		<v>0,0</v>
+		<v>44.5,0</v>
+		<v>44.5,2</v>
+		<v>0,2</v>
+	</wall>
+	<wall position="32,60" texture="vent1">
+		<v>0,0</v>
+		<v>2,0</v>
+		<v>2,2</v>
+		<v>0,2</v>
+	</wall>
+	<wall position="64.75,68.5" texture="vent1">
+		<v>0,0</v>
+		<v>2,0</v>
+		<v>2,0.5</v>
+		<v>0,0.5</v>
+	</wall>
+	<wall position="23,68.5" texture="vent1">
+		<v>0,0</v>
+		<v>2,0</v>
+		<v>2,4.5</v>
+		<v>0,4.5</v>
+	</wall>
+	<wall position="64.75,52" texture="vent1">
+		<v>0,0</v>
+		<v>2,0</v>
+		<v>2,6</v>
+		<v>0,6</v>
+	</wall>
+	<platform position="24.5,68.5" texture="panels,1">
+		<v>40.5,0.5</v>
+		<v>40.5,0</v>
+		<v>0,0</v>
+		<v>0,0.5</v>
+	</platform>
+	<platform position="22,68.5" texture="panels,2">
+		<v>1.5,0.5</v>
+		<v>1.5,0</v>
+		<v>0,0</v>
+		<v>0,0.5</v>
+	</platform>
+	<platform position="22,66" texture="panels,0">
+		<v>44.5,0.5</v>
+		<v>44.5,0</v>
+		<v>0,0</v>
+		<v>0,0.5</v>
+	</platform>
+	<platform position="66.5,66" texture="panels,1">
+		<v>0.5,3</v>
+		<v>0.5,0</v>
+		<v>0,0</v>
+		<v>0,3</v>
+	</platform>
+	<platform position="20,63" texture="panels,2">
+		<v>0.5,6</v>
+		<v>0.5,0</v>
+		<v>0,0</v>
+		<v>0,6</v>
+	</platform>
+	<platform position="22,64" texture="panels,0">
+		<v>0.5,2</v>
+		<v>0.5,0</v>
+		<v>0,0</v>
+		<v>0,2</v>
+	</platform>
+	<platform position="22,60" texture="panels,2">
+		<v>0,4</v>
+		<v>0.5,4</v>
+		<v>4,0.5</v>
+		<v>4,0</v>
+	</platform>
+	<platform position="20,57.5" texture="panels,1">
+		<v>0,5.5</v>
+		<v>0.5,5.5</v>
+		<v>5.5,0.5</v>
+		<v>5.5,0</v>
+	</platform>
+	<platform position="25.5,57.5" texture="panels,2">
+		<v>0,0.5</v>
+		<v>39.5,0.5</v>
+		<v>39.5,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="26,60" texture="panels,0">
+		<v>0,0.5</v>
+		<v>6,0.5</v>
+		<v>6,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="32,60" texture="panels,2">
+		<v>0,2</v>
+		<v>0.5,2</v>
+		<v>0.5,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="33.5,60" texture="panels,1">
+		<v>0,2</v>
+		<v>0.5,2</v>
+		<v>0.5,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="34,60" texture="panels,0">
+		<v>33,0.5</v>
+		<v>33,0</v>
+		<v>0,0</v>
+		<v>0,0.5</v>
+	</platform>
+	<platform position="64.5,52" texture="panels,1">
+		<v>0,5.5</v>
+		<v>0.5,5.5</v>
+		<v>0.5,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="66.5,52" texture="panels,1">
+		<v>0,8</v>
+		<v>0.5,8</v>
+		<v>0.5,0</v>
+		<v>0,0</v>
+	</platform>
+	/---------------------------------------------------------------------DOMEK NA DRZEWIE
+	<platform position="76,64" texture="wood,2">
+		<v>0,0</v>
+		<v>0,0.5</v>
+		<v>2,0.5</v>
+		<v>2,0</v>
+	</platform>
+	<platform position="78,64" texture="wood,4">
+		<v>0,0</v>
+		<v>0,0.5</v>
+		<v>0.5,0.5</v>
+	</platform>
+	<platform position="78,64.5" texture="wood,1">
+		<v>0,0</v>
+		<v>0,6</v>
+		<v>0.5,6</v>
+		<v>0.5,0</v>
+	</platform>
+	<platform position="78,70.5" texture="wood,4">
+		<v>0,0</v>
+		<v>0.5,0</v>
+		<v>0.5,0.5</v>
+	</platform>
+	<platform position="78.5,70.5" texture="wood,2">
+		<v>0,0</v>
+		<v>0,0.5</v>
+		<v>4,0.5</v>
+		<v>4,0</v>
+	</platform>
+	<platform position="80,42.5" texture="wood,1">
+		<v>0,0</v>
+		<v>0,26</v>
+		<v>0.5,26</v>
+		<v>0.5,0</v>
+	</platform>
+	<platform position="80.5,66" texture="wood,2">
+		<v>0,0</v>
+		<v>0,0.5</v>
+		<v>0.5,0.5</v>
+		<v>0.5,0</v>
+	</platform>
+	<platform position="80.5,61.5" texture="wood,2">
+		<v>0,0</v>
+		<v>0,0.5</v>
+		<v>0.5,0.5</v>
+		<v>0.5,0</v>
+	</platform>
+	<platform position="80.5,57" texture="wood,2">
+		<v>0,0</v>
+		<v>0,0.5</v>
+		<v>0.5,0.5</v>
+		<v>0.5,0</v>
+	</platform>
+	<platform position="80.5,52.5" texture="wood,2">
+		<v>0,0</v>
+		<v>0,0.5</v>
+		<v>0.5,0.5</v>
+		<v>0.5,0</v>
+	</platform>
+	<platform position="82,52.5" texture="wood,2">
+		<v>0,0</v>
+		<v>0,0.5</v>
+		<v>4,0.5</v>
+		<v>4,0</v>
+	</platform>
+	<platform position="86,42.5" texture="wood,1">
+		<v>0,0</v>
+		<v>0,10.5</v>
+		<v>0.5,10.5</v>
+		<v>0.5,0</v>
+	</platform>
+	<platform position="80.5,48" texture="wood,2">
+		<v>0,0</v>
+		<v>0,0.5</v>
+		<v>4,0.5</v>
+		<v>4,0</v>
+	</platform>
+	<platform position="85.5,48" texture="wood,2">
+		<v>0,0</v>
+		<v>0,0.5</v>
+		<v>0.5,0.5</v>
+		<v>0.5,0</v>
+	</platform>
+	<platform position="80.5,47.5" texture="wood,2">
+		<v>0,0</v>
+		<v>0,0.5</v>
+		<v>2,0.5</v>
+		<v>2,0</v>
+	</platform>
+	<platform position="80.5,47" texture="wood,2">
+		<v>0,0</v>
+		<v>0,0.5</v>
+		<v>1.5,0.5</v>
+		<v>1.5,0</v>
+	</platform>
+	<platform position="80.5,46.5" texture="wood,2">
+		<v>0,0</v>
+		<v>0,0.5</v>
+		<v>1,0.5</v>
+		<v>1,0</v>
+	</platform>
+	<platform position="80.5,46" texture="wood,2">
+		<v>0,0</v>
+		<v>0,0.5</v>
+		<v>0.5,0.5</v>
+		<v>0.5,0</v>
+	</platform>
+	<platform position="83.5,42.5" texture="wood,2">
+		<v>0,0</v>
+		<v>0,0.5</v>
+		<v>2.5,0.5</v>
+		<v>2.5,0</v>
+	</platform>
+	<object position="80, 42.5" texture="lumber3" height="2"/>
+	<object position="80, 44.5" texture="lumber0" height="2"/>
+	<object position="80, 46.5" texture="lumber1" height="2"/>
+	<object position="80, 48.5" texture="lumber3" height="2"/>
+	<object position="80, 50.5" texture="lumber1" height="2"/>
+	<object position="84, 48.5" texture="lamp0" height="4"/>
+	<light position="85, 49.5" color="255,255,000" intensity="0.5"/>
+	<object position="81, 44" texture="lamp0" height="4"/>
+	<light position="82, 45" color="255,255,000" intensity="0.5"/>
+	<object position="84, 38.5" texture="lamp0" height="4"/>
+	<light position="85, 39.5" color="255,255,000" intensity="0.5"/>
+	/---------------------------------------------------------------------TRZECIE PIĘTRO
+	<wall position="25.5,52.5" texture="tapeta2">
+		<v>0,0</v>
+		<v>38,0</v>
+		<v>38,4.5</v>
+		<v>0,4.5</v>
+	</wall>
+	<platform position="25.5,57" texture="bricks,0">
+		<v>0,0.5</v>
+		<v>39,0.5</v>
+		<v>39,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="25.5,52.5" texture="bricks,0">
+		<v>0,4.5</v>
+		<v>0.5,4.5</v>
+		<v>0.5,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="63,53" texture="bricks,0">
+		<v>0,1</v>
+		<v>0.5,1</v>
+		<v>0.5,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="30,52.5" texture="bricks,0">
+		<v>0,0.5</v>
+		<v>33.5,0.5</v>
+		<v>33.5,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="25.5,56.5" texture="bricks,0">
+		<v>0,0.5</v>
+		<v>4,0.5</v>
+		<v>4,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="25.5,56" texture="bricks,0">
+		<v>0,0.5</v>
+		<v>3.5,0.5</v>
+		<v>3.5,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="25.5,55.5" texture="bricks,0">
+		<v>0,0.5</v>
+		<v>3,0.5</v>
+		<v>3,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="25.5,55" texture="bricks,0">
+		<v>0,0.5</v>
+		<v>2.5,0.5</v>
+		<v>2.5,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="25.5,54.5" texture="bricks,0">
+		<v>0,0.5</v>
+		<v>2,0.5</v>
+		<v>2,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="25.5,54" texture="bricks,0">
+		<v>0,0.5</v>
+		<v>1.5,0.5</v>
+		<v>1.5,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="25.5,53.5" texture="bricks,0">
+		<v>0,0.5</v>
+		<v>1,0.5</v>
+		<v>1,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="25.5,53" texture="bricks,0">
+		<v>0,0.5</v>
+		<v>0.5,0.5</v>
+		<v>0.5,0</v>
+		<v>0,0</v>
+	</platform>
+	<object position="32, 53" texture="lamp1" height="1"/>
+	<light position="33, 53.25" color="255,205,255" intensity="0.4"/>
+	<object position="39, 53" texture="lamp1" height="1"/>
+	<light position="40, 53.25" color="255,205,255" intensity="0.4"/>
+	<object position="46, 53" texture="lamp1" height="1"/>
+	<light position="47, 53.25" color="255,205,255" intensity="0.4"/>
+	<object position="53, 53" texture="lamp1" height="1"/>
+	<light position="54, 53.25" color="255,205,255" intensity="0.4"/>
+	<object position="60, 53" texture="lamp1" height="1"/>
+	<light position="61, 53.25" color="255,205,255" intensity="0.4"/>
+	<object position="49, 54.5" texture="winda0" height="2.5"/>
+	<object position="30, 54.5" texture="chest0" height="2.5"/>
+	<object position="32, 54" texture="chest0" height="3"/>
+	<object position="37, 55" texture="chest0" height="2"/>
+	<object position="40, 54.5" texture="chest0" height="2.5"/>
+	<object position="42, 54" texture="chest0" height="3"/>
+	<object position="44, 55.5" texture="chest0" height="1.5"/>
+	<object position="52, 54.5" texture="chest0" height="2.5"/>
+	<object position="54, 54" texture="chest0" height="3"/>
+	<object position="56, 55" texture="chest0" height="2"/>
+	/---------------------------------------------------------------------POZIOM TECHNICZNY
+	<wall position="25.5,37" texture="wall0">
+		<v>0,0</v>
+		<v>36.5,0</v>
+		<v>36.5,15.5</v>
+		<v>0,15.5</v>
+	</wall>
+	<platform position="30,52" texture="bricks,0">
+		<v>0,0.5</v>
+		<v>33.5,0.5</v>
+		<v>33.5,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="25.5,37" texture="bricks,0">
+		<v>0,0.5</v>
+		<v>34,0.5</v>
+		<v>34,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="25.5,37.5" texture="bricks,0">
+		<v>0,15</v>
+		<v>0.5,15</v>
+		<v>0.5,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="36.5,51" texture="rivets,0">
+		<v>0,1</v>
+		<v>3.5,1</v>
+		<v>3.5,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="35.5,40" texture="pipes0">
+		<v>0,2</v>
+		<v>1,2</v>
+		<v>1,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="35.5,44" texture="pipes0">
+		<v>0,8</v>
+		<v>1,8</v>
+		<v>1,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="36.5,40" texture="pipes1">
+		<v>0,1</v>
+		<v>2,1</v>
+		<v>2,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="40.5,40" texture="pipes1">
+		<v>0,1</v>
+		<v>2,1</v>
+		<v>2,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="44.5,40" texture="pipes1">
+		<v>0,1</v>
+		<v>2,1</v>
+		<v>2,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="48.5,40" texture="pipes1">
+		<v>0,1</v>
+		<v>2,1</v>
+		<v>2,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="52.5,40" texture="pipes1">
+		<v>0,1</v>
+		<v>2,1</v>
+		<v>2,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="36.5,45.5" texture="panels,2">
+		<v>0,0.5</v>
+		<v>21,0.5</v>
+		<v>21,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="56.5,40" texture="pipes0">
+		<v>0,5.5</v>
+		<v>1,5.5</v>
+		<v>1,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="27,48.5" texture="rivets,0">
+		<v>0.5,0</v>
+		<v>0.5,0.5</v>
+		<v>0,0.5</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="33,46" texture="rivets,0">
+		<v>0.5,0</v>
+		<v>0.5,0.5</v>
+		<v>0,0.5</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="28.5,42.5" texture="rivets,0">
+		<v>0.5,0</v>
+		<v>0.5,0.5</v>
+		<v>0,0.5</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="31.85,40" texture="pipes1">
+		<v>3.65,0</v>
+		<v>3.65,1</v>
+		<v>0,1</v>
+		<v>0,0</v>
+	</platform>
+	<object position="28, 40" texture="krata0" height="2"/>
+	<object position="30, 47" texture="krata0" height="2"/>
+	<object position="36, 38" texture="krata0" height="2"/>
+	<object position="42, 38" texture="krata0" height="2"/>
+	<object position="37.5, 48" texture="krata0" height="2"/>
+	<object position="49, 43" texture="krata0" height="2"/>
+	<object position="36.5, 37.5" texture="alarm0" height="1"/>
+	<light position="37, 38" color="255,000,128" intensity="0.5"/>
+	<object position="40.5, 37.5" texture="alarm0" height="1"/>
+	<light position="41, 38" color="255,000,128" intensity="0.5"/>
+	<object position="44.5, 37.5" texture="alarm0" height="1"/>
+	<light position="45, 38" color="255,000,128" intensity="0.5"/>
+	<object position="48.5, 37.5" texture="alarm0" height="1"/>
+	<light position="49, 38" color="255,000,128" intensity="0.5"/>
+	<object position="52.5, 37.5" texture="alarm0" height="1"/>
+	<light position="53, 38" color="255,000,128" intensity="0.5"/>
+	<object position="36.5, 47" texture="alarm2" height="1"/>
+	<light position="37, 47.5" color="064,255,255" intensity="0.5"/>
+	<object position="26, 38" texture="alarm2" height="1"/>
+	<light position="26.5, 39.5" color="255,128,255" intensity="0.5"/>
+	<object position="26, 44" texture="alarm2" height="1"/>
+	<light position="26.5, 44.5" color="255,128,255" intensity="0.5"/>
+	<object position="34.5, 47" texture="alarm3" height="1"/>
+	<light position="35, 47.5" color="255,128,255" intensity="0.5"/>
+	<object position="58.5, 38" texture="alarm3" height="1"/>
+	<light position="59, 38.5" color="255,128,255" intensity="0.5"/>
+	<object position="58.5, 44" texture="alarm3" height="1"/>
+	<light position="59, 44.5" color="255,128,255" intensity="0.5"/>
+	/---------------------------------------------------------------------KANALIZACJA
+	<wall position="59.5,48" texture="canal0">
+		<v>0,0</v>
+		<v>1,0</v>
+		<v>1,1</v>
+		<v>0,1</v>
+	</wall>
+	<wall position="40,49" texture="canal0">
+		<v>0,0</v>
+		<v>21,0</v>
+		<v>21,2</v>
+		<v>0,2</v>
+	</wall>
+	<wall position="59.5,36" texture="canal0">
+		<v>0,0</v>
+		<v>1,0</v>
+		<v>1,1</v>
+		<v>0,1</v>
+	</wall>
+	<wall position="26.5,34" texture="canal0">
+		<v>0,0</v>
+		<v>36.5,0</v>
+		<v>36.5,2</v>
+		<v>0,2</v>
+	</wall>
+	<wall position="60.25,34" texture="canal1">
+		<v>0,0</v>
+		<v>2,0</v>
+		<v>2,17</v>
+		<v>0,17</v>
+	</wall>
+	<wall position="28,32" texture="canal1">
+		<v>0,0</v>
+		<v>2,0</v>
+		<v>2,2</v>
+		<v>0,2</v>
+	</wall>
+	<platform position="59.5,37" texture="pipes0">
+		<v>0,11</v>
+		<v>1,11</v>
+		<v>1,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="62,34" texture="pipes0">
+		<v>0,17</v>
+		<v>1,17</v>
+		<v>1,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="60.5,37.5" texture="pipes0">
+		<v>0,0</v>
+		<v>0.2,0.5</v>
+		<v>0,1</v>
+	</platform>
+	<platform position="60.5,41.5" texture="pipes0">
+		<v>0,0</v>
+		<v>0.2,0.5</v>
+		<v>0,1</v>
+	</platform>
+	<platform position="60.5,45.5" texture="pipes0">
+		<v>0,0</v>
+		<v>0.2,0.5</v>
+		<v>0,1</v>
+	</platform>
+	<platform position="62,37.5" texture="pipes0">
+		<v>0,0</v>
+		<v>-0.2,0.5</v>
+		<v>0,1</v>
+	</platform>
+	<platform position="62,41.5" texture="pipes0">
+		<v>0,0</v>
+		<v>-0.2,0.5</v>
+		<v>0,1</v>
+	</platform>
+	<platform position="62,45.5" texture="pipes0">
+		<v>0,0</v>
+		<v>-0.2,0.5</v>
+		<v>0,1</v>
+	</platform>
+	<platform position="59.5,48" texture="pipes2">
+		<v>0,1</v>
+		<v>1,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="62,51" texture="pipes2">
+		<v>0,1</v>
+		<v>1,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="40,48" texture="pipes1">
+		<v>0,1</v>
+		<v>19.5,1</v>
+		<v>19.5,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="40,51" texture="pipes1">
+		<v>0,1</v>
+		<v>22,1</v>
+		<v>22,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="59.5,36" texture="pipes3">
+		<v>0,1</v>
+		<v>1,1</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="62,33" texture="pipes3">
+		<v>0,1</v>
+		<v>1,1</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="26.5,36" texture="pipes1">
+		<v>0,1</v>
+		<v>33,1</v>
+		<v>33,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="27,33" texture="pipes1">
+		<v>-0.5,1</v>
+		<v>1.5,1</v>
+		<v>1.5,0</v>
+		<v>-0.5,0</v>
+	</platform>
+	<platform position="29,33" texture="pipes1">
+		<v>0,1</v>
+		<v>33,1</v>
+		<v>33,0</v>
+		<v>0,0</v>
+	</platform>
+	/---------------------------------------------------------------------CZWARTE PIĘTRO
+	<wall position="26.5,21" texture="tapeta2">
+		<v>0,0</v>
+		<v>36.5,0</v>
+		<v>36.5,11</v>
+		<v>0,11</v>
+	</wall>
+	<platform position="25.5,21" texture="bricks,0">
+		<v>0,16</v>
+		<v>1,16</v>
+		<v>1,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="25.5,20" texture="bricks,0">
+		<v>0,1</v>
+		<v>37.5,1</v>
+		<v>37.5,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="62,21" texture="bricks,0">
+		<v>0,8</v>
+		<v>1,8</v>
+		<v>1,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="34,21" texture="bricks,0">
+		<v>0,8</v>
+		<v>1,8</v>
+		<v>1,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="26.5,32" texture="bricks,0">
+		<v>0,1</v>
+		<v>2,1</v>
+		<v>2,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="29,32" texture="bricks,0">
+		<v>0,1</v>
+		<v>40,1</v>
+		<v>40,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="68.5,30" texture="bricks,2">
+		<v>0,2</v>
+		<v>0.5,2</v>
+		<v>0.5,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="63,25" texture="bricks,2">
+		<v>0,0.5</v>
+		<v>6,0.5</v>
+		<v>6,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="63,22.5" texture="bricks,2">
+		<v>0,2.5</v>
+		<v>5,2.5</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="29,31" texture="tile,0">
+		<v>0,0</v>
+		<v>0,1</v>
+		<v>0.5,1</v>
+		<v>1,0.5</v>
+		<v>1,0</v>
+	</platform>
+	<platform position="28,30" texture="tile,0">
+		<v>0,0</v>
+		<v>0,2</v>
+		<v>0.5,2</v>
+		<v>0.5,0</v>
+	</platform>
+	<object position="49, 29.5" texture="winda0" height="2.5"/>
+	<object position="36, 23" texture="general0" height="5"/>
+	<object position="46, 23" texture="general0" height="5"/>
+	<object position="56, 23" texture="general0" height="5"/>
+	<object position="30, 28" texture="swiecznik1" height="4"/>
+	<light position="31, 29" color="255,205,255" intensity="0.8"/>
+	<object position="42.5, 28" texture="swiecznik1" height="4"/>
+	<light position="43.5, 29" color="255,205,255" intensity="0.8"/>
+	<object position="52.5, 28" texture="swiecznik1" height="4"/>
+	<light position="53.5, 29" color="255,205,255" intensity="0.8"/>
+	<object position="63, 28" texture="swiecznik1" height="4"/>
+	<light position="64, 29" color="255,205,255" intensity="0.8"/>
+	<object position="27.5, 20" texture="swiecznik3" height="4"/>
+	<light position="28.5, 22" color="255,205,255" intensity="0.6"/>
+	<light position="32.5, 22" color="255,205,255" intensity="0.6"/>
+	<object position="41, 20" texture="swiecznik3" height="4"/>
+	<light position="42, 22" color="255,205,255" intensity="0.6"/>
+	<light position="46, 22" color="255,205,255" intensity="0.6"/>
+	<object position="51, 20" texture="swiecznik3" height="4"/>
+	<light position="52, 22" color="255,205,255" intensity="0.6"/>
+	<light position="56, 22" color="255,205,255" intensity="0.6"/>
+	/---------------------------------------------------------------------PIĄTE PIĘTRO
+	<wall position="31,8" texture="tapeta2">
+		<v>0,0</v>
+		<v>21,0</v>
+		<v>21,9</v>
+		<v>0,9</v>
+	</wall>
+	<platform position="32,18" texture="bricks,0">
+		<v>0,2</v>
+		<v>20,2</v>
+		<v>20,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="30,17.5" texture="bricks,0">
+		<v>0,0.5</v>
+		<v>22,0.5</v>
+		<v>22,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="30,17" texture="bricks,0">
+		<v>0,0.5</v>
+		<v>7.9,0.5</v>
+		<v>7.9,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="38,17" texture="bricks,0">
+		<v>0.1,0.5</v>
+		<v>2.9,0.5</v>
+		<v>2.9,0</v>
+		<v>0.1,0</v>
+	</platform>
+	<platform position="41,17" texture="bricks,0">
+		<v>0.1,0.5</v>
+		<v>2.9,0.5</v>
+		<v>2.9,0</v>
+		<v>0.1,0</v>
+	</platform>
+	<platform position="44,17" texture="bricks,0">
+		<v>0.1,0.5</v>
+		<v>2.9,0.5</v>
+		<v>2.9,0</v>
+		<v>0.1,0</v>
+	</platform>
+	<platform position="47,17" texture="bricks,0">
+		<v>0.1,0.5</v>
+		<v>5,0.5</v>
+		<v>5,0</v>
+		<v>0.1,0</v>
+	</platform>
+	<platform position="30,8" texture="bricks,0">
+		<v>0,1</v>
+		<v>20,1</v>
+		<v>20,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="52,8" texture="bricks,0">
+		<v>0,10</v>
+		<v>1,10</v>
+		<v>1,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="30,9" texture="tile1">
+		<v>0,8</v>
+		<v>1,8</v>
+		<v>1,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="35,9" texture="bricks,0">
+		<v>0,0</v>
+		<v>-0.1,0.3</v>
+		<v>0,0.3</v>
+		<v>0.1,0.3</v>
+	</platform>
+	<platform position="35,9" texture="bricks,0">
+		<v>0,0</v>
+		<v>-0.1,0.2</v>
+		<v>-0.1,0</v>
+	</platform>
+	<object position="31, 10.5" texture="dymek1" height="4"/>
+	<light position="34.96, 9.1" color="255,064,064" intensity="2"/>
+	<object position="31.5, 14.5" texture="general1" height="2.5"/>
+	<light position="38, 17.4" color="255,064,064" intensity="1"/>
+	<object position="36, 11" texture="general0" height="4"/>
+	<light position="41, 17.4" color="255,064,064" intensity="1"/>
+	<object position="39, 11" texture="general0" height="4"/>
+	<light position="44, 17.4" color="255,064,064" intensity="1"/>
+	<object position="42, 11" texture="general0" height="4"/>
+	<light position="47, 17.4" color="255,064,064" intensity="1"/>
+	<object position="45, 11" texture="general0" height="4"/>
+	<object position="49, 14.5" texture="winda0" height="2.5"/>
+	/---------------------------------------------------------------------DACH
+	<wall position="50,4.5" texture="vent1">
+		<v>0,0</v>
+		<v>2,0</v>
+		<v>2,3.5</v>
+		<v>0,3.5</v>
+	</wall>
+	<wall position="52,4.5" texture="vent0">
+		<v>0,0</v>
+		<v>1,0</v>
+		<v>1,2</v>
+		<v>0,2</v>
+	</wall>
+	<platform position="53,15" texture="panels,1">
+		<v>0,0.5</v>
+		<v>0.5,0.5</v>
+		<v>0.5,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="53,10.5" texture="panels,0">
+		<v>0,0.5</v>
+		<v>0.5,0.5</v>
+		<v>0.5,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="49.5,4" texture="panels,1">
+		<v>0,4</v>
+		<v>0.5,4</v>
+		<v>0.5,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="50,4" texture="panels,2">
+		<v>0,0.5</v>
+		<v>5,0.5</v>
+		<v>5,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="52,6.5" texture="panels,0">
+		<v>0,0.5</v>
+		<v>1.5,0.5</v>
+		<v>1.5,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="52,7" texture="panels,2">
+		<v>0,1</v>
+		<v>0.5,1</v>
+		<v>0.5,0</v>
+		<v>0,0</v>
+	</platform>
+	<object position="31, 0" texture="radar1" height="8"/>
+	<object position="41, 0" texture="radar0" height="8"/>
+	<object position="31, 7" texture="alarm1" height="1"/>
+	<light position="31.5, 7.5" color="064,255,255" intensity="0.7"/>
+	<object position="39.5, 7" texture="alarm1" height="1"/>
+	<light position="40, 7.5" color="064,255,255" intensity="0.7"/>
+	<object position="48, 7" texture="alarm1" height="1"/>
+	<light position="48.5, 7.5" color="064,255,255" intensity="0.7"/>
 </level>

@@ -1,7 +1,8 @@
 #pragma once
 #include "util.h"
 
-enum class Command_code { NOTHING, CHANGE_RESOLUTION, CHANGE_SCALE, MOVE_PLAYER };
+enum class Command_code { NOTHING, CHANGE_RESOLUTION, CHANGE_SCALE,
+	MOVE_PLAYER, RELOAD_LIGHT };
 
 class Console
 {
