@@ -199,7 +199,6 @@ void Assets::load_assets()
 
 	context.blurh_states.shader = &blurh;
 	context.blurv_states.shader = &blurv;
-	context.final_states.shader = &context.global;
 	context.final_states.blendMode = sf::BlendMultiply;
 	context.white_states.shader = &white;
 

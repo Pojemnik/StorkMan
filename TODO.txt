@@ -4,8 +4,7 @@
 *? Shadery dla statycznych świateł
 * Trzeba by inaczej liczyć Dynamic_enitity.platfrom_angle
 * Cień Storkmana
-* Słońce
-* Rozjaśnianie tekstur przez światło (pewnie shader)
+*? Rozjaśnianie tekstur przez światło (pewnie shader)
 * Przeskalować do 32px/m
 
 Więcej warstw dla obiektów

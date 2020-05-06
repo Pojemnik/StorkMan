@@ -13,6 +13,18 @@
 		<v>43,24</v>
 		<v>0,24</v>
 	</wall>
+	<platform position="64,92" texture="bricks,0">
+		<v>1,1</v>
+		<v>1,0</v>
+		<v>0,0</v>
+		<v>0,1</v>
+	</platform>
+	<platform position="25,69" texture="bricks,0">
+		<v>40,1</v>
+		<v>40,0</v>
+		<v>0,0</v>
+		<v>0,1</v>
+	</platform>
 	<platform position="23,88" texture="concrete,0">
 		<v>2,0.5</v>
 		<v>2,0</v>

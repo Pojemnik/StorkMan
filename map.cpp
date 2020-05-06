@@ -260,7 +260,7 @@ void Map::recalc()
 		}
 		context.white_states.transform *= sf::Transform().translate(-level_size.x / 2,
 			-level_size.y / 2);
-		light_texture->display();
+		//light_texture->display();
 	}
 	calc_map_vertices();
 	std::vector<Light_source> sources;
@@ -276,6 +276,8 @@ void Map::recalc()
 	light_texture->draw(light.lightmap, states);
 	light_texture->display();
 	light_sprite.setTexture(light_texture->getTexture());
+	//sf::Image im = light_texture->getTexture().copyToImage();
+	//im.saveToFile("aaa.png");
 }
 
 void Map::redraw()
