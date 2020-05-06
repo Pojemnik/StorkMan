@@ -16,6 +16,8 @@ bgpos					float float 	-1000 -2500			Pozycja tła
 layer2pos				float float 	-1000 -1800			Pozycja warstwy 2
 mapvertices				bool			0					Rysowanie krawędzi platform
 fpscounter				bool			0					Wyświetla licznik fps
+night					bool			0					Przełącza dzień i noc
+reloadlight				brak			-					Wymusza ponowne przeliczenie światła
 
 Komendy podajesz wraz z argumentami w jednej linii.
 Przykład:
@@ -32,6 +34,8 @@ Argumenty typu bool oprócz 0 i 1 mogą też przyjąć true i false. Przykład:
 mapvertices 1
 mapvertices true
 
-storkminspeed działa źle - zmniejszenie wartości zwiększa prędkość. Lepiej nie tykać
+storkminspeed działa źle - zmniejszenie wartości zwiększa prędkość. Lepiej nie tykać.
 
-Ruszanie zmiennej fps jest raczej złym pomysłem
+Ruszanie zmiennej fps jest raczej złym pomysłem.
+
+Żeby zmiana w wartości night przyniosła skutek trzeba wywołać reloadlight.

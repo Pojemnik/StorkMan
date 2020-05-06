@@ -8,7 +8,7 @@
 #include "util.h"
 #include "console.h"
 
-const std::string VERSION = "0.3.4b";
+const std::string VERSION = "0.3.4c";
 
 bool update(float dt, Map& map, int move)
 {
@@ -84,7 +84,8 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			{
 				if (event.key.code == sf::Keyboard::Tilde)
 				{
-					std::pair<Command_code, Vectorf> code = Console::get_and_execute_command();
+					std::pair<Command_code, Vectorf> code = 
+						Console::get_and_execute_command();
 					switch (code.first)
 					{
 					case Command_code::CHANGE_RESOLUTION:
@@ -95,8 +96,14 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 						map.calc_map_vertices();
 						map.redraw();
 						player.rescale(context.global_scale);
+						break;
 					case Command_code::MOVE_PLAYER:
 						player.set_position(code.second);
+						break;
+					case Command_code::RELOAD_LIGHT:
+						map.redraw();
+						map.recalc();
+						break;
 					default:
 						break;
 					}

@@ -29,7 +29,8 @@ Vectorf Console::get_vectorf(const Command& cmd, std::string var_name)
 		if (!err)
 		{
 			vector = { tab[0],tab[1] };
-			std::cout << var_name + " set to " << vector.x << ' ' << vector.y << std::endl;
+			std::cout << var_name + " set to " << vector.x << ' '
+				<< vector.y << std::endl;
 		}
 
 	}
@@ -64,7 +65,8 @@ Vectori Console::get_vectori(const Command& cmd, std::string var_name)
 		if (!err)
 		{
 			vector = { tab[0],tab[1] };
-			std::cout << var_name + " set to " << vector.x << ' ' << vector.y << std::endl;
+			std::cout << var_name + " set to " << vector.x << ' '
+				<< vector.y << std::endl;
 		}
 
 	}
@@ -81,11 +83,13 @@ bool Console::get_bool(const Command& cmd, std::string var_name, std::array<std:
 	bool val = false;
 	if (cmd.args.size() == 1)
 	{
-		if (cmd.args[0] == "1" || cmd.args[0] == "true" || cmd.args[0] == "True" || cmd.args[0] == "treu")
+		if (cmd.args[0] == "1" || cmd.args[0] == "true" ||
+			cmd.args[0] == "True" || cmd.args[0] == "treu")
 			val = true;
 		else
 			val = false;
-		std::cout << var_name + " " << ((val) ? true_false_string[0] : true_false_string[1]) << std::endl;
+		std::cout << var_name + " " << 
+			((val) ? true_false_string[0] : true_false_string[1]) << std::endl;
 	}
 	else
 	{
@@ -123,15 +127,22 @@ std::pair<Command_code, Vectorf> Console::execute_command_raw(Command cmd)
 {
 	if (cmd.name == "col")
 	{
-		context.draw_collisions = get_bool(cmd, "Player collision mesh", { "drawn", "hidden" });
+		context.draw_collisions = 
+			get_bool(cmd, "Player collision mesh", { "drawn", "hidden" });
 	}
 	else if (cmd.name == "mapvertices")
 	{
-		context.draw_map_vertices = get_bool(cmd, "Map vertices", { "drawn", "hidden" });
+		context.draw_map_vertices = 
+			get_bool(cmd, "Map vertices", { "drawn", "hidden" });
 	}
 	else if (cmd.name == "fpscounter")
 	{
-		context.draw_fps_counter = get_bool(cmd, "FPS counter", { "drawn", "hidden" });
+		context.draw_fps_counter = 
+			get_bool(cmd, "FPS counter", { "drawn", "hidden" });
+	}
+	else if (cmd.name == "night")
+	{
+		context.night = get_bool(cmd, "Night", { "on", "off" });
 	}
 	else if (cmd.name == "fps")
 	{
@@ -188,17 +199,23 @@ std::pair<Command_code, Vectorf> Console::execute_command_raw(Command cmd)
 	else if (cmd.name == "resolution")
 	{
 		context.resolution = get_vectori(cmd, "Resolution");
-		return std::make_pair<Command_code, Vectorf>(Command_code::CHANGE_RESOLUTION, (Vectorf)context.resolution);
+		return std::make_pair(Command_code::CHANGE_RESOLUTION,
+			(Vectorf)context.resolution);
 	}
 	else if (cmd.name == "scale")
 	{
 		context.global_scale = get_float(cmd, "Global scale");
-		return std::make_pair<Command_code, Vectorf>(Command_code::CHANGE_SCALE, { context.global_scale,0 });
+		return std::make_pair(Command_code::CHANGE_SCALE,
+			Vectorf(context.global_scale,0));
 	}
 	else if (cmd.name == "moveplayer")
 	{
 		Vectorf target = get_vectorf(cmd, "Player moved");
-		return std::make_pair<Command_code, Vectorf>(Command_code::MOVE_PLAYER, (Vectorf)target);
+		return std::make_pair(Command_code::MOVE_PLAYER, (Vectorf)target);
+	}
+	else if (cmd.name == "reloadlight")
+	{
+		return std::make_pair(Command_code::RELOAD_LIGHT, Vectorf(0, 0));
 	}
 	else
 		std::cerr << "Unknown command: " + cmd.name << std::endl;

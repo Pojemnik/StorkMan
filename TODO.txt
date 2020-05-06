@@ -1,7 +1,6 @@
 ﻿* - następny release
 
 * Swiatło w osobnym wątku
-* Interakcja między światłem a ścianami
 *? Shadery dla statycznych świateł
 * Trzeba by inaczej liczyć Dynamic_enitity.platfrom_angle
 * Cień Storkmana
@@ -21,6 +20,8 @@ Przyspieszyć obliczenia światła - szybsza trygonometria
 Przyspieszyć obliczenia światła - wektory zamiast trygonometrii
 
 Zrobione:
+* Interakcja między światłem a ścianami ✓
+* Słońce ✓
 * Dziedzina funkcji trygonometrycznych w świetle i dzielenie przez zero ✓
 * Statyczne światła liczyć statycznie ✓
 * Opis świateł w XML ✓

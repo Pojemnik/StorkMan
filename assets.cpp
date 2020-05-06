@@ -128,6 +128,9 @@ void Assets::load_shaders()
 	blurv.setUniform("sigma", 50.0f);
 	blurv.setUniform("blurSize", 1.0f / context.resolution.y);
 	blurv.setUniform("blurSampler", sf::Shader::CurrentTexture);
+	white.loadFromFile("img/shaders/white.frag", sf::Shader::Fragment);
+	context.global.loadFromFile("img/shaders/global.frag", sf::Shader::Fragment);
+	context.global.setUniform("light", sf::Shader::CurrentTexture);
 }
 
 void Assets::load_additional_texture(std::string path, std::string name, int repeat)
@@ -196,7 +199,9 @@ void Assets::load_assets()
 
 	context.blurh_states.shader = &blurh;
 	context.blurv_states.shader = &blurv;
+	context.final_states.shader = &context.global;
 	context.final_states.blendMode = sf::BlendMultiply;
+	context.white_states.shader = &white;
 
 	context.arial.loadFromFile("Arial.ttf");
 	std::cout << "done!" << std::endl;

@@ -13,7 +13,7 @@ public:
 	sf::Texture* layer2 = nullptr;
 	sf::Texture* light = nullptr;
 	Animation_tree stork_tree;
-	sf::Shader blurv, blurh;
+	sf::Shader blurv, blurh, white;
 	void load_assets();
 	void load_additional_texture(std::string path, std::string name, int repeat);
 

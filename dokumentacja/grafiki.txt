@@ -1,3 +1,8 @@
+Dodawanie nowych tekstur:
+W pliku img/textures.txt podajesz odpowiednio:
+Scieżkę do pliku z teksturą, nazwę używaną przez edytor,
+czy tekstura ma się powtarzać (dla platform i ścian tak (1), dla obiektów nie (0))
+
 "asphalt,0" img/tex/ASFALT.png
 "concrete,0" img/tex/BETON.png
 "construction,0" img/tex/BUDOWA.png
