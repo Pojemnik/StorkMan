@@ -31,7 +31,6 @@ Zrobione:
 * Możliwość zmiany tekstur "z zewnątrz" ✓
 
 Błędy:
-* Światłooooo
 * Zsuwanie się z platform
 * Skalowanie odc. 0xDEADBEEF
 * Animacje dotykając ściany
@@ -39,6 +38,7 @@ Błędy:
 * Kolizje na dziwnych wielokątach
 
 * Skoki ze skośnych platform (✓)
+* Światłooooo ✓
 
 Lista priorytetowa by Adam:
 * 1. Zmiana skoków na lepiej obsługiwalne

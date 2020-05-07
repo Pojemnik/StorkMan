@@ -19,6 +19,18 @@
 		<v>0,0</v>
 		<v>0,2.5</v>
 	</platform>
+	<platform position="32,84.5" texture="bricks,2">
+		<v>1,0.5</v>
+		<v>1,0</v>
+		<v>0,0</v>
+		<v>0,0.5</v>
+	</platform>
+	<platform position="42.5,84.5" texture="bricks,2">
+		<v>1,0.5</v>
+		<v>1,0</v>
+		<v>0,0</v>
+		<v>0,0.5</v>
+	</platform>
 	<platform position="53,84.5" texture="bricks,2">
 		<v>1,0.5</v>
 		<v>1,0</v>

@@ -3,7 +3,6 @@
 Map::Map()
 {
 	level_placement = nullptr;
-	map_texture = nullptr;
 	player = nullptr;
 	light_texture = nullptr;
 }
@@ -25,7 +24,6 @@ Map::Map(Vectori dimensions, std::vector<Level>& lvls, Vectori start_pos,
 	calc_map_vertices();
 	global_scale = context.global_scale;
 	light.lightmap.setPosition(0, 0);
-	map_texture = nullptr;
 	light_texture = nullptr;
 }
 
@@ -85,7 +83,29 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	context.layer2_states = states;
 	context.layer2_states.transform.translate(layer2_move_parallax);
 	target.draw(layer2, context.layer2_states);
-	target.draw(map_sprite, states);
+	for (const auto& it : loaded_levels)
+	{
+		states.transform *= sf::Transform().translate(
+			{ level_size.x * it->global_pos.x,
+			level_size.y * it->global_pos.y }
+		);
+		for (auto& it2 : it->walls)
+		{
+			target.draw(it2, states);
+		}
+		for (const auto& it2 : it->objects)
+		{
+			target.draw(it2, states);
+		}
+		for (const auto& it2 : it->platforms)
+		{
+			target.draw(it2, states);
+		}
+		states.transform *= sf::Transform().translate(
+			{ -1 * level_size.x * it->global_pos.x,
+			-1 * level_size.y * it->global_pos.y }
+		);
+	}
 }
 
 void Map::calc_map_vertices()
@@ -183,7 +203,7 @@ void Map::load_levels_in_bounds(Vectori pos)
 
 void Map::update(float dt)
 {
-	if (map_texture == nullptr)
+	if (light_texture == nullptr)
 	{
 		redraw();
 		recalc();
@@ -282,15 +302,6 @@ void Map::recalc()
 
 void Map::redraw()
 {
-	if (map_texture == nullptr)
-	{
-		map_texture = new sf::RenderTexture();
-		if (!map_texture->create(level_size.x * 2, level_size.y * 2))
-		{
-			std::cerr << "Error creating map" << std::endl;
-			throw std::runtime_error("Memory error");
-		}
-	}
 	if (light_texture == nullptr)
 	{
 		light_texture = new sf::RenderTexture();
@@ -300,33 +311,6 @@ void Map::redraw()
 			throw std::runtime_error("Memory error");
 		}	
 	}
-	map_texture->clear(sf::Color(0, 0, 0, 0));
-	sf::RenderStates states;
-	for (const auto& it : loaded_levels)
-	{
-		states.transform *= sf::Transform().translate(
-			{ level_size.x * it->global_pos.x,
-			level_size.y * it->global_pos.y }
-		);
-		for (auto& it2 : it->walls)
-		{
-			map_texture->draw(it2, states);
-		}
-		for (const auto& it2 : it->objects)
-		{
-			map_texture->draw(it2, states);
-		}
-		for (const auto& it2 : it->platforms)
-		{
-			map_texture->draw(it2, states);
-		}
-		states.transform *= sf::Transform().translate(
-			{ -1 * level_size.x * it->global_pos.x,
-			-1 * level_size.y * it->global_pos.y }
-		);
-	}
-	map_texture->display();
-	map_sprite.setTexture(map_texture->getTexture());
 }
 
 void Map::rescale(float new_global_scale)

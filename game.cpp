@@ -67,8 +67,9 @@ void Player::attack(int attack_type)
 	}
 }
 
-Dynamic_entity::Dynamic_entity(Vectorf p, sf::Texture* texture, std::vector<sf::IntRect>& v,
-	std::vector<const Dynamic_animation*> a, sf::FloatRect rc, Animation_tree t, float h, float gs, float m)
+Dynamic_entity::Dynamic_entity(Vectorf p, sf::Texture* texture,
+	std::vector<sf::IntRect>& v, std::vector<const Dynamic_animation*> a,
+	sf::FloatRect rc, Animation_tree t, float h, float gs, float m)
 	: Dynamic_animatable(texture, v, p, a, t, h, gs)
 {
 	animation_status = Animation_status::A_IDLE;
@@ -85,8 +86,9 @@ void Dynamic_entity::move(Vectorf delta)
 		platform_angle != 0.f))
 	{
 		move_force += delta;
-		//Czy w tym if'ie nie ma b³êdu?
-		if (move_speed.x * move_speed.x + move_speed.y * move_speed.x < context.min_move_speed * context.min_move_speed || util::vector_dot_product(move_speed, delta) < 0)
+		if (move_speed.x * move_speed.x + move_speed.y * move_speed.y <
+			context.min_move_speed * context.min_move_speed ||
+			util::vector_dot_product(move_speed, delta) < 0)
 		{
 			move_speed = util::normalize(delta, context.min_move_speed);
 		}
@@ -204,7 +206,7 @@ void Dynamic_entity::update(float dt)
 	{
 		set_idle();
 	}
-	if (animation_status == Animation_status::A_JUMP_IDLE && key == 2)
+	if (animation_status == Animation_status::A_JUMP_IDLE)// && key == 2)
 	{
 		if (colision_direction.y == 1)
 		{
@@ -215,7 +217,8 @@ void Dynamic_entity::update(float dt)
 		status = IN_AIR;
 	}
 	if ((animation_status == Animation_status::A_JUMP_RUN ||
-		animation_status == Animation_status::A_JUMP_RUN2) && key == 3 && frames_delta == 7)
+		animation_status == Animation_status::A_JUMP_RUN2))// &&
+		//key == 3 && frames_delta == 7)
 	{
 		if (colision_direction.y == 1)
 		{

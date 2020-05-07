@@ -9,8 +9,6 @@ private:
 	std::vector<Level> levels;
 	Level*** level_placement;
 	std::list<Level*> loaded_levels;
-	sf::Sprite map_sprite;
-	sf::RenderTexture* map_texture;
 	sf::RenderTexture* light_texture;
 	std::vector<Vectorf> map_vertices;
 	float global_scale;

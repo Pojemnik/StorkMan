@@ -55,8 +55,7 @@ void Light::calc_light(std::vector<Light_source>& sources,
 		}
 	}
 	target->display();
-	lightmap_texture = target->getTexture();
-	lightmap.setTexture(lightmap_texture);
+	lightmap.setTexture(target->getTexture());
 }
 
 std::pair<float, Vectorf> Light::cast_ray(Vectorf source, Vectorf alfa,
@@ -95,28 +94,29 @@ std::vector<std::pair<float, Vectorf>> Light::calc_light_source(
 	Light_source source, std::vector<std::pair<Vectorf,
 	Vectorf>>&map_edges, std::vector<Vectorf>& map_vertices)
 {
+	static const float COS(cos(0.0001f));
+	static const float SIN(sin(0.0001f));
 	std::vector<std::pair<float, Vectorf>> points;
 	Vectorf alfa;
 	int added_vertices = add_light_edges(source, map_edges, map_vertices);
 	for (const auto& vertex_it : map_vertices)
 	{
 		Vectorf dist = vertex_it - source.pos;
-		if (dist == Vectorf(0, 0))	//atan2 domain
+		if (dist == Vectorf(0, 0))    //atan2 domain
 			continue;
-		if (util::sq(dist.x) + util::sq(dist.y) < light_const * util::sq(500*source.intensity) + 50)
+		if (util::sq(dist.x) + util::sq(dist.y) < light_const * util::sq(500 * source.intensity) + 50)
 		{
 			alfa = vertex_it - source.pos;
 			std::pair<float, Vectorf> point;
 			point = cast_ray(source.pos, alfa, map_edges);
 			if (point.second != source.pos)
 				points.push_back(point);
-			float angle = atan2(-alfa.y, alfa.x);
-			point = cast_ray(source.pos, Vectorf(1 * util::sgn(alfa.x),
-				tan(angle + 0.0001f) * -util::sgn(alfa.x)), map_edges);
+			point = cast_ray(source.pos, { alfa.x * COS - alfa.y * SIN,
+				alfa.x * SIN + alfa.y * COS }, map_edges);
 			if (point.second != source.pos)
 				points.push_back(point);
-			point = cast_ray(source.pos, Vectorf(1 * util::sgn(alfa.x),
-				tan(angle - 0.0001f) * -util::sgn(alfa.x)), map_edges);
+			point = cast_ray(source.pos, { alfa.x * COS + alfa.y * SIN,
+				alfa.y * COS - alfa.x * SIN }, map_edges);
 			if (point.second != source.pos)
 				points.push_back(point);
 		}

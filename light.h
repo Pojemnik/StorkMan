@@ -17,7 +17,6 @@ struct Light_source
 class Light
 {
 private:
-	sf::Texture lightmap_texture;
 	sf::RenderTexture* target;
 	sf::Texture* light_texture;
 	sf::RenderStates states;
