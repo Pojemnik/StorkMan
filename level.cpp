@@ -47,6 +47,8 @@ void Level::rescale(float ratio)
 		it.rescale(ratio);
 	for (auto& it : walls)
 		it.rescale(ratio);
+	for (auto& it : objects)
+		it.rescale(ratio);
 }
 
 void Level::add_wall(Wall w)

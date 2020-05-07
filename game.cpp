@@ -345,6 +345,6 @@ void Dynamic_entity::set_position(Vectorf new_position)
 void Dynamic_entity::rescale(float new_scale)
 {
 	float ratio = new_scale / (scale * 350 / height);
-	Dynamic_animatable::rescale(new_scale);
+	Dynamic_animatable::rescale(ratio);
 	Colidable::rescale(ratio);
 }

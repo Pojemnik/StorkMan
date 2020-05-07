@@ -4,7 +4,7 @@ Renderable::Renderable(Vectorf p, const sf::Texture* t, float h) : tex(t), pos(p
 {
 	sprite = sf::Sprite(*tex);
 	sprite.setPosition(pos);
-	rescale(context.global_scale);
+	rescale(1);
 }
 
 void Renderable::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -12,9 +12,11 @@ void Renderable::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(sprite, states);
 }
 
-void Renderable::rescale(float gs)
+void Renderable::rescale(float ratio)
 {
-	float scale = gs * height / sprite.getTexture()->getSize().y;
+	float scale = ratio * 35.84f * height / sprite.getTexture()->getSize().y;
+	pos *= ratio;
+	sprite.setPosition(pos);
 	sprite.setScale(scale, scale);
 }
 
@@ -190,8 +192,8 @@ Dynamic_animation::Dynamic_animation(std::vector<std::vector<float>>& kf, std::v
 {
 }
 
-void Dynamic_animatable::rescale(float new_global_scale)
+void Dynamic_animatable::rescale(float ratio)
 {
-	pos = pos * new_global_scale / (scale*350/height);
-	scale = new_global_scale * height / 350;
+	pos *= ratio;
+	scale *= ratio;
 }

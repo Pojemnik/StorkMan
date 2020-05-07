@@ -27,7 +27,7 @@ protected:
 public:
 	Renderable() = default;
 	Renderable(Vectorf p, const sf::Texture* t, float h);
-	void rescale(float gs);
+	void rescale(float ratio);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
@@ -94,6 +94,6 @@ public:
 	Dynamic_animatable(sf::Texture* texture, std::vector<sf::IntRect>& v,
 		Vectorf p, std::vector<const Dynamic_animation*> a, Animation_tree t, float h, float gs);
 	void next_frame();
-	void rescale(float new_global_scale);
+	void rescale(float ratio);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
