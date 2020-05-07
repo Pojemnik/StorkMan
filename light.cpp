@@ -63,7 +63,7 @@ std::pair<float, Vectorf> Light::cast_ray(Vectorf source, Vectorf alfa,
 {
 	if (fabs(alfa.x) < eps)
 	{
-		return std::pair<float, Vectorf>(atan2(-alfa.y, alfa.x), source);
+		return std::pair<float, Vectorf>(util::convert_vector(alfa), source);
 	}
 	Vectorf beta;
 	float min_t1 = INFINITY;
@@ -87,7 +87,7 @@ std::pair<float, Vectorf> Light::cast_ray(Vectorf source, Vectorf alfa,
 			}
 		}
 	}
-	return std::pair<float, Vectorf>(atan2(-alfa.y, alfa.x), point);
+	return std::pair<float, Vectorf>(util::convert_vector(alfa), point);
 }
 
 std::vector<std::pair<float, Vectorf>> Light::calc_light_source(

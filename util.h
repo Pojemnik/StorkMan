@@ -76,6 +76,7 @@ namespace util
 	inline bool vectorf_compare(const Vectorf& a, const Vectorf& b);
 	inline bool vectorf_binary_predicate(const Vectorf& a, const Vectorf& b);
 	Vectorf intersection(std::pair<Vectorf, Vectorf> a, std::pair<Vectorf, Vectorf> b);
+	inline float convert_vector(const Vectorf& vec);
 
 	inline sf::Vector2f normalize(sf::Vector2f x, float l)
 	{
@@ -165,5 +166,14 @@ namespace util
 		const Vectorf& b)
 	{
 		return fabs(a.x - b.x) < 1 && fabs(a.y - b.y) < 1;
+	}
+
+	inline float util::convert_vector(const Vectorf& vec)
+	{
+		float SIN = vec.y/hypot(vec.x,vec.y);
+		if (vec.x > 0)
+			return SIN - 1;
+		else
+			return 1 - SIN;
 	}
 }
