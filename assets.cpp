@@ -165,7 +165,7 @@ void Assets::load_assets()
 	animations.push_back(load_dynamic_animation("animations/stork/jump_run2.txt"));
 	animations.push_back(load_dynamic_animation("animations/stork/punch1.txt"));
 	animations.push_back(load_dynamic_animation("animations/stork/punch2.txt"));
-	load_textures(map_textures, "img/tex_ss_64_64_is_3_9.png", true);
+	load_textures(map_textures, "img/tex_ss_64_64_is_3_13.png", true);
 	stork_tree = load_animation_tree("animations/stork/tree.txt");
 	load_shaders();
 
@@ -188,14 +188,28 @@ void Assets::load_assets()
 	textures["dirt,0"] = &map_textures[16];
 	textures["paving,0"] = &map_textures[17];
 	textures["paving,1"] = &map_textures[18];
-	textures["pipe,1"] = &map_textures[19];
-	textures["wood,0"] = &map_textures[20];
-	textures["wood,1"] = &map_textures[21];
-	textures["wood,2"] = &map_textures[22];
-	textures["wood,3"] = &map_textures[23];
-	textures["wood,4"] = &map_textures[24];
-	textures["tile,1"] = &map_textures[25];
-	textures["pipe,0"] = &map_textures[26];
+	textures["wood,0"] = &map_textures[19];
+	textures["wood,1"] = &map_textures[20];
+	textures["wood,2"] = &map_textures[21];
+	textures["wood,3"] = &map_textures[22];
+	textures["wood,4"] = &map_textures[23];
+	textures["tile1"] = &map_textures[24];
+	textures["canal0"] = &map_textures[25];
+	textures["canal1"] = &map_textures[26];
+	textures["krata0"] = &map_textures[27];
+	textures["wall0"] = &map_textures[28];
+	textures["pipes0"] = &map_textures[29];
+	textures["pipes1"] = &map_textures[30];
+	textures["pipes2"] = &map_textures[31];
+	textures["pipes3"] = &map_textures[32];
+	textures["tapeta0"] = &map_textures[33];
+	textures["tapeta1"] = &map_textures[34];
+	textures["tapeta2"] = &map_textures[35];
+	textures["tapeta3"] = &map_textures[36];
+	textures["vent0"] = &map_textures[37];
+	textures["vent1"] = &map_textures[38];
+
+
 
 	context.blurh_states.shader = &blurh;
 	context.blurv_states.shader = &blurv;
