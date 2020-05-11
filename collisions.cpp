@@ -1,5 +1,4 @@
 #include "collisions.h"
-#include <cfloat>
 
 using namespace util;
 

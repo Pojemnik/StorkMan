@@ -1,8 +1,12 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <cfloat>
+
 #include "util.h"
-struct Collision_info {
+
+struct Collision_info 
+{
 	bool shapeA_contained, shapeB_contained;
 	bool collides=true;
 	sf::Vector2f vector;
