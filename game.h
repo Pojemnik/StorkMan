@@ -2,7 +2,7 @@
 #include "graphics.h"
 #include "physics.h"
 
-struct Platform : public Texturable, public Colidable
+struct Platform : public Texturable, public Collidable
 {
 	Platform(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> points);
 	void rescale(float ratio);

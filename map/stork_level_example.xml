@@ -63,6 +63,12 @@
 		<v>100,0.5</v>
 		<v>0,0.5</v>
 	</platform>
+	<platform position="3,95" texture="ribbing,0">
+		<v>0,0</v>
+		<v>2,0</v>
+		<v>2,2</v>
+		<v>0,2</v>
+	</platform>
 	/---------------------------------------------------------------------OGRODZENIE
 	<platform position="0.5,40" texture="wood,1">
 		<v>0,0</v>

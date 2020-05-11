@@ -35,3 +35,9 @@ Vectorf util::intersection(std::pair<Vectorf, Vectorf> a, std::pair<Vectorf, Vec
 		}
 	}
 }
+
+void util::save_texture(std::string path, sf::Texture* texture)
+{
+	sf::Image im = texture->copyToImage();
+	im.saveToFile(path);
+}

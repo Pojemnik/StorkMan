@@ -1,7 +1,9 @@
 #include "collisions.h"
 #include <cfloat>
+
 using namespace util;
-bool test_bollean(const std::vector<sf::Vector2f>* a, const std::vector<sf::Vector2f>* b)
+
+bool coll::test_bollean(const std::vector<sf::Vector2f>* a, const std::vector<sf::Vector2f>* b)
 {
 	if (!check_polygons_for_SAT(a, b, 0, 0).collides)
 		return 0;
@@ -10,7 +12,7 @@ bool test_bollean(const std::vector<sf::Vector2f>* a, const std::vector<sf::Vect
 	return 1;
 }
 
-Collision_info check_polygons_for_SAT(const std::vector<sf::Vector2f>* a, const std::vector<sf::Vector2f>* b, bool flip, bool docalc)
+Collision_info coll::check_polygons_for_SAT(const std::vector<sf::Vector2f>* a, const std::vector<sf::Vector2f>* b, bool flip, bool docalc)
 {
 	float min0, max0, min1, max1;
 	sf::Vector2f vAxis;
@@ -72,7 +74,7 @@ Collision_info check_polygons_for_SAT(const std::vector<sf::Vector2f>* a, const 
 	return result;
 }
 
-sf::Vector2f test_collision(const std::vector<sf::Vector2f>* a, const std::vector<sf::Vector2f>* b)
+sf::Vector2f coll::test_collision(const std::vector<sf::Vector2f>* a, const std::vector<sf::Vector2f>* b)
 {
 	Collision_info result1 = check_polygons_for_SAT(a, b, 0, 1);
 	if (!result1.collides)

@@ -6,7 +6,8 @@ Light_source::Light_source(Vectorf p, const sf::Texture* t, sf::Color c, float i
 
 }
 
-Light::Light(Vectorf level_size, sf::Texture* light_tex) : light_texture(light_tex)
+Light::Light(Vectorf level_size, sf::Texture* light_tex)
+	: light_texture(light_tex)
 {
 	target = new sf::RenderTexture();
 	states.blendMode = sf::BlendAdd;
@@ -17,15 +18,26 @@ Light::Light(Vectorf level_size, sf::Texture* light_tex) : light_texture(light_t
 	}
 }
 
+void Light::rescale(Vectorf level_size)
+{
+	delete target;
+	target = new sf::RenderTexture();
+	if (!(target->create(level_size.x * 2, level_size.y * 2)))
+	{
+		std::cerr << "Error creating lightmap" << std::endl;
+	}
+}
+
 void Light::calc_light(std::vector<Light_source>& sources,
 	sf::Transform transform, std::vector<std::pair<Vectorf,
 	Vectorf>>&map_edges, std::vector<Vectorf>& map_vertices)
 {
-	target->clear(sf::Color(70, 70, 70, 255));
+	target->clear(
+		sf::Color(context.darkness, context.darkness, context.darkness, 255));
 	for (Light_source source : sources)
 	{
-		std::vector<std::pair<float, Vectorf>> points = calc_light_source(source,
-			map_edges, map_vertices);
+		std::vector<std::pair<float, Vectorf>> points =
+			calc_light_source(source, map_edges, map_vertices);
 		sf::VertexArray light(sf::TriangleFan, points.size() + 2);
 		light[0].position = source.pos;
 		light[0].texCoords = { 500,500 };
@@ -97,16 +109,16 @@ std::vector<std::pair<float, Vectorf>> Light::calc_light_source(
 	static const float COS(cos(0.0001f));
 	static const float SIN(sin(0.0001f));
 	std::vector<std::pair<float, Vectorf>> points;
-	Vectorf alfa;
 	int added_vertices = add_light_edges(source, map_edges, map_vertices);
 	for (const auto& vertex_it : map_vertices)
 	{
-		Vectorf dist = vertex_it - source.pos;
-		if (dist == Vectorf(0, 0))    //atan2 domain
+		Vectorf diff = vertex_it - source.pos;
+		if (diff == Vectorf(0, 0))    //atan2 domain
 			continue;
-		if (util::sq(dist.x) + util::sq(dist.y) < light_const * util::sq(500 * source.intensity) + 50)
+		if (util::sq(diff.x) + util::sq(diff.y) <
+			light_const * util::sq(500 * source.intensity) + 50)
 		{
-			alfa = vertex_it - source.pos;
+			Vectorf alfa = vertex_it - source.pos;
 			std::pair<float, Vectorf> point;
 			point = cast_ray(source.pos, alfa, map_edges);
 			if (point.second != source.pos)

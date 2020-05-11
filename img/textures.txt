@@ -20,6 +20,5 @@ img/tex/ALARMOWA00.png alarm0 0
 img/tex/ALARMOWA01.png alarm1 0
 img/tex/ALARMOWA02.png alarm2 0
 img/tex/ALARMOWA03.png alarm3 0
-img/tex/KRATA00.png krata0 0
 img/tex/RADAR00.png radar0 0
 img/tex/RADAR01.png radar1 0

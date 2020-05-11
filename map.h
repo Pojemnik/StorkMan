@@ -24,7 +24,8 @@ public:
 	sf::Sprite background;
 	sf::Sprite layer2;	//Lepiej rozwi¹zaæ
 	Player* player;		//Chyba niezyt eleganckie
-	sf::Vector2f level_size = { 100 * context.global_scale,100 * context.global_scale };
+	sf::Vector2f level_size = 
+		{ 100 * context.global_scale,100 * context.global_scale };
 	Light light;
 	sf::Sprite light_sprite;
 
@@ -34,7 +35,6 @@ public:
 	void calc_map_vertices();
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	void update(float dt);
-	void redraw();
-	void recalc();
+	void recalc_light();
 	void rescale(float new_global_scale);
 };

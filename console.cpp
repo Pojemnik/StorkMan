@@ -123,6 +123,30 @@ float Console::get_float(const Command& cmd, std::string var_name)
 	return var;
 }
 
+int Console::get_int(const Command& cmd, std::string var_name)
+{
+	int var = 0;
+	if (cmd.args.size() == 1)
+	{
+		try
+		{
+			var = std::stoi(cmd.args[0]);
+			std::cout << var_name + " set to " << var << std::endl;
+		}
+		catch (std::invalid_argument e)
+		{
+			print_incorrect_argument_error(cmd.name, cmd.args[0]);
+			throw std::invalid_argument("Invalid argument");
+		}
+	}
+	else
+	{
+		print_argument_number_error(1);
+		throw std::invalid_argument("Invalid argument");
+	}
+	return var;
+}
+
 std::pair<Command_code, Vectorf> Console::execute_command_raw(Command cmd)
 {
 	if (cmd.name == "col")
@@ -195,6 +219,10 @@ std::pair<Command_code, Vectorf> Console::execute_command_raw(Command cmd)
 	else if (cmd.name == "layer2scale")
 	{
 		context.layer2_scale = get_float(cmd, "Layer 2 scale");
+	}
+	else if (cmd.name == "darkness")
+	{
+		context.darkness = get_int(cmd, "Darkness level");
 	}
 	else if (cmd.name == "resolution")
 	{

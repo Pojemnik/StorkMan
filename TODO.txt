@@ -1,53 +1,64 @@
 ﻿* - następny release
 
-* Swiatło w osobnym wątku
-*? Shadery dla statycznych świateł
-* Trzeba by inaczej liczyć Dynamic_enitity.platfrom_angle
-*? Cień Storkmana
-*? Rozjaśnianie tekstur przez światło (pewnie shader)
-* Przeskalować do 32px/m
+Lista priorytetowa by Adam:
+  * 1. Zmiana skoków na lepiej obsługiwalne ✓
+  2. Dodanie prostych przeciwników
+  * 3. Dodanie podczepiania tła I stopnia ✓
+  4. "Trzymanie się w pionie"
+  5. Dodanie peleryny
+  6. Rozbudowanie obszaru gry do docelowego rozmiaru i stworzenie
+  dopasowania przejścia tła z podziemiami
+  7. Dodanie możliwości otrzymania obrażeń i śmierci Stork'mana w
+  interakcji z przeciwnikiem
+  8. Dodanie trybu walki wręcz i odpowiednio przeciwników
 
-Więcej warstw dla obiektów
-Obracanie i odbijanie obiektów z xml'a
-Przezroczyste platformy
-Wątki
-Interakcje ze skośnymi platformami (lepsze podbieganie i zbieganie, zsuwanie się od pewnego kąta)
-Warstwy mapy i paralaksa
-Spadanie i lądowanie - lepiej rozwiązać animacje
-Uwzględnić skalę w edycji poziomów
-
-Zrobione:
-* Interakcja między światłem a ścianami ✓
-* Słońce ✓
-* Dziedzina funkcji trygonometrycznych w świetle i dzielenie przez zero ✓
-* Statyczne światła liczyć statycznie ✓
-* Opis świateł w XML ✓
-* Ogarnąć kod w map, przeczyścić context odc. 2 ✓
-* Kolorowe światła (✓)
-* Siła światła ✓
-* Sciany ✓
-* Możliwość zmiany tekstur "z zewnątrz" ✓
-Przyspieszyć obliczenia światła - szybsza trygonometria ✓
-Przyspieszyć obliczenia światła - wektory zamiast trygonometrii ✓
+Ficzury:
+    * Trzeba by inaczej liczyć Dynamic_enitity.platfrom_angle
+    
+    *? Swiatło w osobnym wątku
+    *? Shadery dla statycznych świateł
+    *? Cień Storkmana
+    *? Rozjaśnianie tekstur przez światło (pewnie shader)
+    
+    
+    Więcej warstw dla obiektów
+    Obracanie i odbijanie obiektów z xml'a
+    Przezroczyste platformy
+    Wątki
+    Interakcje ze skośnymi platformami (lepsze podbieganie i zbieganie, zsuwanie się od pewnego kąta)
+    Warstwy mapy i paralaksa
+    Spadanie i lądowanie - lepiej rozwiązać animacje
+    Uwzględnić skalę w edycji poziomów
+    Lepsza konsola
+    Muzyka/dźwięki
+    Skalowanie (zoom/odzoom)
+  
+  Zrobione:
+    * Przeskalować do 32px/m ✓
+    * Interakcja między światłem a ścianami ✓
+    * Słońce ✓
+    * Dziedzina funkcji trygonometrycznych w świetle i dzielenie przez zero ✓
+    * Statyczne światła liczyć statycznie ✓
+    * Opis świateł w XML ✓
+    * Ogarnąć kod w map, przeczyścić context odc. 2 ✓
+    * Kolorowe światła (✓)
+    * Siła światła ✓
+    * Sciany ✓
+    * Możliwość zmiany tekstur "z zewnątrz" ✓
+    Przyspieszyć obliczenia światła - szybsza trygonometria ✓
+    Przyspieszyć obliczenia światła - wektory zamiast trygonometrii ✓
 
 Błędy:
-* Zsuwanie się z platform
-* Skalowanie odc. 0xDEADBEEF
-* Animacje dotykając ściany
-* Grawitacja dziala inaczej na platfromach pochylonych w różne strony
-* Kolizje na dziwnych wielokątach
+    * Zsuwanie się z platform
+    * Skalowanie odc. 0xDEADBEEF
+    * Animacje dotykając ściany
+    * Grawitacja dziala inaczej na platfromach pochylonych w różne strony
+    
+    *? Kolizje na dziwnych wielokątach
+    
+  Naprawione:
+    * Skoki ze skośnych platform (✓)
+    * Światłooooo ✓
 
-* Skoki ze skośnych platform (✓)
-* Światłooooo ✓
-
-Lista priorytetowa by Adam:
-* 1. Zmiana skoków na lepiej obsługiwalne ✓
-2. Dodanie prostych przeciwników
-* 3. Dodanie podczepiania tła I stopnia ✓
-4. "Trzymanie się w pionie"
-5. Dodanie peleryny
-6. Rozbudowanie obszaru gry do docelowego rozmiaru i stworzenie
-dopasowania przejścia tła z podziemiami
-7. Dodanie możliwości otrzymania obrażeń i śmierci Stork'mana w
-interakcji z przeciwnikiem
-8. Dodanie trybu walki wręcz i odpowiednio przeciwników
+Inne/uwagi:
+  Kod hitboxów Storkmana jest paskudny

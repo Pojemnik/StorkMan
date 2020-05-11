@@ -12,6 +12,9 @@ struct Collision_info {
 	Collision_info() = default;
 };
 
-bool test_bollean(const std::vector<sf::Vector2f>* a, const std::vector<sf::Vector2f>* b);
-Collision_info check_polygons_for_SAT(const std::vector<sf::Vector2f>* a,const std::vector<sf::Vector2f>* b, bool flip, bool docalc);
-sf::Vector2f test_collision(const std::vector<sf::Vector2f>* a,const std::vector<sf::Vector2f>* b);
+namespace coll
+{
+	bool test_bollean(const std::vector<sf::Vector2f>* a, const std::vector<sf::Vector2f>* b);
+	Collision_info check_polygons_for_SAT(const std::vector<sf::Vector2f>* a, const std::vector<sf::Vector2f>* b, bool flip, bool docalc);
+	sf::Vector2f test_collision(const std::vector<sf::Vector2f>* a, const std::vector<sf::Vector2f>* b);
+}

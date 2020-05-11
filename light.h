@@ -32,5 +32,6 @@ public:
 
 	Light() = default;
 	Light(Vectorf level_size, sf::Texture* light_tex);
+	void rescale(Vectorf level_size);
 	void calc_light(std::vector<Light_source>& sources, sf::Transform transform, std::vector<std::pair<Vectorf, Vectorf>>& map_edges, std::vector<Vectorf>& map_vertices);
 };

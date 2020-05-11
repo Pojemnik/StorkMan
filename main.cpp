@@ -8,7 +8,7 @@
 #include "util.h"
 #include "console.h"
 
-const std::string VERSION = "0.3.4c";
+const std::string VERSION = "0.3.4d";
 
 bool update(float dt, Map& map, int move)
 {
@@ -46,7 +46,9 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	Parser parser(&assets);
 	parser.parse_additional_textures("img/textures.txt");
 	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
-	sf::RenderWindow window(sf::VideoMode(context.resolution.x, context.resolution.y, desktop.bitsPerPixel), "StorkMan " + VERSION, sf::Style::Titlebar | sf::Style::Close);
+	sf::RenderWindow window(sf::VideoMode(context.resolution.x,
+		context.resolution.y, desktop.bitsPerPixel),
+		"StorkMan " + VERSION, sf::Style::Titlebar | sf::Style::Close);
 	sf::Clock clock;
 	Map map;
 	context.fps_counter.setFont(context.arial);
@@ -65,8 +67,10 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	map.background.setPosition(context.background_position);
 	map.layer2.setPosition(context.layer2_position);
 	std::cout << "done!" << std::endl;
-	sf::FloatRect f(380, 55, 20, 70);
-	Player player({ 400, 100 }, assets.pieces, assets.pieces_rect, assets.animations, f, assets.stork_tree, 1.92f, context.global_scale, 87.f);
+	sf::FloatRect f(380, 70, 20, 60);//f(380, 55, 20, 70);
+	Player player({ 400, 100 }, assets.pieces, assets.pieces_rect,
+		assets.animations, f, assets.stork_tree, 1.92f,
+		context.global_scale, 87.f);
 	map.player = &player;
 	int moved = 0;
 	float acc = 0;
@@ -93,16 +97,13 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 						break;
 					case Command_code::CHANGE_SCALE:
 						map.rescale(context.global_scale);
-						map.calc_map_vertices();
-						map.redraw();
 						player.rescale(context.global_scale);
 						break;
 					case Command_code::MOVE_PLAYER:
 						player.set_position(code.second);
 						break;
 					case Command_code::RELOAD_LIGHT:
-						map.redraw();
-						map.recalc();
+						map.recalc_light();
 						break;
 					default:
 						break;

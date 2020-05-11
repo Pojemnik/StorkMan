@@ -24,7 +24,7 @@ Platform::Platform(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> poin
 void Platform::rescale(float ratio)
 {
 	Texturable::rescale(ratio);
-	Colidable::rescale(ratio);
+	Collidable::rescale(ratio);
 }
 
 Wall::Wall(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> points)
@@ -82,8 +82,8 @@ Dynamic_entity::Dynamic_entity(Vectorf p, sf::Texture* texture,
 
 void Dynamic_entity::move(Vectorf delta)
 {
-	if (util::sgn(delta.x) != colision_direction.x || (platform_angle != -0.f &&
-		platform_angle != 0.f))
+	if (util::sgn(delta.x) != collision_direction.x ||
+		(platform_angle != -0.f && platform_angle != 0.f))
 	{
 		move_force += delta;
 		if (move_speed.x * move_speed.x + move_speed.y * move_speed.y <
@@ -94,16 +94,12 @@ void Dynamic_entity::move(Vectorf delta)
 		}
 		if (status == IDLE)
 			status = Entity_status::MOVE;
-		if (colision_direction.y == 1 &&
+		if (collision_direction.y == 1 &&
 			animation_status != Animation_status::A_JUMP_RUN &&
 			animation_status != Animation_status::A_JUMP_RUN2)
 		{
 			animation_status = Animation_status::A_MOVE;
 		}
-	}
-	else
-	{
-		//set_idle();
 	}
 }
 
@@ -118,7 +114,7 @@ void Dynamic_entity::move_angled(int direction)
 
 void Dynamic_entity::jump(bool move)
 {
-	if (colision_direction.y == 1)
+	if (collision_direction.y == 1)
 	{
 		if (move)
 		{
@@ -138,7 +134,8 @@ void Dynamic_entity::jump(bool move)
 		else
 		{
 			if (animation_status == Animation_status::A_IDLE ||
-				(animation_status == Animation_status::A_JUMP_IDLE && last_status == IN_AIR))
+				(animation_status == Animation_status::A_JUMP_IDLE &&
+					last_status == IN_AIR))
 			{
 				animation_status = Animation_status::A_JUMP_IDLE;
 				status = Entity_status::JUMP_IDLE;
@@ -202,13 +199,13 @@ void Dynamic_entity::update(float dt)
 			}
 		}
 	}
-	if (colision_direction.y == 1 && status == IN_AIR && last_status == status)
+	if (collision_direction.y == 1 && status == IN_AIR && last_status == status)
 	{
 		set_idle();
 	}
-	if (animation_status == Animation_status::A_JUMP_IDLE)// && key == 2)
+	if (animation_status == Animation_status::A_JUMP_IDLE)
 	{
-		if (colision_direction.y == 1)
+		if (collision_direction.y == 1)
 		{
 			force.y = 0;
 			move_speed.y = 0;
@@ -217,10 +214,9 @@ void Dynamic_entity::update(float dt)
 		status = IN_AIR;
 	}
 	if ((animation_status == Animation_status::A_JUMP_RUN ||
-		animation_status == Animation_status::A_JUMP_RUN2))// &&
-		//key == 3 && frames_delta == 7)
+		animation_status == Animation_status::A_JUMP_RUN2))
 	{
-		if (colision_direction.y == 1)
+		if (collision_direction.y == 1)
 		{
 			force.y = 0;
 			move_speed.y = 0;
@@ -242,12 +238,12 @@ void Dynamic_entity::update(float dt)
 	last_animation_status = animation_status;
 	last_status = status;
 	move_force = { 0,0 };
-	colision_direction = { 0,0 };
+	collision_direction = { 0,0 };
 }
 
 void Dynamic_entity::update_position(float dt)
 {
-	const float scale_factor = 35.84f / context.global_scale;
+	const float scale_factor = 32 / context.global_scale; //35.84f / context.global_scale;
 	pos += total_speed * dt;	//ogarn¹æ to coœ!!!
 	sprite.setPosition(pos);
 	std::vector<Vectorf> mesh_vect;
@@ -256,23 +252,23 @@ void Dynamic_entity::update_position(float dt)
 	//	rect_collision.height);
 	Vectorf mid = {
 		pos.x - 10 / scale_factor,
-		pos.y - 47 / scale_factor + 10 / scale_factor * tan(platform_angle)
+		pos.y - 37 / scale_factor + 10 / scale_factor * tan(platform_angle)
 	};
 	if (platform_angle == 0.f || platform_angle == -0.f || fabs(platform_angle) > 0.8f)
 	{
 		mesh_vect = {
 			Vectorf(
 				pos.x - 20 / scale_factor,
-				pos.y - 47 / scale_factor),
+				pos.y - 37 / scale_factor),
 			Vectorf(
 				pos.x,
-				pos.y - 47 / scale_factor),
+				pos.y - 37 / scale_factor),
 			Vectorf(
 				pos.x,
-				pos.y - 47 / scale_factor + col_height),
+				pos.y - 37 / scale_factor + col_height),
 			Vectorf(
 				pos.x - 20 / scale_factor,
-				pos.y - 47 / scale_factor + col_height)
+				pos.y - 37 / scale_factor + col_height)
 		};
 	}
 	else
@@ -344,7 +340,7 @@ void Dynamic_entity::set_position(Vectorf new_position)
 
 void Dynamic_entity::rescale(float new_scale)
 {
-	float ratio = new_scale / (scale * 350 / height);
+	float ratio = new_scale / (scale * 335 / height);
 	Dynamic_animatable::rescale(ratio);
-	Colidable::rescale(ratio);
+	Collidable::rescale(ratio);
 }

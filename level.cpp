@@ -11,7 +11,7 @@ Level::Level(const Level& level)
 {
 	for (auto& it : platforms)
 	{
-		add_colidable(&it);
+		add_collidable(&it);
 	}
 }
 
@@ -25,9 +25,9 @@ void Level::add_physical(Physical* p)
 	physicals.push_back(p);
 }
 
-void Level::add_colidable(Colidable* c)
+void Level::add_collidable(Collidable* c)
 {
-	colidables.push_back(c);
+	collidables.push_back(c);
 }
 
 void Level::add_light_source(Light_source l)
@@ -38,7 +38,7 @@ void Level::add_light_source(Light_source l)
 void Level::add_platform(Platform p)
 {
 	platforms.push_back(p);
-	add_colidable(&p);
+	add_collidable(&p);
 }
 
 void Level::rescale(float ratio)

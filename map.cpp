@@ -38,7 +38,7 @@ void Map::place_levels()
 				level_placement[it.global_pos.x + i][it.global_pos.y + j] = &it;
 			}
 		}
-		for (auto& col_it : it.colidables)
+		for (auto& col_it : it.collidables)
 		{
 			col_it->rect_collision.left += it.global_pos.x * level_size.x;
 			col_it->rect_collision.top += it.global_pos.y * level_size.y;
@@ -205,8 +205,7 @@ void Map::update(float dt)
 {
 	if (light_texture == nullptr)
 	{
-		redraw();
-		recalc();
+		recalc_light();
 	}
 	background.setPosition(context.background_position);
 	background.setScale(context.background_scale, context.background_scale);
@@ -221,23 +220,22 @@ void Map::update(float dt)
 		current_pos = pos;
 		unload_levels_out_of_bounds();
 		load_levels_in_bounds(current_pos);
-		redraw();
-		recalc();
+		recalc_light();
 	}
 	for (auto& level_it : loaded_levels)
 	{
 		for (auto& physical_it : level_it->physicals)
 		{
 			physical_it->update(dt);
-			for (auto& colidable_it : level_it->colidables)
+			for (auto& colidable_it : level_it->collidables)
 			{
-				physical_it->uncolide(colidable_it, dt);
+				physical_it->uncollide(colidable_it, dt);
 			}
 		}
 		Vectorf maxv = { 0,0 };
-		for (auto& colidable_it : level_it->colidables)
+		for (auto& colidable_it : level_it->collidables)
 		{
-			Vectorf tmp = player->uncolide(colidable_it, dt);
+			Vectorf tmp = player->uncollide(colidable_it, dt);
 			if (tmp.y > maxv.y)
 				maxv = tmp;
 		}
@@ -245,8 +243,18 @@ void Map::update(float dt)
 	}
 }
 
-void Map::recalc()
+void Map::recalc_light()
 {
+	if (light_texture == nullptr)
+	{
+		light_texture = new sf::RenderTexture();
+		if (!light_texture->create(level_size.x * 2, level_size.y * 2))
+		{
+			std::cerr << "Error creating walls buffer" << std::endl;
+			throw std::runtime_error("Memory error");
+		}
+	}
+	calc_map_vertices();
 	if (context.night)
 	{
 		context.final_states.shader = NULL;
@@ -269,10 +277,10 @@ void Map::recalc()
 			{
 				light_texture->draw(it2, context.white_states);
 			}
-			for (const auto& it2 : it->platforms)
-			{
-				light_texture->draw(it2, context.white_states);
-			}
+			//for (const auto& it2 : it->platforms)
+			//{
+			//	light_texture->draw(it2, context.white_states);
+			//}
 			context.white_states.transform *= sf::Transform().translate(
 				{ -1 * level_size.x * it->global_pos.x,
 				-1 * level_size.y * it->global_pos.y }
@@ -280,9 +288,7 @@ void Map::recalc()
 		}
 		context.white_states.transform *= sf::Transform().translate(-level_size.x / 2,
 			-level_size.y / 2);
-		//light_texture->display();
 	}
-	calc_map_vertices();
 	std::vector<Light_source> sources;
 	for (const auto& level_it : loaded_levels)
 	{
@@ -296,21 +302,6 @@ void Map::recalc()
 	light_texture->draw(light.lightmap, states);
 	light_texture->display();
 	light_sprite.setTexture(light_texture->getTexture());
-	//sf::Image im = light_texture->getTexture().copyToImage();
-	//im.saveToFile("aaa.png");
-}
-
-void Map::redraw()
-{
-	if (light_texture == nullptr)
-	{
-		light_texture = new sf::RenderTexture();
-		if (!light_texture->create(level_size.x * 2, level_size.y * 2))
-		{
-			std::cerr << "Error creating walls buffer" << std::endl;
-			throw std::runtime_error("Memory error");
-		}	
-	}
 }
 
 void Map::rescale(float new_global_scale)
@@ -322,4 +313,8 @@ void Map::rescale(float new_global_scale)
 	{
 		it.rescale(ratio);
 	}
+	light.rescale(level_size);
+	delete light_texture;
+	light_texture = nullptr;
+	recalc_light();
 }

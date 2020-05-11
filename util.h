@@ -22,7 +22,7 @@ enum Entity_status { IDLE = 0, MOVE, JUMP_IDLE, JUMP_RUN,
 	PUNCH_1, PUNCH_2, HIT, IN_AIR };
 enum Animation_status { A_IDLE = 0, A_MOVE, A_JUMP_IDLE,
 	A_JUMP_RUN, A_JUMP_RUN2, A_PUNCH_1, A_PUNCH_2, A_HIT };
-enum Colidable_type { GROUND, ENEMY, OTHER };
+enum Collidable_type { GROUND, ENEMY, OTHER };
 
 struct Context
 {
@@ -36,7 +36,7 @@ struct Context
 	float jump_force = 825.f;
 	float parallax = -1.5f;
 	float parallax2 = -2.f;
-	float global_scale = 35.84f;	//[px/m]
+	float global_scale = 32;//35.84f;	//[px/m]
 	Vectorf max_move_speed = { 5,5 };
 	float min_move_speed = 0.5;
 	Vectorf move_speed_reduction = { 0.5f, 0.5f };
@@ -52,6 +52,7 @@ struct Context
 	Vectori resolution = { 1024, 576 };
 	sf::Font arial;
 	sf::Text fps_counter;
+	uint8_t darkness = 70;
 };
 
 extern struct Context context;
@@ -75,8 +76,10 @@ namespace util
 	inline float ang_reduce(float ang);
 	inline bool vectorf_compare(const Vectorf& a, const Vectorf& b);
 	inline bool vectorf_binary_predicate(const Vectorf& a, const Vectorf& b);
-	Vectorf intersection(std::pair<Vectorf, Vectorf> a, std::pair<Vectorf, Vectorf> b);
 	inline float convert_vector(const Vectorf& vec);
+
+	Vectorf intersection(std::pair<Vectorf, Vectorf> a, std::pair<Vectorf, Vectorf> b);
+	void save_texture(std::string path, sf::Texture* texture);
 
 	inline sf::Vector2f normalize(sf::Vector2f x, float l)
 	{
