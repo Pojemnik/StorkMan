@@ -35,14 +35,13 @@ protected:
 	float mass;
 	Vectorf total_speed = { 0,0 };
 	Vectorf move_speed = { 0,0 };
-	Vectorf last_speed = { 0,0 };
 	Vectorf force = { 0,0 };
 	Vectorf move_force = { 0,0 };
 	Vectori collision_direction = { 0,0 };
 	
 	virtual void update_position(float dt) = 0;
 public:
-	Vectorf maxcollisionvector = {0,0};
+	Vectorf maxcollisionvector = {0,1};
 	virtual void update(float dt) = 0;
 	virtual void move(Vectorf delta) = 0;
 	virtual void apply_force(Vectorf f);

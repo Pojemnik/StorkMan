@@ -14,7 +14,7 @@ void Renderable::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 void Renderable::rescale(float ratio)
 {
-	float scale = ratio * 35.84f * height / sprite.getTexture()->getSize().y;
+	float scale = ratio * 32 * height / sprite.getTexture()->getSize().y;
 	pos *= ratio;
 	sprite.setPosition(pos);
 	sprite.setScale(scale, scale);
@@ -28,7 +28,8 @@ Texturable::Texturable(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> 
 	shape.update(&vertices[0]);
 }
 
-void Texturable::rescale(float ratio){
+void Texturable::rescale(float ratio)
+{
 	pos *= ratio;
 	for(auto& it : vertices)
 	{
@@ -44,21 +45,15 @@ void Texturable::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(shape, states);
 }
 
-Vectorf Dynamic_animatable::count_pos(Vectorf start, float size1, float size2,
+Vectorf Dynamic_animatable::count_pos(Vectorf start, const float size1, const float size2,
 	Vectori translation1, float a1, Vectori translation2, float a2)
 {
 	float angle1 = util::deg_to_rad(a1);
 	float angle2 = util::deg_to_rad(a2);
-	float d1 = sqrt(pow(translation1.x - size1 / 2, 2) + pow(translation1.y - size1 / 2, 2));
-	float d2 = sqrt(pow(translation2.x - size2 / 2, 2) + pow(translation2.y - size2 / 2, 2));
-	float sinalfa = (translation1.y - size1 / 2) / d1;
-	float cosalfa = (translation1.x - size1 / 2) / d1;
-	float sinbeta = (translation2.y - size2 / 2) / d2;
-	float cosbeta = (translation2.x - size2 / 2) / d2;
-	Vectorf l1 = { (cosalfa * cos(angle1) - sinalfa * sin(angle1)) * d1,
-		(sinalfa * cos(angle1) + cosalfa * sin(angle1)) * d1 };
-	Vectorf l2 = { (cosbeta * cos(angle2) - sinbeta * sin(angle2)) * d2,
-		(sinbeta * cos(angle2) + cosbeta * sin(angle2)) * d2 };
+	Vectorf l1 = { translation1.x - size1 / 2, translation1.y - size1 / 2 };
+	Vectorf l2 = { translation2.x - size2 / 2, translation2.y - size2 / 2 };
+	l1 = util::rotate_vector(l1, angle1);
+	l2 = util::rotate_vector(l2, angle2);
 	return Vectorf(start.x + l1.x - l2.x + size1 / 2 - size2 / 2,
 		start.y + l1.y - l2.y + size1 / 2 - size2 / 2);
 }
@@ -164,7 +159,7 @@ void Dynamic_animatable::next_frame()
 		{
 			if (animations[animation_status]->repeat)
 			{
-				frames_delta = animations[animation_status]->lengths.back();//Animation loop
+				frames_delta = animations[animation_status]->lengths.back();
 				key = 0;
 			}
 			else
@@ -179,6 +174,7 @@ void Dynamic_animatable::next_frame()
 		}
 		next_key = &animations[animation_status]->key_frames[key];
 	}
+	
 	animate(actual_frame);
 }
 

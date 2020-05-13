@@ -33,7 +33,7 @@ struct Context
 	bool night = true;
 	float fps = 60.f;
 	float gravity = 22;
-	float jump_force = 825.f;
+	float jump_force = 775.f;
 	float parallax = -1.5f;
 	float parallax2 = -2.f;
 	float global_scale = 32;//35.84f;	//[px/m]
@@ -46,6 +46,7 @@ struct Context
 	Vectorf layer2_position = { -1000, -1800 };
 	float layer2_scale = 1.f;
 	const Vectorf max_force = { 1000.f, 3000.0f };
+	const Vectorf max_speed = { 10.f, 10.0f };
 	sf::RenderStates bg_states, layer2_states, blurh_states, blurv_states,
 		final_states, white_states;
 	sf::Shader global;
@@ -77,11 +78,12 @@ namespace util
 	inline bool vectorf_compare(const Vectorf& a, const Vectorf& b);
 	inline bool vectorf_binary_predicate(const Vectorf& a, const Vectorf& b);
 	inline float convert_vector(const Vectorf& vec);
+	inline Vectorf rotate_vector(Vectorf vec, Vectorf normalized_rotation_vector);
 
 	Vectorf intersection(std::pair<Vectorf, Vectorf> a, std::pair<Vectorf, Vectorf> b);
 	void save_texture(std::string path, sf::Texture* texture);
 
-	inline sf::Vector2f normalize(sf::Vector2f x, float l)
+	inline sf::Vector2f normalize(sf::Vector2f x, float l=1)
 	{
 		return x / float(sqrt(x.x * x.x + x.y * x.y) * l);
 	}
@@ -147,10 +149,19 @@ namespace util
 
 	inline Vectorf util::rotate_vector(Vectorf vec, float ang)
 	{
-		return { vec.x * cos(ang) -
-				vec.y * sin(ang),
-				vec.x * sin(ang) +
-				vec.y * cos(ang) };
+		float COS = cos(ang);
+		float SIN = sin(ang);
+		return { vec.x * COS -
+				vec.y * SIN,
+				vec.x * SIN +
+				vec.y * COS };
+	}
+	inline Vectorf util::rotate_vector(Vectorf vec, Vectorf normalized_rotation_vector)
+	{
+		return { vec.x * normalized_rotation_vector.x -
+				vec.y * normalized_rotation_vector.y,
+				vec.x * normalized_rotation_vector.y +
+				vec.y * normalized_rotation_vector.x };
 	}
 
 	inline bool util::vectorf_compare(const Vectorf& a, const Vectorf& b)

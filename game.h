@@ -22,7 +22,6 @@ class Dynamic_entity : public Dynamic_animatable, public Physical
 {
 protected:
 	bool reset_animation = false;
-	float platform_angle;
 	float col_height;
 
 	void update_position(float dt);

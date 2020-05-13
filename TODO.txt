@@ -13,13 +13,11 @@ Lista priorytetowa by Adam:
   8. Dodanie trybu walki wręcz i odpowiednio przeciwników
 
 Ficzury:
-    * Trzeba by inaczej liczyć Dynamic_enitity.platfrom_angle
-    
+    *? Trzeba by inaczej liczyć Dynamic_enitity.platfrom_angle
     *? Swiatło w osobnym wątku
     *? Shadery dla statycznych świateł
     *? Cień Storkmana
     *? Rozjaśnianie tekstur przez światło (pewnie shader)
-    
     
     Więcej warstw dla obiektów
     Obracanie i odbijanie obiektów z xml'a
@@ -32,6 +30,9 @@ Ficzury:
     Lepsza konsola
     Muzyka/dźwięki
     Skalowanie (zoom/odzoom)
+	Pozycja Storkmana na starcie ustalana z góry w XML
+	Przyspieszyć obliczenia - szybsza trygonometria
+	Tarcie
   
   Zrobione:
     * Przeskalować do 32px/m ✓
@@ -45,18 +46,17 @@ Ficzury:
     * Siła światła ✓
     * Sciany ✓
     * Możliwość zmiany tekstur "z zewnątrz" ✓
-    Przyspieszyć obliczenia światła - szybsza trygonometria ✓
     Przyspieszyć obliczenia światła - wektory zamiast trygonometrii ✓
 
 Błędy:
     * Zsuwanie się z platform
-    * Skalowanie odc. 0xDEADBEEF
-    * Animacje dotykając ściany
+    *? Skalowanie odc. 0xDEADBEEF
+    *? Animacje dotykając ściany
     * Grawitacja dziala inaczej na platfromach pochylonych w różne strony
-    
     *? Kolizje na dziwnych wielokątach
     
   Naprawione:
+     
     * Skoki ze skośnych platform (✓)
     * Światłooooo ✓
 

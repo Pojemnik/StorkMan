@@ -22,3 +22,10 @@ img/tex/ALARMOWA02.png alarm2 0
 img/tex/ALARMOWA03.png alarm3 0
 img/tex/RADAR00.png radar0 0
 img/tex/RADAR01.png radar1 0
+img/tex/STOL00.png table0 0
+img/tex/STOL01.png table1 0
+img/tex/STOL02.png table2 0
+img/tex/PIEC01.png oven1 0
+img/tex/KUCHNIA00.png kitchen0 0
+img/tex/KUCHNIA01.png kitchen1 0
+img/tex/KUCHNIA02.png kitchen2 0

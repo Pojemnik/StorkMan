@@ -34,8 +34,8 @@
 	</platform>
 	<platform position="9,4.5" texture="panels,2">
 		<v>0,0</v>
-		<v>3,0</v>
-		<v>3,0.5</v>
+		<v>3.5,0</v>
+		<v>3.5,0.5</v>
 		<v>0,0.5</v>
 	</platform>
 	<platform position="13,5" texture="rivets,0">
@@ -50,7 +50,6 @@
 		<v>0.5,1</v>
 		<v>0,1</v>
 	</platform>
-	<light position="15.5, 2.5" color="64,255,64" intensity="0.20"/>
 	<light position="6, 2" color="255,255,255" intensity="0.25"/>
 	<light position="6.4, 4.7" color="255,255,255" intensity="1"/>
 	<light position="9.5, 1.5" color="255,255,255" intensity="0.5"/>
@@ -63,17 +62,6 @@
 		<v>100,0.5</v>
 		<v>0,0.5</v>
 	</platform>
-	<platform position="3,95" texture="ribbing,0">
-		<v>0,0</v>
-		<v>2,0</v>
-		<v>2,2</v>
-		<v>0,2</v>
-	</platform>
-  <platform position="3,90" texture="panels,1">
-    <v>0,0</v>
-    <v>1,5</v>
-    <v>0,5</v>
-  </platform>
 	/---------------------------------------------------------------------OGRODZENIE
 	<platform position="0.5,40" texture="wood,1">
 		<v>0,0</v>
@@ -154,8 +142,8 @@
 	<wall position="26,92" texture="tapeta2">
 		<v>0,0</v>
 		<v>36,0</v>
-		<v>36,5.5</v>
-		<v>0,5.5</v>
+		<v>36,7.5</v>
+		<v>0,7.5</v>
 	</wall>
 	<object position="28, 94.5" texture="general0" height="2.5"/>
 	<object position="34, 94.5" texture="general0" height="2.5"/>
@@ -321,7 +309,7 @@
 	</platform>
 	<object position="95, 92.5" texture="tree0" height="7"/>
 	<object position="85.5, 83.5" texture="tree0" height="16"/>
-	<object position="69, 36.5" texture="tree1" height="64"/>
+	<object position="69, 35.5" texture="tree1" height="64"/>
 	<object position="70, 86.5" texture="tree0" height="13"/>
 	<object position="95, 97" texture="arrow1" height="2"/>
 	<object position="70, 95" texture="lamp0" height="4"/>
@@ -335,11 +323,11 @@
 	<object position="94, 95" texture="lamp0" height="4"/>
 	<light position="94, 96" color="255,255,000" intensity="0.25"/>
 	/---------------------------------------------------------------------PIERWSZE PIĘTRO
-	<wall position="22,69" texture="tapeta2">
+	<wall position="22.5,69" texture="tapeta2">
 		<v>0,0</v>
-		<v>43,0</v>
-		<v>43,24</v>
-		<v>0,24</v>
+		<v>42,0</v>
+		<v>42,24.5</v>
+		<v>0,24.5</v>
 	</wall>
 	<platform position="22,69" texture="bricks,0">
 		<v>1,25</v>
@@ -431,6 +419,11 @@
 		<v>0,0</v>
 		<v>0,2</v>
 	</platform>
+	<object position="28, 91" texture="table1" height="2"/>
+	<object position="33, 91" texture="table2" height="2"/>
+	<object position="38, 91" texture="table1" height="2"/>
+	<object position="44.5, 91" texture="table2" height="2"/>
+	<object position="55, 91" texture="table1" height="2"/>
 	<object position="49, 90.5" texture="winda0" height="2.5"/>
 	<object position="24, 80" texture="general0" height="6"/>
 	<object position="34.5, 80" texture="general0" height="6"/>
@@ -461,7 +454,7 @@
 	<light position="51.5, 80" color="255,205,255" intensity="0.6"/>
 	<light position="55.5, 80" color="255,205,255" intensity="0.6"/>
 	/---------------------------------------------------------------------DRUGIE PIĘTRO
-	<wall position="23,60.5" texture="tapeta3">
+	<wall position="22.5,60.5" texture="tapeta3">
 		<v>0,3.5</v>
 		<v>3.5,0</v>
 		<v>44,0</v>
@@ -510,6 +503,13 @@
 		<v>3.5,0</v>
 		<v>3.5,1</v>
 	</platform>
+	<object position="31, 61" texture="oven1" height="4"/>
+	<object position="27, 63" texture="kitchen1" height="2"/>
+	<object position="35, 63" texture="kitchen2" height="2"/>
+	<object position="39, 63" texture="kitchen0" height="2"/>
+	<object position="43, 63" texture="kitchen1" height="2"/>
+	<object position="54, 63" texture="table0" height="2"/>
+	<object position="59, 63" texture="table0" height="2"/>
 	<object position="28.5, 61.5" texture="lamp1" height="1"/>
 	<light position="29.5, 61.75" color="255,205,255" intensity="0.4"/>
 	<object position="35.5, 61.5" texture="lamp1" height="1"/>
@@ -526,31 +526,31 @@
 	<light position="64.5, 61.75" color="255,205,255" intensity="0.4"/>
 	<object position="49, 62.5" texture="winda0" height="2.5"/>
 	/---------------------------------------------------------------------WENTYLACJA
-	<wall position="20.25,63" texture="vent1">
+	<wall position="20.5,63" texture="vent1">
 		<v>0,0</v>
 		<v>2,0</v>
 		<v>2,6</v>
 		<v>0,6</v>
 	</wall>
-	<wall position="20,58" texture="vent1">
+	<wall position="20.5,58" texture="vent1">
 		<v>0,6</v>
 		<v>0,5</v>
-		<v>5,0</v>
-		<v>6,0</v>
-		<v>6,2</v>
-		<v>2,6</v>
+		<v>5.5,-0.5</v>
+		<v>6.5,-0.5</v>
+		<v>6.5,2</v>
+		<v>2.5,6</v>
 	</wall>
 	<wall position="25.5,58" texture="vent0">
-		<v>0,0</v>
-		<v>41.5,0</v>
-		<v>41.5,2</v>
-		<v>0,2</v>
+		<v>0,-0.5</v>
+		<v>41,-0.5</v>
+		<v>41,2.5</v>
+		<v>0,2.5</v>
 	</wall>
 	<wall position="22,66.5" texture="vent0">
-		<v>0,0</v>
-		<v>44.5,0</v>
-		<v>44.5,2</v>
-		<v>0,2</v>
+		<v>0,-0.5</v>
+		<v>44.5,-0.5</v>
+		<v>44.5,2.5</v>
+		<v>0,2.5</v>
 	</wall>
 	<wall position="32,60" texture="vent1">
 		<v>0,0</v>
@@ -559,10 +559,10 @@
 		<v>0,2</v>
 	</wall>
 	<wall position="64.75,68.5" texture="vent1">
-		<v>0,0</v>
-		<v>2,0</v>
-		<v>2,0.5</v>
-		<v>0,0.5</v>
+		<v>0.25,0</v>
+		<v>1.75,0</v>
+		<v>1.75,0.5</v>
+		<v>0.25,0.5</v>
 	</wall>
 	<wall position="23,68.5" texture="vent1">
 		<v>0,0</v>
@@ -571,10 +571,10 @@
 		<v>0,4.5</v>
 	</wall>
 	<wall position="64.75,52" texture="vent1">
-		<v>0,0</v>
-		<v>2,0</v>
-		<v>2,6</v>
-		<v>0,6</v>
+		<v>0.25,0</v>
+		<v>1.75,0</v>
+		<v>1.75,6</v>
+		<v>0.25,6</v>
 	</wall>
 	<platform position="24.5,68.5" texture="panels,1">
 		<v>40.5,0.5</v>
@@ -791,22 +791,16 @@
 	<object position="84, 38.5" texture="lamp0" height="4"/>
 	<light position="85, 39.5" color="255,255,000" intensity="0.5"/>
 	/---------------------------------------------------------------------TRZECIE PIĘTRO
-	<wall position="25.5,52.5" texture="tapeta2">
+	<wall position="26,52.5" texture="tapeta2">
 		<v>0,0</v>
-		<v>38,0</v>
-		<v>38,4.5</v>
-		<v>0,4.5</v>
+		<v>37,0</v>
+		<v>37,5</v>
+		<v>0,5</v>
 	</wall>
 	<platform position="25.5,57" texture="bricks,0">
 		<v>0,0.5</v>
 		<v>39,0.5</v>
 		<v>39,0</v>
-		<v>0,0</v>
-	</platform>
-	<platform position="25.5,52.5" texture="bricks,0">
-		<v>0,4.5</v>
-		<v>0.5,4.5</v>
-		<v>0.5,0</v>
 		<v>0,0</v>
 	</platform>
 	<platform position="63,53" texture="bricks,0">
@@ -821,49 +815,43 @@
 		<v>33.5,0</v>
 		<v>0,0</v>
 	</platform>
-	<platform position="25.5,56.5" texture="bricks,0">
-		<v>0,0.5</v>
-		<v>4,0.5</v>
-		<v>4,0</v>
-		<v>0,0</v>
-	</platform>
-	<platform position="25.5,56" texture="bricks,0">
+	<platform position="26,56.5" texture="bricks,0">
 		<v>0,0.5</v>
 		<v>3.5,0.5</v>
 		<v>3.5,0</v>
 		<v>0,0</v>
 	</platform>
-	<platform position="25.5,55.5" texture="bricks,0">
+	<platform position="26,56" texture="bricks,0">
 		<v>0,0.5</v>
 		<v>3,0.5</v>
 		<v>3,0</v>
 		<v>0,0</v>
 	</platform>
-	<platform position="25.5,55" texture="bricks,0">
+	<platform position="26,55.5" texture="bricks,0">
 		<v>0,0.5</v>
 		<v>2.5,0.5</v>
 		<v>2.5,0</v>
 		<v>0,0</v>
 	</platform>
-	<platform position="25.5,54.5" texture="bricks,0">
+	<platform position="26,55" texture="bricks,0">
 		<v>0,0.5</v>
 		<v>2,0.5</v>
 		<v>2,0</v>
 		<v>0,0</v>
 	</platform>
-	<platform position="25.5,54" texture="bricks,0">
+	<platform position="26,54.5" texture="bricks,0">
 		<v>0,0.5</v>
 		<v>1.5,0.5</v>
 		<v>1.5,0</v>
 		<v>0,0</v>
 	</platform>
-	<platform position="25.5,53.5" texture="bricks,0">
+	<platform position="26,54" texture="bricks,0">
 		<v>0,0.5</v>
 		<v>1,0.5</v>
 		<v>1,0</v>
 		<v>0,0</v>
 	</platform>
-	<platform position="25.5,53" texture="bricks,0">
+	<platform position="26,53.5" texture="bricks,0">
 		<v>0,0.5</v>
 		<v>0.5,0.5</v>
 		<v>0.5,0</v>
@@ -890,10 +878,10 @@
 	<object position="54, 54" texture="chest0" height="3"/>
 	<object position="56, 55" texture="chest0" height="2"/>
 	/---------------------------------------------------------------------POZIOM TECHNICZNY
-	<wall position="25.5,37" texture="wall0">
+	<wall position="26,37" texture="wall0">
 		<v>0,0</v>
-		<v>36.5,0</v>
-		<v>36.5,15.5</v>
+		<v>36,0</v>
+		<v>36,15.5</v>
 		<v>0,15.5</v>
 	</wall>
 	<platform position="30,52" texture="bricks,0">
@@ -909,8 +897,8 @@
 		<v>0,0</v>
 	</platform>
 	<platform position="25.5,37.5" texture="bricks,0">
-		<v>0,15</v>
-		<v>0.5,15</v>
+		<v>0,19.5</v>
+		<v>0.5,19.5</v>
 		<v>0.5,0</v>
 		<v>0,0</v>
 	</platform>
@@ -1046,16 +1034,16 @@
 		<v>0,1</v>
 	</wall>
 	<wall position="26.5,34" texture="canal0">
-		<v>0,0</v>
-		<v>36.5,0</v>
-		<v>36.5,2</v>
-		<v>0,2</v>
+		<v>-0.5,-1</v>
+		<v>35.5,-1</v>
+		<v>35.5,3</v>
+		<v>-0.5,3</v>
 	</wall>
 	<wall position="60.25,34" texture="canal1">
-		<v>0,0</v>
-		<v>2,0</v>
-		<v>2,17</v>
-		<v>0,17</v>
+		<v>0.25,0</v>
+		<v>1.75,0</v>
+		<v>1.75,17</v>
+		<v>0.25,17</v>
 	</wall>
 	<wall position="28,32" texture="canal1">
 		<v>0,0</v>
@@ -1156,11 +1144,11 @@
 		<v>0,0</v>
 	</platform>
 	/---------------------------------------------------------------------CZWARTE PIĘTRO
-	<wall position="26.5,21" texture="tapeta2">
+	<wall position="26,20.5" texture="tapeta2">
 		<v>0,0</v>
 		<v>36.5,0</v>
-		<v>36.5,11</v>
-		<v>0,11</v>
+		<v>36.5,12.5</v>
+		<v>0,12.5</v>
 	</wall>
 	<platform position="25.5,21" texture="bricks,0">
 		<v>0,16</v>
@@ -1204,16 +1192,16 @@
 		<v>0.5,0</v>
 		<v>0,0</v>
 	</platform>
-	<platform position="63,25" texture="bricks,2">
-		<v>0,0.5</v>
+	<platform position="63,24.5" texture="bricks,2">
+		<v>0,1</v>
+		<v>6,1</v>
 		<v>6,0.5</v>
-		<v>6,0</v>
-		<v>0,0</v>
+		<v>0,0.5</v>
 	</platform>
 	<platform position="63,22.5" texture="bricks,2">
-    <v>0,0</v>
-    <v>5,2.5</v>
-    <v>0,2.5</v>
+		<v>0,2.5</v>
+		<v>5,2.5</v>
+		<v>0,0</v>
 	</platform>
 	<platform position="29,31" texture="tile,0">
 		<v>0,0</v>
@@ -1228,6 +1216,9 @@
 		<v>0.5,2</v>
 		<v>0.5,0</v>
 	</platform>
+	<object position="38, 30" texture="table2" height="2"/>
+	<object position="45, 30" texture="table1" height="2"/>
+	<object position="55.5, 30" texture="table2" height="2"/>
 	<object position="49, 29.5" texture="winda0" height="2.5"/>
 	<object position="36, 23" texture="general0" height="5"/>
 	<object position="46, 23" texture="general0" height="5"/>
@@ -1250,11 +1241,17 @@
 	<light position="52, 22" color="255,205,255" intensity="0.6"/>
 	<light position="56, 22" color="255,205,255" intensity="0.6"/>
 	/---------------------------------------------------------------------PIĄTE PIĘTRO
-	<wall position="31,8" texture="tapeta2">
+	<wall position="31,8.5" texture="tapeta2">
 		<v>0,0</v>
-		<v>21,0</v>
-		<v>21,9</v>
+		<v>21.5,0</v>
+		<v>21.5,9</v>
 		<v>0,9</v>
+	</wall>
+	<wall position="32.5,17.5" texture="tapeta2">
+		<v>0,0</v>
+		<v>19,0</v>
+		<v>19,3</v>
+		<v>0,3</v>
 	</wall>
 	<platform position="32,18" texture="bricks,0">
 		<v>0,2</v>
@@ -1343,8 +1340,8 @@
 	<wall position="50,4.5" texture="vent1">
 		<v>0,0</v>
 		<v>2,0</v>
-		<v>2,3.5</v>
-		<v>0,3.5</v>
+		<v>2,4</v>
+		<v>0,4</v>
 	</wall>
 	<wall position="52,4.5" texture="vent0">
 		<v>0,0</v>

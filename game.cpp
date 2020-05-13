@@ -82,34 +82,41 @@ Dynamic_entity::Dynamic_entity(Vectorf p, sf::Texture* texture,
 
 void Dynamic_entity::move(Vectorf delta)
 {
-	if (util::sgn(delta.x) != collision_direction.x ||
-		(platform_angle != -0.f && platform_angle != 0.f))
+	//if (util::sgn(delta.x) != collision_direction.x &&
+	//	util::sgn(delta.x) != last_collision_direction.x)
+	//{
+	move_force += delta;
+	if (move_speed.x * move_speed.x + move_speed.y * move_speed.y <
+		context.min_move_speed * context.min_move_speed ||
+		util::vector_dot_product(move_speed, delta) < 0)
 	{
-		move_force += delta;
-		if (move_speed.x * move_speed.x + move_speed.y * move_speed.y <
-			context.min_move_speed * context.min_move_speed ||
-			util::vector_dot_product(move_speed, delta) < 0)
-		{
-			move_speed = util::normalize(delta, context.min_move_speed);
-		}
-		if (status == IDLE)
-			status = Entity_status::MOVE;
-		if (collision_direction.y == 1 &&
-			animation_status != Animation_status::A_JUMP_RUN &&
-			animation_status != Animation_status::A_JUMP_RUN2)
-		{
-			animation_status = Animation_status::A_MOVE;
-		}
+		move_speed = util::normalize(delta, context.min_move_speed);
 	}
+	if (status == IDLE)
+		status = Entity_status::MOVE;
+	if (collision_direction.y == 1 &&
+		animation_status != Animation_status::A_JUMP_RUN &&
+		animation_status != Animation_status::A_JUMP_RUN2)
+	{
+		animation_status = Animation_status::A_MOVE;
+	}
+	//}
+	//else
+	//{
+	//	set_idle();
+	//}
 }
 
 void Dynamic_entity::move_angled(int direction)
 {
 	if (direction == 1)
-		move(util::rotate_vector(context.player_move_speed, platform_angle));
+		move(util::rotate_vector(
+			{ -context.player_move_speed.y, -context.player_move_speed.x },
+			maxcollisionvector));
 	else if (direction == -1)
-		move(util::rotate_vector({ -context.player_move_speed.x,context.player_move_speed.y },
-			platform_angle));
+		move(util::rotate_vector(
+			{ -context.player_move_speed.y,context.player_move_speed.x },
+			maxcollisionvector));
 }
 
 void Dynamic_entity::jump(bool move)
@@ -172,15 +179,7 @@ void Dynamic_entity::set_idle()
 
 void Dynamic_entity::update(float dt)
 {
-	apply_force({ 0, context.gravity });
-	if (maxcollisionvector.y == 0 && maxcollisionvector.x == 0)
-	{
-		platform_angle = 0;
-	}
-	else
-	{//Czemu tu jest atan?
-		platform_angle = -atan2(maxcollisionvector.x, maxcollisionvector.y);
-	}
+	apply_force({ 0,context.gravity });
 	Vectorf move_acc = move_force / mass;
 	move_speed += move_acc * dt;
 	move_speed = util::saturate(move_speed, context.max_move_speed);
@@ -201,6 +200,10 @@ void Dynamic_entity::update(float dt)
 			{
 				set_idle();
 			}
+		}
+		if (fabs(move_speed.y) < 1)
+		{
+			move_speed.y = 0;
 		}
 	}
 	if (collision_direction.y == 1 && status == IN_AIR && last_status == status)
@@ -228,11 +231,10 @@ void Dynamic_entity::update(float dt)
 		}
 		status = IN_AIR;
 	}
+	int x_speed_sign = util::sgn(move_speed.x);
 	Vectorf acc = force / mass;
 	total_speed += acc * dt;
-	last_speed = total_speed;
 	total_speed += move_speed * dt;
-	int x_speed_sign = util::sgn(total_speed.x);
 	if (x_speed_sign != 0)
 	{
 		flip(x_speed_sign);

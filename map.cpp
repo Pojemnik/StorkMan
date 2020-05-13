@@ -239,7 +239,9 @@ void Map::update(float dt)
 			if (tmp.y > maxv.y)
 				maxv = tmp;
 		}
-		player->maxcollisionvector = maxv;
+		if (maxv.x == 0 && maxv.y == 0)
+			maxv = {0,1};
+		player->maxcollisionvector = util::normalize(maxv);
 	}
 }
 

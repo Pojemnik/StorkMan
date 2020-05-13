@@ -62,7 +62,6 @@ class Dynamic_animatable : public sf::Drawable
 {
 protected:
 	const Animation_tree tree;
-	Vectori last_collision_direction = { 0,0 };
 	Vectorf pos;
 	std::vector<sf::Sprite> parts;
 	int direction = 1;//x sign
