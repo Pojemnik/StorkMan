@@ -22,7 +22,7 @@ sf::Color Parser::parse_color(std::string val)
 	{
 		throw std::invalid_argument("No ',' found");
 	}
-	p2 = val.find(',', p1);
+	p2 = val.find(',', p1+1);
 	if (p2 == std::string::npos)
 	{
 		throw std::invalid_argument("Only one ',' found");
