@@ -1,64 +1,47 @@
 ﻿* - następny release
 
 Lista priorytetowa by Adam:
-  * 1. Zmiana skoków na lepiej obsługiwalne ✓
-  2. Dodanie prostych przeciwników
-  * 3. Dodanie podczepiania tła I stopnia ✓
-  4. "Trzymanie się w pionie"
-  5. Dodanie peleryny
-  6. Rozbudowanie obszaru gry do docelowego rozmiaru i stworzenie
+  *1. Dodanie prostych przeciwników
+  *2. "Trzymanie się w pionie"(AAAAAAA)
+  3. Dodanie peleryny
+  4. Rozbudowanie obszaru gry do docelowego rozmiaru i stworzenie
   dopasowania przejścia tła z podziemiami
-  7. Dodanie możliwości otrzymania obrażeń i śmierci Stork'mana w
+  5. Dodanie możliwości otrzymania obrażeń i śmierci Stork'mana w
   interakcji z przeciwnikiem
-  8. Dodanie trybu walki wręcz i odpowiednio przeciwników
+  6. Dodanie trybu walki wręcz i odpowiednio przeciwników
 
 Ficzury:
-    *? Trzeba by inaczej liczyć Dynamic_enitity.platfrom_angle
-    *? Swiatło w osobnym wątku
-    *? Shadery dla statycznych świateł
-    *? Cień Storkmana
-    *? Rozjaśnianie tekstur przez światło (pewnie shader)
-    
-    Więcej warstw dla obiektów
-    Obracanie i odbijanie obiektów z xml'a
-    Przezroczyste platformy
-    Wątki
-    Interakcje ze skośnymi platformami (lepsze podbieganie i zbieganie, zsuwanie się od pewnego kąta)
-    Warstwy mapy i paralaksa
-    Spadanie i lądowanie - lepiej rozwiązać animacje
-    Uwzględnić skalę w edycji poziomów
-    Lepsza konsola
-    Muzyka/dźwięki
-    Skalowanie (zoom/odzoom)
-	Pozycja Storkmana na starcie ustalana z góry w XML
-	Przyspieszyć obliczenia - szybsza trygonometria
-	Tarcie
-  
-  Zrobione:
-    * Przeskalować do 32px/m ✓
-    * Interakcja między światłem a ścianami ✓
-    * Słońce ✓
-    * Dziedzina funkcji trygonometrycznych w świetle i dzielenie przez zero ✓
-    * Statyczne światła liczyć statycznie ✓
-    * Opis świateł w XML ✓
-    * Ogarnąć kod w map, przeczyścić context odc. 2 ✓
-    * Kolorowe światła (✓)
-    * Siła światła ✓
-    * Sciany ✓
-    * Możliwość zmiany tekstur "z zewnątrz" ✓
-    Przyspieszyć obliczenia światła - wektory zamiast trygonometrii ✓
-
+	XML/edycja poziomów:
+		*Więcej warstw dla obiektów
+		*Obracanie i odbijanie obiektów z xml'a
+		*Pozycja Storkmana na starcie ustalana z góry w XML
+	Fizyka:
+		*Interakcje ze skośnymi platformami (lepsze podbieganie i zbieganie, zsuwanie się od pewnego kąta)
+		Tarcie
+	Silnik:
+		Przyspieszyć obliczenia - szybsza trygonometria?
+		Wątki
+		*Lepsza konsola
+		*Muzyka/dźwięki
+		Spadanie i lądowanie - lepiej rozwiązać animacje
+		Skalowanie (zoom/odzoom)
+		Animacje dotykając ściany?
+		*{
+			Sortowanie wierzchołków platform/ograninięcie takich nieposortowanych
+			Kolizje na dziwnych wielokątach?
+		}
+	Światło:
+		*Swiatło w osobnych wątkach/gpu
+		*Shadery dla (statycznych) świateł
+		Cień Storkmana?
+		*Przezroczyste platformy
+		Interakcja między światłem a ścianami?
+		{
+			Rozjaśnianie tekstur przez światło (pewnie shader)
+			Kolorowe światła?
+		}
+ 
 Błędy:
-    * Zsuwanie się z platform
-    *? Skalowanie odc. 0xDEADBEEF
-    *? Animacje dotykając ściany
-    * Grawitacja dziala inaczej na platfromach pochylonych w różne strony
-    *? Kolizje na dziwnych wielokątach
-    
-  Naprawione:
-     
-    * Skoki ze skośnych platform (✓)
-    * Światłooooo ✓
 
 Inne/uwagi:
   Kod hitboxów Storkmana jest paskudny

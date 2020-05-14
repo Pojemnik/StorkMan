@@ -8,7 +8,7 @@
 #include "util.h"
 #include "console.h"
 
-const std::string VERSION = "0.3.5";
+const std::string VERSION = "0.4.0";
 
 bool update(float dt, Map& map, int move)
 {

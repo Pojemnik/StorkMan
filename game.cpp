@@ -179,7 +179,7 @@ void Dynamic_entity::set_idle()
 
 void Dynamic_entity::update(float dt)
 {
-	apply_force({ 0,context.gravity });
+	apply_force(context.gravity * maxcollisionvector);
 	Vectorf move_acc = move_force / mass;
 	move_speed += move_acc * dt;
 	move_speed = util::saturate(move_speed, context.max_move_speed);
@@ -245,6 +245,7 @@ void Dynamic_entity::update(float dt)
 	last_status = status;
 	move_force = { 0,0 };
 	collision_direction = { 0,0 };
+	force.x = 0;
 }
 
 void Dynamic_entity::update_position(float dt)
