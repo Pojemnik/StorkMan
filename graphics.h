@@ -87,9 +87,11 @@ protected:
 		Vectori translation1, float a1,
 		Vectori translation2, float a2);
 	void animate(std::vector<float> arr);
+
 	void set_animation(Animation_status s);
 
 public:
+	void pre_draw();
 	Dynamic_animatable(sf::Texture* texture, std::vector<sf::IntRect>& v,
 		Vectorf p, std::vector<const Dynamic_animation*> a, Animation_tree t, float h, float gs);
 	void next_frame();

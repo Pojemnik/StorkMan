@@ -158,6 +158,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		clock.restart();
 		if (update(time, map, moved))
 		{
+			player.pre_draw();
 			if (context.draw_fps_counter)
 				context.fps_counter.setString(std::to_string(int(1000.f / acc)));
 			acc = 0;

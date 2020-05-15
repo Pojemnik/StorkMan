@@ -95,16 +95,21 @@ void Dynamic_animatable::animate(std::vector<float> frame)
 					maxy = vec[next].pos.y;
 			}
 		}
-		tex.clear(sf::Color(0, 0, 0, 0));
-		for (int i = 0; i < tree.nodes.size(); i++)
-		{
-			tex.draw(parts[i]);
-		}
-		tex.display();
-		sprite.setTexture(tex.getTexture());
-		sf::FloatRect rect = sprite.getGlobalBounds();
-		sprite.setScale(scale, fabs(scale));
+
 	}
+}
+
+void Dynamic_animatable::pre_draw()
+{
+	tex.clear(sf::Color(0, 0, 0, 0));
+	for (int i = 0; i < tree.nodes.size(); i++)
+	{
+		tex.draw(parts[i]);
+	}
+	tex.display();
+	sprite.setTexture(tex.getTexture());
+	sf::FloatRect rect = sprite.getGlobalBounds();
+	sprite.setScale(scale, fabs(scale));
 }
 
 Dynamic_animatable::Dynamic_animatable(sf::Texture* texture, std::vector<sf::IntRect>& v,
