@@ -1,12 +1,12 @@
 #include "util.h"
 #include "console.h"
 
-std::pair<Command_code, Vectorf> Console::get_and_execute_command()
+std::pair<Command_code, Vectorf> Command_interpreter::get_and_execute_command()
 {
 	return execute_command(get_command());
 }
 
-Vectorf Console::get_vectorf(const Command& cmd, std::string var_name)
+Vectorf Command_interpreter::get_vectorf(const Command& cmd, std::string var_name)
 {
 	Vectorf vector = { 0,0 };
 	if (cmd.args.size() == 2)
@@ -42,7 +42,7 @@ Vectorf Console::get_vectorf(const Command& cmd, std::string var_name)
 	return vector;
 }
 
-Vectori Console::get_vectori(const Command& cmd, std::string var_name)
+Vectori Command_interpreter::get_vectori(const Command& cmd, std::string var_name)
 {
 	Vectori vector = { 0,0 };
 	if (cmd.args.size() == 2)
@@ -78,7 +78,7 @@ Vectori Console::get_vectori(const Command& cmd, std::string var_name)
 	return vector;
 }
 
-bool Console::get_bool(const Command& cmd, std::string var_name, std::array<std::string, 2> true_false_string)
+bool Command_interpreter::get_bool(const Command& cmd, std::string var_name, std::array<std::string, 2> true_false_string)
 {
 	bool val = false;
 	if (cmd.args.size() == 1)
@@ -99,7 +99,7 @@ bool Console::get_bool(const Command& cmd, std::string var_name, std::array<std:
 	return val;
 }
 
-float Console::get_float(const Command& cmd, std::string var_name)
+float Command_interpreter::get_float(const Command& cmd, std::string var_name)
 {
 	float var = .0f;
 	if (cmd.args.size() == 1)
@@ -123,7 +123,7 @@ float Console::get_float(const Command& cmd, std::string var_name)
 	return var;
 }
 
-int Console::get_int(const Command& cmd, std::string var_name)
+int Command_interpreter::get_int(const Command& cmd, std::string var_name)
 {
 	int var = 0;
 	if (cmd.args.size() == 1)
@@ -147,7 +147,7 @@ int Console::get_int(const Command& cmd, std::string var_name)
 	return var;
 }
 
-std::pair<Command_code, Vectorf> Console::execute_command_raw(Command cmd)
+std::pair<Command_code, Vectorf> Command_interpreter::execute_command_raw(Command cmd)
 {
 	if (cmd.name == "col")
 	{
@@ -250,7 +250,7 @@ std::pair<Command_code, Vectorf> Console::execute_command_raw(Command cmd)
 	return std::make_pair<Command_code, Vectorf>(Command_code::NOTHING, { 0,0 });
 }
 
-Console::Command Console::get_command()
+Command_interpreter::Command Command_interpreter::get_command()
 {
 	std::string input, tmp;
 	Command cmd;
@@ -264,7 +264,7 @@ Console::Command Console::get_command()
 	return cmd;
 }
 
-std::pair<Command_code, Vectorf> Console::execute_command(Command cmd)
+std::pair<Command_code, Vectorf> Command_interpreter::execute_command(Command cmd)
 {
 	try
 	{
@@ -276,12 +276,49 @@ std::pair<Command_code, Vectorf> Console::execute_command(Command cmd)
 	}
 }
 
-void Console::print_argument_number_error(int correct_number)
+void Command_interpreter::print_argument_number_error(int correct_number)
 {
 	std::cerr << "Error. This command takes " << std::to_string(correct_number) << " argument(s)" << std::endl;
 }
 
-void Console::print_incorrect_argument_error(std::string command, std::string what)
+void Command_interpreter::print_incorrect_argument_error(std::string command, std::string what)
 {
 	std::cerr << command + ": " + "incorrect argument: " + what << std::endl;
+}
+
+Console::Console(sf::Texture* tex, sf::Font* f, Vectori res) : font(f)
+{
+	screen_resolution = res;
+	float scale = (float)res.x / 1920.f;
+	background.setTexture(*tex);
+	background.setScale(scale, scale);
+	background.setPosition(0, res.y / 2);
+	content.setFont(*f);
+	buffer.setFont(*f);
+}
+
+void Console::activate(Vectori res)
+{
+	screen_resolution = res;
+	float scale = (float)res.x / 1920.f;
+	background.setScale(scale, scale);
+	background.setPosition(0,res.y/2);
+	active = true;
+}
+
+void Console::deactivate()
+{
+	active = false;
+}
+
+bool Console::is_active()
+{
+	return active;
+}
+
+void Console::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	target.draw(background);
+	target.draw(content);
+	target.draw(buffer);
 }

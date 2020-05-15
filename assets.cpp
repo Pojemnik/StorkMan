@@ -158,6 +158,8 @@ void Assets::load_assets()
 	layer2->loadFromFile("img/bg/LAS.png");
 	light = new sf::Texture();
 	light->loadFromFile("img/light.png");
+	console_bg = new sf::Texture();
+	console_bg->loadFromFile("img/console_bg.png");
 	animations.push_back(load_dynamic_animation("animations/stork/idle.txt"));
 	animations.push_back(load_dynamic_animation("animations/stork/run.txt"));
 	animations.push_back(load_dynamic_animation("animations/stork/jump_idle.txt"));
@@ -208,8 +210,6 @@ void Assets::load_assets()
 	textures["tapeta3"] = &map_textures[36];
 	textures["vent0"] = &map_textures[37];
 	textures["vent1"] = &map_textures[38];
-
-
 
 	context.blurh_states.shader = &blurh;
 	context.blurv_states.shader = &blurv;

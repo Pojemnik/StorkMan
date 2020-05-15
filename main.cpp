@@ -74,6 +74,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	map.player = &player;
 	int moved = 0;
 	float acc = 0;
+	Console console(assets.console_bg, &context.arial, context.resolution);
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -88,8 +89,16 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			{
 				if (event.key.code == sf::Keyboard::Tilde)
 				{
+					if (console.is_active())
+					{
+						console.deactivate();
+					}
+					else
+					{
+						console.activate(context.resolution);
+					}
 					std::pair<Command_code, Vectorf> code = 
-						Console::get_and_execute_command();
+						Command_interpreter::get_and_execute_command();
 					switch (code.first)
 					{
 					case Command_code::CHANGE_RESOLUTION:
@@ -112,6 +121,13 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 				if (event.key.code == sf::Keyboard::G)
 				{
 					context.gravity = -context.gravity;
+				}
+			}
+			if (event.type == sf::Event::TextEntered)
+			{
+				if (event.text.unicode < 128)
+				{
+					std::cout << char(event.text.unicode);
 				}
 			}
 		}
@@ -191,6 +207,10 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 					tmp[2 * i + 1] = sf::Vertex(map.map_edges[i].second, sf::Color(255, 255, 255, 255));
 				}
 				window.draw(tmp, rs);
+			}
+			if (console.is_active())
+			{
+				window.draw(console);
 			}
 			window.display();
 		}

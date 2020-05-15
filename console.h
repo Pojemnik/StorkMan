@@ -4,7 +4,7 @@
 enum class Command_code { NOTHING, CHANGE_RESOLUTION, CHANGE_SCALE,
 	MOVE_PLAYER, RELOAD_LIGHT };
 
-class Console
+class Command_interpreter
 {
 	struct Command
 	{
@@ -25,8 +25,27 @@ private:
 	static bool get_bool(const Command& cmd, std::string var_name,
 		std::array<std::string, 2> true_false_string);
 	static int get_int(const Command& cmd, std::string var_name);
-	Console() {};
+	Command_interpreter() {};
 
 public:
 	static std::pair<Command_code, Vectorf> get_and_execute_command();
+};
+
+class Console : public sf::Drawable
+{
+public:
+
+	Console(sf::Texture* tex, sf::Font* f, Vectori res);
+	void activate(Vectori res);
+	void deactivate();
+	bool is_active();
+	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+
+private:
+	bool active = false;
+	Vectori screen_resolution;
+	sf::Sprite background;
+	sf::Text content;
+	sf::Font* font;
+	sf::Text buffer;
 };
