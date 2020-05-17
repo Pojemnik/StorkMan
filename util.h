@@ -14,6 +14,7 @@
 
 typedef sf::Vector2f Vectorf;
 typedef sf::Vector2i Vectori;
+typedef std::string string;
 
 const float PI = 3.1415927f;
 const float eps = 0.0001f;

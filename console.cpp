@@ -1,9 +1,10 @@
 #include "util.h"
 #include "console.h"
 
-std::pair<Command_code, Vectorf> Command_interpreter::get_and_execute_command()
+std::pair<Command_code, Vectorf>
+Command_interpreter::get_and_execute_command(string s)
 {
-	return execute_command(get_command());
+	return execute_command(get_command(s));
 }
 
 Vectorf Command_interpreter::get_vectorf(const Command& cmd, std::string var_name)
@@ -29,8 +30,8 @@ Vectorf Command_interpreter::get_vectorf(const Command& cmd, std::string var_nam
 		if (!err)
 		{
 			vector = { tab[0],tab[1] };
-			std::cout << var_name + " set to " << vector.x << ' '
-				<< vector.y << std::endl;
+			*console << var_name + " set to " << vector.x << ' '
+				<< vector.y << '\n';
 		}
 
 	}
@@ -65,8 +66,8 @@ Vectori Command_interpreter::get_vectori(const Command& cmd, std::string var_nam
 		if (!err)
 		{
 			vector = { tab[0],tab[1] };
-			std::cout << var_name + " set to " << vector.x << ' '
-				<< vector.y << std::endl;
+			*console << var_name + " set to " << vector.x << ' '
+				<< vector.y << '\n';
 		}
 
 	}
@@ -88,8 +89,8 @@ bool Command_interpreter::get_bool(const Command& cmd, std::string var_name, std
 			val = true;
 		else
 			val = false;
-		std::cout << var_name + " " << 
-			((val) ? true_false_string[0] : true_false_string[1]) << std::endl;
+		*console << var_name + " " <<
+			((val) ? true_false_string[0] : true_false_string[1]) << '\n';
 	}
 	else
 	{
@@ -107,7 +108,7 @@ float Command_interpreter::get_float(const Command& cmd, std::string var_name)
 		try
 		{
 			var = std::stof(cmd.args[0]);
-			std::cout << var_name + " set to " << var << std::endl;
+			*console << var_name + " set to " << var << '\n';
 		}
 		catch (std::invalid_argument e)
 		{
@@ -131,7 +132,7 @@ int Command_interpreter::get_int(const Command& cmd, std::string var_name)
 		try
 		{
 			var = std::stoi(cmd.args[0]);
-			std::cout << var_name + " set to " << var << std::endl;
+			*console << var_name + " set to " << var << '\n';
 		}
 		catch (std::invalid_argument e)
 		{
@@ -151,17 +152,17 @@ std::pair<Command_code, Vectorf> Command_interpreter::execute_command_raw(Comman
 {
 	if (cmd.name == "col")
 	{
-		context.draw_collisions = 
+		context.draw_collisions =
 			get_bool(cmd, "Player collision mesh", { "drawn", "hidden" });
 	}
 	else if (cmd.name == "mapvertices")
 	{
-		context.draw_map_vertices = 
+		context.draw_map_vertices =
 			get_bool(cmd, "Map vertices", { "drawn", "hidden" });
 	}
 	else if (cmd.name == "fpscounter")
 	{
-		context.draw_fps_counter = 
+		context.draw_fps_counter =
 			get_bool(cmd, "FPS counter", { "drawn", "hidden" });
 	}
 	else if (cmd.name == "night")
@@ -234,7 +235,7 @@ std::pair<Command_code, Vectorf> Command_interpreter::execute_command_raw(Comman
 	{
 		context.global_scale = get_float(cmd, "Global scale");
 		return std::make_pair(Command_code::CHANGE_SCALE,
-			Vectorf(context.global_scale,0));
+			Vectorf(context.global_scale, 0));
 	}
 	else if (cmd.name == "moveplayer")
 	{
@@ -246,16 +247,15 @@ std::pair<Command_code, Vectorf> Command_interpreter::execute_command_raw(Comman
 		return std::make_pair(Command_code::RELOAD_LIGHT, Vectorf(0, 0));
 	}
 	else
-		std::cerr << "Unknown command: " + cmd.name << std::endl;
+		*console << "Unknown command: " + cmd.name << '\n';
 	return std::make_pair<Command_code, Vectorf>(Command_code::NOTHING, { 0,0 });
 }
 
-Command_interpreter::Command Command_interpreter::get_command()
+Command_interpreter::Command Command_interpreter::get_command(string s)
 {
-	std::string input, tmp;
+	std::string tmp;
 	Command cmd;
-	std::getline(std::cin, input);
-	std::stringstream sstr(input);
+	std::stringstream sstr(s);
 	sstr >> cmd.name;
 	while (sstr >> tmp)
 	{
@@ -278,32 +278,53 @@ std::pair<Command_code, Vectorf> Command_interpreter::execute_command(Command cm
 
 void Command_interpreter::print_argument_number_error(int correct_number)
 {
-	std::cerr << "Error. This command takes " << std::to_string(correct_number) << " argument(s)" << std::endl;
+	*console << "Error. This command takes " << std::to_string(correct_number) << " argument(s)" << '\n';
 }
 
 void Command_interpreter::print_incorrect_argument_error(std::string command, std::string what)
 {
-	std::cerr << command + ": " + "incorrect argument: " + what << std::endl;
+	*console << command + ": " + "incorrect argument: " + what << '\n';
+}
+
+Command_interpreter::Command_interpreter(Console* c) : console(c)
+{
 }
 
 Console::Console(sf::Texture* tex, sf::Font* f, Vectori res) : font(f)
 {
 	screen_resolution = res;
-	float scale = (float)res.x / 1920.f;
+	Vectorf scale = { (float)res.x / 1920.f, 1 };
 	background.setTexture(*tex);
-	background.setScale(scale, scale);
-	background.setPosition(0, res.y / 2);
 	content.setFont(*f);
+	content.setCharacterSize(30);
 	buffer.setFont(*f);
+	buffer.setCharacterSize(30);
+	input_buffer = ">";
+	buffer.setString(input_buffer + cursor);
 }
 
 void Console::activate(Vectori res)
 {
 	screen_resolution = res;
-	float scale = (float)res.x / 1920.f;
-	background.setScale(scale, scale);
-	background.setPosition(0,res.y/2);
+	Vectorf scale = { (float)res.x / 1920.f, 1 };
+	background.setScale(scale);
+	background.setPosition(0, res.y - 180);
 	active = true;
+	buffer.setPosition(0, screen_resolution.y - 35);
+	update_content();
+}
+
+void Console::update_content()
+{
+	string content_string;
+	int lines = 0;
+	for (int i = content_history.size() - 1; i >= 0 && lines < 5; i--)
+	{
+		content_string = content_history[i] + '\n' + content_string;
+		lines++;
+	}
+	content.setString(content_string);
+	content.setPosition(0, screen_resolution.y - (lines + 1) * 30);
 }
 
 void Console::deactivate()
@@ -321,4 +342,89 @@ void Console::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(background);
 	target.draw(content);
 	target.draw(buffer);
+}
+
+void Console::input_append(char c)
+{
+	if (isprint(c) && c != '`')
+	{
+		input_buffer = input_buffer + c;
+		buffer.setString(input_buffer + cursor);
+	}
+	else
+	{
+		if (c == '\r')
+		{
+			last_line = input_buffer.substr(1);
+			content_history.push_back(input_buffer);
+			input_buffer = '>';
+			buffer.setString(input_buffer + cursor);
+			update_content();
+		}
+		if (c == '\b')
+		{
+			if (input_buffer.length() > 1)
+			{
+				input_buffer.erase(input_buffer.length() - 1, 1);
+				buffer.setString(input_buffer + cursor);
+			}
+		}
+	}
+}
+
+void Console::print(string s)
+{
+	output_buffer += s;
+	if (s == "\n")
+		flush();
+}
+
+void Console::print(char c)
+{
+	output_buffer += c;
+	if (c == '\n')
+		flush();
+}
+
+void Console::flush()
+{
+	size_t pos = output_buffer.find('\n');
+	size_t last_pos = 0;
+	while (pos != string::npos)
+	{
+		content_history.push_back(output_buffer.substr(last_pos, pos));
+		last_pos = pos + 1;
+		pos = output_buffer.find('\n', last_pos);
+	}
+	output_buffer = "";
+	update_content();
+}
+
+string Console::get_line()
+{
+	return last_line;
+}
+
+inline Console& operator<<(Console& con, const string& obj)
+{
+	con.print(obj);
+	return con;
+}
+
+inline Console& operator<<(Console& con, const int& obj)
+{
+	con.print(std::to_string(obj));
+	return con;
+}
+
+inline Console& operator<<(Console& con, const float& obj)
+{
+	con.print(std::to_string(obj));
+	return con;
+}
+
+inline Console& operator<<(Console& con, const char& obj)
+{
+	con.print(obj);
+	return con;
 }

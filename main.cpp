@@ -67,7 +67,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	map.background.setPosition(context.background_position);
 	map.layer2.setPosition(context.layer2_position);
 	std::cout << "done!" << std::endl;
-	sf::FloatRect f(380, 70, 20, 60);//f(380, 55, 20, 70);
+	sf::FloatRect f(380, 70, 20, 60);
 	Player player({ 400, 100 }, assets.pieces, assets.pieces_rect,
 		assets.animations, f, assets.stork_tree, 1.92f,
 		context.global_scale, 87.f);
@@ -75,6 +75,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	int moved = 0;
 	float acc = 0;
 	Console console(assets.console_bg, &context.arial, context.resolution);
+	Command_interpreter interpreter(&console);
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -97,71 +98,59 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 					{
 						console.activate(context.resolution);
 					}
-					std::pair<Command_code, Vectorf> code = 
-						Command_interpreter::get_and_execute_command();
-					switch (code.first)
-					{
-					case Command_code::CHANGE_RESOLUTION:
-						resize_window(map, window, assets);
-						break;
-					case Command_code::CHANGE_SCALE:
-						map.rescale(context.global_scale);
-						player.rescale(context.global_scale);
-						break;
-					case Command_code::MOVE_PLAYER:
-						player.set_position(code.second);
-						break;
-					case Command_code::RELOAD_LIGHT:
-						map.recalc_light();
-						break;
-					default:
-						break;
-					}
 				}
-				if (event.key.code == sf::Keyboard::G)
+				if (event.key.code == sf::Keyboard::G && !console.is_active())
 				{
 					context.gravity = -context.gravity;
 				}
 			}
-			if (event.type == sf::Event::TextEntered)
+			if (event.type == sf::Event::TextEntered && console.is_active())
 			{
 				if (event.text.unicode < 128)
 				{
-					std::cout << char(event.text.unicode);
+					char c = char(event.text.unicode);
+					console.input_append(c);
+					if (c == '\r')
+					{
+						interpreter.get_and_execute_command(console.get_line());
+					}
 				}
 			}
 		}
-		moved = 0;
-		if (window.hasFocus())
+		if (!console.is_active())
 		{
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+			moved = 0;
+			if (window.hasFocus())
 			{
-				player.attack(1);
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-			{
-				player.attack(2);
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-			{
-				if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
 				{
-					moved = 1;
+					player.attack(1);
 				}
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-			{
-				if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 				{
-					moved = -1;
+					player.attack(2);
 				}
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-			{
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-					player.jump(true);
-				else
-					player.jump(false);
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+				{
+					if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+					{
+						moved = 1;
+					}
+				}
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+				{
+					if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+					{
+						moved = -1;
+					}
+				}
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+				{
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+						player.jump(true);
+					else
+						player.jump(false);
+				}
 			}
 		}
 		float time = (float)clock.getElapsedTime().asMicroseconds();
@@ -172,7 +161,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		}
 		acc += time;
 		clock.restart();
-		if (update(time, map, moved))
+		if (console.is_active() || update(time, map, moved))
 		{
 			if (context.draw_fps_counter)
 				context.fps_counter.setString(std::to_string(int(1000.f / acc)));
