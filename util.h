@@ -11,6 +11,7 @@
 #include <queue>
 #include <fstream>
 #include <map>
+#include "console.h"
 
 typedef sf::Vector2f Vectorf;
 typedef sf::Vector2i Vectori;
@@ -54,6 +55,7 @@ struct Context
 	Vectori resolution = { 1024, 576 };
 	sf::Text fps_counter;
 	uint8_t darkness = 70;
+	Console* console;
 };
 
 extern struct Context context;

@@ -7,6 +7,7 @@
 #include "parser.h"
 #include "util.h"
 #include "console.h"
+#include "interpreter.h"
 
 const std::string VERSION = "0.4.0";
 
@@ -74,8 +75,8 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	map.player = &player;
 	int moved = 0;
 	float acc = 0;
-	Console console(assets.console_bg, &assets.consola, context.resolution);
-	Command_interpreter interpreter(&console);
+	context.console =
+		new Console(assets.console_bg, &assets.consola, context.resolution);
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -90,40 +91,40 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			{
 				if (event.key.code == sf::Keyboard::Tilde)
 				{
-					if (console.is_active())
+					if (context.console->is_active())
 					{
-						console.deactivate();
+						context.console->deactivate();
 					}
 					else
 					{
-						console.activate(context.resolution);
+						context.console->activate(context.resolution);
 					}
 				}
-				if (event.key.code == sf::Keyboard::G && !console.is_active())
+				if (event.key.code == sf::Keyboard::G && !context.console->is_active())
 				{
 					context.gravity = -context.gravity;
 				}
 			}
 			if (event.type == sf::Event::TextEntered
-				&& console.is_active() && window.hasFocus())
+				&& context.console->is_active() && window.hasFocus())
 			{
 				if (event.text.unicode < 128)
 				{
 					char c = char(event.text.unicode);
-					console.input_append(c);
+					context.console->input_append(c);
 					if (c == '\r')
 					{
-						interpreter.get_and_execute_command(console.get_line());
+						Commands_interpreter::get_and_execute_command(context.console->get_line());
 					}
 				}
 			}
 			if (event.type == sf::Event::MouseWheelScrolled
-				&& console.is_active() && window.hasFocus())
+				&& context.console->is_active() && window.hasFocus())
 			{
-				console.scroll((int)event.mouseWheelScroll.delta);
+				context.console->scroll((int)event.mouseWheelScroll.delta);
 			}
 		}
-		if (!console.is_active())
+		if (!context.console->is_active())
 		{
 			moved = 0;
 			if (window.hasFocus())
@@ -167,7 +168,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		}
 		acc += time;
 		clock.restart();
-		if (console.is_active() || update(time, map, moved))
+		if (context.console->is_active() || update(time, map, moved))
 		{
 			if (context.draw_fps_counter)
 				context.fps_counter.setString(std::to_string(int(1000.f / acc)));
@@ -203,9 +204,9 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 				}
 				window.draw(tmp, rs);
 			}
-			if (console.is_active())
+			if (context.console->is_active())
 			{
-				window.draw(console);
+				window.draw(*context.console);
 			}
 			window.display();
 		}
