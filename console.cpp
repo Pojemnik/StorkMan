@@ -18,8 +18,8 @@ message(Stream_color::WHITE), log(Stream_color::GREY), error(Stream_color::RED)
 	content.setCharacterSize(15);
 	buffer.setFont(*f);
 	buffer.setCharacterSize(15);
-	input_buffer = ">";
-	buffer.setString(input_buffer + cursor);
+	input_buffer.push(">");
+	buffer.setString(input_buffer.back() + cursor);
 }
 
 void Console::activate(Vectori res)
@@ -67,33 +67,51 @@ void Console::input_append(char c)
 {
 	if (isprint(c) && c != '`')
 	{
-		input_buffer = input_buffer + c;
-		buffer.setString(input_buffer + cursor);
+		input_buffer.back() = input_buffer.back() + c;
+		buffer.setString(input_buffer.back() + cursor);
 	}
 	else
 	{
 		if (c == '\r')
 		{
-			last_line = input_buffer.substr(1);
-			content_history.push_back(input_buffer);
-			input_buffer = '>';
-			buffer.setString(input_buffer + cursor);
+			content_history.push_back(input_buffer.back());
+			input_buffer.back() = input_buffer.back().substr(1);
+			input_buffer.push(">");
+			buffer.setString(input_buffer.back() + cursor);
 			update_content();
 		}
 		if (c == '\b')
 		{
-			if (input_buffer.length() > 1)
+			if (input_buffer.back().length() > 1)
 			{
-				input_buffer.erase(input_buffer.length() - 1, 1);
-				buffer.setString(input_buffer + cursor);
+				input_buffer.back().erase(input_buffer.back().length() - 1, 1);
+				buffer.setString(input_buffer.back() + cursor);
 			}
 		}
 	}
 }
 
+bool Console::data_available()
+{
+	if (input_buffer.size() > 1)
+		return true;
+	return false;
+}
+
+void Console::input_append(string s)
+{
+	for (auto c : s)
+	{
+		input_append(c);
+	}
+}
+
 void Console::print(string s)
 {
-	output_buffer += s;
+	for (auto c : s)
+	{
+		print(c);
+	}
 }
 
 void Console::print(char c)
@@ -105,14 +123,8 @@ void Console::print(char c)
 
 void Console::flush()
 {
-	size_t pos = output_buffer.find('\n');
-	size_t last_pos = 0;
-	while (pos != string::npos)
-	{
-		content_history.push_back(output_buffer.substr(last_pos, pos));
-		last_pos = pos + 1;
-		pos = output_buffer.find('\n', last_pos);
-	}
+	content_history.push_back(
+		output_buffer.erase(output_buffer.length() - 1, 1));
 	output_buffer = "";
 	scroll_pos = 0;
 	update_content();
@@ -129,5 +141,7 @@ void Console::scroll(int delta)
 
 string Console::get_line()
 {
-	return last_line;
+	string s = input_buffer.front();
+	input_buffer.pop();
+	return s;
 }

@@ -38,6 +38,59 @@ void resize_window(Map& map, sf::RenderWindow& window, Assets& assets)
 	window.setSize(sf::Vector2u(context.resolution.x, context.resolution.y));
 }
 
+bool process_event(sf::Event& event, bool window_focus)
+{
+	switch (event.type)
+	{
+	case sf::Event::Closed:
+		return true;
+	case sf::Event::KeyPressed:
+		if (window_focus)
+		{
+			if (event.key.code == sf::Keyboard::Tilde)
+			{
+				if (context.console->is_active())
+				{
+					context.console->deactivate();
+				}
+				else
+				{
+					context.console->activate(context.resolution);
+				}
+			}
+			if (event.key.control && event.key.code == sf::Keyboard::V
+				&& context.console->is_active())
+			{
+				string s = sf::Clipboard::getString();
+				context.console->input_append(s);
+			}
+			if (event.key.code == sf::Keyboard::G &&
+				!context.console->is_active())
+			{
+				context.gravity = -context.gravity;
+			}
+		}
+		break;
+	case sf::Event::TextEntered:
+		if (context.console->is_active() && window_focus)
+		{
+			if (event.text.unicode < 256)
+			{
+				char c = char(event.text.unicode);
+				context.console->input_append(c);
+			}
+		}
+		break;
+	case sf::Event::MouseWheelScrolled:
+		if (context.console->is_active() && window_focus)
+		{
+			context.console->scroll((int)event.mouseWheelScroll.delta);
+		}
+		break;
+	}
+	return false;
+}
+
 int main(int argc, char** argv)	//Second argument is a map file for editor
 {
 	std::cout.sync_with_stdio(false);
@@ -82,49 +135,17 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
-			if (event.type == sf::Event::Closed)
+			process_event(event, window.hasFocus());
+		}
+		if (context.console->is_active())
+		{
+			while(context.console->data_available())
 			{
-				window.close();
-				return 0;
-			}
-			if (event.type == sf::Event::KeyPressed && window.hasFocus())
-			{
-				if (event.key.code == sf::Keyboard::Tilde)
-				{
-					if (context.console->is_active())
-					{
-						context.console->deactivate();
-					}
-					else
-					{
-						context.console->activate(context.resolution);
-					}
-				}
-				if (event.key.code == sf::Keyboard::G && !context.console->is_active())
-				{
-					context.gravity = -context.gravity;
-				}
-			}
-			if (event.type == sf::Event::TextEntered
-				&& context.console->is_active() && window.hasFocus())
-			{
-				if (event.text.unicode < 128)
-				{
-					char c = char(event.text.unicode);
-					context.console->input_append(c);
-					if (c == '\r')
-					{
-						Commands_interpreter::get_and_execute_command(context.console->get_line());
-					}
-				}
-			}
-			if (event.type == sf::Event::MouseWheelScrolled
-				&& context.console->is_active() && window.hasFocus())
-			{
-				context.console->scroll((int)event.mouseWheelScroll.delta);
+				Commands_interpreter::get_and_execute_command(
+					context.console->get_line());
 			}
 		}
-		if (!context.console->is_active())
+		else
 		{
 			moved = 0;
 			if (window.hasFocus())

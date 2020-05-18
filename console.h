@@ -5,6 +5,7 @@
 #include <vector>
 #include <cctype>
 #include <array>
+#include <queue>
 
 enum class Stream_color { WHITE, GREY, RED };
 
@@ -38,19 +39,20 @@ public:
 	void deactivate();
 	bool is_active();
 	void input_append(char c);
+	void input_append(string s);
+	bool data_available();
 	string get_line();
 	void flush();
-	void print(string s);
-	void print(char c);
 	void scroll(int delta);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	void print(string s);
+	void print(char c);
 
 private:
 	bool active = false;
-	string last_line;
 	Vectori screen_resolution;
 	std::vector<string> content_history;
-	string input_buffer;
+	std::queue<string> input_buffer;
 	string output_buffer;
 	const char cursor = '_';
 	sf::Sprite background;
