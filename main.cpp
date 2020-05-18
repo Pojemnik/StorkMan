@@ -51,7 +51,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		"StorkMan " + VERSION, sf::Style::Titlebar | sf::Style::Close);
 	sf::Clock clock;
 	Map map;
-	context.fps_counter.setFont(context.arial);
+	context.fps_counter.setFont(assets.arial);
 	context.fps_counter.setPosition(0, 0);
 	std::string path = (argc == 2) ? argv[1] : "map/stork_map_example.xml";
 	tinyxml2::XMLDocument doc;
@@ -74,7 +74,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	map.player = &player;
 	int moved = 0;
 	float acc = 0;
-	Console console(assets.console_bg, &context.arial, context.resolution);
+	Console console(assets.console_bg, &assets.consola, context.resolution);
 	Command_interpreter interpreter(&console);
 	while (window.isOpen())
 	{
@@ -104,7 +104,8 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 					context.gravity = -context.gravity;
 				}
 			}
-			if (event.type == sf::Event::TextEntered && console.is_active())
+			if (event.type == sf::Event::TextEntered
+				&& console.is_active() && window.hasFocus())
 			{
 				if (event.text.unicode < 128)
 				{
@@ -115,6 +116,11 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 						interpreter.get_and_execute_command(console.get_line());
 					}
 				}
+			}
+			if (event.type == sf::Event::MouseWheelScrolled
+				&& console.is_active() && window.hasFocus())
+			{
+				console.scroll((int)event.mouseWheelScroll.delta);
 			}
 		}
 		if (!console.is_active())

@@ -216,6 +216,7 @@ void Assets::load_assets()
 	context.final_states.blendMode = sf::BlendMultiply;
 	context.white_states.shader = &white;
 
-	context.arial.loadFromFile("Arial.ttf");
+	arial.loadFromFile("Arial.ttf");
+	consola.loadFromFile("consola.ttf");
 	std::cout << "done!" << std::endl;
 }

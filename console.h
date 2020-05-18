@@ -2,14 +2,33 @@
 #include "util.h"
 #include <cctype>
 
-enum class Command_code { NOTHING, CHANGE_RESOLUTION, CHANGE_SCALE,
-	MOVE_PLAYER, RELOAD_LIGHT };
+enum class Command_code {
+	NOTHING, CHANGE_RESOLUTION, CHANGE_SCALE,
+	MOVE_PLAYER, RELOAD_LIGHT
+};
+enum class Stream_color { WHITE, GREY, RED };
+
+class Console_stream
+{
+private:
+	string buffer;
+	Stream_color color;
+
+	friend Console_stream& operator<<(Console_stream& stream, string& s);
+
+public:
+	Console_stream(Stream_color color);
+};
 
 class Console : public sf::Drawable
 {
 public:
-
 	Console(sf::Texture* tex, sf::Font* f, Vectori res);
+
+	Console_stream message;
+	Console_stream log;
+	Console_stream error;
+
 	void activate(Vectori res);
 	void update_content();
 	void deactivate();
@@ -19,6 +38,7 @@ public:
 	void flush();
 	void print(string s);
 	void print(char c);
+	void scroll(int delta);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 private:
@@ -33,6 +53,8 @@ private:
 	sf::Text content;
 	sf::Font* font;
 	sf::Text buffer;
+	int scroll_pos = 0;
+	const int lines_n = 9;
 };
 
 //Tu powinien byæ template, ale nie umiem

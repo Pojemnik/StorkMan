@@ -7,6 +7,14 @@ Command_interpreter::get_and_execute_command(string s)
 	return execute_command(get_command(s));
 }
 
+Console_stream::Console_stream(Stream_color c) : color(c){}
+
+Console_stream& operator<<(Console_stream& stream, string& s)
+{
+	stream.buffer += s;
+	return stream;
+}
+
 Vectorf Command_interpreter::get_vectorf(const Command& cmd, std::string var_name)
 {
 	Vectorf vector = { 0,0 };
@@ -290,15 +298,16 @@ Command_interpreter::Command_interpreter(Console* c) : console(c)
 {
 }
 
-Console::Console(sf::Texture* tex, sf::Font* f, Vectori res) : font(f)
+Console::Console(sf::Texture* tex, sf::Font* f, Vectori res) : font(f),
+message(Stream_color::WHITE), log(Stream_color::GREY), error(Stream_color::RED)
 {
 	screen_resolution = res;
 	Vectorf scale = { (float)res.x / 1920.f, 1 };
 	background.setTexture(*tex);
 	content.setFont(*f);
-	content.setCharacterSize(30);
+	content.setCharacterSize(15);
 	buffer.setFont(*f);
-	buffer.setCharacterSize(30);
+	buffer.setCharacterSize(15);
 	input_buffer = ">";
 	buffer.setString(input_buffer + cursor);
 }
@@ -310,7 +319,7 @@ void Console::activate(Vectori res)
 	background.setScale(scale);
 	background.setPosition(0, res.y - 180);
 	active = true;
-	buffer.setPosition(0, screen_resolution.y - 35);
+	buffer.setPosition(0, screen_resolution.y - 20);
 	update_content();
 }
 
@@ -318,13 +327,13 @@ void Console::update_content()
 {
 	string content_string;
 	int lines = 0;
-	for (int i = content_history.size() - 1; i >= 0 && lines < 5; i--)
+	for (int i = content_history.size() - 1 - scroll_pos; i >= 0 && lines < lines_n; i--)
 	{
 		content_string = content_history[i] + '\n' + content_string;
 		lines++;
 	}
 	content.setString(content_string);
-	content.setPosition(0, screen_resolution.y - (lines + 1) * 30);
+	content.setPosition(0, screen_resolution.y - (lines+1) * 18);
 }
 
 void Console::deactivate()
@@ -375,8 +384,6 @@ void Console::input_append(char c)
 void Console::print(string s)
 {
 	output_buffer += s;
-	if (s == "\n")
-		flush();
 }
 
 void Console::print(char c)
@@ -397,6 +404,16 @@ void Console::flush()
 		pos = output_buffer.find('\n', last_pos);
 	}
 	output_buffer = "";
+	scroll_pos = 0;
+	update_content();
+}
+
+void Console::scroll(int delta)
+{
+	scroll_pos += delta;
+	scroll_pos = std::max(0, scroll_pos);
+	scroll_pos = std::min(scroll_pos,
+		std::max(0, (int)content_history.size() - lines_n));
 	update_content();
 }
 

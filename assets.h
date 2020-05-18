@@ -15,6 +15,7 @@ public:
 	sf::Texture* console_bg = nullptr;
 	Animation_tree stork_tree;
 	sf::Shader blurv, blurh, white;
+	sf::Font arial, consola;
 	void load_assets();
 	void load_additional_texture(std::string path, std::string name, int repeat);
 

@@ -52,7 +52,6 @@ struct Context
 		final_states, white_states;
 	sf::Shader global;
 	Vectori resolution = { 1024, 576 };
-	sf::Font arial;
 	sf::Text fps_counter;
 	uint8_t darkness = 70;
 };
