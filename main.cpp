@@ -74,7 +74,7 @@ bool process_event(sf::Event& event, bool window_focus)
 	case sf::Event::TextEntered:
 		if (context.console->is_active() && window_focus)
 		{
-			if (event.text.unicode < 256)
+			if (event.text.unicode < 128)
 			{
 				char c = char(event.text.unicode);
 				context.console->input_append(c);
@@ -117,12 +117,12 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		context.console->err << "Brak poziomu" << '\n';
 		return -1;
 	}
-	context.console->out << "Initializing map..." << '\n';
+	context.console->log << "Initializing map..." << '\n';
 	tinyxml2::XMLElement* root = doc.FirstChildElement();
 	map = parser.parse_map(root);
 	map.background.setPosition(context.background_position);
 	map.layer2.setPosition(context.layer2_position);
-	context.console->out << "done!" << '\n';
+	context.console->log << "done!" << '\n';
 	sf::FloatRect f(380, 70, 20, 60);
 	Player player({ 400, 100 }, assets.pieces, assets.pieces_rect,
 		assets.animations, f, assets.stork_tree, 1.92f,
@@ -145,8 +145,27 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		{
 			while(context.console->user_input_data_available())
 			{
-				Commands_interpreter::get_and_execute_command(
-					context.console->get_user_input_line());
+				std::pair<Command_code, Vectorf> code =
+					Commands_interpreter::get_and_execute_command(
+						context.console->get_user_input_line());
+				switch (code.first)
+				{
+				case Command_code::CHANGE_RESOLUTION:
+					resize_window(map, window, assets);
+					break;
+				case Command_code::CHANGE_SCALE:
+					map.rescale(context.global_scale);
+					player.rescale(context.global_scale);
+					break;
+				case Command_code::MOVE_PLAYER:
+					player.set_position(code.second);
+					break;
+				case Command_code::RELOAD_LIGHT:
+					map.recalc_light();
+					break;
+				default:
+					break;
+				}
 			}
 		}
 		if (context.console->output_available())

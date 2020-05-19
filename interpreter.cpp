@@ -225,6 +225,10 @@ std::pair<Command_code, Vectorf> Commands_interpreter::execute_command_raw(Comma
 	{
 		context.darkness = get_int(cmd, "Darkness level");
 	}
+	else if (cmd.name == "clear")
+	{
+		context.console->clear();
+	}
 	else if (cmd.name == "resolution")
 	{
 		context.resolution = get_vectori(cmd, "Resolution");
@@ -244,11 +248,11 @@ std::pair<Command_code, Vectorf> Commands_interpreter::execute_command_raw(Comma
 	}
 	else if (cmd.name == "reloadlight")
 	{
-		return std::make_pair(Command_code::RELOAD_LIGHT, Vectorf(0, 0));
+		return std::make_pair(Command_code::RELOAD_LIGHT, Vectorf());
 	}
 	else
 		context.console->err << "Unknown command: " + cmd.name << '\n';
-	return std::make_pair<Command_code, Vectorf>(Command_code::NOTHING, { 0,0 });
+	return std::make_pair<Command_code, Vectorf>(Command_code::NOTHING, Vectorf());
 }
 
 Commands_interpreter::Command Commands_interpreter::get_command(string s)

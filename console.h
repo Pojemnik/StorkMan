@@ -20,6 +20,7 @@ class Console_stream
 public:
 	bool data_available();
 	string get_line();
+	void clear();
 	Console_stream(Stream_color color);
 	Stream_color color;
 
@@ -60,6 +61,7 @@ public:
 	void scroll(int delta);
 	bool output_available();
 	void update_content();
+	void clear();
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 

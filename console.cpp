@@ -85,6 +85,15 @@ string Console_stream::get_line()
 	return s;
 }
 
+void Console_stream::clear()
+{
+	buffer = "";
+	while (data.size())
+	{
+		data.pop();
+	}
+}
+
 Console::Console(const sf::Texture* tex, sf::Font* f, Vectori res) : font(f),
 out(Stream_color::WHITE), log(Stream_color::GREY), err(Stream_color::RED)
 {
@@ -115,8 +124,7 @@ void Console::activate(Vectori res)
 
 bool Console::output_available()
 {
-	return out.data_available() ||
-		log.data_available() || err.data_available();
+	return out.data_available() || log.data_available() || err.data_available();
 }
 
 void Console::get_data_from_streams()
@@ -142,6 +150,10 @@ void Console::update_content()
 {
 	get_data_from_streams();
 	int lines = 0;
+	for (auto& i : content)
+	{
+		i.setString("");
+	}
 	for (int i = content_history.size() - 1 - scroll_pos; i >= 0 && lines < lines_n; i--, lines++)
 	{
 		content[lines].setPosition(0, screen_resolution.y - (lines + 2) * 18);
@@ -159,6 +171,21 @@ void Console::update_content()
 		}
 		content[lines].setString(content_history[i].first);
 	}
+}
+
+void Console::clear()
+{
+	content_history.clear();
+	while (input_buffer.size())
+	{
+		input_buffer.pop();
+	}
+	input_buffer.push(">");
+	log.clear();
+	out.clear();
+	err.clear();
+	update_content();
+	buffer.setString(input_buffer.back() + cursor);
 }
 
 void Console::deactivate()
@@ -185,7 +212,7 @@ void Console::input_append(char c)
 {
 	if (isprint(c) && c != '`')
 	{
-		input_buffer.back() = input_buffer.back() + c;
+		input_buffer.back() += c;
 		buffer.setString(input_buffer.back() + cursor);
 	}
 	else
@@ -212,9 +239,7 @@ void Console::input_append(char c)
 
 bool Console::user_input_data_available()
 {
-	if (input_buffer.size() > 1)
-		return true;
-	return false;
+	return input_buffer.size() > 1;
 }
 
 void Console::input_append(string s)
