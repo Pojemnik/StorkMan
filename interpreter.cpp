@@ -30,8 +30,8 @@ Vectorf Commands_interpreter::get_vectorf(const Command& cmd, std::string var_na
 		if (!err)
 		{
 			vector = { tab[0],tab[1] };
-			*context.console << var_name + " set to " << vector.x << ' '
-				<< vector.y << '\n';
+			context.console->out << var_name + " set to "
+				<< vector.x << ' ' << vector.y << '\n';
 		}
 
 	}
@@ -66,7 +66,7 @@ Vectori Commands_interpreter::get_vectori(const Command& cmd, std::string var_na
 		if (!err)
 		{
 			vector = { tab[0],tab[1] };
-			*context.console << var_name + " set to " << vector.x << ' '
+			context.console->out << var_name + " set to " << vector.x << ' '
 				<< vector.y << '\n';
 		}
 
@@ -89,8 +89,8 @@ bool Commands_interpreter::get_bool(const Command& cmd, std::string var_name, st
 			val = true;
 		else
 			val = false;
-		*context.console << var_name + " " <<
-			((val) ? true_false_string[0] : true_false_string[1]) << '\n';
+		context.console->out << var_name + " " <<
+			((val) ? true_false_string[0] : true_false_string[1]) + '\n';
 	}
 	else
 	{
@@ -108,7 +108,7 @@ float Commands_interpreter::get_float(const Command& cmd, std::string var_name)
 		try
 		{
 			var = std::stof(cmd.args[0]);
-			*context.console << var_name + " set to " << var << '\n';
+			context.console->out << var_name + " set to " << var << '\n';
 		}
 		catch (std::invalid_argument e)
 		{
@@ -132,7 +132,7 @@ int Commands_interpreter::get_int(const Command& cmd, std::string var_name)
 		try
 		{
 			var = std::stoi(cmd.args[0]);
-			*context.console << var_name + " set to " << var << '\n';
+			context.console->out << var_name + " set to " << var << '\n';
 		}
 		catch (std::invalid_argument e)
 		{
@@ -247,7 +247,7 @@ std::pair<Command_code, Vectorf> Commands_interpreter::execute_command_raw(Comma
 		return std::make_pair(Command_code::RELOAD_LIGHT, Vectorf(0, 0));
 	}
 	else
-		*context.console << "Unknown command: " + cmd.name << '\n';
+		context.console->err << "Unknown command: " + cmd.name << '\n';
 	return std::make_pair<Command_code, Vectorf>(Command_code::NOTHING, { 0,0 });
 }
 
@@ -278,10 +278,10 @@ std::pair<Command_code, Vectorf> Commands_interpreter::execute_command(Command c
 
 void Commands_interpreter::print_argument_number_error(int correct_number)
 {
-	*context.console << "Error. This command takes " << std::to_string(correct_number) << " argument(s)" << '\n';
+	context.console->err << "Error. This command takes " << std::to_string(correct_number) << " argument(s)" << '\n';
 }
 
 void Commands_interpreter::print_incorrect_argument_error(std::string command, std::string what)
 {
-	*context.console << command + ": " + "incorrect argument: " + what << '\n';
+	context.console->err << command + ": " + "incorrect argument: " + what << '\n';
 }

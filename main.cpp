@@ -94,9 +94,11 @@ bool process_event(sf::Event& event, bool window_focus)
 int main(int argc, char** argv)	//Second argument is a map file for editor
 {
 	std::cout.sync_with_stdio(false);
-	std::cout << "Stork'man version " + VERSION << std::endl;
 	Assets assets;
 	assets.load_assets();
+	context.console =
+		new Console(assets.console_bg, &assets.consola, context.resolution);
+	context.console->out << "Stork'man version " + VERSION << '\n';
 	Parser parser(&assets);
 	parser.parse_additional_textures("img/textures.txt");
 	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
@@ -112,15 +114,15 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	tinyxml2::XMLError error = doc.LoadFile(path.c_str());
 	if (error != tinyxml2::XMLError::XML_SUCCESS)
 	{
-		std::cerr << "Brak poziomu" << std::endl;
+		context.console->err << "Brak poziomu" << '\n';
 		return -1;
 	}
-	std::cout << "Initializing map..." << std::endl;
+	context.console->out << "Initializing map..." << '\n';
 	tinyxml2::XMLElement* root = doc.FirstChildElement();
 	map = parser.parse_map(root);
 	map.background.setPosition(context.background_position);
 	map.layer2.setPosition(context.layer2_position);
-	std::cout << "done!" << std::endl;
+	context.console->out << "done!" << '\n';
 	sf::FloatRect f(380, 70, 20, 60);
 	Player player({ 400, 100 }, assets.pieces, assets.pieces_rect,
 		assets.animations, f, assets.stork_tree, 1.92f,
@@ -128,22 +130,28 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	map.player = &player;
 	int moved = 0;
 	float acc = 0;
-	context.console =
-		new Console(assets.console_bg, &assets.consola, context.resolution);
 	while (window.isOpen())
 	{
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
-			process_event(event, window.hasFocus());
+			if (process_event(event, window.hasFocus()))
+			{
+				window.close();
+				return 0;
+			}
 		}
 		if (context.console->is_active())
 		{
-			while(context.console->data_available())
+			while(context.console->user_input_data_available())
 			{
 				Commands_interpreter::get_and_execute_command(
-					context.console->get_line());
+					context.console->get_user_input_line());
 			}
+		}
+		if (context.console->output_available())
+		{
+			context.console->update_content();
 		}
 		else
 		{

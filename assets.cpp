@@ -146,7 +146,6 @@ void Assets::load_additional_texture(std::string path, std::string name, int rep
 
 void Assets::load_assets()
 {
-	std::cout << "Loading assets..." << std::endl;
 	sf::FloatRect tmp(210, 100, 105, 340);
 	pieces = new sf::Texture();
 	pieces->loadFromFile("img/stork/parts_ss_128_128_is_3_9.png");
@@ -218,5 +217,4 @@ void Assets::load_assets()
 
 	arial.loadFromFile("Arial.ttf");
 	consola.loadFromFile("consola.ttf");
-	std::cout << "done!" << std::endl;
 }

@@ -4,18 +4,98 @@ Console_stream::Console_stream(Stream_color c) : color(c) {}
 
 Console_stream& operator<<(Console_stream& stream, string& s)
 {
-	stream.buffer += s;
+	stream.ingest(s);
 	return stream;
 }
 
+Console_stream& operator<<(Console_stream& stream, char& c)
+{
+	stream.ingest(c);
+	return stream;
+}
+
+Console_stream& operator<<(Console_stream& stream, string s)
+{
+	stream.ingest(s);
+	return stream;
+}
+
+Console_stream& operator<<(Console_stream& stream, char c)
+{
+	stream.ingest(c);
+	return stream;
+}
+
+Console_stream& operator<<(Console_stream& stream, Vectorf& v)
+{
+	stream.ingest(std::to_string(v.x)+" "+std::to_string(v.y));
+	return stream;
+}
+
+Console_stream& operator<<(Console_stream& stream, Vectori& v)
+{
+	stream.ingest(std::to_string(v.x) + " " + std::to_string(v.y));
+	return stream;
+}
+
+Console_stream& operator<<(Console_stream& stream, Vectori v)
+{
+	stream.ingest(std::to_string(v.x) + " " + std::to_string(v.y));
+	return stream;
+}
+
+Console_stream& operator<<(Console_stream& stream, Vectorf v)
+{
+	stream.ingest(std::to_string(v.x) + " " + std::to_string(v.y));
+	return stream;
+}
+
+void Console_stream::ingest(char c)
+{
+	buffer += c;
+	if (c == '\n')
+		flush();
+}
+
+void Console_stream::ingest(string s)
+{
+	for (auto c : s)
+	{
+		ingest(c);
+	}
+}
+
+void Console_stream::flush()
+{
+	data.push(buffer.erase(buffer.size() - 1, 1));
+	buffer = "";
+}
+
+bool Console_stream::data_available()
+{
+	if (data.size())
+		return true;
+	return false;
+}
+
+string Console_stream::get_line()
+{
+	string s = data.front();
+	data.pop();
+	return s;
+}
+
 Console::Console(const sf::Texture* tex, sf::Font* f, Vectori res) : font(f),
-message(Stream_color::WHITE), log(Stream_color::GREY), error(Stream_color::RED)
+out(Stream_color::WHITE), log(Stream_color::GREY), err(Stream_color::RED)
 {
 	screen_resolution = res;
 	Vectorf scale = { (float)res.x / 1920.f, 1 };
 	background.setTexture(*tex);
-	content.setFont(*f);
-	content.setCharacterSize(15);
+	for (auto &text : content)
+	{
+		text.setFont(*f);
+		text.setCharacterSize(15);
+	}
 	buffer.setFont(*f);
 	buffer.setCharacterSize(15);
 	input_buffer.push(">");
@@ -33,17 +113,52 @@ void Console::activate(Vectori res)
 	update_content();
 }
 
+bool Console::output_available()
+{
+	return out.data_available() ||
+		log.data_available() || err.data_available();
+}
+
+void Console::get_data_from_streams()
+{
+	while (out.data_available())
+	{
+		content_history.push_back(
+			std::make_pair(out.get_line(), out.color));
+	}
+	while (log.data_available())
+	{
+		content_history.push_back(
+			std::make_pair(log.get_line(), log.color));
+	}
+	while (err.data_available())
+	{
+		content_history.push_back(
+			std::make_pair(err.get_line(),err.color));
+	}
+}
+
 void Console::update_content()
 {
-	string content_string;
+	get_data_from_streams();
 	int lines = 0;
-	for (int i = content_history.size() - 1 - scroll_pos; i >= 0 && lines < lines_n; i--)
+	for (int i = content_history.size() - 1 - scroll_pos; i >= 0 && lines < lines_n; i--, lines++)
 	{
-		content_string = content_history[i] + '\n' + content_string;
-		lines++;
+		content[lines].setPosition(0, screen_resolution.y - (lines + 2) * 18);
+		switch (content_history[i].second)
+		{
+		case Stream_color::RED:
+			content[lines].setFillColor(sf::Color::Red);
+			break;
+		case Stream_color::GREY:
+			content[lines].setFillColor(sf::Color(100, 100, 100));
+			break;
+		case Stream_color::WHITE:
+			content[lines].setFillColor(sf::Color::White);
+			break;
+		}
+		content[lines].setString(content_history[i].first);
 	}
-	content.setString(content_string);
-	content.setPosition(0, screen_resolution.y - (lines+1) * 18);
 }
 
 void Console::deactivate()
@@ -59,7 +174,10 @@ bool Console::is_active()
 void Console::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(background);
-	target.draw(content);
+	for (auto& text : content)
+	{
+		target.draw(text);
+	}
 	target.draw(buffer);
 }
 
@@ -74,7 +192,8 @@ void Console::input_append(char c)
 	{
 		if (c == '\r')
 		{
-			content_history.push_back(input_buffer.back());
+			content_history.push_back(
+				std::make_pair(input_buffer.back(), Stream_color::WHITE));
 			input_buffer.back() = input_buffer.back().substr(1);
 			input_buffer.push(">");
 			buffer.setString(input_buffer.back() + cursor);
@@ -91,7 +210,7 @@ void Console::input_append(char c)
 	}
 }
 
-bool Console::data_available()
+bool Console::user_input_data_available()
 {
 	if (input_buffer.size() > 1)
 		return true;
@@ -106,30 +225,6 @@ void Console::input_append(string s)
 	}
 }
 
-void Console::print(string s)
-{
-	for (auto c : s)
-	{
-		print(c);
-	}
-}
-
-void Console::print(char c)
-{
-	output_buffer += c;
-	if (c == '\n')
-		flush();
-}
-
-void Console::flush()
-{
-	content_history.push_back(
-		output_buffer.erase(output_buffer.length() - 1, 1));
-	output_buffer = "";
-	scroll_pos = 0;
-	update_content();
-}
-
 void Console::scroll(int delta)
 {
 	scroll_pos += delta;
@@ -139,7 +234,7 @@ void Console::scroll(int delta)
 	update_content();
 }
 
-string Console::get_line()
+string Console::get_user_input_line()
 {
 	string s = input_buffer.front();
 	input_buffer.pop();

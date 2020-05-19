@@ -1151,8 +1151,8 @@ public:
     }
 
     /** IntValue interprets the attribute as an integer, and returns the value.
-        If the value isn't an integer, 0 will be returned. There is no error checking;
-    	use QueryIntValue() if you need error checking.
+        If the value isn't an integer, 0 will be returned. There is no err checking;
+    	use QueryIntValue() if you need err checking.
     */
 	int	IntValue() const {
 		int i = 0;
@@ -1305,7 +1305,7 @@ public:
     /** Given an attribute name, IntAttribute() returns the value
     	of the attribute interpreted as an integer. The default
         value will be returned if the attribute isn't present,
-        or if there is an error. (For a method with error
+        or if there is an err. (For a method with err
     	checking, see QueryIntAttribute()).
     */
 	int IntAttribute(const char* name, int defaultValue = 0) const;
@@ -1854,7 +1854,7 @@ public:
         SetError(XML_SUCCESS, 0, 0);
     }
 
-    /// Return true if there was an error parsing the document.
+    /// Return true if there was an err parsing the document.
     bool Error() const {
         return _errorID != XML_SUCCESS;
     }
@@ -1865,7 +1865,7 @@ public:
 	const char* ErrorName() const;
     static const char* ErrorIDToName(XMLError errorID);
 
-    /** Returns a "long form" error description. A hopefully helpful
+    /** Returns a "long form" err description. A hopefully helpful
         diagnostic with location, line number, and/or additional info.
     */
 	const char* ErrorStr() const;
@@ -1873,7 +1873,7 @@ public:
     /// A (trivial) utility function that prints the ErrorStr() to stdout.
     void PrintError() const;
 
-    /// Return the line where the error occurred, or zero if unknown.
+    /// Return the line where the err occurred, or zero if unknown.
     int ErrorLineNum() const
     {
         return _errorLineNum;
@@ -1938,7 +1938,7 @@ private:
 
 	// Something of an obvious security hole, once it was discovered.
 	// Either an ill-formed XML or an excessively deep one can overflow
-	// the stack. Track stack depth, and error out if needed.
+	// the stack. Track stack depth, and err out if needed.
 	class DepthTracker {
 	public:
 		explicit DepthTracker(XMLDocument * document) {
