@@ -28,7 +28,7 @@ Console_stream& operator<<(Console_stream& stream, char c)
 
 Console_stream& operator<<(Console_stream& stream, Vectorf& v)
 {
-	stream.ingest(std::to_string(v.x)+" "+std::to_string(v.y));
+	stream.ingest(std::to_string(v.x) + " " + std::to_string(v.y));
 	return stream;
 }
 
@@ -100,7 +100,7 @@ out(Stream_color::WHITE), log(Stream_color::GREY), err(Stream_color::RED)
 	screen_resolution = res;
 	Vectorf scale = { (float)res.x / 1920.f, 1 };
 	background.setTexture(*tex);
-	for (auto &text : content)
+	for (auto& text : content_text)
 	{
 		text.setFont(*f);
 		text.setCharacterSize(15);
@@ -119,6 +119,7 @@ void Console::activate(Vectori res)
 	background.setPosition(0, res.y - 180);
 	active = true;
 	buffer.setPosition(0, screen_resolution.y - 20);
+	history_pos = 0;
 	update_content();
 }
 
@@ -131,18 +132,18 @@ void Console::get_data_from_streams()
 {
 	while (out.data_available())
 	{
-		content_history.push_back(
+		content.push_back(
 			std::make_pair(out.get_line(), out.color));
 	}
 	while (log.data_available())
 	{
-		content_history.push_back(
+		content.push_back(
 			std::make_pair(log.get_line(), log.color));
 	}
 	while (err.data_available())
 	{
-		content_history.push_back(
-			std::make_pair(err.get_line(),err.color));
+		content.push_back(
+			std::make_pair(err.get_line(), err.color));
 	}
 }
 
@@ -150,32 +151,33 @@ void Console::update_content()
 {
 	get_data_from_streams();
 	int lines = 0;
-	for (auto& i : content)
+	for (auto& i : content_text)
 	{
 		i.setString("");
 	}
-	for (int i = content_history.size() - 1 - scroll_pos; i >= 0 && lines < lines_n; i--, lines++)
+	for (int i = content.size() - 1 - scroll_pos; i >= 0 && lines < lines_n; i--, lines++)
 	{
-		content[lines].setPosition(0, screen_resolution.y - (lines + 2) * 18);
-		switch (content_history[i].second)
+		content_text[lines].setPosition(0, screen_resolution.y - (lines + 2) * 18);
+		switch (content[i].second)
 		{
 		case Stream_color::RED:
-			content[lines].setFillColor(sf::Color::Red);
+			content_text[lines].setFillColor(sf::Color::Red);
 			break;
 		case Stream_color::GREY:
-			content[lines].setFillColor(sf::Color(100, 100, 100));
+			content_text[lines].setFillColor(sf::Color(100, 100, 100));
 			break;
 		case Stream_color::WHITE:
-			content[lines].setFillColor(sf::Color::White);
+			content_text[lines].setFillColor(sf::Color::White);
 			break;
 		}
-		content[lines].setString(content_history[i].first);
+		content_text[lines].setString(content[i].first);
 	}
+	history_pos = 0;
 }
 
 void Console::clear()
 {
-	content_history.clear();
+	content.clear();
 	while (input_buffer.size())
 	{
 		input_buffer.pop();
@@ -186,6 +188,30 @@ void Console::clear()
 	err.clear();
 	update_content();
 	buffer.setString(input_buffer.back() + cursor);
+	input_history.clear();
+	history_pos = 0;
+}
+
+void Console::get_next_history_line()
+{
+	if (input_history.size() > history_pos)
+	{
+		history_pos++;
+		input_buffer.back() =
+			">" + input_history[input_history.size() - history_pos];
+		buffer.setString(input_buffer.back() + cursor);
+	}
+}
+
+void Console::get_previous_history_line()
+{
+	if (history_pos > 1)
+	{
+		history_pos--;
+		input_buffer.back() =
+			">" + input_history[input_history.size() - history_pos];
+		buffer.setString(input_buffer.back() + cursor);
+	}
 }
 
 void Console::deactivate()
@@ -201,7 +227,7 @@ bool Console::is_active()
 void Console::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(background);
-	for (auto& text : content)
+	for (auto& text : content_text)
 	{
 		target.draw(text);
 	}
@@ -219,8 +245,9 @@ void Console::input_append(char c)
 	{
 		if (c == '\r')
 		{
-			content_history.push_back(
+			content.push_back(
 				std::make_pair(input_buffer.back(), Stream_color::WHITE));
+			input_history.push_back(input_buffer.back().substr(1));
 			input_buffer.back() = input_buffer.back().substr(1);
 			input_buffer.push(">");
 			buffer.setString(input_buffer.back() + cursor);
@@ -255,7 +282,7 @@ void Console::scroll(int delta)
 	scroll_pos += delta;
 	scroll_pos = std::max(0, scroll_pos);
 	scroll_pos = std::min(scroll_pos,
-		std::max(0, (int)content_history.size() - lines_n));
+		std::max(0, (int)content.size() - lines_n));
 	update_content();
 }
 

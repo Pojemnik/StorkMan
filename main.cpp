@@ -69,6 +69,16 @@ bool process_event(sf::Event& event, bool window_focus)
 			{
 				context.gravity = -context.gravity;
 			}
+			if (event.key.code == sf::Keyboard::Up
+				&& context.console->is_active())
+			{
+				context.console->get_next_history_line();
+			}
+			if (event.key.code == sf::Keyboard::Down
+				&& context.console->is_active())
+			{
+				context.console->get_previous_history_line();
+			}
 		}
 		break;
 	case sf::Event::TextEntered:

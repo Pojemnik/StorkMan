@@ -62,21 +62,25 @@ public:
 	bool output_available();
 	void update_content();
 	void clear();
+	void get_next_history_line();
+	void get_previous_history_line();
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 private:
-	bool active = false;
-	Vectori screen_resolution;
-	std::vector<std::pair<string, Stream_color>> content_history;
-	std::queue<string> input_buffer;
-	string output_buffer;
 	const char cursor = '_';
-	sf::Sprite background;
-	std::array<sf::Text, lines_n> content;
-	sf::Font* font;
-	sf::Text buffer;
+	const sf::Font* font;
+	bool active = false;
 	int scroll_pos = 0;
+	int history_pos = 0;
+	Vectori screen_resolution;
+	std::vector<std::pair<string, Stream_color>> content;
+	std::queue<string> input_buffer;
+	std::vector<string> input_history;
+	string output_buffer;
+	sf::Sprite background;
+	std::array<sf::Text, lines_n> content_text;
+	sf::Text buffer;
 
 	void get_data_from_streams();
 };
