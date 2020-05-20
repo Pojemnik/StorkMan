@@ -11,9 +11,11 @@
 #include <queue>
 #include <fstream>
 #include <map>
+#include "console.h"
 
 typedef sf::Vector2f Vectorf;
 typedef sf::Vector2i Vectori;
+typedef std::string string;
 
 const float PI = 3.1415927f;
 const float eps = 0.0001f;
@@ -51,9 +53,9 @@ struct Context
 		final_states, white_states;
 	sf::Shader global;
 	Vectori resolution = { 1024, 576 };
-	sf::Font arial;
 	sf::Text fps_counter;
 	uint8_t darkness = 70;
+	Console* console;
 };
 
 extern struct Context context;

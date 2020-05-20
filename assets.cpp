@@ -146,7 +146,6 @@ void Assets::load_additional_texture(std::string path, std::string name, int rep
 
 void Assets::load_assets()
 {
-	std::cout << "Loading assets..." << std::endl;
 	sf::FloatRect tmp(210, 100, 105, 340);
 	pieces = new sf::Texture();
 	pieces->loadFromFile("img/stork/parts_ss_128_128_is_3_9.png");
@@ -158,6 +157,8 @@ void Assets::load_assets()
 	layer2->loadFromFile("img/bg/LAS.png");
 	light = new sf::Texture();
 	light->loadFromFile("img/light.png");
+	console_bg = new sf::Texture();
+	console_bg->loadFromFile("img/console_bg.png");
 	animations.push_back(load_dynamic_animation("animations/stork/idle.txt"));
 	animations.push_back(load_dynamic_animation("animations/stork/run.txt"));
 	animations.push_back(load_dynamic_animation("animations/stork/jump_idle.txt"));
@@ -209,13 +210,11 @@ void Assets::load_assets()
 	textures["vent0"] = &map_textures[37];
 	textures["vent1"] = &map_textures[38];
 
-
-
 	context.blurh_states.shader = &blurh;
 	context.blurv_states.shader = &blurv;
 	context.final_states.blendMode = sf::BlendMultiply;
 	context.white_states.shader = &white;
 
-	context.arial.loadFromFile("Arial.ttf");
-	std::cout << "done!" << std::endl;
+	arial.loadFromFile("Arial.ttf");
+	consola.loadFromFile("consola.ttf");
 }

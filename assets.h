@@ -12,8 +12,10 @@ public:
 	sf::Texture* bg = nullptr;
 	sf::Texture* layer2 = nullptr;
 	sf::Texture* light = nullptr;
+	sf::Texture* console_bg = nullptr;
 	Animation_tree stork_tree;
 	sf::Shader blurv, blurh, white;
+	sf::Font arial, consola;
 	void load_assets();
 	void load_additional_texture(std::string path, std::string name, int repeat);
 

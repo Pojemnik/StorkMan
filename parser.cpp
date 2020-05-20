@@ -57,7 +57,7 @@ Level Parser::parse_level(tinyxml2::XMLElement* root)
 	Level lvl = Level();
 	if (root == NULL)
 	{
-		std::cerr << "B³¹d w pierwszym elemencie pliku!" << std::endl;
+		context.console->err << "B³¹d w pierwszym elemencie pliku!" << '\n';
 		throw std::invalid_argument("NULL pointer");
 	}
 	else
@@ -65,7 +65,7 @@ Level Parser::parse_level(tinyxml2::XMLElement* root)
 		std::string root_name = root->Name();
 		if (root_name != "level")
 		{
-			std::cerr << "Brak elementu level" << std::endl;
+			context.console->err << "Brak elementu level" << '\n';
 			throw std::invalid_argument("No level node");
 		}
 		tinyxml2::XMLElement* element = root->FirstChildElement();
@@ -102,9 +102,9 @@ Light_source Parser::parse_light_source(tinyxml2::XMLElement* element)
 	}
 	catch (const std::invalid_argument & e)
 	{
-		std::cerr << "Wyjatek: " << e.what() << std::endl;
-		std::cerr << "Element: " << "light_source" << std::endl;
-		std::cerr << "Nieprawid³owa pozycja lub kolor" << std::endl;
+		context.console->err << "Wyjatek: " << e.what() << '\n';
+		context.console->err << "Element: " << "light_source" << '\n';
+		context.console->err << "Nieprawid³owa pozycja lub kolor" << '\n';
 	}
 	throw std::runtime_error("Light source error");
 }
@@ -133,15 +133,15 @@ Platform Parser::parse_platform(tinyxml2::XMLElement* element)
 	}
 	catch (const std::invalid_argument & e)
 	{
-		std::cerr << "Wyjatek: " << e.what() << std::endl;
-		std::cerr << "Element: " << "platform" << std::endl;
-		std::cerr << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz platformy" << std::endl;
+		context.console->err << "Wyjatek: " << e.what() << '\n';
+		context.console->err << "Element: " << "platform" << '\n';
+		context.console->err << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz platformy" << '\n';
 	}
 	catch (const std::out_of_range & e)
 	{
-		std::cerr << "Wyjatek: " << e.what() << std::endl;
-		std::cerr << "Element: " << "platform" << std::endl;
-		std::cerr << "Prawdopodobnie nieprawid³owa tekstura" << std::endl;
+		context.console->err << "Wyjatek: " << e.what() << '\n';
+		context.console->err << "Element: " << "platform" << '\n';
+		context.console->err << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
 	}
 	throw std::runtime_error("Platform error");
 }
@@ -166,7 +166,7 @@ Platform Parser::parse_platform_raw(tinyxml2::XMLElement* element)
 		}
 		else
 		{
-			std::cerr << "B³¹d w platformie" << std::endl;
+			context.console->err << "B³¹d w platformie" << '\n';
 			throw std::invalid_argument("Error in platfrom vertices");
 		}
 		e = e->NextSiblingElement();
@@ -182,15 +182,15 @@ Wall Parser::parse_wall(tinyxml2::XMLElement* element)
 	}
 	catch (const std::invalid_argument & e)
 	{
-		std::cerr << "Wyjatek: " << e.what() << std::endl;
-		std::cerr << "Element: " << "wall" << std::endl;
-		std::cerr << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz œciany" << std::endl;
+		context.console->err << "Wyjatek: " << e.what() << '\n';
+		context.console->err << "Element: " << "wall" << '\n';
+		context.console->err << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz œciany" << '\n';
 	}
 	catch (const std::out_of_range & e)
 	{
-		std::cerr << "Wyjatek: " << e.what() << std::endl;
-		std::cerr << "Element: " << "wall" << std::endl;
-		std::cerr << "Prawdopodobnie nieprawid³owa tekstura" << std::endl;
+		context.console->err << "Wyjatek: " << e.what() << '\n';
+		context.console->err << "Element: " << "wall" << '\n';
+		context.console->err << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
 	}
 	throw std::runtime_error("Wall error");
 }
@@ -215,7 +215,7 @@ Wall Parser::parse_wall_raw(tinyxml2::XMLElement* element)
 		}
 		else
 		{
-			std::cerr << "B³¹d w œcianie" << std::endl;
+			context.console->err << "B³¹d w œcianie" << '\n';
 			throw std::invalid_argument("Error in wall vertices");
 		}
 		e = e->NextSiblingElement();
@@ -231,9 +231,9 @@ Object Parser::parse_object(tinyxml2::XMLElement* element)
 	}
 	catch (const std::out_of_range & e)
 	{
-		std::cerr << "Wyjatek: " << e.what() << std::endl;
-		std::cerr << "Element: " << "object" << std::endl;
-		std::cerr << "Prawdopodobnie nieprawid³owa tekstura" << std::endl;
+		context.console->err << "Wyjatek: " << e.what() << '\n';
+		context.console->err << "Element: " << "object" << '\n';
+		context.console->err << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
 	}
 	throw std::runtime_error("Object error");
 }
@@ -255,7 +255,7 @@ Map Parser::parse_map(tinyxml2::XMLElement* root)
 	std::vector<Level> vec;
 	if (root == NULL)
 	{
-		std::cerr << "B³¹d w pierwszym elemencie pliku!" << std::endl;
+		context.console->err << "B³¹d w pierwszym elemencie pliku!" << '\n';
 		throw std::invalid_argument("NULL pointer");
 	}
 	else
@@ -263,7 +263,7 @@ Map Parser::parse_map(tinyxml2::XMLElement* root)
 		std::string root_name = root->Name();
 		if (root_name != "map")
 		{
-			std::cerr << "Brak elementu map" << std::endl;
+			context.console->err << "Brak elementu map" << '\n';
 			throw std::invalid_argument("No Map node");
 		}
 		tinyxml2::XMLAttribute* att;
@@ -271,7 +271,7 @@ Map Parser::parse_map(tinyxml2::XMLElement* root)
 		map_size = parse_num_pairi(get_attribute_by_name("size", root));
 		if (map_player_pos == Vectori(-1, -1) || map_size == Vectori(-1, -1))
 		{
-			std::cerr << "B³¹d w definicji mapy\n";
+			context.console->err << "B³¹d w definicji mapy\n";
 			throw std::invalid_argument("Invalid map attributes");
 		}
 		if (map_player_pos.x < 0 || map_player_pos.y < 0)
