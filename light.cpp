@@ -28,41 +28,57 @@ void Light::rescale(Vectorf level_size)
 	}
 }
 
+sf::VertexArray* Light::calc_light_source_parallel(int id, Light_source& source,
+	std::vector<std::pair<Vectorf, Vectorf>>& map_edges,
+	std::vector<Vectorf>& map_vertices)
+{
+	std::vector<std::pair<float, Vectorf>> points =
+		calc_light_source(source, map_edges, map_vertices);
+	sf::VertexArray* target = new sf::VertexArray(sf::TriangleFan, points.size() + 2);
+	(*target)[0].position = source.pos;
+	(*target)[0].texCoords = { 500,500 };
+	(*target)[0].color = source.color;
+	for (size_t i = 1; i < points.size() + 1; i++)
+	{
+		(*target)[i].position = points[i - 1].second;
+		(*target)[i].texCoords = Vectorf(500, 500) +
+			(points[i - 1].second - source.pos) / source.intensity;
+		(*target)[i].color = source.color;
+	}
+	(*target)[points.size() + 1].position = points[0].second;
+	(*target)[points.size() + 1].texCoords = Vectorf(500, 500) +
+		(points[0].second - source.pos) / source.intensity;
+	(*target)[points.size() + 1].color = source.color;
+	return target;
+}
+
 void Light::calc_light(std::vector<Light_source>& sources,
 	sf::Transform transform, std::vector<std::pair<Vectorf,
 	Vectorf>>&map_edges, std::vector<Vectorf>& map_vertices)
 {
 	target->clear(
 		sf::Color(context.darkness, context.darkness, context.darkness, 255));
-	for (Light_source source : sources)
+	std::vector<std::future<sf::VertexArray*>> f_arr(sources.size());
+	for (int i = 0; i < sources.size(); i++)
 	{
-		std::vector<std::pair<float, Vectorf>> points =
-			calc_light_source(source, map_edges, map_vertices);
-		sf::VertexArray light(sf::TriangleFan, points.size() + 2);
-		light[0].position = source.pos;
-		light[0].texCoords = { 500,500 };
-		light[0].color = source.color;
-		for (size_t i = 1; i < points.size() + 1; i++)
-		{
-			light[i].position = points[i - 1].second;
-			light[i].texCoords = Vectorf(500, 500) +
-				(points[i - 1].second - source.pos) / source.intensity;
-			light[i].color = source.color;
-		}
-		light[points.size() + 1].position = points[0].second;
-		light[points.size() + 1].texCoords = Vectorf(500, 500) +
-			(points[0].second - source.pos) / source.intensity;
-		light[points.size() + 1].color = source.color;
+		f_arr[i] = context.thread_pool->push(Light::calc_light_source_parallel,
+			sources[i],	map_edges, map_vertices);
+	}
+	for (int i = 0; i < sources.size(); i++)
+	{
+		f_arr[i].wait();
+		sf::VertexArray* va = f_arr[i].get();
 		states.transform = transform;
-		target->draw(light, states);
+		target->draw(*va, states);
+		delete va;
 		if (context.draw_light_sources)
 		{
 			sf::RenderStates source_states;
 			source_states.transform = transform;
-			sf::CircleShape source_point(5 * source.intensity);
+			sf::CircleShape source_point(5 * sources[i].intensity);
 			source_point.setFillColor(sf::Color::Red);
-			source_point.setPosition(source.pos -
-				Vectorf(5 * source.intensity, 5 * source.intensity));
+			source_point.setPosition(sources[i].pos -
+				Vectorf(5 * sources[i].intensity, 5 * sources[i].intensity));
 			target->draw(source_point, source_states);
 		}
 	}

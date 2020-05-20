@@ -21,7 +21,7 @@ Ficzury:
 	Silnik:
 		Przyspieszyć obliczenia - szybsza trygonometria?
 		Wątki
-		*Lepsza konsola
+		*Lepsza konsola ✓
 		*Muzyka/dźwięki
 		Spadanie i lądowanie - lepiej rozwiązać animacje
 		Skalowanie (zoom/odzoom)
@@ -31,7 +31,7 @@ Ficzury:
 			Kolizje na dziwnych wielokątach?
 		}
 	Światło:
-		*Swiatło w osobnych wątkach/gpu
+		*Swiatło w osobnych wątkach/gpu (✓)
 		*Shadery dla (statycznych) świateł
 		Cień Storkmana?
 		*Przezroczyste platformy

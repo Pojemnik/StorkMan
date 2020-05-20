@@ -9,7 +9,7 @@
 #include "console.h"
 #include "interpreter.h"
 
-const std::string VERSION = "0.4.0";
+const std::string VERSION = "0.4.1";
 
 bool update(float dt, Map& map, int move)
 {
@@ -103,7 +103,6 @@ bool process_event(sf::Event& event, bool window_focus)
 
 int main(int argc, char** argv)	//Second argument is a map file for editor
 {
-	std::cout.sync_with_stdio(false);
 	Assets assets;
 	assets.load_assets();
 	context.console =
@@ -115,6 +114,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	sf::RenderWindow window(sf::VideoMode(context.resolution.x,
 		context.resolution.y, desktop.bitsPerPixel),
 		"StorkMan " + VERSION, sf::Style::Titlebar | sf::Style::Close);
+	context.thread_pool = new ctpl::thread_pool(4);
 	sf::Clock clock;
 	Map map;
 	context.fps_counter.setFont(assets.arial);

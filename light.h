@@ -21,12 +21,15 @@ private:
 	sf::Texture* light_texture;
 	sf::RenderStates states;
 
-	std::pair<float, Vectorf>cast_ray(Vectorf source, Vectorf alfa, std::vector<std::pair<Vectorf, Vectorf>>& map_edges);
-	std::vector<std::pair<float, Vectorf>> calc_light_source(Light_source source, std::vector<std::pair<Vectorf, Vectorf>>& map_edges, std::vector<Vectorf>& map_vertices);
-	int add_light_edges(Light_source& source, std::vector<std::pair<Vectorf,
+	static std::pair<float, Vectorf>cast_ray(Vectorf source, Vectorf alfa, std::vector<std::pair<Vectorf, Vectorf>>& map_edges);
+	static std::vector<std::pair<float, Vectorf>> calc_light_source(Light_source source, std::vector<std::pair<Vectorf, Vectorf>>& map_edges, std::vector<Vectorf>& map_vertices);
+	static int add_light_edges(Light_source& source, std::vector<std::pair<Vectorf,
 		Vectorf>>&map_edges, std::vector<Vectorf>& map_vertices);
-	void remove_light_edges(int number, std::vector<std::pair<Vectorf,
+	static void remove_light_edges(int number, std::vector<std::pair<Vectorf,
 		Vectorf>>&map_edges, std::vector<Vectorf>& map_vertices);
+	static sf::VertexArray* calc_light_source_parallel(int id, Light_source& source,
+		std::vector<std::pair<Vectorf, Vectorf>>&map_edges,
+		std::vector<Vectorf>& map_vertices);
 public:
 	sf::Sprite lightmap;
 

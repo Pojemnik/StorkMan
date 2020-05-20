@@ -12,6 +12,7 @@
 #include <fstream>
 #include <map>
 #include "console.h"
+#include "include/ctpl_stl.h"
 
 typedef sf::Vector2f Vectorf;
 typedef sf::Vector2i Vectori;
@@ -56,6 +57,7 @@ struct Context
 	sf::Text fps_counter;
 	uint8_t darkness = 70;
 	Console* console;
+	ctpl::thread_pool* thread_pool;
 };
 
 extern struct Context context;

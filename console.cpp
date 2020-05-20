@@ -205,6 +205,12 @@ void Console::get_next_history_line()
 
 void Console::get_previous_history_line()
 {
+	if (history_pos == 1)
+	{
+		history_pos = 0;
+		input_buffer.back() = ">";
+		buffer.setString(input_buffer.back() + cursor);
+	}
 	if (history_pos > 1)
 	{
 		history_pos--;
