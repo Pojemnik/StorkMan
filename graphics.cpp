@@ -1,6 +1,7 @@
 #include "graphics.h"
 
-Renderable::Renderable(Vectorf p, const sf::Texture* t, float h) : tex(t), pos(p), height(h)
+Renderable::Renderable(Vectorf p, const sf::Texture* t, float h, int l)
+	: tex(t), pos(p), height(h), layer(l)
 {
 	sprite = sf::Sprite(*tex);
 	sprite.setPosition(pos);
@@ -20,8 +21,9 @@ void Renderable::rescale(float ratio)
 	sprite.setScale(scale, scale);
 }
 
-Texturable::Texturable(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> points)
-	: tex(t), pos(p), vertices(points)
+Texturable::Texturable(Vectorf p, const sf::Texture* t,
+	std::vector<sf::Vertex> points, int l)
+	: tex(t), pos(p), vertices(points), layer(l)
 {
 	shape = sf::VertexBuffer(sf::TrianglesFan, sf::VertexBuffer::Stream);
 	shape.create(vertices.size());

@@ -13,6 +13,9 @@ struct Level
 	std::vector<Light_source> light_sources;
 	std::vector<Wall> walls;
 	std::vector<Object> objects;
+	std::array<std::vector<sf::Drawable*>, BOTTOM_LAYERS> bottom_layers;
+	std::array<std::vector<sf::Drawable*>, MIDDLE_LAYERS> middle_layers;
+	std::array<std::vector<sf::Drawable*>, TOP_LAYERS> top_layers;
 
 	Level();
 	Level(const Level& level);

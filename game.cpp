@@ -1,7 +1,8 @@
 #include "game.h"
 
-Platform::Platform(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> points)
-	: Texturable(p, t, points)
+Platform::Platform(Vectorf p, const sf::Texture* t,
+	std::vector<sf::Vertex> points, int layer)
+	: Texturable(p, t, points, layer)
 {
 	float maxx, maxy, miny, minx;
 	maxx = minx = vertices[0].position.x;
@@ -27,13 +28,15 @@ void Platform::rescale(float ratio)
 	Collidable::rescale(ratio);
 }
 
-Wall::Wall(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> points)
-	: Texturable(p, t, points)
+Wall::Wall(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> points,
+	int layer)
+	: Texturable(p, t, points, layer)
 {
 
 }
 
-Object::Object(Vectorf p, const sf::Texture* t, float h) : Renderable(p, t, h)
+Object::Object(Vectorf p, const sf::Texture* t, float h, int layer) 
+	: Renderable(p, t, h, layer)
 {
 }
 

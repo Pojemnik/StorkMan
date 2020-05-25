@@ -128,13 +128,12 @@ std::vector<std::pair<float, Vectorf>> Light::calc_light_source(
 	int added_vertices = add_light_edges(source, map_edges, map_vertices);
 	for (const auto& vertex_it : map_vertices)
 	{
-		Vectorf diff = vertex_it - source.pos;
-		if (diff == Vectorf(0, 0))    //atan2 domain
+		const Vectorf alfa = vertex_it - source.pos;
+		if (alfa == Vectorf(0, 0))
 			continue;
-		if (util::sq(diff.x) + util::sq(diff.y) <
+		if (util::sq(alfa.x) + util::sq(alfa.y) <
 			light_const * util::sq(500 * source.intensity) + 50)
 		{
-			Vectorf alfa = vertex_it - source.pos;
 			std::pair<float, Vectorf> point;
 			point = cast_ray(source.pos, alfa, map_edges);
 			if (point.second != source.pos)

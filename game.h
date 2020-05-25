@@ -4,18 +4,20 @@
 
 struct Platform : public Texturable, public Collidable
 {
-	Platform(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> points);
+	Platform(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> points,
+		int layer);
 	void rescale(float ratio);
 };
 
 struct Wall : public Texturable
 {
-	Wall(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> points);
+	Wall(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> points,
+		int layer);
 };
 
 struct Object : public Renderable
 {
-	Object(Vectorf p, const sf::Texture* t, float h);
+	Object(Vectorf p, const sf::Texture* t, float h, int layer);
 };
 
 class Dynamic_entity : public Dynamic_animatable, public Physical
@@ -43,6 +45,8 @@ public:
 class Player : public Dynamic_entity
 {
 public:
-	Player(Vectorf p, sf::Texture* texture, std::vector<sf::IntRect>& v, std::vector<const Dynamic_animation*> a, sf::FloatRect rc, Animation_tree t, float h, float gs, float m);
+	Player(Vectorf p, sf::Texture* texture, std::vector<sf::IntRect>& v,
+		std::vector<const Dynamic_animation*> a, sf::FloatRect rc,
+		Animation_tree t, float h, float gs, float m);
 	void attack(int type);
 };

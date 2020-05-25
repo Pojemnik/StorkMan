@@ -71,7 +71,7 @@ void Map::unload_level(std::list<Level*>::iterator& lvl)
 	lvl = loaded_levels.erase(lvl);
 }
 
-void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void Map::draw_backgrounds(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	const float* matrix = states.transform.getMatrix();
 	Vectorf move = { matrix[12], matrix[13] };
@@ -83,29 +83,78 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	context.layer2_states = states;
 	context.layer2_states.transform.translate(layer2_move_parallax);
 	target.draw(layer2, context.layer2_states);
+}
+
+void Map::draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const
+{
 	for (const auto& it : loaded_levels)
 	{
 		states.transform *= sf::Transform().translate(
 			{ level_size.x * it->global_pos.x,
 			level_size.y * it->global_pos.y }
 		);
-		for (auto& it2 : it->walls)
+		for (const auto& it2 : it->bottom_layers)
 		{
-			target.draw(it2, states);
-		}
-		for (const auto& it2 : it->objects)
-		{
-			target.draw(it2, states);
-		}
-		for (const auto& it2 : it->platforms)
-		{
-			target.draw(it2, states);
+			for (const auto& it3 : it2)
+			{
+				target.draw(*it3, states);
+			}
 		}
 		states.transform *= sf::Transform().translate(
 			{ -1 * level_size.x * it->global_pos.x,
 			-1 * level_size.y * it->global_pos.y }
 		);
 	}
+}
+
+void Map::draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	for (const auto& it : loaded_levels)
+	{
+		states.transform *= sf::Transform().translate(
+			{ level_size.x * it->global_pos.x,
+			level_size.y * it->global_pos.y }
+		);
+		for (const auto& it2 : it->middle_layers)
+		{
+			for (const auto& it3 : it2)
+			{
+				target.draw(*it3, states);
+			}
+		}
+		states.transform *= sf::Transform().translate(
+			{ -1 * level_size.x * it->global_pos.x,
+			-1 * level_size.y * it->global_pos.y }
+		);
+	}
+}
+
+void Map::draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	for (const auto& it : loaded_levels)
+	{
+		states.transform *= sf::Transform().translate(
+			{ level_size.x * it->global_pos.x,
+			level_size.y * it->global_pos.y }
+		);
+		for (const auto& it2 : it->top_layers)
+		{
+			for (const auto& it3 : it2)
+			{
+				target.draw(*it3, states);
+			}
+		}
+		states.transform *= sf::Transform().translate(
+			{ -1 * level_size.x * it->global_pos.x,
+			-1 * level_size.y * it->global_pos.y }
+		);
+	}
+}
+
+void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	draw_backgrounds(target, states);
+	draw_bottom_layers(target, states);
 }
 
 void Map::calc_map_vertices()

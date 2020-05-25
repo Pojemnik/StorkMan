@@ -228,15 +228,16 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		clock.restart();
 		if (context.console->is_active() || update(time, map, moved))
 		{
-			player.pre_draw();
 			if (context.draw_fps_counter)
 				context.fps_counter.setString(std::to_string(int(1000.f / acc)));
 			acc = 0;
 			window.clear();
 			sf::Vector2f camera_pos = player.get_position();
-			camera_pos -= sf::Vector2f((float)context.resolution.x / 2, (float)context.resolution.y / 2);
+			camera_pos -= sf::Vector2f((float)context.resolution.x / 2,
+				(float)context.resolution.y / 2);
 			sf::RenderStates rs = sf::RenderStates::Default;
 			rs.transform = sf::Transform().translate(-camera_pos);
+			player.pre_draw();
 			window.draw(map, rs);
 			if (context.draw_collisions)
 			{
@@ -249,7 +250,8 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			}
 			window.draw(player, rs);
 			context.final_states.transform = rs.transform;
-			context.final_states.transform.translate(-map.level_size.x / 2, -map.level_size.y / 2);
+			context.final_states.transform.translate(
+				-map.level_size.x / 2, -map.level_size.y / 2);
 			window.draw(map.light_sprite, context.final_states);
 			if (context.draw_fps_counter)
 				window.draw(context.fps_counter);

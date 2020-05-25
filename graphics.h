@@ -10,8 +10,10 @@ protected:
 public:
 	std::vector<sf::Vertex> vertices;
 	Vectorf pos;
+	int layer;
 	Texturable() = default;
-	Texturable(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> points);
+	Texturable(Vectorf p, const sf::Texture* t,
+		std::vector<sf::Vertex> points, int l);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	void rescale(float ratio);
 };
@@ -25,8 +27,9 @@ protected:
 	sf::Sprite sprite;
 
 public:
+	int layer;
 	Renderable() = default;
-	Renderable(Vectorf p, const sf::Texture* t, float h);
+	Renderable(Vectorf p, const sf::Texture* t, float h, int l);
 	void rescale(float ratio);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

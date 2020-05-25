@@ -20,6 +20,9 @@ typedef std::string string;
 
 const float PI = 3.1415927f;
 const float eps = 0.0001f;
+const int BOTTOM_LAYERS = 7;
+const int MIDDLE_LAYERS = 3;
+const int TOP_LAYERS = 2;
 
 enum Entity_status { IDLE = 0, MOVE, JUMP_IDLE, JUMP_RUN,
 	PUNCH_1, PUNCH_2, HIT, IN_AIR };

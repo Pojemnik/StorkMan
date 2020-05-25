@@ -7,6 +7,9 @@
 class Parser
 {
 private:
+	const int DEFAULT_WALL_LAYER = 1;
+	const int DEFAULT_PLATFORM_LAYER = 5;
+	const int DEFAULT_OBJECT_LAYER = 3;
 	Assets* assets;
 
 	Vectorf parse_num_pairf(std::string val);

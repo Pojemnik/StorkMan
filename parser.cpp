@@ -49,7 +49,10 @@ std::string Parser::get_attribute_by_name(std::string name, tinyxml2::XMLElement
 {
 	tinyxml2::XMLAttribute* att =
 		(tinyxml2::XMLAttribute*)(element->FindAttribute(name.c_str()));
-	return std::string(att->Value());
+	if (att != nullptr)
+		return std::string(att->Value());
+	else
+		return "";
 }
 
 Level Parser::parse_level(tinyxml2::XMLElement* root)
@@ -154,6 +157,7 @@ Platform Parser::parse_platform_raw(tinyxml2::XMLElement* element)
 	pos *= context.global_scale;
 	std::string val = get_attribute_by_name("texture", element);
 	tex = assets->textures.at(val);
+	std::string layer = get_attribute_by_name("layer", element);
 	tinyxml2::XMLElement* e = element->FirstChildElement();
 	while (e != NULL)
 	{
@@ -171,7 +175,16 @@ Platform Parser::parse_platform_raw(tinyxml2::XMLElement* element)
 		}
 		e = e->NextSiblingElement();
 	}
-	return Platform(pos, tex, points);
+	if (layer != "")
+	{
+		int l = std::stoi(layer);
+		if (l < 0 || l >= BOTTOM_LAYERS)
+		{
+			throw std::invalid_argument("Invalid layer");
+		}
+		return Platform(pos, tex, points, l);
+	}
+	return Platform(pos, tex, points, DEFAULT_PLATFORM_LAYER);
 }
 
 Wall Parser::parse_wall(tinyxml2::XMLElement* element)
@@ -203,6 +216,7 @@ Wall Parser::parse_wall_raw(tinyxml2::XMLElement* element)
 	pos *= context.global_scale;
 	std::string val = get_attribute_by_name("texture", element);
 	tex = assets->textures.at(val);
+	std::string layer = get_attribute_by_name("layer", element);
 	tinyxml2::XMLElement* e = element->FirstChildElement();
 	while (e != NULL)
 	{
@@ -220,7 +234,16 @@ Wall Parser::parse_wall_raw(tinyxml2::XMLElement* element)
 		}
 		e = e->NextSiblingElement();
 	}
-	return Wall(pos, tex, points);
+	if (layer != "")
+	{
+		int l = std::stoi(layer);
+		if (l < 0 || l >= BOTTOM_LAYERS)
+		{
+			throw std::invalid_argument("Invalid layer");
+		}
+		return Wall(pos, tex, points, l);
+	}
+	return Wall(pos, tex, points, DEFAULT_WALL_LAYER);
 }
 
 Object Parser::parse_object(tinyxml2::XMLElement* element)
@@ -246,7 +269,17 @@ Object Parser::parse_object_raw(tinyxml2::XMLElement* element)
 	std::string val = get_attribute_by_name("texture", element);
 	tex = assets->textures.at(val);
 	float height = std::stof(get_attribute_by_name("height", element));
-	return Object(pos, tex, height);
+	std::string layer = get_attribute_by_name("layer", element);
+	if (layer != "")
+	{
+		int l = std::stoi(layer);
+		if (l < 0 || l >= BOTTOM_LAYERS)
+		{
+			throw std::invalid_argument("Invalid layer");
+		}
+		return Object(pos, tex, height, l);
+	}
+	return Object(pos, tex, height, DEFAULT_OBJECT_LAYER);
 }
 
 Map Parser::parse_map(tinyxml2::XMLElement* root)
