@@ -128,9 +128,9 @@
 		<v>24,0.5</v>
 		<v>0,0.5</v>
 	</platform>
-	<object position="10, 91.5" texture="tree0" height="8" layer="8"/>
-	<object position="16, 87.5" texture="tree0" height="12" layer="11"/>
-	<object position="1, 89.5" texture="tree0" height="10" layer="8"/>
+	<object position="10, 91.5" texture="tree0" height="8"/>
+	<object position="16, 87.5" texture="tree0" height="12"/>
+	<object position="1, 89.5" texture="tree0" height="10"/>
 	<object position="6, 95" texture="lamp0" height="4"/>
 	<light position="6, 96" color="255,255,196" intensity="0.25"/>
 	<object position="12, 95" texture="lamp0" height="4"/>

@@ -10,28 +10,48 @@ Level::Level(const Level& level)
 	light_sources(level.light_sources), walls(level.walls),
 	objects(level.objects)
 {
-	for (auto& it : platforms)
+	for (auto& w : platforms)
 	{
-		add_collidable(&it);
+		add_collidable(&w);
 	}
-	for (auto &it : platforms)
+	for (auto& w : platforms)
 	{
-		bottom_layers[it.layer].push_back(&it);
+		if (w.layer < BOTTOM_LAYERS)
+			bottom_layers[w.layer].push_back(&w);
+		else if (w.layer < MIDDLE_LAYERS + BOTTOM_LAYERS)
+			middle_layers[w.layer - BOTTOM_LAYERS].push_back(&w);
+		else if (w.layer < TOP_LAYERS + MIDDLE_LAYERS + BOTTOM_LAYERS)
+			top_layers[w.layer - BOTTOM_LAYERS - MIDDLE_LAYERS].push_back(&w);
 	}
-	for (auto& it : walls)
+	for (auto& w : walls)
 	{
-		bottom_layers[it.layer].push_back(&it);
+		if (w.layer < BOTTOM_LAYERS)
+			bottom_layers[w.layer].push_back(&w);
+		else if (w.layer < MIDDLE_LAYERS + BOTTOM_LAYERS)
+			middle_layers[w.layer - BOTTOM_LAYERS].push_back(&w);
+		else if (w.layer < TOP_LAYERS + MIDDLE_LAYERS + BOTTOM_LAYERS)
+			top_layers[w.layer - BOTTOM_LAYERS - MIDDLE_LAYERS].push_back(&w);
 	}
-	for (auto& it : objects)
+	for (auto& w : objects)
 	{
-		bottom_layers[it.layer].push_back(&it);
+		if (w.layer < BOTTOM_LAYERS)
+			bottom_layers[w.layer].push_back(&w);
+		else if (w.layer < MIDDLE_LAYERS + BOTTOM_LAYERS)
+			middle_layers[w.layer - BOTTOM_LAYERS].push_back(&w);
+		else if (w.layer < TOP_LAYERS + MIDDLE_LAYERS + BOTTOM_LAYERS)
+			top_layers[w.layer - BOTTOM_LAYERS - MIDDLE_LAYERS].push_back(&w);
 	}
 }
 
 void Level::add_object(Object o)
 {
 	objects.push_back(o);
-	bottom_layers[o.layer].push_back(&o);
+	if (o.layer < BOTTOM_LAYERS)
+		bottom_layers[o.layer].push_back(&o);
+	else if (o.layer < MIDDLE_LAYERS + BOTTOM_LAYERS)
+		middle_layers[o.layer - BOTTOM_LAYERS].push_back(&o);
+	else if (o.layer < TOP_LAYERS + MIDDLE_LAYERS + BOTTOM_LAYERS)
+		top_layers[o.layer - BOTTOM_LAYERS - MIDDLE_LAYERS].push_back(&o);
 }
 
 void Level::add_physical(Physical* p)
@@ -52,22 +72,32 @@ void Level::add_light_source(Light_source l)
 void Level::add_platform(Platform p)
 {
 	platforms.push_back(p);
-	bottom_layers[p.layer].push_back(&p);
+	if (p.layer < BOTTOM_LAYERS)
+		bottom_layers[p.layer].push_back(&p);
+	else if (p.layer < MIDDLE_LAYERS + BOTTOM_LAYERS)
+		middle_layers[p.layer - BOTTOM_LAYERS].push_back(&p);
+	else if (p.layer < TOP_LAYERS + MIDDLE_LAYERS + BOTTOM_LAYERS)
+		top_layers[p.layer - BOTTOM_LAYERS - MIDDLE_LAYERS].push_back(&p);
 	add_collidable(&p);
 }
 
 void Level::rescale(float ratio)
 {
-	for (auto& it : platforms)
-		it.rescale(ratio);
-	for (auto& it : walls)
-		it.rescale(ratio);
-	for (auto& it : objects)
-		it.rescale(ratio);
+	for (auto& w : platforms)
+		w.rescale(ratio);
+	for (auto& w : walls)
+		w.rescale(ratio);
+	for (auto& w : objects)
+		w.rescale(ratio);
 }
 
 void Level::add_wall(Wall w)
 {
 	walls.push_back(w);
-	bottom_layers[w.layer].push_back(&w);
+	if (w.layer < BOTTOM_LAYERS)
+		bottom_layers[w.layer].push_back(&w);
+	else if (w.layer < MIDDLE_LAYERS + BOTTOM_LAYERS)
+		middle_layers[w.layer - BOTTOM_LAYERS].push_back(&w);
+	else if (w.layer < TOP_LAYERS + MIDDLE_LAYERS + BOTTOM_LAYERS)
+		top_layers[w.layer - BOTTOM_LAYERS - MIDDLE_LAYERS].push_back(&w);
 }

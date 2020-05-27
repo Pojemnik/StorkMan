@@ -178,7 +178,7 @@ Platform Parser::parse_platform_raw(tinyxml2::XMLElement* element)
 	if (layer != "")
 	{
 		int l = std::stoi(layer);
-		if (l < 0 || l >= BOTTOM_LAYERS)
+		if (l < 0 || l >= BOTTOM_LAYERS + MIDDLE_LAYERS + TOP_LAYERS)
 		{
 			throw std::invalid_argument("Invalid layer");
 		}
@@ -237,7 +237,7 @@ Wall Parser::parse_wall_raw(tinyxml2::XMLElement* element)
 	if (layer != "")
 	{
 		int l = std::stoi(layer);
-		if (l < 0 || l >= BOTTOM_LAYERS)
+		if (l < 0 || l >= BOTTOM_LAYERS + MIDDLE_LAYERS + TOP_LAYERS)
 		{
 			throw std::invalid_argument("Invalid layer");
 		}
@@ -273,7 +273,7 @@ Object Parser::parse_object_raw(tinyxml2::XMLElement* element)
 	if (layer != "")
 	{
 		int l = std::stoi(layer);
-		if (l < 0 || l >= BOTTOM_LAYERS)
+		if (l < 0 || l >= BOTTOM_LAYERS+MIDDLE_LAYERS+TOP_LAYERS)
 		{
 			throw std::invalid_argument("Invalid layer");
 		}

@@ -238,7 +238,8 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			sf::RenderStates rs = sf::RenderStates::Default;
 			rs.transform = sf::Transform().translate(-camera_pos);
 			player.pre_draw();
-			window.draw(map, rs);
+			map.draw_backgrounds(window, rs);
+			map.draw_bottom_layers(window, rs);
 			if (context.draw_collisions)
 			{
 				sf::ConvexShape r = sf::ConvexShape(4);
@@ -249,10 +250,12 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 				window.draw(r, rs);
 			}
 			window.draw(player, rs);
+			map.draw_middle_layers(window, rs);
 			context.final_states.transform = rs.transform;
 			context.final_states.transform.translate(
 				-map.level_size.x / 2, -map.level_size.y / 2);
 			window.draw(map.light_sprite, context.final_states);
+			map.draw_top_layers(window, rs);
 			if (context.draw_fps_counter)
 				window.draw(context.fps_counter);
 			if (context.draw_map_vertices)
