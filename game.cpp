@@ -1,8 +1,8 @@
 #include "game.h"
 
 Platform::Platform(Vectorf p, const sf::Texture* t,
-	std::vector<sf::Vertex> points, int layer)
-	: Texturable(p, t, points, layer)
+	std::vector<sf::Vertex> points, int layer, bool v)
+	: Texturable(p, t, points, layer), visible(v)
 {
 	float maxx, maxy, miny, minx;
 	maxx = minx = vertices[0].position.x;

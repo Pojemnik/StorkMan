@@ -4,8 +4,9 @@
 
 struct Platform : public Texturable, public Collidable
 {
+	bool visible = true;
 	Platform(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> points,
-		int layer);
+		int layer, bool v);
 	void rescale(float ratio);
 };
 

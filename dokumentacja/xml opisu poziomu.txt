@@ -17,9 +17,10 @@ platform:
 	atrybuty:
 		position - pozycja [m]
 		texture - tekstura, patrz dokumentacja/grafiki.txt
-		layer* - (domyślne 5) warstwa, na której znajduje się platforma (liczone "od dołu")
+		layer* - (domyślne 5) warstwa, na której znajduje się platforma (liczone "od dołu"), liczba od 0 do 11, pierwsze 7 jest pod graczem, 3 kolejne pomiędzy nim, a światłem, 2 ostatnie nad światłem
 		rotation* - (domyślnie 0) obrót tekstury, zgodnie z ruchem wskazówek zegara [stopnie]
 		flip* - (domyślnie 1,1) odbicie tekstury w osi x i w osi y (-1 - odbicie, 1 - brak odbicia) (przykład flip="-1,1" - odbicie w osi x, baz odbicia w osi y)
+		visible* - (domyślnie 1) widoczność platformy, platforma niewidoczna jest niewidoczna (wow) i nie rzuca cienia, kiedy jest ustawione na 0, nie trzeba podawać tekstury
 	
 	zawartość:
 		znaczniki <v> opisujące kolejne wierzchołki
@@ -34,7 +35,7 @@ object:
 		height - wysokość [m], używana do obliczania skali
 		rotation* - (domyślnie 0) obrót obiektu względem lewego górnego rogu, zgodnie z ruchem wskazówek zegara [stopnie]
 		flip* - (domyślnie 1,1) odbicie w osi x i w osi y (-1 - odbicie, 1 - brak odbicia) (przykład flip="-1,1" - odbicie w osi x, baz odbicia w osi y)
-		layer* - (domyślne 3) warstwa, na której znajduje się obiekt (liczone "od dołu")
+		layer* - (domyślne 3) warstwa, na której znajduje się obiekt (liczone "od dołu"), liczba od 0 do 11, pierwsze 7 jest pod graczem, 3 kolejne pomiędzy nim, a światłem, 2 ostatnie nad światłem
 	
 light:
 	atrybuty:
@@ -46,7 +47,7 @@ wall:
 	atrybuty:
 		position - pozycja [m]
 		texture - tekstura, patrz dokumentacja/grafiki.txt
-		layer* - (domyślne 1) warstwa, na której znajduje się ściana (liczone "od dołu")
+		layer* - (domyślne 1) warstwa, na której znajduje się ściana (liczone "od dołu"), liczba od 0 do 11, pierwsze 7 jest pod graczem, 3 kolejne pomiędzy nim, a światłem, 2 ostatnie nad światłem
 	
 	zawartość:
 		znaczniki <v> opisujące kolejne wierzchołki

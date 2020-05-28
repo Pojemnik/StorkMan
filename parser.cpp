@@ -157,11 +157,21 @@ Platform Parser::parse_platform(tinyxml2::XMLElement* element)
 Platform Parser::parse_platform_raw(tinyxml2::XMLElement* element)
 {
 	std::vector<sf::Vertex> points;
+	std::string visible_str = get_attribute_by_name("visible", element);
+	bool visible = true;
 	const sf::Texture* tex;
+	if (visible_str == "0")
+	{
+		visible = false;
+		tex = new sf::Texture();
+	}
+	else
+	{
+		std::string val = get_attribute_by_name("texture", element);
+		tex = assets->textures.at(val);
+	}
 	Vectorf pos = parse_num_pairf(get_attribute_by_name("position", element));
 	pos *= context.global_scale;
-	std::string val = get_attribute_by_name("texture", element);
-	tex = assets->textures.at(val);
 	std::string layer = get_attribute_by_name("layer", element);
 	tinyxml2::XMLElement* e = element->FirstChildElement();
 	float rotationang = std::stof(util::pass_or_default(get_attribute_by_name("rotation", element),"0"));
@@ -179,6 +189,7 @@ Platform Parser::parse_platform_raw(tinyxml2::XMLElement* element)
 	{
 		throw std::invalid_argument("Invalid flip value");
 	}
+
 	while (e != NULL)
 	{
 		std::string n = e->Name();
@@ -205,9 +216,9 @@ Platform Parser::parse_platform_raw(tinyxml2::XMLElement* element)
 		{
 			throw std::invalid_argument("Invalid layer");
 		}
-		return Platform(pos, tex, points, l);
+		return Platform(pos, tex, points, l, visible);
 	}
-	return Platform(pos, tex, points, DEFAULT_PLATFORM_LAYER);
+	return Platform(pos, tex, points, DEFAULT_PLATFORM_LAYER, visible);
 }
 
 Wall Parser::parse_wall(tinyxml2::XMLElement* element)

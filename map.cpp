@@ -166,12 +166,15 @@ void Map::calc_map_vertices()
 	{
 		for (const auto& it2 : it->platforms)
 		{
-			for (size_t i = 1; i < it2.vertices.size(); i++)
+			if (it2.visible)
 			{
-				tab.push_back(std::make_pair(it2.vertices[i].position + it2.pos, it2.vertices[i - 1].position + it2.pos));
+				for (size_t i = 1; i < it2.vertices.size(); i++)
+				{
+					tab.push_back(std::make_pair(it2.vertices[i].position + it2.pos, it2.vertices[i - 1].position + it2.pos));
+				}
+				tab.push_back(std::make_pair(
+					it2.vertices.back().position + it2.pos, it2.vertices.front().position + it2.pos));
 			}
-			tab.push_back(std::make_pair(
-				it2.vertices.back().position + it2.pos, it2.vertices.front().position + it2.pos));
 		}
 	}
 	for (auto it1 = tab.begin(); it1 != tab.end(); it1++)

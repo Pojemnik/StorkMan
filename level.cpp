@@ -16,12 +16,15 @@ Level::Level(const Level& level)
 	}
 	for (auto& w : platforms)
 	{
-		if (w.layer < BOTTOM_LAYERS)
-			bottom_layers[w.layer].push_back(&w);
-		else if (w.layer < MIDDLE_LAYERS + BOTTOM_LAYERS)
-			middle_layers[w.layer - BOTTOM_LAYERS].push_back(&w);
-		else if (w.layer < TOP_LAYERS + MIDDLE_LAYERS + BOTTOM_LAYERS)
-			top_layers[w.layer - BOTTOM_LAYERS - MIDDLE_LAYERS].push_back(&w);
+		if (w.visible)
+		{
+			if (w.layer < BOTTOM_LAYERS)
+				bottom_layers[w.layer].push_back(&w);
+			else if (w.layer < MIDDLE_LAYERS + BOTTOM_LAYERS)
+				middle_layers[w.layer - BOTTOM_LAYERS].push_back(&w);
+			else if (w.layer < TOP_LAYERS + MIDDLE_LAYERS + BOTTOM_LAYERS)
+				top_layers[w.layer - BOTTOM_LAYERS - MIDDLE_LAYERS].push_back(&w);
+		}
 	}
 	for (auto& w : walls)
 	{

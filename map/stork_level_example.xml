@@ -12,37 +12,37 @@
 		<v>-0.1,0.5</v>
 		<v>-0.2,0.5</v>
 	</platform>
-	<platform position="9,1.5" texture="rivets,0">
+	<platform position="9,1.5" visible="0">
 		<v>0,0</v>
 		<v>0.5,0</v>
 		<v>0.5,3</v>
 		<v>0,3</v>
 	</platform>
-	<platform position="9,1" texture="panels,0">
+	<platform position="9,1" visible="0">
 		<v>0,0</v>
 		<v>4,0</v>
 		<v>4,0.5</v>
 		<v>0,0.5</v>
 	</platform>
-	<platform position="13,1" texture="panels,2">
+	<platform position="13,1" visible="0">
 		<v>0,0</v>
 		<v>0.5,0</v>
 		<v>0.5,4</v>
 		<v>0,4</v>
 	</platform>
-	<platform position="9,4.5" texture="panels,2">
+	<platform position="9,4.5" visible="0">
 		<v>0,0</v>
 		<v>3.5,0</v>
 		<v>3.5,0.5</v>
 		<v>0,0.5</v>
 	</platform>
-	<platform position="13,5" texture="rivets,0">
+	<platform position="13,5" visible="0">
 		<v>0,0</v>
 		<v>0.5,0</v>
 		<v>0.5,1.5</v>
 		<v>0,1.5</v>
 	</platform>
-	<platform position="11,0" texture="panels,1">
+	<platform position="11,0" visible="0">
 		<v>0,0</v>
 		<v>0.5,0</v>
 		<v>0.5,1</v>
