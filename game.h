@@ -18,6 +18,7 @@ struct Wall : public Texturable
 struct Object : public Renderable
 {
 	Object(Vectorf p, const sf::Texture* t, float h, int layer);
+	Object(Vectorf p, const sf::Texture* t, float h, int layer, int flip, float ang);
 };
 
 class Dynamic_entity : public Dynamic_animatable, public Physical

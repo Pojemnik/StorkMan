@@ -39,6 +39,11 @@ Object::Object(Vectorf p, const sf::Texture* t, float h, int layer)
 	: Renderable(p, t, h, layer)
 {
 }
+Object::Object(Vectorf p, const sf::Texture* t, float h, int layer,int flip, float ang)
+	: Renderable(p, t, h, layer,flip,ang)
+{
+}
+
 
 Player::Player(Vectorf p, sf::Texture* texture, std::vector<sf::IntRect>& v,
 	std::vector<const Dynamic_animation*> a, sf::FloatRect rc, Animation_tree t,

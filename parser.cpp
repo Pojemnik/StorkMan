@@ -1,5 +1,5 @@
 #include "parser.h"
-
+const Vectorf fliptab[] = { {1,1},{-1,1},{1,-1},{-1,-1} };
 Parser::Parser(Assets* _assets) : assets(_assets) {};
 
 Vectorf Parser::parse_num_pairf(std::string val)
@@ -159,6 +159,22 @@ Platform Parser::parse_platform_raw(tinyxml2::XMLElement* element)
 	tex = assets->textures.at(val);
 	std::string layer = get_attribute_by_name("layer", element);
 	tinyxml2::XMLElement* e = element->FirstChildElement();
+	std::string rotation = get_attribute_by_name("rotation", element);
+	float rotationang = rotation == "" ? 0 : std::stof(rotation);
+	std::string flip = get_attribute_by_name("flip", element);
+	int flipint = 0;
+	if (flip != "")
+	{
+		Vectori flipiv = parse_num_pairi(flip);
+		if (flipiv.x < 0)
+			flipint = 1;
+		if (flipiv.y < 0)
+			flipint += 2;
+	}
+	if (flipint < 0 || flipint >3)
+	{
+		throw std::invalid_argument("Invalid flip value");
+	}
 	while (e != NULL)
 	{
 		std::string n = e->Name();
@@ -166,7 +182,10 @@ Platform Parser::parse_platform_raw(tinyxml2::XMLElement* element)
 		{
 			Vectorf v = parse_num_pairf(e->GetText());
 			v *= context.global_scale;
-			points.push_back(sf::Vertex(v, v));
+			Vectorf v2 = util::rotate_vector(v, rotationang);
+			v2.x *= fliptab[flipint].x;
+			v2.y *= fliptab[flipint].y;
+			points.push_back(sf::Vertex(v, v2));
 		}
 		else
 		{
@@ -270,6 +289,22 @@ Object Parser::parse_object_raw(tinyxml2::XMLElement* element)
 	tex = assets->textures.at(val);
 	float height = std::stof(get_attribute_by_name("height", element));
 	std::string layer = get_attribute_by_name("layer", element);
+	std::string rotation = get_attribute_by_name("rotation", element);
+	float rotationang = rotation == "" ? 0 : std::stof(rotation);
+	std::string flip = get_attribute_by_name("flip", element);
+	int flipint=0;
+	if (flip != "")
+	{
+		Vectori flipiv = parse_num_pairi(flip);
+		if (flipiv.x < 0)
+			flipint = 1;
+		if (flipiv.y < 0)
+			flipint += 2;
+	}
+	if (flipint < 0 || flipint >3)
+	{
+		throw std::invalid_argument("Invalid flip value");
+	}
 	if (layer != "")
 	{
 		int l = std::stoi(layer);
@@ -277,9 +312,9 @@ Object Parser::parse_object_raw(tinyxml2::XMLElement* element)
 		{
 			throw std::invalid_argument("Invalid layer");
 		}
-		return Object(pos, tex, height, l);
+		return Object(pos, tex, height, l,flipint,rotationang);
 	}
-	return Object(pos, tex, height, DEFAULT_OBJECT_LAYER);
+	return Object(pos, tex, height, DEFAULT_OBJECT_LAYER, flipint, rotationang);
 }
 
 Map Parser::parse_map(tinyxml2::XMLElement* root)

@@ -1337,56 +1337,56 @@
 	<object position="45, 11" texture="general0" height="4"/>
 	<object position="49, 14.5" texture="winda0" height="2.5"/>
 	/---------------------------------------------------------------------DACH
-	<wall position="50,4.5" texture="vent1">
+	<wall position="50,4.5" texture="vent1" rotation="35">
 		<v>0,0</v>
 		<v>2,0</v>
 		<v>2,4</v>
 		<v>0,4</v>
 	</wall>
-	<wall position="52,4.5" texture="vent0">
+	<wall position="52,4.5" texture="vent0" rotation="35">
 		<v>0,0</v>
 		<v>1,0</v>
 		<v>1,2</v>
 		<v>0,2</v>
 	</wall>
-	<platform position="53,15" texture="panels,1">
+	<platform position="53,15" texture="panels,1" rotation="35">
 		<v>0,0.5</v>
 		<v>0.5,0.5</v>
 		<v>0.5,0</v>
 		<v>0,0</v>
 	</platform>
-	<platform position="53,10.5" texture="panels,0">
+	<platform position="53,10.5" texture="panels,0" rotation="35">
 		<v>0,0.5</v>
 		<v>0.5,0.5</v>
 		<v>0.5,0</v>
 		<v>0,0</v>
 	</platform>
-	<platform position="49.5,4" texture="panels,1">
+	<platform position="49.5,4" texture="panels,1" rotation="35">
 		<v>0,4</v>
 		<v>0.5,4</v>
 		<v>0.5,0</v>
 		<v>0,0</v>
 	</platform>
-	<platform position="50,4" texture="panels,2">
+	<platform position="50,4" texture="panels,2" rotation="35">
 		<v>0,0.5</v>
 		<v>5,0.5</v>
 		<v>5,0</v>
 		<v>0,0</v>
 	</platform>
-	<platform position="52,6.5" texture="panels,0">
+	<platform position="52,6.5" texture="panels,0" rotation="35">
 		<v>0,0.5</v>
 		<v>1.5,0.5</v>
 		<v>1.5,0</v>
 		<v>0,0</v>
 	</platform>
-	<platform position="52,7" texture="panels,2">
+	<platform position="52,7" texture="panels,2" rotation="35">
 		<v>0,1</v>
 		<v>0.5,1</v>
 		<v>0.5,0</v>
 		<v>0,0</v>
 	</platform>
-	<object position="31, 0" texture="radar1" height="8"/>
-	<object position="41, 0" texture="radar0" height="8"/>
+	<object position="31, 0" texture="radar1" height="8" rotation="180"/>
+	<object position="41, 0" texture="radar0" height="8" flip="-1,1"/>
 	<object position="31, 7" texture="alarm1" height="1"/>
 	<light position="31.5, 7.5" color="032,255,255" intensity="0.7"/>
 	<object position="39.5, 7" texture="alarm1" height="1"/>

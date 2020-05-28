@@ -1,10 +1,20 @@
 #include "graphics.h"
-
+const Vectorf fliptab[] = { {1,1},{-1,1},{1,-1},{-1,-1} };
 Renderable::Renderable(Vectorf p, const sf::Texture* t, float h, int l)
 	: tex(t), pos(p), height(h), layer(l)
 {
 	sprite = sf::Sprite(*tex);
 	sprite.setPosition(pos);
+	rescale(1);
+}
+
+Renderable::Renderable(Vectorf p, const sf::Texture* t, float h, int l, int flip, float ang) 
+	: tex(t), pos(p), height(h), layer(l), flipint(flip)
+{
+
+	sprite = sf::Sprite(*tex);
+	sprite.setPosition(pos);
+	sprite.setRotation(ang);
 	rescale(1);
 }
 
@@ -18,7 +28,7 @@ void Renderable::rescale(float ratio)
 	float scale = ratio * 32 * height / sprite.getTexture()->getSize().y;
 	pos *= ratio;
 	sprite.setPosition(pos);
-	sprite.setScale(scale, scale);
+	sprite.setScale(fliptab[flipint]*scale);
 }
 
 Texturable::Texturable(Vectorf p, const sf::Texture* t,

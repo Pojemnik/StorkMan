@@ -166,7 +166,7 @@ void Assets::load_assets()
 	animations.push_back(load_dynamic_animation("animations/stork/jump_run2.txt"));
 	animations.push_back(load_dynamic_animation("animations/stork/punch1.txt"));
 	animations.push_back(load_dynamic_animation("animations/stork/punch2.txt"));
-	load_textures(map_textures, "img/tex_ss_64_64_is_3_13.png", true);
+	load_textures(map_textures, "img/tex_ss_64_64_is_6_7.png", true);
 	stork_tree = load_animation_tree("animations/stork/tree.txt");
 	load_shaders();
 
