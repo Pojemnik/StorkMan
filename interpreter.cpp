@@ -241,7 +241,7 @@ std::pair<Command_code, Vectorf> Commands_interpreter::execute_command_raw(Comma
 		return std::make_pair(Command_code::CHANGE_SCALE,
 			Vectorf(context.global_scale, 0));
 	}
-	else if (cmd.name == "moveplayer")
+	else if (cmd.name == "tp")
 	{
 		Vectorf target = get_vectorf(cmd, "Player moved");
 		return std::make_pair(Command_code::MOVE_PLAYER, (Vectorf)target);
@@ -249,6 +249,10 @@ std::pair<Command_code, Vectorf> Commands_interpreter::execute_command_raw(Comma
 	else if (cmd.name == "reloadlight")
 	{
 		return std::make_pair(Command_code::RELOAD_LIGHT, Vectorf());
+	}
+	else if (cmd.name == "getpos")
+	{
+		return std::make_pair(Command_code::GET_POSITION, Vectorf());
 	}
 	else
 		context.console->err << "Unknown command: " + cmd.name << '\n';
