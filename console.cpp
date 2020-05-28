@@ -179,7 +179,7 @@ void Console::update_content()
 	{
 		i.setString("");
 	}
-	for (int i = content.size() - 1 - scroll_pos;
+	for (int i = (int)content.size() - 1 - scroll_pos;
 		i >= 0 && lines < lines_n; i--, lines++)
 	{
 		content_text[lines].setPosition(0, (float)screen_resolution.y - (lines + 2) * 18);

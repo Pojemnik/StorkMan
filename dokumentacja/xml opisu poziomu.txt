@@ -1,0 +1,52 @@
+Przykład:
+<Znacznik atrybut1="XXX" atrybut2="XXX" ...>
+	*zawartość*
+</Znacznik>
+
+* przy atrybucie oznacza atrybut nieobowązkowy
+
+level:
+	atrybuty:
+		name* - nazwa, nieużywany przez grę
+		background* - tło, nieużywany przez grę
+	
+	zawartość:
+		pozostałe zanczniki opisu poziomu
+
+platform:
+	atrybuty:
+		position - pozycja [m]
+		texture - tekstura, patrz dokumentacja/grafiki.txt
+		layer* - (domyślne 5) warstwa, na której znajduje się platforma (liczone "od dołu")
+		rotation* - (domyślnie 0) obrót tekstury, zgodnie z ruchem wskazówek zegara [stopnie]
+		flip* - (domyślnie 1,1) odbicie tekstury w osi x i w osi y (-1 - odbicie, 1 - brak odbicia) (przykład flip="-1,1" - odbicie w osi x, baz odbicia w osi y)
+	
+	zawartość:
+		znaczniki <v> opisujące kolejne wierzchołki
+	
+v:
+	zawartość - pozycja wierzchołka [m]
+
+object:
+	atrybuty:
+		position - pozycja [m]
+		texture - tekstura
+		height - wysokość [m], używana do obliczania skali
+		rotation* - (domyślnie 0) obrót obiektu względem lewego górnego rogu, zgodnie z ruchem wskazówek zegara [stopnie]
+		flip* - (domyślnie 1,1) odbicie w osi x i w osi y (-1 - odbicie, 1 - brak odbicia) (przykład flip="-1,1" - odbicie w osi x, baz odbicia w osi y)
+		layer* - (domyślne 3) warstwa, na której znajduje się obiekt (liczone "od dołu")
+	
+light:
+	atrybuty:
+		position - pozycja [m]
+		intensity* - (domyślnie 1) siła światła w stosunku do domyślnej, domyślne światło świeci na 15,625m
+		color* - (domyślnie 255,255,255) kolor światła r,g,b
+
+wall:
+	atrybuty:
+		position - pozycja [m]
+		texture - tekstura, patrz dokumentacja/grafiki.txt
+		layer* - (domyślne 1) warstwa, na której znajduje się ściana (liczone "od dołu")
+	
+	zawartość:
+		znaczniki <v> opisujące kolejne wierzchołki

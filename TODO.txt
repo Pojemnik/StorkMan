@@ -13,8 +13,8 @@ Lista priorytetowa by Adam:
 Ficzury:
 	XML/edycja poziomów:
 		*Więcej warstw dla obiektów ✓
-		*Obracanie i odbijanie obiektów z xml'a
-		*Pozycja Storkmana na starcie ustalana z góry w XML
+		*Obracanie i odbijanie obiektów z xml'a ✓
+		*?Pozycja Storkmana na starcie ustalana z góry w XML
 	Fizyka:
 		*Interakcje ze skośnymi platformami (lepsze podbieganie i zbieganie, zsuwanie się od pewnego kąta)
 		Tarcie
@@ -42,6 +42,7 @@ Ficzury:
 		}
  
 Błędy:
+	*Przebijanie platform (wentylacja)
 
 Inne/uwagi:
   Kod hitboxów Storkmana jest paskudny
