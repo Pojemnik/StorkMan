@@ -10,6 +10,8 @@ private:
 	const int DEFAULT_WALL_LAYER = 1;
 	const int DEFAULT_PLATFORM_LAYER = 5;
 	const int DEFAULT_OBJECT_LAYER = 3;
+	const float DEFAULT_LIGHT_INTENSITY = 1;
+	const sf::Color DEFAULT_LIGHT_COLOR = sf::Color::White;
 	Assets* assets;
 
 	Vectorf parse_num_pairf(std::string val);

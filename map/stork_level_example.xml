@@ -1388,9 +1388,9 @@
 	<object position="31, 0" texture="radar1" height="8" rotation="180"/>
 	<object position="41, 0" texture="radar0" height="8" flip="-1,1"/>
 	<object position="31, 7" texture="alarm1" height="1"/>
-	<light position="31.5, 7.5" color="032,255,255" intensity="0.7"/>
+	<light position="31.5, 7.5"  intensity="0.7"/>
 	<object position="39.5, 7" texture="alarm1" height="1"/>
-	<light position="40, 7.5" color="032,255,255" intensity="0.7"/>
+	<light position="40, 7.5"  intensity="0.7"/>
 	<object position="48, 7" texture="alarm1" height="1"/>
 	<light position="48.5, 7.5" color="032,255,255" intensity="0.7"/>
 </level>

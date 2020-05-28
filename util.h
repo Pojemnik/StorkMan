@@ -86,10 +86,13 @@ namespace util
 	inline bool vectorf_binary_predicate(const Vectorf& a, const Vectorf& b);
 	inline float convert_vector(const Vectorf& vec);
 	inline Vectorf rotate_vector(Vectorf vec, Vectorf normalized_rotation_vector);
-
+	inline std::string pass_or_default(std::string val,std::string default_val);
 	Vectorf intersection(std::pair<Vectorf, Vectorf> a, std::pair<Vectorf, Vectorf> b);
 	void save_texture(std::string path, sf::Texture* texture);
-
+	inline std::string pass_or_default(std::string val, std::string default_val)
+	{
+		return val == ""?default_val:val;
+	}
 	inline sf::Vector2f normalize(sf::Vector2f x, float l=1)
 	{
 		return x / float(sqrt(x.x * x.x + x.y * x.y) * l);

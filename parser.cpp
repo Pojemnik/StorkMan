@@ -115,12 +115,17 @@ Light_source Parser::parse_light_source(tinyxml2::XMLElement* element)
 Light_source Parser::parse_light_source_raw(tinyxml2::XMLElement* element)
 {
 	const sf::Texture* tex;
-	sf::Color color;
+	sf::Color color= DEFAULT_LIGHT_COLOR;
 	Vectorf pos = parse_num_pairf(get_attribute_by_name("position", element));
 	pos *= context.global_scale;
 	tex = assets->light;
-	float intensity = std::stof(get_attribute_by_name("intensity", element));
-	color = parse_color(get_attribute_by_name("color", element));
+	std::string tmp= get_attribute_by_name("intensity", element);
+	float intensity = DEFAULT_LIGHT_INTENSITY;
+	if(tmp!="")
+		intensity=std::stof(tmp);
+	tmp = get_attribute_by_name("color", element);
+	if(tmp!="")
+		color = parse_color(tmp);
 	if (intensity <= 0)
 	{
 		throw std::invalid_argument("Invalid light intensity");
@@ -159,8 +164,7 @@ Platform Parser::parse_platform_raw(tinyxml2::XMLElement* element)
 	tex = assets->textures.at(val);
 	std::string layer = get_attribute_by_name("layer", element);
 	tinyxml2::XMLElement* e = element->FirstChildElement();
-	std::string rotation = get_attribute_by_name("rotation", element);
-	float rotationang = rotation == "" ? 0 : std::stof(rotation);
+	float rotationang = std::stof(util::pass_or_default(get_attribute_by_name("rotation", element),"0"));
 	std::string flip = get_attribute_by_name("flip", element);
 	int flipint = 0;
 	if (flip != "")
