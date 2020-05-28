@@ -27,9 +27,9 @@ sf::Color Parser::parse_color(std::string val)
 	{
 		throw std::invalid_argument("Only one ',' found");
 	}
-	uint8_t r = std::stoi(val.substr(0, p1));
-	uint8_t g = std::stoi(val.substr(p1 + 1, p2));
-	uint8_t b = std::stoi(val.substr(p2 + 1));
+	uint8_t r = (uint8_t)std::stoi(val.substr(0, p1));
+	uint8_t g = (uint8_t)std::stoi(val.substr(p1 + 1, p2));
+	uint8_t b = (uint8_t)std::stoi(val.substr(p2 + 1));
 	return sf::Color(r, g, b);
 }
 

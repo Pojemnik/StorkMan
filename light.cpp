@@ -9,20 +9,24 @@ Light_source::Light_source(Vectorf p, const sf::Texture* t, sf::Color c, float i
 Light::Light(Vectorf level_size, sf::Texture* light_tex)
 	: light_texture(light_tex)
 {
-	target = new sf::RenderTexture();
 	states.blendMode = sf::BlendAdd;
 	states.texture = light_texture;
-	if (!(target->create(level_size.x * 2, level_size.y * 2)))
-	{
-		std::cerr << "Error creating lightmap" << std::endl;
-	}
+	create_lightmap(level_size);
 }
+
+
 
 void Light::rescale(Vectorf level_size)
 {
 	delete target;
+	create_lightmap(level_size);
+}
+
+void Light::create_lightmap(Vectorf& level_size)
+{
 	target = new sf::RenderTexture();
-	if (!(target->create(level_size.x * 2, level_size.y * 2)))
+	if (!(target->create((unsigned int)level_size.x * 2,
+		(unsigned int)level_size.y * 2)))
 	{
 		std::cerr << "Error creating lightmap" << std::endl;
 	}

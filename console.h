@@ -40,6 +40,10 @@ private:
 	friend Console_stream& operator<<(Console_stream& stream, Vectori v);
 	friend Console_stream& operator<<(Console_stream& stream, char& c);
 	friend Console_stream& operator<<(Console_stream& stream, char c);
+	friend Console_stream& operator<<(Console_stream& stream, float& f);
+	friend Console_stream& operator<<(Console_stream& stream, float f);
+	friend Console_stream& operator<<(Console_stream& stream, int& i);
+	friend Console_stream& operator<<(Console_stream& stream, int i);
 };
 
 class Console : public sf::Drawable

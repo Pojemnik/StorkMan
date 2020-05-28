@@ -59,8 +59,8 @@ struct Context
 	Vectori resolution = { 1024, 576 };
 	sf::Text fps_counter;
 	uint8_t darkness = 70;
-	Console* console;
-	ctpl::thread_pool* thread_pool;
+	Console* console = nullptr;
+	ctpl::thread_pool* thread_pool = nullptr;
 };
 
 extern struct Context context;

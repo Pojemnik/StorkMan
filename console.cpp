@@ -50,6 +50,30 @@ Console_stream& operator<<(Console_stream& stream, Vectorf v)
 	return stream;
 }
 
+Console_stream& operator<<(Console_stream& stream, float& f)
+{
+	stream.ingest(std::to_string(f));
+	return stream;
+}
+
+Console_stream& operator<<(Console_stream& stream, float f)
+{
+	stream.ingest(std::to_string(f));
+	return stream;
+}
+
+Console_stream& operator<<(Console_stream& stream, int& i)
+{
+	stream.ingest(std::to_string(i));
+	return stream;
+}
+
+Console_stream& operator<<(Console_stream& stream, int i)
+{
+	stream.ingest(std::to_string(i));
+	return stream;
+}
+
 void Console_stream::ingest(char c)
 {
 	buffer += c;
@@ -116,9 +140,9 @@ void Console::activate(Vectori res)
 	screen_resolution = res;
 	Vectorf scale = { (float)res.x / 1920.f, 1 };
 	background.setScale(scale);
-	background.setPosition(0, res.y - 180);
+	background.setPosition(0, (float)res.y - 180);
 	active = true;
-	buffer.setPosition(0, screen_resolution.y - 20);
+	buffer.setPosition(0, (float)screen_resolution.y - 20);
 	history_pos = 0;
 	update_content();
 }
@@ -155,9 +179,10 @@ void Console::update_content()
 	{
 		i.setString("");
 	}
-	for (int i = content.size() - 1 - scroll_pos; i >= 0 && lines < lines_n; i--, lines++)
+	for (size_t i = content.size() - 1 - scroll_pos;
+		i >= 0 && lines < lines_n; i--, lines++)
 	{
-		content_text[lines].setPosition(0, screen_resolution.y - (lines + 2) * 18);
+		content_text[lines].setPosition(0, (float)screen_resolution.y - (lines + 2) * 18);
 		switch (content[i].second)
 		{
 		case Stream_color::RED:
@@ -232,12 +257,12 @@ bool Console::is_active()
 
 void Console::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	target.draw(background);
+	target.draw(background, states);
 	for (auto& text : content_text)
 	{
-		target.draw(text);
+		target.draw(text, states);
 	}
-	target.draw(buffer);
+	target.draw(buffer, states);
 }
 
 void Console::input_append(char c)
