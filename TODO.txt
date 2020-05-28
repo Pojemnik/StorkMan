@@ -12,7 +12,7 @@ Lista priorytetowa by Adam:
 
 Ficzury:
 	XML/edycja poziomów:
-		*Więcej warstw dla obiektów
+		*Więcej warstw dla obiektów ✓
 		*Obracanie i odbijanie obiektów z xml'a
 		*Pozycja Storkmana na starcie ustalana z góry w XML
 	Fizyka:

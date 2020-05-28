@@ -115,13 +115,13 @@ void Dynamic_entity::move(Vectorf delta)
 	//}
 }
 
-void Dynamic_entity::move_angled(int direction)
+void Dynamic_entity::move_angled(int dir)
 {
-	if (direction == 1)
+	if (dir == 1)
 		move(util::rotate_vector(
 			{ -context.player_move_speed.y, -context.player_move_speed.x },
 			maxcollisionvector));
-	else if (direction == -1)
+	else if (dir == -1)
 		move(util::rotate_vector(
 			{ -context.player_move_speed.y,context.player_move_speed.x },
 			maxcollisionvector));

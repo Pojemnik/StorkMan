@@ -31,7 +31,7 @@ Vectorf Commands_interpreter::get_vectorf(const Command& cmd, std::string var_na
 		{
 			vector = { tab[0],tab[1] };
 			context.console->out << var_name + " set to "
-				<< vector.x << ' ' << vector.y << '\n';
+				<< (Vectorf)vector << '\n';
 		}
 
 	}
@@ -66,8 +66,7 @@ Vectori Commands_interpreter::get_vectori(const Command& cmd, std::string var_na
 		if (!err)
 		{
 			vector = { tab[0],tab[1] };
-			context.console->out << var_name + " set to " << vector.x << ' '
-				<< vector.y << '\n';
+			context.console->out << var_name + " set to " << (Vectorf)vector << '\n';
 		}
 
 	}
@@ -108,7 +107,7 @@ float Commands_interpreter::get_float(const Command& cmd, std::string var_name)
 		try
 		{
 			var = std::stof(cmd.args[0]);
-			context.console->out << var_name + " set to " << var << '\n';
+			context.console->out << var_name + " set to " << (float)var << '\n';
 		}
 		catch (std::invalid_argument e)
 		{
@@ -132,7 +131,7 @@ int Commands_interpreter::get_int(const Command& cmd, std::string var_name)
 		try
 		{
 			var = std::stoi(cmd.args[0]);
-			context.console->out << var_name + " set to " << var << '\n';
+			context.console->out << var_name + " set to " << (int)var << '\n';
 		}
 		catch (std::invalid_argument e)
 		{
@@ -223,7 +222,7 @@ std::pair<Command_code, Vectorf> Commands_interpreter::execute_command_raw(Comma
 	}
 	else if (cmd.name == "darkness")
 	{
-		context.darkness = get_int(cmd, "Darkness level");
+		context.darkness = (uint8_t)get_int(cmd, "Darkness level");
 	}
 	else if (cmd.name == "clear")
 	{
@@ -241,7 +240,7 @@ std::pair<Command_code, Vectorf> Commands_interpreter::execute_command_raw(Comma
 		return std::make_pair(Command_code::CHANGE_SCALE,
 			Vectorf(context.global_scale, 0));
 	}
-	else if (cmd.name == "moveplayer")
+	else if (cmd.name == "tp")
 	{
 		Vectorf target = get_vectorf(cmd, "Player moved");
 		return std::make_pair(Command_code::MOVE_PLAYER, (Vectorf)target);
@@ -249,6 +248,10 @@ std::pair<Command_code, Vectorf> Commands_interpreter::execute_command_raw(Comma
 	else if (cmd.name == "reloadlight")
 	{
 		return std::make_pair(Command_code::RELOAD_LIGHT, Vectorf());
+	}
+	else if (cmd.name == "getpos")
+	{
+		return std::make_pair(Command_code::GET_POSITION, Vectorf());
 	}
 	else
 		context.console->err << "Unknown command: " + cmd.name << '\n';

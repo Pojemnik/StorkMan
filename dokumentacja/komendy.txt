@@ -17,6 +17,8 @@ layer2pos				float float 	-1000 -1800			Pozycja warstwy 2
 mapvertices				bool			0					Rysowanie krawędzi platform
 fpscounter				bool			0					Wyświetla licznik fps
 night					bool			0					Przełącza dzień i noc
+tp						float float		-					Przenosi gracza do zadanej pozycji
+getpos					brak			-					Wypisuje aktualną pozycję gracza
 reloadlight				brak			-					Wymusza ponowne przeliczenie światła
 
 Komendy podajesz wraz z argumentami w jednej linii.

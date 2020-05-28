@@ -168,10 +168,14 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 					player.rescale(context.global_scale);
 					break;
 				case Command_code::MOVE_PLAYER:
-					player.set_position(code.second);
+					player.set_position(code.second*context.global_scale);
 					break;
 				case Command_code::RELOAD_LIGHT:
 					map.recalc_light();
+					break;
+				case Command_code::GET_POSITION:
+					context.console->out <<
+						player.get_position() / context.global_scale << '\n';
 					break;
 				default:
 					break;

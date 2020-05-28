@@ -5,6 +5,7 @@ Map::Map()
 	level_placement = nullptr;
 	player = nullptr;
 	light_texture = nullptr;
+	global_scale = .0f;
 }
 
 Map::Map(Vectori dimensions, std::vector<Level>& lvls, Vectori start_pos,
@@ -299,7 +300,7 @@ void Map::recalc_light()
 	if (light_texture == nullptr)
 	{
 		light_texture = new sf::RenderTexture();
-		if (!light_texture->create(level_size.x * 2, level_size.y * 2))
+		if (!light_texture->create((unsigned int)level_size.x * 2, (unsigned int)level_size.y * 2))
 		{
 			std::cerr << "Error creating walls buffer" << std::endl;
 			throw std::runtime_error("Memory error");

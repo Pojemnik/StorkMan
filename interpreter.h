@@ -3,7 +3,7 @@
 
 enum class Command_code {
 	NOTHING, CHANGE_RESOLUTION, CHANGE_SCALE,
-	MOVE_PLAYER, RELOAD_LIGHT
+	MOVE_PLAYER, RELOAD_LIGHT, GET_POSITION
 };
 
 class Commands_interpreter
