@@ -34,7 +34,7 @@ Ficzury:
 		*Swiatło w osobnych wątkach/gpu (✓)
 		*Shadery dla (statycznych) świateł
 		Cień Storkmana?
-		*Przezroczyste platformy
+		*Przezroczyste platformy ✓
 		Interakcja między światłem a ścianami?
 		{
 			Rozjaśnianie tekstur przez światło (pewnie shader)

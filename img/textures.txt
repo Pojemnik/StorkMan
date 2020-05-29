@@ -29,3 +29,8 @@ img/tex/PIEC01.png oven1 0
 img/tex/KUCHNIA00.png kitchen0 0
 img/tex/KUCHNIA01.png kitchen1 0
 img/tex/KUCHNIA02.png kitchen2 0
+img/tex/TRAWA00.png grass0 0
+img/tex/TRAWA01.png grass1 0
+img/tex/TRAWA02.png grass2 0
+img/tex/FRAMUGA00.png framuga0 0
+img/tex/FRAMUGA01.png framuga1 0

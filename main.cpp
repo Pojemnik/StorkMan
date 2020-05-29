@@ -106,7 +106,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	Assets assets;
 	assets.load_assets();
 	context.console =
-		new Console(assets.console_bg, &assets.consola, context.resolution);
+		new Console(assets.console_bg, &assets.storkfont, context.resolution);
 	context.console->out << "Stork'man version " + VERSION << '\n';
 	Parser parser(&assets);
 	parser.parse_additional_textures("img/textures.txt");
@@ -117,7 +117,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	context.thread_pool = new ctpl::thread_pool(4);
 	sf::Clock clock;
 	Map map;
-	context.fps_counter.setFont(assets.arial);
+	context.fps_counter.setFont(assets.consola);
 	context.fps_counter.setPosition(0, 0);
 	std::string path = (argc == 2) ? argv[1] : "map/stork_map_example.xml";
 	tinyxml2::XMLDocument doc;

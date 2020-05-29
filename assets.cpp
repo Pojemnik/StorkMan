@@ -215,6 +215,6 @@ void Assets::load_assets()
 	context.final_states.blendMode = sf::BlendMultiply;
 	context.white_states.shader = &white;
 
-	arial.loadFromFile("Arial.ttf");
+	storkfont.loadFromFile("StorkFont.ttf");
 	consola.loadFromFile("consola.ttf");
 }

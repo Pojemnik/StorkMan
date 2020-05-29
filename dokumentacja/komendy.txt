@@ -20,6 +20,8 @@ night					bool			0					Przełącza dzień i noc
 tp						float float		-					Przenosi gracza do zadanej pozycji
 getpos					brak			-					Wypisuje aktualną pozycję gracza
 reloadlight				brak			-					Wymusza ponowne przeliczenie światła
+darkness 				int				70					Wartość jasności nioświetlonych fragmentów poziomu (0-255)
+clear 					brak			-					Czyści konsolę
 
 Komendy podajesz wraz z argumentami w jednej linii.
 Przykład:
@@ -39,5 +41,3 @@ mapvertices true
 storkminspeed działa źle - zmniejszenie wartości zwiększa prędkość. Lepiej nie tykać.
 
 Ruszanie zmiennej fps jest raczej złym pomysłem.
-
-Żeby zmiana w wartości night przyniosła skutek trzeba wywołać reloadlight.

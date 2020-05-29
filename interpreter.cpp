@@ -167,6 +167,7 @@ std::pair<Command_code, Vectorf> Commands_interpreter::execute_command_raw(Comma
 	else if (cmd.name == "night")
 	{
 		context.night = get_bool(cmd, "Night", { "on", "off" });
+		return std::make_pair(Command_code::RELOAD_LIGHT, Vectorf());
 	}
 	else if (cmd.name == "fps")
 	{
@@ -222,7 +223,16 @@ std::pair<Command_code, Vectorf> Commands_interpreter::execute_command_raw(Comma
 	}
 	else if (cmd.name == "darkness")
 	{
-		context.darkness = (uint8_t)get_int(cmd, "Darkness level");
+		int val = get_int(cmd, "Darkness level");
+		if (val > 255 || val < 0)
+		{
+			context.console->err << "Nieprawid³owa wartoœæ ciemnoœci" << "\n";
+		}
+		else
+		{
+			context.darkness = (uint8_t)val;
+			return std::make_pair(Command_code::RELOAD_LIGHT, Vectorf());
+		}
 	}
 	else if (cmd.name == "clear")
 	{

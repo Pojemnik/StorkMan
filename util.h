@@ -35,7 +35,6 @@ struct Context
 	bool draw_collisions = false;
 	bool draw_map_vertices = false;
 	bool draw_fps_counter = false;
-	bool draw_light_sources = false;
 	bool night = true;
 	float fps = 60.f;
 	float gravity = 22;

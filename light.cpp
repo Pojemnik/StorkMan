@@ -75,16 +75,6 @@ void Light::calc_light(std::vector<Light_source>& sources,
 		states.transform = transform;
 		target->draw(*va, states);
 		delete va;
-		if (context.draw_light_sources)
-		{
-			sf::RenderStates source_states;
-			source_states.transform = transform;
-			sf::CircleShape source_point(5 * sources[i].intensity);
-			source_point.setFillColor(sf::Color::Red);
-			source_point.setPosition(sources[i].pos -
-				Vectorf(5 * sources[i].intensity, 5 * sources[i].intensity));
-			target->draw(source_point, source_states);
-		}
 	}
 	target->display();
 	lightmap.setTexture(target->getTexture());
