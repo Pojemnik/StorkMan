@@ -106,7 +106,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	Assets assets;
 	assets.load_assets();
 	context.console =
-		new Console(assets.console_bg, &assets.storkfont, context.resolution);
+		new Console(assets.console_bg, &assets.consola, context.resolution);
 	context.console->out << "Stork'man version " + VERSION << '\n';
 	Parser parser(&assets);
 	parser.parse_additional_textures("img/textures.txt");
@@ -114,6 +114,8 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	sf::RenderWindow window(sf::VideoMode(context.resolution.x,
 		context.resolution.y, desktop.bitsPerPixel),
 		"StorkMan " + VERSION, sf::Style::Titlebar | sf::Style::Close);
+	sf::Vector2u icon_size = assets.icon.getSize();
+	window.setIcon(icon_size.x, icon_size.y, assets.icon.getPixelsPtr());
 	context.thread_pool = new ctpl::thread_pool(4);
 	sf::Clock clock;
 	Map map;

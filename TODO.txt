@@ -15,16 +15,20 @@ Ficzury:
 		*Więcej warstw dla obiektów ✓
 		*Obracanie i odbijanie obiektów z xml'a ✓
 		*?Pozycja Storkmana na starcie ustalana z góry w XML
+		Kolor obiektu w XML
+		Obracanie ścian
 	Fizyka:
 		*Interakcje ze skośnymi platformami (lepsze podbieganie i zbieganie, zsuwanie się od pewnego kąta)
 		Tarcie
 	Silnik:
 		Przyspieszyć obliczenia - szybsza trygonometria?
 		Wątki
+		Animowane obiekty
 		*Lepsza konsola ✓
 		*Muzyka/dźwięki
 		Spadanie i lądowanie - lepiej rozwiązać animacje
 		Skalowanie (zoom/odzoom)
+		Chowanie się przed wrogami za obiektami
 		Animacje dotykając ściany?
 		*{
 			Sortowanie wierzchołków platform/ograninięcie takich nieposortowanych
@@ -43,6 +47,7 @@ Ficzury:
  
 Błędy:
 	*Przebijanie platform (wentylacja)
+	*Odbijanie się od podłogi (znowu wentylacja)
 
 Inne/uwagi:
   Kod hitboxów Storkmana jest paskudny

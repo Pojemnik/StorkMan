@@ -16,6 +16,8 @@ public:
 	Animation_tree stork_tree;
 	sf::Shader blurv, blurh, white;
 	sf::Font storkfont, consola;
+	sf::Image icon;
+	
 	void load_assets();
 	void load_additional_texture(std::string path, std::string name, int repeat);
 

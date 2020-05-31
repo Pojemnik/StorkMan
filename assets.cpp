@@ -214,6 +214,7 @@ void Assets::load_assets()
 	context.blurv_states.shader = &blurv;
 	context.final_states.blendMode = sf::BlendMultiply;
 	context.white_states.shader = &white;
+	icon.loadFromFile("img/ikona.png");
 
 	storkfont.loadFromFile("StorkFont.ttf");
 	consola.loadFromFile("consola.ttf");

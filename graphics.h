@@ -36,6 +36,27 @@ public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
+class Animatable : public sf::Drawable
+{
+protected:
+	const std::vector<sf::Texture>* animation;
+	std::vector<sf::Texture>::const_iterator it;
+	Vectorf pos;
+	float height; //[m]
+	sf::Sprite sprite;
+	int flipint;
+
+public:
+	int layer;
+	Animatable() = default;
+	Animatable(Vectorf p, const std::vector<sf::Texture>* a, float h, int l);
+	Animatable(Vectorf p, const std::vector<sf::Texture>* a, float h, int l,
+		int flip, float ang);
+	void next_frame();
+	void rescale(float ratio);
+	virtual void draw(sf::RenderTarget & target, sf::RenderStates states) const;
+};
+
 struct Animation_node
 {	
 	std::array<Vectori, 2> delta_pos;

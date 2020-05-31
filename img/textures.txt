@@ -17,11 +17,7 @@ img/tex/DESKI01.png lumber1 0
 img/tex/DESKI03.png lumber3 0
 img/tex/SKRZYNIE00.png chest0 0
 img/tex/ALARMOWA00.png alarm0 0
-img/tex/ALARMOWA01.png alarm1 0
-img/tex/ALARMOWA02.png alarm2 0
-img/tex/ALARMOWA03.png alarm3 0
 img/tex/RADAR00.png radar0 0
-img/tex/RADAR01.png radar1 0
 img/tex/STOL00.png table0 0
 img/tex/STOL01.png table1 0
 img/tex/STOL02.png table2 0
@@ -29,8 +25,8 @@ img/tex/PIEC01.png oven1 0
 img/tex/KUCHNIA00.png kitchen0 0
 img/tex/KUCHNIA01.png kitchen1 0
 img/tex/KUCHNIA02.png kitchen2 0
-img/tex/TRAWA00.png grass0 0
-img/tex/TRAWA01.png grass1 0
-img/tex/TRAWA02.png grass2 0
+img/tex/TRAWA03.png grass3 0
+img/tex/TRAWA04.png grass4 0
+img/tex/TRAWA05.png grass5 0
 img/tex/FRAMUGA00.png framuga0 0
 img/tex/FRAMUGA01.png framuga1 0
