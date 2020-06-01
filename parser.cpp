@@ -91,6 +91,10 @@ Level Parser::parse_level(tinyxml2::XMLElement* root)
 			{
 				lvl.add_object(parse_object(element));
 			}
+			if (name == "animated_object")
+			{
+				lvl.add_object(parse_animated_object(element));
+			}
 			element = element->NextSiblingElement();
 		}
 	}
@@ -330,6 +334,58 @@ Object Parser::parse_object_raw(tinyxml2::XMLElement* element)
 		return Object(pos, tex, height, l,flipint,rotationang);
 	}
 	return Object(pos, tex, height, DEFAULT_OBJECT_LAYER, flipint, rotationang);
+}
+
+Animated_object Parser::parse_animated_object_raw(tinyxml2::XMLElement* element)
+{
+	std::vector<sf::Texture>* tex;
+	Vectorf pos = parse_num_pairf(get_attribute_by_name("position", element));
+	pos *= context.global_scale;
+	std::string val = get_attribute_by_name("texture", element);
+	tex = &assets->animations.at(val);
+	float height = std::stof(get_attribute_by_name("height", element));
+	std::string layer = get_attribute_by_name("layer", element);
+	std::string rotation = get_attribute_by_name("rotation", element);
+	float rotationang = rotation == "" ? 0 : std::stof(rotation);
+	std::string flip = get_attribute_by_name("flip", element);
+	int flipint = 0;
+	if (flip != "")
+	{
+		Vectori flipiv = parse_num_pairi(flip);
+		if (flipiv.x < 0)
+			flipint = 1;
+		if (flipiv.y < 0)
+			flipint += 2;
+	}
+	if (flipint < 0 || flipint >3)
+	{
+		throw std::invalid_argument("Invalid flip value");
+	}
+	if (layer != "")
+	{
+		int l = std::stoi(layer);
+		if (l < 0 || l >= BOTTOM_LAYERS + MIDDLE_LAYERS + TOP_LAYERS)
+		{
+			throw std::invalid_argument("Invalid layer");
+		}
+		return Animated_object(pos, tex, height, l, flipint, rotationang);
+	}
+	return Animated_object(pos, tex, height, DEFAULT_OBJECT_LAYER, flipint, rotationang);
+}
+
+Animated_object Parser::parse_animated_object(tinyxml2::XMLElement* element)
+{
+	try
+	{
+		return parse_animated_object_raw(element);
+	}
+	catch (const std::out_of_range& e)
+	{
+		context.console->err << "Wyjatek: " << e.what() << '\n';
+		context.console->err << "Element: " << "object" << '\n';
+		context.console->err << "Prawdopodobnie nieprawid³owa animacja" << '\n';
+	}
+	throw std::runtime_error("Animated object error");
 }
 
 Map Parser::parse_map(tinyxml2::XMLElement* root)

@@ -48,6 +48,7 @@
 		<v>0.5,1</v>
 		<v>0,1</v>
 	</platform>
+	<animated_object position="20, 20" texture="a1" height="2"/>
 	<object position="6, 1" texture="helikopter0" height="4"/>
 	<object position="4, 0" texture="dymek0" height="4"/>
 	<light position="6, 2" color="255,255,255" intensity="0.25"/>

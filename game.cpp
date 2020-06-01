@@ -30,24 +30,27 @@ void Platform::rescale(float ratio)
 
 Wall::Wall(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> points,
 	int layer)
-	: Texturable(p, t, points, layer)
-{
+	: Texturable(p, t, points, layer) {}
 
-}
+Object::Object(Vectorf p, const sf::Texture* t, float h, int layer)
+	: Renderable(p, t, h, layer) {}
 
-Object::Object(Vectorf p, const sf::Texture* t, float h, int layer) 
-	: Renderable(p, t, h, layer)
-{
-}
-Object::Object(Vectorf p, const sf::Texture* t, float h, int layer,int flip, float ang)
-	: Renderable(p, t, h, layer,flip,ang)
-{
-}
+Object::Object(Vectorf p, const sf::Texture* t, float h, int layer, int flip,
+	float ang)
+	: Renderable(p, t, h, layer, flip, ang) {}
+
+Animated_object::Animated_object(Vectorf p,
+	const std::vector<sf::Texture>* a, float h, int layer)
+	: Animatable(p, a, h, layer) {}
+
+Animated_object::Animated_object(Vectorf p,
+	const std::vector<sf::Texture>* a, float h, int layer, int flip, float ang)
+	: Animatable(p, a, h, layer, flip, ang) {}
 
 
 Player::Player(Vectorf p, sf::Texture* texture, std::vector<sf::IntRect>& v,
-	std::vector<const Dynamic_animation*> a, sf::FloatRect rc, Animation_tree t,
-	float h, float gs, float m)
+	std::vector<const Dynamic_animation*> a, sf::FloatRect rc,
+	Animation_tree t, float h, float gs, float m)
 	: Dynamic_entity(p, texture, v, a, rc, t, h, gs, m) {}
 
 void Player::attack(int attack_type)

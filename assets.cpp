@@ -4,7 +4,7 @@ void Assets::load_texture(sf::Texture& t, sf::Image& img, int x, int y, int sx, 
 {
 	if (!t.loadFromImage(img, sf::IntRect(x, y, sx, sy)))
 	{
-		std::cout << "Texture loading error" << std::endl;
+		context.console->err << "Texture loading error" << "\n";
 		return;
 	}
 	else
@@ -14,6 +14,26 @@ void Assets::load_texture(sf::Texture& t, sf::Image& img, int x, int y, int sx, 
 			t.setRepeated(true);
 		}
 	}
+}
+
+std::vector<sf::Texture> Assets::load_animation(sf::Image& img, int x, int y,
+	int sx, int sy)
+{
+	std::vector<sf::Texture> animation;
+	for (int i = 0; i < x; i++)
+	{
+		for (int j = 0; j < y; j++)
+		{
+			sf::Texture tex;
+			if (!tex.loadFromImage(img, sf::IntRect(i*sx, j*sy, sx, sy)))
+			{
+				context.console->err << "animation loading error" << "\n";
+				return animation;
+			}
+			animation.push_back(tex);
+		}
+	}
+	return animation;
 }
 
 Dynamic_animation* Assets::load_dynamic_animation(std::string path)
@@ -98,14 +118,14 @@ void Assets::load_textures(std::vector<sf::Texture>& v, std::string path, bool r
 	std::stringstream tmps(tmp);
 	if (!(tmps >> a >> b >> c >> d))
 	{
-		std::cerr << "error reading sizes " + path << std::endl;
+		context.console->err << "error reading sizes " + path << "\n";
 		return;
 	}
 	v.reserve((uint64_t)c * d + 50);
 	sf::Image image;
 	if (!image.loadFromFile(path))
 	{
-		std::cerr << "Error while loading" + path << std::endl;
+		context.console->err << "Error while loading" + path << "\n";
 		return;
 	}
 	for (int j = 0; j < d; j++)
@@ -159,13 +179,16 @@ void Assets::load_assets()
 	light->loadFromFile("img/light.png");
 	console_bg = new sf::Texture();
 	console_bg->loadFromFile("img/console_bg.png");
-	animations.push_back(load_dynamic_animation("animations/stork/idle.txt"));
-	animations.push_back(load_dynamic_animation("animations/stork/run.txt"));
-	animations.push_back(load_dynamic_animation("animations/stork/jump_idle.txt"));
-	animations.push_back(load_dynamic_animation("animations/stork/jump_run.txt"));
-	animations.push_back(load_dynamic_animation("animations/stork/jump_run2.txt"));
-	animations.push_back(load_dynamic_animation("animations/stork/punch1.txt"));
-	animations.push_back(load_dynamic_animation("animations/stork/punch2.txt"));
+	dynamic_animations.push_back(load_dynamic_animation("animations/stork/idle.txt"));
+	dynamic_animations.push_back(load_dynamic_animation("animations/stork/run.txt"));
+	dynamic_animations.push_back(load_dynamic_animation("animations/stork/jump_idle.txt"));
+	dynamic_animations.push_back(load_dynamic_animation("animations/stork/jump_run.txt"));
+	dynamic_animations.push_back(load_dynamic_animation("animations/stork/jump_run2.txt"));
+	dynamic_animations.push_back(load_dynamic_animation("animations/stork/punch1.txt"));
+	dynamic_animations.push_back(load_dynamic_animation("animations/stork/punch2.txt"));
+	sf::Image a1;
+	a1.loadFromFile("animations/a1.png");
+	animations["a1"] = load_animation(a1, 2, 2, 64, 64);
 	load_textures(map_textures, "img/tex_ss_64_64_is_6_7.png", true);
 	stork_tree = load_animation_tree("animations/stork/tree.txt");
 	load_shaders();

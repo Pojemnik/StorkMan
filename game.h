@@ -19,7 +19,16 @@ struct Wall : public Texturable
 struct Object : public Renderable
 {
 	Object(Vectorf p, const sf::Texture* t, float h, int layer);
-	Object(Vectorf p, const sf::Texture* t, float h, int layer, int flip, float ang);
+	Object(Vectorf p, const sf::Texture* t, float h, int layer, int flip,
+		float ang);
+};
+
+struct Animated_object : public Animatable
+{
+	Animated_object(Vectorf p, const std::vector<sf::Texture>* a, float h,
+		int layer);
+	Animated_object(Vectorf p, const std::vector<sf::Texture>* a, float h,
+		int layer, int flip, float ang);
 };
 
 class Dynamic_entity : public Dynamic_animatable, public Physical

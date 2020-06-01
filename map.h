@@ -39,6 +39,7 @@ public:
 	void draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) const;
 	void update(float dt);
+	void pre_draw();
 	void recalc_light();
 	void rescale(float new_global_scale);
 };

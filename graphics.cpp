@@ -61,7 +61,7 @@ void Animatable::next_frame()
 {
 	if (++it == animation->end())
 	{
-		it == animation->begin();
+		it = animation->begin();
 		it++;
 	}
 	sprite.setTexture(*it);

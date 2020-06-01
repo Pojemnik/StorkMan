@@ -137,7 +137,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	context.console->log << "done!" << '\n';
 	sf::FloatRect f(380, 70, 20, 60);
 	Player player({ 400, 100 }, assets.pieces, assets.pieces_rect,
-		assets.animations, f, assets.stork_tree, 1.92f,
+		assets.dynamic_animations, f, assets.stork_tree, 1.92f,
 		context.global_scale, 87.f);
 	map.player = &player;
 	int moved = 0;
@@ -244,6 +244,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			sf::RenderStates rs = sf::RenderStates::Default;
 			rs.transform = sf::Transform().translate(-camera_pos);
 			player.pre_draw();
+			map.pre_draw();
 			map.draw_backgrounds(window, rs);
 			map.draw_bottom_layers(window, rs);
 			if (context.draw_collisions)

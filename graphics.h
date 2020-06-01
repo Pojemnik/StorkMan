@@ -31,7 +31,8 @@ public:
 	int layer;
 	Renderable() = default;
 	Renderable(Vectorf p, const sf::Texture* t, float h, int l);
-	Renderable(Vectorf p, const sf::Texture* t, float h, int l,int flip,float ang);
+	Renderable(Vectorf p, const sf::Texture* t, float h, int l, int flip,
+		float ang);
 	void rescale(float ratio);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

@@ -27,6 +27,8 @@ private:
 	Wall parse_wall(tinyxml2::XMLElement* element);
 	Object parse_object_raw(tinyxml2::XMLElement* element);
 	Object parse_object(tinyxml2::XMLElement* element);
+	Animated_object parse_animated_object_raw(tinyxml2::XMLElement* element);
+	Animated_object parse_animated_object(tinyxml2::XMLElement* element);
 
 public:
 	Map parse_map(tinyxml2::XMLElement* root);
