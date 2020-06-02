@@ -40,13 +40,22 @@ Object::Object(Vectorf p, const sf::Texture* t, float h, int layer, int flip,
 	: Renderable(p, t, h, layer, flip, ang) {}
 
 Animated_object::Animated_object(Vectorf p,
-	const std::vector<sf::Texture>* a, float h, int layer)
-	: Animatable(p, a, h, layer) {}
+	const std::vector<sf::Texture>* a, float h, int layer, int fr)
+	: Animatable(p, a, h, layer), frames(fr) {}
 
 Animated_object::Animated_object(Vectorf p,
-	const std::vector<sf::Texture>* a, float h, int layer, int flip, float ang)
-	: Animatable(p, a, h, layer, flip, ang) {}
+	const std::vector<sf::Texture>* a, float h, int layer, int fr,
+	int flip, float ang)
+	: Animatable(p, a, h, layer, flip, ang), frames(fr) {}
 
+void Animated_object::next_frame()
+{
+	if (++frame_counter == frames)
+	{
+		frame_counter = 0;
+		Animatable::next_frame();
+	}
+}
 
 Player::Player(Vectorf p, sf::Texture* texture, std::vector<sf::IntRect>& v,
 	std::vector<const Dynamic_animation*> a, sf::FloatRect rc,

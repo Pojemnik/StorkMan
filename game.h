@@ -23,12 +23,18 @@ struct Object : public Renderable
 		float ang);
 };
 
-struct Animated_object : public Animatable
+class Animated_object : public Animatable
 {
+public:
 	Animated_object(Vectorf p, const std::vector<sf::Texture>* a, float h,
-		int layer);
+		int layer, int fr);
 	Animated_object(Vectorf p, const std::vector<sf::Texture>* a, float h,
-		int layer, int flip, float ang);
+		int layer, int fr, int flip, float ang);
+	void next_frame();
+
+private:
+	int frames;
+	int frame_counter = 0;
 };
 
 class Dynamic_entity : public Dynamic_animatable, public Physical

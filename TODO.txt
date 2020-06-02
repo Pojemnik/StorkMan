@@ -15,7 +15,7 @@ Ficzury:
 		*Więcej warstw dla obiektów ✓
 		*Obracanie i odbijanie obiektów z xml'a ✓
 		*?Pozycja Storkmana na starcie ustalana z góry w XML
-		*fps animowanych obiektów
+		*fps animowanych obiektów ✓
 		Kolor obiektu w XML
 		Obracanie ścian
 	Fizyka:
@@ -27,6 +27,7 @@ Ficzury:
 		Animowane obiekty ✓
 		*Lepsza konsola ✓
 		*Muzyka/dźwięki
+		*Popraiwć ogrnianie czasu w silniku (update)
 		Spadanie i lądowanie - lepiej rozwiązać animacje
 		Skalowanie (zoom/odzoom)
 		Chowanie się przed wrogami za obiektami

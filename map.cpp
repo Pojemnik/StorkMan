@@ -302,9 +302,9 @@ void Map::pre_draw()
 {
 	for (auto& level_it : loaded_levels)
 	{
-		for (auto& animatable_it : level_it->animatables)
+		for (auto& animatable_it : level_it->anim_objects)
 		{
-			animatable_it->next_frame();
+			animatable_it.next_frame();
 		}
 	}
 }

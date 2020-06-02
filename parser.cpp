@@ -349,6 +349,12 @@ Animated_object Parser::parse_animated_object_raw(tinyxml2::XMLElement* element)
 	float rotationang = rotation == "" ? 0 : std::stof(rotation);
 	std::string flip = get_attribute_by_name("flip", element);
 	int flipint = 0;
+	std::string frames_str = get_attribute_by_name("fpf", element);
+	int frames = 1;
+	if (frames_str != "")
+	{
+		frames = std::stoi(frames_str);
+	}
 	if (flip != "")
 	{
 		Vectori flipiv = parse_num_pairi(flip);
@@ -368,9 +374,11 @@ Animated_object Parser::parse_animated_object_raw(tinyxml2::XMLElement* element)
 		{
 			throw std::invalid_argument("Invalid layer");
 		}
-		return Animated_object(pos, tex, height, l, flipint, rotationang);
+		return Animated_object(pos, tex, height, l, frames, flipint,
+			rotationang);
 	}
-	return Animated_object(pos, tex, height, DEFAULT_OBJECT_LAYER, flipint, rotationang);
+	return Animated_object(pos, tex, height, DEFAULT_OBJECT_LAYER, frames,
+		flipint, rotationang);
 }
 
 Animated_object Parser::parse_animated_object(tinyxml2::XMLElement* element)
