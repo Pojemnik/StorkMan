@@ -255,6 +255,21 @@ Wall Parser::parse_wall_raw(tinyxml2::XMLElement* element)
 	std::string val = get_attribute_by_name("texture", element);
 	tex = assets->textures.at(val);
 	std::string layer = get_attribute_by_name("layer", element);
+	float rotationang = std::stof(util::pass_or_default(get_attribute_by_name("rotation", element), "0"));
+	std::string flip = get_attribute_by_name("flip", element);
+	int flipint = 0;
+	if (flip != "")
+	{
+		Vectori flipiv = parse_num_pairi(flip);
+		if (flipiv.x < 0)
+			flipint = 1;
+		if (flipiv.y < 0)
+			flipint += 2;
+	}
+	if (flipint < 0 || flipint >3)
+	{
+		throw std::invalid_argument("Invalid flip value");
+	}
 	tinyxml2::XMLElement* e = element->FirstChildElement();
 	while (e != NULL)
 	{
@@ -263,7 +278,10 @@ Wall Parser::parse_wall_raw(tinyxml2::XMLElement* element)
 		{
 			Vectorf v = parse_num_pairf(e->GetText());
 			v *= context.global_scale;
-			points.push_back(sf::Vertex(v, v));
+			Vectorf v2 = util::rotate_vector(v, rotationang);
+			v2.x *= fliptab[flipint].x;
+			v2.y *= fliptab[flipint].y;
+			points.push_back(sf::Vertex(v, v2));
 		}
 		else
 		{
