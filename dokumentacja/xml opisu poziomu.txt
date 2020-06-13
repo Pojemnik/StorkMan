@@ -36,6 +36,16 @@ object:
 		rotation* - (domyślnie 0) obrót obiektu względem lewego górnego rogu, zgodnie z ruchem wskazówek zegara [stopnie]
 		flip* - (domyślnie 1,1) odbicie w osi x i w osi y (-1 - odbicie, 1 - brak odbicia) (przykład flip="-1,1" - odbicie w osi x, baz odbicia w osi y)
 		layer* - (domyślne 3) warstwa, na której znajduje się obiekt (liczone "od dołu"), liczba od 0 do 11, pierwsze 7 jest pod graczem, 3 kolejne pomiędzy nim, a światłem, 2 ostatnie nad światłem
+		
+animated_object:
+	atrybuty:
+	position - pozycja [m]
+		texture - tekstura
+		height - wysokość [m], używana do obliczania skali
+		rotation* - (domyślnie 0) obrót obiektu względem lewego górnego rogu, zgodnie z ruchem wskazówek zegara [stopnie]
+		flip* - (domyślnie 1,1) odbicie w osi x i w osi y (-1 - odbicie, 1 - brak odbicia) (przykład flip="-1,1" - odbicie w osi x, baz odbicia w osi y)
+		layer* - (domyślne 3) warstwa, na której znajduje się obiekt (liczone "od dołu"), liczba od 0 do 11, pierwsze 7 jest pod graczem, 3 kolejne pomiędzy nim, a światłem, 2 ostatnie nad światłem
+		fpf* - (domyślnie 1) co ile klatek gry ma się zmieniać klatka animacji obiekty (rozwiązanie tymczasowe)
 	
 light:
 	atrybuty:
