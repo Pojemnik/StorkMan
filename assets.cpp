@@ -16,24 +16,20 @@ void Assets::load_texture(sf::Texture& t, sf::Image& img, int x, int y, int sx, 
 	}
 }
 
-std::vector<sf::Texture> Assets::load_animation(sf::Image& img, int x, int y,
-	int sx, int sy)
+void Assets::load_animation(std::vector<sf::Texture>& a, sf::Image& img, int x,
+	int y, int sx, int sy)
 {
-	std::vector<sf::Texture> animation;
 	for (int i = 0; i < x; i++)
 	{
 		for (int j = 0; j < y; j++)
 		{
-			sf::Texture tex;
-			if (!tex.loadFromImage(img, sf::IntRect(i*sx, j*sy, sx, sy)))
+			if (!a[i*x+j].loadFromImage(img, sf::IntRect(i * sx, j * sy, sx, sy)))
 			{
 				context.console->err << "animation loading error" << "\n";
-				return animation;
+				return;
 			}
-			animation.push_back(tex);
 		}
 	}
-	return animation;
 }
 
 Dynamic_animation* Assets::load_dynamic_animation(std::string path)
@@ -153,7 +149,8 @@ void Assets::load_shaders()
 	context.global.setUniform("light", sf::Shader::CurrentTexture);
 }
 
-void Assets::load_additional_texture(std::string path, std::string name, int repeat)
+void Assets::load_additional_texture(std::string path, std::string name,
+	int repeat)
 {
 	map_textures.push_back(sf::Texture());
 	map_textures.back().loadFromFile(path);
@@ -162,6 +159,15 @@ void Assets::load_additional_texture(std::string path, std::string name, int rep
 		map_textures.back().setRepeated(true);
 	}
 	textures[name] = &map_textures.back();
+}
+
+void Assets::load_additional_animation(string path, string name, Vectori n,
+	Vectori size)
+{
+	sf::Image im;
+	im.loadFromFile(path);
+	animations[name] = std::vector<sf::Texture>(n.x*n.y);
+	load_animation(animations[name], im, n.y, n.x, size.x, size.y);
 }
 
 void Assets::load_assets()
@@ -186,9 +192,12 @@ void Assets::load_assets()
 	dynamic_animations.push_back(load_dynamic_animation("animations/stork/jump_run2.txt"));
 	dynamic_animations.push_back(load_dynamic_animation("animations/stork/punch1.txt"));
 	dynamic_animations.push_back(load_dynamic_animation("animations/stork/punch2.txt"));
+	/*
 	sf::Image a1;
 	a1.loadFromFile("animations/a1.png");
-	animations["a1"] = load_animation(a1, 2, 2, 64, 64);
+	animations["a1"] = std::vector<sf::Texture>(4);
+	load_animation(animations["a1"], a1, 2, 2, 64, 64);
+	*/
 	load_textures(map_textures, "img/tex_ss_64_64_is_6_7.png", true);
 	stork_tree = load_animation_tree("animations/stork/tree.txt");
 	load_shaders();

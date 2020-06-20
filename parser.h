@@ -33,5 +33,6 @@ private:
 public:
 	Map parse_map(tinyxml2::XMLElement* root);
 	void parse_additional_textures(std::string path);
+	void parse_additional_animations(std::string path);
 	Parser(Assets* _assets);
 };

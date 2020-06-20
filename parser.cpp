@@ -504,3 +504,21 @@ void Parser::parse_additional_textures(std::string path)
 		}
 	}
 }
+
+void Parser::parse_additional_animations(std::string path)
+{
+	std::ifstream file;
+	std::string p, name;
+	int x, y, sx, sy;
+
+	file.open(path);
+	if (file.good())
+	{
+		while (!file.eof())
+		{
+			file >> p >> name >> x >> y >> sx >> sy;
+			assets->load_additional_animation(p, name, Vectori(x, y),
+				Vectori(sx, sy));
+		}
+	}
+}

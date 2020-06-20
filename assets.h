@@ -21,13 +21,15 @@ public:
 	
 	void load_assets();
 	void load_additional_texture(std::string path, std::string name, int repeat);
+	void load_additional_animation(string path, string name, Vectori n,
+		Vectori size);
 
 private:
 	void load_texture(sf::Texture& t, sf::Image& img, int y, int x, int sx, int sy, bool rep);
 	void load_textures(std::vector<sf::Texture>& v, std::string path, bool rep);
 	void load_shaders();
-	std::vector<sf::Texture> load_animation(sf::Image& img, int x, int y,
-		int sx, int sy);
+	void load_animation(std::vector<sf::Texture>& a, sf::Image& img, int x, int y,
+		int sx, int sy);//a musi byæ zaalokowane wczeœniej
 	Dynamic_animation* load_dynamic_animation(std::string path);
 	Animation_tree load_animation_tree(std::string path);
 };

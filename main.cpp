@@ -9,7 +9,7 @@
 #include "console.h"
 #include "interpreter.h"
 
-const std::string VERSION = "0.4.2";
+const std::string VERSION = "0.4.3";
 
 bool update(float dt, Map& map, int move)
 {
@@ -110,6 +110,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	context.console->out << "Stork'man version " + VERSION << '\n';
 	Parser parser(&assets);
 	parser.parse_additional_textures("img/textures.txt");
+	parser.parse_additional_animations("img/animations.txt");
 	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
 	sf::RenderWindow window(sf::VideoMode(context.resolution.x,
 		context.resolution.y, desktop.bitsPerPixel),

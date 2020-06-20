@@ -1,0 +1,1 @@
+animations/a1.png a1 2 2 64 64
