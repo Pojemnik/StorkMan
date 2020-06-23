@@ -37,6 +37,22 @@ private:
 	int frame_counter = 0;
 };
 
+class Pendulum : public Physical, public Renderable
+{
+public:
+	Pendulum(sf::Texture* pen_tex, sf::Texture* line_tex,
+		std::vector<Vectorf> attach, float line_l, Vectorf pos);
+private:
+	Vectorf pos;
+	float max_angle;
+	float line_len;
+	sf::Sprite pendulum;
+	std::vector<sf::Sprite> lines;
+	sf::Texture* pendulum_tex;
+	sf::Texture* line_tex;
+	std::vector<Vectorf> attach_points;
+};
+
 class Dynamic_entity : public Dynamic_animatable, public Physical
 {
 protected:

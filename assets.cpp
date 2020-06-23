@@ -16,6 +16,22 @@ void Assets::load_texture(sf::Texture& t, sf::Image& img, int x, int y, int sx, 
 	}
 }
 
+void Assets::load_texture(sf::Texture& t, string path, bool rep)
+{
+	if (!t.loadFromFile(path))
+	{
+		context.console->err << "Texture loading error" << "\n";
+		return;
+	}
+	else
+	{
+		if (rep)
+		{
+			t.setRepeated(true);
+		}
+	}
+}
+
 void Assets::load_animation(std::vector<sf::Texture>& a, sf::Image& img, int x,
 	int y, int sx, int sy)
 {
@@ -23,7 +39,7 @@ void Assets::load_animation(std::vector<sf::Texture>& a, sf::Image& img, int x,
 	{
 		for (int j = 0; j < y; j++)
 		{
-			if (!a[i*x+j].loadFromImage(img, sf::IntRect(i * sx, j * sy, sx, sy)))
+			if (!a[i * x + j].loadFromImage(img, sf::IntRect(i * sx, j * sy, sx, sy)))
 			{
 				context.console->err << "animation loading error" << "\n";
 				return;
@@ -166,25 +182,29 @@ void Assets::load_additional_animation(string path, string name, Vectori n,
 {
 	sf::Image im;
 	im.loadFromFile(path);
-	animations[name] = std::vector<sf::Texture>(n.x*n.y);
+	animations[name] = std::vector<sf::Texture>(n.x * n.y);
 	load_animation(animations[name], im, n.y, n.x, size.x, size.y);
 }
 
 void Assets::load_assets()
 {
+	//Storkman
 	sf::FloatRect tmp(210, 100, 105, 340);
 	pieces = new sf::Texture();
 	pieces->loadFromFile("img/stork/parts_ss_128_128_is_3_9.png");
 	for (int i = 0; i < 27; i++)
 		pieces_rect.push_back({ 128 * (i % 3),128 * (i / 3),128,128 });
+	//Background
 	bg = new sf::Texture();
 	bg->loadFromFile("img/bg/bg.jpg");
 	layer2 = new sf::Texture();
 	layer2->loadFromFile("img/bg/LAS.png");
 	light = new sf::Texture();
 	light->loadFromFile("img/light.png");
+	//Console
 	console_bg = new sf::Texture();
 	console_bg->loadFromFile("img/console_bg.png");
+	//Dynamic animations
 	dynamic_animations.push_back(load_dynamic_animation("animations/stork/idle.txt"));
 	dynamic_animations.push_back(load_dynamic_animation("animations/stork/run.txt"));
 	dynamic_animations.push_back(load_dynamic_animation("animations/stork/jump_idle.txt"));
@@ -192,62 +212,36 @@ void Assets::load_assets()
 	dynamic_animations.push_back(load_dynamic_animation("animations/stork/jump_run2.txt"));
 	dynamic_animations.push_back(load_dynamic_animation("animations/stork/punch1.txt"));
 	dynamic_animations.push_back(load_dynamic_animation("animations/stork/punch2.txt"));
-	/*
-	sf::Image a1;
-	a1.loadFromFile("animations/a1.png");
-	animations["a1"] = std::vector<sf::Texture>(4);
-	load_animation(animations["a1"], a1, 2, 2, 64, 64);
-	*/
-	load_textures(map_textures, "img/tex_ss_64_64_is_6_7.png", true);
 	stork_tree = load_animation_tree("animations/stork/tree.txt");
+	//Textures
+	enemy_textures.push_back(sf::Texture());
+	load_texture(enemy_textures.back(), "img/enemy/KLODA_00.PNG", false);
+	enemy_textures.push_back(sf::Texture());
+	load_texture(enemy_textures.back(), "img/enemy/SZNUR_00.PNG", false);
+	load_textures(map_textures, "img/tex_ss_64_64_is_6_7.png", true);
+	{
+		std::vector<string> tmp = { "asphalt,0","concrete,0","construction,0",
+		"bricks,0","bricks,1","bricks,2", "bricks,3","tile,0","rivets,0",
+		"panels,0","panels,1","panels,2","grass,0","ribbing,0","ribbing,1",
+		"ribbing,2","dirt,0","paving,0","paving,1","wood,0","wood,1","wood,2",
+		"wood,3","wood,4","tile1","canal0","canal1","krata0","wall0","pipes0",
+		"pipes1","pipes2","pipes3","tapeta0","tapeta1","tapeta2","tapeta3",
+		"vent0","vent1" };
+		for (int i = 0; i < tmp.size(); i++)
+		{
+			textures[tmp[i]] = &map_textures[i];
+		}
+	}
+
+	//Shaders
 	load_shaders();
-
-	textures["asphalt,0"] = &map_textures[0];
-	textures["concrete,0"] = &map_textures[1];
-	textures["construction,0"] = &map_textures[2];
-	textures["bricks,0"] = &map_textures[3];
-	textures["bricks,1"] = &map_textures[4];
-	textures["bricks,2"] = &map_textures[5];
-	textures["bricks,3"] = &map_textures[6];
-	textures["tile,0"] = &map_textures[7];
-	textures["rivets,0"] = &map_textures[8];
-	textures["panels,0"] = &map_textures[9];
-	textures["panels,1"] = &map_textures[10];
-	textures["panels,2"] = &map_textures[11];
-	textures["grass,0"] = &map_textures[12];
-	textures["ribbing,0"] = &map_textures[13];
-	textures["ribbing,1"] = &map_textures[14];
-	textures["ribbing,2"] = &map_textures[15];
-	textures["dirt,0"] = &map_textures[16];
-	textures["paving,0"] = &map_textures[17];
-	textures["paving,1"] = &map_textures[18];
-	textures["wood,0"] = &map_textures[19];
-	textures["wood,1"] = &map_textures[20];
-	textures["wood,2"] = &map_textures[21];
-	textures["wood,3"] = &map_textures[22];
-	textures["wood,4"] = &map_textures[23];
-	textures["tile1"] = &map_textures[24];
-	textures["canal0"] = &map_textures[25];
-	textures["canal1"] = &map_textures[26];
-	textures["krata0"] = &map_textures[27];
-	textures["wall0"] = &map_textures[28];
-	textures["pipes0"] = &map_textures[29];
-	textures["pipes1"] = &map_textures[30];
-	textures["pipes2"] = &map_textures[31];
-	textures["pipes3"] = &map_textures[32];
-	textures["tapeta0"] = &map_textures[33];
-	textures["tapeta1"] = &map_textures[34];
-	textures["tapeta2"] = &map_textures[35];
-	textures["tapeta3"] = &map_textures[36];
-	textures["vent0"] = &map_textures[37];
-	textures["vent1"] = &map_textures[38];
-
 	context.blurh_states.shader = &blurh;
 	context.blurv_states.shader = &blurv;
 	context.final_states.blendMode = sf::BlendMultiply;
 	context.white_states.shader = &white;
+	//Icon
 	icon.loadFromFile("img/ikona.png");
-
+	//Fonts
 	storkfont.loadFromFile("StorkFont.ttf");
 	consola.loadFromFile("consola.ttf");
 }
