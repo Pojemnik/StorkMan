@@ -214,22 +214,23 @@ void Assets::load_assets()
 	dynamic_animations.push_back(load_dynamic_animation("animations/stork/punch2.txt"));
 	stork_tree = load_animation_tree("animations/stork/tree.txt");
 	//Textures
+	enemy_textures.reserve(20);
 	enemy_textures.push_back(sf::Texture());
 	load_texture(enemy_textures.back(), "img/enemy/KLODA_00.PNG", false);
 	enemy_textures.push_back(sf::Texture());
 	load_texture(enemy_textures.back(), "img/enemy/SZNUR_00.PNG", false);
 	load_textures(map_textures, "img/tex_ss_64_64_is_6_7.png", true);
 	{
-		std::vector<string> tmp = { "asphalt,0","concrete,0","construction,0",
+		std::vector<string> tex_names = { "asphalt,0","concrete,0","construction,0",
 		"bricks,0","bricks,1","bricks,2", "bricks,3","tile,0","rivets,0",
 		"panels,0","panels,1","panels,2","grass,0","ribbing,0","ribbing,1",
 		"ribbing,2","dirt,0","paving,0","paving,1","wood,0","wood,1","wood,2",
 		"wood,3","wood,4","tile1","canal0","canal1","krata0","wall0","pipes0",
 		"pipes1","pipes2","pipes3","tapeta0","tapeta1","tapeta2","tapeta3",
 		"vent0","vent1" };
-		for (int i = 0; i < tmp.size(); i++)
+		for (int i = 0; i < tex_names.size(); i++)
 		{
-			textures[tmp[i]] = &map_textures[i];
+			textures[tex_names[i]] = &map_textures[i];
 		}
 	}
 

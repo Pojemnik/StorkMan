@@ -307,3 +307,56 @@ void Dynamic_entity::rescale(float new_scale)
 	Dynamic_animatable::rescale(ratio);
 	Collidable::rescale(ratio);
 }
+
+Pendulum::Pendulum(sf::Texture* pen_tex, sf::Texture* l_tex,
+	std::vector<Vectorf> attach, float line_l, Vectorf p, float v, float h)
+	: line_len(line_l), line_tex(l_tex), height(h)
+{
+	speed = { v,0 };
+	pos = p*context.global_scale;
+	tex = pen_tex;
+	sprite.setTexture(*tex);
+	scale = context.global_scale * height / 200;
+	sprite.setScale(scale, scale);
+	sprite.setPosition(pos);
+	rect_collision.top = p.y * context.global_scale + 160;
+	rect_collision.left = p.x * context.global_scale + 50;
+	rect_collision.height = 200;
+	rect_collision.width = 420;
+	mesh.vertices.push_back({ rect_collision.left, rect_collision.top });
+	mesh.vertices.push_back({ rect_collision.left + rect_collision.width,
+		rect_collision.top });
+	mesh.vertices.push_back({ rect_collision.left + rect_collision.width,
+		rect_collision.top + rect_collision.height });
+	mesh.vertices.push_back({ rect_collision.left,
+		rect_collision.top + rect_collision.height });
+	for (auto& i : attach)
+	{
+		sf::Sprite s(*line_tex);
+		Vectorf l_p = { i.x * context.global_scale-250,
+			i.y * context.global_scale };
+		s.setPosition(l_p);
+		s.setScale(1, (context.global_scale * line_len / 445.f));
+		lines.push_back(std::make_pair(s, i));
+	}
+}
+
+void Pendulum::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	for (const auto& i : lines)
+		target.draw(i.first, states);
+	target.draw(sprite, states);
+}
+
+void Pendulum::update(float dt)
+{
+
+}
+
+void Pendulum::move(Vectorf delta)
+{
+}
+
+void Pendulum::update_position(float dt)
+{
+}

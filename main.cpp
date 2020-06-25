@@ -140,6 +140,9 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	Player player({ 400, 100 }, assets.pieces, assets.pieces_rect,
 		assets.dynamic_animations, f, assets.stork_tree, 1.92f,
 		context.global_scale, 87.f);
+	std::vector<Vectorf> lines_att = { { 10,10 }, { 12,10 } };
+	Pendulum pen(&assets.enemy_textures[0], &assets.enemy_textures[1],
+		lines_att, 5, { 8.5, 13 }, 0, 2);
 	map.player = &player;
 	int moved = 0;
 	float acc = 0;
@@ -258,6 +261,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 				window.draw(r, rs);
 			}
 			window.draw(player, rs);
+			window.draw(pen, rs);
 			map.draw_middle_layers(window, rs);
 			context.final_states.transform = rs.transform;
 			context.final_states.transform.translate(

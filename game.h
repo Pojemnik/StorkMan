@@ -40,17 +40,21 @@ private:
 class Pendulum : public Physical, public Renderable
 {
 public:
-	Pendulum(sf::Texture* pen_tex, sf::Texture* line_tex,
-		std::vector<Vectorf> attach, float line_l, Vectorf pos);
+	Pendulum(sf::Texture* pen_tex, sf::Texture* l_tex,
+		std::vector<Vectorf> attach, float line_l, Vectorf p, float v, float h);
+	void update(float dt);
+	void update_position(float dt);
+	void move(Vectorf delta);
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+
 private:
-	Vectorf pos;
-	float max_angle;
+	float scale;
+	float height;
+	float max_angle = PI / 3.f;
 	float line_len;
-	sf::Sprite pendulum;
-	std::vector<sf::Sprite> lines;
-	sf::Texture* pendulum_tex;
+	std::vector<std::pair<sf::Sprite, Vectorf>> lines;
 	sf::Texture* line_tex;
-	std::vector<Vectorf> attach_points;
+	Vectorf speed;
 };
 
 class Dynamic_entity : public Dynamic_animatable, public Physical

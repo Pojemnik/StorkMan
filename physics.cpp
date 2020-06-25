@@ -49,13 +49,15 @@ sf::Vector2f Physical::uncollide(const Collidable* c, float dt)
 	return { 0,0 };
 }
 
-Physical::Physical(sf::FloatRect rect, std::vector<Vectorf> mesh, Collidable_type t, float m) : Collidable(rect, mesh, t), mass(m)
+Physical::Physical(sf::FloatRect rect, std::vector<Vectorf> mesh, Collidable_type t, float m)
+	: Collidable(rect, mesh, t), mass(m)
 {
 
 }
 
 
-Collidable::Collidable(sf::FloatRect rect, std::vector<Vectorf> _mesh, Collidable_type t) : rect_collision(rect), type(t)
+Collidable::Collidable(sf::FloatRect rect, std::vector<Vectorf> _mesh, Collidable_type t)
+	: rect_collision(rect), type(t)
 {
 	mesh.vertices = _mesh;
 }
