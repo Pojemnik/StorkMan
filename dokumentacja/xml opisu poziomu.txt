@@ -46,6 +46,7 @@ animated_object:
 		flip* - (domyślnie 1,1) odbicie w osi x i w osi y (-1 - odbicie, 1 - brak odbicia) (przykład flip="-1,1" - odbicie w osi x, baz odbicia w osi y)
 		layer* - (domyślne 3) warstwa, na której znajduje się obiekt (liczone "od dołu"), liczba od 0 do 11, pierwsze 7 jest pod graczem, 3 kolejne pomiędzy nim, a światłem, 2 ostatnie nad światłem
 		fpf* - (domyślnie 1) co ile klatek gry ma się zmieniać klatka animacji obiekty (rozwiązanie tymczasowe)
+		delta* - (domyślnie 0) od której klatki zacząć animację, bierze pod uwagę ustawienie fpf (przykład fpf="10" delta = "15" - zacznie od 2 klatki animacji, po 5 klatkach gry przejdzie do 3, dalej już co 10)
 	
 light:
 	atrybuty:

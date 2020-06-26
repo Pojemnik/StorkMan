@@ -88,6 +88,7 @@ namespace util
 	inline std::string pass_or_default(std::string val,std::string default_val);
 	Vectorf intersection(std::pair<Vectorf, Vectorf> a, std::pair<Vectorf, Vectorf> b);
 	void save_texture(std::string path, sf::Texture* texture);
+	sf::FloatRect mesh_to_rect(std::vector<sf::Vertex> vertices);
 	inline std::string pass_or_default(std::string val, std::string default_val)
 	{
 		return val == ""?default_val:val;

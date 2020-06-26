@@ -1,14 +1,7 @@
 #pragma once
 #include "graphics.h"
 #include "physics.h"
-
-struct Platform : public Texturable, public Collidable
-{
-	bool visible = true;
-	Platform(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> points,
-		int layer, bool v);
-	void rescale(float ratio);
-};
+#include "platforms.h"
 
 struct Wall : public Texturable
 {
@@ -29,32 +22,12 @@ public:
 	Animated_object(Vectorf p, const std::vector<sf::Texture>* a, float h,
 		int layer, int fr);
 	Animated_object(Vectorf p, const std::vector<sf::Texture>* a, float h,
-		int layer, int fr, int flip, float ang);
+		int layer, int fr, int flip, float ang, int frame_delta);
 	void next_frame();
 
 private:
-	int frames;
+	int frames_diff;
 	int frame_counter = 0;
-};
-
-class Pendulum : public Physical, public Renderable
-{
-public:
-	Pendulum(sf::Texture* pen_tex, sf::Texture* l_tex,
-		std::vector<Vectorf> attach, float line_l, Vectorf p, float v, float h);
-	void update(float dt);
-	void update_position(float dt);
-	void move(Vectorf delta);
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-
-private:
-	float scale;
-	float height;
-	float max_angle = PI / 3.f;
-	float line_len;
-	std::vector<std::pair<sf::Sprite, Vectorf>> lines;
-	sf::Texture* line_tex;
-	Vectorf speed;
 };
 
 class Dynamic_entity : public Dynamic_animatable, public Physical

@@ -35,11 +35,11 @@ void Assets::load_texture(sf::Texture& t, string path, bool rep)
 void Assets::load_animation(std::vector<sf::Texture>& a, sf::Image& img, int x,
 	int y, int sx, int sy)
 {
-	for (int i = 0; i < x; i++)
+	for (int j = 0; j < y; j++)
 	{
-		for (int j = 0; j < y; j++)
+		for (int i = 0; i < x; i++)
 		{
-			if (!a[i * x + j].loadFromImage(img, sf::IntRect(i * sx, j * sy, sx, sy)))
+			if (!a[j * y + i].loadFromImage(img, sf::IntRect(i * sx, j * sy, sx, sy)))
 			{
 				context.console->err << "animation loading error" << "\n";
 				return;

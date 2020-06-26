@@ -47,6 +47,7 @@ public:
 	virtual void apply_force(Vectorf f);
 	sf::Vector2f uncollide(const Collidable* c, float dt);
 	bool test_collision(const Collidable& other);
-	Physical(sf::FloatRect rect, std::vector<Vectorf> mesh, Collidable_type t, float m);
+	Physical(sf::FloatRect rect, std::vector<Vectorf> mesh, Collidable_type t,
+		float m);
 	Physical() = default;
 };

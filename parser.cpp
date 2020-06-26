@@ -22,7 +22,7 @@ sf::Color Parser::parse_color(std::string val)
 	{
 		throw std::invalid_argument("No ',' found");
 	}
-	p2 = val.find(',', p1+1);
+	p2 = val.find(',', p1 + 1);
 	if (p2 == std::string::npos)
 	{
 		throw std::invalid_argument("Only one ',' found");
@@ -107,7 +107,7 @@ Light_source Parser::parse_light_source(tinyxml2::XMLElement* element)
 	{
 		return parse_light_source_raw(element);
 	}
-	catch (const std::invalid_argument & e)
+	catch (const std::invalid_argument& e)
 	{
 		context.console->err << "Wyjatek: " << e.what() << '\n';
 		context.console->err << "Element: " << "light_source" << '\n';
@@ -119,16 +119,16 @@ Light_source Parser::parse_light_source(tinyxml2::XMLElement* element)
 Light_source Parser::parse_light_source_raw(tinyxml2::XMLElement* element)
 {
 	const sf::Texture* tex;
-	sf::Color color= DEFAULT_LIGHT_COLOR;
+	sf::Color color = DEFAULT_LIGHT_COLOR;
 	Vectorf pos = parse_num_pairf(get_attribute_by_name("position", element));
 	pos *= context.global_scale;
 	tex = assets->light;
-	std::string tmp= get_attribute_by_name("intensity", element);
+	std::string tmp = get_attribute_by_name("intensity", element);
 	float intensity = DEFAULT_LIGHT_INTENSITY;
-	if(tmp!="")
-		intensity=std::stof(tmp);
+	if (tmp != "")
+		intensity = std::stof(tmp);
 	tmp = get_attribute_by_name("color", element);
-	if(tmp!="")
+	if (tmp != "")
 		color = parse_color(tmp);
 	if (intensity <= 0)
 	{
@@ -143,13 +143,13 @@ Platform Parser::parse_platform(tinyxml2::XMLElement* element)
 	{
 		return parse_platform_raw(element);
 	}
-	catch (const std::invalid_argument & e)
+	catch (const std::invalid_argument& e)
 	{
 		context.console->err << "Wyjatek: " << e.what() << '\n';
 		context.console->err << "Element: " << "platform" << '\n';
 		context.console->err << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz platformy" << '\n';
 	}
-	catch (const std::out_of_range & e)
+	catch (const std::out_of_range& e)
 	{
 		context.console->err << "Wyjatek: " << e.what() << '\n';
 		context.console->err << "Element: " << "platform" << '\n';
@@ -178,7 +178,7 @@ Platform Parser::parse_platform_raw(tinyxml2::XMLElement* element)
 	pos *= context.global_scale;
 	std::string layer = get_attribute_by_name("layer", element);
 	tinyxml2::XMLElement* e = element->FirstChildElement();
-	float rotationang = std::stof(util::pass_or_default(get_attribute_by_name("rotation", element),"0"));
+	float rotationang = std::stof(util::pass_or_default(get_attribute_by_name("rotation", element), "0"));
 	std::string flip = get_attribute_by_name("flip", element);
 	int flipint = 0;
 	if (flip != "")
@@ -231,13 +231,13 @@ Wall Parser::parse_wall(tinyxml2::XMLElement* element)
 	{
 		return parse_wall_raw(element);
 	}
-	catch (const std::invalid_argument & e)
+	catch (const std::invalid_argument& e)
 	{
 		context.console->err << "Wyjatek: " << e.what() << '\n';
 		context.console->err << "Element: " << "wall" << '\n';
 		context.console->err << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz œciany" << '\n';
 	}
-	catch (const std::out_of_range & e)
+	catch (const std::out_of_range& e)
 	{
 		context.console->err << "Wyjatek: " << e.what() << '\n';
 		context.console->err << "Element: " << "wall" << '\n';
@@ -308,7 +308,7 @@ Object Parser::parse_object(tinyxml2::XMLElement* element)
 	{
 		return parse_object_raw(element);
 	}
-	catch (const std::out_of_range & e)
+	catch (const std::out_of_range& e)
 	{
 		context.console->err << "Wyjatek: " << e.what() << '\n';
 		context.console->err << "Element: " << "object" << '\n';
@@ -329,50 +329,7 @@ Object Parser::parse_object_raw(tinyxml2::XMLElement* element)
 	std::string rotation = get_attribute_by_name("rotation", element);
 	float rotationang = rotation == "" ? 0 : std::stof(rotation);
 	std::string flip = get_attribute_by_name("flip", element);
-	int flipint=0;
-	if (flip != "")
-	{
-		Vectori flipiv = parse_num_pairi(flip);
-		if (flipiv.x < 0)
-			flipint = 1;
-		if (flipiv.y < 0)
-			flipint += 2;
-	}
-	if (flipint < 0 || flipint >3)
-	{
-		throw std::invalid_argument("Invalid flip value");
-	}
-	if (layer != "")
-	{
-		int l = std::stoi(layer);
-		if (l < 0 || l >= BOTTOM_LAYERS+MIDDLE_LAYERS+TOP_LAYERS)
-		{
-			throw std::invalid_argument("Invalid layer");
-		}
-		return Object(pos, tex, height, l,flipint,rotationang);
-	}
-	return Object(pos, tex, height, DEFAULT_OBJECT_LAYER, flipint, rotationang);
-}
-
-Animated_object Parser::parse_animated_object_raw(tinyxml2::XMLElement* element)
-{
-	std::vector<sf::Texture>* tex;
-	Vectorf pos = parse_num_pairf(get_attribute_by_name("position", element));
-	pos *= context.global_scale;
-	std::string val = get_attribute_by_name("texture", element);
-	tex = &assets->animations.at(val);
-	float height = std::stof(get_attribute_by_name("height", element));
-	std::string layer = get_attribute_by_name("layer", element);
-	std::string rotation = get_attribute_by_name("rotation", element);
-	float rotationang = rotation == "" ? 0 : std::stof(rotation);
-	std::string flip = get_attribute_by_name("flip", element);
 	int flipint = 0;
-	std::string frames_str = get_attribute_by_name("fpf", element);
-	int frames = 1;
-	if (frames_str != "")
-	{
-		frames = std::stoi(frames_str);
-	}
 	if (flip != "")
 	{
 		Vectori flipiv = parse_num_pairi(flip);
@@ -392,11 +349,60 @@ Animated_object Parser::parse_animated_object_raw(tinyxml2::XMLElement* element)
 		{
 			throw std::invalid_argument("Invalid layer");
 		}
+		return Object(pos, tex, height, l, flipint, rotationang);
+	}
+	return Object(pos, tex, height, DEFAULT_OBJECT_LAYER, flipint, rotationang);
+}
+
+Animated_object Parser::parse_animated_object_raw(tinyxml2::XMLElement* element)
+{
+	std::vector<sf::Texture>* tex;
+	Vectorf pos = parse_num_pairf(get_attribute_by_name("position", element));
+	pos *= context.global_scale;
+	std::string val = get_attribute_by_name("texture", element);
+	tex = &assets->animations.at(val);
+	float height = std::stof(get_attribute_by_name("height", element));
+	std::string layer = get_attribute_by_name("layer", element);
+	std::string rotation = get_attribute_by_name("rotation", element);
+	float rotationang = rotation == "" ? 0 : std::stof(rotation);
+	std::string flip = get_attribute_by_name("flip", element);
+	int flipint = 0;
+	std::string frames_str = get_attribute_by_name("fpf", element);
+	int frames = 1;
+	std::string frame_delta_str = get_attribute_by_name("delta", element);
+	int frame_delta = 0;
+	if (frames_str != "")
+	{
+		frames = std::stoi(frames_str);
+	}
+	if (flip != "")
+	{
+		Vectori flipiv = parse_num_pairi(flip);
+		if (flipiv.x < 0)
+			flipint = 1;
+		if (flipiv.y < 0)
+			flipint += 2;
+	}
+	if (frame_delta_str != "")
+	{
+		frame_delta = std::stoi(frame_delta_str);
+	}
+	if (flipint < 0 || flipint >3)
+	{
+		throw std::invalid_argument("Invalid flip value");
+	}
+	if (layer != "")
+	{
+		int l = std::stoi(layer);
+		if (l < 0 || l >= BOTTOM_LAYERS + MIDDLE_LAYERS + TOP_LAYERS)
+		{
+			throw std::invalid_argument("Invalid layer");
+		}
 		return Animated_object(pos, tex, height, l, frames, flipint,
-			rotationang);
+			rotationang, frame_delta);
 	}
 	return Animated_object(pos, tex, height, DEFAULT_OBJECT_LAYER, frames,
-		flipint, rotationang);
+		flipint, rotationang, frame_delta);
 }
 
 Animated_object Parser::parse_animated_object(tinyxml2::XMLElement* element)

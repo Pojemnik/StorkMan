@@ -42,7 +42,6 @@ Animatable::Animatable(
 	sprite.setTexture(*it);
 	sprite.setPosition(pos);
 	rescale(1);
-	next_frame();
 }
 
 Animatable::Animatable(Vectorf p, const std::vector<sf::Texture>* a, float h,
@@ -54,7 +53,6 @@ Animatable::Animatable(Vectorf p, const std::vector<sf::Texture>* a, float h,
 	sprite.setPosition(pos);
 	sprite.setRotation(ang);
 	rescale(1);
-	next_frame();
 }
 
 void Animatable::next_frame()

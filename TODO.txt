@@ -16,6 +16,7 @@ Ficzury:
 		*Obracanie i odbijanie obiektów z xml'a ✓
 		*?Pozycja Storkmana na starcie ustalana z góry w XML
 		*fps animowanych obiektów ✓
+		*opóźnienie początku animacji/wybór pierwszej klatki ✓
 		Kolor obiektu w XML
 		Obracanie ścian
 	Fizyka:
@@ -38,7 +39,7 @@ Ficzury:
 		}
 	Światło:
 		*Swiatło w osobnych wątkach/gpu (✓)
-		*Shadery dla (statycznych) świateł
+		?Shadery dla (statycznych) świateł
 		Cień Storkmana?
 		*Przezroczyste platformy ✓
 		Interakcja między światłem a ścianami?
