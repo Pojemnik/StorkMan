@@ -233,6 +233,13 @@ void Assets::load_assets()
 			textures[tex_names[i]] = &map_textures[i];
 		}
 	}
+	{
+		std::vector<string> tex_names = {"log,1","line,1"};
+		for (int i = 0; i < tex_names.size(); i++)
+		{
+			textures[tex_names[i]] = &enemy_textures[i];
+		}
+	}
 
 	//Shaders
 	load_shaders();

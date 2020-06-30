@@ -1,5 +1,14 @@
 ﻿<level name="Tajna Kryjówka Generała - poziom testowy 03" background="bg1">
 	/---------------------------------------------------------------------HELIKOPTER
+	<pendulum position="9.5,15" texture="log,1" line="line,1" length="5" angle="60">
+		<a>10,10</a>
+		<a>12,10</a>
+		
+		<vt>0,0,50,160</vt>
+		<vt>3,0,462,160</vt>
+		<vt>3,2,462,352</vt>
+		<vt>0,2,50,352</vt>
+	</pendulum>
 	<platform position="6,4.5" texture="rivets,0">
 		<v>0,0.2</v>
 		<v>0.5,0</v>

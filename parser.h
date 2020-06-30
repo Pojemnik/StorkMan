@@ -12,6 +12,7 @@ private:
 	const int DEFAULT_OBJECT_LAYER = 3;
 	const float DEFAULT_LIGHT_INTENSITY = 1;
 	const sf::Color DEFAULT_LIGHT_COLOR = sf::Color::White;
+	const Vectorf fliptab[4] = { {1,1},{-1,1},{1,-1},{-1,-1} };
 	Assets* assets;
 
 	Vectorf parse_num_pairf(std::string val);
@@ -29,6 +30,8 @@ private:
 	Object parse_object(tinyxml2::XMLElement* element);
 	Animated_object parse_animated_object_raw(tinyxml2::XMLElement* element);
 	Animated_object parse_animated_object(tinyxml2::XMLElement* element);
+	Pendulum parse_pendulum(tinyxml2::XMLElement* element);
+	Pendulum parse_pendulum_raw(tinyxml2::XMLElement* element);
 
 public:
 	Map parse_map(tinyxml2::XMLElement* root);

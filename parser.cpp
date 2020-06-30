@@ -1,5 +1,5 @@
 #include "parser.h"
-const Vectorf fliptab[] = { {1,1},{-1,1},{1,-1},{-1,-1} };
+
 Parser::Parser(Assets* _assets) : assets(_assets) {};
 
 Vectorf Parser::parse_num_pairf(std::string val)
@@ -94,6 +94,10 @@ Level Parser::parse_level(tinyxml2::XMLElement* root)
 			if (name == "animated_object")
 			{
 				lvl.add_object(parse_animated_object(element));
+			}
+			if (name == "pendulum")
+			{
+				lvl.add_pendulum(parse_pendulum(element));
 			}
 			element = element->NextSiblingElement();
 		}
@@ -527,4 +531,104 @@ void Parser::parse_additional_animations(std::string path)
 				Vectori(sx, sy));
 		}
 	}
+}
+
+Pendulum Parser::parse_pendulum(tinyxml2::XMLElement* element)
+{
+	try
+	{
+		return parse_pendulum_raw(element);
+	}
+	catch (const std::invalid_argument& e)
+	{
+		context.console->err << "Wyjatek: " << e.what() << '\n';
+		context.console->err << "Element: " << "pendulum" << '\n';
+		context.console->err << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz platformy wahad³a" << '\n';
+	}
+	catch (const std::out_of_range& e)
+	{
+		context.console->err << "Wyjatek: " << e.what() << '\n';
+		context.console->err << "Element: " << "pendulum" << '\n';
+		context.console->err << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
+	}
+	throw std::runtime_error("Pendulum error");
+}
+
+Pendulum Parser::parse_pendulum_raw(tinyxml2::XMLElement* element)
+{
+	std::vector<sf::Vertex> vert;
+	std::vector<Vectorf> attach_points;
+	const sf::Texture* tex;
+	const sf::Texture* line_tex;
+	std::string tex_str = get_attribute_by_name("texture", element);
+	tex = assets->textures.at(tex_str);
+	std::string line_tex_str = get_attribute_by_name("line", element);
+	line_tex = assets->textures.at(line_tex_str);
+	Vectorf pos = parse_num_pairf(get_attribute_by_name("position", element));
+	pos *= context.global_scale;
+	float line_len = std::stof(get_attribute_by_name("length", element));
+	float angle = std::stof(get_attribute_by_name("angle", element));
+	angle = util::deg_to_rad(angle);
+	std::string layer = get_attribute_by_name("layer", element);
+	float rotationang = std::stof(util::pass_or_default(get_attribute_by_name("rotation", element), "0"));
+	std::string flip = get_attribute_by_name("flip", element);
+	int flipint = 0;
+	if (flip != "")
+	{
+		Vectori flipiv = parse_num_pairi(flip);
+		if (flipiv.x < 0)
+			flipint = 1;
+		if (flipiv.y < 0)
+			flipint += 2;
+	}
+	if (flipint < 0 || flipint >3)
+	{
+		throw std::invalid_argument("Invalid flip value");
+	}
+	tinyxml2::XMLElement* e = element->FirstChildElement();
+	while (e != NULL)
+	{
+		std::string n = e->Name();
+		if (n == "v")
+		{
+			Vectorf v = parse_num_pairf(e->GetText());
+			v *= context.global_scale;
+			Vectorf v2 = util::rotate_vector(v, rotationang);
+			v2.x *= fliptab[flipint].x;
+			v2.y *= fliptab[flipint].y;
+			vert.push_back(sf::Vertex(v, v2));
+		}
+		else if (n == "vt")
+		{
+			string content = e->GetText();
+			size_t pos = content.find(",", content.find(",")+1);
+			Vectorf v = parse_num_pairf(content.substr(0,pos));
+			v *= context.global_scale;
+			Vectorf t = parse_num_pairf(content.substr(pos+1));
+			vert.push_back(sf::Vertex(v, t));
+		}
+		else if (n == "a")
+		{
+			Vectorf a = parse_num_pairf(e->GetText());
+			a *= context.global_scale;
+			attach_points.push_back(a);
+		}
+		else
+		{
+			context.console->err << "B³¹d w wahadle" << '\n';
+			throw std::invalid_argument("Error in pendulum vertices/attachment points");
+		}
+		e = e->NextSiblingElement();
+	}
+	if (layer != "")
+	{
+		int l = std::stoi(layer);
+		if (l < 0 || l >= BOTTOM_LAYERS + MIDDLE_LAYERS + TOP_LAYERS)
+		{
+			throw std::invalid_argument("Invalid layer");
+		}
+		return Pendulum(tex, line_tex, attach_points, vert, line_len, pos, angle, l);
+	}
+	return Pendulum(tex, line_tex, attach_points, vert, line_len, pos, angle,
+		DEFAULT_PLATFORM_LAYER);
 }

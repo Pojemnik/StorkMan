@@ -28,15 +28,13 @@ void Platform::rescale(float ratio)
 	Collidable::rescale(ratio);
 }
 
-Pendulum::Pendulum(sf::Texture* pen_tex, sf::Texture* line_tex_,
+Pendulum::Pendulum(const sf::Texture* pen_tex, const sf::Texture* line_tex_,
 	std::vector<Vectorf> attach, std::vector<sf::Vertex> points_,
-	float line_l, Vectorf pos_, float velocity_, int layer_)
+	float line_l, Vectorf pos_, float angle_, int layer_)
 	: Moving_platform(pen_tex, { pos_.x, pos_.y + line_l * context.global_scale },
-		points_, layer_), line_len(line_l), line_tex(line_tex_)
+		points_, layer_), line_len(line_l), line_tex(line_tex_), rad_angle(angle_)
 {
-	speed = { velocity_,0 };
 	pos = pos_;
-	tex = pen_tex;
 	for (auto& i : attach)
 	{
 		sf::Sprite s(*line_tex);
@@ -46,7 +44,7 @@ Pendulum::Pendulum(sf::Texture* pen_tex, sf::Texture* line_tex_,
 		lines.push_back({ s,l_p });
 	}
 	anchor = pos;
-	anchor.y -= line_len*context.global_scale;
+	anchor.y -= line_len * context.global_scale;
 }
 
 void Pendulum::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -72,11 +70,10 @@ void Pendulum::draw(sf::RenderTarget& target, sf::RenderStates states) const
 void Pendulum::update(float dt)
 {
 	//Pendulum physics
-	const float angleAccel = (-0.02 / line_len) * sin(a);
+	const float angleAccel = (-0.02 / line_len) * sin(rad_angle);
 	a_speed += angleAccel * dt;
-	a += a_speed * dt;
-
-	angle = { cos(a),sin(a) };
+	rad_angle += a_speed * dt;
+	angle = { cos(rad_angle),sin(rad_angle) };
 	update_position(dt);
 }
 
@@ -87,10 +84,10 @@ void Pendulum::move(Vectorf delta)
 
 void Pendulum::update_position(float dt)
 {
-	pos = anchor + Vectorf(-angle.y,angle.x) *line_len*context.global_scale;
+	pos = anchor + Vectorf(-angle.y, angle.x) * line_len * context.global_scale;
 }
 
-Moving_platform::Moving_platform(sf::Texture* tex, Vectorf p,
+Moving_platform::Moving_platform(const sf::Texture* tex, Vectorf p,
 	std::vector<sf::Vertex> pts, int l) : Texturable(p, tex, pts, l)
 {
 	float maxx, maxy, miny, minx;
