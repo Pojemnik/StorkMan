@@ -17,6 +17,7 @@ Ficzury:
 		*?Pozycja Storkmana na starcie ustalana z góry w XML
 		*fps animowanych obiektów ✓
 		*opóźnienie początku animacji/wybór pierwszej klatki ✓
+		definowanie "struktur"/"półproduktów"
 		Kolor obiektu w XML
 		Obracanie ścian
 	Fizyka:

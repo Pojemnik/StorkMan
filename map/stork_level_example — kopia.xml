@@ -1298,4 +1298,157 @@
 	<object position="51, 21" texture="swiecznik3" height="4" layer="8"/>
 	<light position="52, 23" color="255,255,205" intensity="0.6"/>
 	<light position="56, 23" color="255,255,205" intensity="0.6"/>
+	/---------------------------------------------------------------------PIĄTE PIĘTRO
+	<wall position="31,8.5" texture="tapeta2">
+		<v>0,0</v>
+		<v>21.5,0</v>
+		<v>21.5,9</v>
+		<v>0,9</v>
+	</wall>
+	<wall position="32.5,17.5" texture="tapeta2">
+		<v>0,0</v>
+		<v>19,0</v>
+		<v>19,3</v>
+		<v>0,3</v>
+	</wall>
+	<platform position="32,18" texture="bricks,0">
+		<v>0,2</v>
+		<v>20,2</v>
+		<v>20,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="30,17.5" texture="bricks,0">
+		<v>0,0.5</v>
+		<v>22,0.5</v>
+		<v>22,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="30,17" texture="bricks,0">
+		<v>0,0.5</v>
+		<v>7.9,0.5</v>
+		<v>7.9,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="38,17" texture="bricks,0">
+		<v>0.1,0.5</v>
+		<v>2.9,0.5</v>
+		<v>2.9,0</v>
+		<v>0.1,0</v>
+	</platform>
+	<platform position="41,17" texture="bricks,0">
+		<v>0.1,0.5</v>
+		<v>2.9,0.5</v>
+		<v>2.9,0</v>
+		<v>0.1,0</v>
+	</platform>
+	<platform position="44,17" texture="bricks,0">
+		<v>0.1,0.5</v>
+		<v>2.9,0.5</v>
+		<v>2.9,0</v>
+		<v>0.1,0</v>
+	</platform>
+	<platform position="47,17" texture="bricks,0">
+		<v>0.1,0.5</v>
+		<v>5,0.5</v>
+		<v>5,0</v>
+		<v>0.1,0</v>
+	</platform>
+	<platform position="30,8" texture="bricks,0">
+		<v>0,1</v>
+		<v>20,1</v>
+		<v>20,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="52,8" texture="bricks,0">
+		<v>0,10</v>
+		<v>1,10</v>
+		<v>1,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="30,9" texture="tile1">
+		<v>0,8</v>
+		<v>1,8</v>
+		<v>1,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="35,9" texture="bricks,0">
+		<v>0,0</v>
+		<v>-0.1,0.3</v>
+		<v>0,0.3</v>
+		<v>0.1,0.3</v>
+	</platform>
+	<platform position="35,9" texture="bricks,0">
+		<v>0,0</v>
+		<v>-0.1,0.2</v>
+		<v>-0.1,0</v>
+	</platform>
+	<object position="31, 10.5" texture="dymek1" height="4"/>
+	<light position="34.96, 9.1" color="255,064,064" intensity="2"/>
+	<object position="31.5, 14.5" texture="general1" height="2.5" layer="8"/>
+	<light position="38, 17.4" color="255,064,064" intensity="1"/>
+	<object position="36, 11" texture="general0" height="4"/>
+	<light position="41, 17.4" color="255,064,064" intensity="1"/>
+	<object position="39, 11" texture="general0" height="4"/>
+	<light position="44, 17.4" color="255,064,064" intensity="1"/>
+	<object position="42, 11" texture="general0" height="4"/>
+	<light position="47, 17.4" color="255,064,064" intensity="1"/>
+	<object position="45, 11" texture="general0" height="4"/>
+	<object position="49, 14.5" texture="winda0" height="2.5"/>
+	/---------------------------------------------------------------------DACH
+	<wall position="50,4.5" texture="vent1">
+		<v>0,0</v>
+		<v>2,0</v>
+		<v>2,4</v>
+		<v>0,4</v>
+	</wall>
+	<wall position="52,4.5" texture="vent0">
+		<v>0,0</v>
+		<v>1,0</v>
+		<v>1,2</v>
+		<v>0,2</v>
+	</wall>
+	<platform position="53,15" texture="panels,1">
+		<v>0,0.5</v>
+		<v>0.5,0.5</v>
+		<v>0.5,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="53,10.5" texture="panels,0">
+		<v>0,0.5</v>
+		<v>0.5,0.5</v>
+		<v>0.5,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="49.5,4" texture="panels,1">
+		<v>0,4</v>
+		<v>0.5,4</v>
+		<v>0.5,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="50,4" texture="panels,2">
+		<v>0,0.5</v>
+		<v>5,0.5</v>
+		<v>5,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="52,6.5" texture="panels,0">
+		<v>0,0.5</v>
+		<v>1.5,0.5</v>
+		<v>1.5,0</v>
+		<v>0,0</v>
+	</platform>
+	<platform position="52,7" texture="panels,2">
+		<v>0,1</v>
+		<v>0.5,1</v>
+		<v>0.5,0</v>
+		<v>0,0</v>
+	</platform>
+	<object position="39, 0" texture="radar0" height="8" flip="-1,1"/>
+	<object position="41, 0" texture="radar0" height="8"/>
+	<object position="31, 8" texture="alarm0" height="1" layer="8" flip="1,-1"/>
+	<light position="31.5, 7.5" color="032,255,255" intensity="0.7"/>
+	<object position="39.5, 8" texture="alarm0" height="1" layer="8" flip="1,-1"/>
+	<light position="40, 7.5" color="032,255,255" intensity="0.7"/>
+	<object position="48, 8" texture="alarm0" height="1" layer="8" flip="1,-1"/>
+	<light position="48.5, 7.5" color="032,255,255" intensity="0.7"/>
 </level>

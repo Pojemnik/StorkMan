@@ -286,6 +286,12 @@ void Map::update(float dt)
 			}
 		}
 		Vectorf maxv = { 0,0 };
+		for (auto& physical_it : level_it->physicals)
+		{
+			Vectorf tmp = player->uncollide(physical_it, dt);
+			if (tmp.y > maxv.y)
+				maxv = tmp;
+		}
 		for (auto& colidable_it : level_it->collidables)
 		{
 			Vectorf tmp = player->uncollide(colidable_it, dt);

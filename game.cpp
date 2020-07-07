@@ -178,6 +178,16 @@ void Dynamic_entity::set_idle()
 
 void Dynamic_entity::update(float dt)
 {
+	total_speed += external_speed;
+	external_speed *= 0.95f;
+	if (fabs(external_speed.x) < MIN_EXTERNAL_SPEED)
+	{
+		external_speed.x = 0;
+	}
+	if (fabs(external_speed.y) < MIN_EXTERNAL_SPEED)
+	{
+		external_speed.y = 0;
+	}
 	apply_force(context.gravity * maxcollisionvector);
 	Vectorf move_acc = move_force / mass;
 	move_speed += move_acc * dt;
@@ -213,8 +223,6 @@ void Dynamic_entity::update(float dt)
 	{
 		if (collision_direction.y == 1)
 		{
-			force.y = 0;
-			move_speed.y = 0;
 			apply_force({ 0, -context.jump_force });
 		}
 		status = IN_AIR;
@@ -224,8 +232,6 @@ void Dynamic_entity::update(float dt)
 	{
 		if (collision_direction.y == 1)
 		{
-			force.y = 0;
-			move_speed.y = 0;
 			apply_force({ 0, -context.jump_force });
 		}
 		status = IN_AIR;
@@ -233,7 +239,7 @@ void Dynamic_entity::update(float dt)
 	int x_speed_sign = util::sgn(move_speed.x);
 	Vectorf acc = force / mass;
 	total_speed += acc * dt;
-	total_speed += move_speed * dt;
+	total_speed += move_speed;
 	if (x_speed_sign != 0)
 	{
 		flip(x_speed_sign);

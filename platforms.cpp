@@ -31,7 +31,7 @@ void Platform::rescale(float ratio)
 Pendulum::Pendulum(const sf::Texture* pen_tex, const sf::Texture* line_tex_,
 	std::vector<Vectorf> attach, std::vector<sf::Vertex> points_,
 	float line_l, Vectorf pos_, float angle_, int layer_)
-	: Moving_platform(pen_tex, { pos_.x, pos_.y + line_l * context.global_scale },
+	: Moving_platform(pen_tex, { pos_.x, pos_.y },
 		points_, layer_), line_len(line_l), line_tex(line_tex_), rad_angle(angle_)
 {
 	pos = pos_;
@@ -70,7 +70,7 @@ void Pendulum::draw(sf::RenderTarget& target, sf::RenderStates states) const
 void Pendulum::update(float dt)
 {
 	//Pendulum physics
-	const float angleAccel = (-0.02 / line_len) * sin(rad_angle);
+	const float angleAccel = (-0.008 / line_len) * sin(rad_angle);
 	a_speed += angleAccel * dt;
 	rad_angle += a_speed * dt;
 	angle = { cos(rad_angle),sin(rad_angle) };
@@ -84,7 +84,16 @@ void Pendulum::move(Vectorf delta)
 
 void Pendulum::update_position(float dt)
 {
+	Vectorf delta = pos;
 	pos = anchor + Vectorf(-angle.y, angle.x) * line_len * context.global_scale;
+	delta = pos - delta;
+	total_speed = delta;
+	for (auto& v : mesh.vertices)
+	{
+		v += delta;
+	}
+	rect_collision.left += delta.x;
+	rect_collision.top += delta.y;
 }
 
 Moving_platform::Moving_platform(const sf::Texture* tex, Vectorf p,
