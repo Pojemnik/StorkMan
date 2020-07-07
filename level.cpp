@@ -1,15 +1,13 @@
 #include "level.h"
 
-Level::Level()
-{
-}
+Level::Level() {}
 
 Level::Level(const Level& level)
 	: global_pos(level.global_pos), is_loaded(level.is_loaded),
 	global_size(level.global_size), platforms(level.platforms),
 	light_sources(level.light_sources), walls(level.walls),
 	objects(level.objects), anim_objects(level.anim_objects), 
-	pendulums(level.pendulums)
+	pendulums(level.pendulums), lmps(level.lmps)
 {
 	for (auto& p : platforms)
 	{
@@ -20,6 +18,11 @@ Level::Level(const Level& level)
 		}
 	}
 	for (auto& p : pendulums)
+	{
+		add_physical(&p);
+		add_to_layer(p);
+	}
+	for (auto& p : lmps)
 	{
 		add_physical(&p);
 		add_to_layer(p);
@@ -56,6 +59,13 @@ void Level::add_pendulum(Pendulum p)
 	pendulums.push_back(p);
 	add_to_layer(p);
 	add_physical(&p);
+}
+
+void Level::add_lmp(Linear_moving_platform lmp)
+{
+	lmps.push_back(lmp);
+	add_to_layer(lmp);
+	add_physical(&lmp);
 }
 
 void Level::add_to_layer(Animatable& a)

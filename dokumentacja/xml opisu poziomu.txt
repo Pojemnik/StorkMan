@@ -27,6 +27,9 @@ platform:
 	
 v:
 	zawartość - pozycja wierzchołka [m]
+	
+vt:
+	zawartość - pozycja wierzchołka [m], pozycja danego wierzchołka na teksturze w pikselach - przydatne w przypadku pojedyńczych tekstur
 
 object:
 	atrybuty:
@@ -39,7 +42,7 @@ object:
 		
 animated_object:
 	atrybuty:
-	position - pozycja [m]
+		position - pozycja [m]
 		texture - tekstura
 		height - wysokość [m], używana do obliczania skali
 		rotation* - (domyślnie 0) obrót obiektu względem lewego górnego rogu, zgodnie z ruchem wskazówek zegara [stopnie]
@@ -47,6 +50,41 @@ animated_object:
 		layer* - (domyślne 3) warstwa, na której znajduje się obiekt (liczone "od dołu"), liczba od 0 do 11, pierwsze 7 jest pod graczem, 3 kolejne pomiędzy nim, a światłem, 2 ostatnie nad światłem
 		fpf* - (domyślnie 1) co ile klatek gry ma się zmieniać klatka animacji obiekty (rozwiązanie tymczasowe)
 		delta* - (domyślnie 0) od której klatki zacząć animację, bierze pod uwagę ustawienie fpf (przykład fpf="10" delta = "15" - zacznie od 2 klatki animacji, po 5 klatkach gry przejdzie do 3, dalej już co 10)
+		
+pendulum:
+	atrybuty:
+		position - pozycja [m]
+		texture - tekstura, patrz dokumentacja/grafiki.txt
+		line - tekstura liny, na której rusza się wahadło
+		length - długość liny [m]
+		angle - początkowy kąt wychylenia wahadła [stopnie]
+		layer* - (domyślne 5) warstwa, na której znajduje się platforma (liczone "od dołu"), liczba od 0 do 11, pierwsze 7 jest pod graczem, 3 kolejne pomiędzy nim, a światłem, 2 ostatnie nad światłem
+		rotation* - (domyślnie 0) obrót tekstury, zgodnie z ruchem wskazówek zegara [stopnie]
+		flip* - (domyślnie 1,1) odbicie tekstury w osi x i w osi y (-1 - odbicie, 1 - brak odbicia) (przykład flip="-1,1" - odbicie w osi x, baz odbicia w osi y)
+		visible* - (domyślnie 1) widoczność platformy, platforma niewidoczna jest niewidoczna (wow) i nie rzuca cienia, kiedy jest ustawione na 0, nie trzeba podawać tekstury
+		
+	zawartość:
+		znaczniki <v> lub <vt> opisujące kolejne wierzchołki
+		znaczniki <a> opisujące punkty zaczepienia lin wahadła
+		
+a:
+	zawartość - pozycja punktu [m]
+	
+linear_platform:
+	atrybuty:
+		position - pozycja [m]
+		texture - tekstura, patrz dokumentacja/grafiki.txt
+		layer* - (domyślne 5) warstwa, na której znajduje się platforma (liczone "od dołu"), liczba od 0 do 11, pierwsze 7 jest pod graczem, 3 kolejne pomiędzy nim, a światłem, 2 ostatnie nad światłem
+		rotation* - (domyślnie 0) obrót tekstury, zgodnie z ruchem wskazówek zegara [stopnie]
+		flip* - (domyślnie 1,1) odbicie tekstury w osi x i w osi y (-1 - odbicie, 1 - brak odbicia) (przykład flip="-1,1" - odbicie w osi x, baz odbicia w osi y)
+		visible* - (domyślnie 1) widoczność platformy, platforma niewidoczna jest niewidoczna (wow) i nie rzuca cienia, kiedy jest ustawione na 0, nie trzeba podawać tekstury
+		
+	zawartość:
+		znaczniki <v> lub <vt> opsujące kolejne wierzchołki
+		znaczniki <p> opsujące trasę ruchu platformy
+		
+p:
+	zawartość - pozycja punktu na trasie platformy, czas podróży to tego punktu w klatkach
 	
 light:
 	atrybuty:

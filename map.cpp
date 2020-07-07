@@ -349,10 +349,6 @@ void Map::recalc_light()
 			{
 				light_texture->draw(it2, context.white_states);
 			}
-			//for (const auto& it2 : it->platforms)
-			//{
-			//	light_texture->draw(it2, context.white_states);
-			//}
 			context.white_states.transform *= sf::Transform().translate(
 				{ -1 * level_size.x * it->global_pos.x,
 				-1 * level_size.y * it->global_pos.y }

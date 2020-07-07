@@ -9,6 +9,15 @@
 		<vt>3,2,462,352</vt>
 		<vt>0,2,50,352</vt>
 	</pendulum>
+	<linear_platform position="0,0" texture="lamp0">
+		<p>0,0,50</p>
+		<p>0,5,50</p>
+		
+		<v>0,0</v>
+		<v>3,0</v>
+		<v>3,2</v>
+		<v>0,2</v>
+	</linear_platform>
 	<pendulum position="20,15" texture="log,1" line="line,1" length="10" angle="60">
 		<a>20,5</a>
 		<a>21,5</a>

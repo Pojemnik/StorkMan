@@ -31,8 +31,8 @@ void Platform::rescale(float ratio)
 Pendulum::Pendulum(const sf::Texture* pen_tex, const sf::Texture* line_tex_,
 	std::vector<Vectorf> attach, std::vector<sf::Vertex> points_,
 	float line_l, Vectorf pos_, float angle_, int layer_)
-	: Moving_platform(pen_tex, { pos_.x, pos_.y },
-		points_, layer_), line_len(line_l), line_tex(line_tex_), rad_angle(angle_)
+	: Moving_platform(pen_tex, pos_, points_, layer_), line_len(line_l),
+	line_tex(line_tex_), rad_angle(angle_)
 {
 	pos = pos_;
 	for (auto& i : attach)
@@ -122,4 +122,59 @@ Moving_platform::Moving_platform(const sf::Texture* tex, Vectorf p,
 void Moving_platform::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(shape, states);
+}
+
+Linear_moving_platform::Linear_moving_platform(Linear_move path,
+	const sf::Texture* tex_, Vectorf pos_, std::vector<sf::Vertex> pts, int layer_)
+	: Moving_platform(tex_, pos_, pts, layer_), move_data(path)
+{
+	move_data.it = move_data.points.begin();
+}
+
+void Linear_moving_platform::update(float dt)
+{
+	time += dt;
+	while (time > move_data.it->second)
+	{
+		time -= move_data.it->second;
+			move_data.it = util::increment_iterator(move_data.it, move_data.points);
+		//move_data.it++;
+		//move_data.it = move_data.it == move_data.points.end() ? move_data.points.begin() : move_data.it;
+	}
+	update_position(dt);
+}
+
+void Linear_moving_platform::update_position(float dt)
+{
+	Vectorf delta = pos;
+	auto next = util::increment_iterator(move_data.it, move_data.points);
+	//auto next = move_data.it + 1 == move_data.points.end() ? move_data.points.begin() : move_data.it + 1;
+	float a = time / move_data.it->second;
+	pos = a * move_data.it->first + (1.0f - a) * next->first;
+	delta = pos - delta;
+	total_speed = delta;
+	for (auto& v : mesh.vertices)
+	{
+		v += delta;
+	}
+	rect_collision.left += delta.x;
+	rect_collision.top += delta.y;
+}
+
+void Linear_moving_platform::move(Vectorf delta)
+{
+
+}
+
+void Linear_moving_platform::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	states.transform *= sf::Transform().translate(pos);
+	states.texture = &*tex;
+	target.draw(shape, states);
+}
+
+Linear_moving_platform::Linear_moving_platform(const Linear_moving_platform& lmp)
+	: move_data(lmp.move_data), time(lmp.time), Moving_platform(lmp)
+{
+	move_data.it = move_data.points.begin();
 }

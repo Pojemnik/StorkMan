@@ -24,10 +24,14 @@ const int BOTTOM_LAYERS = 7;
 const int MIDDLE_LAYERS = 3;
 const int TOP_LAYERS = 2;
 
-enum Entity_status { IDLE = 0, MOVE, JUMP_IDLE, JUMP_RUN,
-	PUNCH_1, PUNCH_2, HIT, IN_AIR };
-enum Animation_status { A_IDLE = 0, A_MOVE, A_JUMP_IDLE,
-	A_JUMP_RUN, A_JUMP_RUN2, A_PUNCH_1, A_PUNCH_2, A_HIT };
+enum Entity_status {
+	IDLE = 0, MOVE, JUMP_IDLE, JUMP_RUN,
+	PUNCH_1, PUNCH_2, HIT, IN_AIR
+};
+enum Animation_status {
+	A_IDLE = 0, A_MOVE, A_JUMP_IDLE,
+	A_JUMP_RUN, A_JUMP_RUN2, A_PUNCH_1, A_PUNCH_2, A_HIT
+};
 enum Collidable_type { GROUND, ENEMY, OTHER };
 
 struct Context
@@ -85,15 +89,16 @@ namespace util
 	inline bool vectorf_binary_predicate(const Vectorf& a, const Vectorf& b);
 	inline float convert_vector(const Vectorf& vec);
 	inline Vectorf rotate_vector(Vectorf vec, Vectorf normalized_rotation_vector);
-	inline std::string pass_or_default(std::string val,std::string default_val);
+	inline std::string pass_or_default(std::string val, std::string default_val);
 	Vectorf intersection(std::pair<Vectorf, Vectorf> a, std::pair<Vectorf, Vectorf> b);
 	void save_texture(std::string path, sf::Texture* texture);
 	sf::FloatRect mesh_to_rect(std::vector<sf::Vertex> vertices);
+
 	inline std::string pass_or_default(std::string val, std::string default_val)
 	{
-		return val == ""?default_val:val;
+		return val == "" ? default_val : val;
 	}
-	inline sf::Vector2f normalize(sf::Vector2f x, float l=1)
+	inline sf::Vector2f normalize(sf::Vector2f x, float l = 1)
 	{
 		return x / float(sqrt(x.x * x.x + x.y * x.y) * l);
 	}
@@ -194,10 +199,16 @@ namespace util
 
 	inline float util::convert_vector(const Vectorf& vec)
 	{
-		float SIN = vec.y/hypot(vec.x,vec.y);
+		float SIN = vec.y / hypot(vec.x, vec.y);
 		if (vec.x > 0)
 			return SIN - 1;
 		else
 			return 1 - SIN;
+	}
+	template <class T>
+	inline typename std::vector<T>::iterator increment_iterator(typename std::vector<T>::iterator a, std::vector<T>& vec)
+	{
+		a++;
+		return a == vec.end() ? vec.begin() : a;
 	}
 }

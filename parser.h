@@ -32,6 +32,8 @@ private:
 	Animated_object parse_animated_object(tinyxml2::XMLElement* element);
 	Pendulum parse_pendulum(tinyxml2::XMLElement* element);
 	Pendulum parse_pendulum_raw(tinyxml2::XMLElement* element);
+	Linear_moving_platform parse_linear_platform(tinyxml2::XMLElement* element);
+	Linear_moving_platform parse_linear_platform_raw(tinyxml2::XMLElement* element);
 
 public:
 	Map parse_map(tinyxml2::XMLElement* root);

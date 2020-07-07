@@ -99,6 +99,10 @@ Level Parser::parse_level(tinyxml2::XMLElement* root)
 			{
 				lvl.add_pendulum(parse_pendulum(element));
 			}
+			if (name == "linear_platform")
+			{
+				lvl.add_lmp(parse_linear_platform(element));
+			}
 			element = element->NextSiblingElement();
 		}
 	}
@@ -601,10 +605,10 @@ Pendulum Parser::parse_pendulum_raw(tinyxml2::XMLElement* element)
 		else if (n == "vt")
 		{
 			string content = e->GetText();
-			size_t pos = content.find(",", content.find(",")+1);
-			Vectorf v = parse_num_pairf(content.substr(0,pos));
+			size_t pos = content.find(",", content.find(",") + 1);
+			Vectorf v = parse_num_pairf(content.substr(0, pos));
 			v *= context.global_scale;
-			Vectorf t = parse_num_pairf(content.substr(pos+1));
+			Vectorf t = parse_num_pairf(content.substr(pos + 1));
 			vert.push_back(sf::Vertex(v, t));
 		}
 		else if (n == "a")
@@ -631,4 +635,96 @@ Pendulum Parser::parse_pendulum_raw(tinyxml2::XMLElement* element)
 	}
 	return Pendulum(tex, line_tex, attach_points, vert, line_len, pos, angle,
 		DEFAULT_PLATFORM_LAYER);
+}
+
+Linear_moving_platform Parser::parse_linear_platform(tinyxml2::XMLElement* element)
+{
+	try
+	{
+		return parse_linear_platform_raw(element);
+	}
+	catch (const std::invalid_argument& e)
+	{
+		context.console->err << "Wyjatek: " << e.what() << '\n';
+		context.console->err << "Element: " << "linear platform" << '\n';
+		context.console->err << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz platformy wahad³a" << '\n';
+	}
+	catch (const std::out_of_range& e)
+	{
+		context.console->err << "Wyjatek: " << e.what() << '\n';
+		context.console->err << "Element: " << "linear platform" << '\n';
+		context.console->err << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
+	}
+	throw std::runtime_error("Linear platform error");
+}
+
+Linear_moving_platform Parser::parse_linear_platform_raw(tinyxml2::XMLElement* element)
+{
+	std::vector<sf::Vertex> vert;
+	const sf::Texture* tex;
+	Linear_move path;
+	std::string tex_str = get_attribute_by_name("texture", element);
+	tex = assets->textures.at(tex_str);
+	Vectorf pos = parse_num_pairf(get_attribute_by_name("position", element));
+	pos *= context.global_scale;
+	std::string layer = get_attribute_by_name("layer", element);
+	float rotationang = std::stof(util::pass_or_default(get_attribute_by_name("rotation", element), "0"));
+	std::string flip = get_attribute_by_name("flip", element);
+	int flipint = 0;
+	if (flip != "")
+	{
+		Vectori flipiv = parse_num_pairi(flip);
+		if (flipiv.x < 0)
+			flipint = 1;
+		if (flipiv.y < 0)
+			flipint += 2;
+	}
+	if (flipint < 0 || flipint >3)
+	{
+		throw std::invalid_argument("Invalid flip value");
+	}
+	tinyxml2::XMLElement* e = element->FirstChildElement();
+	while (e != NULL)
+	{
+		std::string n = e->Name();
+		if (n == "v")
+		{
+			Vectorf v = parse_num_pairf(e->GetText());
+			v *= context.global_scale;
+			Vectorf v2 = util::rotate_vector(v, rotationang);
+			v2.x *= fliptab[flipint].x;
+			v2.y *= fliptab[flipint].y;
+			vert.push_back(sf::Vertex(v, v2));
+		}
+		else if (n == "vt")
+		{
+			string content = e->GetText();
+			size_t pos = content.find(",", content.find(",") + 1);
+			Vectorf v = parse_num_pairf(content.substr(0, pos));
+			v *= context.global_scale;
+			Vectorf t = parse_num_pairf(content.substr(pos + 1));
+			vert.push_back(sf::Vertex(v, t));
+		}
+		else if (n == "p")
+		{
+			string content = e->GetText();
+			size_t pos2 = content.find(",", content.find(",") + 1);
+			Vectorf v = parse_num_pairf(content.substr(0, pos2));
+			v += pos;
+			v *= context.global_scale;
+			float time = std::stof(content.substr(pos2 + 1));
+			path.points.push_back({ v, time });
+		}
+		e = e->NextSiblingElement();
+	}
+	if (layer != "")
+	{
+		int l = std::stoi(layer);
+		if (l < 0 || l >= BOTTOM_LAYERS + MIDDLE_LAYERS + TOP_LAYERS)
+		{
+			throw std::invalid_argument("Invalid layer");
+		}
+		return Linear_moving_platform(path, tex, pos, vert, l);
+	}
+	return Linear_moving_platform(path, tex, pos, vert, DEFAULT_PLATFORM_LAYER);
 }

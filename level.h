@@ -16,6 +16,7 @@ struct Level
 	std::vector<Object> objects;
 	std::vector<Animated_object> anim_objects;
 	std::vector<Pendulum> pendulums;
+	std::vector<Linear_moving_platform> lmps;
 	std::array<std::vector<sf::Drawable*>, BOTTOM_LAYERS> bottom_layers;
 	std::array<std::vector<sf::Drawable*>, MIDDLE_LAYERS> middle_layers;
 	std::array<std::vector<sf::Drawable*>, TOP_LAYERS> top_layers;
@@ -31,6 +32,7 @@ struct Level
 	void add_object(Object o);
 	void add_object(Animated_object o);
 	void add_pendulum(Pendulum p);
+	void add_lmp(Linear_moving_platform lmp);
 	void rescale(float ratio);
 	void add_to_layer(Texturable& t);
 	void add_to_layer(Renderable& r);
