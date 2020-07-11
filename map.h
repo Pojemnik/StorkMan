@@ -12,6 +12,7 @@ private:
 	sf::RenderTexture* light_texture;
 	std::vector<Vectorf> map_vertices;
 	float global_scale;
+	std::array<bool, 8> player_smash;
 
 	void load_level(Vectori pos);
 	void unload_level(std::list<Level*>::iterator& lvl);

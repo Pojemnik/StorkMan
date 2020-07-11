@@ -699,10 +699,10 @@ Linear_moving_platform Parser::parse_linear_platform_raw(tinyxml2::XMLElement* e
 		else if (n == "vt")
 		{
 			string content = e->GetText();
-			size_t pos = content.find(",", content.find(",") + 1);
-			Vectorf v = parse_num_pairf(content.substr(0, pos));
+			size_t pos2 = content.find(",", content.find(",") + 1);
+			Vectorf v = parse_num_pairf(content.substr(0, pos2));
 			v *= context.global_scale;
-			Vectorf t = parse_num_pairf(content.substr(pos + 1));
+			Vectorf t = parse_num_pairf(content.substr(pos2 + 1));
 			vert.push_back(sf::Vertex(v, t));
 		}
 		else if (n == "p")
@@ -710,8 +710,8 @@ Linear_moving_platform Parser::parse_linear_platform_raw(tinyxml2::XMLElement* e
 			string content = e->GetText();
 			size_t pos2 = content.find(",", content.find(",") + 1);
 			Vectorf v = parse_num_pairf(content.substr(0, pos2));
-			v += pos;
 			v *= context.global_scale;
+			v += pos;
 			float time = std::stof(content.substr(pos2 + 1));
 			path.points.push_back({ v, time });
 		}

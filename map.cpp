@@ -6,6 +6,7 @@ Map::Map()
 	player = nullptr;
 	light_texture = nullptr;
 	global_scale = .0f;
+	player_smash.fill(false);
 }
 
 Map::Map(Vectori dimensions, std::vector<Level>& lvls, Vectori start_pos,
@@ -26,6 +27,7 @@ Map::Map(Vectori dimensions, std::vector<Level>& lvls, Vectori start_pos,
 	global_scale = context.global_scale;
 	light.lightmap.setPosition(0, 0);
 	light_texture = nullptr;
+	player_smash.fill(false);
 }
 
 void Map::place_levels()
@@ -282,7 +284,7 @@ void Map::update(float dt)
 			physical_it->update(dt);
 			for (auto& colidable_it : level_it->collidables)
 			{
-				physical_it->uncollide(colidable_it, dt);
+				//physical_it->uncollide(colidable_it, dt);
 			}
 		}
 		Vectorf maxv = { 0,0 };
@@ -298,6 +300,30 @@ void Map::update(float dt)
 			if (tmp.y > maxv.y)
 				maxv = tmp;
 		}
+		//Smash check
+		/*
+		bool smashed = false;
+		for (auto& physical_it : level_it->physicals)
+		{
+			smashed |= player->test_collision(*physical_it);
+		}
+		for (auto& colidable_it : level_it->collidables)
+		{
+			smashed |= player->test_collision(*colidable_it);
+		}
+		for(int i = player_smash.size()-1; i > 0; i--)
+			player_smash[i] = player_smash[i-1];
+		player_smash[0] = smashed;
+		bool all_smashed = true;
+		for (int i = 0; i < player_smash.size(); i++)
+			all_smashed &= player_smash[i];
+		if (all_smashed)
+		{
+			player_smash.fill(false);
+			player->set_position({ 10, 10 });
+			std::cout << "Zgon" << std::endl;
+		}
+		*/
 		if (maxv.x == 0 && maxv.y == 0)
 			maxv = {0,1};
 		player->maxcollisionvector = util::normalize(maxv);

@@ -9,9 +9,9 @@
 		<vt>3,2,462,352</vt>
 		<vt>0,2,50,352</vt>
 	</pendulum>
-	<linear_platform position="0,0" texture="lamp0">
+	<linear_platform position="28,13" texture="rivets,0">
 		<p>0,0,50</p>
-		<p>0,5,50</p>
+		<p>0,5,100</p>
 		
 		<v>0,0</v>
 		<v>3,0</v>
