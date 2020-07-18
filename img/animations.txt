@@ -1,1 +1,6 @@
-animations/a1.png a1 2 2 64 64
+img/tex/WIATR00.png wind0 4 4 256 128
+img/tex/POCHODNIA00.png torch0 4 4 64 64
+img/tex/POCHODNIA01.png torch1 4 4 64 64
+img/tex/TRAWA06.png grass6 4 4 128 64
+img/tex/DYMEK03.png dymek3 2 2 256 256
+img/tex/ODKRYWCA_POSTOJ00.png explorer_idle0 2 2 64 128

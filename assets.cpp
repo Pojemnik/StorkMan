@@ -133,7 +133,7 @@ void Assets::load_textures(std::vector<sf::Texture>& v, std::string path, bool r
 		context.console->err << "error reading sizes " + path << "\n";
 		return;
 	}
-	v.reserve((uint64_t)c * d + 50);
+	v.reserve((uint64_t)c * d + MAX_ADDITIONAL_TEXTURES);
 	sf::Image image;
 	if (!image.loadFromFile(path))
 	{

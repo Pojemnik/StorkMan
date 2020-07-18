@@ -26,6 +26,7 @@ public:
 		Vectori size);
 
 private:
+	const int MAX_ADDITIONAL_TEXTURES = 200;
 	void load_texture(sf::Texture& t, sf::Image& img, int y, int x, int sx, int sy, bool rep);
 	void load_texture(sf::Texture& t, string path, bool rep);
 	void load_textures(std::vector<sf::Texture>& v, std::string path, bool rep);

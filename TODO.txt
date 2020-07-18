@@ -18,6 +18,10 @@ Ficzury:
 		*fps animowanych obiektów ✓
 		*opóźnienie początku animacji/wybór pierwszej klatki ✓
 		definowanie "struktur"/"półproduktów"
+		Bardziej złożone elementy w XML (pętle itp.)
+		Osobne pliki/include'y
+		Rotacja animwanych platform
+		Ruchome obiekty
 		Kolor obiektu w XML
 		Obracanie ścian
 	Fizyka:
@@ -29,10 +33,12 @@ Ficzury:
 		Animowane obiekty ✓
 		*Lepsza konsola ✓
 		*Muzyka/dźwięki
-		*Popraiwć ogrnianie czasu w silniku (update)
+		*?Popraiwć ogrnianie czasu w silniku (update)
+		Możliwość przerwania skoku
 		Spadanie i lądowanie - lepiej rozwiązać animacje
 		Skalowanie (zoom/odzoom)
 		Chowanie się przed wrogami za obiektami
+		Mapvertices powinno wyświetlać niewidoczne platformy
 		Animacje dotykając ściany?
 		*{
 			Sortowanie wierzchołków platform/ograninięcie takich nieposortowanych
@@ -50,8 +56,15 @@ Ficzury:
 		}
  
 Błędy:
+	{
 	*Przebijanie platform (wentylacja)
 	*Odbijanie się od podłogi (znowu wentylacja)
+	}
+	System kolizji jest kiepski (z tego samego powodu są problemy ze zgniataniem postaci)
+	Wczytywanie animacji obiektów typu 2x3 klatki
+	Nieprawidłoe ścieżki ruchu platform
+	Odbijanie się z krawędzi platform (po raz kolejny)
+	Przesuwanie się postaci na nieruchomych platformach, gdy pod spodem jest ruchoma
 
 Inne/uwagi:
   Kod hitboxów Storkmana jest paskudny
