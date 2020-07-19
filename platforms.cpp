@@ -150,7 +150,7 @@ void Linear_moving_platform::update_position(float dt)
 	auto next = util::increment_iterator(move_data.it, move_data.points);
 	//auto next = move_data.it + 1 == move_data.points.end() ? move_data.points.begin() : move_data.it + 1;
 	float a = time / move_data.it->second;
-	pos = a * move_data.it->first + (1.0f - a) * next->first;
+	pos = (1.0f - a) * move_data.it->first + a * next->first;
 	delta = pos - delta;
 	total_speed = delta;
 	for (auto& v : mesh.vertices)

@@ -39,7 +39,7 @@ void Assets::load_animation(std::vector<sf::Texture>& a, sf::Image& img, int x,
 	{
 		for (int i = 0; i < x; i++)
 		{
-			if (!a[j * y + i].loadFromImage(img, sf::IntRect(i * sx, j * sy, sx, sy)))
+			if (!a[j * x + i].loadFromImage(img, sf::IntRect(i * sx, j * sy, sx, sy)))
 			{
 				context.console->err << "animation loading error" << "\n";
 				return;
@@ -183,7 +183,7 @@ void Assets::load_additional_animation(string path, string name, Vectori n,
 	sf::Image im;
 	im.loadFromFile(path);
 	animations[name] = std::vector<sf::Texture>(n.x * n.y);
-	load_animation(animations[name], im, n.y, n.x, size.x, size.y);
+	load_animation(animations[name], im, n.x, n.y, size.x, size.y);
 }
 
 void Assets::load_assets()
