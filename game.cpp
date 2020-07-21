@@ -96,6 +96,12 @@ void Dynamic_entity::move(Vectorf delta)
 	{
 		animation_status = Animation_status::A_MOVE;
 	}
+	if (util::round_and_compare(last_pos, pos))
+	{
+		status = IDLE;
+		animation_status = Animation_status::A_IDLE;
+	}
+	last_pos = pos;
 }
 
 void Dynamic_entity::move_angled(int dir)
@@ -112,35 +118,29 @@ void Dynamic_entity::move_angled(int dir)
 
 void Dynamic_entity::jump(bool move)
 {
-	if (collision_direction.y == 1 && context.jump_available)
+	if (edge_jump_buf < max_edge_jump && context.jump_available)
 	{
-		if (move)
+		if (animation_status == Animation_status::A_MOVE ||
+			((animation_status == Animation_status::A_JUMP_RUN ||
+				animation_status == Animation_status::A_JUMP_RUN2)
+				&& last_status == IN_AIR))
 		{
-			if (animation_status == Animation_status::A_MOVE ||
-				((animation_status == Animation_status::A_JUMP_RUN ||
-					animation_status == Animation_status::A_JUMP_RUN2)
-					&& last_status == IN_AIR))
-			{
-				if (key == 1 || key == 2 || key == 3)
-					animation_status = Animation_status::A_JUMP_RUN;
-				else
-					animation_status = Animation_status::A_JUMP_RUN2;
-				status = Entity_status::JUMP_RUN;
-				reset_animation = true;
-				context.jump_available = false;
-			}
+			if (key == 1 || key == 2 || key == 3)
+				animation_status = Animation_status::A_JUMP_RUN;
+			else
+				animation_status = Animation_status::A_JUMP_RUN2;
+			status = Entity_status::JUMP_RUN;
+			reset_animation = true;
+			context.jump_available = false;
 		}
-		else
+		if (animation_status == Animation_status::A_IDLE ||
+			(animation_status == Animation_status::A_JUMP_IDLE &&
+				last_status == IN_AIR))
 		{
-			if (animation_status == Animation_status::A_IDLE ||
-				(animation_status == Animation_status::A_JUMP_IDLE &&
-					last_status == IN_AIR))
-			{
-				animation_status = Animation_status::A_JUMP_IDLE;
-				status = Entity_status::JUMP_IDLE;
-				reset_animation = true;
-				context.jump_available = false;
-			}
+			animation_status = Animation_status::A_JUMP_IDLE;
+			status = Entity_status::JUMP_IDLE;
+			reset_animation = true;
+			context.jump_available = false;
 		}
 	}
 }
@@ -149,7 +149,7 @@ void Dynamic_entity::stop_jump()
 {
 	if (status == Entity_status::IN_AIR)
 	{
-		apply_force({ 0, jump_force_sum*0.8f });
+		apply_force({ 0, jump_force_sum * 0.8f });
 		jump_force_sum = 0;
 	}
 }
@@ -181,6 +181,17 @@ void Dynamic_entity::set_idle()
 
 void Dynamic_entity::update(float dt)
 {
+	if (collision_direction.y == 1)
+	{
+		edge_jump_buf = 0;
+	}
+	else
+	{
+		if (++edge_jump_buf > max_edge_jump)
+		{
+			edge_jump_buf = max_edge_jump;
+		}
+	}
 	total_speed += external_speed;
 	external_speed *= 0.95f;
 	if (fabs(external_speed.x) < MIN_EXTERNAL_SPEED)
@@ -234,10 +245,11 @@ void Dynamic_entity::update(float dt)
 		animation_status == Animation_status::A_JUMP_RUN2 ||
 		animation_status == Animation_status::A_JUMP_IDLE)
 	{
-		if (collision_direction.y == 1)
+		if (edge_jump_buf < max_edge_jump)
 		{
 			apply_force({ 0, -context.jump_force });
 			jump_force_sum = context.jump_force;
+			edge_jump_buf = max_edge_jump;
 		}
 		status = IN_AIR;
 	}

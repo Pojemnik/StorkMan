@@ -16,8 +16,8 @@ Ficzury:
 		*Obracanie i odbijanie obiektów z xml'a ✓
 		*?Pozycja Storkmana na starcie ustalana z góry w XML
 		*fps animowanych obiektów ✓
-		*opóźnienie początku animacji/wybór pierwszej klatki ✓
-		definowanie "struktur"/"półproduktów"
+		*Opóźnienie początku animacji/wybór pierwszej klatki ✓
+		Definowanie "struktur"/"półproduktów"
 		Bardziej złożone elementy w XML (pętle itp.)
 		Osobne pliki/include'y
 		Rotacja animwanych platform
@@ -34,7 +34,7 @@ Ficzury:
 		*Lepsza konsola ✓
 		*Muzyka/dźwięki
 		*?Popraiwć ogrnianie czasu w silniku (update)
-		Możliwość przerwania skoku
+		Możliwość przerwania skoku ✓
 		Spadanie i lądowanie - lepiej rozwiązać animacje
 		Skalowanie (zoom/odzoom)
 		Chowanie się przed wrogami za obiektami

@@ -207,10 +207,18 @@ namespace util
 		else
 			return 1 - SIN;
 	}
+
 	template <class T>
 	inline typename std::vector<T>::iterator increment_iterator(typename std::vector<T>::iterator a, std::vector<T>& vec)
 	{
 		a++;
 		return a == vec.end() ? vec.begin() : a;
+	}
+
+	inline bool round_and_compare(Vectorf a, Vectorf b)
+	{
+		a = { round(a.x), round(a.y) };
+		b = { round(b.x), round(b.y) };
+		return a == b;
 	}
 }

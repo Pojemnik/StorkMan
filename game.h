@@ -16,6 +16,7 @@ struct Object : public Renderable
 		float ang);
 };
 
+
 class Animated_object : public Animatable
 {
 public:
@@ -36,6 +37,9 @@ protected:
 	bool reset_animation = false;
 	float col_height;
 	float jump_force_sum = 0;
+	int edge_jump_buf = 0;
+	int max_edge_jump = 10;
+	Vectorf last_pos = { 0,0 };
 
 	void update_position(float dt);
 	void flip(int s);
