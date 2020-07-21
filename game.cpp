@@ -81,9 +81,6 @@ Dynamic_entity::Dynamic_entity(Vectorf p, sf::Texture* texture,
 
 void Dynamic_entity::move(Vectorf delta)
 {
-	//if (util::sgn(delta.x) != collision_direction.x &&
-	//	util::sgn(delta.x) != last_collision_direction.x)
-	//{
 	move_force += delta;
 	if (move_speed.x * move_speed.x + move_speed.y * move_speed.y <
 		context.min_move_speed * context.min_move_speed ||
@@ -99,11 +96,6 @@ void Dynamic_entity::move(Vectorf delta)
 	{
 		animation_status = Animation_status::A_MOVE;
 	}
-	//}
-	//else
-	//{
-	//	set_idle();
-	//}
 }
 
 void Dynamic_entity::move_angled(int dir)
@@ -120,7 +112,7 @@ void Dynamic_entity::move_angled(int dir)
 
 void Dynamic_entity::jump(bool move)
 {
-	if (collision_direction.y == 1)
+	if (collision_direction.y == 1 && context.jump_available)
 	{
 		if (move)
 		{
@@ -150,6 +142,15 @@ void Dynamic_entity::jump(bool move)
 				context.jump_available = false;
 			}
 		}
+	}
+}
+
+void Dynamic_entity::stop_jump()
+{
+	if (status == Entity_status::IN_AIR)
+	{
+		apply_force({ 0, jump_force_sum*0.8f });
+		jump_force_sum = 0;
 	}
 }
 
@@ -217,24 +218,26 @@ void Dynamic_entity::update(float dt)
 			move_speed.y = 0;
 		}
 	}
-	if (collision_direction.y == 1 && status == IN_AIR && last_status == status)
+	if (status == IN_AIR)
 	{
-		set_idle();
-	}
-	if (animation_status == Animation_status::A_JUMP_IDLE)
-	{
-		if (collision_direction.y == 1)
+		if (collision_direction.y == 1 && last_status == status)
 		{
-			apply_force({ 0, -context.jump_force });
+			set_idle();
 		}
-		status = IN_AIR;
+		jump_force_sum -= context.gravity;
+		if (jump_force_sum < 0)
+		{
+			jump_force_sum = 0;
+		}
 	}
-	if ((animation_status == Animation_status::A_JUMP_RUN ||
-		animation_status == Animation_status::A_JUMP_RUN2))
+	if (animation_status == Animation_status::A_JUMP_RUN ||
+		animation_status == Animation_status::A_JUMP_RUN2 ||
+		animation_status == Animation_status::A_JUMP_IDLE)
 	{
 		if (collision_direction.y == 1)
 		{
 			apply_force({ 0, -context.jump_force });
+			jump_force_sum = context.jump_force;
 		}
 		status = IN_AIR;
 	}
@@ -259,7 +262,7 @@ void Dynamic_entity::update(float dt)
 void Dynamic_entity::update_position(float dt)
 {
 	const float scale_factor = 32 / context.global_scale;
-	pos += total_speed * dt;	//ogarn¹æ to coœ!!!
+	pos += total_speed * dt;
 	sprite.setPosition(pos);
 	rect_collision = sf::FloatRect(pos.x - 18 / scale_factor,
 		pos.y - 37 / scale_factor, 15 / scale_factor,

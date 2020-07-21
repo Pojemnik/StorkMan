@@ -35,6 +35,7 @@ class Dynamic_entity : public Dynamic_animatable, public Physical
 protected:
 	bool reset_animation = false;
 	float col_height;
+	float jump_force_sum = 0;
 
 	void update_position(float dt);
 	void flip(int s);
@@ -46,6 +47,7 @@ public:
 	void move_angled(int direction);
 	void set_position(Vectorf new_position);
 	void jump(bool run);
+	void stop_jump();
 	void update(float dt);
 	void next_frame();
 	Vectorf get_position();

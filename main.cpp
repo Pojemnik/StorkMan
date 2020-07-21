@@ -9,7 +9,7 @@
 #include "console.h"
 #include "interpreter.h"
 
-const std::string VERSION = "0.4.4b";
+const std::string VERSION = "0.4.4c";
 
 bool update(float dt, Map& map, int move)
 {
@@ -226,13 +226,17 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 						moved = -1;
 					}
 				}
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && context.jump_available)
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 				{
 					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) ||
 						sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 						player.jump(true);
 					else
 						player.jump(false);
+				}
+				else
+				{
+					player.stop_jump();
 				}
 			}
 		}

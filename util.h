@@ -47,7 +47,7 @@ struct Context
 	float jump_force = 775.f;
 	float parallax = -1.5f;
 	float parallax2 = -2.f;
-	float global_scale = 32;//35.84f;	//[px/m]
+	float global_scale = 32;	//[px/m]
 	Vectorf max_move_speed = { 5,5 };
 	float min_move_speed = 0.5;
 	Vectorf move_speed_reduction = { 0.5f, 0.5f };

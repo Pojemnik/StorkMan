@@ -57,11 +57,11 @@ Ficzury:
  
 Błędy:
 	*{
-	Przebijanie platform (wentylacja)
-	Odbijanie się od podłogi (znowu wentylacja)
-	System kolizji jest kiepski (z tego samego powodu są problemy ze zgniataniem postaci) ✓
+	?Przebijanie platform (wentylacja)
+	?Odbijanie się od podłogi (znowu wentylacja)
+	Problemy ze zgniataniem postaci ✓
 	Odbijanie się z krawędzi platform (po raz kolejny) ✓
-	Przesuwanie się postaci na nieruchomych platformach, gdy pod spodem jest ruchoma
+	?Przesuwanie się postaci na nieruchomych platformach, gdy pod spodem jest ruchoma
 	}
 	Wczytywanie animacji obiektów typu 2x3 klatki ✓
 	Nieprawidłoe ścieżki ruchu platform ✓
