@@ -164,6 +164,11 @@ std::pair<Command_code, Vectorf> Commands_interpreter::execute_command_raw(Comma
 		context.draw_fps_counter =
 			get_bool(cmd, "FPS counter", { "drawn", "hidden" });
 	}
+	else if (cmd.name == "godmode")
+	{
+		context.god_mode =
+			get_bool(cmd, "God mode", { "on", "off" });
+	}
 	else if (cmd.name == "night")
 	{
 		context.night = get_bool(cmd, "Night", { "on", "off" });

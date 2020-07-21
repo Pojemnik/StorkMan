@@ -135,6 +135,7 @@ void Dynamic_entity::jump(bool move)
 					animation_status = Animation_status::A_JUMP_RUN2;
 				status = Entity_status::JUMP_RUN;
 				reset_animation = true;
+				context.jump_available = false;
 			}
 		}
 		else
@@ -146,6 +147,7 @@ void Dynamic_entity::jump(bool move)
 				animation_status = Animation_status::A_JUMP_IDLE;
 				status = Entity_status::JUMP_IDLE;
 				reset_animation = true;
+				context.jump_available = false;
 			}
 		}
 	}
@@ -244,6 +246,7 @@ void Dynamic_entity::update(float dt)
 	{
 		flip(x_speed_sign);
 	}
+	total_speed = util::saturate(total_speed, context.max_speed);
 	force = util::saturate(force, context.max_force);
 	update_position(dt);
 	last_animation_status = animation_status;

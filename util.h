@@ -32,7 +32,7 @@ enum Animation_status {
 	A_IDLE = 0, A_MOVE, A_JUMP_IDLE,
 	A_JUMP_RUN, A_JUMP_RUN2, A_PUNCH_1, A_PUNCH_2, A_HIT
 };
-enum Collidable_type { GROUND, ENEMY, OTHER };
+enum Collidable_type { STATIC, MOVING };
 
 struct Context
 {
@@ -40,6 +40,8 @@ struct Context
 	bool draw_map_vertices = false;
 	bool draw_fps_counter = false;
 	bool night = true;
+	bool god_mode = true;
+	bool jump_available = true;
 	float fps = 60.f;
 	float gravity = 22;
 	float jump_force = 775.f;
@@ -55,7 +57,7 @@ struct Context
 	Vectorf layer2_position = { -1000, -1800 };
 	float layer2_scale = 1.f;
 	const Vectorf max_force = { 1000.f, 3000.0f };
-	const Vectorf max_speed = { 10.f, 10.0f };
+	const Vectorf max_speed = { 20.f, 100.0f };
 	sf::RenderStates bg_states, layer2_states, blurh_states, blurv_states,
 		final_states, white_states;
 	sf::Shader global;

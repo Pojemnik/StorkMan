@@ -9,7 +9,7 @@
 #include "console.h"
 #include "interpreter.h"
 
-const std::string VERSION = "0.4.4";
+const std::string VERSION = "0.4.4b";
 
 bool update(float dt, Map& map, int move)
 {
@@ -81,6 +81,16 @@ bool process_event(sf::Event& event, bool window_focus)
 			}
 		}
 		break;
+	case sf::Event::KeyReleased:
+		if (window_focus)
+		{
+			if (event.key.code == sf::Keyboard::Up
+				&& !context.console->is_active())
+			{
+				context.jump_available = true;
+			}
+		}
+		break;
 	case sf::Event::TextEntered:
 		if (context.console->is_active() && window_focus)
 		{
@@ -122,7 +132,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	Map map;
 	context.fps_counter.setFont(assets.consola);
 	context.fps_counter.setPosition(0, 0);
-	std::string path = (argc == 2) ? argv[1] : "map/stork_map_example.xml";
+	std::string path = (argc == 2) ? argv[1] : "map/map.xml";
 	tinyxml2::XMLDocument doc;
 	tinyxml2::XMLError error = doc.LoadFile(path.c_str());
 	if (error != tinyxml2::XMLError::XML_SUCCESS)
@@ -216,9 +226,10 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 						moved = -1;
 					}
 				}
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && context.jump_available)
 				{
-					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) ||
+						sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 						player.jump(true);
 					else
 						player.jump(false);

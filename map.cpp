@@ -288,6 +288,23 @@ void Map::update(float dt)
 			}
 		}
 		Vectorf maxv = { 0,0 };
+		//Smash check
+		int collision_n = 0;
+		bool moving_collision = false;
+		bool potential_smash = false;
+		for (auto& physical_it : level_it->physicals)
+		{
+			moving_collision |= player->test_collision(*physical_it);
+			collision_n += moving_collision;
+		}
+		for (auto& colidable_it : level_it->collidables)
+		{
+			collision_n += player->test_collision(*colidable_it);
+		}
+		//if (collision_n > 1 || moving_collision)
+		//	std::cout << collision_n << ' ' << moving_collision << std::endl;
+		potential_smash = (collision_n > 1 && moving_collision);
+		//Collisions
 		for (auto& physical_it : level_it->physicals)
 		{
 			Vectorf tmp = player->uncollide(physical_it, dt);
@@ -300,30 +317,25 @@ void Map::update(float dt)
 			if (tmp.y > maxv.y)
 				maxv = tmp;
 		}
-		//Smash check
-		/*
-		bool smashed = false;
+		collision_n = 0;
+		moving_collision = false;
 		for (auto& physical_it : level_it->physicals)
 		{
-			smashed |= player->test_collision(*physical_it);
+			moving_collision |= player->test_collision(*physical_it);
+			collision_n += moving_collision;
 		}
 		for (auto& colidable_it : level_it->collidables)
 		{
-			smashed |= player->test_collision(*colidable_it);
+			collision_n += player->test_collision(*colidable_it);
 		}
-		for(int i = player_smash.size()-1; i > 0; i--)
-			player_smash[i] = player_smash[i-1];
-		player_smash[0] = smashed;
-		bool all_smashed = true;
-		for (int i = 0; i < player_smash.size(); i++)
-			all_smashed &= player_smash[i];
-		if (all_smashed)
+		//if(collision_n > 0 || moving_collision || potential_smash)
+		//	std::cout << collision_n << ' ' << moving_collision << ' ' << potential_smash << std::endl;
+		if (collision_n > 0 && moving_collision && potential_smash)
 		{
-			player_smash.fill(false);
-			player->set_position({ 10, 10 });
+			if(!context.god_mode)
+				player->set_position({ 20, 20 });
 			std::cout << "Zgon" << std::endl;
 		}
-		*/
 		if (maxv.x == 0 && maxv.y == 0)
 			maxv = {0,1};
 		player->maxcollisionvector = util::normalize(maxv);

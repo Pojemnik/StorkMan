@@ -1,5 +1,6 @@
 #include "platforms.h"
 #include <assert.h>
+
 Platform::Platform(Vectorf p, const sf::Texture* t,
 	std::vector<sf::Vertex> points, int layer, bool v)
 	: Texturable(p, t, points, layer), visible(v)
@@ -20,6 +21,7 @@ Platform::Platform(Vectorf p, const sf::Texture* t,
 			maxy = it.position.y;
 	}
 	rect_collision = sf::FloatRect(minx + p.x, miny + p.y, maxx - minx, maxy - miny);
+	type = Collidable_type::STATIC;
 }
 
 void Platform::rescale(float ratio)
@@ -116,7 +118,7 @@ Moving_platform::Moving_platform(const sf::Texture* tex, Vectorf p,
 	}
 	rect_collision = sf::FloatRect(minx + p.x, miny + p.y, maxx - minx, maxy - miny);
 	mass = INFINITY;
-	type = Collidable_type::GROUND;
+	type = Collidable_type::MOVING;
 }
 
 void Moving_platform::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -138,8 +140,6 @@ void Linear_moving_platform::update(float dt)
 	{
 		time -= move_data.it->second;
 			move_data.it = util::increment_iterator(move_data.it, move_data.points);
-		//move_data.it++;
-		//move_data.it = move_data.it == move_data.points.end() ? move_data.points.begin() : move_data.it;
 	}
 	update_position(dt);
 }
@@ -148,7 +148,6 @@ void Linear_moving_platform::update_position(float dt)
 {
 	Vectorf delta = pos;
 	auto next = util::increment_iterator(move_data.it, move_data.points);
-	//auto next = move_data.it + 1 == move_data.points.end() ? move_data.points.begin() : move_data.it + 1;
 	float a = time / move_data.it->second;
 	pos = (1.0f - a) * move_data.it->first + a * next->first;
 	delta = pos - delta;
