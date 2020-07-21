@@ -15,8 +15,18 @@ struct Object : public Renderable
 	Object(Vectorf p, const sf::Texture* t, float h, int layer, int flip,
 		float ang);
 };
-
-
+class Moving_object : public Object
+{
+	Linear_move move_data;
+	float time = 0;
+	Vectorf move_pos;
+public:
+	Moving_object(Vectorf p, const sf::Texture* t, float h, int layer, int flip,
+		float ang,Linear_move path);
+	Moving_object(const Moving_object&);
+	void update(float dt);
+	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+};
 class Animated_object : public Animatable
 {
 public:
@@ -29,6 +39,15 @@ public:
 private:
 	int frames_diff;
 	int frame_counter = 0;
+};
+class Moving_animated_object : public Animated_object
+{
+	Linear_move move_data;
+	float time = 0;
+	Vectorf pos;
+public:
+	void update(float dt);
+	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
 class Dynamic_entity : public Dynamic_animatable, public Physical

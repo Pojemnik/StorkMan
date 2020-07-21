@@ -110,6 +110,26 @@ Animation_tree Assets::load_animation_tree(std::string path)
 	return tree;
 }
 
+void Assets::load_sound(sf::SoundBuffer& buf, string path)
+{
+	if (!buf.loadFromFile(path))
+	{
+		context.console->err << "Sound loading error" << "\n";
+		return;
+	}
+}
+
+void Assets::load_sounds()
+{
+	sounds.resize(3);
+	load_sound(sounds[0], "sound/aaa.wav");
+	load_sound(sounds[1], "sound/jump_idle.wav");
+	load_sound(sounds[2], "sound/jump_run.wav");
+	context.aaa.setBuffer(sounds[0]);
+	context.jump_idle.setBuffer(sounds[1]);
+	context.jump_run.setBuffer(sounds[2]);
+}
+
 void Assets::load_textures(std::vector<sf::Texture>& v, std::string path, bool rep)
 {
 	int a, b, c, d;
@@ -252,4 +272,6 @@ void Assets::load_assets()
 	//Fonts
 	storkfont.loadFromFile("StorkFont.ttf");
 	consola.loadFromFile("consola.ttf");
+	//Sounds and music
+	load_sounds();
 }

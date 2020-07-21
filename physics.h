@@ -33,7 +33,7 @@ class Physical : public Transformable, public Collidable
 {
 protected:
 	float MIN_EXTERNAL_SPEED = 1;
-	float mass;
+	float mass = 0;
 	Vectorf total_speed = { 0,0 };
 	Vectorf move_speed = { 0,0 };
 	Vectorf force = { 0,0 };

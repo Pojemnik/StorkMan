@@ -13,6 +13,8 @@ private:
 	std::vector<Vectorf> map_vertices;
 	float global_scale;
 	std::array<bool, 8> player_smash;
+	std::vector<std::pair<Vectorf, Vectorf>> invisible_map_edges;
+	std::vector<std::pair<Vectorf, Vectorf>> map_edges;
 
 	void load_level(Vectori pos);
 	void unload_level(std::list<Level*>::iterator& lvl);
@@ -21,7 +23,6 @@ private:
 	void place_levels();
 
 public:
-	std::vector<std::pair<Vectorf, Vectorf>> map_edges;
 	sf::Sprite background;
 	sf::Sprite layer2;	//Lepiej rozwi¹zaæ
 	Player* player;		//Chyba niezyt eleganckie
@@ -39,6 +40,7 @@ public:
 	void draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) const;
+	void draw_map_vertices(sf::RenderTarget& target, sf::RenderStates states) const;
 	void update(float dt);
 	void pre_draw();
 	void recalc_light();

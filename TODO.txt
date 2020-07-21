@@ -23,23 +23,24 @@ Ficzury:
 		Rotacja animwanych platform
 		Ruchome obiekty
 		Kolor obiektu w XML
-		Obracanie ścian
+		Obracanie ścian ✓
 	Fizyka:
-		*Interakcje ze skośnymi platformami (lepsze podbieganie i zbieganie, zsuwanie się od pewnego kąta)
+		*?Interakcje ze skośnymi platformami (lepsze podbieganie i zbieganie, zsuwanie się od pewnego kąta)
 		Tarcie
 	Silnik:
 		Przyspieszyć obliczenia - szybsza trygonometria?
 		Wątki
 		Animowane obiekty ✓
 		*Lepsza konsola ✓
-		*Muzyka/dźwięki
-		*?Popraiwć ogrnianie czasu w silniku (update)
+		*Dźwięki ✓
+		*Muzyka ✓
+		?Popraiwć ogrnianie czasu w silniku (update)
 		Możliwość przerwania skoku ✓
 		Spadanie i lądowanie - lepiej rozwiązać animacje
 		Skalowanie (zoom/odzoom)
 		Chowanie się przed wrogami za obiektami
-		Mapvertices powinno wyświetlać niewidoczne platformy
-		Animacje dotykając ściany?
+		Mapvertices powinno wyświetlać niewidoczne platformy ✓
+		Animacje dotykając ściany ✓
 		*{
 			Sortowanie wierzchołków platform/ograninięcie takich nieposortowanych
 			Kolizje na dziwnych wielokątach?
@@ -59,12 +60,8 @@ Błędy:
 	*{
 	?Przebijanie platform (wentylacja)
 	?Odbijanie się od podłogi (znowu wentylacja)
-	Problemy ze zgniataniem postaci ✓
-	Odbijanie się z krawędzi platform (po raz kolejny) ✓
 	?Przesuwanie się postaci na nieruchomych platformach, gdy pod spodem jest ruchoma
 	}
-	Wczytywanie animacji obiektów typu 2x3 klatki ✓
-	Nieprawidłoe ścieżki ruchu platform ✓
 
 Inne/uwagi:
   Kod hitboxów Storkmana jest paskudny

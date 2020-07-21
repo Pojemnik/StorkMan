@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <cmath>
 #include <string>
 #include <iostream>
@@ -66,6 +67,9 @@ struct Context
 	uint8_t darkness = 70;
 	Console* console = nullptr;
 	ctpl::thread_pool* thread_pool = nullptr;
+	sf::Sound jump_idle;
+	sf::Sound jump_run;
+	sf::Sound aaa;
 };
 
 extern struct Context context;

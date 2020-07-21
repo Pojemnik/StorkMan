@@ -19,6 +19,7 @@ public:
 	sf::Shader blurv, blurh, white;
 	sf::Font storkfont, consola;
 	sf::Image icon;
+	std::vector<sf::SoundBuffer> sounds;
 	
 	void load_assets();
 	void load_additional_texture(std::string path, std::string name, int repeat);
@@ -35,4 +36,6 @@ private:
 		int sx, int sy);//a musi byæ zaalokowane wczeœniej
 	Dynamic_animation* load_dynamic_animation(std::string path);
 	Animation_tree load_animation_tree(std::string path);
+	void load_sound(sf::SoundBuffer& buf, string path);
+	void load_sounds();
 };

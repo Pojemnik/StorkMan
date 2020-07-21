@@ -7,7 +7,7 @@ Level::Level(const Level& level)
 	global_size(level.global_size), platforms(level.platforms),
 	light_sources(level.light_sources), walls(level.walls),
 	objects(level.objects), anim_objects(level.anim_objects), 
-	pendulums(level.pendulums), lmps(level.lmps)
+	pendulums(level.pendulums), lmps(level.lmps), mos(level.mos)
 {
 	for (auto& p : platforms)
 	{
@@ -35,6 +35,10 @@ Level::Level(const Level& level)
 	{
 		add_to_layer(o);
 	}
+	for (auto& mo : mos)
+	{
+		add_to_layer(mo);
+	}
 	for (auto& o : anim_objects)
 	{
 		add_animatable(&o);
@@ -47,7 +51,11 @@ void Level::add_object(Object o)
 	objects.push_back(o);
 	add_to_layer(o);
 }
-
+void Level::add_moving_object(Moving_object o)
+{
+	mos.push_back(o);
+	add_to_layer(o);
+}
 void Level::add_object(Animated_object o)
 {
 	anim_objects.push_back(o);
@@ -132,6 +140,8 @@ void Level::rescale(float ratio)
 	for (auto& w : walls)
 		w.rescale(ratio);
 	for (auto& w : objects)
+		w.rescale(ratio);
+	for (auto& w : mos)
 		w.rescale(ratio);
 }
 

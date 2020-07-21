@@ -28,12 +28,16 @@ private:
 	Wall parse_wall(tinyxml2::XMLElement* element);
 	Object parse_object_raw(tinyxml2::XMLElement* element);
 	Object parse_object(tinyxml2::XMLElement* element);
+	Moving_object parse_moving_object_raw(tinyxml2::XMLElement* element);
+	Moving_object parse_moving_object(tinyxml2::XMLElement* element);
 	Animated_object parse_animated_object_raw(tinyxml2::XMLElement* element);
 	Animated_object parse_animated_object(tinyxml2::XMLElement* element);
 	Pendulum parse_pendulum(tinyxml2::XMLElement* element);
 	Pendulum parse_pendulum_raw(tinyxml2::XMLElement* element);
 	Linear_moving_platform parse_linear_platform(tinyxml2::XMLElement* element);
 	Linear_moving_platform parse_linear_platform_raw(tinyxml2::XMLElement* element);
+	std::pair<int, float> parse_flip_rotation(tinyxml2::XMLElement* element);
+	int parse_layer(tinyxml2::XMLElement* element, int default_value);
 
 public:
 	Map parse_map(tinyxml2::XMLElement* root);

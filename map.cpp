@@ -164,6 +164,7 @@ void Map::calc_map_vertices()
 {
 	std::list<std::pair<Vectorf, Vectorf> > tab;
 	map_edges.clear();
+	invisible_map_edges.clear();
 	for (const auto& it : loaded_levels)
 	{
 		for (const auto& it2 : it->platforms)
@@ -175,6 +176,15 @@ void Map::calc_map_vertices()
 					tab.push_back(std::make_pair(it2.vertices[i].position + it2.pos, it2.vertices[i - 1].position + it2.pos));
 				}
 				tab.push_back(std::make_pair(
+					it2.vertices.back().position + it2.pos, it2.vertices.front().position + it2.pos));
+			}
+			else
+			{
+				for (size_t i = 1; i < it2.vertices.size(); i++)
+				{
+					invisible_map_edges.push_back(std::make_pair(it2.vertices[i].position + it2.pos, it2.vertices[i - 1].position + it2.pos));
+				}
+				invisible_map_edges.push_back(std::make_pair(
 					it2.vertices.back().position + it2.pos, it2.vertices.front().position + it2.pos));
 			}
 		}
@@ -282,13 +292,12 @@ void Map::update(float dt)
 		for (auto& physical_it : level_it->physicals)
 		{
 			physical_it->update(dt);
-			for (auto& colidable_it : level_it->collidables)
-			{
-				//physical_it->uncollide(colidable_it, dt);
-			}
+		}
+		for (auto& mos_it : level_it->mos)
+		{
+			mos_it.update(dt);
 		}
 		Vectorf maxv = { 0,0 };
-		//Smash check
 		int collision_n = 0;
 		bool moving_collision = false;
 		bool potential_smash = false;
@@ -301,8 +310,6 @@ void Map::update(float dt)
 		{
 			collision_n += player->test_collision(*colidable_it);
 		}
-		//if (collision_n > 1 || moving_collision)
-		//	std::cout << collision_n << ' ' << moving_collision << std::endl;
 		potential_smash = (collision_n > 1 && moving_collision);
 		//Collisions
 		for (auto& physical_it : level_it->physicals)
@@ -328,12 +335,13 @@ void Map::update(float dt)
 		{
 			collision_n += player->test_collision(*colidable_it);
 		}
-		//if(collision_n > 0 || moving_collision || potential_smash)
-		//	std::cout << collision_n << ' ' << moving_collision << ' ' << potential_smash << std::endl;
 		if (collision_n > 0 && moving_collision && potential_smash)
 		{
-			if(!context.god_mode)
+			if (!context.god_mode)
+			{
 				player->set_position({ 20, 20 });
+				context.aaa.play();
+			}
 			std::cout << "Zgon" << std::endl;
 		}
 		if (maxv.x == 0 && maxv.y == 0)
@@ -423,4 +431,24 @@ void Map::rescale(float new_global_scale)
 	delete light_texture;
 	light_texture = nullptr;
 	recalc_light();
+}
+
+void Map::draw_map_vertices(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	sf::VertexArray tmp(sf::Lines, 2 * map_edges.size());
+	for (size_t i = 0; i < map_edges.size(); i++)
+	{
+		tmp[2 * i] = sf::Vertex(map_edges[i].first,
+			sf::Color(255, 255, 255, 255));
+		tmp[2 * i + 1] = sf::Vertex(map_edges[i].second,
+			sf::Color(255, 255, 255, 255));
+	}
+	for (size_t i = 0; i < invisible_map_edges.size(); i++)
+	{
+		tmp[2 * i] = sf::Vertex(invisible_map_edges[i].first,
+			sf::Color(255, 255, 255, 255));
+		tmp[2 * i + 1] = sf::Vertex(invisible_map_edges[i].second,
+			sf::Color(255, 255, 255, 255));
+	}
+	target.draw(tmp, states);
 }

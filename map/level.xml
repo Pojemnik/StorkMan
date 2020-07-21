@@ -1,5 +1,13 @@
 ﻿<level name="Podziemna Świątynia - poziom testowy 04" background="bg1">
 	/---------------------------------------------------------------------PODZIEMIE
+	<moving_object position="85, 29.5" texture="column0" height="3" layer="8">
+        <p>0,-15.5,310</p>
+        <p>0,-15.5,60</p>
+        <p>-14,-15.5,280</p>
+        <p>-14,-15.5,30</p>
+        <p>-14,-1,65</p>
+        <p>0,0,705</p>
+	</moving_object>
 	<wall position="79,36.5" texture="ground0">
 		<v>0,0</v>
 		<v>21,0</v>

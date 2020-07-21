@@ -268,6 +268,15 @@ std::pair<Command_code, Vectorf> Commands_interpreter::execute_command_raw(Comma
 	{
 		return std::make_pair(Command_code::GET_POSITION, Vectorf());
 	}
+	else if (cmd.name == "musicvolume")
+	{
+		float vol = get_float(cmd, "Music volume");
+		if (vol < 0 || vol > 100)
+		{
+			throw std::invalid_argument("Incorrect argument");
+		}
+		return std::make_pair(Command_code::SET_MUSIC_VOLUME, Vectorf(vol, 0));
+	}
 	else
 		context.console->err << "Unknown command: " + cmd.name << '\n';
 	return std::make_pair<Command_code, Vectorf>(Command_code::NOTHING, Vectorf());

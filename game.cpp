@@ -10,7 +10,31 @@ Object::Object(Vectorf p, const sf::Texture* t, float h, int layer)
 Object::Object(Vectorf p, const sf::Texture* t, float h, int layer, int flip,
 	float ang)
 	: Renderable(p, t, h, layer, flip, ang) {}
-
+void Moving_object::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	states.transform *= sf::Transform().translate(move_pos);
+	Renderable::draw(target, states);
+}
+void Moving_object::update(float dt)
+{
+	time += dt;
+	while (time > move_data.it->second)
+	{
+		time -= move_data.it->second;
+			move_data.it = util::increment_iterator(move_data.it, move_data.points);
+	}
+	auto next = util::increment_iterator(move_data.it, move_data.points);
+	float a = time / move_data.it->second;
+	move_pos = (1.0f - a) * move_data.it->first + a * next->first;
+}
+	Moving_object::Moving_object(Vectorf p, const sf::Texture* t, float h, int layer, int flip,
+		float ang,Linear_move path): Object(p,t,h,layer,flip,ang), move_data(path){
+			move_data.it = move_data.points.begin();
+		}
+	Moving_object::Moving_object(const Moving_object& mo): Object(mo),move_data(mo.move_data)
+	{
+		move_data.it = move_data.points.begin();
+	}
 Animated_object::Animated_object(Vectorf p,
 	const std::vector<sf::Texture>* a, float h, int layer, int fr)
 	: Animatable(p, a, h, layer), frames_diff(fr) {}
@@ -132,6 +156,7 @@ void Dynamic_entity::jump(bool move)
 			status = Entity_status::JUMP_RUN;
 			reset_animation = true;
 			context.jump_available = false;
+			context.jump_run.play();
 		}
 		if (animation_status == Animation_status::A_IDLE ||
 			(animation_status == Animation_status::A_JUMP_IDLE &&
@@ -141,6 +166,7 @@ void Dynamic_entity::jump(bool move)
 			status = Entity_status::JUMP_IDLE;
 			reset_animation = true;
 			context.jump_available = false;
+			context.jump_idle.play();
 		}
 	}
 }

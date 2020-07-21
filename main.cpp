@@ -153,6 +153,11 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	map.player = &player;
 	int moved = 0;
 	float acc = 0;
+	sf::Music music;
+	music.openFromFile("sound/theme.wav");
+	music.setLoop(true);
+	music.setVolume(5);
+	music.play();
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -190,6 +195,8 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 					context.console->out <<
 						player.get_position() / context.global_scale << '\n';
 					break;
+				case Command_code::SET_MUSIC_VOLUME:
+					music.setVolume(code.second.x);
 				default:
 					break;
 				}
@@ -283,13 +290,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 				window.draw(context.fps_counter);
 			if (context.draw_map_vertices)
 			{
-				sf::VertexArray tmp(sf::Lines, 2 * map.map_edges.size());
-				for (size_t i = 0; i < map.map_edges.size(); i++)
-				{
-					tmp[2 * i] = sf::Vertex(map.map_edges[i].first, sf::Color(255, 255, 255, 255));
-					tmp[2 * i + 1] = sf::Vertex(map.map_edges[i].second, sf::Color(255, 255, 255, 255));
-				}
-				window.draw(tmp, rs);
+				map.draw_map_vertices(window, rs);
 			}
 			if (context.console->is_active())
 			{
