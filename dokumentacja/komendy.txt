@@ -24,6 +24,7 @@ darkness 				int				70					Wartość jasności nioświetlonych fragmentów pozio
 clear 					brak			-					Czyści konsolę
 godmode					bool			true				Ustawione na true uniemożliwia śmierć
 musicvolume				float			50					Ustawia głośność muzyki. Wartość w %
+soundvolume				float			50					Ustawia głośność dźwięków. Wartość w %
 
 Komendy podajesz wraz z argumentami w jednej linii.
 Przykład:

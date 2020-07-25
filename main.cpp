@@ -1,6 +1,4 @@
 #include <tinyxml2.h>
-#include <fstream>
-#include <SFML/Graphics.hpp>
 #include "map.h"
 #include "assets.h"
 #include "game.h"
@@ -9,7 +7,7 @@
 #include "console.h"
 #include "interpreter.h"
 
-const std::string VERSION = "0.4.4d";
+const std::string VERSION = "0.4.4e";
 
 bool update(float dt, Map& map, int move)
 {
@@ -153,10 +151,19 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	map.player = &player;
 	int moved = 0;
 	float acc = 0;
+	bool init = false;
+	std::ifstream config("config.cfg");
+	std::stringstream configsstream;
+	string configstring;
+	while (!config.eof())
+	{
+		std::getline(config, configstring);
+		context.console->input_append(configstring + "\r\n");
+		init = true;
+	}
 	sf::Music music;
 	music.openFromFile("sound/theme.wav");
 	music.setLoop(true);
-	music.setVolume(5);
 	music.play();
 	while (window.isOpen())
 	{
@@ -169,8 +176,12 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 				return 0;
 			}
 		}
-		if (context.console->is_active())
+		if (context.console->is_active() || init)
 		{
+			if (init)
+			{
+				init = false;
+			}
 			while (context.console->user_input_data_available())
 			{
 				std::pair<Command_code, Vectorf> code =
@@ -197,6 +208,12 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 					break;
 				case Command_code::SET_MUSIC_VOLUME:
 					music.setVolume(code.second.x);
+					break;
+				case Command_code::SET_SOUND_VOLUME:
+					context.aaa.setVolume(code.second.x);
+					context.jump_idle.setVolume(code.second.x);
+					context.jump_run.setVolume(code.second.x);
+					break;
 				default:
 					break;
 				}
