@@ -273,7 +273,7 @@ void Dynamic_entity::update(float dt)
 	{
 		if (edge_jump_buf < max_edge_jump)
 		{
-			apply_force({ 0, -context.jump_force });
+			apply_force({ 0, -context.jump_force - edge_jump_buf * context.gravity });
 			jump_force_sum = context.jump_force;
 			edge_jump_buf = max_edge_jump;
 		}
@@ -328,6 +328,10 @@ Vectorf Dynamic_entity::get_position()
 void Dynamic_entity::set_position(Vectorf new_position)
 {
 	pos = new_position;
+	force = { 0,0 };
+	total_speed = { 0,0 };
+	external_speed = { 0,0 };
+	move_speed = { 0,0 };
 }
 
 void Dynamic_entity::rescale(float new_scale)

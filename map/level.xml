@@ -1,5 +1,11 @@
 ﻿<level name="Podziemna Świątynia - poziom testowy 04" background="bg1">
 	/---------------------------------------------------------------------PODZIEMIE
+	<object position="13,10" texture="schody" height="3"/>
+	<platform position="13,10" visible="0">
+		<v>3,0</v>
+		<v>3,3</v>
+		<v>0,3</v>
+	</platform>
 	<moving_object position="85, 29.5" texture="column0" height="3" layer="8">
         <p>0,-15.5,310</p>
         <p>0,-15.5,60</p>
@@ -258,97 +264,7 @@
 		<v>2,1</v>
 		<v>2,0</v>
 	</platform>
-	<platform position="62.5,18" texture="wood,2">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>3,0.5</v>
-		<v>3,0</v>
-	</platform>
-	<platform position="62.5,17.5" texture="wood,2">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>2.5,0.5</v>
-		<v>2.5,0</v>
-	</platform>
-	<platform position="62.5,17" texture="wood,2">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>2,0.5</v>
-		<v>2,0</v>
-	</platform>
-	<platform position="62.5,16.5" texture="wood,2">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>1.5,0.5</v>
-		<v>1.5,0</v>
-	</platform>
-	<platform position="62.5,16" texture="wood,2">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>1,0.5</v>
-		<v>1,0</v>
-	</platform>
-	<platform position="62.5,15.5" texture="wood,2">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>0.5,0.5</v>
-		<v>0.5,0</v>
-	</platform>
-	<platform position="65.5,13.5" texture="wood,2">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>2,0.5</v>
-		<v>2,0</v>
-	</platform>
-	<platform position="66,13" texture="wood,2">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>1.5,0.5</v>
-		<v>1.5,0</v>
-	</platform>
-	<platform position="66.5,12.5" texture="wood,2">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>1,0.5</v>
-		<v>1,0</v>
-	</platform>
-	<platform position="67,12" texture="wood,2">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>0.5,0.5</v>
-		<v>0.5,0</v>
-	</platform>
 	<platform position="67,16" texture="paving,1">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>0.5,0.5</v>
-		<v>0.5,0</v>
-	</platform>
-	<platform position="62.5,9.5" texture="wood,2">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>2.5,0.5</v>
-		<v>2.5,0</v>
-	</platform>
-	<platform position="62.5,9" texture="wood,2">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>2,0.5</v>
-		<v>2,0</v>
-	</platform>
-	<platform position="62.5,8.5" texture="wood,2">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>1.5,0.5</v>
-		<v>1.5,0</v>
-	</platform>
-	<platform position="62.5,8" texture="wood,2">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>1,0.5</v>
-		<v>1,0</v>
-	</platform>
-	<platform position="62.5,7.5" texture="wood,2">
 		<v>0,0</v>
 		<v>0,0.5</v>
 		<v>0.5,0.5</v>
@@ -445,90 +361,6 @@
 		<v>1,0</v>
 	</platform>
 	<platform position="61,16" texture="paving,1">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>0.5,0.5</v>
-		<v>0.5,0</v>
-	</platform>
-	<platform position="50.5,7" texture="wood,2">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>2,0.5</v>
-		<v>2,0</v>
-	</platform>
-	<platform position="50.5,6.5" texture="wood,2">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>1.5,0.5</v>
-		<v>1.5,0</v>
-	</platform>
-	<platform position="50.5,6" texture="wood,2">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>1,0.5</v>
-		<v>1,0</v>
-	</platform>
-	<platform position="50.5,5.5" texture="wood,2">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>0.5,0.5</v>
-		<v>0.5,0</v>
-	</platform>
-	<platform position="50.5,13.5" texture="wood,2">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>2,0.5</v>
-		<v>2,0</v>
-	</platform>
-	<platform position="50.5,13" texture="wood,2">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>1.5,0.5</v>
-		<v>1.5,0</v>
-	</platform>
-	<platform position="50.5,12.5" texture="wood,2">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>1,0.5</v>
-		<v>1,0</v>
-	</platform>
-	<platform position="50.5,12" texture="wood,2">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>0.5,0.5</v>
-		<v>0.5,0</v>
-	</platform>
-	<platform position="53.5,18" texture="wood,2">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>3,0.5</v>
-		<v>3,0</v>
-	</platform>
-	<platform position="54,17.5" texture="wood,2">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>2.5,0.5</v>
-		<v>2.5,0</v>
-	</platform>
-	<platform position="54.5,17" texture="wood,2">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>2,0.5</v>
-		<v>2,0</v>
-	</platform>
-	<platform position="55,16.5" texture="wood,2">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>1.5,0.5</v>
-		<v>1.5,0</v>
-	</platform>
-	<platform position="55.5,16" texture="wood,2">
-		<v>0,0</v>
-		<v>0,0.5</v>
-		<v>1,0.5</v>
-		<v>1,0</v>
-	</platform>
-	<platform position="56,15.5" texture="wood,2">
 		<v>0,0</v>
 		<v>0,0.5</v>
 		<v>0.5,0.5</v>

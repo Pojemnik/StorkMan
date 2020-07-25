@@ -1,7 +1,7 @@
 ﻿* - następny release
 
 Lista priorytetowa by Adam:
-  *1. Dodanie prostych przeciwników
+  *1. Dodanie prostych przeciwników ✓
   *2. "Trzymanie się w pionie"(AAAAAAA)
   3. Dodanie peleryny
   4. Rozbudowanie obszaru gry do docelowego rozmiaru i stworzenie
@@ -21,7 +21,8 @@ Ficzury:
 		Bardziej złożone elementy w XML (pętle itp.)
 		Osobne pliki/include'y
 		Rotacja animwanych platform
-		Ruchome obiekty
+		Ruchome obiekty ✓
+		*Ruchome animowane obiekty											<---- tobiasz masz to zrobić
 		Kolor obiektu w XML
 		Obracanie ścian ✓
 	Fizyka:
@@ -55,13 +56,16 @@ Ficzury:
 			Rozjaśnianie tekstur przez światło (pewnie shader)
 			Kolorowe światła?
 		}
- 
+Testy:
+	Skośne pseudoschody
+
 Błędy:
 	*{
 	?Przebijanie platform (wentylacja)
 	?Odbijanie się od podłogi (znowu wentylacja)
 	?Przesuwanie się postaci na nieruchomych platformach, gdy pod spodem jest ruchoma
 	}
+	Można zostać zgnieconym przez ruchome platformy przy (70, 63) (nie powinno być można)
 
 Inne/uwagi:
   Kod hitboxów Storkmana jest paskudny

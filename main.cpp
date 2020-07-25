@@ -9,7 +9,7 @@
 #include "console.h"
 #include "interpreter.h"
 
-const std::string VERSION = "0.4.4c";
+const std::string VERSION = "0.4.4d";
 
 bool update(float dt, Map& map, int move)
 {

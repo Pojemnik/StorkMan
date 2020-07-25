@@ -79,3 +79,4 @@ img/tex/TRAWA04.png grass4 0
 img/tex/TRAWA05.png grass5 0
 img/tex/FRAMUGA00.png framuga0 0
 img/tex/FRAMUGA01.png framuga1 0
+img/tex/schody.png schody 0
