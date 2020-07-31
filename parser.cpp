@@ -198,7 +198,7 @@ Platform Parser::parse_platform_raw(tinyxml2::XMLElement* element)
 		{
 			Vectorf v = parse_num_pairf(e->GetText());
 			v *= context.global_scale;
-			Vectorf v2 = util::rotate_vector(v, fliprot.second);
+			Vectorf v2 = util::rotate_vector(v, util::deg_to_rad(fliprot.second));
 			v2.x *= fliptab[fliprot.first].x;
 			v2.y *= fliptab[fliprot.first].y;
 			points.push_back(sf::Vertex(v, v2));
@@ -253,7 +253,7 @@ Wall Parser::parse_wall_raw(tinyxml2::XMLElement* element)
 		{
 			Vectorf v = parse_num_pairf(e->GetText());
 			v *= context.global_scale;
-			Vectorf v2 = util::rotate_vector(v, fliprot.second);
+			Vectorf v2 = util::rotate_vector(v, util::deg_to_rad(fliprot.second));
 			v2.x *= fliptab[fliprot.first].x;
 			v2.y *= fliptab[fliprot.first].y;
 			points.push_back(sf::Vertex(v, v2));
@@ -525,7 +525,7 @@ Pendulum Parser::parse_pendulum_raw(tinyxml2::XMLElement* element)
 		{
 			Vectorf v = parse_num_pairf(e->GetText());
 			v *= context.global_scale;
-			Vectorf v2 = util::rotate_vector(v, fliprot.second);
+			Vectorf v2 = util::rotate_vector(v, util::deg_to_rad(fliprot.second));
 			v2.x *= fliptab[fliprot.first].x;
 			v2.y *= fliptab[fliprot.first].y;
 			vert.push_back(sf::Vertex(v, v2));
@@ -595,7 +595,7 @@ Linear_moving_platform Parser::parse_linear_platform_raw(tinyxml2::XMLElement* e
 		{
 			Vectorf v = parse_num_pairf(e->GetText());
 			v *= context.global_scale;
-			Vectorf v2 = util::rotate_vector(v, fliprot.second);
+			Vectorf v2 = util::rotate_vector(v, util::deg_to_rad(fliprot.second));
 			v2.x *= fliptab[fliprot.first].x;
 			v2.y *= fliptab[fliprot.first].y;
 			vert.push_back(sf::Vertex(v, v2));
