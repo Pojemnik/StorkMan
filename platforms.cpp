@@ -75,7 +75,7 @@ void Pendulum::update(float dt)
 	const float angleAccel = (-0.008 / line_len) * sin(rad_angle);
 	a_speed += angleAccel * dt;
 	rad_angle += a_speed * dt;
-	angle = { cos(rad_angle),sin(rad_angle) };
+	angle = { float(cos(rad_angle)),float(sin(rad_angle)) };
 	update_position(dt);
 }
 

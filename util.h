@@ -14,6 +14,7 @@
 #include <map>
 #include "console.h"
 #include "include/ctpl_stl.h"
+#include <cfloat>
 
 typedef sf::Vector2f Vectorf;
 typedef sf::Vector2i Vectori;
@@ -137,7 +138,7 @@ namespace util
 		return a * a;
 	}
 
-	inline Vectorf util::saturate(Vectorf val, const Vectorf max_val)
+	inline Vectorf saturate(Vectorf val, const Vectorf max_val)
 	{
 		if (val.x > max_val.x)
 			val.x = max_val.x;
@@ -150,17 +151,17 @@ namespace util
 		return val;
 	}
 
-	inline float util::deg_to_rad(float s)
+	inline float deg_to_rad(float s)
 	{
 		return(s / 180 * PI);
 	}
 
-	inline float util::rad_to_deg(float rdn)
+	inline float rad_to_deg(float rdn)
 	{
 		return rdn / PI * 180;
 	}
 
-	inline float util::ang_reduce(float ang)
+	inline float ang_reduce(float ang)
 	{
 		ang = fmod(ang, 360.0f);
 		if (ang < 0)
@@ -168,7 +169,7 @@ namespace util
 		return ang;
 	}
 
-	inline Vectorf util::rotate_vector(Vectorf vec, float ang)
+	inline Vectorf rotate_vector(Vectorf vec, float ang)
 	{
 		float COS = cos(ang);
 		float SIN = sin(ang);
@@ -177,7 +178,7 @@ namespace util
 				vec.x * SIN +
 				vec.y * COS };
 	}
-	inline Vectorf util::rotate_vector(Vectorf vec, Vectorf normalized_rotation_vector)
+	inline Vectorf rotate_vector(Vectorf vec, Vectorf normalized_rotation_vector)
 	{
 		return { vec.x * normalized_rotation_vector.x -
 				vec.y * normalized_rotation_vector.y,
@@ -185,7 +186,7 @@ namespace util
 				vec.y * normalized_rotation_vector.x };
 	}
 
-	inline bool util::vectorf_compare(const Vectorf& a, const Vectorf& b)
+	inline bool vectorf_compare(const Vectorf& a, const Vectorf& b)
 	{
 		if (a.x != b.x)
 		{
@@ -197,13 +198,13 @@ namespace util
 		}
 	}
 
-	inline bool util::vectorf_binary_predicate(const Vectorf& a,
+	inline bool vectorf_binary_predicate(const Vectorf& a,
 		const Vectorf& b)
 	{
 		return fabs(a.x - b.x) < 1 && fabs(a.y - b.y) < 1;
 	}
 
-	inline float util::convert_vector(const Vectorf& vec)
+	inline float convert_vector(const Vectorf& vec)
 	{
 		float SIN = vec.y / hypot(vec.x, vec.y);
 		if (vec.x > 0)
@@ -221,8 +222,8 @@ namespace util
 
 	inline bool round_and_compare(Vectorf a, Vectorf b)
 	{
-		a = { round(a.x), round(a.y) };
-		b = { round(b.x), round(b.y) };
+		a = { float(round(a.x)), float(round(a.y)) };
+		b = { float(round(b.x)), float(round(b.y)) };
 		return a == b;
 	}
 	

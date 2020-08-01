@@ -1,2 +1,3 @@
-#!/bin/bash
-g++ main.cpp graphics.cpp physics.cpp util.cpp map.cpp parser.cpp assets.cpp game.cpp collisions.cpp -I ./include -o sfml-app -L ./lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network -ltinyxml2
+#!/bin/sh
+g++ main.cpp graphics.cpp physics.cpp util.cpp map.cpp parser.cpp assets.cpp game.cpp collisions.cpp console.cpp interpreter.cpp level.cpp light.cpp platforms.cpp -I ./include -o StorkMan -L ./lib -lpthread -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network -ltinyxml2
+#x86_64-w64-mingw32-c++-posix main.cpp graphics.cpp physics.cpp util.cpp map.cpp parser.cpp assets.cpp game.cpp collisions.cpp console.cpp interpreter.cpp level.cpp light.cpp platforms.cpp -I "../SFML-2.5.1/include" -L "../SFML-2.5.1/lib" -L "../SFML-2.5.1/bin" -I ./include -o StorkMan.exe -L ./lib -lpthread -lwinpthread -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network -ltinyxml2 

@@ -236,9 +236,9 @@ void Assets::load_assets()
 	//Textures
 	enemy_textures.reserve(20);
 	enemy_textures.push_back(sf::Texture());
-	load_texture(enemy_textures.back(), "img/enemy/KLODA_00.PNG", false);
+	load_texture(enemy_textures.back(), "img/enemy/KLODA_00.png", false);
 	enemy_textures.push_back(sf::Texture());
-	load_texture(enemy_textures.back(), "img/enemy/SZNUR_00.PNG", false);
+	load_texture(enemy_textures.back(), "img/enemy/SZNUR_00.png", false);
 	load_textures(map_textures, "img/tex_ss_64_64_is_6_7.png", true);
 	{
 		std::vector<string> tex_names = { "asphalt,0","concrete,0","construction,0",
