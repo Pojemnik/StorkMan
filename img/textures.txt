@@ -16,7 +16,6 @@ img/tex/SKALY02.png rocks2 0
 img/tex/FRAMUGA00.png door0 0
 img/tex/FRAMUGA01.png door1 0
 img/tex/DESKI00.png lumber0 1
-img/tex/JARZENIOWKA00.png lamp0 0
 img/tex/STOL00.png table0 0
 img/tex/TRAWA03.png grass3 0
 img/tex/TRAWA04.png grass4 0
@@ -44,6 +43,7 @@ img/tex/SZNUR02.png rope2 1
 img/tex/DZWIG00.png crane0 1
 img/tex/LINKA00.png line0 1
 img/tex/LINKA01.png line1 1
+img/tex/LINKA02.png line2 1
 img/tex/PUCHAR00.png grail0 1
 img/tex/POSWIATA00.png glow0 1
 img/tex/ZIEMIA_UZUPELNIENIE00.png ground_fill0 1
@@ -61,10 +61,9 @@ img/tex/SWIECZNIK01.png swiecznik1 0
 img/tex/ZYRANDOL03.png swiecznik3 0
 img/tex/WINDA00.png winda0 0
 img/tex/JARZENIOWKA00.png lamp1 0
-img/tex/DESKI00.png lumber0 0
-img/tex/DESKI01.png lumber1 0
-img/tex/DESKI03.png lumber3 0
-img/tex/SKRZYNIE00.png chest0 0
+img/tex/DESKI00.png lumbers0 0
+img/tex/DESKI01.png lumbers1 0
+img/tex/DESKI03.png lumbers3 0
 img/tex/ALARMOWA00.png alarm0 0
 img/tex/RADAR00.png radar0 0
 img/tex/STOL00.png table0 0
@@ -74,9 +73,3 @@ img/tex/PIEC01.png oven1 0
 img/tex/KUCHNIA00.png kitchen0 0
 img/tex/KUCHNIA01.png kitchen1 0
 img/tex/KUCHNIA02.png kitchen2 0
-img/tex/TRAWA03.png grass3 0
-img/tex/TRAWA04.png grass4 0
-img/tex/TRAWA05.png grass5 0
-img/tex/FRAMUGA00.png framuga0 0
-img/tex/FRAMUGA01.png framuga1 0
-img/tex/schody.png schody 0

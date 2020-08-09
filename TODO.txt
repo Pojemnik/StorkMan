@@ -1,14 +1,16 @@
 ﻿* - następny release
 
 Lista priorytetowa by Adam:
-  *1. Dodanie prostych przeciwników ✓
-  *2. "Trzymanie się w pionie"(AAAAAAA)
-  3. Dodanie peleryny
-  4. Rozbudowanie obszaru gry do docelowego rozmiaru i stworzenie
-  dopasowania przejścia tła z podziemiami
-  5. Dodanie możliwości otrzymania obrażeń i śmierci Stork'mana w
-  interakcji z przeciwnikiem
-  6. Dodanie trybu walki wręcz i odpowiednio przeciwników
+	*1?. Zmiana skoków na lepiej obsługiwalne;
+	*1. Dodanie możliwości otrzymania obrażeń i śmierci Stork'mana w
+	*interakcji z przeciwnikiem (damage od platform?);
+	2. Mechanizmy zadawania obrażeń (kolce, pioruny, etc.);
+	3. Dodanie trybu walki wręcz i odpowiednio przeciwników do walki wręcz;
+	4. Dodanie bossów - przeciwników o bardziej skomplikowanej AI i specyfice działania;
+---ŚWIETLANA PRZYSZŁOŚĆ---
+	+. "Trzymanie się w pionie";
+	+. Rozbudowanie obszaru gry do docelowego rozmiaru i stworzenie
+	dopasowania przejścia tła z podziemiami;
 
 Ficzury:
 	XML/edycja poziomów:
@@ -17,7 +19,7 @@ Ficzury:
 		*?Pozycja Storkmana na starcie ustalana z góry w XML
 		*fps animowanych obiektów ✓
 		*Opóźnienie początku animacji/wybór pierwszej klatki ✓
-		Definowanie "struktur"/"półproduktów"
+		*Definowanie "struktur"/"półproduktów"
 		Bardziej złożone elementy w XML (pętle itp.)
 		Osobne pliki/include'y
 		Rotacja animwanych platform
@@ -25,6 +27,7 @@ Ficzury:
 		*Ruchome animowane obiekty											<---- tobiasz masz to zrobić
 		Kolor obiektu w XML
 		Obracanie ścian ✓
+		Animowane ściany
 	Fizyka:
 		*?Interakcje ze skośnymi platformami (lepsze podbieganie i zbieganie, zsuwanie się od pewnego kąta)
 		Tarcie
@@ -34,6 +37,7 @@ Ficzury:
 		Animowane obiekty ✓
 		*Lepsza konsola ✓
 		*Dźwięki ✓
+		Więcej dźwięków, zmieniona obsługa, możliwość dodawania nowych, różne w zależności od podłoża
 		*Muzyka ✓
 		?Popraiwć ogrnianie czasu w silniku (update)
 		Możliwość przerwania skoku ✓
