@@ -1,4 +1,15 @@
 ﻿<level name="Podziemna Świątynia - poziom testowy 04" background="bg1">
+	  <linear_platform position="1,1" texture="rivets,0">
+        <p>0,0,60</p>
+        <p>0,5,120</p>
+        <p>0,5,0</p>
+        <p>0,0,60</p>
+
+        <v>0,1</v>
+        <v>1,1</v>
+        <v>1,0</v>
+        <v>0,0</v>
+    </linear_platform>
 	/---------------------------------------------------------------------PODZIEMIE
 	<wall position="79,36.5" texture="ground0">
 		<v>0,0</v>
