@@ -57,10 +57,9 @@ void Pendulum::draw(sf::RenderTarget& target, sf::RenderStates states) const
 		angle.y, angle.x, point.y * (1 - angle.x) - point.x * angle.y,
 		0, 0, 1);
 	sf::Transform tmp = states.transform;
-	sf::Transform tmp2 = states.transform * rotate_transf;
 	for (const auto& i : lines)
 	{
-		states.transform = sf::Transform(1, 0, i.second.x, 0, 1, i.second.y, 0, 0, 1) * tmp2;
+		states.transform = tmp * sf::Transform(1, 0, i.second.x, 0, 1, i.second.y, 0, 0, 1) * rotate_transf;
 		target.draw(i.first, states);
 	}
 	states.transform = tmp;
