@@ -1,0 +1,8 @@
+Przykładowy sposób rozwiązania generatora poziomów Storkmana w pythonie. Możesz to zrobić inaczej, to ma na celu tylko pokazanie pomysłu. Całość jest prosta w obsłudze i daje bardzo duże możliwośći.
+
+Moduł level_base:
+Skałda się wyłącznie z klasy level, która zajmuje się tworzeniem i zapisem pliku poziomu oraz umożliwia dodawanie do niego elementów w postaci stringów.
+
+level.py jest przykładowym plikiem generatora używającym level_base. Prezentuje on możliwości pythona jako narzędzia do generowania poziomów. Definuje przykładowe struktury wykorzystując m.in. pętlę for.
+
+Dokumentacja bardzo przydatnej w generowaniu poziomów funkcji format: https://pyformat.info/
