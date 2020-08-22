@@ -97,7 +97,8 @@ namespace util
 	inline float convert_vector(const Vectorf& vec);
 	inline Vectorf rotate_vector(Vectorf vec, Vectorf normalized_rotation_vector);
 	inline std::string pass_or_default(std::string val, std::string default_val);
-	Vectorf intersection(std::pair<Vectorf, Vectorf> a, std::pair<Vectorf, Vectorf> b);
+	Vectorf intersection_point(std::pair<Vectorf, Vectorf> a, std::pair<Vectorf, Vectorf> b);
+	bool intersection(std::pair<Vectorf, Vectorf> a, std::pair<Vectorf, Vectorf> b);
 	void save_texture(std::string path, sf::Texture* texture);
 	sf::FloatRect mesh_to_rect(std::vector<sf::Vertex> vertices);
 
@@ -105,6 +106,7 @@ namespace util
 	{
 		return val == "" ? default_val : val;
 	}
+
 	inline sf::Vector2f normalize(sf::Vector2f x, float l = 1)
 	{
 		return x / float(sqrt(x.x * x.x + x.y * x.y) * l);
@@ -226,5 +228,4 @@ namespace util
 		b = { float(round(b.x)), float(round(b.y)) };
 		return a == b;
 	}
-	
 }

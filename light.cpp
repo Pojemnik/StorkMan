@@ -167,7 +167,7 @@ int Light::add_light_edges(Light_source& source, std::vector<std::pair<Vectorf,
 		for (int i = 0; i < map_edges.size() - 4; i++)
 		{
 			Vectorf inter =
-				util::intersection(map_edges[i], map_edges[map_edges.size() - 1 - j]);
+				util::intersection_point(map_edges[i], map_edges[map_edges.size() - 1 - j]);
 			if (inter != Vectorf(FLT_MAX, FLT_MAX))
 			{
 				map_vertices.push_back(inter);

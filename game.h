@@ -16,11 +16,37 @@ struct Object : public Renderable
 		float ang);
 };
 
+class Zone
+{
+public:
+	std::vector<Vectorf> vertices;
+	Vectorf pos;
+	float max_x;
+
+	Zone(std::vector<Vectorf>& vert, Vectorf p);
+	bool is_inside(Vectorf p);
+};
+
+class Damage_zone : Zone
+{
+private:
+	std::vector<std::pair<int, int>> damage;
+	float time = 0;
+
+public:
+	std::vector<std::pair<int, int>>::iterator current_damage;
+
+	void update(float dt);
+	Damage_zone(std::vector<Vectorf>& vert, Vectorf p,
+		std::vector<std::pair<int, int>>& dmg);
+};
+
 class Moving_object : public Object
 {
 	Linear_move move_data;
 	float time = 0;
 	Vectorf move_pos;
+
 public:
 	Moving_object(Vectorf p, const sf::Texture* t, float h, int layer, int flip,
 		float ang,Linear_move path);

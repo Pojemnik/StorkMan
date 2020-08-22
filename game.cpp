@@ -361,3 +361,48 @@ void Dynamic_entity::die()
 	context.console->log << "zgon" << '\n';
 	health = 100;
 }
+
+Zone::Zone(std::vector<Vectorf>& vert, Vectorf p) : vertices(vert), pos(p)
+{
+	max_x = -INFINITY;
+	for (auto it : vertices)
+	{
+		if (it.x > max_x)
+			max_x = it.x;
+	}
+}
+
+bool Zone::is_inside(Vectorf p)
+{
+	Vectorf outside_p = { max_x, p.y };
+	auto section = std::make_pair(p, outside_p);
+	int n = 0;
+	for (int i = 0; i < vertices.size() - 1; i++)
+	{
+		if (util::intersection(std::make_pair(vertices[i], vertices[i + 1]), section))
+		{
+			n++;
+		}
+	}
+	if (util::intersection(std::make_pair(vertices[0], vertices[vertices.size() - 1]), section))
+		n++;
+	if (n % 2)
+		return true;
+	return false;
+}
+
+Damage_zone::Damage_zone(std::vector<Vectorf>& vert, Vectorf p,
+	std::vector<std::pair<int, int>>& dmg) : Zone(vert, p), damage(dmg)
+{
+	current_damage = damage.begin();
+}
+
+void Damage_zone::update(float dt)
+{
+	time += dt;
+	while (time >= current_damage->second)
+	{
+		time -= current_damage->second;
+		current_damage = util::increment_iterator(current_damage, damage);
+	}
+}

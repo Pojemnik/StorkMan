@@ -2,7 +2,7 @@
 
 struct Context context;
 
-Vectorf util::intersection(std::pair<Vectorf, Vectorf> a, std::pair<Vectorf, Vectorf> b)
+Vectorf util::intersection_point(std::pair<Vectorf, Vectorf> a, std::pair<Vectorf, Vectorf> b)
 {
 	float a1 = a.second.y - a.first.y;
 	float b1 = a.first.x - a.second.x;
@@ -36,11 +36,22 @@ Vectorf util::intersection(std::pair<Vectorf, Vectorf> a, std::pair<Vectorf, Vec
 	}
 }
 
+bool util::intersection(std::pair<Vectorf, Vectorf> a, std::pair<Vectorf, Vectorf> b)
+{
+	Vectorf tmp = intersection_point(a, b);
+	if (tmp.x == FLT_MAX && tmp.y == FLT_MAX)
+	{
+		return false;
+	}
+	return true;
+}
+
 void util::save_texture(std::string path, sf::Texture* texture)
 {
 	sf::Image im = texture->copyToImage();
 	im.saveToFile(path);
 }
+
 sf::FloatRect util::mesh_to_rect(std::vector<sf::Vertex> vertices)
 {
 	float maxx, maxy, miny, minx;
