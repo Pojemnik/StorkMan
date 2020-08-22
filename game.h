@@ -15,6 +15,7 @@ struct Object : public Renderable
 	Object(Vectorf p, const sf::Texture* t, float h, int layer, int flip,
 		float ang);
 };
+
 class Moving_object : public Object
 {
 	Linear_move move_data;
@@ -27,6 +28,7 @@ public:
 	void update(float dt);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
+
 class Animated_object : public Animatable
 {
 public:
@@ -40,6 +42,7 @@ private:
 	int frames_diff;
 	int frame_counter = 0;
 };
+
 class Moving_animated_object : public Animated_object
 {
 	Linear_move move_data;
@@ -65,7 +68,11 @@ protected:
 	void set_idle();
 
 public:
-	Dynamic_entity(Vectorf p, sf::Texture* texture, std::vector<sf::IntRect>& v, std::vector<const Dynamic_animation*> a, sf::FloatRect rc, Animation_tree t, float h, float gs, float m);
+	const int MAX_HEALTH;
+	int health;
+	Dynamic_entity(Vectorf p, sf::Texture* texture, std::vector<sf::IntRect>& v,
+		std::vector<const Dynamic_animation*> a, sf::FloatRect rc,
+		Animation_tree t, float h, float gs, float m, int hp);
 	void move(Vectorf delta);
 	void move_angled(int direction);
 	void set_position(Vectorf new_position);
@@ -75,6 +82,8 @@ public:
 	void next_frame();
 	Vectorf get_position();
 	void rescale(float new_scale);
+	void deal_damage(int amount);
+	void die();
 };
 
 class Player : public Dynamic_entity
@@ -82,6 +91,6 @@ class Player : public Dynamic_entity
 public:
 	Player(Vectorf p, sf::Texture* texture, std::vector<sf::IntRect>& v,
 		std::vector<const Dynamic_animation*> a, sf::FloatRect rc,
-		Animation_tree t, float h, float gs, float m);
+		Animation_tree t, float h, float gs, float m, int hp);
 	void attack(int type);
 };

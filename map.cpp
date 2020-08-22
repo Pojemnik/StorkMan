@@ -339,10 +339,8 @@ void Map::update(float dt)
 		{
 			if (!context.god_mode)
 			{
-				player->set_position({ 20, 20 });
-				context.aaa.play();
+				player->deal_damage(10);
 			}
-			std::cout << "Zgon" << std::endl;
 		}
 		if (maxv.x == 0 && maxv.y == 0)
 			maxv = {0,1};

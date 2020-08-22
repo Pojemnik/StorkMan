@@ -21,20 +21,22 @@ void Moving_object::update(float dt)
 	while (time > move_data.it->second)
 	{
 		time -= move_data.it->second;
-			move_data.it = util::increment_iterator(move_data.it, move_data.points);
+		move_data.it = util::increment_iterator(move_data.it, move_data.points);
 	}
 	auto next = util::increment_iterator(move_data.it, move_data.points);
 	float a = time / move_data.it->second;
 	move_pos = (1.0f - a) * move_data.it->first + a * next->first;
 }
-	Moving_object::Moving_object(Vectorf p, const sf::Texture* t, float h, int layer, int flip,
-		float ang,Linear_move path): Object(p,t,h,layer,flip,ang), move_data(path){
-			move_data.it = move_data.points.begin();
-		}
-	Moving_object::Moving_object(const Moving_object& mo): Object(mo),move_data(mo.move_data)
-	{
-		move_data.it = move_data.points.begin();
-	}
+Moving_object::Moving_object(Vectorf p, const sf::Texture* t, float h, int layer, int flip,
+	float ang, Linear_move path) : Object(p, t, h, layer, flip, ang), move_data(path) {
+	move_data.it = move_data.points.begin();
+}
+
+Moving_object::Moving_object(const Moving_object& mo) : Object(mo), move_data(mo.move_data)
+{
+	move_data.it = move_data.points.begin();
+}
+
 Animated_object::Animated_object(Vectorf p,
 	const std::vector<sf::Texture>* a, float h, int layer, int fr)
 	: Animatable(p, a, h, layer), frames_diff(fr) {}
@@ -62,8 +64,8 @@ void Animated_object::next_frame()
 
 Player::Player(Vectorf p, sf::Texture* texture, std::vector<sf::IntRect>& v,
 	std::vector<const Dynamic_animation*> a, sf::FloatRect rc,
-	Animation_tree t, float h, float gs, float m)
-	: Dynamic_entity(p, texture, v, a, rc, t, h, gs, m) {}
+	Animation_tree t, float h, float gs, float m, int hp)
+	: Dynamic_entity(p, texture, v, a, rc, t, h, gs, m, hp) {}
 
 void Player::attack(int attack_type)
 {
@@ -92,8 +94,8 @@ void Player::attack(int attack_type)
 
 Dynamic_entity::Dynamic_entity(Vectorf p, sf::Texture* texture,
 	std::vector<sf::IntRect>& v, std::vector<const Dynamic_animation*> a,
-	sf::FloatRect rc, Animation_tree t, float h, float gs, float m)
-	: Dynamic_animatable(texture, v, p, a, t, h, gs)
+	sf::FloatRect rc, Animation_tree t, float h, float gs, float m, int hp)
+	: Dynamic_animatable(texture, v, p, a, t, h, gs), health(hp), MAX_HEALTH(hp)
 {
 	animation_status = Animation_status::A_IDLE;
 	rect_collision = rc;
@@ -339,4 +341,23 @@ void Dynamic_entity::rescale(float new_scale)
 	float ratio = new_scale / (scale * 335 / height);
 	Dynamic_animatable::rescale(ratio);
 	Collidable::rescale(ratio);
+}
+
+void Dynamic_entity::deal_damage(int amount)
+{
+	health -= amount;
+	if (health <= 0)
+	{
+		health = 0;
+		die();
+	}
+}
+
+void Dynamic_entity::die()
+{
+	//set_animation(death);
+	set_position({ 20, 20 });
+	context.aaa.play();
+	context.console->log << "zgon" << '\n';
+	health = 100;
 }

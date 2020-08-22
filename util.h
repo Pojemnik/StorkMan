@@ -12,9 +12,9 @@
 #include <queue>
 #include <fstream>
 #include <map>
+#include <cfloat>
 #include "console.h"
 #include "include/ctpl_stl.h"
-#include <cfloat>
 
 typedef sf::Vector2f Vectorf;
 typedef sf::Vector2i Vectori;

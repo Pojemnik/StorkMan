@@ -109,27 +109,45 @@ bool process_event(sf::Event& event, bool window_focus)
 	return false;
 }
 
+bool execute_init_file(string path)
+{
+	bool init = false;
+	std::ifstream config("config.cfg");
+	std::stringstream configsstream;
+	string configstring;
+	while (!config.eof())
+	{
+		std::getline(config, configstring);
+		context.console->input_append(configstring + "\r\n");
+		init = true;
+	}
+	return init;
+}
+
 int main(int argc, char** argv)	//Second argument is a map file for editor
 {
+	//Assets
 	Assets assets;
 	assets.load_assets();
 	context.console =
 		new Console(assets.console_bg, &assets.consola, context.resolution);
 	context.console->out << "Stork'man version " + VERSION << '\n';
+
+	//Parsing
 	Parser parser(&assets);
 	parser.parse_additional_textures("img/textures.txt");
 	parser.parse_additional_animations("img/animations.txt");
+
+	//Window setup
 	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
 	sf::RenderWindow window(sf::VideoMode(context.resolution.x,
 		context.resolution.y, desktop.bitsPerPixel),
 		"StorkMan " + VERSION, sf::Style::Titlebar | sf::Style::Close);
 	sf::Vector2u icon_size = assets.icon.getSize();
 	window.setIcon(icon_size.x, icon_size.y, assets.icon.getPixelsPtr());
-	context.thread_pool = new ctpl::thread_pool(4);
-	sf::Clock clock;
+
+	//Map
 	Map map;
-	context.fps_counter.setFont(assets.consola);
-	context.fps_counter.setPosition(0, 0);
 	std::string path = (argc == 2) ? argv[1] : "map/map.xml";
 	tinyxml2::XMLDocument doc;
 	tinyxml2::XMLError error = doc.LoadFile(path.c_str());
@@ -144,27 +162,39 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	map.background.setPosition(context.background_position);
 	map.layer2.setPosition(context.layer2_position);
 	context.console->log << "done!" << '\n';
+
+	//Player
 	sf::FloatRect f(380, 70, 20, 60);
 	Player player({ 400, 100 }, assets.pieces, assets.pieces_rect,
 		assets.dynamic_animations, f, assets.stork_tree, 1.92f,
-		context.global_scale, 87.f);
+		context.global_scale, 87.f, 100);
 	map.player = &player;
 	int moved = 0;
 	float acc = 0;
-	bool init = false;
-	std::ifstream config("config.cfg");
-	std::stringstream configsstream;
-	string configstring;
-	while (!config.eof())
-	{
-		std::getline(config, configstring);
-		context.console->input_append(configstring + "\r\n");
-		init = true;
-	}
+
+	//Config file
+	bool init = execute_init_file("config.cfg");
+
+	//Sound init
 	sf::Music music;
 	music.openFromFile("sound/theme.wav");
 	music.setLoop(true);
 	music.play();
+
+	//User interface
+	context.fps_counter.setFont(assets.consola);
+	context.fps_counter.setPosition(0, 0);
+
+	sf::Text hp;
+	hp.setFont(assets.consola);
+	hp.setPosition(200, 0);
+	hp.setFillColor(sf::Color(200, 0, 0));
+	hp.setString(std::to_string(player.health));
+
+	//Other
+	context.thread_pool = new ctpl::thread_pool(4);
+	sf::Clock clock;
+
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -305,6 +335,8 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			map.draw_top_layers(window, rs);
 			if (context.draw_fps_counter)
 				window.draw(context.fps_counter);
+			hp.setString(std::to_string(player.health));
+			window.draw(hp);
 			if (context.draw_map_vertices)
 			{
 				map.draw_map_vertices(window, rs);

@@ -1,9 +1,22 @@
-﻿* - następny release
+﻿Do wersji 0.5:
+- Testy przesuwania z obrażeniami
+- Ikony
+- 2 Prototypy wyświetlania hp
+- Strefy dmg
+- Zgony
+- Powiązanie grafik części Storkmana z plikami animacji
+- Animated_moving_object
+- Animated_wall
+- Poprawić składanie poziomów z części
+- BŁĘDY
+
+-----------------------------------------------------------------Stare todo
+* - następny release
 
 Lista priorytetowa by Adam:
 	*1?. Zmiana skoków na lepiej obsługiwalne;
 	*1. Dodanie możliwości otrzymania obrażeń i śmierci Stork'mana w
-	*interakcji z przeciwnikiem (damage od platform?);
+	interakcji z przeciwnikiem (damage od platform?);
 	2. Mechanizmy zadawania obrażeń (kolce, pioruny, etc.);
 	3. Dodanie trybu walki wręcz i odpowiednio przeciwników do walki wręcz;
 	4. Dodanie bossów - przeciwników o bardziej skomplikowanej AI i specyfice działania;
@@ -14,19 +27,12 @@ Lista priorytetowa by Adam:
 
 Ficzury:
 	XML/edycja poziomów:
-		*Więcej warstw dla obiektów ✓
-		*Obracanie i odbijanie obiektów z xml'a ✓
 		*?Pozycja Storkmana na starcie ustalana z góry w XML
-		*fps animowanych obiektów ✓
-		*Opóźnienie początku animacji/wybór pierwszej klatki ✓
-		*Definowanie "struktur"/"półproduktów"
 		Bardziej złożone elementy w XML (pętle itp.)
 		Osobne pliki/include'y
 		Rotacja animwanych platform
-		Ruchome obiekty ✓
 		*Ruchome animowane obiekty											<---- tobiasz masz to zrobić
 		Kolor obiektu w XML
-		Obracanie ścian ✓
 		Animowane ściany
 	Fizyka:
 		*?Interakcje ze skośnymi platformami (lepsze podbieganie i zbieganie, zsuwanie się od pewnego kąta)
@@ -34,18 +40,11 @@ Ficzury:
 	Silnik:
 		Przyspieszyć obliczenia - szybsza trygonometria?
 		Wątki
-		Animowane obiekty ✓
-		*Lepsza konsola ✓
-		*Dźwięki ✓
 		Więcej dźwięków, zmieniona obsługa, możliwość dodawania nowych, różne w zależności od podłoża
-		*Muzyka ✓
 		?Popraiwć ogrnianie czasu w silniku (update)
-		Możliwość przerwania skoku ✓
 		Spadanie i lądowanie - lepiej rozwiązać animacje
 		Skalowanie (zoom/odzoom)
 		Chowanie się przed wrogami za obiektami
-		Mapvertices powinno wyświetlać niewidoczne platformy ✓
-		Animacje dotykając ściany ✓
 		*{
 			Sortowanie wierzchołków platform/ograninięcie takich nieposortowanych
 			Kolizje na dziwnych wielokątach?
@@ -54,7 +53,6 @@ Ficzury:
 		*Swiatło w osobnych wątkach/gpu (✓)
 		?Shadery dla (statycznych) świateł
 		Cień Storkmana?
-		*Przezroczyste platformy ✓
 		Interakcja między światłem a ścianami?
 		{
 			Rozjaśnianie tekstur przez światło (pewnie shader)
