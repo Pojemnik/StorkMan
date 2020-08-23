@@ -41,6 +41,7 @@ public:
 	void draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_map_vertices(sf::RenderTarget& target, sf::RenderStates states) const;
+	void draw_damage_zones(sf::RenderTarget& target, sf::RenderStates states) const;
 	void update(float dt);
 	void pre_draw();
 	void recalc_light();

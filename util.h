@@ -41,6 +41,8 @@ struct Context
 	bool draw_collisions = false;
 	bool draw_map_vertices = false;
 	bool draw_fps_counter = false;
+	bool draw_hp = false;
+	bool draw_damage_zones = false;
 	bool night = true;
 	bool god_mode = true;
 	bool jump_available = true;

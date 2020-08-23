@@ -369,37 +369,46 @@ void Dynamic_entity::die()
 
 Zone::Zone(std::vector<Vectorf>& vert, Vectorf p) : vertices(vert), pos(p)
 {
+	center = { 0,0 };
 	max_x = -INFINITY;
 	for (auto it : vertices)
 	{
 		if (it.x > max_x)
 			max_x = it.x;
+		center += it;
 	}
+	center = { center.x / vertices.size(), center.y / vertices.size() };
 }
 
 Zone::Zone(const std::vector<Vectorf>& vert, Vectorf p) : vertices(vert), pos(p)
 {
+	center = { 0,0 };
 	max_x = -INFINITY;
 	for (auto it : vertices)
 	{
 		if (it.x > max_x)
 			max_x = it.x;
+		center += it;
 	}
+	max_x += pos.x;
+	center = { center.x / vertices.size(), center.y / vertices.size() };
 }
 
-bool Zone::is_inside(Vectorf p)
+bool Zone::contains(Vectorf p)
 {
-	Vectorf outside_p = { max_x, p.y };
+	Vectorf outside_p = { max_x+1, p.y };
 	auto section = std::make_pair(p, outside_p);
 	int n = 0;
 	for (int i = 0; i < vertices.size() - 1; i++)
 	{
-		if (util::intersection(std::make_pair(vertices[i], vertices[i + 1]), section))
+		if (util::intersection(
+			std::make_pair(vertices[i] + pos, vertices[i + 1] + pos), section))
 		{
 			n++;
 		}
 	}
-	if (util::intersection(std::make_pair(vertices[0], vertices[vertices.size() - 1]), section))
+	if (util::intersection(
+		std::make_pair(vertices[0] + pos, vertices[vertices.size() - 1] + pos), section))
 		n++;
 	if (n % 2)
 		return true;
@@ -413,7 +422,7 @@ Damage_zone::Damage_zone(std::vector<Vectorf>& vert, Vectorf p,
 }
 
 Damage_zone::Damage_zone(const Damage_zone& dmgz) : Zone(dmgz.vertices, dmgz.pos),
-	damage(dmgz.damage)
+damage(dmgz.damage)
 {
 	current_damage = damage.begin();
 }

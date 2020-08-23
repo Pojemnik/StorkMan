@@ -21,14 +21,15 @@ class Zone
 public:
 	std::vector<Vectorf> vertices;
 	Vectorf pos;
+	Vectorf center;
 	float max_x;
 
 	Zone(std::vector<Vectorf>& vert, Vectorf p);
 	Zone(const std::vector<Vectorf>& vert, Vectorf p);
-	bool is_inside(Vectorf p);
+	bool contains(Vectorf p);
 };
 
-class Damage_zone : Zone
+class Damage_zone : public Zone
 {
 private:
 	std::vector<std::pair<int, int>> damage;

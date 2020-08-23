@@ -297,6 +297,19 @@ void Map::update(float dt)
 		{
 			mos_it.update(dt);
 		}
+		Vectorf player_center = (player->mesh.vertices[0] + player->mesh.vertices[2]);
+		player_center = { player_center.x / 2, player_center.y / 2 };
+		for (auto& dmgz_it : level_it->dmg_zones)
+		{
+			dmgz_it.update(dt);
+			if (dmgz_it.contains(player_center))
+			{
+				std::cout << player_center.x / context.global_scale
+					<< ' ' << player_center.y / context.global_scale << std::endl;
+				std::cout << std::to_string(-dmgz_it.current_damage->first) << std::endl;
+				std::cout << std::endl;
+			}
+		}
 		Vectorf maxv = { 0,0 };
 		int collision_n = 0;
 		bool moving_collision = false;
@@ -343,7 +356,7 @@ void Map::update(float dt)
 			}
 		}
 		if (maxv.x == 0 && maxv.y == 0)
-			maxv = {0,1};
+			maxv = { 0,1 };
 		player->maxcollisionvector = util::normalize(maxv);
 	}
 }
@@ -449,4 +462,27 @@ void Map::draw_map_vertices(sf::RenderTarget& target, sf::RenderStates states) c
 			sf::Color(255, 255, 255, 255));
 	}
 	target.draw(tmp, states);
+}
+
+void Map::draw_damage_zones(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	for (const auto& lvl_it : levels)
+	{
+		for (const auto& zone_it : lvl_it.dmg_zones)
+		{
+			sf::Color dmg_color(255, 100, 100, zone_it.current_damage->first * 255 / 100);
+			if (zone_it.current_damage->first == 0)
+			{
+				dmg_color = sf::Color(150, 150, 150, 70);
+			}
+			sf::VertexArray tmp(sf::TriangleFan);
+			tmp.append(sf::Vertex(zone_it.center + zone_it.pos, dmg_color));
+			for (const auto& it : zone_it.vertices)
+			{
+				tmp.append(sf::Vertex(it + zone_it.pos, dmg_color));
+			}
+			tmp.append(sf::Vertex(zone_it.vertices[0] + zone_it.pos, dmg_color));
+			target.draw(tmp, states);
+		}
+	}
 }

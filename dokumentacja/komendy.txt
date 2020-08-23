@@ -25,6 +25,8 @@ clear 					brak			-					Czyści konsolę
 godmode					bool			true				Ustawione na true uniemożliwia śmierć
 musicvolume				float			50					Ustawia głośność muzyki. Wartość w %
 soundvolume				float			50					Ustawia głośność dźwięków. Wartość w %
+drawhp					bool			0					Rysowanie poziomu zdrowia bohatera
+damagezones				bool			0					Rysowanie stref zadających obrażenia (ich kolor zależy od wartości obrażeń)
 
 Komendy podajesz wraz z argumentami w jednej linii.
 Przykład:

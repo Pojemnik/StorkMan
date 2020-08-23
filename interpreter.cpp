@@ -159,6 +159,16 @@ std::pair<Command_code, Vectorf> Commands_interpreter::execute_command_raw(Comma
 		context.draw_map_vertices =
 			get_bool(cmd, "Map vertices", { "drawn", "hidden" });
 	}
+	else if (cmd.name == "drawhp")
+	{
+		context.draw_hp =
+			get_bool(cmd, "Player's health level", { "drawn", "hidden" });
+	}
+	else if (cmd.name == "damagezones")
+	{
+		context.draw_damage_zones =
+			get_bool(cmd, "Damage zones", { "drawn", "hidden" });
+	}
 	else if (cmd.name == "fpscounter")
 	{
 		context.draw_fps_counter =
@@ -277,7 +287,7 @@ std::pair<Command_code, Vectorf> Commands_interpreter::execute_command_raw(Comma
 		}
 		return std::make_pair(Command_code::SET_MUSIC_VOLUME, Vectorf(vol, 0));
 	}
-	if (cmd.name == "soundvolume")
+	else if (cmd.name == "soundvolume")
 	{
 		float vol = get_float(cmd, "Sound volume");
 		if (vol < 0 || vol > 100)

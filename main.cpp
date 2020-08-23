@@ -7,7 +7,7 @@
 #include "console.h"
 #include "interpreter.h"
 
-const std::string VERSION = "0.4.4e";
+const std::string VERSION = "0.4.4f";
 
 bool update(float dt, Map& map, int move)
 {
@@ -29,7 +29,6 @@ bool update(float dt, Map& map, int move)
 
 void resize_window(Map& map, sf::RenderWindow& window, Assets& assets)
 {
-
 	assets.blurh.setUniform("blurSize", 1.0f / context.resolution.x);
 	assets.blurv.setUniform("blurSize", 1.0f / context.resolution.y);
 	map.calc_map_vertices();
@@ -122,6 +121,16 @@ bool execute_init_file(string path)
 		init = true;
 	}
 	return init;
+}
+
+void draw_player_hitbox(Player& player, sf::RenderWindow& window, sf::RenderStates rs)
+{
+	sf::ConvexShape r = sf::ConvexShape(4);
+	int i = 0;
+	for (auto& it : player.mesh.vertices)
+		r.setPoint(i, it), i++;
+	r.setOutlineColor({ 255,0,0 });
+	window.draw(r, rs);
 }
 
 int main(int argc, char** argv)	//Second argument is a map file for editor
@@ -319,12 +328,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			map.draw_bottom_layers(window, rs);
 			if (context.draw_collisions)
 			{
-				sf::ConvexShape r = sf::ConvexShape(4);
-				int i = 0;
-				for (auto& it : player.mesh.vertices)
-					r.setPoint(i, it), i++;
-				r.setOutlineColor({ 255,0,0 });
-				window.draw(r, rs);
+				draw_player_hitbox(player, window, rs);
 			}
 			window.draw(player, rs);
 			map.draw_middle_layers(window, rs);
@@ -335,8 +339,15 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			map.draw_top_layers(window, rs);
 			if (context.draw_fps_counter)
 				window.draw(context.fps_counter);
-			hp.setString(std::to_string(player.health));
-			window.draw(hp);
+			if (context.draw_hp)
+			{
+				hp.setString(std::to_string(player.health));
+				window.draw(hp);
+			}
+			if (context.draw_damage_zones)
+			{
+				map.draw_damage_zones(window, rs);
+			}
 			if (context.draw_map_vertices)
 			{
 				map.draw_map_vertices(window, rs);
