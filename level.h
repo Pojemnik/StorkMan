@@ -18,6 +18,7 @@ struct Level
 	std::vector<Pendulum> pendulums;
 	std::vector<Linear_moving_platform> lmps;
 	std::vector<Moving_object> mos;
+	std::vector<Damage_zone> dmg_zones;
 	std::array<std::vector<sf::Drawable*>, BOTTOM_LAYERS> bottom_layers;
 	std::array<std::vector<sf::Drawable*>, MIDDLE_LAYERS> middle_layers;
 	std::array<std::vector<sf::Drawable*>, TOP_LAYERS> top_layers;
@@ -35,6 +36,7 @@ struct Level
 	void add_pendulum(Pendulum p);
 	void add_lmp(Linear_moving_platform lmp);
 	void add_moving_object(Moving_object o);
+	void add_dmg_zone(Damage_zone dmgz);
 	void rescale(float ratio);
 	void add_to_layer(Texturable& t);
 	void add_to_layer(Renderable& r);

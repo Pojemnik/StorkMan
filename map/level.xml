@@ -10,6 +10,15 @@
         <v>1,0</v>
         <v>0,0</v>
     </linear_platform>
+	<damage_zone position="5,5">
+		<d>10,60</d>
+		<d>0,60</d>
+		
+		<v>0,1</v>
+        <v>1,1</v>
+        <v>1,0</v>
+        <v>0,0</v>
+	</damage_zone>
 	/---------------------------------------------------------------------PODZIEMIE
 	<wall position="79,36.5" texture="ground0">
 		<v>0,0</v>

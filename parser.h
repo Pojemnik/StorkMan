@@ -36,6 +36,8 @@ private:
 	Pendulum parse_pendulum_raw(tinyxml2::XMLElement* element);
 	Linear_moving_platform parse_linear_platform(tinyxml2::XMLElement* element);
 	Linear_moving_platform parse_linear_platform_raw(tinyxml2::XMLElement* element);
+	Damage_zone parse_damage_zone(tinyxml2::XMLElement* element);
+	Damage_zone parse_damage_zone_raw(tinyxml2::XMLElement* element);
 	std::pair<int, float> parse_flip_rotation(tinyxml2::XMLElement* element);
 	int parse_layer(tinyxml2::XMLElement* element, int default_value);
 

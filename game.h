@@ -24,6 +24,7 @@ public:
 	float max_x;
 
 	Zone(std::vector<Vectorf>& vert, Vectorf p);
+	Zone(const std::vector<Vectorf>& vert, Vectorf p);
 	bool is_inside(Vectorf p);
 };
 
@@ -39,6 +40,7 @@ public:
 	void update(float dt);
 	Damage_zone(std::vector<Vectorf>& vert, Vectorf p,
 		std::vector<std::pair<int, int>>& dmg);
+	Damage_zone(const Damage_zone &dmgz);
 };
 
 class Moving_object : public Object

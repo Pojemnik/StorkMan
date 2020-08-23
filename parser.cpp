@@ -107,6 +107,10 @@ Level Parser::parse_level(tinyxml2::XMLElement* root)
 			{
 				lvl.add_moving_object(parse_moving_object(element));
 			}
+			else if (name == "damage_zone")
+			{
+				lvl.add_dmg_zone(parse_damage_zone(element));
+			}
 			element = element->NextSiblingElement();
 		}
 	}
@@ -283,6 +287,7 @@ Object Parser::parse_object(tinyxml2::XMLElement* element)
 	}
 	throw std::runtime_error("Object error");
 }
+
 int Parser::parse_layer(tinyxml2::XMLElement* element,int default_value)
 {
 	std::string layer = get_attribute_by_name("layer", element);
@@ -297,6 +302,7 @@ int Parser::parse_layer(tinyxml2::XMLElement* element,int default_value)
 	}
 	return default_value;
 }
+
 std::pair<int, float> Parser::parse_flip_rotation(tinyxml2::XMLElement* element)
 {
 	std::string rotation = get_attribute_by_name("rotation", element);
@@ -317,6 +323,7 @@ std::pair<int, float> Parser::parse_flip_rotation(tinyxml2::XMLElement* element)
 	}
 	return std::make_pair(flipint, rotationang);
 }
+
 Object Parser::parse_object_raw(tinyxml2::XMLElement* element)
 {
 	const sf::Texture* tex;
@@ -577,6 +584,7 @@ Linear_moving_platform Parser::parse_linear_platform(tinyxml2::XMLElement* eleme
 	}
 	throw std::runtime_error("Linear platform error");
 }
+
 Linear_moving_platform Parser::parse_linear_platform_raw(tinyxml2::XMLElement* element)
 {
 	std::vector<sf::Vertex> vert;
@@ -624,6 +632,7 @@ Linear_moving_platform Parser::parse_linear_platform_raw(tinyxml2::XMLElement* e
 	int layer = parse_layer(element, DEFAULT_PLATFORM_LAYER);
 	return Linear_moving_platform(path, tex, pos, vert, layer);
 }
+
 Moving_object Parser::parse_moving_object_raw(tinyxml2::XMLElement* element)
 {
 	const sf::Texture* tex;
@@ -666,4 +675,45 @@ Moving_object Parser::parse_moving_object(tinyxml2::XMLElement* element)
 		context.console->err << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
 	}
 	throw std::runtime_error("Moving object error");
+}
+
+Damage_zone Parser::parse_damage_zone_raw(tinyxml2::XMLElement* element)
+{
+	std::vector<Vectorf> vert;
+	Vectorf pos = parse_num_pairf(get_attribute_by_name("position", element));
+	pos *= context.global_scale;
+	tinyxml2::XMLElement* e = element->FirstChildElement();
+	std::vector<std::pair<int, int>> dmg;
+	while (e != NULL)
+	{
+		std::string n = e->Name();
+		if (n == "v")
+		{
+			Vectorf v = parse_num_pairf(e->GetText());
+			v *= context.global_scale;
+			vert.push_back(v);
+		}
+		if (n == "d")
+		{
+			Vectori d = parse_num_pairi(e->GetText());
+			dmg.push_back({ d.x, d.y });
+		}
+		e = e->NextSiblingElement();
+	}
+	return Damage_zone(vert, pos, dmg);
+}
+
+Damage_zone Parser::parse_damage_zone(tinyxml2::XMLElement* element)
+{
+	try
+	{
+		return parse_damage_zone_raw(element);
+	}
+	catch (const std::invalid_argument& e)
+	{
+		context.console->err << "Wyjatek: " << e.what() << '\n';
+		context.console->err << "Element: " << "wall" << '\n';
+		context.console->err << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz strefy" << '\n';
+	}
+	throw std::runtime_error("Wall error");
 }

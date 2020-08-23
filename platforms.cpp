@@ -1,5 +1,4 @@
 #include "platforms.h"
-#include <assert.h>
 
 Platform::Platform(Vectorf p, const sf::Texture* t,
 	std::vector<sf::Vertex> points, int layer, bool v)

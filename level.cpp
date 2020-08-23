@@ -7,7 +7,8 @@ Level::Level(const Level& level)
 	global_size(level.global_size), platforms(level.platforms),
 	light_sources(level.light_sources), walls(level.walls),
 	objects(level.objects), anim_objects(level.anim_objects), 
-	pendulums(level.pendulums), lmps(level.lmps), mos(level.mos)
+	pendulums(level.pendulums), lmps(level.lmps), mos(level.mos),
+	dmg_zones(level.dmg_zones)
 {
 	for (auto& p : platforms)
 	{
@@ -149,4 +150,9 @@ void Level::add_wall(Wall w)
 {
 	walls.push_back(w);
 	add_to_layer(w);
+}
+
+void Level::add_dmg_zone(Damage_zone dmgz)
+{
+	dmg_zones.push_back(dmgz);
 }

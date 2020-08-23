@@ -10,11 +10,13 @@ Object::Object(Vectorf p, const sf::Texture* t, float h, int layer)
 Object::Object(Vectorf p, const sf::Texture* t, float h, int layer, int flip,
 	float ang)
 	: Renderable(p, t, h, layer, flip, ang) {}
+
 void Moving_object::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	states.transform *= sf::Transform().translate(move_pos);
 	Renderable::draw(target, states);
 }
+
 void Moving_object::update(float dt)
 {
 	time += dt;
@@ -27,6 +29,7 @@ void Moving_object::update(float dt)
 	float a = time / move_data.it->second;
 	move_pos = (1.0f - a) * move_data.it->first + a * next->first;
 }
+
 Moving_object::Moving_object(Vectorf p, const sf::Texture* t, float h, int layer, int flip,
 	float ang, Linear_move path) : Object(p, t, h, layer, flip, ang), move_data(path) {
 	move_data.it = move_data.points.begin();
@@ -126,6 +129,8 @@ void Dynamic_entity::move(Vectorf delta)
 	{
 		status = IDLE;
 		animation_status = Animation_status::A_IDLE;
+		move_speed = { 0,0 };
+		move_force = { 0,0 };
 	}
 	last_pos = pos;
 }
@@ -372,6 +377,16 @@ Zone::Zone(std::vector<Vectorf>& vert, Vectorf p) : vertices(vert), pos(p)
 	}
 }
 
+Zone::Zone(const std::vector<Vectorf>& vert, Vectorf p) : vertices(vert), pos(p)
+{
+	max_x = -INFINITY;
+	for (auto it : vertices)
+	{
+		if (it.x > max_x)
+			max_x = it.x;
+	}
+}
+
 bool Zone::is_inside(Vectorf p)
 {
 	Vectorf outside_p = { max_x, p.y };
@@ -393,6 +408,12 @@ bool Zone::is_inside(Vectorf p)
 
 Damage_zone::Damage_zone(std::vector<Vectorf>& vert, Vectorf p,
 	std::vector<std::pair<int, int>>& dmg) : Zone(vert, p), damage(dmg)
+{
+	current_damage = damage.begin();
+}
+
+Damage_zone::Damage_zone(const Damage_zone& dmgz) : Zone(dmgz.vertices, dmgz.pos),
+	damage(dmgz.damage)
 {
 	current_damage = damage.begin();
 }

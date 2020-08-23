@@ -187,7 +187,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 
 	sf::Text hp;
 	hp.setFont(assets.consola);
-	hp.setPosition(200, 0);
+	hp.setPosition(100, 0);
 	hp.setFillColor(sf::Color(200, 0, 0));
 	hp.setString(std::to_string(player.health));
 
