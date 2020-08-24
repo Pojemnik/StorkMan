@@ -299,16 +299,29 @@ void Map::update(float dt)
 		}
 		Vectorf player_center = (player->mesh.vertices[0] + player->mesh.vertices[2]);
 		player_center = { player_center.x / 2, player_center.y / 2 };
+		int n = 0;
 		for (auto& dmgz_it : level_it->dmg_zones)
 		{
 			dmgz_it.update(dt);
-			if (dmgz_it.contains(player_center))
+			bool contains = dmgz_it.contains(player_center);
+			if (contains && (dmgz_it.changed_damage || 
+					player->last_dmgz == nullptr || dmgz_it != *player->last_dmgz))
 			{
 				std::cout << player_center.x / context.global_scale
 					<< ' ' << player_center.y / context.global_scale << std::endl;
 				std::cout << std::to_string(-dmgz_it.current_damage->first) << std::endl;
 				std::cout << std::endl;
+				player->deal_damage(dmgz_it.current_damage->first);
 			}
+			if (contains)
+			{
+				n++;
+				player->last_dmgz = &dmgz_it;
+			}
+		}
+		if (n == 0) //Outside every zone
+		{
+			player->last_dmgz = nullptr;
 		}
 		Vectorf maxv = { 0,0 };
 		int collision_n = 0;

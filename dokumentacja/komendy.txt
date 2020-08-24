@@ -27,6 +27,10 @@ musicvolume				float			50					Ustawia głośność muzyki. Wartość w %
 soundvolume				float			50					Ustawia głośność dźwięków. Wartość w %
 drawhp					bool			0					Rysowanie poziomu zdrowia bohatera
 damagezones				bool			0					Rysowanie stref zadających obrażenia (ich kolor zależy od wartości obrażeń)
+maxhealth 				int				100					Maksymalne zdrowie gracza
+heal					brak			-					Uzdrawia gracza
+
+
 
 Komendy podajesz wraz z argumentami w jednej linii.
 Przykład:

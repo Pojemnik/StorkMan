@@ -98,8 +98,9 @@ void Player::attack(int attack_type)
 Dynamic_entity::Dynamic_entity(Vectorf p, sf::Texture* texture,
 	std::vector<sf::IntRect>& v, std::vector<const Dynamic_animation*> a,
 	sf::FloatRect rc, Animation_tree t, float h, float gs, float m, int hp)
-	: Dynamic_animatable(texture, v, p, a, t, h, gs), health(hp), MAX_HEALTH(hp)
+	: Dynamic_animatable(texture, v, p, a, t, h, gs), health(hp)
 {
+	set_max_health(health);
 	animation_status = Animation_status::A_IDLE;
 	rect_collision = rc;
 	col_height = rc.height;
@@ -367,6 +368,25 @@ void Dynamic_entity::die()
 	health = 100;
 }
 
+void Dynamic_entity::set_max_health(int val)
+{
+	max_health = val;
+	if (health > max_health)
+		health = max_health;
+}
+
+int Dynamic_entity::get_max_health()
+{
+	return max_health;
+}
+
+void Dynamic_entity::heal(int amount)
+{
+	health += amount;
+	if (health > max_health)
+		health = max_health;
+}
+
 Zone::Zone(std::vector<Vectorf>& vert, Vectorf p) : vertices(vert), pos(p)
 {
 	center = { 0,0 };
@@ -430,9 +450,11 @@ damage(dmgz.damage)
 void Damage_zone::update(float dt)
 {
 	time += dt;
+	changed_damage = false;
 	while (time >= current_damage->second)
 	{
 		time -= current_damage->second;
 		current_damage = util::increment_iterator(current_damage, damage);
+		changed_damage = true;
 	}
 }

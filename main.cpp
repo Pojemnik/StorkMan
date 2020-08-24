@@ -7,7 +7,7 @@
 #include "console.h"
 #include "interpreter.h"
 
-const std::string VERSION = "0.4.4f";
+const std::string VERSION = "0.4.5";
 
 bool update(float dt, Map& map, int move)
 {
@@ -252,6 +252,12 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 					context.aaa.setVolume(code.second.x);
 					context.jump_idle.setVolume(code.second.x);
 					context.jump_run.setVolume(code.second.x);
+					break;
+				case Command_code::SET_PLAYER_MAX_HP:
+					player.set_max_health(code.second.x);
+					break;
+				case Command_code::HEAL_PLAYER:
+					player.heal(player.get_max_health());
 					break;
 				default:
 					break;

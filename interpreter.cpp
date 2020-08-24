@@ -296,6 +296,20 @@ std::pair<Command_code, Vectorf> Commands_interpreter::execute_command_raw(Comma
 		}
 		return std::make_pair(Command_code::SET_SOUND_VOLUME, Vectorf(vol, 0));
 	}
+	else if (cmd.name == "maxhealth")
+	{
+		int hp = get_int(cmd, "Player's max health");
+		if (hp < 0)
+		{
+			throw std::invalid_argument("Incorrect argument");
+		}
+		return std::make_pair(Command_code::SET_PLAYER_MAX_HP, Vectorf(hp, 0));
+	}
+	else if (cmd.name == "heal")
+	{
+		context.console->out << "Player healed" << '\n';
+		return std::make_pair(Command_code::HEAL_PLAYER, Vectorf());
+	}
 	else
 		context.console->err << "Unknown command: " + cmd.name << '\n';
 	return std::make_pair<Command_code, Vectorf>(Command_code::NOTHING, Vectorf());

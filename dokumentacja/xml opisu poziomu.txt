@@ -115,3 +115,14 @@ wall:
 	
 	zawartość:
 		znaczniki <v> opisujące kolejne wierzchołki
+		
+damage_zone:
+	atrybuty:
+		position - pozycja [m]
+		
+	zawartość:
+		znaczniki <v> opisujące kolejne wierzchołki
+		znaczniki <d> opisujące sekwencję zadawania obrażeń przez strefę
+		
+v:
+	zawartość - obrażenia zadawane przez strefę, długość okresu zadawanie tych obrażeń

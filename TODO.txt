@@ -10,6 +10,9 @@
 - Poprawić składanie poziomów z części
 - BŁĘDY (kiepskie wykrywanie kolizji ze strefą obrażeń)
 
+
+Pomysły i notatki:
+- Można przyspieszyć obliczenia przy włączonym wyświetlaniu krawędzi platform/stref obrażeń wyliczając je z góry
 -----------------------------------------------------------------Stare todo
 * - następny release
 

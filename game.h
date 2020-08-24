@@ -37,12 +37,24 @@ private:
 
 public:
 	std::vector<std::pair<int, int>>::iterator current_damage;
+	bool changed_damage = false;
 
 	void update(float dt);
 	Damage_zone(std::vector<Vectorf>& vert, Vectorf p,
 		std::vector<std::pair<int, int>>& dmg);
 	Damage_zone(const Damage_zone &dmgz);
 };
+
+inline bool operator==(const Damage_zone& lhs, const Damage_zone& rhs)
+{
+	//That could be inaccurate, but it's fast
+	return lhs.pos == rhs.pos && lhs.center == lhs.center && rhs.current_damage == lhs.current_damage;
+}
+
+inline bool operator!=(const Damage_zone& lhs, const Damage_zone& rhs)
+{
+	return !(lhs == rhs);
+}
 
 class Moving_object : public Object
 {
@@ -90,6 +102,7 @@ protected:
 	float jump_force_sum = 0;
 	int edge_jump_buf = 0;
 	int max_edge_jump = 10;
+	int max_health;
 	Vectorf last_pos = { 0,0 };
 
 	void update_position(float dt);
@@ -97,8 +110,9 @@ protected:
 	void set_idle();
 
 public:
-	const int MAX_HEALTH;
 	int health;
+	Damage_zone* last_dmgz = nullptr;
+
 	Dynamic_entity(Vectorf p, sf::Texture* texture, std::vector<sf::IntRect>& v,
 		std::vector<const Dynamic_animation*> a, sf::FloatRect rc,
 		Animation_tree t, float h, float gs, float m, int hp);
@@ -113,6 +127,9 @@ public:
 	void rescale(float new_scale);
 	void deal_damage(int amount);
 	void die();
+	void set_max_health(int val);
+	int get_max_health();
+	void heal(int amount);
 };
 
 class Player : public Dynamic_entity
