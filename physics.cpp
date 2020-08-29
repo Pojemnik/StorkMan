@@ -31,6 +31,18 @@ sf::Vector2f Physical::uncollide(const Collidable* c, float dt)
 		total_speed += tmp * -1.0f;
 		int sgnx = util::sgn(tmp.x);
 		int sgny = util::sgn(tmp.y);
+		float ang_sin = fabs(util::vector_cross_product(util::normalize(tmp), Vectorf(0, 1)));
+		if (ang_sin > 0.8)
+		{
+			if (sgnx > 0)
+			{
+				run_block = Run_block::RIGHT;
+			}
+			else
+			{
+				run_block = Run_block::LEFT;
+			}
+		}
 		if (sgnx != 0)
 			collision_direction.x = sgnx;
 		if (sgny != 0)

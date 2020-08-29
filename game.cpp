@@ -111,6 +111,11 @@ Dynamic_entity::Dynamic_entity(Vectorf p, sf::Texture* texture,
 
 void Dynamic_entity::move(Vectorf delta)
 {
+	if (util::sgn(delta.x) > 0 && run_block == Run_block::RIGHT ||
+		util::sgn(delta.x) < 0 && run_block == Run_block::LEFT)
+	{
+		return;
+	}
 	move_force += delta;
 	if (move_speed.x * move_speed.x + move_speed.y * move_speed.y <
 		context.min_move_speed * context.min_move_speed ||
@@ -303,6 +308,7 @@ void Dynamic_entity::update(float dt)
 	move_force = { 0,0 };
 	collision_direction = { 0,0 };
 	force.x = 0;
+	run_block = Run_block::NONE;
 }
 
 void Dynamic_entity::update_position(float dt)
@@ -351,11 +357,14 @@ void Dynamic_entity::rescale(float new_scale)
 
 void Dynamic_entity::deal_damage(int amount)
 {
-	health -= amount;
-	if (health <= 0)
+	if (!context.god_mode)
 	{
-		health = 0;
-		die();
+		health -= amount;
+		if (health <= 0)
+		{
+			health = 0;
+			die();
+		}
 	}
 }
 

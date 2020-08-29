@@ -40,6 +40,7 @@ protected:
 	Vectorf move_force = { 0,0 };
 	Vectori collision_direction = { 0,0 };
 	Vectorf external_speed = { 0,0 };
+	enum class Run_block { LEFT, RIGHT, NONE } run_block = Run_block::NONE;
 	
 	virtual void update_position(float dt) = 0;
 public:
