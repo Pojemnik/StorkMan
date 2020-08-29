@@ -1,14 +1,14 @@
 ﻿Do wersji 0.5:
 - Testy przesuwania z obrażeniami
-- Ikony
+- Ikony ✓
 - 2 Prototypy wyświetlania hp
-- Strefy dmg ✓ (dokończyć)
+- Strefy dmg ✓
 - Zgony
 - Powiązanie grafik części Storkmana z plikami animacji
 - Animated_moving_object
 - Animated_wall
 - Poprawić składanie poziomów z części
-- BŁĘDY (kiepskie wykrywanie kolizji ze strefą obrażeń)
+- BŁĘDY (kiepskie wykrywanie kolizji ze strefą obrażeń, wyświetlanie krawędzi platform)
 
 
 Pomysły i notatki:

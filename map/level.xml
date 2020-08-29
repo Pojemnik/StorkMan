@@ -76,19 +76,19 @@
 		<v>16,-1</v>
 		<v>16,0</v>
 	</platform>
-	<damage_zone position="10,14.5">
+	<damage_zone position="10,13.5">
 		<d>10,60</d>
 		
-		<v>0,1</v>
-        <v>1,1</v>
+		<v>0,2</v>
+        <v>1,2</v>
         <v>1,0</v>
         <v>0,0</v>
 	</damage_zone>
-		<damage_zone position="11,14.5">
+		<damage_zone position="11,13.5">
 		<d>10,60</d>
 		
-		<v>0,1</v>
-        <v>1,1</v>
+		<v>0,2</v>
+        <v>1,2</v>
         <v>1,0</v>
         <v>0,0</v>
 	</damage_zone>
