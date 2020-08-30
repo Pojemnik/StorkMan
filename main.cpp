@@ -7,9 +7,9 @@
 #include "console.h"
 #include "interpreter.h"
 
-const std::string VERSION = "0.4.5";
+const std::string VERSION = "0.4.5a";
 
-bool update(float dt, Map& map, int move)
+bool update(float dt, Map& map, int move_direction)
 {
 	static float acc(0);
 	acc += dt;
@@ -22,7 +22,7 @@ bool update(float dt, Map& map, int move)
 		map.player->update(1);
 		map.update(1);
 		acc -= 1000.0f / context.fps;
-		map.player->move_angled(move);
+		map.player->move_angled(move_direction);
 	}
 	return updated;
 }
@@ -178,7 +178,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		assets.dynamic_animations, f, assets.stork_tree, 1.92f,
 		context.global_scale, 87.f, 100);
 	map.player = &player;
-	int moved = 0;
+	int move_direction = 0;
 	float acc = 0;
 
 	//Config file
@@ -270,7 +270,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		}
 		else
 		{
-			moved = 0;
+			move_direction = 0;
 			if (window.hasFocus())
 			{
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
@@ -285,14 +285,14 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 				{
 					if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 					{
-						moved = 1;
+						move_direction = 1;
 					}
 				}
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 				{
 					if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 					{
-						moved = -1;
+						move_direction = -1;
 					}
 				}
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
@@ -317,7 +317,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		}
 		acc += time;
 		clock.restart();
-		if (context.console->is_active() || update(time, map, moved))
+		if (context.console->is_active() || update(time, map, move_direction))
 		{
 			if (context.draw_fps_counter)
 				context.fps_counter.setString(std::to_string(int(1000.f / acc)));

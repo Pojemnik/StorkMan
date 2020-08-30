@@ -23,9 +23,10 @@ public:
 	Vectorf pos;
 	Vectorf center;
 	float max_x;
+	int id;
 
-	Zone(std::vector<Vectorf>& vert, Vectorf p);
 	Zone(const std::vector<Vectorf>& vert, Vectorf p);
+	Zone(std::vector<Vectorf>& vert, Vectorf p);
 	bool contains(Vectorf p);
 };
 
@@ -47,8 +48,7 @@ public:
 
 inline bool operator==(const Damage_zone& lhs, const Damage_zone& rhs)
 {
-	//That could be inaccurate, but it's fast
-	return lhs.pos == rhs.pos && lhs.center == lhs.center && rhs.current_damage == lhs.current_damage;
+	return lhs.id == rhs.id;
 }
 
 inline bool operator!=(const Damage_zone& lhs, const Damage_zone& rhs)
@@ -108,10 +108,13 @@ protected:
 	void update_position(float dt);
 	void flip(int s);
 	void set_idle();
+	void flip_if_needed();
+	void edge_jump_update();
+	void die();
 
 public:
 	int health;
-	Damage_zone* last_dmgz = nullptr;
+	int last_dmgz_id = -1;
 
 	Dynamic_entity(Vectorf p, sf::Texture* texture, std::vector<sf::IntRect>& v,
 		std::vector<const Dynamic_animation*> a, sf::FloatRect rc,
@@ -126,7 +129,6 @@ public:
 	Vectorf get_position();
 	void rescale(float new_scale);
 	void deal_damage(int amount);
-	void die();
 	void set_max_health(int val);
 	int get_max_health();
 	void heal(int amount);

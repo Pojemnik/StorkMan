@@ -8,7 +8,12 @@
 - Animated_moving_object
 - Animated_wall
 - Poprawić składanie poziomów z części
-- BŁĘDY (kiepskie wykrywanie kolizji ze strefą obrażeń, wyświetlanie krawędzi platform)
+- Moving_damage_zone
+- Ześlizgiwanie się z platform
+- Tagowanie zgniatających obiektów
+- BŁĘDY (wyświetlanie krawędzi platform,
+blend mode w platformach, konstruktor stref obrażeń jest wołany bardzo wiele razy,
+przyklejanie się do ścian)
 
 
 Pomysły i notatki:

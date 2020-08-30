@@ -117,8 +117,8 @@ void Dynamic_entity::move(Vectorf delta)
 		return;
 	}
 	move_force += delta;
-	if (move_speed.x * move_speed.x + move_speed.y * move_speed.y <
-		context.min_move_speed * context.min_move_speed ||
+	if (util::sq(move_speed.x) + util::sq(move_speed.y) <
+		util::sq(context.min_move_speed) ||
 		util::vector_dot_product(move_speed, delta) < 0)
 	{
 		move_speed = util::normalize(delta, context.min_move_speed);
@@ -218,19 +218,18 @@ void Dynamic_entity::set_idle()
 	reset_animation = true;
 }
 
+void Dynamic_entity::flip_if_needed()
+{
+	int x_speed_sign = util::sgn(move_speed.x);
+	if (x_speed_sign != 0)
+	{
+		flip(x_speed_sign);
+	}
+}
+
 void Dynamic_entity::update(float dt)
 {
-	if (collision_direction.y == 1)
-	{
-		edge_jump_buf = 0;
-	}
-	else
-	{
-		if (++edge_jump_buf > max_edge_jump)
-		{
-			edge_jump_buf = max_edge_jump;
-		}
-	}
+	edge_jump_update();
 	total_speed += external_speed;
 	external_speed *= 0.95f;
 	if (fabs(external_speed.x) < MIN_EXTERNAL_SPEED)
@@ -292,16 +291,12 @@ void Dynamic_entity::update(float dt)
 		}
 		status = IN_AIR;
 	}
-	int x_speed_sign = util::sgn(move_speed.x);
 	Vectorf acc = force / mass;
 	total_speed += acc * dt;
 	total_speed += move_speed;
-	if (x_speed_sign != 0)
-	{
-		flip(x_speed_sign);
-	}
 	total_speed = util::saturate(total_speed, context.max_speed);
 	force = util::saturate(force, context.max_force);
+	flip_if_needed();
 	update_position(dt);
 	last_animation_status = animation_status;
 	last_status = status;
@@ -309,6 +304,21 @@ void Dynamic_entity::update(float dt)
 	collision_direction = { 0,0 };
 	force.x = 0;
 	run_block = Run_block::NONE;
+}
+
+void Dynamic_entity::edge_jump_update()
+{
+	if (collision_direction.y == 1)
+	{
+		edge_jump_buf = 0;
+	}
+	else
+	{
+		if (++edge_jump_buf > max_edge_jump)
+		{
+			edge_jump_buf = max_edge_jump;
+		}
+	}
 }
 
 void Dynamic_entity::update_position(float dt)
@@ -396,21 +406,10 @@ void Dynamic_entity::heal(int amount)
 		health = max_health;
 }
 
-Zone::Zone(std::vector<Vectorf>& vert, Vectorf p) : vertices(vert), pos(p)
-{
-	center = { 0,0 };
-	max_x = -INFINITY;
-	for (auto it : vertices)
-	{
-		if (it.x > max_x)
-			max_x = it.x;
-		center += it;
-	}
-	center = { center.x / vertices.size(), center.y / vertices.size() };
-}
-
 Zone::Zone(const std::vector<Vectorf>& vert, Vectorf p) : vertices(vert), pos(p)
 {
+	static int next_id(0);
+	id = next_id++;
 	center = { 0,0 };
 	max_x = -INFINITY;
 	for (auto it : vertices)
@@ -423,25 +422,12 @@ Zone::Zone(const std::vector<Vectorf>& vert, Vectorf p) : vertices(vert), pos(p)
 	center = { center.x / vertices.size(), center.y / vertices.size() };
 }
 
+Zone::Zone(std::vector<Vectorf>& vert, Vectorf p) : Zone((const std::vector<Vectorf>)vert, p)
+{}
+
 bool Zone::contains(Vectorf p)
 {
-	Vectorf outside_p = { max_x+1, p.y };
-	auto section = std::make_pair(p, outside_p);
-	int n = 0;
-	for (int i = 0; i < vertices.size() - 1; i++)
-	{
-		if (util::intersection(
-			std::make_pair(vertices[i] + pos, vertices[i + 1] + pos), section))
-		{
-			n++;
-		}
-	}
-	if (util::intersection(
-		std::make_pair(vertices[0] + pos, vertices[vertices.size() - 1] + pos), section))
-		n++;
-	if (n % 2)
-		return true;
-	return false;
+	return(util::contained_in_polygon(p - pos, max_x, vertices));
 }
 
 Damage_zone::Damage_zone(std::vector<Vectorf>& vert, Vectorf p,

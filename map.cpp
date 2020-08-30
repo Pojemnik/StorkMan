@@ -305,7 +305,7 @@ void Map::update(float dt)
 			dmgz_it.update(dt);
 			bool contains = dmgz_it.contains(player_center);
 			if (contains && (dmgz_it.changed_damage || 
-					player->last_dmgz == nullptr || dmgz_it != *player->last_dmgz))
+					player->last_dmgz_id == -1 || dmgz_it.id != player->last_dmgz_id))
 			{
 				std::cout << player_center.x / context.global_scale
 					<< ' ' << player_center.y / context.global_scale << std::endl;
@@ -316,12 +316,12 @@ void Map::update(float dt)
 			if (contains)
 			{
 				n++;
-				player->last_dmgz = &dmgz_it;
+				player->last_dmgz_id = dmgz_it.id;
 			}
 		}
 		if (n == 0) //Outside every zone
 		{
-			player->last_dmgz = nullptr;
+			player->last_dmgz_id = -1;
 		}
 		Vectorf maxv = { 0,0 };
 		int collision_n = 0;
