@@ -1,13 +1,13 @@
 #include <tinyxml2.h>
 #include "map.h"
 #include "assets.h"
-#include "game.h"
+#include "entities.h"
 #include "parser.h"
 #include "util.h"
 #include "console.h"
 #include "interpreter.h"
 
-const std::string VERSION = "0.4.5a";
+const std::string VERSION = "0.4.5b";
 
 bool update(float dt, Map& map, int move_direction)
 {

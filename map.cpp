@@ -162,7 +162,7 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 void Map::calc_map_vertices()
 {
-	std::list<std::pair<Vectorf, Vectorf> > tab;
+	std::list<std::pair<Vectorf, Vectorf>> tab;
 	map_edges.clear();
 	invisible_map_edges.clear();
 	for (const auto& it : loaded_levels)
@@ -192,19 +192,27 @@ void Map::calc_map_vertices()
 	for (auto it1 = tab.begin(); it1 != tab.end(); it1++)
 	{
 		Vectorf normal = it1->second - it1->first;
-		float a = util::vector_dot_product(normal, it1->first), b = util::vector_dot_product(normal, it1->second);
+		float a = util::vector_dot_product(normal, it1->first);
+		float b = util::vector_dot_product(normal, it1->second);
 		int removed = 1;
 		for (auto it2 = (++it1)--; it2 != tab.end(); std::advance(it2, removed))
 		{
 			Vectorf normal2 = it2->second - it2->first;
 			removed = 1;
-			if (fabs(util::vector_cross_product(normal, normal2)) > 0.0001 || fabs(util::vector_cross_product(normal, it2->first - it1->first)) > 0.0001)
+			if (fabs(util::vector_cross_product(normal, normal2)) > 0.0001 ||
+				fabs(util::vector_cross_product(normal, it2->first - it1->first)) > 0.0001)
 				continue;
-			float c = util::vector_dot_product(normal, it2->first), d = util::vector_dot_product(normal, it2->second);
-			if (std::min(a, b) <= std::max(c, d) && std::min(a, b) >= std::min(c, d) || std::max(a, b) <= std::max(c, d) && std::max(a, b) >= std::min(c, d))
+			float c = util::vector_dot_product(normal, it2->first);
+			float d = util::vector_dot_product(normal, it2->second);
+			if ((std::min(a, b) <= std::max(c, d) && std::min(a, b) >= std::min(c, d)) ||
+				(std::max(a, b) <= std::max(c, d) && std::max(a, b) >= std::min(c, d)))
 			{
-				std::pair<Vectorf, float> tmp[4] = { {it1->first,a},{it1->second,b},{it2->first,c},{it2->second,d} };
-				std::sort(tmp, tmp + 4, [](std::pair<Vectorf, float> a, std::pair<Vectorf, float> b) {return a.second < b.second; });
+				std::pair<Vectorf, float> tmp[4] = {
+					{it1->first,a},{it1->second,b},{it2->first,c},{it2->second,d}
+				};
+				std::sort(tmp, tmp + 4, 
+					[](std::pair<Vectorf, float> a, std::pair<Vectorf, float> b)
+				{return a.second < b.second; });
 				it1->first = tmp[0].first;
 				it1->second = tmp[3].first;
 				a = tmp[0].second;
@@ -304,8 +312,8 @@ void Map::update(float dt)
 		{
 			dmgz_it.update(dt);
 			bool contains = dmgz_it.contains(player_center);
-			if (contains && (dmgz_it.changed_damage || 
-					player->last_dmgz_id == -1 || dmgz_it.id != player->last_dmgz_id))
+			if (contains && (dmgz_it.changed_damage ||
+				player->last_dmgz_id == -1 || dmgz_it.id != player->last_dmgz_id))
 			{
 				std::cout << player_center.x / context.global_scale
 					<< ' ' << player_center.y / context.global_scale << std::endl;

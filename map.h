@@ -1,4 +1,5 @@
 #pragma once
+#include "entities.h"
 #include "level.h"
 
 class Map : public sf::Drawable

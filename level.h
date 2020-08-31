@@ -1,5 +1,5 @@
 #pragma once
-#include "game.h"
+#include "worldparts.h"
 #include "light.h"
 
 struct Level

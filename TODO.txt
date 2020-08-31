@@ -1,19 +1,22 @@
 ﻿Do wersji 0.5:
-- Testy przesuwania z obrażeniami
+- Testy przesuwania z obrażeniami ✓
 - Ikony ✓
-- 2 Prototypy wyświetlania hp
+- 2 Prototypy wyświetlania hp:
+{
+- Powiązanie grafik części Storkmana z plikami animacji (Potrzebne grafiki)
+- Pasek hp (Potrzebne grafiki)
+}
 - Strefy dmg ✓
-- Zgony
-- Powiązanie grafik części Storkmana z plikami animacji
-- Animated_moving_object
-- Animated_wall
+- Zgony (Potrzebna animacja)
 - Poprawić składanie poziomów z części
-- Moving_damage_zone
-- Ześlizgiwanie się z platform
+- Ześlizgiwanie się z platform (Potrzebna animacja)
 - Tagowanie zgniatających obiektów
 - BŁĘDY (wyświetlanie krawędzi platform,
-blend mode w platformach, konstruktor stref obrażeń jest wołany bardzo wiele razy,
-przyklejanie się do ścian)
+konstruktor stref obrażeń jest wołany bardzo wiele razy)
+
+- Animated_moving_object
+- Animated_wall
+- Moving_damage_zone
 
 
 Pomysły i notatki:
