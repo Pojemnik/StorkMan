@@ -8,7 +8,7 @@
 }
 - Strefy dmg ✓
 - Zgony (Potrzebna animacja)
-- Poprawić składanie poziomów z części
+- Poprawić składanie poziomów z części ✓
 - Ześlizgiwanie się z platform (Potrzebna animacja)
 - Tagowanie zgniatających obiektów
 - BŁĘDY (wyświetlanie krawędzi platform,

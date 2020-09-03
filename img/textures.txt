@@ -15,6 +15,8 @@ img/tex/SKALY01.png rocks1 0
 img/tex/SKALY02.png rocks2 0
 img/tex/FRAMUGA00.png door0 0
 img/tex/FRAMUGA01.png door1 0
+img/tex/FRAMUGA00.png framuga0 0
+img/tex/FRAMUGA01.png framuga1 0
 img/tex/DESKI00.png lumber0 1
 img/tex/STOL00.png table0 0
 img/tex/TRAWA03.png grass3 0
@@ -64,6 +66,8 @@ img/tex/JARZENIOWKA00.png lamp1 0
 img/tex/DESKI00.png lumbers0 0
 img/tex/DESKI01.png lumbers1 0
 img/tex/DESKI03.png lumbers3 0
+img/tex/DESKI01.png lumber1 0
+img/tex/DESKI03.png lumber3 0
 img/tex/ALARMOWA00.png alarm0 0
 img/tex/RADAR00.png radar0 0
 img/tex/STOL00.png table0 0

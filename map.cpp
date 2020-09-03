@@ -51,6 +51,21 @@ void Map::place_levels()
 					it.global_pos.y * level_size.y);
 			}
 		}
+		for (auto& phy_it : it.physicals)
+		{
+			phy_it->rect_collision.left += it.global_pos.x * level_size.x;
+			phy_it->rect_collision.top += it.global_pos.y * level_size.y;
+			for (auto& vertex_it : phy_it->mesh.vertices)
+			{
+				vertex_it += Vectorf(it.global_pos.x * level_size.x,
+					it.global_pos.y * level_size.y);
+			}
+		}
+		for (auto& dmgz_it : it.dmg_zones)
+		{
+			dmgz_it.pos.x += it.global_pos.x * level_size.x;
+			dmgz_it.pos.y += it.global_pos.y * level_size.y;
+		}
 		for (auto& light_it : it.light_sources)
 		{
 			light_it.pos.x += it.global_pos.x * level_size.x;
@@ -167,25 +182,33 @@ void Map::calc_map_vertices()
 	invisible_map_edges.clear();
 	for (const auto& it : loaded_levels)
 	{
+		Vectorf level_delta = 
+		{ level_size.x * it->global_pos.x, level_size.y * it->global_pos.y };
 		for (const auto& it2 : it->platforms)
 		{
 			if (it2.visible)
 			{
 				for (size_t i = 1; i < it2.vertices.size(); i++)
 				{
-					tab.push_back(std::make_pair(it2.vertices[i].position + it2.pos, it2.vertices[i - 1].position + it2.pos));
+					tab.push_back(std::make_pair(
+							it2.vertices[i].position + it2.pos + level_delta,
+							it2.vertices[i - 1].position + it2.pos + level_delta));
 				}
 				tab.push_back(std::make_pair(
-					it2.vertices.back().position + it2.pos, it2.vertices.front().position + it2.pos));
+					it2.vertices.back().position + it2.pos + level_delta,
+					it2.vertices.front().position + it2.pos + level_delta));
 			}
 			else
 			{
 				for (size_t i = 1; i < it2.vertices.size(); i++)
 				{
-					invisible_map_edges.push_back(std::make_pair(it2.vertices[i].position + it2.pos, it2.vertices[i - 1].position + it2.pos));
+					invisible_map_edges.push_back(std::make_pair(
+						it2.vertices[i].position + it2.pos + level_delta,
+						it2.vertices[i - 1].position + it2.pos + level_delta));
 				}
 				invisible_map_edges.push_back(std::make_pair(
-					it2.vertices.back().position + it2.pos, it2.vertices.front().position + it2.pos));
+					it2.vertices.back().position + it2.pos + level_delta,
+					it2.vertices.front().position + it2.pos + level_delta));
 			}
 		}
 	}
@@ -278,7 +301,10 @@ void Map::update(float dt)
 {
 	if (light_texture == nullptr)
 	{
-		recalc_light();
+		if (context.generate_light)
+		{
+			recalc_light();
+		}
 	}
 	background.setPosition(context.background_position);
 	background.setScale(context.background_scale, context.background_scale);
@@ -293,7 +319,10 @@ void Map::update(float dt)
 		current_pos = pos;
 		unload_levels_out_of_bounds();
 		load_levels_in_bounds(current_pos);
-		recalc_light();
+		if (context.generate_light)
+		{
+			recalc_light();
+		}
 	}
 	for (auto& level_it : loaded_levels)
 	{
@@ -462,7 +491,10 @@ void Map::rescale(float new_global_scale)
 	light.rescale(level_size);
 	delete light_texture;
 	light_texture = nullptr;
-	recalc_light();
+	if (context.generate_light)
+	{
+		recalc_light();
+	}
 }
 
 void Map::draw_map_vertices(sf::RenderTarget& target, sf::RenderStates states) const

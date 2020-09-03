@@ -46,6 +46,7 @@ struct Context
 	bool night = true;
 	bool god_mode = true;
 	bool jump_available = true;
+	bool generate_light = false;
 	float fps = 60.f;
 	float gravity = 22;
 	float jump_force = 775.f;

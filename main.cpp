@@ -176,7 +176,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	sf::FloatRect f(380, 70, 20, 60);
 	Player player({ 400, 100 }, assets.pieces, assets.pieces_rect,
 		assets.dynamic_animations, f, assets.stork_tree, 1.92f,
-		context.global_scale, 87.f, 100);
+		context.global_scale, 87.f, 200);
 	map.player = &player;
 	int move_direction = 0;
 	float acc = 0;
@@ -341,7 +341,10 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			context.final_states.transform = rs.transform;
 			context.final_states.transform.translate(
 				-map.level_size.x / 2, -map.level_size.y / 2);
-			window.draw(map.light_sprite, context.final_states);
+			if (context.generate_light)
+			{
+				window.draw(map.light_sprite, context.final_states);
+			}
 			map.draw_top_layers(window, rs);
 			if (context.draw_fps_counter)
 				window.draw(context.fps_counter);
