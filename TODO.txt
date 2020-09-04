@@ -4,11 +4,11 @@
 - 2 Prototypy wyświetlania hp:
 {
 - Powiązanie grafik części Storkmana z plikami animacji (Potrzebne grafiki)
-- Pasek hp (Potrzebne grafiki)
+- Pasek hp ✓
 }
 - Strefy dmg ✓
 - Zgony (Potrzebna animacja)
-- Poprawić składanie poziomów z części ✓
+- Poprawić składanie poziomów z części (Lagi)
 - Ześlizgiwanie się z platform (Potrzebna animacja)
 - Tagowanie zgniatających obiektów
 - BŁĘDY (wyświetlanie krawędzi platform,
@@ -17,7 +17,6 @@ konstruktor stref obrażeń jest wołany bardzo wiele razy)
 - Animated_moving_object
 - Animated_wall
 - Moving_damage_zone
-
 
 Pomysły i notatki:
 - Można przyspieszyć obliczenia przy włączonym wyświetlaniu krawędzi platform/stref obrażeń wyliczając je z góry

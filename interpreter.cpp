@@ -310,6 +310,24 @@ std::pair<Command_code, Vectorf> Commands_interpreter::execute_command_raw(Comma
 		context.console->out << "Player healed" << '\n';
 		return std::make_pair(Command_code::HEAL_PLAYER, Vectorf());
 	}
+	else if (cmd.name == "dealdamage")
+	{
+		int dmg = get_int(cmd, "Damage value");
+		if (dmg < 0)
+		{
+			throw std::invalid_argument("Incorrect argument");
+		}
+		return std::make_pair(Command_code::DEAL_DAMAGE, Vectorf(dmg, 0));
+	}
+	else if (cmd.name == "scalebar")
+	{
+		float val = get_float(cmd, "Hp bar scale");
+		if (val < 0)
+		{
+			throw std::invalid_argument("Incorrect argument");
+		}
+		return std::make_pair(Command_code::SCALE_HP_BAR, Vectorf(val, 0));
+	}
 	else
 		context.console->err << "Unknown command: " + cmd.name << '\n';
 	return std::make_pair<Command_code, Vectorf>(Command_code::NOTHING, Vectorf());

@@ -123,6 +123,8 @@ damage_zone:
 	zawartość:
 		znaczniki <v> opisujące kolejne wierzchołki
 		znaczniki <d> opisujące sekwencję zadawania obrażeń przez strefę
+	
+	uwagi: Strefy obrażeń nie powinny się nakładać
 		
 v:
 	zawartość - obrażenia zadawane przez strefę, długość okresu zadawanie tych obrażeń

@@ -4,6 +4,15 @@
 class Assets
 {
 public:
+	struct Hp_bar
+	{
+		std::shared_ptr<sf::Texture> top;
+		std::shared_ptr<sf::Texture> mid;
+		std::shared_ptr<sf::Texture> bot;
+		std::shared_ptr<std::vector<sf::Texture>> content_top;
+		std::shared_ptr<std::vector<sf::Texture>> content_mid;
+		std::shared_ptr<std::vector<sf::Texture>> content_bot;
+	} hp_bar;
 	std::vector<sf::Texture> map_textures;
 	std::vector<sf::Texture> enemy_textures;
 	sf::Texture* pieces = nullptr;
@@ -38,4 +47,5 @@ private:
 	Animation_tree load_animation_tree(std::string path);
 	void load_sound(sf::SoundBuffer& buf, string path);
 	void load_sounds();
+	void load_hp_bar();
 };

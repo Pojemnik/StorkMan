@@ -327,7 +327,7 @@ void Dynamic_entity::die()
 	set_position({ 20, 20 });
 	context.aaa.play();
 	context.console->log << "zgon" << '\n';
-	health = 100;
+	health = max_health;
 }
 
 void Dynamic_entity::set_max_health(int val)

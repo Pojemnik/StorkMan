@@ -6,8 +6,9 @@
 #include "util.h"
 #include "console.h"
 #include "interpreter.h"
+#include "interface.h"
 
-const std::string VERSION = "0.4.5b";
+const std::string VERSION = "0.4.6";
 
 bool update(float dt, Map& map, int move_direction)
 {
@@ -176,7 +177,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	sf::FloatRect f(380, 70, 20, 60);
 	Player player({ 400, 100 }, assets.pieces, assets.pieces_rect,
 		assets.dynamic_animations, f, assets.stork_tree, 1.92f,
-		context.global_scale, 87.f, 200);
+		context.global_scale, 87.f, 1000);
 	map.player = &player;
 	int move_direction = 0;
 	float acc = 0;
@@ -193,10 +194,13 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	//User interface
 	context.fps_counter.setFont(assets.consola);
 	context.fps_counter.setPosition(0, 0);
+	Hp_bar hp_bar(assets.hp_bar.bot, assets.hp_bar.mid, assets.hp_bar.top,
+		assets.hp_bar.content_bot, assets.hp_bar.content_mid,
+		assets.hp_bar.content_top, 1000);
 
 	sf::Text hp;
 	hp.setFont(assets.consola);
-	hp.setPosition(100, 0);
+	hp.setPosition(150, 0);
 	hp.setFillColor(sf::Color(200, 0, 0));
 	hp.setString(std::to_string(player.health));
 
@@ -255,9 +259,16 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 					break;
 				case Command_code::SET_PLAYER_MAX_HP:
 					player.set_max_health(code.second.x);
+					hp_bar.set_max_hp(code.second.x);
 					break;
 				case Command_code::HEAL_PLAYER:
 					player.heal(player.get_max_health());
+					break;
+				case Command_code::DEAL_DAMAGE:
+					player.deal_damage(code.second.x);
+					break;
+				case Command_code::SCALE_HP_BAR:
+					hp_bar.scale_x(code.second.x);
 					break;
 				default:
 					break;
@@ -346,13 +357,6 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 				window.draw(map.light_sprite, context.final_states);
 			}
 			map.draw_top_layers(window, rs);
-			if (context.draw_fps_counter)
-				window.draw(context.fps_counter);
-			if (context.draw_hp)
-			{
-				hp.setString(std::to_string(player.health));
-				window.draw(hp);
-			}
 			if (context.draw_damage_zones)
 			{
 				map.draw_damage_zones(window, rs);
@@ -361,6 +365,15 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			{
 				map.draw_map_vertices(window, rs);
 			}
+			if (context.draw_hp)
+			{
+				hp.setString(std::to_string(player.health));
+				window.draw(hp);
+			}
+			hp_bar.pre_draw(player.health);
+			window.draw(hp_bar);
+			if (context.draw_fps_counter)
+				window.draw(context.fps_counter);
 			if (context.console->is_active())
 			{
 				window.draw(*context.console);

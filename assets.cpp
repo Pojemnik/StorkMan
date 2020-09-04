@@ -206,6 +206,33 @@ void Assets::load_additional_animation(string path, string name, Vectori n,
 	load_animation(animations[name], im, n.x, n.y, size.x, size.y);
 }
 
+void Assets::load_hp_bar()
+{
+	hp_bar.top = std::make_shared<sf::Texture>();
+	hp_bar.top->loadFromFile("img/ui/bar_top.png");
+	hp_bar.mid = std::make_shared<sf::Texture>();
+	hp_bar.mid->loadFromFile("img/ui/bar_mid.png");
+	hp_bar.bot = std::make_shared<sf::Texture>();
+	hp_bar.bot->loadFromFile("img/ui/bar_bot.png");
+	hp_bar.content_top = std::make_shared<std::vector<sf::Texture>>();
+	hp_bar.content_top->resize(16);
+	hp_bar.content_mid = std::make_shared<std::vector<sf::Texture>>();
+	hp_bar.content_mid->resize(16);
+	hp_bar.content_bot = std::make_shared<std::vector<sf::Texture>>();
+	hp_bar.content_bot->resize(16);
+	sf::Image im;
+	im.loadFromFile("img/ui/bar_content.png");
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			(*hp_bar.content_top)[i * 4 + j].loadFromImage(im, sf::IntRect(j * 128, i * 128, 128, 47));
+			(*hp_bar.content_mid)[i * 4 + j].loadFromImage(im, sf::IntRect(j * 128, i * 128+47, 128, 34));
+			(*hp_bar.content_bot)[i * 4 + j].loadFromImage(im, sf::IntRect(j * 128, i * 128+47+34, 128, 47));
+		}
+	}
+}
+
 void Assets::load_assets()
 {
 	//Storkman
@@ -221,9 +248,10 @@ void Assets::load_assets()
 	layer2->loadFromFile("img/bg/LAS.png");
 	light = new sf::Texture();
 	light->loadFromFile("img/light.png");
-	//Console
+	//User interface
 	console_bg = new sf::Texture();
-	console_bg->loadFromFile("img/console_bg.png");
+	console_bg->loadFromFile("img/ui/console_bg.png");
+	load_hp_bar();
 	//Dynamic animations
 	dynamic_animations.push_back(load_dynamic_animation("animations/stork/idle.txt"));
 	dynamic_animations.push_back(load_dynamic_animation("animations/stork/run.txt"));

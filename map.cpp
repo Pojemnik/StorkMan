@@ -182,7 +182,7 @@ void Map::calc_map_vertices()
 	invisible_map_edges.clear();
 	for (const auto& it : loaded_levels)
 	{
-		Vectorf level_delta = 
+		Vectorf level_delta =
 		{ level_size.x * it->global_pos.x, level_size.y * it->global_pos.y };
 		for (const auto& it2 : it->platforms)
 		{
@@ -191,8 +191,8 @@ void Map::calc_map_vertices()
 				for (size_t i = 1; i < it2.vertices.size(); i++)
 				{
 					tab.push_back(std::make_pair(
-							it2.vertices[i].position + it2.pos + level_delta,
-							it2.vertices[i - 1].position + it2.pos + level_delta));
+						it2.vertices[i].position + it2.pos + level_delta,
+						it2.vertices[i - 1].position + it2.pos + level_delta));
 				}
 				tab.push_back(std::make_pair(
 					it2.vertices.back().position + it2.pos + level_delta,
@@ -233,7 +233,7 @@ void Map::calc_map_vertices()
 				std::pair<Vectorf, float> tmp[4] = {
 					{it1->first,a},{it1->second,b},{it2->first,c},{it2->second,d}
 				};
-				std::sort(tmp, tmp + 4, 
+				std::sort(tmp, tmp + 4,
 					[](std::pair<Vectorf, float> a, std::pair<Vectorf, float> b)
 				{return a.second < b.second; });
 				it1->first = tmp[0].first;
@@ -324,6 +324,7 @@ void Map::update(float dt)
 			recalc_light();
 		}
 	}
+	int n = 0;
 	for (auto& level_it : loaded_levels)
 	{
 		for (auto& physical_it : level_it->physicals)
@@ -336,29 +337,24 @@ void Map::update(float dt)
 		}
 		Vectorf player_center = (player->mesh.vertices[0] + player->mesh.vertices[2]);
 		player_center = { player_center.x / 2, player_center.y / 2 };
-		int n = 0;
 		for (auto& dmgz_it : level_it->dmg_zones)
 		{
 			dmgz_it.update(dt);
 			bool contains = dmgz_it.contains(player_center);
-			if (contains && (dmgz_it.changed_damage ||
-				player->last_dmgz_id == -1 || dmgz_it.id != player->last_dmgz_id))
-			{
-				std::cout << player_center.x / context.global_scale
-					<< ' ' << player_center.y / context.global_scale << std::endl;
-				std::cout << std::to_string(-dmgz_it.current_damage->first) << std::endl;
-				std::cout << std::endl;
-				player->deal_damage(dmgz_it.current_damage->first);
-			}
 			if (contains)
 			{
+				if (dmgz_it.changed_damage || player->last_dmgz_id == -1 ||
+					dmgz_it.id != player->last_dmgz_id)
+				{
+					std::cout << player_center.x / context.global_scale
+						<< ' ' << player_center.y / context.global_scale << std::endl;
+					std::cout << std::to_string(-dmgz_it.current_damage->first) << std::endl;
+					std::cout << std::endl;
+					player->deal_damage(dmgz_it.current_damage->first);
+				}
 				n++;
 				player->last_dmgz_id = dmgz_it.id;
 			}
-		}
-		if (n == 0) //Outside every zone
-		{
-			player->last_dmgz_id = -1;
 		}
 		Vectorf maxv = { 0,0 };
 		int collision_n = 0;
@@ -408,6 +404,10 @@ void Map::update(float dt)
 		if (maxv.x == 0 && maxv.y == 0)
 			maxv = { 0,1 };
 		player->maxcollisionvector = util::normalize(maxv);
+	}
+	if (n == 0) //Outside every damage zone
+	{
+		player->last_dmgz_id = -1;
 	}
 }
 
