@@ -17,11 +17,13 @@ private:
 			std::shared_ptr<std::vector<sf::Texture>> _content_tex);
 	}top, bot, mid;
 	Vectorf pos = { 0,0 };
-	int fpf = 5;
+	int fpf = 10;
 	int frame_counter = 0;
 	int max_hp;
-	float default_mid_scale;
-	float scale_factor_x = 0.5;
+	float mid_ratio;
+	float scale_factor_x = 0.35;
+	const float top_bot_tex_height = 47;
+	const float mid_tex_height = 34;
 
 	void update(int current_hp);
 	void next_frame();

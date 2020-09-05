@@ -44,7 +44,7 @@ struct Context
 	bool draw_hp = false;
 	bool draw_damage_zones = false;
 	bool night = true;
-	bool god_mode = true;
+	bool god_mode = false;
 	bool jump_available = true;
 	bool generate_light = false;
 	float fps = 60.f;

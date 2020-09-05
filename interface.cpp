@@ -19,13 +19,18 @@ Hp_bar::Hp_bar(std::shared_ptr<sf::Texture> _bot_bar,
 	top(_top_bar, _top_content)
 {
 	top.bar.setPosition(pos);
-	mid.bar.setPosition(pos.x, pos.y + 47);
-	bot.bar.setPosition(pos.x, context.resolution.y - 47);
-	mid.bar.setScale(scale_factor_x, ((float)context.resolution.y - 2 * 47) / 34.f);
+	mid.bar.setPosition(pos.x, pos.y + top_bot_tex_height);
+	bot.bar.setPosition(pos.x, context.resolution.y - top_bot_tex_height);
+	mid_ratio = ((float)context.resolution.y - 2 * top_bot_tex_height)
+		/ context.resolution.y;
+	mid.bar.setScale(scale_factor_x,
+		((float)context.resolution.y - 2 * top_bot_tex_height) / mid_tex_height);
+	mid.content.setScale(scale_factor_x,
+		((float)context.resolution.y - 2 * top_bot_tex_height) / mid_tex_height);
 	top.content.setPosition(pos);
-	mid.content.setPosition(pos.x, pos.y + 47);
-	bot.content.setPosition(pos.x, context.resolution.y - 47);
-	default_mid_scale = ((float)context.resolution.y - 2 * 47) / 34.f;
+	mid.content.setPosition(pos.x, pos.y + top_bot_tex_height);
+	bot.content.setPosition(pos.x, context.resolution.y - top_bot_tex_height);
+	scale_x(scale_factor_x);
 }
 
 void Hp_bar::next_frame()
@@ -45,11 +50,18 @@ void Hp_bar::next_frame()
 void Hp_bar::update(int current_hp)
 {
 	float hp_percent = (float)current_hp / max_hp;
-	mid.content.setScale(scale_factor_x, hp_percent * default_mid_scale);
-	mid.content.setPosition(pos.x, context.resolution.y - 47 -
-		default_mid_scale * hp_percent * 34);
-	top.content.setPosition(pos.x, context.resolution.y - 2 * 47 -
-		default_mid_scale * hp_percent * 34);
+	float bar_height = context.resolution.y * hp_percent;
+	float mid_height = bar_height * mid_ratio;
+	float top_bot_height = (1.f - mid_ratio) * bar_height / 2;
+	mid.content.setScale(scale_factor_x, mid_height / mid_tex_height);
+	bot.content.setScale(scale_factor_x, hp_percent);
+	top.content.setScale(scale_factor_x, hp_percent);
+	bot.content.setPosition(pos.x, (float)context.resolution.y -
+		top_bot_height);
+	mid.content.setPosition(pos.x, (float)context.resolution.y -
+		top_bot_height - mid_height);
+	top.content.setPosition(pos.x, (float)context.resolution.y
+		- top_bot_height * 2 - mid_height);
 }
 
 void Hp_bar::scale_x(float factor)
