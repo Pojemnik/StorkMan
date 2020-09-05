@@ -24,6 +24,8 @@ private:
 	float scale_factor_x = 0.35;
 	const float top_bot_tex_height = 47;
 	const float mid_tex_height = 34;
+	const float top_bot_space = 17;
+	const float bar_height;
 
 	void update(int current_hp);
 	void next_frame();

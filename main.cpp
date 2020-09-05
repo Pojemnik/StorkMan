@@ -194,13 +194,14 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	//User interface
 	context.fps_counter.setFont(assets.consola);
 	context.fps_counter.setPosition(0, 0);
+
 	Hp_bar hp_bar(assets.hp_bar.bot, assets.hp_bar.mid, assets.hp_bar.top,
 		assets.hp_bar.content_bot, assets.hp_bar.content_mid,
 		assets.hp_bar.content_top, 1000);
 
 	sf::Text hp;
 	hp.setFont(assets.consola);
-	hp.setPosition(150, 0);
+	hp.setPosition(100, 0);
 	hp.setFillColor(sf::Color(200, 0, 0));
 	hp.setString(std::to_string(player.health));
 
