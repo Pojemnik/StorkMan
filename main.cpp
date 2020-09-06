@@ -8,7 +8,7 @@
 #include "interpreter.h"
 #include "interface.h"
 
-const std::string VERSION = "0.4.6";
+const std::string VERSION = "pre-alpha 0.4.6.3";
 
 bool update(float dt, Map& map, int move_direction)
 {

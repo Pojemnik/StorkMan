@@ -357,19 +357,6 @@ void Map::update(float dt)
 			}
 		}
 		Vectorf maxv = { 0,0 };
-		int collision_n = 0;
-		bool moving_collision = false;
-		bool potential_smash = false;
-		for (auto& physical_it : level_it->physicals)
-		{
-			moving_collision |= player->test_collision(*physical_it);
-			collision_n += moving_collision;
-		}
-		for (auto& colidable_it : level_it->collidables)
-		{
-			collision_n += player->test_collision(*colidable_it);
-		}
-		potential_smash = (collision_n > 1 && moving_collision);
 		//Collisions
 		for (auto& physical_it : level_it->physicals)
 		{
@@ -382,24 +369,6 @@ void Map::update(float dt)
 			Vectorf tmp = player->uncollide(colidable_it, dt);
 			if (tmp.y > maxv.y)
 				maxv = tmp;
-		}
-		collision_n = 0;
-		moving_collision = false;
-		for (auto& physical_it : level_it->physicals)
-		{
-			moving_collision |= player->test_collision(*physical_it);
-			collision_n += moving_collision;
-		}
-		for (auto& colidable_it : level_it->collidables)
-		{
-			collision_n += player->test_collision(*colidable_it);
-		}
-		if (collision_n > 0 && moving_collision && potential_smash)
-		{
-			if (!context.god_mode)
-			{
-				player->deal_damage(10);
-			}
 		}
 		if (maxv.x == 0 && maxv.y == 0)
 			maxv = { 0,1 };

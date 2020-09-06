@@ -8,9 +8,9 @@
 }
 - Strefy dmg ✓
 - Zgony (Potrzebna animacja)
-- Poprawić składanie poziomów z części (Lagi)
+- Poprawić składanie poziomów z części (Lagi - nie można rysować wszystkiego i wszystkiego uwzględniać w fizyce)
 - Ześlizgiwanie się z platform (Potrzebna animacja)
-- Tagowanie zgniatających obiektów
+- ?Tagowanie zgniatających obiektów
 - BŁĘDY (wyświetlanie krawędzi platform,
 konstruktor stref obrażeń jest wołany bardzo wiele razy)
 

@@ -31,8 +31,8 @@ void Platform::rescale(float ratio)
 
 Pendulum::Pendulum(const sf::Texture* pen_tex, const sf::Texture* line_tex_,
 	std::vector<Vectorf> attach, std::vector<sf::Vertex> points_,
-	float line_l, Vectorf pos_, float angle_, int layer_)
-	: Moving_platform(pen_tex, pos_, points_, layer_), line_len(line_l),
+	float line_l, Vectorf pos_, float angle_, int layer_, bool visible_)
+	: Moving_platform(pen_tex, pos_, points_, layer_, visible_), line_len(line_l),
 	line_tex(line_tex_), rad_angle(angle_)
 {
 	pos = pos_;
@@ -96,8 +96,9 @@ void Pendulum::update_position(float dt)
 	rect_collision.top += delta.y;
 }
 
-Moving_platform::Moving_platform(const sf::Texture* tex, Vectorf p,
-	std::vector<sf::Vertex> pts, int l) : Texturable(p, tex, pts, l)
+Moving_platform::Moving_platform(const sf::Texture* tex, Vectorf pos,
+	std::vector<sf::Vertex> pts, int layer_, bool visible_)
+	: Texturable(pos, tex, pts, layer_), visible(visible_)
 {
 	float maxx, maxy, miny, minx;
 	maxx = minx = vertices[0].position.x;
@@ -114,7 +115,7 @@ Moving_platform::Moving_platform(const sf::Texture* tex, Vectorf p,
 		if (it.position.y > maxy)
 			maxy = it.position.y;
 	}
-	rect_collision = sf::FloatRect(minx + p.x, miny + p.y, maxx - minx, maxy - miny);
+	rect_collision = sf::FloatRect(minx + pos.x, miny + pos.y, maxx - minx, maxy - miny);
 	mass = INFINITY;
 	type = Collidable_type::MOVING;
 }
@@ -125,8 +126,8 @@ void Moving_platform::draw(sf::RenderTarget& target, sf::RenderStates states) co
 }
 
 Linear_moving_platform::Linear_moving_platform(Linear_move path,
-	const sf::Texture* tex_, Vectorf pos_, std::vector<sf::Vertex> pts, int layer_)
-	: Moving_platform(tex_, pos_, pts, layer_), move_data(path)
+	const sf::Texture* tex_, Vectorf pos_, std::vector<sf::Vertex> pts, int layer_,
+	bool visible_) : Moving_platform(tex_, pos_, pts, layer_, visible_), move_data(path)
 {
 	move_data.it = move_data.points.begin();
 }

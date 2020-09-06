@@ -194,7 +194,6 @@ Platform Parser::parse_platform_raw(tinyxml2::XMLElement* element)
 	pos *= context.global_scale;
 	tinyxml2::XMLElement* e = element->FirstChildElement();
 	std::pair<int, float> fliprot = parse_flip_rotation(element);
-	
 	while (e != NULL)
 	{
 		std::string n = e->Name();
@@ -514,8 +513,18 @@ Pendulum Parser::parse_pendulum_raw(tinyxml2::XMLElement* element)
 	std::vector<Vectorf> attach_points;
 	const sf::Texture* tex;
 	const sf::Texture* line_tex;
-	std::string tex_str = get_attribute_by_name("texture", element);
-	tex = assets->textures.at(tex_str);
+	bool visible = true;
+	std::string visible_str = get_attribute_by_name("visible", element);
+	if (visible_str == "0")
+	{
+		visible = false;
+		tex = new sf::Texture();
+	}
+	else
+	{
+		std::string val = get_attribute_by_name("texture", element);
+		tex = assets->textures.at(val);
+	}
 	std::string line_tex_str = get_attribute_by_name("line", element);
 	line_tex = assets->textures.at(line_tex_str);
 	Vectorf pos = parse_num_pairf(get_attribute_by_name("position", element));
@@ -561,7 +570,7 @@ Pendulum Parser::parse_pendulum_raw(tinyxml2::XMLElement* element)
 	}
 	int layer = parse_layer(element, DEFAULT_PLATFORM_LAYER);
 	return Pendulum(tex, line_tex, attach_points, vert, line_len, pos, angle,
-		layer);
+		layer, visible);
 }
 
 Linear_moving_platform Parser::parse_linear_platform(tinyxml2::XMLElement* element)
@@ -590,8 +599,18 @@ Linear_moving_platform Parser::parse_linear_platform_raw(tinyxml2::XMLElement* e
 	std::vector<sf::Vertex> vert;
 	const sf::Texture* tex;
 	Linear_move path;
-	std::string tex_str = get_attribute_by_name("texture", element);
-	tex = assets->textures.at(tex_str);
+	bool visible = true;
+	std::string visible_str = get_attribute_by_name("visible", element);
+	if (visible_str == "0")
+	{
+		visible = false;
+		tex = new sf::Texture();
+	}
+	else
+	{
+		std::string val = get_attribute_by_name("texture", element);
+		tex = assets->textures.at(val);
+	}
 	Vectorf pos = parse_num_pairf(get_attribute_by_name("position", element));
 	pos *= context.global_scale;
 	std::pair<int, float> fliprot = parse_flip_rotation(element);
@@ -630,7 +649,7 @@ Linear_moving_platform Parser::parse_linear_platform_raw(tinyxml2::XMLElement* e
 		e = e->NextSiblingElement();
 	}
 	int layer = parse_layer(element, DEFAULT_PLATFORM_LAYER);
-	return Linear_moving_platform(path, tex, pos, vert, layer);
+	return Linear_moving_platform(path, tex, pos, vert, layer, visible);
 }
 
 Moving_object Parser::parse_moving_object_raw(tinyxml2::XMLElement* element)

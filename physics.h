@@ -41,10 +41,10 @@ protected:
 	Vectori collision_direction = { 0,0 };
 	Vectorf external_speed = { 0,0 };
 	enum class Run_block { LEFT, RIGHT, NONE } run_block = Run_block::NONE;
-	
+
 	virtual void update_position(float dt) = 0;
 public:
-	Vectorf maxcollisionvector = {0,1};
+	Vectorf maxcollisionvector = { 0,1 };
 	virtual void update(float dt) = 0;
 	virtual void move(Vectorf delta) = 0;
 	virtual void apply_force(Vectorf f);

@@ -21,12 +21,18 @@ Level::Level(const Level& level)
 	for (auto& p : pendulums)
 	{
 		add_physical(&p);
-		add_to_layer(p);
+		if (p.visible)
+		{
+			add_to_layer(p);
+		}
 	}
 	for (auto& p : lmps)
 	{
 		add_physical(&p);
-		add_to_layer(p);
+		if (p.visible)
+		{
+			add_to_layer(p);
+		}
 	}
 	for (auto& w : walls)
 	{
