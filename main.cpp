@@ -8,7 +8,7 @@
 #include "interpreter.h"
 #include "interface.h"
 
-const std::string VERSION = "pre-alpha 0.4.6.3";
+const std::string VERSION = "pre-alpha 0.4.6.4";
 
 bool update(float dt, Map& map, int move_direction)
 {
@@ -336,8 +336,8 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			acc = 0;
 			window.clear();
 			sf::Vector2f camera_pos = player.get_position();
-			camera_pos -= sf::Vector2f((float)context.resolution.x / 2,
-				(float)context.resolution.y / 2);
+			camera_pos -= sf::Vector2f((float)context.default_resolution.x / 2,
+				(float)context.default_resolution.y / 2);
 			sf::RenderStates rs = sf::RenderStates::Default;
 			rs.transform = sf::Transform().translate(-camera_pos);
 			player.pre_draw();

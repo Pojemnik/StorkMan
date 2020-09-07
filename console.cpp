@@ -119,10 +119,11 @@ void Console_stream::clear()
 }
 
 Console::Console(const sf::Texture* tex, sf::Font* f, Vectori res) : font(f),
-out(Stream_color::WHITE), log(Stream_color::GREY), err(Stream_color::RED)
+out(Stream_color::WHITE), log(Stream_color::GREY), err(Stream_color::RED),
+screen_resolution(res), default_resolution(res)
 {
-	screen_resolution = res;
-	Vectorf scale = { (float)res.x / 1920.f, 1 };
+	Vectorf scale = { (float)res.x / default_resolution.x,
+		(float)res.y / default_resolution.y };
 	background.setTexture(*tex);
 	for (auto& text : content_text)
 	{
@@ -138,11 +139,12 @@ out(Stream_color::WHITE), log(Stream_color::GREY), err(Stream_color::RED)
 void Console::activate(Vectori res)
 {
 	screen_resolution = res;
-	Vectorf scale = { (float)res.x / 1920.f, 1 };
+	Vectorf scale = { (float)res.x / default_resolution.x,
+		(float)res.y / default_resolution.y };
 	background.setScale(scale);
-	background.setPosition(0, (float)res.y - 180);
+	background.setPosition(0, (float)default_resolution.y - 180.f);
 	active = true;
-	buffer.setPosition(0, (float)screen_resolution.y - 20);
+	buffer.setPosition(0, (float)default_resolution.y - 20.f);
 	history_pos = 0;
 	update_content();
 }
@@ -174,15 +176,16 @@ void Console::get_data_from_streams()
 void Console::update_content()
 {
 	get_data_from_streams();
-	int lines = 0;
 	for (auto& i : content_text)
 	{
 		i.setString("");
 	}
+	int lines = 0;
 	for (int i = (int)content.size() - 1 - scroll_pos;
 		i >= 0 && lines < lines_n; i--, lines++)
 	{
-		content_text[lines].setPosition(0, (float)screen_resolution.y - (lines + 2) * 18);
+		content_text[lines].setPosition(0,
+			(float)default_resolution.y - (lines + 2) * 18);
 		switch (content[i].second)
 		{
 		case Stream_color::RED:

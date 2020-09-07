@@ -73,6 +73,7 @@ public:
 
 private:
 	const char cursor = '_';
+	const Vectori default_resolution;
 	const sf::Font* font;
 	bool active = false;
 	int scroll_pos = 0;

@@ -67,6 +67,7 @@ struct Context
 		final_states, white_states;
 	sf::Shader global;
 	Vectori resolution = { 1024, 576 };
+	const Vectori default_resolution = { 1024, 576 };
 	sf::Text fps_counter;
 	uint8_t darkness = 70;
 	Console* console = nullptr;
