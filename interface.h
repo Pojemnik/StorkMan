@@ -26,6 +26,7 @@ private:
 	const float mid_tex_height = 34;
 	const float top_bot_space = 17;
 	const float bar_height;
+	const Vectori default_resolution;
 
 	void update(int current_hp);
 	void next_frame();
