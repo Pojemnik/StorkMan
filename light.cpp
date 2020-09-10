@@ -14,8 +14,6 @@ Light::Light(Vectorf level_size, sf::Texture* light_tex)
 	create_lightmap(level_size);
 }
 
-
-
 void Light::rescale(Vectorf level_size)
 {
 	delete target;

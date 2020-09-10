@@ -22,6 +22,7 @@ private:
 	void unload_levels_out_of_bounds();
 	void load_levels_in_bounds(Vectori pos);
 	void place_levels();
+	static void update_level(int id, Level* lvl, float dt);
 
 public:
 	sf::Sprite background;

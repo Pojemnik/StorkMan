@@ -297,6 +297,22 @@ void Map::load_levels_in_bounds(Vectori pos)
 	}
 }
 
+void Map::update_level(int id, Level* lvl, float dt)
+{
+	for (auto& dmgz_it : lvl->dmg_zones)
+	{
+		dmgz_it.update(dt);
+	}
+	for (auto& physical_it : lvl->physicals)
+	{
+		physical_it->update(dt);
+	}
+	for (auto& mos_it : lvl->mos)
+	{
+		mos_it.update(dt);
+	}
+}
+
 void Map::update(float dt)
 {
 	if (light_texture == nullptr)
@@ -325,55 +341,55 @@ void Map::update(float dt)
 		}
 	}
 	int n = 0;
+	std::vector<std::future<void>> future_vect;
+	int i = 0;
 	for (auto& level_it : loaded_levels)
 	{
-		for (auto& physical_it : level_it->physicals)
-		{
-			physical_it->update(dt);
-		}
-		for (auto& mos_it : level_it->mos)
-		{
-			mos_it.update(dt);
-		}
-		Vectorf player_center = (player->mesh.vertices[0] + player->mesh.vertices[2]);
-		player_center = { player_center.x / 2, player_center.y / 2 };
-		for (auto& dmgz_it : level_it->dmg_zones)
-		{
-			dmgz_it.update(dt);
-			bool contains = dmgz_it.contains(player_center);
-			if (contains)
-			{
-				if (dmgz_it.changed_damage || player->last_dmgz_id == -1 ||
-					dmgz_it.id != player->last_dmgz_id)
-				{
-					std::cout << player_center.x / context.global_scale
-						<< ' ' << player_center.y / context.global_scale << std::endl;
-					std::cout << std::to_string(-dmgz_it.current_damage->first) << std::endl;
-					std::cout << std::endl;
-					player->deal_damage(dmgz_it.current_damage->first);
-				}
-				n++;
-				player->last_dmgz_id = dmgz_it.id;
-			}
-		}
-		Vectorf maxv = { 0,0 };
-		//Collisions
-		for (auto& physical_it : level_it->physicals)
-		{
-			Vectorf tmp = player->uncollide(physical_it, dt);
-			if (tmp.y > maxv.y)
-				maxv = tmp;
-		}
-		for (auto& colidable_it : level_it->collidables)
-		{
-			Vectorf tmp = player->uncollide(colidable_it, dt);
-			if (tmp.y > maxv.y)
-				maxv = tmp;
-		}
-		if (maxv.x == 0 && maxv.y == 0)
-			maxv = { 0,1 };
-		player->maxcollisionvector = util::normalize(maxv);
+		future_vect.push_back(context.thread_pool->push(Map::update_level, level_it, dt));
 	}
+	for (auto& future_it : future_vect)
+	{
+		future_it.wait();
+		future_it.get();
+	}
+	Level* current_level = level_placement[current_pos.x][current_pos.y];
+	Vectorf player_center = (player->mesh.vertices[0] + player->mesh.vertices[2]);
+	player_center = { player_center.x / 2, player_center.y / 2 };
+	for (auto& dmgz_it : current_level->dmg_zones)
+	{
+		bool contains = dmgz_it.contains(player_center);
+		if (contains)
+		{
+			if (dmgz_it.changed_damage || player->last_dmgz_id == -1 ||
+				dmgz_it.id != player->last_dmgz_id)
+			{
+				std::cout << player_center.x / context.global_scale
+					<< ' ' << player_center.y / context.global_scale << std::endl;
+				std::cout << std::to_string(-dmgz_it.current_damage->first) << std::endl;
+				std::cout << std::endl;
+				player->deal_damage(dmgz_it.current_damage->first);
+			}
+			n++;
+			player->last_dmgz_id = dmgz_it.id;
+		}
+	}
+	Vectorf maxv = { 0,0 };
+	//Collisions
+	for (auto& physical_it : current_level->physicals)
+	{
+		Vectorf tmp = player->uncollide(physical_it, dt);
+		if (tmp.y > maxv.y)
+			maxv = tmp;
+	}
+	for (auto& colidable_it : current_level->collidables)
+	{
+		Vectorf tmp = player->uncollide(colidable_it, dt);
+		if (tmp.y > maxv.y)
+			maxv = tmp;
+	}
+	if (maxv.x == 0 && maxv.y == 0)
+		maxv = { 0,1 };
+	player->maxcollisionvector = util::normalize(maxv);
 	if (n == 0) //Outside every damage zone
 	{
 		player->last_dmgz_id = -1;
