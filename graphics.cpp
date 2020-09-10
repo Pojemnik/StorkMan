@@ -229,6 +229,10 @@ void Dynamic_animatable::next_frame()
 			{
 				animation_status = Animation_status::A_IDLE;
 				set_animation(animation_status);
+				if (status == Entity_status::DIE)
+				{
+					this->post_death();
+				}
 			}
 		}
 		else

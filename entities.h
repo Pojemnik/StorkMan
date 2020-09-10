@@ -16,7 +16,6 @@ protected:
 	Vectorf last_move_force = { 0,0 };
 
 	void update_position(float dt);
-	void flip(int s);
 	void set_idle();
 	void flip_if_needed();
 	void edge_jump_update();
@@ -42,6 +41,7 @@ public:
 	void set_max_health(int val);
 	int get_max_health();
 	void heal(int amount);
+	void post_death();
 };
 
 class Player : public Dynamic_entity
@@ -51,4 +51,5 @@ public:
 		std::vector<const Dynamic_animation*> a, sf::FloatRect rc,
 		Animation_tree t, float h, float gs, float m, int hp);
 	void attack(int type);
+	void post_death();
 };

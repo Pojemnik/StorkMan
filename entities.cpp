@@ -30,6 +30,13 @@ void Player::attack(int attack_type)
 	}
 }
 
+void Player::post_death()
+{
+	set_position({ 20 * context.global_scale, 0 });
+	context.console->log << "zgon" << '\n';
+	health = max_health;
+}
+
 Dynamic_entity::Dynamic_entity(Vectorf p, sf::Texture* texture,
 	std::vector<sf::IntRect>& v, std::vector<const Dynamic_animation*> a,
 	sf::FloatRect rc, Animation_tree t, float h, float gs, float m, int hp)
@@ -134,24 +141,6 @@ void Dynamic_entity::stop_jump()
 	}
 }
 
-void Dynamic_entity::flip(int sign)
-{
-	if (sign == -1)
-	{
-		sprite.setOrigin({ actual_frame[0] - 64, 192 + 64 });
-	}
-	else
-	{
-		sprite.setOrigin({ actual_frame[0] + 64, 192 + 64 });
-	}
-	if (direction != sign)
-	{
-		scale = -scale;
-		sprite.scale(-1, 1);
-		direction = sign;
-	}
-}
-
 void Dynamic_entity::set_idle()
 {
 	animation_status = Animation_status::A_IDLE;
@@ -164,7 +153,20 @@ void Dynamic_entity::flip_if_needed()
 	int x_speed_sign = util::sgn(move_speed.x);
 	if (x_speed_sign != 0)
 	{
-		flip(x_speed_sign);
+		if (x_speed_sign == -1)
+		{
+			sprite.setOrigin({ actual_frame[0] - 64, 192 + 64 });
+		}
+		else
+		{
+			sprite.setOrigin({ actual_frame[0] + 64, 192 + 64 });
+		}
+		if (direction != x_speed_sign)
+		{
+			scale = -scale;
+			sprite.scale(-1, 1);
+			direction = x_speed_sign;
+		}
 	}
 }
 
@@ -323,11 +325,10 @@ void Dynamic_entity::deal_damage(int amount)
 
 void Dynamic_entity::die()
 {
-	//set_animation(death);
-	set_position({ 20, 20 });
+	status = Entity_status::DIE;
+	animation_status = Animation_status::A_DIE;
+	set_animation(animation_status);
 	context.aaa.play();
-	context.console->log << "zgon" << '\n';
-	health = max_health;
 }
 
 void Dynamic_entity::set_max_health(int val)
@@ -347,4 +348,10 @@ void Dynamic_entity::heal(int amount)
 	health += amount;
 	if (health > max_health)
 		health = max_health;
+}
+
+void Dynamic_entity::post_death()
+{
+	animation_status = Animation_status::A_IDLE;
+	status = Entity_status::IDLE;
 }

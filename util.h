@@ -28,12 +28,14 @@ const int TOP_LAYERS = 2;
 
 enum Entity_status {
 	IDLE = 0, MOVE, JUMP_IDLE, JUMP_RUN,
-	PUNCH_1, PUNCH_2, HIT, IN_AIR
+	PUNCH_1, PUNCH_2, IN_AIR, DIE, HIT
 };
+
 enum Animation_status {
 	A_IDLE = 0, A_MOVE, A_JUMP_IDLE,
-	A_JUMP_RUN, A_JUMP_RUN2, A_PUNCH_1, A_PUNCH_2, A_HIT
+	A_JUMP_RUN, A_JUMP_RUN2, A_PUNCH_1, A_PUNCH_2, A_DIE, A_HIT
 };
+
 enum Collidable_type { STATIC, MOVING };
 
 struct Context

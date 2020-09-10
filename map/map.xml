@@ -1,6 +1,3 @@
-<map size="2,2" player_pos="0,0">
+<map size="1,1" player_pos="0,0">
 	<level filename="map/level.xml" size="1,1" position="0,0"/>
-	<level filename="map/level1.xml" size="1,1" position="1,0"/>
-	<level filename="map/level2.xml" size="1,1" position="0,1"/>
-	<level filename="map/level3.xml" size="1,1" position="1,1"/>
 </map>

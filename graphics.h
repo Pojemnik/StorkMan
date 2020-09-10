@@ -114,8 +114,8 @@ protected:
 		Vectori translation1, float a1,
 		Vectori translation2, float a2);
 	void animate(std::vector<float> arr);
-
 	void set_animation(Animation_status s);
+	virtual void post_death() = 0;
 
 public:
 	void pre_draw();

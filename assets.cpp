@@ -260,6 +260,7 @@ void Assets::load_assets()
 	dynamic_animations.push_back(load_dynamic_animation("animations/stork/jump_run2.txt"));
 	dynamic_animations.push_back(load_dynamic_animation("animations/stork/punch1.txt"));
 	dynamic_animations.push_back(load_dynamic_animation("animations/stork/punch2.txt"));
+	dynamic_animations.push_back(load_dynamic_animation("animations/stork/death.txt"));
 	stork_tree = load_animation_tree("animations/stork/tree.txt");
 	//Textures
 	enemy_textures.reserve(20);
