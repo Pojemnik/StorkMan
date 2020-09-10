@@ -1,4 +1,8 @@
 # Storkman
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/Pojemnik/StorkMan??style=flat-square)
+
+![Storkman village](docs/stork_idle.gif)
+
 Storkman is a 2D metroidvania game. Main goal of the project is to learn new things.
 
 ![Logo](/docs/logo.png)
@@ -12,6 +16,6 @@ Storkman is a 2D metroidvania game. Main goal of the project is to learn new thi
 - SFML 2.5.1
 
 ## Screenshots:
-![Screen1](/docs/screen1.png)
-![Screen2](/docs/screen2.png)
-![Screen3](/docs/screen3.png)
+![Screenshot 1](/docs/screen1.png)
+![Screenshot 2](/docs/screen2.png)
+![Screenshot 3](/docs/screen3.png)
