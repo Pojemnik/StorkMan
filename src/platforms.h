@@ -2,7 +2,19 @@
 #include "graphics.h"
 #include "physics.h"
 
-struct Platform : public Texturable, public old_Collidable
+struct Textured_polygon : public Renderable
+{
+protected:
+	sf::VertexBuffer shape;
+	const sf::Texture* texture;
+
+public:
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	Textured_polygon(Vectorf pos, const sf::Texture* texture_,
+		std::vector<sf::Vertex> points);
+};
+
+struct Platform : public old_Texturable, public Collidable
 {
 	bool visible = true;
 	Platform(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> points,
@@ -11,7 +23,7 @@ struct Platform : public Texturable, public old_Collidable
 };
 
 //Linear_moving_platform, Pendulum, inne?
-class Moving_platform : public Texturable, public Physical
+class Moving_platform : public old_Texturable, public Physical
 {
 public:
 	bool visible = true;

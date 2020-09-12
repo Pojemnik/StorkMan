@@ -12,7 +12,7 @@ struct Level
 	std::vector<old_Animatable*> animatables;
 	std::vector<Platform> platforms;
 	std::vector<Light_source> light_sources;
-	std::vector<Wall> walls;
+	std::vector<Textured_polygon> walls;
 	std::vector<Object> objects;
 	std::vector<Animated_object> anim_objects;
 	std::vector<Pendulum> pendulums;
@@ -30,7 +30,7 @@ struct Level
 	void add_animatable(old_Animatable* a);
 	void add_platform(Platform p);
 	void add_light_source(Light_source l);
-	void add_wall(Wall w);
+	void add_wall(Textured_polygon w);
 	void add_object(Object o);
 	void add_object(Animated_object o);
 	void add_pendulum(Pendulum p);
@@ -38,7 +38,7 @@ struct Level
 	void add_moving_object(Moving_object o);
 	void add_dmg_zone(Damage_zone dmgz);
 	void rescale(float ratio);
-	void add_to_layer(Texturable& t);
+	void add_to_layer(old_Texturable& t);
 	void add_to_layer(old_Renderable& r);
 	void add_to_layer(old_Animatable& a);
 };

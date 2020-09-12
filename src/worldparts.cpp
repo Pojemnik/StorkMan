@@ -15,14 +15,6 @@ void Object::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(sprite, states);
 }
 
-void Object::rescale(float ratio)
-{
-	float new_scale = ratio * context.global_scale * height / sprite.getTexture()->getSize().y;
-	pos *= ratio;
-	sprite.setPosition(pos);
-	sprite.setScale(fliptab[flip] * new_scale);
-}
-
 Moving_object::Moving_object(Vectorf pos_, const sf::Texture* texture_, float height_,
 	Linear_move path, int flip_, float angle_) :
 	Object(pos_, texture_, height_, flip_, angle_), move_data(path) {}
@@ -49,11 +41,6 @@ void Moving_object::update(float dt)
 	move_pos = (1.0f - a) * move_data.it->first + a * next->first;
 }
 
-void Moving_object::rescale(float ratio)
-{
-	Object::rescale(ratio);
-	move_data.rescale(ratio);
-}
 
 Animated_object::Animated_object(Vectorf pos_, std::unique_ptr<Animation>&& animation_,
 	float height_, int flip_, float angle_) :
@@ -89,10 +76,6 @@ void Moving_animated_object::update(float dt)
 	float a = move_time / move_data.it->second;
 	move_pos = (1.0f - a) * move_data.it->first + a * next->first;
 }
-
-Wall::Wall(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> points,
-	int layer)
-	: Texturable(p, t, points, layer) {}
 
 Zone::Zone(const std::vector<Vectorf>& vert, Vectorf p) : vertices(vert), pos(p)
 {

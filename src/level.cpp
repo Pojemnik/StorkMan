@@ -93,7 +93,7 @@ void Level::add_to_layer(old_Animatable& a)
 		top_layers[a.layer - BOTTOM_LAYERS - MIDDLE_LAYERS].push_back(&a);
 }
 
-void Level::add_to_layer(Texturable& t)
+void Level::add_to_layer(old_Texturable& t)
 {
 	if (t.layer < BOTTOM_LAYERS)
 		bottom_layers[t.layer].push_back(&t);
@@ -152,7 +152,7 @@ void Level::rescale(float ratio)
 		w.rescale(ratio);
 }
 
-void Level::add_wall(Wall w)
+void Level::add_wall(Textured_polygon w)
 {
 	walls.push_back(w);
 	add_to_layer(w);

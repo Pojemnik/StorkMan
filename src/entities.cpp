@@ -37,10 +37,9 @@ void Player::post_death()
 	health = max_health;
 }
 
-Entity::Entity(Vectorf p, sf::Texture* texture,
-	std::vector<sf::IntRect>& v, std::vector<const Dynamic_animation_struct*> a,
-	sf::FloatRect rc, Animation_tree t, float h, float gs, float m, int hp)
-	: Dynamic_animation(texture, v, p, a, t, h, gs), health(hp)
+Entity::Entity(Vectorf p, std::unique_ptr<Animation>&& animation_,
+	sf::FloatRect collision_, float height_, float mass_, int health_)
+	: health(health_), height(height_), mass(mass_)
 {
 	set_max_health(health);
 	animation_status = Animation_status::A_IDLE;

@@ -24,8 +24,8 @@ private:
 	Platform parse_platform(tinyxml2::XMLElement* element);
 	Light_source parse_light_source_raw(tinyxml2::XMLElement* element);
 	Light_source parse_light_source(tinyxml2::XMLElement* element);
-	Wall parse_wall_raw(tinyxml2::XMLElement* element);
-	Wall parse_wall(tinyxml2::XMLElement* element);
+	Textured_polygon parse_wall_raw(tinyxml2::XMLElement* element);
+	Textured_polygon parse_wall(tinyxml2::XMLElement* element);
 	Object parse_object_raw(tinyxml2::XMLElement* element);
 	Object parse_object(tinyxml2::XMLElement* element);
 	Moving_object parse_moving_object_raw(tinyxml2::XMLElement* element);

@@ -217,7 +217,7 @@ Platform Parser::parse_platform_raw(tinyxml2::XMLElement* element)
 	return Platform(pos, tex, points, layer, visible);
 }
 
-Wall Parser::parse_wall(tinyxml2::XMLElement* element)
+Textured_polygon Parser::parse_wall(tinyxml2::XMLElement* element)
 {
 	try
 	{
@@ -235,10 +235,10 @@ Wall Parser::parse_wall(tinyxml2::XMLElement* element)
 		context.console->err << "Element: " << "wall" << '\n';
 		context.console->err << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
 	}
-	throw std::runtime_error("Wall error");
+	throw std::runtime_error("Textured_polygon error");
 }
 
-Wall Parser::parse_wall_raw(tinyxml2::XMLElement* element)
+Textured_polygon Parser::parse_wall_raw(tinyxml2::XMLElement* element)
 {
 	std::vector<sf::Vertex> points;
 	const sf::Texture* tex;
@@ -269,7 +269,7 @@ Wall Parser::parse_wall_raw(tinyxml2::XMLElement* element)
 		e = e->NextSiblingElement();
 	}
 	int layer = parse_layer(element, DEFAULT_WALL_LAYER);
-	return Wall(pos, tex, points, layer);
+	return Textured_polygon(pos, tex, points, layer);
 }
 
 Object Parser::parse_object(tinyxml2::XMLElement* element)
@@ -734,5 +734,5 @@ Damage_zone Parser::parse_damage_zone(tinyxml2::XMLElement* element)
 		context.console->err << "Element: " << "wall" << '\n';
 		context.console->err << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz strefy" << '\n';
 	}
-	throw std::runtime_error("Wall error");
+	throw std::runtime_error("Textured_polygon error");
 }

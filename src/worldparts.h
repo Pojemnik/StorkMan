@@ -15,7 +15,6 @@ protected:
 
 public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-	void rescale(float ratio);
 	Object() = default;
 	Object(Vectorf pos_, const sf::Texture* const texture_, float height_,
 		int flip_ = 0, float angle_ = 0);
@@ -34,7 +33,6 @@ public:
 	Moving_object(const Moving_object&);
 	void update(float dt);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-	void rescale(float ratio);
 };
 
 class Animated_object : public Animatable, public Object
@@ -61,12 +59,6 @@ public:
 		float angle_ = 0);
 	void update(float dt);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-};
-
-struct Wall : public Texturable
-{
-	Wall(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> points,
-		int layer);
 };
 
 class Zone

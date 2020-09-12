@@ -77,7 +77,7 @@ void old_Animatable::draw(sf::RenderTarget& target, sf::RenderStates states) con
 	target.draw(sprite, states);
 }
 
-Texturable::Texturable(Vectorf p, const sf::Texture* t,
+old_Texturable::old_Texturable(Vectorf p, const sf::Texture* t,
 	std::vector<sf::Vertex> points, int l)
 	: tex(t), pos(p), vertices(points), layer(l)
 {
@@ -86,7 +86,7 @@ Texturable::Texturable(Vectorf p, const sf::Texture* t,
 	shape.update(&vertices[0]);
 }
 
-void Texturable::rescale(float ratio)
+void old_Texturable::rescale(float ratio)
 {
 	pos *= ratio;
 	for(auto& it : vertices)
@@ -96,7 +96,7 @@ void Texturable::rescale(float ratio)
 	shape.update(&vertices[0]);
 }
 
-void Texturable::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void old_Texturable::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	states.transform *= sf::Transform().translate(pos);
 	states.texture = &*tex;

@@ -1,8 +1,26 @@
 #include "platforms.h"
 
+Textured_polygon::Textured_polygon(Vectorf pos, const sf::Texture* texture_,
+	std::vector<sf::Vertex> points) : texture(texture_)
+{
+	for (auto& it : points)
+	{
+		it.position += pos;
+	}
+	shape = sf::VertexBuffer(sf::TrianglesFan, sf::VertexBuffer::Static);
+	shape.create(points.size());
+	shape.update(&points[0]);
+}
+
+void Textured_polygon::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	states.texture = texture;
+	target.draw(shape, states);
+}
+
 Platform::Platform(Vectorf p, const sf::Texture* t,
 	std::vector<sf::Vertex> points, int layer, bool v)
-	: Texturable(p, t, points, layer), visible(v)
+	: old_Texturable(p, t, points, layer), visible(v)
 {
 	float maxx, maxy, miny, minx;
 	maxx = minx = vertices[0].position.x;
@@ -25,7 +43,7 @@ Platform::Platform(Vectorf p, const sf::Texture* t,
 
 void Platform::rescale(float ratio)
 {
-	Texturable::rescale(ratio);
+	old_Texturable::rescale(ratio);
 	old_Collidable::rescale(ratio);
 }
 
@@ -98,7 +116,7 @@ void Pendulum::update_position(float dt)
 
 Moving_platform::Moving_platform(const sf::Texture* tex, Vectorf pos,
 	std::vector<sf::Vertex> pts, int layer_, bool visible_)
-	: Texturable(pos, tex, pts, layer_), visible(visible_)
+	: old_Texturable(pos, tex, pts, layer_), visible(visible_)
 {
 	float maxx, maxy, miny, minx;
 	maxx = minx = vertices[0].position.x;

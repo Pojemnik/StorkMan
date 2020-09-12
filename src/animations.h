@@ -11,6 +11,7 @@ class Animation
 {
 public:
 	virtual const sf::Texture* const next_frame(float dt) = 0;
+	virtual void set_animation(int val) = 0;
 };
 
 struct Animation_node
@@ -62,15 +63,14 @@ protected:
 	const std::vector<float>* last_key;
 	const std::vector<float>* next_key;
 	std::vector<float> actual_frame;
-	Animation_status animation_status;
-	Animation_status last_animation_status;
+	int animation_n;
+	int last_animation_n;
 	const int ANIMATION_CHANGE_DELTA = 5;
 
 	Vectorf count_pos(Vectorf start, float size1, float size2,
 		Vectori translation1, float a1,
 		Vectori translation2, float a2);
 	void animate(std::vector<float> arr);
-	void set_animation(Animation_status s);
 	virtual void post_death() = 0;
 	void increment_key();
 	void pre_draw();
@@ -79,6 +79,7 @@ public:
 	Dynamic_animation(sf::Texture* texture_, std::vector<sf::IntRect>& part_sizes,
 		std::vector<const Dynamic_animation_struct*> animations_, Animation_tree tree_);
 	const sf::Texture* const next_frame(float dt);
+	void set_animation(int val);
 };
 
 class Static_animation : public Animation
@@ -91,4 +92,5 @@ protected:
 public:
 	Static_animation(Animation_struct& animation_, float time_offset);
 	const sf::Texture* const next_frame(float dt);
+	void set_animation(int val);
 };

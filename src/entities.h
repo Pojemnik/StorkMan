@@ -8,6 +8,9 @@
 class Entity : public Animatable, public Updatable, public Collidable, public Transformable
 {
 protected:
+	sf::Sprite sprite;
+	float height;
+	float mass;
 	std::unique_ptr<Animation> animation;
 	Vectorf pos;
 	int direction = 1;//x sign
@@ -32,13 +35,13 @@ public:
 	int health;
 	int last_dmgz_id = -1;
 
-	Entity(Vectorf p, std::unique_ptr<Animation>&& animation_, sf::FloatRect rc,
-		float h, float gs, float m, int hp);
+	Entity(Vectorf p, std::unique_ptr<Animation>&& animation_,
+		sf::FloatRect collision_, float height_, float mass_, int health_);
 	void move(Vectorf delta);
 	void move_angled(int direction);
 	void set_position(Vectorf new_position);
 	void jump(bool run);
-	void stop_jump();
+	void stop_gjump();
 	void update(float dt);
 	void next_frame();
 	Vectorf get_position();

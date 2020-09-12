@@ -1,7 +1,7 @@
 #pragma once
 #include "util.h"
 
-class Texturable : public sf::Drawable
+class old_Texturable : public sf::Drawable
 {
 protected:
 	sf::VertexBuffer shape;
@@ -11,8 +11,8 @@ public:
 	std::vector<sf::Vertex> vertices;
 	Vectorf pos;
 	int layer;
-	Texturable() = default;
-	Texturable(Vectorf p, const sf::Texture* t,
+	old_Texturable() = default;
+	old_Texturable(Vectorf p, const sf::Texture* t,
 		std::vector<sf::Vertex> points, int l);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	void rescale(float ratio);
@@ -22,7 +22,6 @@ class Renderable : public sf::Drawable
 {
 public:
 	virtual sf::FloatRect get_bounding_rect() = 0;
-	virtual void rescale(float ratio) = 0;
 };
 
 class old_Renderable : public sf::Drawable
