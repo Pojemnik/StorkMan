@@ -3,6 +3,7 @@
 #include "physics.h"
 #include "platforms.h"
 #include "logic.h"
+#include "animations.h"
 
 struct Object : public Renderable
 {
@@ -39,15 +40,11 @@ public:
 class Animated_object : public Animatable, public Object
 {
 protected:
-	const std::vector<sf::Texture>* animation;
-	std::vector<sf::Texture>::const_iterator it;
-	float frame_time;
-	float time = 0;
+	std::unique_ptr<Animation> animation;
 
 public:
-	Animated_object(Vectorf pos_, const std::vector<sf::Texture>* animation_,
-		float height_, int frame_time_, int flip_ = 0,
-		float angle_ = 0, float time_offset_ = 0);
+	Animated_object(Vectorf pos_, std::unique_ptr<Animation>&& animation_,
+		float height_, int flip_ = 0, float angle_ = 0);
 	void next_frame(float dt);
 };
 
@@ -59,9 +56,9 @@ private:
 	Vectorf move_pos;
 
 public:
-	Moving_animated_object(Vectorf pos_, const std::vector<sf::Texture>* animation_,
-		float height_, int frame_time_, Linear_move path, int flip_ = 0,
-		float angle_ = 0, float time_offset_ = 0);
+	Moving_animated_object(Vectorf pos_, std::unique_ptr<Animation>&& animation_,
+		float height_, Linear_move path, int flip_ = 0,
+		float angle_ = 0);
 	void update(float dt);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

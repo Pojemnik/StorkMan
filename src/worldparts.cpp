@@ -55,30 +55,21 @@ void Moving_object::rescale(float ratio)
 	move_data.rescale(ratio);
 }
 
-Animated_object::Animated_object(Vectorf pos_, const std::vector<sf::Texture>* animation_,
-	float height_, int frame_time_,int flip_, float angle_, float time_offset_) :
-	Object(pos_, &(*animation_)[0], height_, flip_, angle_), time(time_offset_),
-	animation(animation_), frame_time(frame_time_)
-{
-	it = animation->cbegin();
-}
+Animated_object::Animated_object(Vectorf pos_, std::unique_ptr<Animation>&& animation_,
+	float height_, int flip_, float angle_) :
+	Object(pos_, nullptr, height_, flip_, angle_), animation(std::move(animation_))
+{}
 
 void Animated_object::next_frame(float dt)
 {
-	time += dt;
-	while (time >= frame_time)
-	{
-		time -= frame_time;
-		it = util::increment_iterator(it, *animation);
-	}
-	sprite.setTexture(*it);
+	sprite.setTexture(*animation->next_frame(dt));
 }
 
 Moving_animated_object::Moving_animated_object(Vectorf pos_,
-	const std::vector<sf::Texture>* animation_, float height_, int frame_time_,
-	Linear_move path, int flip_, float angle_, float time_offset_) :
-	Animated_object(pos_, animation_, height_, frame_time_, flip_, angle_,
-		time_offset_), move_data(path) {}
+	std::unique_ptr<Animation>&& animation_, float height_, Linear_move path,
+	int flip_ = 0, float angle_ = 0) :
+	Animated_object(pos_, std::move(animation_), height_, flip_, angle_), move_data(path)
+{}
 
 void Moving_animated_object::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
@@ -88,14 +79,14 @@ void Moving_animated_object::draw(sf::RenderTarget& target, sf::RenderStates sta
 
 void Moving_animated_object::update(float dt)
 {
-	time += dt;
-	while (time > move_data.it->second)
+	move_time += dt;
+	while (move_time > move_data.it->second)
 	{
-		time -= move_data.it->second;
+		move_time -= move_data.it->second;
 		move_data.it = util::increment_iterator(move_data.it, move_data.points);
 	}
 	auto next = util::increment_iterator(move_data.it, move_data.points);
-	float a = time / move_data.it->second;
+	float a = move_time / move_data.it->second;
 	move_pos = (1.0f - a) * move_data.it->first + a * next->first;
 }
 

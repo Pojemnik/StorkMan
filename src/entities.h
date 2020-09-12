@@ -2,10 +2,15 @@
 #include "graphics.h"
 #include "physics.h"
 #include "platforms.h"
+#include "logic.h"
+#include "animations.h"
 
-class Dynamic_entity : public Dynamic_animatable, public Physical
+class Entity : public Animatable, public Updatable, public Collidable, public Transformable
 {
 protected:
+	std::unique_ptr<Animation> animation;
+	Vectorf pos;
+	int direction = 1;//x sign
 	bool reset_animation = false;
 	float col_height;
 	float jump_force_sum = 0;
@@ -14,6 +19,8 @@ protected:
 	int max_health;
 	Vectorf last_pos = { 0,0 };
 	Vectorf last_move_force = { 0,0 };
+	Entity_status status;
+	Entity_status last_status;
 
 	void update_position(float dt);
 	void set_idle();
@@ -25,9 +32,8 @@ public:
 	int health;
 	int last_dmgz_id = -1;
 
-	Dynamic_entity(Vectorf p, sf::Texture* texture, std::vector<sf::IntRect>& v,
-		std::vector<const Dynamic_animation*> a, sf::FloatRect rc,
-		Animation_tree t, float h, float gs, float m, int hp);
+	Entity(Vectorf p, std::unique_ptr<Animation>&& animation_, sf::FloatRect rc,
+		float h, float gs, float m, int hp);
 	void move(Vectorf delta);
 	void move_angled(int direction);
 	void set_position(Vectorf new_position);
@@ -44,11 +50,11 @@ public:
 	void post_death();
 };
 
-class Player : public Dynamic_entity
+class Player : public Entity
 {
 public:
 	Player(Vectorf p, sf::Texture* texture, std::vector<sf::IntRect>& v,
-		std::vector<const Dynamic_animation*> a, sf::FloatRect rc,
+		std::vector<const Dynamic_animation_struct*> a, sf::FloatRect rc,
 		Animation_tree t, float h, float gs, float m, int hp);
 	void attack(int type);
 	void post_death();

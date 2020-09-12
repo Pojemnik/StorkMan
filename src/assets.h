@@ -18,7 +18,7 @@ public:
 	sf::Texture* pieces = nullptr;
 	std::vector<sf::IntRect> pieces_rect;
 	std::map<std::string, const sf::Texture*> textures;
-	std::vector<const Dynamic_animation *> dynamic_animations;
+	std::vector<const Dynamic_animation_struct *> dynamic_animations;
 	std::map<std::string, std::vector<sf::Texture>> animations;
 	sf::Texture* bg = nullptr;
 	sf::Texture* layer2 = nullptr;
@@ -43,7 +43,7 @@ private:
 	void load_shaders();
 	void load_animation(std::vector<sf::Texture>& a, sf::Image& img, int x, int y,
 		int sx, int sy);//a musi byæ zaalokowane wczeœniej
-	Dynamic_animation* load_dynamic_animation(std::string path);
+	Dynamic_animation_struct* load_dynamic_animation(std::string path);
 	Animation_tree load_animation_tree(std::string path);
 	void load_sound(sf::SoundBuffer& buf, string path);
 	void load_sounds();

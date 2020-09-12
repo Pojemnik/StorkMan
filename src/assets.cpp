@@ -48,7 +48,7 @@ void Assets::load_animation(std::vector<sf::Texture>& a, sf::Image& img, int x,
 	}
 }
 
-Dynamic_animation* Assets::load_dynamic_animation(std::string path)
+Dynamic_animation_struct* Assets::load_dynamic_animation(std::string path)
 {
 	std::ifstream f(path);
 	int frames, parts;
@@ -66,7 +66,7 @@ Dynamic_animation* Assets::load_dynamic_animation(std::string path)
 		f >> l[i];
 	bool repeat;
 	f >> repeat;
-	return new Dynamic_animation(kf, l, repeat);
+	return new Dynamic_animation_struct(kf, l, repeat);
 }
 
 Animation_tree::Animation_tree(int _count, int i_count) : count(_count), independent_count(i_count)

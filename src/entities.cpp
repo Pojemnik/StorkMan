@@ -1,9 +1,9 @@
 #include "entities.h"
 
 Player::Player(Vectorf p, sf::Texture* texture, std::vector<sf::IntRect>& v,
-	std::vector<const Dynamic_animation*> a, sf::FloatRect rc,
+	std::vector<const Dynamic_animation_struct*> a, sf::FloatRect rc,
 	Animation_tree t, float h, float gs, float m, int hp)
-	: Dynamic_entity(p, texture, v, a, rc, t, h, gs, m, hp) {}
+	: Entity(p, texture, v, a, rc, t, h, gs, m, hp) {}
 
 void Player::attack(int attack_type)
 {
@@ -37,10 +37,10 @@ void Player::post_death()
 	health = max_health;
 }
 
-Dynamic_entity::Dynamic_entity(Vectorf p, sf::Texture* texture,
-	std::vector<sf::IntRect>& v, std::vector<const Dynamic_animation*> a,
+Entity::Entity(Vectorf p, sf::Texture* texture,
+	std::vector<sf::IntRect>& v, std::vector<const Dynamic_animation_struct*> a,
 	sf::FloatRect rc, Animation_tree t, float h, float gs, float m, int hp)
-	: Dynamic_animatable(texture, v, p, a, t, h, gs), health(hp)
+	: Dynamic_animation(texture, v, p, a, t, h, gs), health(hp)
 {
 	set_max_health(health);
 	animation_status = Animation_status::A_IDLE;
@@ -51,7 +51,7 @@ Dynamic_entity::Dynamic_entity(Vectorf p, sf::Texture* texture,
 	sprite.setOrigin({ actual_frame[0] + 64, actual_frame[1] + 64 });
 }
 
-void Dynamic_entity::move(Vectorf delta)
+void Entity::move(Vectorf delta)
 {
 	if (util::sgn(delta.x) > 0 && run_block == Run_block::RIGHT ||
 		util::sgn(delta.x) < 0 && run_block == Run_block::LEFT)
@@ -89,7 +89,7 @@ void Dynamic_entity::move(Vectorf delta)
 	last_pos = pos;
 }
 
-void Dynamic_entity::move_angled(int dir)
+void Entity::move_angled(int dir)
 {
 	if (dir == 1)
 		move(util::rotate_vector(
@@ -101,7 +101,7 @@ void Dynamic_entity::move_angled(int dir)
 			maxcollisionvector));
 }
 
-void Dynamic_entity::jump(bool move)
+void Entity::jump(bool move)
 {
 	if (edge_jump_buf < max_edge_jump && context.jump_available)
 	{
@@ -132,7 +132,7 @@ void Dynamic_entity::jump(bool move)
 	}
 }
 
-void Dynamic_entity::stop_jump()
+void Entity::stop_jump()
 {
 	if (status == Entity_status::IN_AIR)
 	{
@@ -141,14 +141,14 @@ void Dynamic_entity::stop_jump()
 	}
 }
 
-void Dynamic_entity::set_idle()
+void Entity::set_idle()
 {
 	animation_status = Animation_status::A_IDLE;
 	status = Entity_status::IDLE;
 	reset_animation = true;
 }
 
-void Dynamic_entity::flip_if_needed()
+void Entity::flip_if_needed()
 {
 	int x_speed_sign = util::sgn(move_speed.x);
 	if (x_speed_sign != 0)
@@ -170,7 +170,7 @@ void Dynamic_entity::flip_if_needed()
 	}
 }
 
-void Dynamic_entity::update(float dt)
+void Entity::update(float dt)
 {
 	edge_jump_update();
 	total_speed += external_speed;
@@ -251,7 +251,7 @@ void Dynamic_entity::update(float dt)
 	run_block = Run_block::NONE;
 }
 
-void Dynamic_entity::edge_jump_update()
+void Entity::edge_jump_update()
 {
 	if (collision_direction.y == 1)
 	{
@@ -266,7 +266,7 @@ void Dynamic_entity::edge_jump_update()
 	}
 }
 
-void Dynamic_entity::update_position(float dt)
+void Entity::update_position(float dt)
 {
 	const float scale_factor = 32 / context.global_scale;
 	pos += total_speed * dt;
@@ -279,22 +279,22 @@ void Dynamic_entity::update_position(float dt)
 	total_speed = { 0,0 };
 }
 
-void Dynamic_entity::next_frame()
+void Entity::next_frame()
 {
 	if (reset_animation)
 	{
 		set_animation(animation_status);
 		reset_animation = false;
 	}
-	Dynamic_animatable::next_frame();
+	Dynamic_animation::next_frame();
 }
 
-Vectorf Dynamic_entity::get_position()
+Vectorf Entity::get_position()
 {
 	return pos;
 }
 
-void Dynamic_entity::set_position(Vectorf new_position)
+void Entity::set_position(Vectorf new_position)
 {
 	pos = new_position;
 	force = { 0,0 };
@@ -303,14 +303,14 @@ void Dynamic_entity::set_position(Vectorf new_position)
 	move_speed = { 0,0 };
 }
 
-void Dynamic_entity::rescale(float new_scale)
+void Entity::rescale(float new_scale)
 {
 	float ratio = new_scale / (scale * 335 / height);
-	Dynamic_animatable::rescale(ratio);
+	Dynamic_animation::rescale(ratio);
 	old_Collidable::rescale(ratio);
 }
 
-void Dynamic_entity::deal_damage(int amount)
+void Entity::deal_damage(int amount)
 {
 	if (!context.god_mode)
 	{
@@ -323,7 +323,7 @@ void Dynamic_entity::deal_damage(int amount)
 	}
 }
 
-void Dynamic_entity::die()
+void Entity::die()
 {
 	status = Entity_status::DIE;
 	animation_status = Animation_status::A_DIE;
@@ -331,26 +331,26 @@ void Dynamic_entity::die()
 	context.aaa.play();
 }
 
-void Dynamic_entity::set_max_health(int val)
+void Entity::set_max_health(int val)
 {
 	max_health = val;
 	if (health > max_health)
 		health = max_health;
 }
 
-int Dynamic_entity::get_max_health()
+int Entity::get_max_health()
 {
 	return max_health;
 }
 
-void Dynamic_entity::heal(int amount)
+void Entity::heal(int amount)
 {
 	health += amount;
 	if (health > max_health)
 		health = max_health;
 }
 
-void Dynamic_entity::post_death()
+void Entity::post_death()
 {
 	animation_status = Animation_status::A_IDLE;
 	status = Entity_status::IDLE;
