@@ -14,7 +14,7 @@
 #include <map>
 #include <cfloat>
 #include "console.h"
-#include "include/ctpl_stl.h"
+#include "../include/ctpl_stl.h"
 
 typedef sf::Vector2f Vectorf;
 typedef sf::Vector2i Vectori;
@@ -126,10 +126,17 @@ namespace util
 
 	//Misc
 	template <class T> typename std::vector<T>::iterator increment_iterator(
-		typename std::vector<T>::iterator a, std::vector<T>& vec)
+		typename std::vector<T>::iterator a, const std::vector<T>& vec)
 	{
 		a++;
 		return a == vec.end() ? vec.begin() : a;
+	}
+
+	template <class T> typename std::vector<T>::const_iterator increment_iterator(
+		typename std::vector<T>::const_iterator a, const std::vector<T>& vec)
+	{
+		a++;
+		return a == vec.cend() ? vec.cbegin() : a;
 	}
 
 	std::string pass_or_default(std::string val, std::string default_val);

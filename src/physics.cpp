@@ -23,7 +23,7 @@ void Physical::apply_force(Vectorf f)
 	force += f;
 }
 
-sf::Vector2f Physical::uncollide(const Collidable* c, float dt)
+sf::Vector2f Physical::uncollide(const old_Collidable* c, float dt)
 {
 	if (rect_collision.intersects(c->rect_collision))
 	{
@@ -110,19 +110,19 @@ sf::Vector2f Physical::uncollide(Physical* p, float dt)
 }
 
 Physical::Physical(sf::FloatRect rect, std::vector<Vectorf> mesh, Collidable_type t, float m)
-	: Collidable(rect, mesh, t), mass(m)
+	: old_Collidable(rect, mesh, t), mass(m)
 {
 
 }
 
 
-Collidable::Collidable(sf::FloatRect rect, std::vector<Vectorf> _mesh, Collidable_type t)
+old_Collidable::old_Collidable(sf::FloatRect rect, std::vector<Vectorf> _mesh, Collidable_type t)
 	: rect_collision(rect), type(t)
 {
 	mesh.vertices = _mesh;
 }
 
-void Collidable::rescale(float ratio)
+void old_Collidable::rescale(float ratio)
 {
 	for (auto& it : mesh.vertices)
 	{
@@ -134,7 +134,7 @@ void Collidable::rescale(float ratio)
 	rect_collision.top *= ratio;
 }
 
-bool Physical::test_collision(const Collidable& other)
+bool Physical::test_collision(const old_Collidable& other)
 {
 	if (!rect_collision.intersects(other.rect_collision))
 		return false;

@@ -8,8 +8,8 @@ struct Level
 	Vectori global_size;
 	bool is_loaded = false;
 	std::vector<Physical*> physicals;
-	std::vector<Collidable*> collidables;
-	std::vector<Animatable*> animatables;
+	std::vector<old_Collidable*> collidables;
+	std::vector<old_Animatable*> animatables;
 	std::vector<Platform> platforms;
 	std::vector<Light_source> light_sources;
 	std::vector<Wall> walls;
@@ -26,8 +26,8 @@ struct Level
 	Level();
 	Level(const Level& level);
 	void add_physical(Physical* p);
-	void add_collidable(Collidable* c);
-	void add_animatable(Animatable* a);
+	void add_collidable(old_Collidable* c);
+	void add_animatable(old_Animatable* a);
 	void add_platform(Platform p);
 	void add_light_source(Light_source l);
 	void add_wall(Wall w);
@@ -39,6 +39,6 @@ struct Level
 	void add_dmg_zone(Damage_zone dmgz);
 	void rescale(float ratio);
 	void add_to_layer(Texturable& t);
-	void add_to_layer(Renderable& r);
-	void add_to_layer(Animatable& a);
+	void add_to_layer(old_Renderable& r);
+	void add_to_layer(old_Animatable& a);
 };

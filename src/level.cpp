@@ -83,7 +83,7 @@ void Level::add_lmp(Linear_moving_platform lmp)
 	add_physical(&lmp);
 }
 
-void Level::add_to_layer(Animatable& a)
+void Level::add_to_layer(old_Animatable& a)
 {
 	if (a.layer < BOTTOM_LAYERS)
 		bottom_layers[a.layer].push_back(&a);
@@ -103,7 +103,7 @@ void Level::add_to_layer(Texturable& t)
 		top_layers[t.layer - BOTTOM_LAYERS - MIDDLE_LAYERS].push_back(&t);
 }
 
-void Level::add_to_layer(Renderable& r)
+void Level::add_to_layer(old_Renderable& r)
 {
 	if (r.layer < BOTTOM_LAYERS)
 		bottom_layers[r.layer].push_back(&r);
@@ -118,12 +118,12 @@ void Level::add_physical(Physical* p)
 	physicals.push_back(p);
 }
 
-void Level::add_collidable(Collidable* c)
+void Level::add_collidable(old_Collidable* c)
 {
 	collidables.push_back(c);
 }
 
-void Level::add_animatable(Animatable* a)
+void Level::add_animatable(old_Animatable* a)
 {
 	animatables.push_back(a);
 }

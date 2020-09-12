@@ -2,7 +2,7 @@
 #include "graphics.h"
 #include "physics.h"
 
-struct Platform : public Texturable, public Collidable
+struct Platform : public Texturable, public old_Collidable
 {
 	bool visible = true;
 	Platform(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> points,
@@ -48,7 +48,11 @@ private:
 struct Linear_move
 {
 	std::vector<std::pair<Vectorf, float>> points;
-	std::vector<std::pair<Vectorf, float>>::iterator it;
+	std::vector<std::pair<Vectorf, float>>::const_iterator it;
+
+	Linear_move(std::vector<std::pair<Vectorf, float>> points_);
+	Linear_move(const Linear_move& lm);
+	void rescale(float ratio);
 };
 
 class Linear_moving_platform : public Moving_platform

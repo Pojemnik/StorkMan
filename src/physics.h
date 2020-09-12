@@ -15,11 +15,18 @@ public:
 class Collidable
 {
 public:
+	virtual sf::FloatRect get_rect_collision() = 0;
+	virtual Mesh_collision get_mesh_collision() = 0;
+};
+
+class old_Collidable
+{
+public:
 	sf::FloatRect rect_collision;
 	Mesh_collision mesh;
 	Collidable_type type;
-	Collidable() = default;
-	Collidable(sf::FloatRect rect, std::vector<Vectorf> _mesh, Collidable_type t);
+	old_Collidable() = default;
+	old_Collidable(sf::FloatRect rect, std::vector<Vectorf> _mesh, Collidable_type t);
 	void rescale(float ratio);
 };
 
@@ -27,9 +34,10 @@ class Transformable
 {
 public:
 	virtual void move(Vectorf delta) = 0;
+	virtual void set_position(Vectorf new_position) = 0;
 };
 
-class Physical : public Transformable, public Collidable
+class Physical : public Transformable, public old_Collidable
 {
 protected:
 	float MIN_EXTERNAL_SPEED = 1;
@@ -48,9 +56,9 @@ public:
 	virtual void update(float dt) = 0;
 	virtual void move(Vectorf delta) = 0;
 	virtual void apply_force(Vectorf f);
-	sf::Vector2f uncollide(const Collidable* c, float dt);
+	sf::Vector2f uncollide(const old_Collidable* c, float dt);
 	sf::Vector2f uncollide(Physical* c, float dt);
-	bool test_collision(const Collidable& other);
+	bool test_collision(const old_Collidable& other);
 	Physical(sf::FloatRect rect, std::vector<Vectorf> mesh, Collidable_type t,
 		float m);
 	Physical() = default;

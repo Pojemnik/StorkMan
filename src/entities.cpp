@@ -307,7 +307,7 @@ void Dynamic_entity::rescale(float new_scale)
 {
 	float ratio = new_scale / (scale * 335 / height);
 	Dynamic_animatable::rescale(ratio);
-	Collidable::rescale(ratio);
+	old_Collidable::rescale(ratio);
 }
 
 void Dynamic_entity::deal_damage(int amount)

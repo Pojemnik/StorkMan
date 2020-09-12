@@ -2,7 +2,7 @@
 
 const Vectorf fliptab[] = { {1,1},{-1,1},{1,-1},{-1,-1} };
 
-Renderable::Renderable(Vectorf p, const sf::Texture* t, float h, int l)
+old_Renderable::old_Renderable(Vectorf p, const sf::Texture* t, float h, int l)
 	: tex(t), pos(p), height(h), layer(l)
 {
 	sprite = sf::Sprite(*tex);
@@ -10,7 +10,7 @@ Renderable::Renderable(Vectorf p, const sf::Texture* t, float h, int l)
 	rescale(1);
 }
 
-Renderable::Renderable(
+old_Renderable::old_Renderable(
 	Vectorf p, const sf::Texture* t, float h, int l, int flip, float ang) 
 	: tex(t), pos(p), height(h), layer(l), flipint(flip)
 {
@@ -21,12 +21,12 @@ Renderable::Renderable(
 	rescale(1);
 }
 
-void Renderable::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void old_Renderable::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(sprite, states);
 }
 
-void Renderable::rescale(float ratio)
+void old_Renderable::rescale(float ratio)
 {
 	float scale = ratio * 32 * height / sprite.getTexture()->getSize().y;
 	pos *= ratio;
@@ -34,7 +34,7 @@ void Renderable::rescale(float ratio)
 	sprite.setScale(fliptab[flipint]*scale);
 }
 
-Animatable::Animatable(
+old_Animatable::old_Animatable(
 	Vectorf p, const std::vector<sf::Texture>* a, float h, int l) :
 	animation(a), pos(p), height(h), layer(l)
 {
@@ -44,7 +44,7 @@ Animatable::Animatable(
 	rescale(1);
 }
 
-Animatable::Animatable(Vectorf p, const std::vector<sf::Texture>* a, float h,
+old_Animatable::old_Animatable(Vectorf p, const std::vector<sf::Texture>* a, float h,
 	int l, int flip, float ang)
 	: animation(a), pos(p), height(h), layer(l), flipint(flip)
 {
@@ -55,7 +55,7 @@ Animatable::Animatable(Vectorf p, const std::vector<sf::Texture>* a, float h,
 	rescale(1);
 }
 
-void Animatable::next_frame()
+void old_Animatable::next_frame()
 {
 	if (++it == animation->end())
 	{
@@ -64,7 +64,7 @@ void Animatable::next_frame()
 	sprite.setTexture(*it);
 }
 
-void Animatable::rescale(float ratio)
+void old_Animatable::rescale(float ratio)
 {
 	float scale = ratio * 32 * height / sprite.getTexture()->getSize().y;
 	pos *= ratio;
@@ -72,7 +72,7 @@ void Animatable::rescale(float ratio)
 	sprite.setScale(fliptab[flipint] * scale);
 }
 
-void Animatable::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void old_Animatable::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(sprite, states);
 }

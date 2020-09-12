@@ -26,7 +26,7 @@ Platform::Platform(Vectorf p, const sf::Texture* t,
 void Platform::rescale(float ratio)
 {
 	Texturable::rescale(ratio);
-	Collidable::rescale(ratio);
+	old_Collidable::rescale(ratio);
 }
 
 Pendulum::Pendulum(const sf::Texture* pen_tex, const sf::Texture* line_tex_,
@@ -174,5 +174,24 @@ void Linear_moving_platform::draw(sf::RenderTarget& target, sf::RenderStates sta
 Linear_moving_platform::Linear_moving_platform(const Linear_moving_platform& lmp)
 	: move_data(lmp.move_data), time(lmp.time), Moving_platform(lmp)
 {
-	move_data.it = move_data.points.begin();
+	move_data.it = move_data.points.cbegin();
+}
+
+Linear_move::Linear_move(std::vector<std::pair<Vectorf, float>> points_) :
+	points(points_)
+{
+	it = points.cbegin();
+}
+
+Linear_move::Linear_move(const Linear_move& lm) : points(lm.points)
+{
+	it = points.cbegin();
+}
+
+void Linear_move::rescale(float ratio)
+{
+	for (auto& it : points)
+	{
+		it.first *= ratio;
+	}
 }

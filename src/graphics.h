@@ -18,7 +18,20 @@ public:
 	void rescale(float ratio);
 };
 
+class Animatable : public Renderable
+{
+public:
+	virtual void next_frame(float dt) = 0;
+};
+
 class Renderable : public sf::Drawable
+{
+public:
+	virtual sf::FloatRect get_bounding_rect() = 0;
+	virtual void rescale(float ratio) = 0;
+};
+
+class old_Renderable : public sf::Drawable
 {
 protected:
 	const sf::Texture* tex;
@@ -29,15 +42,15 @@ protected:
 
 public:
 	int layer;
-	Renderable() = default;
-	Renderable(Vectorf p, const sf::Texture* t, float h, int l);
-	Renderable(Vectorf p, const sf::Texture* t, float h, int l, int flip,
+	old_Renderable() = default;
+	old_Renderable(Vectorf p, const sf::Texture* t, float h, int l);
+	old_Renderable(Vectorf p, const sf::Texture* t, float h, int l, int flip,
 		float ang);
 	void rescale(float ratio);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
-class Animatable : public sf::Drawable
+class old_Animatable : public sf::Drawable
 {
 protected:
 	const std::vector<sf::Texture>* animation;
@@ -49,9 +62,9 @@ protected:
 
 public:
 	int layer;
-	Animatable() = default;
-	Animatable(Vectorf p, const std::vector<sf::Texture>* a, float h, int l);
-	Animatable(Vectorf p, const std::vector<sf::Texture>* a, float h, int l,
+	old_Animatable() = default;
+	old_Animatable(Vectorf p, const std::vector<sf::Texture>* a, float h, int l);
+	old_Animatable(Vectorf p, const std::vector<sf::Texture>* a, float h, int l,
 		int flip, float ang);
 	void next_frame();
 	void rescale(float ratio);
@@ -85,7 +98,7 @@ struct Dynamic_animation
 	Dynamic_animation(std::vector<std::vector<float>>& kf, std::vector<int>& l, bool r);
 };
 
-class Dynamic_animatable : public sf::Drawable
+class Dynamic_animatable : public Animatable
 {
 protected:
 	const Animation_tree tree;
@@ -121,7 +134,7 @@ public:
 	void pre_draw();
 	Dynamic_animatable(sf::Texture* texture, std::vector<sf::IntRect>& v,
 		Vectorf p, std::vector<const Dynamic_animation*> a, Animation_tree t, float h, float gs);
-	void next_frame();
+	void next_frame(float dt);
 	void rescale(float ratio);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
