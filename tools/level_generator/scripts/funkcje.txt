@@ -1,0 +1,62 @@
+Tworzenie poziomów w Pythonie z użyciem gotowych bibliotek
+  1. niezbędne zapisy:
+    from level_base import level
+    lvl = level('nazwa')          ///nazwa poziomu ('nazwa') może być dowolna, natomiast zmienna musi mieć nazwę lvl
+  2. pobieranie bibliotek:
+  każda biblioteka, którą chce się wykorzystać, musi zostać pobrana na początku pliku (zaraz po punkcie 1.) dwiema linijkami kodu:
+    import biblioteka
+    biblioteka.lvl = lvl          ///nie do końca ogarniam, jak to działa, ale w jakiś sposób łączy globalną zmienną lvl w bibliotece ze zmienną lvl w level - działa, nie ruszam
+  3. tworzenie poziomu:
+  każdy element z biblioteki może zostać wywołany w następujący sposób:
+    biblioteka.element(argumenty) ///nie jest konieczne podstawianie do zmniennej lvl, procedura robi to sama
+  4. zapis poziomu:
+  każdy poziom należy zakończyć linijką:
+    lvl.save('nazwa.xml')         ///nazwa może być dowolna (w granicach rozsądku)
+
+ELEMENTY W BIBLIOTEKACH:
+w wyjaśnieniu będą podane kolejno nazwa parametru, wartość domyślna (każdy parametr ma przypisaną wartość domyślną) i działanie
+  struktury:
+    schody - złożone z wielu platform schody
+      x             = 0 = współrzędna x narożnika schodów (jeśli schody uprościć do trójkąta prostokątnego, to narożnik jest przy kącie prostym)
+      y             = 0 = współrzędna y narożnika schodów (jeśli schody uprościć do trójkąta prostokątnego, to narożnik jest przy kącie prostym)
+      obrót         = 1 = 1 oznacza schody wznoszące się w lewo, -1 oznacza schody wznoszące się w prawo
+      długość       = 2 = długość podstawy schodów
+      wysokość      = 2 = wysokość schodów licząc od podstawy do najwyższego stopnia
+      przesunięcie  = 0 = dodatkowe wydłużenie najwyższego stopnia
+      stopnie       = 4 = ilość stopni, każdy stopień ma jednakową wysokość oraz głębokość (przeliczoną z parametrów), ostatni może być dłuższy dzięki przesunięciu
+      tekstura      = "bricks,0" = tekstura, którą teksturowane są stopnie
+    drabina_jednostronna - umieszczone jedna nad drugą w równych odstępach platformy, mogące być przyczepione do pionowej podpórki
+      x                 = 0 = współrzędna x punktu podczepienia na szczycie drabiny
+      y                 = 0 = współrzędna y punktu podczepienia na szczycie drabiny
+      obrót             = 1 = 1 oznacza szczeble z prawej strony podpórki, -1 oznacza szczeble z lewej strony poprzeczki
+      podpórka          = 1 = 1 oznacza, że drabina będzie miała podpórkę, 0 oznacza, że nie będzie jej miała
+      grubość           = 0.5 = grubość podpórki drabiny (oś x)
+      długość           = 6 = długość podpórki drabiny (wysokość w osi y)
+      szczeble          = 3 = ilość szczebli, czyli platform odchodzących od podpórki w drabinie
+      górny_margines    = 0 = przesunięcie górnego szczebla w dół względem szczytu drabiny (0 oznacza szczebel na samym szczycie drabiny, przy współrzędnej y)
+      dolny_margines    = 0 = przesunięcie dolnego szczebla w górę względem końca drabiny (0 oznacza szczebel na samym końcu drabiny)
+      głębokość         = 0.5 = długość w osi x każdego szczebla
+      wysokość          = 0.5 = wysokość w osi y każdego szczebla
+      tekstura_podpórki = "wood,1" = tekstura, którą posiada platforma podpórki
+      tekstura          = "wood,2" = tekstura, którą posiada każdy szczebel drabiny
+    drabina_dwustronna - drabina złożona z dwóch poprzeczek, po prawej i po lewej, do których przyczepione są szczeble
+      x                         = 0 = współrzędna x lewego górnego rogu drabin
+      y                         = 0 = współrzędna y lewego górnego rogu drabin
+      naprzemienność            = 1 = 1 oznacza, że szczeble będą utworzone naprzemiennie, raz z prawej, raz z lewej strony, 0 oznacza, że będą tworzone po obu stronach tak samo
+      początek                  = 0 = 0 oznacza, że naprzemienne szczeble zaczną być tworzone od lewej strony, 1 że od prawej
+      lewe_przycięcie           = 0 = 0 oznacza, że lewa podpórka nie będzie przycięta. 1 oznacza, że lewa podpórka zakończy się w miejscu ostatniego lewego szczebla.
+      prawe_przycięcie          = 0 = 0 oznacza, że prawa podpórka nie będzie przycięta. 1 oznacza, że prawa podpórka zakończy się w miejscu ostatniego prawego szczebla.
+      lewa_podpórka             = 1 = 1 oznacza, że drabina będzie miała lewą podpórkę, 0 oznacza, że nie będzie jej miała
+      prawa_podpórka            = 1 = 1 oznacza, że drabina będzie miała prawą podpórkę, 0 oznacza, że nie będzie jej miała
+      grubość_lewej             = 0.5 = grubość lewej podpórki
+      grubość_prawej            = 0.5 = grubość prawej podpórki
+      długość                   = 6 = długość podpórek drabiny (wysokość w osi y), bez uwzglednienia przycięcia
+      szczeble                  = 3 = ilość szczebli, czyli platform odchodzących od podpórek w drabinie (w drabinie nienaprzemiennej będzie ich dwa razy więcej)
+      rozpiętość                = 2 = odległość między podpórkami
+      górny_margines            = 0 = przesunięcie górnego szczebla w dół względem szczytu drabiny (0 oznacza szczebel na samym szczycie drabiny, przy współrzędnej y)
+      dolny_margines            = 0 = przesunięcie dolnego szczebla w górę względem końca drabiny (0 oznacza szczebel na samym końcu drabiny)
+      głębokość                 = 0.5 = długość w osi x każdego szczebla
+      wysokość                  = 0.5 = wysokość w osi y każdego szczebla
+      tekstura_lewej_podpórki   = "wood,1" = tekstura, którą posiada platforma lewej podpórki
+      tekstura_prawej_podpórki  = "wood,1" = tekstura, którą posiada platforma prawej podpórki
+      tekstura                  = "wood,2" = tekstura, którą posiada każdy szczebel drabiny
