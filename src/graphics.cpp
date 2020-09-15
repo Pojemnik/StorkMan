@@ -138,7 +138,7 @@ void Dynamic_animatable::animate(std::vector<float> frame)
 			q.push(next);
 			vec[next].r = util::ang_reduce(vec[current].r
 				+ frame[tree.position_of_element_in_animation_array[next] + 3]);
-			vec[next].pos = count_pos(vec[current].pos, 128, 128,
+			vec[next].pos = count_pos(vec[current].pos, 256, 256,
 				tree.nodes[next].delta_pos[0], vec[current].r,
 				tree.nodes[next].delta_pos[1], vec[next].r);
 			parts[next].setRotation(vec[next].r);
@@ -185,8 +185,8 @@ Dynamic_animatable::Dynamic_animatable(sf::Texture* texture, std::vector<sf::Int
 		parts.push_back(sf::Sprite(*texture, v[i]));
 		parts[i].setOrigin((float)v[i].width / 2, (float)v[i].height / 2);
 	}
-	scale = gs * height / 350;
-	if (!tex.create(500, 500))
+	scale = gs * height / 700;
+	if (!tex.create(1000, 1000))
 		return;
 }
 

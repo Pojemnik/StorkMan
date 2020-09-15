@@ -48,7 +48,7 @@ Dynamic_entity::Dynamic_entity(Vectorf p, sf::Texture* texture,
 	col_height = rc.height;
 	mesh = Mesh_collision(rect_collision);
 	mass = m;
-	sprite.setOrigin({ actual_frame[0] + 64, actual_frame[1] + 64 });
+	sprite.setOrigin({ actual_frame[0] + 128, actual_frame[1] + 128 });
 }
 
 void Dynamic_entity::move(Vectorf delta)
@@ -155,11 +155,11 @@ void Dynamic_entity::flip_if_needed()
 	{
 		if (x_speed_sign == -1)
 		{
-			sprite.setOrigin({ actual_frame[0] - 64, 192 + 64 });
+			sprite.setOrigin({ actual_frame[0] - 128, 384 + 128 });
 		}
 		else
 		{
-			sprite.setOrigin({ actual_frame[0] + 64, 192 + 64 });
+			sprite.setOrigin({ actual_frame[0] + 128, 384 + 128 });
 		}
 		if (direction != x_speed_sign)
 		{
@@ -305,7 +305,7 @@ void Dynamic_entity::set_position(Vectorf new_position)
 
 void Dynamic_entity::rescale(float new_scale)
 {
-	float ratio = new_scale / (scale * 335 / height);
+	float ratio = new_scale / (scale * 670 / height);
 	Dynamic_animatable::rescale(ratio);
 	Collidable::rescale(ratio);
 }
