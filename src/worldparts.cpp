@@ -16,65 +16,51 @@ void Object::draw(sf::RenderTarget& target, sf::RenderStates states) const
 }
 
 Moving_object::Moving_object(Vectorf pos_, const sf::Texture* texture_, float height_,
-	Linear_move path, int flip_, float angle_) :
-	Object(pos_, texture_, height_, flip_, angle_), move_data(path) {}
-
-Moving_object::Moving_object(const Moving_object& mo) : Object(mo),
-move_data(mo.move_data) {}
+	std::unique_ptr<Simple_AI> ai_, int flip_ = 0, float angle_ = 0) :
+	Object(pos_, texture_, height_, flip_, angle_), ai(std::move(ai_)) {}
 
 void Moving_object::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	states.transform *= sf::Transform().translate(move_pos);
+	states.transform *= ai->get_pos();
 	Object::draw(target, states);
 }
 
 void Moving_object::update(float dt)
 {
-	time += dt;
-	while (time > move_data.it->second)
-	{
-		time -= move_data.it->second;
-		move_data.it = util::increment_iterator(move_data.it, move_data.points);
-	}
-	auto next = util::increment_iterator(move_data.it, move_data.points);
-	float a = time / move_data.it->second;
-	move_pos = (1.0f - a) * move_data.it->first + a * next->first;
+	ai->calc_pos(dt);
 }
-
 
 Animated_object::Animated_object(Vectorf pos_, std::unique_ptr<Animation>&& animation_,
 	float height_, int flip_, float angle_) :
 	Object(pos_, nullptr, height_, flip_, angle_), animation(std::move(animation_))
 {}
 
+void Animated_object::update_frame()
+{
+	sprite.setTexture(*animation->get_texture());
+}
+
 void Animated_object::next_frame(float dt)
 {
-	sprite.setTexture(*animation->next_frame(dt));
+	animation->next_frame(dt);
 }
 
 Moving_animated_object::Moving_animated_object(Vectorf pos_,
-	std::unique_ptr<Animation>&& animation_, float height_, Linear_move path,
-	int flip_ = 0, float angle_ = 0) :
-	Animated_object(pos_, std::move(animation_), height_, flip_, angle_), move_data(path)
+	std::unique_ptr<Animation> animation_, float height_,
+	std::unique_ptr<Simple_AI> ai_, int flip_ = 0,
+	float angle_ = 0) :
+	Animated_object(pos_, std::move(animation_), height_, flip_, angle_), ai(std::move(ai_))
 {}
 
 void Moving_animated_object::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	states.transform *= sf::Transform().translate(move_pos);
+	states.transform *= ai->get_pos();
 	Object::draw(target, states);
 }
 
 void Moving_animated_object::update(float dt)
 {
-	move_time += dt;
-	while (move_time > move_data.it->second)
-	{
-		move_time -= move_data.it->second;
-		move_data.it = util::increment_iterator(move_data.it, move_data.points);
-	}
-	auto next = util::increment_iterator(move_data.it, move_data.points);
-	float a = move_time / move_data.it->second;
-	move_pos = (1.0f - a) * move_data.it->first + a * next->first;
+	ai->calc_pos(dt);
 }
 
 Zone::Zone(const std::vector<Vectorf>& vert, Vectorf p) : vertices(vert), pos(p)

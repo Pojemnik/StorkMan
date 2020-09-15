@@ -4,13 +4,15 @@
 class Animatable
 {
 public:
+	virtual void update_frame() = 0;
 	virtual void next_frame(float dt) = 0;
 };
 
 class Animation
 {
 public:
-	virtual const sf::Texture* const next_frame(float dt) = 0;
+	virtual void next_frame(float dt) = 0;
+	virtual const sf::Texture* const get_texture() = 0;
 	virtual void set_animation(int val) = 0;
 };
 
@@ -78,7 +80,8 @@ protected:
 public:
 	Dynamic_animation(sf::Texture* texture_, std::vector<sf::IntRect>& part_sizes,
 		std::vector<const Dynamic_animation_struct*> animations_, Animation_tree tree_);
-	const sf::Texture* const next_frame(float dt);
+	void next_frame(float dt);
+	const sf::Texture* const get_texture();
 	void set_animation(int val);
 };
 
@@ -91,6 +94,7 @@ protected:
 
 public:
 	Static_animation(Animation_struct& animation_, float time_offset);
-	const sf::Texture* const next_frame(float dt);
+	void next_frame(float dt);
+	const sf::Texture* const get_texture();
 	void set_animation(int val);
 };

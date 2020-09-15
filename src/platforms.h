@@ -1,8 +1,19 @@
 #pragma once
 #include "graphics.h"
 #include "physics.h"
+#include "logic.h"
+#include "worldparts.h"
 
-struct Textured_polygon : public Renderable
+class Barrier : public Collidable
+{
+private:
+	std::vector<Vectorf> vertices;
+
+public:
+	Barrier(std::vector<Vectorf>&& vertices_, Vectorf pos_);
+};
+
+class Textured_polygon : public Renderable
 {
 protected:
 	sf::VertexBuffer shape;
@@ -14,70 +25,33 @@ public:
 		std::vector<sf::Vertex> points);
 };
 
-struct Platform : public old_Texturable, public Collidable
-{
-	bool visible = true;
-	Platform(Vectorf p, const sf::Texture* t, std::vector<sf::Vertex> points,
-		int layer, bool v);
-	void rescale(float ratio);
-};
-
-//Linear_moving_platform, Pendulum, inne?
-class Moving_platform : public old_Texturable, public Physical
+class Platform : public Textured_polygon, public Collidable
 {
 public:
-	bool visible = true;
-	Moving_platform(const sf::Texture* tex, Vectorf pos, std::vector<sf::Vertex> pts,
-		int layer_, bool visible_ = true);
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-
-private:
-	virtual void update_position(float dt) = 0;
+	Platform(Vectorf pos_, const sf::Texture* texture_, std::vector<sf::Vertex>&& points_);
 };
 
-class Pendulum : public Moving_platform
+class Moving_platform : public Platform, public Updatable
 {
+	std::unique_ptr<Simple_AI> ai;
 public:
-	Pendulum(const sf::Texture* pen_tex, const sf::Texture* line_tex_,
-		std::vector<Vectorf> attach, std::vector<sf::Vertex> points_,
-		float line_l, Vectorf pos_, float angle_, int layer_, bool visible_ = true);
+	Moving_platform(Vectorf pos_, const sf::Texture* texture_,
+		std::vector<sf::Vertex>&& points_, std::unique_ptr<Simple_AI> ai_);
 	void update(float dt);
-	void update_position(float dt);
-	void move(Vectorf delta);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-
-private:
-	Vectorf anchor;
-	Vectorf angle = { 1,0 };
-	float a_speed = 0;
-	float rad_angle = PI / 3;
-	float line_len;
-	float scale;
-	std::vector<std::pair<sf::Sprite, Vectorf>> lines;
-	const sf::Texture* line_tex;
 };
 
-struct Linear_move
+class Pendulum : public Updatable, public Renderable, public Collidable
 {
-	std::vector<std::pair<Vectorf, float>> points;
-	std::vector<std::pair<Vectorf, float>>::const_iterator it;
-
-	Linear_move(std::vector<std::pair<Vectorf, float>> points_);
-	Linear_move(const Linear_move& lm);
-	void rescale(float ratio);
-};
-
-class Linear_moving_platform : public Moving_platform
-{
-private:
-	Linear_move move_data;
-	float time = 0;
 public:
-	Linear_moving_platform(Linear_move path, const sf::Texture* tex_, Vectorf pos_,
-		std::vector<sf::Vertex> pts, int layer_, bool visible_ = true);
-	Linear_moving_platform(const Linear_moving_platform& lmp);
-	void move(Vectorf delta);
+	Pendulum(Vectorf pos_, const sf::Texture* texture_,
+		std::vector<sf::Vertex>&& points_, std::vector<Vectorf> attach_pts,
+		float angle_, float line_len_, const sf::Texture* const line_texture_,
+		Vectori line_size);
 	void update(float dt);
-	void update_position(float dt);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+
+private:
+	std::vector<Moving_object> lines;
+	Moving_platform platform;
 };

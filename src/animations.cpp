@@ -104,7 +104,7 @@ void Dynamic_animation::increment_key()
 	next_key = &animations[animation_n]->key_frames[key];
 }
 
-const sf::Texture* const Dynamic_animation::next_frame(float dt)
+void Dynamic_animation::next_frame(float dt)
 {
 	time_to_next_frame -= dt;
 	if (last_animation_n != animation_n)
@@ -122,9 +122,11 @@ const sf::Texture* const Dynamic_animation::next_frame(float dt)
 	}
 	animate(actual_frame);
 	pre_draw();
+}
+const sf::Texture* const Dynamic_animation::get_texture()
+{
 	return &tex.getTexture();
 }
-
 Dynamic_animation_struct::Dynamic_animation_struct(std::vector<std::vector<float>>& kf, std::vector<int>& l, bool r)
 	: key_frames(kf), lengths(l), repeat(r) {}
 
@@ -149,7 +151,7 @@ Static_animation::Static_animation(Animation_struct& animation_, float time_offs
 	}
 }
 
-const sf::Texture* const Static_animation::next_frame(float dt)
+void Static_animation::next_frame(float dt)
 {
 	time += dt;
 	while (time >= animation.frame_time)
@@ -157,6 +159,11 @@ const sf::Texture* const Static_animation::next_frame(float dt)
 		time -= animation.frame_time;
 		animation.it = util::increment_iterator(animation.it, *animation.animation);
 	}
+	
+}
+
+const sf::Texture* const Static_animation::get_texture()
+{
 	return &*animation.it;
 }
 
