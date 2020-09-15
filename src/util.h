@@ -14,7 +14,7 @@
 #include <map>
 #include <cfloat>
 #include "console.h"
-#include "include/ctpl_stl.h"
+#include "../include/ctpl_stl.h"
 
 typedef sf::Vector2f Vectorf;
 typedef sf::Vector2i Vectori;
