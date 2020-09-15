@@ -91,6 +91,17 @@ w wyjaśnieniu będą podane kolejno nazwa parametru, wartość domyślna (każd
       obiekt          = "<v>0,0</v><v>1,0</v><v>1,1</v><v>0,1</v>" = opis wierzchołków kolidera (niewidocznej platformy przyczepionej do spadającego obiektu)
       tekstura        = "chest0" = tekstura nakładana na spadający obiekt (obecnie z braku lepszej grafiki jest to skrzynka)
       animacja - na razie niewykorzystywane, czeka na <moving_animated_object> i możliwość czasowego nieistnienia ruchomych obiektów
-  mechanizmy
-    niedługo coś się tu pojawi...
+  mechanizmy:
+    taśmociąg_jednostronny - układ połączonych ruchomych platform, przemieszczających się w określonym kierunku
+      x                 = 0 = współrzędna x punktu przyczepienia
+      y                 = 0 = współrzędna y punktu przyczepienia
+      długość           = 10 = długość taśmociągu (w osi ruchu)
+      grubość           = 0.5 = grubość taśmociągu (w poprzek osi ruchu)
+      obrót             = 0 = obrót w stopniach względem punktu przyczepienia (0 oznacza, że taśmociąg porusza się w kierunku dodatnim osi x)
+      prędkość          = 2 = prędkość taśmociągu w metrach na 60 klatek
+      segmentowanie     = 10 = ilość odcinków na którą podzielony jest taśmociąg (według nich wyznaczane są ruchome platformy)
+      bariery           = 1 = 1 oznacza, że na końcach taśmociągu umieszczone zostaną nieruchome platformy, 0 oznacza, że nie zostaną umieszczone
+      widoczność_barier = 1 = 1 oznacza, że bariery będą widoczne, 0 oznacza że nie będą
+      tekstura          = "panels,0" = tekstura, która zostanie nałożona na segmenty i bariery taśmociągu
+      elementy - na razie niewykorzystywane
     
