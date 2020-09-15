@@ -45,7 +45,7 @@ Entity::Entity(Vectorf p, std::unique_ptr<Animation>&& animation_,
 	animation_status = Animation_status::A_IDLE;
 	rect_collision = rc;
 	col_height = rc.height;
-	mesh = Mesh_collision(rect_collision);
+	mesh = Collision(rect_collision);
 	mass = m;
 	sprite.setOrigin({ actual_frame[0] + 64, actual_frame[1] + 64 });
 }
@@ -273,7 +273,7 @@ void Entity::update_position(float dt)
 	rect_collision = sf::FloatRect(pos.x - 18 / scale_factor,
 		pos.y - 37 / scale_factor, 15 / scale_factor,
 		rect_collision.height);
-	Mesh_collision mesh_vect(rect_collision);
+	Collision mesh_vect(rect_collision);
 	mesh = mesh_vect;
 	total_speed = { 0,0 };
 }

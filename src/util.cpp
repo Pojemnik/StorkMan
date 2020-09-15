@@ -163,21 +163,21 @@ void util::save_texture(std::string path, sf::Texture* texture)
 	im.saveToFile(path);
 }
 
-sf::FloatRect util::mesh_to_rect(std::vector<sf::Vertex> vertices)
+sf::FloatRect util::mesh_to_rect(const std::vector<Vectorf>& vertices)
 {
 	float maxx, maxy, miny, minx;
-	maxx = minx = vertices[0].position.x;
-	maxy = miny = vertices[0].position.y;
-	for (auto it : vertices)
+	maxx = minx = vertices[0].x;
+	maxy = miny = vertices[0].y;
+	for (const auto &it : vertices)
 	{
-		if (it.position.x < minx)
-			minx = it.position.x;
-		if (it.position.y < miny)
-			miny = it.position.y;
-		if (it.position.x > maxx)
-			maxx = it.position.x;
-		if (it.position.y > maxy)
-			maxy = it.position.y;
+		if (it.x < minx)
+			minx = it.x;
+		if (it.y < miny)
+			miny = it.y;
+		if (it.x > maxx)
+			maxx = it.x;
+		if (it.y > maxy)
+			maxy = it.y;
 	}
 	return sf::FloatRect(minx, miny, maxx - minx, maxy - miny);
 }

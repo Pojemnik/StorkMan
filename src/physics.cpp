@@ -1,21 +1,36 @@
 #include "physics.h"
 
-Mesh_collision::Mesh_collision(sf::FloatRect rect)
+Collision::Collision(sf::FloatRect rect_)
 {
-	vertices = std::vector<Vectorf>();
-	vertices.push_back({ rect.left, rect.top });
-	vertices.push_back({ rect.left + rect.width, rect.top });
-	vertices.push_back({ rect.left + rect.width, rect.top + rect.height });
-	vertices.push_back({ rect.left, rect.top + rect.height });
+	mesh = std::vector<Vectorf>();
+	mesh.push_back({ rect_.left, rect_.top });
+	mesh.push_back({ rect_.left + rect_.width, rect_.top });
+	mesh.push_back({ rect_.left + rect_.width, rect_.top + rect_.height });
+	mesh.push_back({ rect_.left, rect_.top + rect_.height });
 }
 
-Mesh_collision::Mesh_collision(sf::FloatRect rect, float scale, Vectorf pos)
+Collision::Collision(std::vector<Vectorf> mesh_) : mesh(mesh_)
 {
-	vertices = std::vector<Vectorf>();
-	vertices.push_back({ rect.left * scale + pos.x, rect.top * scale + pos.y });
-	vertices.push_back({ rect.left * scale + pos.x + rect.width * scale, rect.top * scale + pos.y });
-	vertices.push_back({ rect.left * scale + pos.x + rect.width * scale, rect.top * scale + pos.y + rect.height * scale });
-	vertices.push_back({ rect.left * scale + pos.x, rect.top * scale + pos.y + rect.height * scale });
+	rect = util::mesh_to_rect(mesh);
+}
+
+Collision::Collision(const std::vector<sf::Vertex>& vertices, Vectorf pos) : mesh(vertices.size())
+{
+	int i = 0;
+	for (const auto& it : vertices)
+	{
+		mesh[i++] = it.position + pos;
+	}
+	rect = util::mesh_to_rect(mesh);
+}
+
+Collision::Collision(sf::FloatRect rect_, float scale, Vectorf pos)
+{
+	mesh = std::vector<Vectorf>();
+	mesh.push_back({ rect_.left * scale + pos.x, rect_.top * scale + pos.y });
+	mesh.push_back({ rect_.left * scale + pos.x + rect_.width * scale, rect_.top * scale + pos.y });
+	mesh.push_back({ rect_.left * scale + pos.x + rect_.width * scale, rect_.top * scale + pos.y + rect_.height * scale });
+	mesh.push_back({ rect_.left * scale + pos.x, rect_.top * scale + pos.y + rect_.height * scale });
 }
 
 void Physical::apply_force(Vectorf f)
@@ -27,7 +42,7 @@ sf::Vector2f Physical::uncollide(const old_Collidable* c, float dt)
 {
 	if (rect_collision.intersects(c->rect_collision))
 	{
-		sf::Vector2f tmp = coll::test_collision(&mesh.vertices, &c->mesh.vertices);
+		sf::Vector2f tmp = coll::test_collision(&mesh.mesh, &c->mesh.vertices);
 		total_speed += tmp * -1.0f;
 		int sgnx = util::sgn(tmp.x);
 		int sgny = util::sgn(tmp.y);

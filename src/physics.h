@@ -2,28 +2,29 @@
 #include "util.h"
 #include "collisions.h"
 
-struct Mesh_collision
+struct Collision
 {
-public:
-	std::vector<Vectorf> vertices;
+	std::vector<Vectorf> mesh;
+	sf::FloatRect rect;
 
-	Mesh_collision() = default;
-	Mesh_collision(sf::FloatRect rect);
-	Mesh_collision(sf::FloatRect rect, float scale, Vectorf pos);
+	Collision() = default;
+	Collision(sf::FloatRect rect_);
+	Collision(std::vector<Vectorf> mesh_);
+	Collision(const std::vector<sf::Vertex>& vertices, Vectorf pos);
+	Collision(sf::FloatRect rect_, float scale, Vectorf pos);
 };
 
 class Collidable
 {
 public:
-	virtual sf::FloatRect get_rect_collision() = 0;
-	virtual Mesh_collision get_mesh_collision() = 0;
+	virtual const Collision* const get_collision() = 0;
 };
 
 class old_Collidable
 {
 public:
 	sf::FloatRect rect_collision;
-	Mesh_collision mesh;
+	Collision mesh;
 	Collidable_type type;
 	old_Collidable() = default;
 	old_Collidable(sf::FloatRect rect, std::vector<Vectorf> _mesh, Collidable_type t);

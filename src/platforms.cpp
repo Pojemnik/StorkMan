@@ -18,10 +18,17 @@ void Textured_polygon::draw(sf::RenderTarget& target, sf::RenderStates states) c
 	target.draw(shape, states);
 }
 
-Platform::Platform(Vectorf pos_, const sf::Texture* texture_, std::vector<sf::Vertex>&& points_) :
-	Textured_polygon(pos_, texture_, std::move(points_))
+const Collision* const Platform::get_collision()
 {
-	//TODO: Construct rectangle
+	return &collision;
+}
+
+Platform::Platform(Vectorf pos_, const sf::Texture* texture_, std::vector<sf::Vertex> points_) :
+	collision(points_, pos_), Textured_polygon(pos_, texture_, std::move(std::vector<sf::Vertex>(points_))) {}
+
+const Collision* const Pendulum::get_collision()
+{
+	return platform.get_collision();
 }
 
 Pendulum::Pendulum(Vectorf pos_, const sf::Texture* texture_,
@@ -55,6 +62,11 @@ void Pendulum::update(float dt)
 	platform.update(dt);
 }
 
+const Collision* const Moving_platform::get_collision()
+{
+	return &collision;
+}
+
 Moving_platform::Moving_platform(Vectorf pos_, const sf::Texture* texture_,
 	std::vector<sf::Vertex>&& points_, std::unique_ptr<Simple_AI> ai_) :
 	Platform(pos_, texture_, std::move(points_)), ai(std::move(ai_)) {}
@@ -70,11 +82,18 @@ void Moving_platform::draw(sf::RenderTarget& target, sf::RenderStates states) co
 	target.draw(shape, states);
 }
 
-Barrier::Barrier(std::vector<Vectorf>&& vertices_, Vectorf pos_) : vertices(std::move(vertices_))
+Barrier::Barrier(std::vector<Vectorf>&& vertices_, Vectorf pos_)
+	: vertices(std::move(vertices_))
 {
 	for (auto& it : vertices)
 	{
 		it += pos_;
+		collision.mesh.push_back(it);
 	}
-	//TODO: Construct rectangle
+	collision.rect = util::mesh_to_rect(collision.mesh);
+}
+
+const Collision* const Barrier::get_collision()
+{
+	return &collision;
 }

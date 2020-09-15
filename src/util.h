@@ -141,5 +141,5 @@ namespace util
 
 	std::string pass_or_default(std::string val, std::string default_val);
 	void save_texture(std::string path, sf::Texture* texture);
-	sf::FloatRect mesh_to_rect(std::vector<sf::Vertex> vertices);
+	sf::FloatRect mesh_to_rect(const std::vector<Vectorf>& vertices);
 }
