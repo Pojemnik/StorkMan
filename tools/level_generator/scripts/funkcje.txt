@@ -104,4 +104,13 @@ w wyjaśnieniu będą podane kolejno nazwa parametru, wartość domyślna (każd
       widoczność_barier = 1 = 1 oznacza, że bariery będą widoczne, 0 oznacza że nie będą
       tekstura          = "panels,0" = tekstura, która zostanie nałożona na segmenty i bariery taśmociągu
       elementy - na razie niewykorzystywane
-    
+  obiekty:
+    wielokąt_foremny - funkcja zwracająca opis kolejnych wierchołków wielokąta foremnego (nie jest to niezależny element rozgrywki)
+      n               = 6 = liczba kątów wielokąta foremnego
+      bok             = 1 = długość boku wielokąta
+      obrót           = 0 = obrót w stopniach względem obrotu domyślnego (przy obrocie domyślnym najniższy bok jest równoległy do osi x, a pierwszym wierzchołkiem jest lewy wierzchołek tego boku)
+      początek        = 0 = 0 oznacza, że punkt (0,0) będzie środkiem wielokąta, 1 oznacza, że będzie środkiem krawędzi między pierwszym i ostatnim wierzchołkiem, a 2 oznacza, że będzie pierwszym wierzchołkiem
+      przesunięcie_x  = 0 = przesuwa punkt (0,0) względem <początku> wielokąta na osi x
+      przesunięcie_y  = 0 = przesuwa punkt (0,0) względem <początku> wielokąta na osi y
+      pomijanie       = 0 = 0 oznacza, że żadne wierzchołki wielokąta nie zostaną pominięte, 1 oznacza, że pominięte zostaną te z tablicy <pominięte>
+      pominięte       = (0,1) = jeśli <pomijanie>=1, to ta tablica powinna mieć tyle wartości ile wierzchołków. 1 oznacza, że wierzchołek zostanie narysowany, 0 oznacza, że zostanie pominięty
