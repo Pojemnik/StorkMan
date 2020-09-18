@@ -29,15 +29,18 @@ public:
 
 class Platform : public Textured_polygon, public Collidable
 {
+protected:
 	Collision collision;
 public:
-	const Collision* const get_collision();
+	const Collision* const get_collision() const;
 	Platform(Vectorf pos_, const sf::Texture* texture_, std::vector<sf::Vertex> points_);
 };
 
 class Moving_platform : public Platform, public Updatable
 {
 	std::unique_ptr<Simple_AI> ai;
+	std::vector<Vectorf> base_mesh;
+	sf::FloatRect base_rect;
 public:
 	const Collision* const get_collision();
 	Moving_platform(Vectorf pos_, const sf::Texture* texture_,
@@ -51,7 +54,7 @@ class Pendulum : public Updatable, public Renderable, public Collidable
 	std::vector<Moving_object> lines;
 	Moving_platform platform;
 public:
-	const Collision* const get_collision();
+	const Collision* const get_collision() const;
 	Pendulum(Vectorf pos_, const sf::Texture* texture_,
 		std::vector<sf::Vertex>&& points_, std::vector<Vectorf> attach_pts,
 		float angle_, float line_len_, const sf::Texture* const line_texture_,

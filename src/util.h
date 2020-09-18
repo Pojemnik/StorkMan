@@ -91,7 +91,7 @@ namespace util
 
 	//Vectors
 	sf::Vector2f normalize(sf::Vector2f x, float l = 1);
-	sf::Vector2f get_axis_normal(const std::vector<sf::Vector2f>* a,
+	sf::Vector2f get_axis_normal(const std::vector<sf::Vector2f>& a,
 		size_t i);
 	float vector_dot_product(sf::Vector2f a, sf::Vector2f b);
 	float vector_cross_product(sf::Vector2f a, sf::Vector2f b);

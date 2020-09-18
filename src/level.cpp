@@ -113,7 +113,7 @@ void Level::add_to_layer(old_Renderable& r)
 		top_layers[r.layer - BOTTOM_LAYERS - MIDDLE_LAYERS].push_back(&r);
 }
 
-void Level::add_physical(Physical* p)
+void Level::add_physical(old_Physical* p)
 {
 	physicals.push_back(p);
 }

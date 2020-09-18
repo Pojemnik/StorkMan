@@ -13,11 +13,11 @@ sf::Vector2f util::normalize(sf::Vector2f x, float l)
 	return x / float(sqrt(x.x * x.x + x.y * x.y) * l);
 }
 
-sf::Vector2f util::get_axis_normal(const std::vector<sf::Vector2f>* a,
+sf::Vector2f util::get_axis_normal(const std::vector<sf::Vector2f>& a,
 	size_t i)
 {
-	Vectorf p1 = (*a)[i];
-	Vectorf p2 = (i >= a->size() - 1) ? (*a)[0] : (*a)[i + 1];
+	Vectorf p1 = a[i];
+	Vectorf p2 = (i >= a.size() - 1) ? a[0] : a[i + 1];
 	return util::normalize({ p1.y - p2.y,p2.x - p1.x }, 1);
 }
 

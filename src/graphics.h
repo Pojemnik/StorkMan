@@ -20,8 +20,6 @@ public:
 
 class Renderable : public sf::Drawable
 {
-public:
-	virtual sf::FloatRect get_bounding_rect() = 0;
 };
 
 class old_Renderable : public sf::Drawable

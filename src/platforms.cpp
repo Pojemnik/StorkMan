@@ -18,7 +18,7 @@ void Textured_polygon::draw(sf::RenderTarget& target, sf::RenderStates states) c
 	target.draw(shape, states);
 }
 
-const Collision* const Platform::get_collision()
+const Collision* const Platform::get_collision() const
 {
 	return &collision;
 }
@@ -26,7 +26,7 @@ const Collision* const Platform::get_collision()
 Platform::Platform(Vectorf pos_, const sf::Texture* texture_, std::vector<sf::Vertex> points_) :
 	collision(points_, pos_), Textured_polygon(pos_, texture_, std::move(std::vector<sf::Vertex>(points_))) {}
 
-const Collision* const Pendulum::get_collision()
+const Collision* const Pendulum::get_collision() const
 {
 	return platform.get_collision();
 }
@@ -69,11 +69,23 @@ const Collision* const Moving_platform::get_collision()
 
 Moving_platform::Moving_platform(Vectorf pos_, const sf::Texture* texture_,
 	std::vector<sf::Vertex>&& points_, std::unique_ptr<Simple_AI> ai_) :
-	Platform(pos_, texture_, std::move(points_)), ai(std::move(ai_)) {}
+	Platform(pos_, texture_, std::move(std::vector<sf::Vertex>(points_))),
+	ai(std::move(ai_))
+{
+	base_rect = collision.rect;
+	base_mesh = collision.mesh;
+}
 
 void Moving_platform::update(float dt)
 {
 	ai->calc_pos(dt);
+	sf::Transform new_pos = ai->get_pos();
+	for (int i = 0; i < base_mesh.size(); i++)
+	{
+		collision.mesh[i] = new_pos * base_mesh[i];
+	}
+	collision.rect = new_pos.transformRect(base_rect);
+	collision.calculate_min_max_arr();
 }
 
 void Moving_platform::draw(sf::RenderTarget& target, sf::RenderStates states) const

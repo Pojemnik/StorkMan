@@ -7,7 +7,7 @@ struct Level
 	Vectori global_pos;
 	Vectori global_size;
 	bool is_loaded = false;
-	std::vector<Physical*> physicals;
+	std::vector<old_Physical*> physicals;
 	std::vector<old_Collidable*> collidables;
 	std::vector<old_Animatable*> animatables;
 	std::vector<Platform> platforms;
@@ -25,7 +25,7 @@ struct Level
 
 	Level();
 	Level(const Level& level);
-	void add_physical(Physical* p);
+	void add_physical(old_Physical* p);
 	void add_collidable(old_Collidable* c);
 	void add_animatable(old_Animatable* a);
 	void add_platform(Platform p);

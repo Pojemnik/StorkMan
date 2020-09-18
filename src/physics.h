@@ -1,23 +1,12 @@
 #pragma once
 #include "util.h"
 #include "collisions.h"
-
-struct Collision
-{
-	std::vector<Vectorf> mesh;
-	sf::FloatRect rect;
-
-	Collision() = default;
-	Collision(sf::FloatRect rect_);
-	Collision(std::vector<Vectorf> mesh_);
-	Collision(const std::vector<sf::Vertex>& vertices, Vectorf pos);
-	Collision(sf::FloatRect rect_, float scale, Vectorf pos);
-};
+#include "logic.h"
 
 class Collidable
 {
 public:
-	virtual const Collision* const get_collision() = 0;
+	virtual const Collision* const get_collision() const = 0;
 };
 
 class old_Collidable
@@ -38,7 +27,26 @@ public:
 	virtual void set_position(Vectorf new_position) = 0;
 };
 
-class Physical : public Transformable, public old_Collidable
+class Physical : public Updatable, public Collidable
+{
+	Collision collision;
+	Vectorf acceleration;
+	Vectorf speed;
+	Vectorf pos;
+	Vectorf delta_pos;
+
+public:
+	Physical(std::vector<Vectorf>&& mesh, Vectorf pos_);
+	const Collision* const get_collision() const;
+	Vectorf get_pos();
+	void update(float dt);
+	void apply_force(Vectorf force_);
+	void resolve_collision(const std::vector<const Collidable*>& others);
+	void move(Vectorf delta);
+	void set_position(Vectorf new_pos);
+};
+
+class old_Physical : public Transformable, public old_Collidable
 {
 protected:
 	float MIN_EXTERNAL_SPEED = 1;
@@ -58,9 +66,9 @@ public:
 	virtual void move(Vectorf delta) = 0;
 	virtual void apply_force(Vectorf f);
 	sf::Vector2f uncollide(const old_Collidable* c, float dt);
-	sf::Vector2f uncollide(Physical* c, float dt);
+	sf::Vector2f uncollide(old_Physical* c, float dt);
 	bool test_collision(const old_Collidable& other);
-	Physical(sf::FloatRect rect, std::vector<Vectorf> mesh, Collidable_type t,
+	old_Physical(sf::FloatRect rect, std::vector<Vectorf> mesh, Collidable_type t,
 		float m);
-	Physical() = default;
+	old_Physical() = default;
 };
