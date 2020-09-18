@@ -1,6 +1,12 @@
 #pragma once
 #include "util.h"
 
+enum class Animation_index : int
+{
+	DEFAULT = 0, IDLE, MOVE, JUMP_IDLE, JUMP_RUN, JUMP_RUN2, PUNCH_1, PUNCH_2,
+	DIE, HIT
+};
+
 class Animatable
 {
 public:
@@ -13,7 +19,9 @@ class Animation
 public:
 	virtual void next_frame(float dt) = 0;
 	virtual const sf::Texture* const get_texture() = 0;
-	virtual void set_animation(int val) = 0;
+	virtual void set_animation(Animation_index a) = 0;
+	virtual Animation_index get_animation() = 0;
+	virtual int get_frame() = 0;
 };
 
 struct Animation_node
@@ -65,8 +73,8 @@ protected:
 	const std::vector<float>* last_key;
 	const std::vector<float>* next_key;
 	std::vector<float> actual_frame;
-	int animation_n;
-	int last_animation_n;
+	Animation_index animation;
+	Animation_index last_animation;
 	const int ANIMATION_CHANGE_DELTA = 5;
 
 	Vectorf count_pos(Vectorf start, float size1, float size2,
@@ -82,7 +90,9 @@ public:
 		std::vector<const Dynamic_animation_struct*> animations_, Animation_tree tree_);
 	void next_frame(float dt);
 	const sf::Texture* const get_texture();
-	void set_animation(int val);
+	void set_animation(Animation_index a);
+	Animation_index get_animation();
+	int get_frame();
 };
 
 class Static_animation : public Animation
@@ -96,5 +106,7 @@ public:
 	Static_animation(Animation_struct& animation_, float time_offset);
 	void next_frame(float dt);
 	const sf::Texture* const get_texture();
-	void set_animation(int val);
+	void set_animation(Animation_index a);
+	Animation_index get_animation();
+	int get_frame();
 };

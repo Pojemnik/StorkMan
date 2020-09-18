@@ -5,6 +5,12 @@
 
 #include "util.h"
 
+class Collidable
+{
+public:
+	virtual const Collision* const get_collision() const = 0;
+};
+
 struct Collision
 {
 	std::vector<Vectorf> mesh;

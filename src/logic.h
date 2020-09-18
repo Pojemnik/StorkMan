@@ -1,12 +1,6 @@
 #pragma once
 #include "util.h"
 
-class Updatable
-{
-public:
-	virtual void update(float dt) = 0;
-};
-
 class Simple_AI
 {
 public:

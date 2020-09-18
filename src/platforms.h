@@ -1,6 +1,5 @@
 #pragma once
-#include "graphics.h"
-#include "physics.h"
+#include "collisions.h"
 #include "logic.h"
 #include "worldparts.h"
 
@@ -42,7 +41,7 @@ class Moving_platform : public Platform, public Updatable
 	std::vector<Vectorf> base_mesh;
 	sf::FloatRect base_rect;
 public:
-	const Collision* const get_collision();
+	const Collision* const get_collision() const;
 	Moving_platform(Vectorf pos_, const sf::Texture* texture_,
 		std::vector<sf::Vertex>&& points_, std::unique_ptr<Simple_AI> ai_);
 	void update(float dt);

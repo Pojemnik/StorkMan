@@ -1,13 +1,7 @@
 #pragma once
 #include "util.h"
 #include "collisions.h"
-#include "logic.h"
-
-class Collidable
-{
-public:
-	virtual const Collision* const get_collision() const = 0;
-};
+#include "interfaces.h"
 
 class old_Collidable
 {
@@ -18,13 +12,6 @@ public:
 	old_Collidable() = default;
 	old_Collidable(sf::FloatRect rect, std::vector<Vectorf> _mesh, Collidable_type t);
 	void rescale(float ratio);
-};
-
-class Transformable
-{
-public:
-	virtual void move(Vectorf delta) = 0;
-	virtual void set_position(Vectorf new_position) = 0;
 };
 
 class Physical : public Updatable, public Collidable

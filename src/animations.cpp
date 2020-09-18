@@ -57,12 +57,12 @@ Dynamic_animation::Dynamic_animation(sf::Texture* texture_,
 	std::vector<const Dynamic_animation_struct*> animations_, Animation_tree tree_)
 	: animations(animations_), tree(tree_)
 {
-	last_animation_n = animation_n = 0;
+	last_animation = animation = Animation_index::DEFAULT;
 	key = 0;
-	last_key = &animations[animation_n]->key_frames[key];
-	time_to_next_frame = animations[animation_n]->lengths[key];
+	last_key = &animations[static_cast<int>(animation)]->key_frames[key];
+	time_to_next_frame = animations[static_cast<int>(animation)]->lengths[key];
 	key++;
-	next_key = &animations[animation_n]->key_frames[key];
+	next_key = &animations[static_cast<int>(animation)]->key_frames[key];
 	actual_frame = *last_key;
 	for (int i = 0; i < part_sizes.size(); i++)
 	{
@@ -73,49 +73,60 @@ Dynamic_animation::Dynamic_animation(sf::Texture* texture_,
 		return;
 }
 
-void Dynamic_animation::set_animation(int val)
+void Dynamic_animation::set_animation(Animation_index a)
 {
-	animation_n = val;
+	last_animation = animation;
+	animation = a;
 	time_to_next_frame += ANIMATION_CHANGE_DELTA;
 	key = 0;
-	next_key = &animations[animation_n]->key_frames[0];
+	next_key = &animations[static_cast<int>(animation)]->key_frames[0];
+}
+
+Animation_index Dynamic_animation::get_animation()
+{
+	return animation;
+}
+
+int Dynamic_animation::get_frame()
+{
+	return key;
 }
 
 void Dynamic_animation::increment_key()
 {
 	last_key = next_key;
-	if (++key >= animations[animation_n]->key_frames.size())
+	if (++key >= animations[static_cast<int>(animation)]->key_frames.size())
 	{
-		if (animations[animation_n]->repeat)
+		if (animations[static_cast<int>(animation)]->repeat)
 		{
-			time_to_next_frame += animations[animation_n]->lengths.back();
+			time_to_next_frame += animations[static_cast<int>(animation)]->lengths.back();
 			key = 0;
 		}
 		else
 		{
-			animation_n = 0;
-			set_animation(animation_n);
+			animation = Animation_index::DEFAULT;
+			set_animation(animation);
 		}
 	}
 	else
 	{
-		time_to_next_frame += animations[animation_n]->lengths.back();
+		time_to_next_frame += animations[static_cast<int>(animation)]->lengths.back();
 	}
-	next_key = &animations[animation_n]->key_frames[key];
+	next_key = &animations[static_cast<int>(animation)]->key_frames[key];
 }
 
 void Dynamic_animation::next_frame(float dt)
 {
 	time_to_next_frame -= dt;
-	if (last_animation_n != animation_n)
+	if (last_animation != animation)
 	{
-		set_animation(animation_n);
+		set_animation(animation);
 	}
 	while (time_to_next_frame < 0)
 	{
 		increment_key();
 	}
-	float alfa = time_to_next_frame / animations[animation_n]->lengths[key];
+	float alfa = time_to_next_frame / animations[static_cast<int>(animation)]->lengths[key];
 	for (int i = 0; i < tree.independent_count + 3; i++)
 	{
 		actual_frame[i] = (*last_key)[i] * alfa + (*next_key)[i] * (1.f - alfa);
@@ -127,6 +138,7 @@ const sf::Texture* const Dynamic_animation::get_texture()
 {
 	return &tex.getTexture();
 }
+
 Dynamic_animation_struct::Dynamic_animation_struct(std::vector<std::vector<float>>& kf, std::vector<int>& l, bool r)
 	: key_frames(kf), lengths(l), repeat(r) {}
 
@@ -158,8 +170,7 @@ void Static_animation::next_frame(float dt)
 	{
 		time -= animation.frame_time;
 		animation.it = util::increment_iterator(animation.it, *animation.animation);
-	}
-	
+	}	
 }
 
 const sf::Texture* const Static_animation::get_texture()
@@ -167,8 +178,21 @@ const sf::Texture* const Static_animation::get_texture()
 	return &*animation.it;
 }
 
-void Static_animation::set_animation(int val)
+void Static_animation::set_animation(Animation_index a)
 {
 	//This should never happen
+	//If changed, change also get_animation
 	throw std::runtime_error("Unimplemented");
+}
+
+Animation_index Static_animation::get_animation()
+{
+	//Change if implementation changes
+	return Animation_index::DEFAULT;
+}
+
+int Static_animation::get_frame()
+{
+	//TODO: Change Animation_struct imlementation and add tracking frame indices
+	return 0;
 }

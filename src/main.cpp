@@ -6,7 +6,7 @@
 #include "util.h"
 #include "console.h"
 #include "interpreter.h"
-#include "interface.h"
+#include "ui.h"
 
 const std::string VERSION = "pre-alpha 0.4.6.5";
 
@@ -283,43 +283,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		else
 		{
 			move_direction = 0;
-			if (window.hasFocus())
-			{
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
-				{
-					player.attack(1);
-				}
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-				{
-					player.attack(2);
-				}
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-				{
-					if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-					{
-						move_direction = 1;
-					}
-				}
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-				{
-					if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-					{
-						move_direction = -1;
-					}
-				}
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-				{
-					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) ||
-						sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-						player.jump(true);
-					else
-						player.jump(false);
-				}
-				else
-				{
-					player.stop_jump();
-				}
-			}
+			
 		}
 		float time = (float)clock.getElapsedTime().asMicroseconds();
 		time /= 1000.0f;

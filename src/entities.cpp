@@ -1,42 +1,5 @@
 #include "entities.h"
 
-Player::Player(Vectorf p, sf::Texture* texture, std::vector<sf::IntRect>& v,
-	std::vector<const Dynamic_animation_struct*> a, sf::FloatRect rc,
-	Animation_tree t, float h, float gs, float m, int hp)
-	: Entity(p, texture, v, a, rc, t, h, gs, m, hp) {}
-
-void Player::attack(int attack_type)
-{
-	switch (attack_type)
-	{
-	case 1:
-		if (animation_status == Entity_status::IDLE ||
-			animation_status == Entity_status::JUMP_IDLE)
-		{
-			status = Entity_status::PUNCH_1;
-			animation_status = Animation_status::A_PUNCH_1;
-			reset_animation = true;
-		}
-		break;
-	case 2:
-		if (animation_status == Entity_status::IDLE ||
-			animation_status == Entity_status::JUMP_IDLE)
-		{
-			status = Entity_status::PUNCH_2;
-			animation_status = Animation_status::A_PUNCH_2;
-			reset_animation = true;
-		}
-		break;
-	}
-}
-
-void Player::post_death()
-{
-	set_position({ 20 * context.global_scale, 0 });
-	context.console->log << "zgon" << '\n';
-	health = max_health;
-}
-
 Entity::Entity(Vectorf p, std::unique_ptr<Animation>&& animation_,
 	sf::FloatRect collision_, float height_, float mass_, int health_)
 	: health(health_), height(height_), mass(mass_)
@@ -48,6 +11,16 @@ Entity::Entity(Vectorf p, std::unique_ptr<Animation>&& animation_,
 	mesh = Collision(rect_collision);
 	mass = m;
 	sprite.setOrigin({ actual_frame[0] + 64, actual_frame[1] + 64 });
+}
+
+void Entity::set_animation(Animation_index a)
+{
+	animation->set_animation(a);
+}
+
+Animation_index Entity::get_animation()
+{
+	return animation->get_animation();
 }
 
 void Entity::move(Vectorf delta)
@@ -98,6 +71,16 @@ void Entity::move_angled(int dir)
 		move(util::rotate_vector(
 			{ -context.player_move_speed.y,context.player_move_speed.x },
 			maxcollisionvector));
+}
+
+void Entity::move(int direction)
+{
+	physical.move({ move_speed * direction, 0.f });
+}
+
+void Entity::jump()
+{
+	physical.apply_force({ 0, -jump_force });
 }
 
 void Entity::jump(bool move)
@@ -171,6 +154,28 @@ void Entity::flip_if_needed()
 
 void Entity::update(float dt)
 {
+	assert(state_stack.size() > 0);
+	std::pair<Entity_state*, Entity_state_info> state = state_stack.top()->update(*this, dt);
+	switch (state.second)
+	{
+	case Entity_state_info::REPLACE:
+		state_stack.top()->exit(*this);
+		delete state_stack.top();
+		state_stack.pop();
+		// break nie ma celowo
+	case Entity_state_info::PUSH:
+		state_stack.push(state.first);
+		state_stack.top()->enter(*this);
+		break;
+	case Entity_state_info::POP:
+		state_stack.top()->exit(*this);
+		delete state_stack.top();
+		state_stack.pop();
+		break;
+	case Entity_state_info::NONE:
+		break;
+	}
+	//---------------------------------------------------
 	edge_jump_update();
 	total_speed += external_speed;
 	external_speed *= 0.95f;

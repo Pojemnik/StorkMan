@@ -1,9 +1,8 @@
 #pragma once
-#include "graphics.h"
-#include "physics.h"
-#include "platforms.h"
+#include "collisions.h"
 #include "logic.h"
 #include "animations.h"
+#include "interfaces.h"
 
 struct Object : public Renderable
 {

@@ -1,4 +1,4 @@
-#include "interface.h"
+#include "ui.h"
 
 Hp_bar::Bar_part::Bar_part(std::shared_ptr<sf::Texture> _bar_tex,
 	std::shared_ptr<std::vector<sf::Texture>> _content_tex) : bar_tex(_bar_tex),

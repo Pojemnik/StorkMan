@@ -40,7 +40,8 @@ Pendulum::Pendulum(Vectorf pos_, const sf::Texture* texture_,
 	for (const auto& it : attach_pts)
 	{
 		Swing_rotation_AI* ai = new Swing_rotation_AI(line_len_, angle_, it);
-		lines.emplace_back(Vectorf(it.x - line_size.x, it.y), line_texture_, line_len_, std::move(std::unique_ptr<Swing_rotation_AI>(ai)));
+		lines.emplace_back(Vectorf(it.x - line_size.x, it.y), line_texture_, line_len_,
+			std::move(std::unique_ptr<Swing_rotation_AI>(ai)));
 	}
 }
 
@@ -62,7 +63,7 @@ void Pendulum::update(float dt)
 	platform.update(dt);
 }
 
-const Collision* const Moving_platform::get_collision()
+const Collision* const Moving_platform::get_collision() const
 {
 	return &collision;
 }
