@@ -1,10 +1,21 @@
 #pragma once
+#include <queue>
 #include "util.h"
 
 enum class Animation_index : int
 {
-	DEFAULT = 0, IDLE, MOVE, JUMP_IDLE, JUMP_RUN, JUMP_RUN2, PUNCH_1, PUNCH_2,
+	DEFAULT = 0, IDLE, MOVE, JUMP_IDLE, JUMP_RUN_1, JUMP_RUN_2, PUNCH_1, PUNCH_2,
 	DIE, HIT
+};
+
+struct Animation_info
+{
+	Animation_index index;
+	float time_left;
+	int current_key;
+
+	Animation_info() = default;
+	Animation_info(Animation_index index_, float time_left_, int current_key_);
 };
 
 class Animatable
@@ -20,8 +31,7 @@ public:
 	virtual void next_frame(float dt) = 0;
 	virtual const sf::Texture* const get_texture() = 0;
 	virtual void set_animation(Animation_index a) = 0;
-	virtual Animation_index get_animation() = 0;
-	virtual int get_frame() = 0;
+	virtual Animation_info get_animation_info() const = 0;
 };
 
 struct Animation_node
@@ -51,14 +61,14 @@ struct Dynamic_animation_struct
 	Dynamic_animation_struct(std::vector<std::vector<float>>& kf, std::vector<int>& l, bool r);
 };
 
-struct Animation_struct
+struct Static_animation_struct
 {
 	const std::vector<sf::Texture>* animation;
 	std::vector<sf::Texture>::const_iterator it;
 	float frame_time;
 
-	Animation_struct(const std::vector<sf::Texture>* animation_, float frame_time_);
-	Animation_struct(Animation_struct& a);
+	Static_animation_struct(const std::vector<sf::Texture>* animation_, float frame_time_);
+	Static_animation_struct(Static_animation_struct& a);
 };
 
 class Dynamic_animation : public Animation
@@ -70,6 +80,7 @@ protected:
 	std::vector<const Dynamic_animation_struct*> animations;
 	int key;
 	float time_to_next_frame;
+	float time_to_animation_end;
 	const std::vector<float>* last_key;
 	const std::vector<float>* next_key;
 	std::vector<float> actual_frame;
@@ -91,22 +102,20 @@ public:
 	void next_frame(float dt);
 	const sf::Texture* const get_texture();
 	void set_animation(Animation_index a);
-	Animation_index get_animation();
-	int get_frame();
+	Animation_info get_animation_info() const;
 };
 
 class Static_animation : public Animation
 {
 protected:
-	Animation_struct animation;
+	Static_animation_struct animation;
 	sf::Sprite sprite;
 	float time = 0;
 
 public:
-	Static_animation(Animation_struct& animation_, float time_offset);
+	Static_animation(Static_animation_struct& animation_, float time_offset);
 	void next_frame(float dt);
 	const sf::Texture* const get_texture();
 	void set_animation(Animation_index a);
-	Animation_index get_animation();
-	int get_frame();
+	Animation_info get_animation_info() const;
 };

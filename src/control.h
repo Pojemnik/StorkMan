@@ -7,7 +7,7 @@ class Player_controller : public Controller
 	std::queue<Command> commands;
 
 public:
-	Command get_command();
+	Command pop_command();
 	bool command_available();
 	void update(float dt);
 };

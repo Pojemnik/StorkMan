@@ -80,16 +80,16 @@ void Dynamic_animation::set_animation(Animation_index a)
 	time_to_next_frame += ANIMATION_CHANGE_DELTA;
 	key = 0;
 	next_key = &animations[static_cast<int>(animation)]->key_frames[0];
+	time_to_animation_end = time_to_next_frame;
+	for (const auto& it : animations[static_cast<int>(animation)]->lengths)
+	{
+		time_to_animation_end += it;
+	}
 }
 
-Animation_index Dynamic_animation::get_animation()
+Animation_info Dynamic_animation::get_animation_info() const
 {
-	return animation;
-}
-
-int Dynamic_animation::get_frame()
-{
-	return key;
+	return Animation_info(animation, time_to_animation_end, key);
 }
 
 void Dynamic_animation::increment_key()
@@ -118,7 +118,8 @@ void Dynamic_animation::increment_key()
 void Dynamic_animation::next_frame(float dt)
 {
 	time_to_next_frame -= dt;
-	if (last_animation != animation)
+	time_to_animation_end -= dt;
+	if (last_animation != animation)//?
 	{
 		set_animation(animation);
 	}
@@ -134,6 +135,7 @@ void Dynamic_animation::next_frame(float dt)
 	animate(actual_frame);
 	pre_draw();
 }
+
 const sf::Texture* const Dynamic_animation::get_texture()
 {
 	return &tex.getTexture();
@@ -142,18 +144,18 @@ const sf::Texture* const Dynamic_animation::get_texture()
 Dynamic_animation_struct::Dynamic_animation_struct(std::vector<std::vector<float>>& kf, std::vector<int>& l, bool r)
 	: key_frames(kf), lengths(l), repeat(r) {}
 
-Animation_struct::Animation_struct(const std::vector<sf::Texture>* animation_, float frame_time_) :
+Static_animation_struct::Static_animation_struct(const std::vector<sf::Texture>* animation_, float frame_time_) :
 	animation(animation_), frame_time(frame_time_)
 {
 	it = animation->cbegin();
 }
 
-Animation_struct::Animation_struct(Animation_struct& a) : animation(a.animation), frame_time(a.frame_time)
+Static_animation_struct::Static_animation_struct(Static_animation_struct& a) : animation(a.animation), frame_time(a.frame_time)
 {
 	it = animation->cbegin();
 }
 
-Static_animation::Static_animation(Animation_struct& animation_, float time_offset) :
+Static_animation::Static_animation(Static_animation_struct& animation_, float time_offset) :
 	animation(animation_), time(time_offset)
 {
 	while (time >= animation.frame_time)
@@ -181,18 +183,16 @@ const sf::Texture* const Static_animation::get_texture()
 void Static_animation::set_animation(Animation_index a)
 {
 	//This should never happen
-	//If changed, change also get_animation
-	throw std::runtime_error("Unimplemented");
+	//If changed, change also get_animation_info
+	throw std::logic_error("Not implemented");
 }
 
-Animation_index Static_animation::get_animation()
+Animation_info Static_animation::get_animation_info() const
 {
-	//Change if implementation changes
-	return Animation_index::DEFAULT;
+	//This should never happen
+	throw std::logic_error("Not implemented");
+	return Animation_info();
 }
 
-int Static_animation::get_frame()
-{
-	//TODO: Change Animation_struct imlementation and add tracking frame indices
-	return 0;
-}
+Animation_info::Animation_info(Animation_index index_, float time_left_, int current_key_) :
+	index(index_), time_left(time_left_), current_key(current_key_) {}

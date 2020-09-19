@@ -24,11 +24,11 @@ struct Command
 class Controller : public Updatable
 {
 public:
-	virtual Command get_command() = 0;
+	virtual Command pop_command() = 0;
 	virtual bool command_available() = 0;
 };
 
-class Entity : public Animatable, public Updatable, public Collidable, public Transformable
+class Entity : public Animatable, public Updatable, public Collidable
 {
 protected:
 	const float move_speed = 1.f;
@@ -54,7 +54,7 @@ public:
 	int direction = 1;//x sign
 
 	void set_animation(Animation_index a);
-	Animation_index get_animation();
+	Animation_index get_animation_info();
 	void move(int direction);
 	void jump();
 	//---------------------------------------------------------

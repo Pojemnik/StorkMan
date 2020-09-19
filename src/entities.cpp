@@ -18,9 +18,9 @@ void Entity::set_animation(Animation_index a)
 	animation->set_animation(a);
 }
 
-Animation_index Entity::get_animation()
+Animation_index Entity::get_animation_info()
 {
-	return animation->get_animation();
+	return animation->get_animation_info();
 }
 
 void Entity::move(Vectorf delta)
@@ -162,7 +162,7 @@ void Entity::update(float dt)
 		state_stack.top()->exit(*this);
 		delete state_stack.top();
 		state_stack.pop();
-		// break nie ma celowo
+		//No break
 	case Entity_state_info::PUSH:
 		state_stack.push(state.first);
 		state_stack.top()->enter(*this);

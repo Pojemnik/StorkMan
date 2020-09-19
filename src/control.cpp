@@ -1,6 +1,6 @@
 #include "control.h"
 
-Command Player_controller::get_command()
+Command Player_controller::pop_command()
 {
 	Command tmp = commands.front();
 	commands.pop();
