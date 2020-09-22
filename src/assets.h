@@ -18,7 +18,7 @@ public:
 	sf::Texture* pieces = nullptr;
 	std::vector<sf::IntRect> pieces_rect;
 	std::map<std::string, const sf::Texture*> textures;
-	std::vector<const Dynamic_animation_struct *> dynamic_animations;
+	std::vector<const Dynamic_animation_struct*> dynamic_animations;
 	std::map<std::string, std::vector<sf::Texture>> animations;
 	sf::Texture* bg = nullptr;
 	sf::Texture* layer2 = nullptr;
@@ -29,7 +29,11 @@ public:
 	sf::Font storkfont, consola;
 	sf::Image icon;
 	std::vector<sf::SoundBuffer> sounds;
-	
+	Animation_index reverse_animation_index[10] = { Animation_index::DEFAULT,
+		Animation_index::IDLE, Animation_index::MOVE, Animation_index::JUMP_IDLE,
+		Animation_index::JUMP_RUN, Animation_index::PUNCH_1, Animation_index::PUNCH_2,
+		Animation_index::DIE, Animation_index::HIT, Animation_index::ADDITONAL_1 };
+
 	void load_assets();
 	void load_additional_texture(std::string path, std::string name, int repeat);
 	void load_additional_animation(string path, string name, Vectori n,

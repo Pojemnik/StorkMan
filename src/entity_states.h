@@ -40,6 +40,6 @@ struct Die_state : public Entity_state
 
 struct In_air_state : public Entity_state
 {
-	void exit(Entity& entity);
+	void enter(Entity& entity);
 	std::pair<Entity_state*, Entity_state_info> update(Entity& entity, float dt);
 };

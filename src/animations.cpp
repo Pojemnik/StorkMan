@@ -76,9 +76,34 @@ Dynamic_animation::Dynamic_animation(sf::Texture* texture_,
 void Dynamic_animation::set_animation(Animation_index a)
 {
 	last_animation = animation;
-	animation = a;
-	time_to_next_frame += ANIMATION_CHANGE_DELTA;
+	Animation_index alternative = Animation_index::DEFAULT;
+	std::pair<int, int> transition = std::make_pair(key, static_cast<int>(a));
+	if (tree.alternative_animations.contains(transition))
+	{
+		bool contains = false;
+		for (const auto& it : tree.alternative_animations.at(transition).second)
+		{
+			if (it == key)
+			{
+				contains - true;
+				break;
+			}
+		}
+		if (contains)
+		{
+			alternative = tree.alternative_animations.at(transition).first;
+		}
+	}
 	key = 0;
+	time_to_next_frame += ANIMATION_CHANGE_DELTA;
+	if (alternative == Animation_index::DEFAULT)
+	{
+		animation = a;
+	}
+	else
+	{
+		animation = alternative;
+	}
 	next_key = &animations[static_cast<int>(animation)]->key_frames[0];
 	time_to_animation_end = time_to_next_frame;
 	for (const auto& it : animations[static_cast<int>(animation)]->lengths)
@@ -87,9 +112,9 @@ void Dynamic_animation::set_animation(Animation_index a)
 	}
 }
 
-Animation_info Dynamic_animation::get_animation_info() const
+Animation_index Dynamic_animation::get_current_animation() const
 {
-	return Animation_info(animation, time_to_animation_end, key);
+	return animation;
 }
 
 void Dynamic_animation::increment_key()
@@ -183,15 +208,15 @@ const sf::Texture* const Static_animation::get_texture()
 void Static_animation::set_animation(Animation_index a)
 {
 	//This should never happen
-	//If changed, change also get_animation_info
+	//If changed, change also get_current_animation
 	throw std::logic_error("Not implemented");
 }
 
-Animation_info Static_animation::get_animation_info() const
+Animation_index Static_animation::get_current_animation() const
 {
 	//This should never happen
 	throw std::logic_error("Not implemented");
-	return Animation_info();
+	return Animation_index::DEFAULT;
 }
 
 Animation_info::Animation_info(Animation_index index_, float time_left_, int current_key_) :

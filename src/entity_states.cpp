@@ -4,6 +4,7 @@ void Run_state::enter(Entity& entity)
 {
 	entity.set_animation(Animation_index::MOVE);
 	entity.move(entity.direction);
+	send_message(Message::Message_type::MOVED, static_cast<int>(entity.surface));
 }
 
 std::pair<Entity_state*, Entity_state_info> Run_state::update(Entity& entity, float dt)
@@ -32,7 +33,8 @@ std::pair<Entity_state*, Entity_state_info> Run_state::update(Entity& entity, fl
 		}
 	}
 	entity.move(entity.direction);
-	assert(entity.get_animation_info() == Animation_index::MOVE);
+	entity.apply_force({ 0, context.gravity });
+	assert(entity.get_current_animation() == Animation_index::MOVE);
 	return std::make_pair(nullptr, Entity_state_info::NONE);
 }
 
@@ -40,15 +42,17 @@ void Idle_jump_state::enter(Entity& entity)
 {
 	entity.set_animation(Animation_index::JUMP_IDLE);
 	entity.jump();
+	send_message(Message::Message_type::JUMPED, NULL);
 }
 
 void Run_jump_state::enter(Entity& entity)
 {
 	//Problem
-	//We need to konow on which keyframe we are in order to make correct transition
+	//We need to know on which keyframe we are in order to make correct transition
 	//On the other hand, it's not portable
-	entity.set_animation(Animation_index::JUMP_RUN_1);
+	entity.set_animation(Animation_index::JUMP_RUN);
 	entity.jump();
+	send_message(Message::Message_type::JUMPED, NULL);
 }
 
 std::pair<Entity_state*, Entity_state_info> Jump_state::update(Entity& entity, float dt)
@@ -110,7 +114,8 @@ std::pair<Entity_state*, Entity_state_info> Idle_state::update(Entity& entity, f
 			break;
 		}
 	}
-	assert(entity.get_animation_info() == Animation_index::IDLE);
+	entity.apply_force({ 0, context.gravity });
+	assert(entity.get_current_animation() == Animation_index::IDLE);
 	return std::make_pair(nullptr, Entity_state_info::NONE);
 }
 
@@ -121,7 +126,7 @@ void Die_state::enter(Entity& entity)
 
 void Die_state::exit(Entity& entity)
 {
-	//Send death message to the engine
+	send_message(Message::Message_type::DIED, NULL);
 }
 
 std::pair<Entity_state*, Entity_state_info> Die_state::update(Entity& entity, float dt)
@@ -131,15 +136,15 @@ std::pair<Entity_state*, Entity_state_info> Die_state::update(Entity& entity, fl
 		//Command being discarded
 		(void)entity.controller->pop_command();
 	}
-	if (entity.get_animation_info().index == Animation_index::DEFAULT)
+	if (entity.get_current_animation().index == Animation_index::DEFAULT)
 	{
 		return std::make_pair(nullptr, Entity_state_info::POP);
 	}
-	assert(entity.get_animation_info() == Animation_index::DIE);
+	assert(entity.get_current_animation() == Animation_index::DIE);
 	return std::make_pair(nullptr, Entity_state_info::NONE);
 }
 
-void In_air_state::exit(Entity& entity)
+void In_air_state::enter(Entity& entity)
 {
 }
 
@@ -163,6 +168,7 @@ std::pair<Entity_state*, Entity_state_info> In_air_state::update(Entity& entity,
 			break;
 		}
 	}
+	entity.apply_force({ 0, context.gravity });
 	//TODO: Add code for landing
 	return std::make_pair(nullptr, Entity_state_info::NONE);
 }

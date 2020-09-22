@@ -107,6 +107,42 @@ Animation_tree Assets::load_animation_tree(std::string path)
 		tree.tree[node_names[a]].push_back(node_names[b]);
 	}
 	tree.nodes[tree.root].delta_pos = { Vectori(0,0),Vectori(0,0) };
+	string line;
+	while (!file.eof())
+	{
+		std::getline(file, line);
+		if (std::all_of(line.begin(), line.end(), std::isspace))
+		{
+			continue;
+		}
+		std::stringstream ss = std::stringstream(line);
+		std::pair<int, int> transition;
+		int temp;
+		Animation_index alternative;
+		try
+		{
+			ss >> transition.first >> transition.second >> temp;
+			alternative = reverse_animation_index[temp];
+		}
+		catch (...)
+		{
+			throw std::invalid_argument("Error in animation tree!");
+		}
+		string s;
+		std::vector<int> keys;
+		while (ss >> s)
+		{
+			try
+			{
+				keys.push_back(std::stoi(s));
+			}
+			catch (...)
+			{
+				throw std::invalid_argument("Error in animation tree!");
+			}
+		}
+		tree.alternative_animations.insert({ transition, std::make_pair(alternative, keys) });
+	}
 	return tree;
 }
 
@@ -227,8 +263,8 @@ void Assets::load_hp_bar()
 		for (int j = 0; j < 4; j++)
 		{
 			(*hp_bar.content_top)[i * 4 + j].loadFromImage(im, sf::IntRect(j * 128, i * 128, 128, 47));
-			(*hp_bar.content_mid)[i * 4 + j].loadFromImage(im, sf::IntRect(j * 128, i * 128+47, 128, 34));
-			(*hp_bar.content_bot)[i * 4 + j].loadFromImage(im, sf::IntRect(j * 128, i * 128+47+34, 128, 47));
+			(*hp_bar.content_mid)[i * 4 + j].loadFromImage(im, sf::IntRect(j * 128, i * 128 + 47, 128, 34));
+			(*hp_bar.content_bot)[i * 4 + j].loadFromImage(im, sf::IntRect(j * 128, i * 128 + 47 + 34, 128, 47));
 		}
 	}
 }
@@ -253,14 +289,17 @@ void Assets::load_assets()
 	console_bg->loadFromFile("img/ui/console_bg.png");
 	load_hp_bar();
 	//Dynamic animations
-	dynamic_animations.push_back(load_dynamic_animation("animations/stork/idle.txt"));
+	Dynamic_animation_struct stork_default_idle = *load_dynamic_animation("animations/stork/idle.txt");
+	dynamic_animations.push_back(&stork_default_idle);
+	dynamic_animations.push_back(&stork_default_idle);
 	dynamic_animations.push_back(load_dynamic_animation("animations/stork/run.txt"));
 	dynamic_animations.push_back(load_dynamic_animation("animations/stork/jump_idle.txt"));
 	dynamic_animations.push_back(load_dynamic_animation("animations/stork/jump_run.txt"));
-	dynamic_animations.push_back(load_dynamic_animation("animations/stork/jump_run2.txt"));
 	dynamic_animations.push_back(load_dynamic_animation("animations/stork/punch1.txt"));
 	dynamic_animations.push_back(load_dynamic_animation("animations/stork/punch2.txt"));
 	dynamic_animations.push_back(load_dynamic_animation("animations/stork/death.txt"));
+	dynamic_animations.push_back(&stork_default_idle);	//Hit
+	dynamic_animations.push_back(load_dynamic_animation("animations/stork/jump_run2.txt"));	//Additional 1
 	stork_tree = load_animation_tree("animations/stork/tree.txt");
 	//Textures
 	enemy_textures.reserve(20);
@@ -283,7 +322,7 @@ void Assets::load_assets()
 		}
 	}
 	{
-		std::vector<string> tex_names = {"log,1","line,1"};
+		std::vector<string> tex_names = { "log,1","line,1" };
 		for (int i = 0; i < tex_names.size(); i++)
 		{
 			textures[tex_names[i]] = &enemy_textures[i];

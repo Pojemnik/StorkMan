@@ -1,7 +1,7 @@
 #include "physics.h"
 
 Physical::Physical(std::vector<Vectorf>&& mesh, Vectorf pos_) : collision(std::move(mesh)),
-pos(pos_), acceleration(0,0), speed(0,0)
+pos(pos_), acceleration(0, 0), speed(0, 0)
 {
 }
 
@@ -28,6 +28,7 @@ void Physical::update(float dt)
 	}
 	acceleration = { 0,0 };
 	delta_pos = { 0,0 };
+	on_ground = false;
 }
 
 void Physical::apply_force(Vectorf force_)
@@ -37,7 +38,9 @@ void Physical::apply_force(Vectorf force_)
 
 void Physical::resolve_collision(const std::vector<const Collidable*>& others)
 {
-	Vectorf delta(0,0);
+	float max_up = -1.f;
+	surface = Surface_type::NONE;
+	Vectorf delta(0, 0);
 	for (const auto& it : others)
 	{
 		const Collision* const other_collision = it->get_collision();
@@ -46,14 +49,29 @@ void Physical::resolve_collision(const std::vector<const Collidable*>& others)
 		if (!collision.rect.intersects(other_collision->rect))
 			continue;
 		delta += coll::test_collision(collision, *other_collision);
+		if (delta.y > 0)
+		{
+			float up = util::vector_dot_product({ 0,-1 }, delta) / (std::hypot(delta.x, delta.y));
+			if (up > max_up)
+			{
+				max_up = up;
+				surface = it->get_collision()->surface;
+			}
+		}
 	}
 	if (delta != Vectorf(0, 0))
 	{
 		float k = util::vector_dot_product(speed, delta) /
 			util::vector_dot_product(delta, delta);
-		if(k>0)
+		if (k > 0)
 			speed -= delta * k;
 		delta_pos += delta;
+	}
+	collision_vector = delta;
+	if (util::vector_dot_product({ 0,-1 }, collision_vector) /
+		(std::hypot(collision_vector.x, collision_vector.y)) > 0.5f)
+	{
+		on_ground - true;
 	}
 }
 
@@ -65,4 +83,14 @@ void Physical::move(Vectorf delta)
 void Physical::set_position(Vectorf new_pos)
 {
 	delta_pos = new_pos - pos;
+}
+
+std::pair<Vectorf, Surface_type> Physical::get_collision_info() const
+{
+	return std::make_pair(collision_vector, surface);
+}
+
+bool Physical::is_on_ground() const
+{
+	return on_ground;
 }

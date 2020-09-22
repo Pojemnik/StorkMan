@@ -11,11 +11,14 @@ public:
 	virtual const Collision* const get_collision() const = 0;
 };
 
+enum class Surface_type : int {NONE = 0, GRASS, CONCRETE};
+
 struct Collision
 {
 	std::vector<Vectorf> mesh;
 	sf::FloatRect rect;
 	std::vector<std::pair<float, float>> min_max_arr;
+	Surface_type surface = Surface_type::CONCRETE;
 
 	Collision() = default;
 	Collision(sf::FloatRect rect_);
@@ -28,7 +31,7 @@ struct Collision
 struct Collision_info
 {
 	bool collides = true;
-	sf::Vector2f vector;
+	sf::Vector2f vector = { 0,0 };
 	float distance = .0f;
 
 	Collision_info(bool);

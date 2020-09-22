@@ -4,8 +4,8 @@
 
 enum class Animation_index : int
 {
-	DEFAULT = 0, IDLE, MOVE, JUMP_IDLE, JUMP_RUN_1, JUMP_RUN_2, PUNCH_1, PUNCH_2,
-	DIE, HIT
+	DEFAULT = 0, IDLE, MOVE, JUMP_IDLE, JUMP_RUN, PUNCH_1, PUNCH_2,
+	DIE, HIT, ADDITONAL_1
 };
 
 struct Animation_info
@@ -31,7 +31,7 @@ public:
 	virtual void next_frame(float dt) = 0;
 	virtual const sf::Texture* const get_texture() = 0;
 	virtual void set_animation(Animation_index a) = 0;
-	virtual Animation_info get_animation_info() const = 0;
+	virtual Animation_index get_current_animation() const = 0;
 };
 
 struct Animation_node
@@ -47,6 +47,7 @@ struct Animation_tree
 	std::vector<Animation_node> nodes;
 	std::vector<std::vector<int>> tree;
 	int root;
+	std::unordered_map<std::pair<int, int>, std::pair<Animation_index, std::vector<int>>> alternative_animations;
 
 	Animation_tree() = default;
 	Animation_tree(int _count, int i_count);
@@ -102,7 +103,7 @@ public:
 	void next_frame(float dt);
 	const sf::Texture* const get_texture();
 	void set_animation(Animation_index a);
-	Animation_info get_animation_info() const;
+	Animation_index get_current_animation() const;
 };
 
 class Static_animation : public Animation
@@ -117,5 +118,5 @@ public:
 	void next_frame(float dt);
 	const sf::Texture* const get_texture();
 	void set_animation(Animation_index a);
-	Animation_info get_animation_info() const;
+	Animation_index get_current_animation() const;
 };

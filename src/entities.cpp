@@ -1,5 +1,33 @@
 #include "entities.h"
 
+void Entity_state_machine::update(Entity& entity, float dt)
+{
+	if (state_stack.size() <= 0)
+	{
+		throw std::runtime_error("Out of entity stack!");
+	}
+	std::pair<Entity_state*, Entity_state_info> state = state_stack.top()->update(entity, dt);
+	switch (state.second)
+	{
+	case Entity_state_info::REPLACE:
+		state_stack.top()->exit(entity);
+		delete state_stack.top();
+		state_stack.pop();
+		//No break
+	case Entity_state_info::PUSH:
+		state_stack.push(state.first);
+		state_stack.top()->enter(entity);
+		break;
+	case Entity_state_info::POP:
+		state_stack.top()->exit(entity);
+		delete state_stack.top();
+		state_stack.pop();
+		break;
+	case Entity_state_info::NONE:
+		break;
+	}
+}
+
 Entity::Entity(Vectorf p, std::unique_ptr<Animation>&& animation_,
 	sf::FloatRect collision_, float height_, float mass_, int health_)
 	: health(health_), height(height_), mass(mass_)
@@ -18,9 +46,9 @@ void Entity::set_animation(Animation_index a)
 	animation->set_animation(a);
 }
 
-Animation_index Entity::get_animation_info()
+Animation_index Entity::get_current_animation()
 {
-	return animation->get_animation_info();
+	return animation->get_current_animation();
 }
 
 void Entity::move(Vectorf delta)
@@ -78,9 +106,19 @@ void Entity::move(int direction)
 	physical.move({ move_speed * direction, 0.f });
 }
 
+void Entity::apply_force(Vectorf force)
+{
+	physical.apply_force(force);
+}
+
 void Entity::jump()
 {
 	physical.apply_force({ 0, -jump_force });
+}
+
+std::pair<Vectorf, Surface_type> Entity::get_collision_info() const
+{
+	return physical.get_collision_info();
 }
 
 void Entity::jump(bool move)
@@ -154,27 +192,11 @@ void Entity::flip_if_needed()
 
 void Entity::update(float dt)
 {
-	assert(state_stack.size() > 0);
-	std::pair<Entity_state*, Entity_state_info> state = state_stack.top()->update(*this, dt);
-	switch (state.second)
-	{
-	case Entity_state_info::REPLACE:
-		state_stack.top()->exit(*this);
-		delete state_stack.top();
-		state_stack.pop();
-		//No break
-	case Entity_state_info::PUSH:
-		state_stack.push(state.first);
-		state_stack.top()->enter(*this);
-		break;
-	case Entity_state_info::POP:
-		state_stack.top()->exit(*this);
-		delete state_stack.top();
-		state_stack.pop();
-		break;
-	case Entity_state_info::NONE:
-		break;
-	}
+	auto temp = physical.get_collision_info();
+	collision_vector = temp.first;
+	surface = temp.second;
+	on_ground = physical.is_on_ground();
+	state->update(*this, dt);
 	//---------------------------------------------------
 	edge_jump_update();
 	total_speed += external_speed;
