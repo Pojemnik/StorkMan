@@ -54,6 +54,11 @@ void Pendulum::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	platform.draw(target, states);
 }
 
+sf::FloatRect Pendulum::get_bounding_rect() const
+{
+	return platform.get_collision()->rect;
+}
+
 void Pendulum::update(float dt)
 {
 	for (auto& it : lines)
@@ -93,6 +98,11 @@ void Moving_platform::draw(sf::RenderTarget& target, sf::RenderStates states) co
 {
 	states.transform *= ai->get_pos();
 	target.draw(shape, states);
+}
+
+sf::FloatRect Moving_platform::get_bounding_rect() const
+{
+	return collision.rect;
 }
 
 Barrier::Barrier(std::vector<Vectorf>&& vertices_, Vectorf pos_)

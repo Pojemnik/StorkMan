@@ -55,9 +55,9 @@ std::string Parser::get_attribute_by_name(std::string name, tinyxml2::XMLElement
 		return "";
 }
 
-Level Parser::parse_level(tinyxml2::XMLElement* root)
+old_Level Parser::parse_level(tinyxml2::XMLElement* root)
 {
-	Level lvl = Level();
+	old_Level lvl = old_Level();
 	if (root == NULL)
 	{
 		context.console->err << "B³¹d w pierwszym elemencie pliku!" << '\n';
@@ -380,7 +380,7 @@ Animated_object Parser::parse_animated_object(tinyxml2::XMLElement* element)
 Map Parser::parse_map(tinyxml2::XMLElement* root)
 {
 	Vectori map_player_pos = Vectori(-1, -1), map_size = Vectori(-1, -1);
-	std::vector<Level> vec;
+	std::vector<old_Level> vec;
 	if (root == NULL)
 	{
 		context.console->err << "B³¹d w pierwszym elemencie pliku!" << '\n';
@@ -438,7 +438,7 @@ Map Parser::parse_map(tinyxml2::XMLElement* root)
 				{
 					tinyxml2::XMLDocument lvl_root;
 					lvl_root.LoadFile(filepath.c_str());
-					Level lvl = parse_level(lvl_root.FirstChildElement());
+					old_Level lvl = parse_level(lvl_root.FirstChildElement());
 					lvl.global_size = size;
 					lvl.global_pos = pos;
 					vec.push_back(lvl);

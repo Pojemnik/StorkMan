@@ -30,6 +30,7 @@ public:
 		std::unique_ptr<Simple_AI> ai_, int flip_ = 0, float angle_ = 0);
 	void update(float dt);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	virtual sf::FloatRect get_bounding_rect() const;
 };
 
 class Animated_object : public Animatable, public Object
@@ -55,6 +56,7 @@ public:
 		float angle_ = 0);
 	void update(float dt);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	virtual sf::FloatRect get_bounding_rect() const;
 };
 
 class Zone
@@ -71,11 +73,11 @@ public:
 	bool contains(Vectorf p);
 };
 
-class Damage_zone : public Zone
+class Damage_zone : public Zone, public Updatable
 {
-private:
 	std::vector<std::pair<int, int>> damage;
 	float time = 0;
+	sf::FloatRect bounds;
 
 public:
 	std::vector<std::pair<int, int>>::iterator current_damage;
@@ -84,7 +86,7 @@ public:
 	void update(float dt);
 	Damage_zone(std::vector<Vectorf>& vert, Vectorf p,
 		std::vector<std::pair<int, int>>& dmg);
-	Damage_zone(const Damage_zone& dmgz);
+	virtual sf::FloatRect get_bounding_rect() const;
 };
 
 inline bool operator==(const Damage_zone& lhs, const Damage_zone& rhs)

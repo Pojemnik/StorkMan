@@ -1,164 +1,165 @@
 #include "level.h"
 
-Level::Level() {}
-
-Level::Level(const Level& level)
-	: global_pos(level.global_pos), is_loaded(level.is_loaded),
-	global_size(level.global_size), platforms(level.platforms),
-	light_sources(level.light_sources), walls(level.walls),
-	objects(level.objects), anim_objects(level.anim_objects), 
-	pendulums(level.pendulums), lmps(level.lmps), mos(level.mos),
-	dmg_zones(level.dmg_zones)
+void Tile::update(float dt)
 {
-	for (auto& p : platforms)
+	for (auto& it : updatables)
 	{
-		add_collidable(&p);
-		if (p.visible)
+		it->update(dt);
+	}
+	for (auto& it : animatables)
+	{
+		it->next_frame(dt);
+	}
+}
+
+void Tile::draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	for (const auto& it : bottom_layers)
+	{
+		for (const auto& it2 : it)
 		{
-			add_to_layer(p);
+			target.draw(*it2, states);
 		}
 	}
-	for (auto& p : pendulums)
+}
+
+void Tile::draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	for (const auto& it : middle_layers)
 	{
-		add_physical(&p);
-		if (p.visible)
+		for (const auto& it2 : it)
 		{
-			add_to_layer(p);
+			target.draw(*it2, states);
 		}
 	}
-	for (auto& p : lmps)
+}
+
+void Tile::draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	for (const auto& it : top_layers)
 	{
-		add_physical(&p);
-		if (p.visible)
+		for (const auto& it2 : it)
 		{
-			add_to_layer(p);
+			target.draw(*it2, states);
 		}
 	}
-	for (auto& w : walls)
+}
+
+Update_chunk::Update_chunk(std::vector<std::shared_ptr<Updatable>>&& content_) :
+	content(std::move(content_)) {}
+
+void Update_chunk::update(float dt)
+{
+	for (auto& it : content)
 	{
-		add_to_layer(w);
-	}
-	for (auto& o : objects)
-	{
-		add_to_layer(o);
-	}
-	for (auto& mo : mos)
-	{
-		add_to_layer(mo);
-	}
-	for (auto& o : anim_objects)
-	{
-		add_animatable(&o);
-		add_to_layer(o);
+		it->update(dt);
 	}
 }
 
-void Level::add_object(Object o)
+sf::FloatRect Moving_element::get_bounding_rect() const
 {
-	objects.push_back(o);
-	add_to_layer(o);
-}
-void Level::add_moving_object(Moving_object o)
-{
-	mos.push_back(o);
-	add_to_layer(o);
-}
-void Level::add_object(Animated_object o)
-{
-	anim_objects.push_back(o);
-	add_to_layer(o);
+	return updatable->get_bounding_rect();
 }
 
-void Level::add_pendulum(Pendulum p)
+void Moving_element::update(float dt)
 {
-	pendulums.push_back(p);
-	add_to_layer(p);
-	add_physical(&p);
+	updatable->update(dt);
 }
 
-void Level::add_lmp(Linear_moving_platform lmp)
+void Moving_element::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	lmps.push_back(lmp);
-	add_to_layer(lmp);
-	add_physical(&lmp);
+	if (is_drawable)
+	{
+		target.draw(*renderable, states);
+	}
 }
 
-void Level::add_to_layer(old_Animatable& a)
+Moving_element::Moving_element(std::shared_ptr<Updatable> updatable_, int layer_) :
+	updatable(std::move(updatable_)), layer(layer_)
 {
-	if (a.layer < BOTTOM_LAYERS)
-		bottom_layers[a.layer].push_back(&a);
-	else if (a.layer < MIDDLE_LAYERS + BOTTOM_LAYERS)
-		middle_layers[a.layer - BOTTOM_LAYERS].push_back(&a);
-	else if (a.layer < TOP_LAYERS + MIDDLE_LAYERS + BOTTOM_LAYERS)
-		top_layers[a.layer - BOTTOM_LAYERS - MIDDLE_LAYERS].push_back(&a);
+	renderable = std::dynamic_pointer_cast<Renderable>(updatable);
+	is_drawable = (renderable == nullptr);
 }
 
-void Level::add_to_layer(old_Texturable& t)
+Level::Level(std::vector<std::vector<Tile>>&& tiles_,
+	std::vector<Moving_element>&& moving_, Vectori pos,
+	Vectori size) : tiles(std::move(tiles_)), moving(std::move(moving)),
+	global_pos(pos), global_size(size) {}
+
+void Level::update(float dt, Vectorf player_pos, sf::FloatRect screen_rect)
 {
-	if (t.layer < BOTTOM_LAYERS)
-		bottom_layers[t.layer].push_back(&t);
-	else if (t.layer < MIDDLE_LAYERS + BOTTOM_LAYERS)
-		middle_layers[t.layer - BOTTOM_LAYERS].push_back(&t);
-	else if (t.layer < TOP_LAYERS + MIDDLE_LAYERS + BOTTOM_LAYERS)
-		top_layers[t.layer - BOTTOM_LAYERS - MIDDLE_LAYERS].push_back(&t);
+	player_tile = { (int)player_pos.x % context.level_tile_size,
+	(int)player_pos.y % context.level_tile_size };
+	for (int i = -3; i < 4; i++)
+	{
+		for (int j = -2; j < 3; j++)
+		{
+			if (player_tile.x + i >= tiles_n.x || player_tile.x + i < 0 ||
+				player_tile.y + j >= tiles_n.y || player_tile.y + j < 0)
+			{
+				continue;
+			}
+			tiles[player_tile.x + i][player_tile.y + j].update(dt);
+		}
+	}
+	for (auto& it : moving)
+	{
+		if (it.get_bounding_rect().intersects(screen_rect))
+		{
+			it.on_screen = true;
+			it.update(dt);
+		}
+		else
+		{
+			it.on_screen = false;
+		}
+	}
 }
 
-void Level::add_to_layer(old_Renderable& r)
+void Level::draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	if (r.layer < BOTTOM_LAYERS)
-		bottom_layers[r.layer].push_back(&r);
-	else if (r.layer < MIDDLE_LAYERS + BOTTOM_LAYERS)
-		middle_layers[r.layer - BOTTOM_LAYERS].push_back(&r);
-	else if (r.layer < TOP_LAYERS + MIDDLE_LAYERS + BOTTOM_LAYERS)
-		top_layers[r.layer - BOTTOM_LAYERS - MIDDLE_LAYERS].push_back(&r);
+	for (int i = -3; i < 4; i++)
+	{
+		for (int j = -2; j < 3; j++)
+		{
+			if (player_tile.x + i >= tiles_n.x || player_tile.x + i < 0 ||
+				player_tile.y + j >= tiles_n.y || player_tile.y + j < 0)
+			{
+				continue;
+			}
+			tiles[player_tile.x + i][player_tile.y + j].draw_bottom_layers(target, states);
+		}
+	}
 }
 
-void Level::add_physical(old_Physical* p)
+void Level::draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	physicals.push_back(p);
+	for (int i = -3; i < 4; i++)
+	{
+		for (int j = -2; j < 3; j++)
+		{
+			if (player_tile.x + i >= tiles_n.x || player_tile.x + i < 0 ||
+				player_tile.y + j >= tiles_n.y || player_tile.y + j < 0)
+			{
+				continue;
+			}
+			tiles[player_tile.x + i][player_tile.y + j].draw_middle_layers(target, states);
+		}
+	}
 }
 
-void Level::add_collidable(old_Collidable* c)
+void Level::draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	collidables.push_back(c);
-}
-
-void Level::add_animatable(old_Animatable* a)
-{
-	animatables.push_back(a);
-}
-
-void Level::add_light_source(Light_source l)
-{
-	light_sources.push_back(l);
-}
-
-void Level::add_platform(Platform p)
-{
-	platforms.push_back(p);
-	add_to_layer(p);
-	add_collidable(&p);
-}
-
-void Level::rescale(float ratio)
-{
-	for (auto& w : platforms)
-		w.rescale(ratio);
-	for (auto& w : walls)
-		w.rescale(ratio);
-	for (auto& w : objects)
-		w.rescale(ratio);
-	for (auto& w : mos)
-		w.rescale(ratio);
-}
-
-void Level::add_wall(Textured_polygon w)
-{
-	walls.push_back(w);
-	add_to_layer(w);
-}
-
-void Level::add_dmg_zone(Damage_zone dmgz)
-{
-	dmg_zones.push_back(dmgz);
+	for (int i = -3; i < 4; i++)
+	{
+		for (int j = -2; j < 3; j++)
+		{
+			if (player_tile.x + i >= tiles_n.x || player_tile.x + i < 0 ||
+				player_tile.y + j >= tiles_n.y || player_tile.y + j < 0)
+			{
+				continue;
+			}
+			tiles[player_tile.x + i][player_tile.y + j].draw_top_layers(target, states);
+		}
+	}
 }

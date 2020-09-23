@@ -19,7 +19,7 @@ private:
 	sf::Color parse_color(std::string val);
 	Vectori parse_num_pairi(std::string val);
 	std::string get_attribute_by_name(std::string name, tinyxml2::XMLElement* element);
-	Level parse_level(tinyxml2::XMLElement* root);
+	old_Level parse_level(tinyxml2::XMLElement* root);
 	Platform parse_platform_raw(tinyxml2::XMLElement* element);
 	Platform parse_platform(tinyxml2::XMLElement* element);
 	Light_source parse_light_source_raw(tinyxml2::XMLElement* element);

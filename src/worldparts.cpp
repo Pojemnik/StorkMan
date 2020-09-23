@@ -25,6 +25,11 @@ void Moving_object::draw(sf::RenderTarget& target, sf::RenderStates states) cons
 	Object::draw(target, states);
 }
 
+sf::FloatRect Moving_object::get_bounding_rect() const
+{
+	return sprite.getGlobalBounds();
+}
+
 void Moving_object::update(float dt)
 {
 	ai->calc_pos(dt);
@@ -58,6 +63,11 @@ void Moving_animated_object::draw(sf::RenderTarget& target, sf::RenderStates sta
 	Object::draw(target, states);
 }
 
+sf::FloatRect Moving_animated_object::get_bounding_rect() const
+{
+	return sprite.getGlobalBounds();
+}
+
 void Moving_animated_object::update(float dt)
 {
 	ai->calc_pos(dt);
@@ -88,15 +98,15 @@ bool Zone::contains(Vectorf p)
 }
 
 Damage_zone::Damage_zone(std::vector<Vectorf>& vert, Vectorf p,
-	std::vector<std::pair<int, int>>& dmg) : Zone(vert, p), damage(dmg)
+	std::vector<std::pair<int, int>>& dmg) : Zone(vert, p), damage(dmg),
+	bounds(util::mesh_to_rect(vert))
 {
 	current_damage = damage.begin();
 }
 
-Damage_zone::Damage_zone(const Damage_zone& dmgz) : Zone(dmgz.vertices, dmgz.pos),
-damage(dmgz.damage)
+sf::FloatRect Damage_zone::get_bounding_rect() const
 {
-	current_damage = damage.begin();
+	return bounds;
 }
 
 void Damage_zone::update(float dt)

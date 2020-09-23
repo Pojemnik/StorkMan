@@ -9,16 +9,16 @@ Map::Map()
 	player_smash.fill(false);
 }
 
-Map::Map(Vectori dimensions, std::vector<Level>& lvls, Vectori start_pos,
+Map::Map(Vectori dimensions, std::vector<old_Level>& lvls, Vectori start_pos,
 	sf::Texture& bg_tex, sf::Texture& layer2_tex, sf::Texture* light_tex)
 	: size(dimensions), current_pos(start_pos), light(level_size, light_tex)
 {
 	background.setTexture(bg_tex);
 	layer2.setTexture(layer2_tex);
-	level_placement = new Level * *[size.y];
+	level_placement = new old_Level * *[size.y];
 	for (int i = 0; i < size.y; i++)
 	{
-		level_placement[i] = new Level * [size.x];
+		level_placement[i] = new old_Level * [size.x];
 	}
 	levels = lvls;
 	place_levels();
@@ -83,7 +83,7 @@ void Map::load_level(Vectori pos)
 	}
 }
 
-void Map::unload_level(std::list<Level*>::iterator& lvl)
+void Map::unload_level(std::list<old_Level*>::iterator& lvl)
 {
 	(*lvl)->is_loaded = false;
 	lvl = loaded_levels.erase(lvl);
@@ -297,7 +297,7 @@ void Map::load_levels_in_bounds(Vectori pos)
 	}
 }
 
-void Map::update_level(int id, Level* lvl, float dt)
+void Map::update_level(int id, old_Level* lvl, float dt)
 {
 	for (auto& dmgz_it : lvl->dmg_zones)
 	{
@@ -352,7 +352,7 @@ void Map::update(float dt)
 		future_it.wait();
 		future_it.get();
 	}
-	Level* current_level = level_placement[current_pos.x][current_pos.y];
+	old_Level* current_level = level_placement[current_pos.x][current_pos.y];
 	Vectorf player_center = (player->mesh.vertices[0] + player->mesh.vertices[2]);
 	player_center = { player_center.x / 2, player_center.y / 2 };
 	for (auto& dmgz_it : current_level->dmg_zones)

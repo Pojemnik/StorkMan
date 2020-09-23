@@ -67,6 +67,7 @@ struct Context
 	sf::Sound jump_idle;
 	sf::Sound jump_run;
 	sf::Sound aaa;
+	int level_tile_size = 5;
 };
 
 extern struct Context context;

@@ -7,9 +7,9 @@ class Map : public sf::Drawable
 private:
 	Vectori size;
 	Vectori current_pos;
-	std::vector<Level> levels;
-	Level*** level_placement;
-	std::list<Level*> loaded_levels;
+	std::vector<old_Level> levels;
+	old_Level*** level_placement;
+	std::list<old_Level*> loaded_levels;
 	sf::RenderTexture* light_texture;
 	std::vector<Vectorf> map_vertices;
 	float global_scale;
@@ -18,11 +18,11 @@ private:
 	std::vector<std::pair<Vectorf, Vectorf>> map_edges;
 
 	void load_level(Vectori pos);
-	void unload_level(std::list<Level*>::iterator& lvl);
+	void unload_level(std::list<old_Level*>::iterator& lvl);
 	void unload_levels_out_of_bounds();
 	void load_levels_in_bounds(Vectori pos);
 	void place_levels();
-	static void update_level(int id, Level* lvl, float dt);
+	static void update_level(int id, old_Level* lvl, float dt);
 
 public:
 	sf::Sprite background;
@@ -34,7 +34,7 @@ public:
 	sf::Sprite light_sprite;
 
 	Map();
-	Map(Vectori dimensions, std::vector<Level>& lvls, Vectori start_pos,
+	Map(Vectori dimensions, std::vector<old_Level>& lvls, Vectori start_pos,
 		sf::Texture& bg_tex, sf::Texture& layer2_tex, sf::Texture* light_tex);
 	void calc_map_vertices();
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

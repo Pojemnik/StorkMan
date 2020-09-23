@@ -5,6 +5,7 @@ class Updatable
 {
 public:
 	virtual void update(float dt) = 0;
+	virtual sf::FloatRect get_bounding_rect() const = 0;
 };
 
 class Transformable
@@ -16,4 +17,5 @@ public:
 
 class Renderable : public sf::Drawable
 {
+	void draw(sf::RenderTarget& target, sf::RenderStates states) const = 0;
 };
