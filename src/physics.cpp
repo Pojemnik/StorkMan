@@ -1,9 +1,13 @@
 #include "physics.h"
 
-Physical::Physical(std::vector<Vectorf>&& mesh, Vectorf pos_) : collision(std::move(mesh)),
-pos(pos_), acceleration(0, 0), speed(0, 0)
+void Physical::reset_physics()
 {
+	acceleration = { 0,0 };
+	speed = { 0,0 };
 }
+
+Physical::Physical(std::vector<Vectorf>&& mesh, Vectorf pos_) : collision(std::move(mesh)),
+pos(pos_), acceleration(0, 0), speed(0, 0) {}
 
 const Collision* const Physical::get_collision() const
 {
@@ -83,6 +87,7 @@ void Physical::move(Vectorf delta)
 void Physical::set_position(Vectorf new_pos)
 {
 	delta_pos = new_pos - pos;
+	reset_physics();
 }
 
 std::pair<Vectorf, Surface_type> Physical::get_collision_info() const

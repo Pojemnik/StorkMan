@@ -8,14 +8,14 @@ enum class Animation_index : int
 	DIE, HIT, ADDITONAL_1
 };
 
-struct Animation_info
+struct Frame_info
 {
-	Animation_index index;
-	float time_left;
-	int current_key;
+	Vectori part_size;
+	Vectori frame_size;
+	Vectori offset;
+	Vectorf character_position;
 
-	Animation_info() = default;
-	Animation_info(Animation_index index_, float time_left_, int current_key_);
+	Frame_info(Vectori part_size_, Vectori frame_size_, Vectori offset_);
 };
 
 class Animatable
@@ -32,6 +32,7 @@ public:
 	virtual const sf::Texture* const get_texture() = 0;
 	virtual void set_animation(Animation_index a) = 0;
 	virtual Animation_index get_current_animation() const = 0;
+	virtual Frame_info get_frame_info() const = 0;
 };
 
 struct Animation_node
@@ -81,13 +82,13 @@ protected:
 	std::vector<const Dynamic_animation_struct*> animations;
 	int key;
 	float time_to_next_frame;
-	float time_to_animation_end;
 	const std::vector<float>* last_key;
 	const std::vector<float>* next_key;
 	std::vector<float> actual_frame;
 	Animation_index animation;
 	Animation_index last_animation;
 	const int ANIMATION_CHANGE_DELTA = 5;
+	Frame_info frame_info;
 
 	Vectorf count_pos(Vectorf start, float size1, float size2,
 		Vectori translation1, float a1,
@@ -104,6 +105,7 @@ public:
 	const sf::Texture* const get_texture();
 	void set_animation(Animation_index a);
 	Animation_index get_current_animation() const;
+	Frame_info get_frame_info() const;
 };
 
 class Static_animation : public Animation
@@ -112,6 +114,7 @@ protected:
 	Static_animation_struct animation;
 	sf::Sprite sprite;
 	float time = 0;
+	Frame_info frame_info;
 
 public:
 	Static_animation(Static_animation_struct& animation_, float time_offset);
@@ -119,4 +122,5 @@ public:
 	const sf::Texture* const get_texture();
 	void set_animation(Animation_index a);
 	Animation_index get_current_animation() const;
+	Frame_info get_frame_info() const;
 };

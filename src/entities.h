@@ -22,6 +22,7 @@ class Entity_state_machine
 
 public:
 	virtual void update(Entity& entity, float dt);
+	Entity_state_machine(Entity_state* state);
 };
 
 struct Command
@@ -42,19 +43,15 @@ class Entity : public Animatable, public Updatable, public Collidable
 protected:
 	const float move_speed = 1.f;
 	const float jump_force = 50.f;
+	int last_direction = 1;
 	Physical physical;
 	sf::Sprite sprite;
 	float height;
 	std::unique_ptr<Animation> animation;
 	std::unique_ptr<Entity_state_machine> state;
-	
 	int max_health;
 
-	void update_position(float dt);
-	void set_idle();
-	void flip_if_needed();
-	void edge_jump_update();
-	void die();
+	void flip(int direction);
 
 public:
 	std::unique_ptr<Controller> controller;
@@ -70,21 +67,14 @@ public:
 	void move(int direction);
 	void apply_force(Vectorf force);
 	void jump();
-	//---------------------------------------------------------
-	Entity(Vectorf p, std::unique_ptr<Animation>&& animation_,
-		sf::FloatRect collision_, float height_, int health_);
-	void move(Vectorf delta);
-	void move_angled(int direction);
-	void set_position(Vectorf new_position);
-	void jump(bool run);
-	void stop_jump();
-	void update(float dt);
-	void next_frame();
-	Vectorf get_position();
-	void rescale(float new_scale);
 	void deal_damage(int amount);
 	void set_max_health(int val);
 	int get_max_health();
 	void heal(int amount);
-	void post_death();
+	Vectorf get_position();
+	void set_position(Vectorf new_position);
+	void update(float dt);
+	Entity(std::unique_ptr<Animation>&& animation_, Physical& physical_,
+		std::unique_ptr<Entity_state_machine>&& state_,
+		std::unique_ptr<Controller>&& controller_, float height_, int health_);
 };

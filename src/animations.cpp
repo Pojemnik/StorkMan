@@ -55,7 +55,8 @@ void Dynamic_animation::pre_draw()
 Dynamic_animation::Dynamic_animation(sf::Texture* texture_,
 	std::vector<sf::IntRect>& part_sizes,
 	std::vector<const Dynamic_animation_struct*> animations_, Animation_tree tree_)
-	: animations(animations_), tree(tree_)
+	: animations(animations_), tree(tree_), frame_info(
+		{ part_sizes[0].width, part_sizes[0].height }, { 192, 192 }, { 500, 500 })
 {
 	last_animation = animation = Animation_index::DEFAULT;
 	key = 0;
@@ -69,7 +70,7 @@ Dynamic_animation::Dynamic_animation(sf::Texture* texture_,
 		parts.push_back(sf::Sprite(*texture_, part_sizes[i]));
 		parts[i].setOrigin((float)part_sizes[i].width / 2, (float)part_sizes[i].height / 2);
 	}
-	if (!tex.create(500, 500))
+	if (!tex.create(frame_info.frame_size.x, frame_info.frame_size.y))
 		return;
 }
 
@@ -105,16 +106,18 @@ void Dynamic_animation::set_animation(Animation_index a)
 		animation = alternative;
 	}
 	next_key = &animations[static_cast<int>(animation)]->key_frames[0];
-	time_to_animation_end = time_to_next_frame;
-	for (const auto& it : animations[static_cast<int>(animation)]->lengths)
-	{
-		time_to_animation_end += it;
-	}
 }
 
 Animation_index Dynamic_animation::get_current_animation() const
 {
 	return animation;
+}
+
+Frame_info Dynamic_animation::get_frame_info() const
+{
+	Frame_info info = frame_info;
+	info.character_position = { actual_frame[0], actual_frame[1] };
+	return info;
 }
 
 void Dynamic_animation::increment_key()
@@ -143,7 +146,6 @@ void Dynamic_animation::increment_key()
 void Dynamic_animation::next_frame(float dt)
 {
 	time_to_next_frame -= dt;
-	time_to_animation_end -= dt;
 	if (last_animation != animation)//?
 	{
 		set_animation(animation);
@@ -181,7 +183,8 @@ Static_animation_struct::Static_animation_struct(Static_animation_struct& a) : a
 }
 
 Static_animation::Static_animation(Static_animation_struct& animation_, float time_offset) :
-	animation(animation_), time(time_offset)
+	animation(animation_), time(time_offset), frame_info(Vectori(animation.it->getSize()),
+		Vectori(animation.it->getSize()), { 0,0 })
 {
 	while (time >= animation.frame_time)
 	{
@@ -197,7 +200,7 @@ void Static_animation::next_frame(float dt)
 	{
 		time -= animation.frame_time;
 		animation.it = util::increment_iterator(animation.it, *animation.animation);
-	}	
+	}
 }
 
 const sf::Texture* const Static_animation::get_texture()
@@ -219,5 +222,11 @@ Animation_index Static_animation::get_current_animation() const
 	return Animation_index::DEFAULT;
 }
 
-Animation_info::Animation_info(Animation_index index_, float time_left_, int current_key_) :
-	index(index_), time_left(time_left_), current_key(current_key_) {}
+Frame_info Static_animation::get_frame_info() const
+{
+	return frame_info;
+}
+
+Frame_info::Frame_info(Vectori part_size_, Vectori frame_size_, Vectori offset_) :
+	part_size(part_size_), frame_size(frame_size_), offset(offset_), 
+	character_position(offset_) {}

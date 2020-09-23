@@ -14,6 +14,10 @@ std::pair<Entity_state*, Entity_state_info> Run_state::update(Entity& entity, fl
 		//This should be other animation
 		return std::make_pair(new Die_state(), Entity_state_info::REPLACE);
 	}
+	if (!entity.on_ground)
+	{
+		return std::make_pair(new In_air_state(), Entity_state_info::REPLACE);
+	}
 	while (entity.controller->command_available())
 	{
 		Command cmd = entity.controller->pop_command();
@@ -62,6 +66,10 @@ std::pair<Entity_state*, Entity_state_info> Jump_state::update(Entity& entity, f
 		//This should be other animation
 		return std::make_pair(new Die_state(), Entity_state_info::REPLACE);
 	}
+	if (entity.on_ground)
+	{
+		return std::make_pair(new Idle_state(), Entity_state_info::REPLACE);
+	}
 	time_sum += dt;
 	while (entity.controller->command_available())
 	{
@@ -83,7 +91,6 @@ std::pair<Entity_state*, Entity_state_info> Jump_state::update(Entity& entity, f
 		return std::make_pair(new In_air_state(), Entity_state_info::REPLACE);
 	}
 	entity.jump();
-	//TODO: Add code for landing
 	return std::make_pair(nullptr, Entity_state_info::NONE);
 }
 
@@ -97,6 +104,10 @@ std::pair<Entity_state*, Entity_state_info> Idle_state::update(Entity& entity, f
 	if (entity.health <= 0)
 	{
 		return std::make_pair(new Die_state(), Entity_state_info::REPLACE);
+	}
+	if (!entity.on_ground)
+	{
+		return std::make_pair(new In_air_state(), Entity_state_info::REPLACE);
 	}
 	while (entity.controller->command_available())
 	{
@@ -155,6 +166,10 @@ std::pair<Entity_state*, Entity_state_info> In_air_state::update(Entity& entity,
 		//This should be other animation
 		return std::make_pair(new Die_state(), Entity_state_info::REPLACE);
 	}
+	if (entity.on_ground)
+	{
+		return std::make_pair(new Idle_state(), Entity_state_info::REPLACE);
+	}
 	while (entity.controller->command_available())
 	{
 		Command cmd = entity.controller->pop_command();
@@ -169,6 +184,5 @@ std::pair<Entity_state*, Entity_state_info> In_air_state::update(Entity& entity,
 		}
 	}
 	entity.apply_force({ 0, context.gravity });
-	//TODO: Add code for landing
 	return std::make_pair(nullptr, Entity_state_info::NONE);
 }

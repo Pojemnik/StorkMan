@@ -14,6 +14,8 @@ class Physical : public Updatable, public Collidable
 	Surface_type surface;
 	bool on_ground = false;
 
+	void reset_physics();
+
 public:
 	Physical(std::vector<Vectorf>&& mesh, Vectorf pos_);
 	const Collision* const get_collision() const;
