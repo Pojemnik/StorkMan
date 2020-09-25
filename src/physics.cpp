@@ -33,6 +33,22 @@ void Physical::update(float dt)
 	acceleration = { 0,0 };
 	delta_pos = { 0,0 };
 	on_ground = false;
+	if (temp_delta != Vectorf(0, 0))
+	{
+		float k = util::vector_dot_product(speed, temp_delta) /
+			util::vector_dot_product(temp_delta, temp_delta);
+		if (k > 0)
+			speed -= temp_delta * k;
+		delta_pos += temp_delta;
+	}
+	collision_vector = temp_delta;
+	if (util::vector_dot_product({ 0,-1 }, collision_vector) /
+		(std::hypot(collision_vector.x, collision_vector.y)) > 0.5f)
+	{
+		on_ground - true;
+	}
+	surface = Surface_type::NONE;
+	max_up = -1.f;
 }
 
 void Physical::apply_force(Vectorf force_)
@@ -40,11 +56,8 @@ void Physical::apply_force(Vectorf force_)
 	acceleration += force_;
 }
 
-void Physical::resolve_collision(const std::vector<const Collidable*>& others)
+void Physical::resolve_collision(const std::vector<std::shared_ptr<const Collidable>>& others)
 {
-	float max_up = -1.f;
-	surface = Surface_type::NONE;
-	Vectorf delta(0, 0);
 	for (const auto& it : others)
 	{
 		const Collision* const other_collision = it->get_collision();
@@ -52,10 +65,11 @@ void Physical::resolve_collision(const std::vector<const Collidable*>& others)
 			continue;
 		if (!collision.rect.intersects(other_collision->rect))
 			continue;
-		delta += coll::test_collision(collision, *other_collision);
-		if (delta.y > 0)
+		temp_delta += coll::test_collision(collision, *other_collision);
+		if (temp_delta.y > 0)
 		{
-			float up = util::vector_dot_product({ 0,-1 }, delta) / (std::hypot(delta.x, delta.y));
+			float up = util::vector_dot_product({ 0,-1 }, temp_delta) /
+				(std::hypot(temp_delta.x, temp_delta.y));
 			if (up > max_up)
 			{
 				max_up = up;
@@ -63,19 +77,25 @@ void Physical::resolve_collision(const std::vector<const Collidable*>& others)
 			}
 		}
 	}
-	if (delta != Vectorf(0, 0))
+}
+
+void Physical::resolve_collision(const Collidable& other)
+{
+	const Collision* const other_collision = other.get_collision();
+	if (other_collision == &collision)
+		return;
+	if (!collision.rect.intersects(other_collision->rect))
+		return;
+	temp_delta += coll::test_collision(collision, *other_collision);
+	if (temp_delta.y > 0)
 	{
-		float k = util::vector_dot_product(speed, delta) /
-			util::vector_dot_product(delta, delta);
-		if (k > 0)
-			speed -= delta * k;
-		delta_pos += delta;
-	}
-	collision_vector = delta;
-	if (util::vector_dot_product({ 0,-1 }, collision_vector) /
-		(std::hypot(collision_vector.x, collision_vector.y)) > 0.5f)
-	{
-		on_ground - true;
+		float up = util::vector_dot_product({ 0,-1 }, temp_delta) /
+			(std::hypot(temp_delta.x, temp_delta.y));
+		if (up > max_up)
+		{
+			max_up = up;
+			surface = other.get_collision()->surface;
+		}
 	}
 }
 

@@ -45,10 +45,17 @@ void Map_chunk::draw_top_layers(sf::RenderTarget& target, sf::RenderStates state
 	}
 }
 
+void Map_chunk::resolve_collisions(Physical& physical) const
+{
+	physical.resolve_collision(collidables);
+}
+
 Map_chunk::Map_chunk(std::vector<std::shared_ptr<Updatable>>&& updatables_,
 	std::vector<std::pair<int, std::shared_ptr<Renderable>>>&& drawables_,
+	std::vector<std::shared_ptr<const Collidable>>&& collidables_,
 	sf::FloatRect bound_)
-	: updatables(std::move(updatables_)), bound(bound_)
+	: updatables(std::move(updatables_)), collidables(std::move(collidables_)),
+	bound(bound_)
 {
 	for (auto& it : drawables_)
 	{
@@ -79,6 +86,11 @@ sf::FloatRect Map_chunk::get_bounding_rect() const
 	return bound;
 }
 
+const Collidable* Moving_element::get_collidable() const
+{
+	return &*collidable;
+}
+
 sf::FloatRect Moving_element::get_bounding_rect() const
 {
 	return object->get_bounding_rect();
@@ -102,6 +114,8 @@ Moving_element::Moving_element(std::shared_ptr<Updatable> updatable_, int layer_
 {
 	renderable = std::dynamic_pointer_cast<Renderable>(updatable);
 	is_drawable = (renderable == nullptr);
+	collidable = std::dynamic_pointer_cast<Collidable>(updatable);
+	is_collidable = (collidable == nullptr);
 	object = std::dynamic_pointer_cast<Map_object>(updatable);
 }
 
@@ -110,7 +124,7 @@ Level::Level(std::vector<Map_chunk>&& chunks_,
 	: chunks(std::move(chunks_)), moving(std::move(moving)),
 	global_pos(pos) {}
 
-void Level::update(float dt, Vectorf player_pos, sf::FloatRect screen_rect)
+void Level::update(float dt, sf::FloatRect screen_rect)
 {
 	for (auto& it : chunks)
 	{
@@ -180,6 +194,27 @@ void Level::draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) c
 			it.layer >= BOTTOM_LAYERS + MIDDLE_LAYERS)
 		{
 			target.draw(it);
+		}
+	}
+}
+
+void Level::resolve_collisions(std::vector<Physical>& entities)
+{
+	for (auto& it : entities)
+	{
+		for (const auto& chunk_it : chunks)
+		{
+			if (it.get_collision()->rect.intersects(chunk_it.get_bounding_rect()))
+			{
+				chunk_it.resolve_collisions(it);
+			}
+		}
+		for (const auto& moving_it : moving)
+		{
+			if (moving_it.is_collidable)
+			{
+				it.resolve_collision(*moving_it.get_collidable());
+			}
 		}
 	}
 }

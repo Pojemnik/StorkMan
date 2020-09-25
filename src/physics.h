@@ -13,6 +13,8 @@ class Physical : public Updatable, public Collidable
 	Vectorf collision_vector;
 	Surface_type surface;
 	bool on_ground = false;
+	float max_up = -1.f;
+	Vectorf temp_delta = { 0,0 };
 
 	void reset_physics();
 
@@ -22,7 +24,8 @@ public:
 	Vectorf get_pos();
 	void update(float dt);
 	void apply_force(Vectorf force_);
-	void resolve_collision(const std::vector<const Collidable*>& others);
+	void resolve_collision(const std::vector<std::shared_ptr<const Collidable>>& others);
+	void resolve_collision(const Collidable& other);
 	void move(Vectorf delta);
 	void set_position(Vectorf new_pos);
 	std::pair<Vectorf, Surface_type> get_collision_info() const;

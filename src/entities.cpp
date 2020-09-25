@@ -99,6 +99,7 @@ void Entity::update(float dt)
 	surface = temp.second;
 	on_ground = physical.is_on_ground();
 	state->update(*this, dt);
+	physical.update(dt);
 }
 
 Vectorf Entity::get_position()
