@@ -2,7 +2,22 @@
 #include "entities.h"
 #include "level.h"
 
-class Map : public sf::Drawable
+class Map
+{
+	Vectori size;
+	Vectori current_pos;
+	std::vector<std::vector<Level>> levels;
+
+public:
+	Map(Vectori size_, Vectori pos);
+	void add_level(Level&& lvl, Vectori pos);
+	void draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const;
+	void draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) const;
+	void draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) const;
+	void update(float dt, Vectorf player_pos);
+};
+
+class old_Map : public sf::Drawable
 {
 private:
 	Vectori size;
@@ -33,8 +48,8 @@ public:
 	Light light;
 	sf::Sprite light_sprite;
 
-	Map();
-	Map(Vectori dimensions, std::vector<old_Level>& lvls, Vectori start_pos,
+	old_Map();
+	old_Map(Vectori dimensions, std::vector<old_Level>& lvls, Vectori start_pos,
 		sf::Texture& bg_tex, sf::Texture& layer2_tex, sf::Texture* light_tex);
 	void calc_map_vertices();
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

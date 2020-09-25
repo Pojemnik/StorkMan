@@ -377,7 +377,7 @@ Animated_object Parser::parse_animated_object(tinyxml2::XMLElement* element)
 	throw std::runtime_error("Animated object error");
 }
 
-Map Parser::parse_map(tinyxml2::XMLElement* root)
+old_Map Parser::parse_map(tinyxml2::XMLElement* root)
 {
 	Vectori map_player_pos = Vectori(-1, -1), map_size = Vectori(-1, -1);
 	std::vector<old_Level> vec;
@@ -447,7 +447,7 @@ Map Parser::parse_map(tinyxml2::XMLElement* root)
 			element = element->NextSiblingElement();
 		}
 	}
-	return Map(map_size, vec, map_player_pos, *assets->bg,
+	return old_Map(map_size, vec, map_player_pos, *assets->bg,
 		*assets->layer2, assets->light);
 }
 

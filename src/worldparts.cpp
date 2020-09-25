@@ -15,6 +15,11 @@ void Object::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(sprite, states);
 }
 
+sf::FloatRect Object::get_bounding_rect() const
+{
+	return sprite.getGlobalBounds();
+}
+
 Moving_object::Moving_object(Vectorf pos_, const sf::Texture* texture_, float height_,
 	std::unique_ptr<Simple_AI> ai_, int flip_ = 0, float angle_ = 0) :
 	Object(pos_, texture_, height_, flip_, angle_), ai(std::move(ai_)) {}
@@ -23,11 +28,6 @@ void Moving_object::draw(sf::RenderTarget& target, sf::RenderStates states) cons
 {
 	states.transform *= ai->get_pos();
 	Object::draw(target, states);
-}
-
-sf::FloatRect Moving_object::get_bounding_rect() const
-{
-	return sprite.getGlobalBounds();
 }
 
 void Moving_object::update(float dt)
@@ -63,11 +63,6 @@ void Moving_animated_object::draw(sf::RenderTarget& target, sf::RenderStates sta
 	Object::draw(target, states);
 }
 
-sf::FloatRect Moving_animated_object::get_bounding_rect() const
-{
-	return sprite.getGlobalBounds();
-}
-
 void Moving_animated_object::update(float dt)
 {
 	ai->calc_pos(dt);
@@ -87,6 +82,7 @@ Zone::Zone(const std::vector<Vectorf>& vert, Vectorf p) : vertices(vert), pos(p)
 	}
 	max_x += pos.x;
 	center = { center.x / vertices.size(), center.y / vertices.size() };
+	bound = util::mesh_to_rect(vertices);
 }
 
 Zone::Zone(std::vector<Vectorf>& vert, Vectorf p) : Zone((const std::vector<Vectorf>)vert, p)
@@ -95,6 +91,11 @@ Zone::Zone(std::vector<Vectorf>& vert, Vectorf p) : Zone((const std::vector<Vect
 bool Zone::contains(Vectorf p)
 {
 	return(util::contained_in_polygon(p - pos, max_x, vertices));
+}
+
+sf::FloatRect Zone::get_bounding_rect() const
+{
+	return bound;
 }
 
 Damage_zone::Damage_zone(std::vector<Vectorf>& vert, Vectorf p,

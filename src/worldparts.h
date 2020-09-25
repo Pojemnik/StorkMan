@@ -4,7 +4,7 @@
 #include "animations.h"
 #include "interfaces.h"
 
-struct Object : public Renderable
+struct Object : public Renderable, public Map_object
 {
 protected:
 	Vectorf pos;
@@ -14,7 +14,7 @@ protected:
 
 public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-	Object() = default;
+	virtual sf::FloatRect get_bounding_rect() const;
 	Object(Vectorf pos_, const sf::Texture* const texture_, float height_,
 		int flip_ = 0, float angle_ = 0);
 };
@@ -30,7 +30,6 @@ public:
 		std::unique_ptr<Simple_AI> ai_, int flip_ = 0, float angle_ = 0);
 	void update(float dt);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-	virtual sf::FloatRect get_bounding_rect() const;
 };
 
 class Animated_object : public Animatable, public Object
@@ -56,11 +55,12 @@ public:
 		float angle_ = 0);
 	void update(float dt);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-	virtual sf::FloatRect get_bounding_rect() const;
 };
 
-class Zone
+class Zone : public Map_object
 {
+	sf::FloatRect bound;
+
 public:
 	std::vector<Vectorf> vertices;
 	Vectorf pos;
@@ -71,6 +71,7 @@ public:
 	Zone(const std::vector<Vectorf>& vert, Vectorf p);
 	Zone(std::vector<Vectorf>& vert, Vectorf p);
 	bool contains(Vectorf p);
+	virtual sf::FloatRect get_bounding_rect() const;
 };
 
 class Damage_zone : public Zone, public Updatable

@@ -1,19 +1,11 @@
 #include "level.h"
 
-void Tile::update(float dt)
+void Map_chunk::draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	for (auto& it : updatables)
+	if (!on_screen)
 	{
-		it->update(dt);
+		return;
 	}
-	for (auto& it : animatables)
-	{
-		it->next_frame(dt);
-	}
-}
-
-void Tile::draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const
-{
 	for (const auto& it : bottom_layers)
 	{
 		for (const auto& it2 : it)
@@ -23,8 +15,12 @@ void Tile::draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states)
 	}
 }
 
-void Tile::draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) const
+void Map_chunk::draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) const
 {
+	if (!on_screen)
+	{
+		return;
+	}
 	for (const auto& it : middle_layers)
 	{
 		for (const auto& it2 : it)
@@ -34,8 +30,12 @@ void Tile::draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states)
 	}
 }
 
-void Tile::draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) const
+void Map_chunk::draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) const
 {
+	if (!on_screen)
+	{
+		return;
+	}
 	for (const auto& it : top_layers)
 	{
 		for (const auto& it2 : it)
@@ -45,20 +45,43 @@ void Tile::draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) co
 	}
 }
 
-Update_chunk::Update_chunk(std::vector<std::shared_ptr<Updatable>>&& content_) :
-	content(std::move(content_)) {}
-
-void Update_chunk::update(float dt)
+Map_chunk::Map_chunk(std::vector<std::shared_ptr<Updatable>>&& updatables_,
+	std::vector<std::pair<int, std::shared_ptr<Renderable>>>&& drawables_,
+	sf::FloatRect bound_)
+	: updatables(std::move(updatables_)), bound(bound_)
 {
-	for (auto& it : content)
+	for (auto& it : drawables_)
+	{
+		if (it.first < BOTTOM_LAYERS)
+		{
+			bottom_layers[it.first].push_back(it.second);
+			continue;
+		}
+		if (it.first < BOTTOM_LAYERS + MIDDLE_LAYERS)
+		{
+			middle_layers[it.first - BOTTOM_LAYERS].push_back(it.second);
+			continue;
+		}
+		top_layers[it.first - BOTTOM_LAYERS - MIDDLE_LAYERS].push_back(it.second);
+	}
+}
+
+void Map_chunk::update(float dt)
+{
+	for (auto& it : updatables)
 	{
 		it->update(dt);
 	}
 }
 
+sf::FloatRect Map_chunk::get_bounding_rect() const
+{
+	return bound;
+}
+
 sf::FloatRect Moving_element::get_bounding_rect() const
 {
-	return updatable->get_bounding_rect();
+	return object->get_bounding_rect();
 }
 
 void Moving_element::update(float dt)
@@ -68,7 +91,7 @@ void Moving_element::update(float dt)
 
 void Moving_element::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	if (is_drawable)
+	if (is_drawable && on_screen)
 	{
 		target.draw(*renderable, states);
 	}
@@ -79,27 +102,26 @@ Moving_element::Moving_element(std::shared_ptr<Updatable> updatable_, int layer_
 {
 	renderable = std::dynamic_pointer_cast<Renderable>(updatable);
 	is_drawable = (renderable == nullptr);
+	object = std::dynamic_pointer_cast<Map_object>(updatable);
 }
 
-Level::Level(std::vector<std::vector<Tile>>&& tiles_,
-	std::vector<Moving_element>&& moving_, Vectori pos,
-	Vectori size) : tiles(std::move(tiles_)), moving(std::move(moving)),
-	global_pos(pos), global_size(size) {}
+Level::Level(std::vector<Map_chunk>&& chunks_,
+	std::vector<Moving_element>&& moving_, Vectori pos)
+	: chunks(std::move(chunks_)), moving(std::move(moving)),
+	global_pos(pos) {}
 
 void Level::update(float dt, Vectorf player_pos, sf::FloatRect screen_rect)
 {
-	player_tile = { (int)player_pos.x % context.level_tile_size,
-	(int)player_pos.y % context.level_tile_size };
-	for (int i = -3; i < 4; i++)
+	for (auto& it : chunks)
 	{
-		for (int j = -2; j < 3; j++)
+		if (it.get_bounding_rect().intersects(screen_rect))
 		{
-			if (player_tile.x + i >= tiles_n.x || player_tile.x + i < 0 ||
-				player_tile.y + j >= tiles_n.y || player_tile.y + j < 0)
-			{
-				continue;
-			}
-			tiles[player_tile.x + i][player_tile.y + j].update(dt);
+			it.on_screen = true;
+			it.update(dt);
+		}
+		else
+		{
+			it.on_screen = false;
 		}
 	}
 	for (auto& it : moving)
@@ -118,48 +140,46 @@ void Level::update(float dt, Vectorf player_pos, sf::FloatRect screen_rect)
 
 void Level::draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	for (int i = -3; i < 4; i++)
+	for (const auto& it : chunks)
 	{
-		for (int j = -2; j < 3; j++)
+		it.draw_bottom_layers(target, states);
+	}
+	for (const auto& it : moving)
+	{
+		if (it.layer < BOTTOM_LAYERS)
 		{
-			if (player_tile.x + i >= tiles_n.x || player_tile.x + i < 0 ||
-				player_tile.y + j >= tiles_n.y || player_tile.y + j < 0)
-			{
-				continue;
-			}
-			tiles[player_tile.x + i][player_tile.y + j].draw_bottom_layers(target, states);
+			target.draw(it);
 		}
 	}
 }
 
 void Level::draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	for (int i = -3; i < 4; i++)
+	for (const auto& it : chunks)
 	{
-		for (int j = -2; j < 3; j++)
+		it.draw_middle_layers(target, states);
+	}
+	for (const auto& it : moving)
+	{
+		if (it.layer < BOTTOM_LAYERS + MIDDLE_LAYERS && it.layer >= BOTTOM_LAYERS)
 		{
-			if (player_tile.x + i >= tiles_n.x || player_tile.x + i < 0 ||
-				player_tile.y + j >= tiles_n.y || player_tile.y + j < 0)
-			{
-				continue;
-			}
-			tiles[player_tile.x + i][player_tile.y + j].draw_middle_layers(target, states);
+			target.draw(it);
 		}
 	}
 }
 
 void Level::draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	for (int i = -3; i < 4; i++)
+	for (const auto& it : chunks)
 	{
-		for (int j = -2; j < 3; j++)
+		it.draw_top_layers(target, states);
+	}
+	for (const auto& it : moving)
+	{
+		if (it.layer < BOTTOM_LAYERS + MIDDLE_LAYERS + TOP_LAYERS &&
+			it.layer >= BOTTOM_LAYERS + MIDDLE_LAYERS)
 		{
-			if (player_tile.x + i >= tiles_n.x || player_tile.x + i < 0 ||
-				player_tile.y + j >= tiles_n.y || player_tile.y + j < 0)
-			{
-				continue;
-			}
-			tiles[player_tile.x + i][player_tile.y + j].draw_top_layers(target, states);
+			target.draw(it);
 		}
 	}
 }

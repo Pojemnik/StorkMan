@@ -99,3 +99,8 @@ bool Physical::is_on_ground() const
 {
 	return on_ground;
 }
+
+sf::FloatRect Physical::get_bounding_rect() const
+{
+	return collision.rect;
+}

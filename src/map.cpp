@@ -1,6 +1,6 @@
 #include "map.h"
 
-Map::Map()
+old_Map::old_Map()
 {
 	level_placement = nullptr;
 	player = nullptr;
@@ -9,7 +9,7 @@ Map::Map()
 	player_smash.fill(false);
 }
 
-Map::Map(Vectori dimensions, std::vector<old_Level>& lvls, Vectori start_pos,
+old_Map::old_Map(Vectori dimensions, std::vector<old_Level>& lvls, Vectori start_pos,
 	sf::Texture& bg_tex, sf::Texture& layer2_tex, sf::Texture* light_tex)
 	: size(dimensions), current_pos(start_pos), light(level_size, light_tex)
 {
@@ -30,7 +30,7 @@ Map::Map(Vectori dimensions, std::vector<old_Level>& lvls, Vectori start_pos,
 	player_smash.fill(false);
 }
 
-void Map::place_levels()
+void old_Map::place_levels()
 {
 	for (auto& it : levels)
 	{
@@ -74,7 +74,7 @@ void Map::place_levels()
 	}
 }
 
-void Map::load_level(Vectori pos)
+void old_Map::load_level(Vectori pos)
 {
 	if (!level_placement[pos.x][pos.y]->is_loaded)
 	{
@@ -83,13 +83,13 @@ void Map::load_level(Vectori pos)
 	}
 }
 
-void Map::unload_level(std::list<old_Level*>::iterator& lvl)
+void old_Map::unload_level(std::list<old_Level*>::iterator& lvl)
 {
 	(*lvl)->is_loaded = false;
 	lvl = loaded_levels.erase(lvl);
 }
 
-void Map::draw_backgrounds(sf::RenderTarget& target, sf::RenderStates states) const
+void old_Map::draw_backgrounds(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	const float* matrix = states.transform.getMatrix();
 	Vectorf move = { matrix[12], matrix[13] };
@@ -103,7 +103,7 @@ void Map::draw_backgrounds(sf::RenderTarget& target, sf::RenderStates states) co
 	target.draw(layer2, context.layer2_states);
 }
 
-void Map::draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const
+void old_Map::draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	for (const auto& it : loaded_levels)
 	{
@@ -125,7 +125,7 @@ void Map::draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) 
 	}
 }
 
-void Map::draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) const
+void old_Map::draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	for (const auto& it : loaded_levels)
 	{
@@ -147,7 +147,7 @@ void Map::draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) 
 	}
 }
 
-void Map::draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) const
+void old_Map::draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	for (const auto& it : loaded_levels)
 	{
@@ -169,13 +169,13 @@ void Map::draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) con
 	}
 }
 
-void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void old_Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	draw_backgrounds(target, states);
 	draw_bottom_layers(target, states);
 }
 
-void Map::calc_map_vertices()
+void old_Map::calc_map_vertices()
 {
 	std::list<std::pair<Vectorf, Vectorf>> tab;
 	map_edges.clear();
@@ -257,7 +257,7 @@ void Map::calc_map_vertices()
 	map_vertices.erase(last, map_vertices.end());
 }
 
-void Map::unload_levels_out_of_bounds()
+void old_Map::unload_levels_out_of_bounds()
 {
 	int removed;
 	for (auto level_it = loaded_levels.begin();
@@ -283,7 +283,7 @@ void Map::unload_levels_out_of_bounds()
 	}
 }
 
-void Map::load_levels_in_bounds(Vectori pos)
+void old_Map::load_levels_in_bounds(Vectori pos)
 {
 	for (int x = -1; x < 2; x++)
 	{
@@ -297,7 +297,7 @@ void Map::load_levels_in_bounds(Vectori pos)
 	}
 }
 
-void Map::update_level(int id, old_Level* lvl, float dt)
+void old_Map::update_level(int id, old_Level* lvl, float dt)
 {
 	for (auto& dmgz_it : lvl->dmg_zones)
 	{
@@ -313,7 +313,7 @@ void Map::update_level(int id, old_Level* lvl, float dt)
 	}
 }
 
-void Map::update(float dt)
+void old_Map::update(float dt)
 {
 	if (light_texture == nullptr)
 	{
@@ -345,7 +345,7 @@ void Map::update(float dt)
 	int i = 0;
 	for (auto& level_it : loaded_levels)
 	{
-		future_vect.push_back(context.thread_pool->push(Map::update_level, level_it, dt));
+		future_vect.push_back(context.thread_pool->push(old_Map::update_level, level_it, dt));
 	}
 	for (auto& future_it : future_vect)
 	{
@@ -396,7 +396,7 @@ void Map::update(float dt)
 	}
 }
 
-void Map::pre_draw()
+void old_Map::pre_draw()
 {
 	for (auto& level_it : loaded_levels)
 	{
@@ -407,7 +407,7 @@ void Map::pre_draw()
 	}
 }
 
-void Map::recalc_light()
+void old_Map::recalc_light()
 {
 	if (light_texture == nullptr)
 	{
@@ -464,7 +464,7 @@ void Map::recalc_light()
 	light_sprite.setTexture(light_texture->getTexture());
 }
 
-void Map::rescale(float new_global_scale)
+void old_Map::rescale(float new_global_scale)
 {
 	level_size = { 100 * new_global_scale, 100 * new_global_scale };
 	float ratio = new_global_scale / global_scale;
@@ -482,7 +482,7 @@ void Map::rescale(float new_global_scale)
 	}
 }
 
-void Map::draw_map_vertices(sf::RenderTarget& target, sf::RenderStates states) const
+void old_Map::draw_map_vertices(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	sf::VertexArray tmp(sf::Lines, 2 * map_edges.size());
 	for (size_t i = 0; i < map_edges.size(); i++)
@@ -502,7 +502,7 @@ void Map::draw_map_vertices(sf::RenderTarget& target, sf::RenderStates states) c
 	target.draw(tmp, states);
 }
 
-void Map::draw_damage_zones(sf::RenderTarget& target, sf::RenderStates states) const
+void old_Map::draw_damage_zones(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	for (const auto& lvl_it : levels)
 	{
@@ -522,5 +522,30 @@ void Map::draw_damage_zones(sf::RenderTarget& target, sf::RenderStates states) c
 			tmp.append(sf::Vertex(zone_it.vertices[0] + zone_it.pos, dmg_color));
 			target.draw(tmp, states);
 		}
+	}
+}
+
+Map::Map(Vectori size_, Vectori pos) : size(size_), current_pos(pos) {}
+
+void Map::add_level(Level&& lvl, Vectori pos)
+{
+	try
+	{
+		levels.at(pos.x).at(pos.y) = lvl;
+	}
+	catch(std::out_of_range e)
+	{
+		std::cout << "Incorrect level position in map" < std::endl;
+		throw std::invalid_argument("Invalid level position");
+	}
+}
+
+void Map::update(float dt, Vectorf player_pos)
+{
+	Vectori player_pos_on_map = { player_pos.x / context.level_size.x,
+		player_pos.y / context.level_size.y };
+	if (player_pos_on_map != current_pos)
+	{
+		current_pos = player_pos_on_map;
 	}
 }

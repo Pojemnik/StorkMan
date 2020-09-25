@@ -68,6 +68,7 @@ struct Context
 	sf::Sound jump_run;
 	sf::Sound aaa;
 	int level_tile_size = 5;
+	Vectori level_size = { 100, 100 };
 };
 
 extern struct Context context;
@@ -133,4 +134,5 @@ namespace util
 	std::string pass_or_default(std::string val, std::string default_val);
 	void save_texture(std::string path, sf::Texture* texture);
 	sf::FloatRect mesh_to_rect(const std::vector<Vectorf>& vertices);
+	sf::FloatRect mesh_to_rect(const std::vector<sf::Vertex>& vertices);
 }

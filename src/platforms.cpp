@@ -10,6 +10,12 @@ Textured_polygon::Textured_polygon(Vectorf pos, const sf::Texture* texture_,
 	shape = sf::VertexBuffer(sf::TrianglesFan, sf::VertexBuffer::Static);
 	shape.create(points.size());
 	shape.update(&points[0]);
+	bound = util::mesh_to_rect(points);
+}
+
+sf::FloatRect Textured_polygon::get_bounding_rect() const
+{
+	return bound;
 }
 
 void Textured_polygon::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -25,6 +31,11 @@ const Collision* const Platform::get_collision() const
 
 Platform::Platform(Vectorf pos_, const sf::Texture* texture_, std::vector<sf::Vertex> points_) :
 	collision(points_, pos_), Textured_polygon(pos_, texture_, std::move(std::vector<sf::Vertex>(points_))) {}
+
+sf::FloatRect Platform::get_bounding_rect() const
+{
+	return collision.rect;
+}
 
 const Collision* const Pendulum::get_collision() const
 {
@@ -100,11 +111,6 @@ void Moving_platform::draw(sf::RenderTarget& target, sf::RenderStates states) co
 	target.draw(shape, states);
 }
 
-sf::FloatRect Moving_platform::get_bounding_rect() const
-{
-	return collision.rect;
-}
-
 Barrier::Barrier(std::vector<Vectorf>&& vertices_, Vectorf pos_)
 	: vertices(std::move(vertices_))
 {
@@ -119,4 +125,9 @@ Barrier::Barrier(std::vector<Vectorf>&& vertices_, Vectorf pos_)
 const Collision* const Barrier::get_collision()
 {
 	return &collision;
+}
+
+sf::FloatRect Barrier::get_bounding_rect() const
+{
+	return collision.rect;
 }

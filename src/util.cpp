@@ -182,6 +182,25 @@ sf::FloatRect util::mesh_to_rect(const std::vector<Vectorf>& vertices)
 	return sf::FloatRect(minx, miny, maxx - minx, maxy - miny);
 }
 
+sf::FloatRect util::mesh_to_rect(const std::vector<sf::Vertex>& vertices)
+{
+	float maxx, maxy, miny, minx;
+	maxx = minx = vertices[0].position.x;
+	maxy = miny = vertices[0].position.y;
+	for (const auto& it : vertices)
+	{
+		if (it.position.x < minx)
+			minx = it.position.x;
+		if (it.position.y < miny)
+			miny = it.position.y;
+		if (it.position.x > maxx)
+			maxx = it.position.x;
+		if (it.position.y > maxy)
+			maxy = it.position.y;
+	}
+	return sf::FloatRect(minx, miny, maxx - minx, maxy - miny);
+}
+
 bool util::contained_in_polygon(Vectorf point, float max_x, const std::vector<Vectorf>& polygon)
 {
 	Vectorf outside_p = { max_x + 1, point.y };

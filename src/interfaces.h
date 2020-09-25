@@ -1,11 +1,16 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
+class Map_object
+{
+public:
+	virtual sf::FloatRect get_bounding_rect() const = 0;
+};
+
 class Updatable
 {
 public:
 	virtual void update(float dt) = 0;
-	virtual sf::FloatRect get_bounding_rect() const = 0;
 };
 
 class Transformable

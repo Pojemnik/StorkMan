@@ -4,7 +4,7 @@ void Run_state::enter(Entity& entity)
 {
 	entity.set_animation(Animation_index::MOVE);
 	entity.move(entity.direction);
-	send_message(Message::Message_type::MOVED, static_cast<int>(entity.surface));
+	entity.send_message(Message::Message_type::MOVED, static_cast<int>(entity.surface));
 }
 
 std::pair<Entity_state*, Entity_state_info> Run_state::update(Entity& entity, float dt)
@@ -46,7 +46,7 @@ void Idle_jump_state::enter(Entity& entity)
 {
 	entity.set_animation(Animation_index::JUMP_IDLE);
 	entity.jump();
-	send_message(Message::Message_type::JUMPED, NULL);
+	entity.send_message(Message::Message_type::JUMPED, NULL);
 }
 
 void Run_jump_state::enter(Entity& entity)
@@ -56,7 +56,7 @@ void Run_jump_state::enter(Entity& entity)
 	//On the other hand, it's not portable
 	entity.set_animation(Animation_index::JUMP_RUN);
 	entity.jump();
-	send_message(Message::Message_type::JUMPED, NULL);
+	entity.send_message(Message::Message_type::JUMPED, NULL);
 }
 
 std::pair<Entity_state*, Entity_state_info> Jump_state::update(Entity& entity, float dt)
@@ -137,7 +137,7 @@ void Die_state::enter(Entity& entity)
 
 void Die_state::exit(Entity& entity)
 {
-	send_message(Message::Message_type::DIED, NULL);
+	entity.send_message(Message::Message_type::DIED, NULL);
 }
 
 std::pair<Entity_state*, Entity_state_info> Die_state::update(Entity& entity, float dt)

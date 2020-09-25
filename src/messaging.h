@@ -34,8 +34,10 @@ class Message_sender
 	std::vector<Message_receiver*> receivers;
 
 protected:
-	template <typename T>
-	void send_message(Message::Message_type type, T args) const;
 	void add_receiver(Message_receiver* receiver);
 	void remove_receiver(Message_receiver* receiver);
+
+public:
+	template <typename T>
+	void send_message(Message::Message_type type, T args) const;
 };

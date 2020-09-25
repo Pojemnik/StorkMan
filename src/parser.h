@@ -42,7 +42,7 @@ private:
 	int parse_layer(tinyxml2::XMLElement* element, int default_value);
 
 public:
-	Map parse_map(tinyxml2::XMLElement* root);
+	old_Map parse_map(tinyxml2::XMLElement* root);
 	void parse_additional_textures(std::string path);
 	void parse_additional_animations(std::string path);
 	Parser(Assets* _assets);

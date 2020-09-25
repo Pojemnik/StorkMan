@@ -27,4 +27,5 @@ public:
 	void set_position(Vectorf new_pos);
 	std::pair<Vectorf, Surface_type> get_collision_info() const;
 	bool is_on_ground() const;
+	sf::FloatRect get_bounding_rect() const;
 };

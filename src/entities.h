@@ -9,7 +9,7 @@
 
 enum class Entity_state_info {PUSH, POP, REPLACE, NONE};
 
-struct Entity_state : public Message_sender
+struct Entity_state
 {
 	virtual void enter(Entity& entity) = 0;
 	virtual void exit(Entity& entity) {};
@@ -38,7 +38,7 @@ public:
 	virtual bool command_available() = 0;
 };
 
-class Entity : public Animatable, public Updatable, public Collidable
+class Entity : public Animatable, public Updatable, public Collidable, public Message_sender
 {
 protected:
 	const float move_speed = 1.f;

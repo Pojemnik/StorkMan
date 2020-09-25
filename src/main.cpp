@@ -10,7 +10,7 @@
 
 const std::string VERSION = "pre-alpha 0.4.6.5";
 
-bool update(float dt, Map& map, int move_direction)
+bool update(float dt, old_Map& map, int move_direction)
 {
 	static float acc(0);
 	acc += dt;
@@ -28,7 +28,7 @@ bool update(float dt, Map& map, int move_direction)
 	return updated;
 }
 
-void resize_window(Map& map, sf::RenderWindow& window, Assets& assets)
+void resize_window(old_Map& map, sf::RenderWindow& window, Assets& assets)
 {
 	assets.blurh.setUniform("blurSize", 1.0f / context.resolution.x);
 	assets.blurv.setUniform("blurSize", 1.0f / context.resolution.y);
@@ -157,7 +157,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	window.setIcon(icon_size.x, icon_size.y, assets.icon.getPixelsPtr());
 
 	//Map
-	Map map;
+	old_Map map;
 	std::string path = (argc == 2) ? argv[1] : "map/map.xml";
 	tinyxml2::XMLDocument doc;
 	tinyxml2::XMLError error = doc.LoadFile(path.c_str());
