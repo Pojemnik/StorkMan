@@ -218,3 +218,8 @@ void Level::resolve_collisions(std::vector<Physical>& entities)
 		}
 	}
 }
+
+Vectori Level::get_global_pos() const
+{
+	return global_pos;
+}

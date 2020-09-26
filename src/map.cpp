@@ -33,6 +33,27 @@ void Map::call_on_considered_levels(std::function<void(Level&)> foo)
 
 void Map::call_on_considered_levels(std::function<void(const Level&)> foo) const
 {
+
+}
+
+Map::Map(Vectori size_, Vectori pos) : size(size_), current_pos(pos) {}
+
+void Map::add_level(Level&& lvl)
+{
+	Vectori pos = lvl.get_global_pos();
+	try
+	{
+		levels.at(pos.x).at(pos.y) = lvl;
+	}
+	catch(std::out_of_range e)
+	{
+		std::cout << "Incorrect level position in map" << std::endl;
+		throw std::invalid_argument("Invalid level position");
+	}
+}
+
+void Map::draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const
+{
 	for (int i = -1; i < 2; i++)
 	{
 		int y = current_pos.y + i;
@@ -47,39 +68,69 @@ void Map::call_on_considered_levels(std::function<void(const Level&)> foo) const
 			{
 				continue;
 			}
-			foo(levels[x][y]);
+			states.transform *= sf::Transform().translate(
+				{ context.level_size.x * x, context.level_size.y * y}
+			);
+			levels[x][y].draw_bottom_layers(target, states);
+			states.transform *= sf::Transform().translate(
+				{ -context.level_size.x * x, -context.level_size.y * y }
+			);
 		}
 	}
 }
 
-Map::Map(Vectori size_, Vectori pos) : size(size_), current_pos(pos) {}
-
-void Map::add_level(Level&& lvl, Vectori pos)
-{
-	try
-	{
-		levels.at(pos.x).at(pos.y) = lvl;
-	}
-	catch(std::out_of_range e)
-	{
-		std::cout << "Incorrect level position in map" << std::endl;
-		throw std::invalid_argument("Invalid level position");
-	}
-}
-
-void Map::draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const
-{
-	call_on_considered_levels(std::bind(&Level::draw_bottom_layers, std::placeholders::_1, target, states));
-}
-
 void Map::draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	call_on_considered_levels(std::bind(&Level::draw_middle_layers, std::placeholders::_1, target, states));
+	for (int i = -1; i < 2; i++)
+	{
+		int y = current_pos.y + i;
+		if (y < 0 || y >= size.y)
+		{
+			continue;
+		}
+		for (int j = -1; j < 2; j++)
+		{
+			int x = current_pos.x + j;
+			if (x < 0 || x >= size.x)
+			{
+				continue;
+			}
+			states.transform *= sf::Transform().translate(
+				{ context.level_size.x * x, context.level_size.y * y }
+			);
+			levels[x][y].draw_middle_layers(target, states);
+			states.transform *= sf::Transform().translate(
+				{ -context.level_size.x * x, -context.level_size.y * y }
+			);
+		}
+	}
 }
 
 void Map::draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	call_on_considered_levels(std::bind(&Level::draw_top_layers, std::placeholders::_1, target, states));
+	for (int i = -1; i < 2; i++)
+	{
+		int y = current_pos.y + i;
+		if (y < 0 || y >= size.y)
+		{
+			continue;
+		}
+		for (int j = -1; j < 2; j++)
+		{
+			int x = current_pos.x + j;
+			if (x < 0 || x >= size.x)
+			{
+				continue;
+			}
+			states.transform *= sf::Transform().translate(
+				{ context.level_size.x * x, context.level_size.y * y }
+			);
+			levels[x][y].draw_top_layers(target, states);
+			states.transform *= sf::Transform().translate(
+				{ -context.level_size.x * x, -context.level_size.y * y }
+			);
+		}
+	}
 }
 
 void Map::update(float dt, Vectorf player_pos, sf::FloatRect screen_rect)

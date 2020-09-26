@@ -19,8 +19,7 @@ platform:
 		texture - tekstura, patrz dokumentacja/grafiki.txt
 		layer* - (domyślne 5) warstwa, na której znajduje się platforma (liczone "od dołu"), liczba od 0 do 11, pierwsze 7 jest pod graczem, 3 kolejne pomiędzy nim, a światłem, 2 ostatnie nad światłem
 		rotation* - (domyślnie 0) obrót tekstury, zgodnie z ruchem wskazówek zegara [stopnie]
-		flip* - (domyślnie 1,1) odbicie tekstury w osi x i w osi y (-1 - odbicie, 1 - brak odbicia) (przykład flip="-1,1" - odbicie w osi x, baz odbicia w osi y)
-		visible* - (domyślnie 1) widoczność platformy, platforma niewidoczna jest niewidoczna (wow) i nie rzuca cienia, kiedy jest ustawione na 0, nie trzeba podawać tekstury
+		flip* - (domyślnie 1,1) odbicie tekstury w osi x i w osi y (-1 - odbicie, 1 - brak odbicia) (przykład: flip="-1,1" - odbicie w osi x, baz odbicia w osi y)
 	
 	zawartość:
 		znaczniki <v> opisujące kolejne wierzchołki
@@ -76,7 +75,7 @@ pendulum:
 		layer* - (domyślne 5) warstwa, na której znajduje się platforma (liczone "od dołu"), liczba od 0 do 11, pierwsze 7 jest pod graczem, 3 kolejne pomiędzy nim, a światłem, 2 ostatnie nad światłem
 		rotation* - (domyślnie 0) obrót tekstury, zgodnie z ruchem wskazówek zegara [stopnie]
 		flip* - (domyślnie 1,1) odbicie tekstury w osi x i w osi y (-1 - odbicie, 1 - brak odbicia) (przykład flip="-1,1" - odbicie w osi x, baz odbicia w osi y)
-		visible* - (domyślnie 1) widoczność platformy, platforma niewidoczna jest niewidoczna (wow) i nie rzuca cienia, kiedy jest ustawione na 0, nie trzeba podawać tekstury
+		line_offset - miejsce, gdzie zaczyna się tekstura liny na grafice - współrzędne lewego górnego rogu w pikselach
 		
 	zawartość:
 		znaczniki <v> lub <vt> opisujące kolejne wierzchołki
@@ -85,14 +84,14 @@ pendulum:
 a:
 	zawartość - pozycja punktu [m]
 	
-linear_platform:
+moving_platform:
 	atrybuty:
 		position - pozycja [m]
 		texture - tekstura, patrz dokumentacja/grafiki.txt
 		layer* - (domyślne 5) warstwa, na której znajduje się platforma (liczone "od dołu"), liczba od 0 do 11, pierwsze 7 jest pod graczem, 3 kolejne pomiędzy nim, a światłem, 2 ostatnie nad światłem
 		rotation* - (domyślnie 0) obrót tekstury, zgodnie z ruchem wskazówek zegara [stopnie]
 		flip* - (domyślnie 1,1) odbicie tekstury w osi x i w osi y (-1 - odbicie, 1 - brak odbicia) (przykład flip="-1,1" - odbicie w osi x, baz odbicia w osi y)
-		visible* - (domyślnie 1) widoczność platformy, platforma niewidoczna jest niewidoczna (wow) i nie rzuca cienia, kiedy jest ustawione na 0, nie trzeba podawać tekstury
+		offset* - (domyślne 0) początkowy czas
 		
 	zawartość:
 		znaczniki <v> lub <vt> opsujące kolejne wierzchołki

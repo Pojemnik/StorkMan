@@ -60,4 +60,5 @@ public:
 	void draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) const;
 	void resolve_collisions(std::vector<Physical>& entities);
+	Vectori get_global_pos() const;
 };

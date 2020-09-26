@@ -2,28 +2,120 @@
 
 Parser::Parser(Assets* _assets) : assets(_assets) {};
 
-Vectorf Parser::parse_num_pairf(std::string val)
+std::pair<Vectori, Vectori> Parser::parse_map_element(tinyxml2::XMLElement* element)
 {
-	size_t p = val.find(',');
-	if (p == std::string::npos)
+	if (element == nullptr)
 	{
-		throw std::invalid_argument("No ',' found");
+		context.console->err << "B³¹d w pierwszym elemencie pliku!" << '\n';
+		throw std::invalid_argument("NULL pointer");
 	}
-	float x = std::stof(val.substr(0, p));
-	float y = std::stof(val.substr(p + 1));
-	return Vectorf(x, y);
+	string root_name = element->Name();
+	if (root_name != "map")
+	{
+		context.console->err << "Brak elementu map" << '\n';
+		throw std::invalid_argument("No Map node");
+	}
+	Vectori map_player_pos, map_size;
+	try
+	{
+		map_player_pos = get_and_parse_var<Vectori>("player_pos", element);
+		map_size = get_and_parse_var<Vectori>("size", element);
+	}
+	catch (...)
+	{
+		context.console->err << "B³¹d w definicji mapy\n";
+		throw std::invalid_argument("Invalid map attributes");
+	}
+	if (map_player_pos.x < 0 || map_player_pos.y < 0)
+	{
+		throw std::invalid_argument("Negative player pos");
+	}
+	if (map_size.x < 0 || map_size.y < 0)
+	{
+		throw std::invalid_argument("Negative map size");
+	}
+	return std::make_pair(map_size, map_player_pos);
 }
 
-sf::Color Parser::parse_color(std::string val)
+std::pair<Vectori, string> Parser::parse_level_element(tinyxml2::XMLElement* element, Vectori map_size)
+{
+	Vectori pos;
+	string filepath;
+	pos = get_and_parse_var<Vectori>("position", element);
+	if (pos.x < 0 || pos.y < 0)
+	{
+		throw std::invalid_argument("Negative level pos");
+	}
+	if (pos.x >= map_size.x || pos.y >= map_size.y)
+	{
+		throw std::invalid_argument("Level outside of map size");
+	}
+	filepath = get_attribute_by_name("filename", element);
+	return std::make_pair(pos, filepath);
+}
+
+sf::Vertex Parser::parse_vertex(string content, std::pair<int, float> fliprot)
+{
+	Vectorf v = parse_var<Vectorf>(content);
+	v *= context.global_scale;
+	Vectorf v2 = util::rotate_vector(v, util::deg_to_rad(fliprot.second));
+	v2.x *= fliptab[fliprot.first].x;
+	v2.y *= fliptab[fliprot.first].y;
+	return sf::Vertex(v, v2);
+}
+
+sf::Vertex Parser::parse_textured_vertex(string content)
+{
+	size_t pos = content.find(",", content.find(",") + 1);
+	Vectorf v = parse_var<Vectorf>(content.substr(0, pos));
+	v *= context.global_scale;
+	Vectorf t = parse_var<Vectorf>(content.substr(pos + 1));
+}
+
+std::pair<Vectorf, float> Parser::parse_path_node(string content, Vectorf pos)
+{
+	size_t pos2 = content.find(",", content.find(",") + 1);
+	Vectorf v = parse_var<Vectorf>(content.substr(0, pos2));
+	v *= context.global_scale;
+	v += pos;
+	float time = std::stof(content.substr(pos2 + 1));
+	return { v, time };
+}
+
+std::vector<sf::Vertex> Parser::parse_vertices(tinyxml2::XMLElement* element, std::pair<int, float> fliprot)
+{
+	std::vector<sf::Vertex> points;
+	while (element != NULL)
+	{
+		string n = element->Name();
+		if (n == "v")
+		{
+			points.push_back(parse_vertex(element->GetText(), fliprot));
+		}
+		else if (n == "vt")
+		{
+			points.push_back(parse_textured_vertex(element->GetText()));
+		}
+		else
+		{
+			context.console->err << "B³¹d w wierzcho³kach" << '\n';
+			throw std::invalid_argument("Error in vertices");
+		}
+		element = element->NextSiblingElement();
+	}
+	return points;
+}
+
+sf::Color Parser::parse_color(string val)
 {
 	size_t p1, p2;
 	p1 = val.find(',');
-	if (p1 == std::string::npos)
+	if (p1 == string::npos)
 	{
 		throw std::invalid_argument("No ',' found");
 	}
 	p2 = val.find(',', p1 + 1);
-	if (p2 == std::string::npos)
+	if (p2 == string::npos)
 	{
 		throw std::invalid_argument("Only one ',' found");
 	}
@@ -33,131 +125,156 @@ sf::Color Parser::parse_color(std::string val)
 	return sf::Color(r, g, b);
 }
 
-Vectori Parser::parse_num_pairi(std::string val)
-{
-	size_t p = val.find(',');
-	if (p == std::string::npos)
-	{
-		throw std::invalid_argument("No ',' found");
-	}
-	int x = std::stoi(val.substr(0, p));
-	int y = std::stoi(val.substr(p + 1));
-	return Vectori(x, y);
-}
-
-std::string Parser::get_attribute_by_name(std::string name, tinyxml2::XMLElement* element)
+string Parser::get_attribute_by_name(string name, tinyxml2::XMLElement* element)
 {
 	tinyxml2::XMLAttribute* att =
 		(tinyxml2::XMLAttribute*)(element->FindAttribute(name.c_str()));
 	if (att != nullptr)
-		return std::string(att->Value());
+		return string(att->Value());
 	else
 		return "";
 }
 
-old_Level Parser::parse_level(tinyxml2::XMLElement* root)
+Level Parser::parse_level(tinyxml2::XMLElement* root, Vectori global_pos)
 {
-	old_Level lvl = old_Level();
-	if (root == NULL)
+	if (root == nullptr)
 	{
 		context.console->err << "B³¹d w pierwszym elemencie pliku!" << '\n';
-		throw std::invalid_argument("NULL pointer");
+		throw std::invalid_argument("NULL pointer in level file");
 	}
-	else
+	string root_name = root->Name();
+	if (root_name != "level")
 	{
-		std::string root_name = root->Name();
-		if (root_name != "level")
-		{
-			context.console->err << "Brak elementu level" << '\n';
-			throw std::invalid_argument("No level node");
-		}
-		tinyxml2::XMLElement* element = root->FirstChildElement();
-		while (element != NULL)
-		{
-			std::string name = element->Name();
-			if (name == "platform")
-			{
-				lvl.add_platform(parse_platform(element));
-			}
-			else if (name == "light")
-			{
-				lvl.add_light_source(parse_light_source(element));
-			}
-			else if (name == "wall")
-			{
-				lvl.add_wall(parse_wall(element));
-			}
-			else if (name == "object")
-			{
-				lvl.add_object(parse_object(element));
-			}
-			else if (name == "animated_object")
-			{
-				lvl.add_object(parse_animated_object(element));
-			}
-			else if (name == "pendulum")
-			{
-				lvl.add_pendulum(parse_pendulum(element));
-			}
-			else if (name == "linear_platform")
-			{
-				lvl.add_lmp(parse_linear_platform(element));
-			}
-			else if(name == "moving_object")
-			{
-				lvl.add_moving_object(parse_moving_object(element));
-			}
-			else if (name == "damage_zone")
-			{
-				lvl.add_dmg_zone(parse_damage_zone(element));
-			}
-			element = element->NextSiblingElement();
-		}
+		context.console->err << "Brak elementu level" << '\n';
+		throw std::invalid_argument("No level node");
 	}
-	return lvl;
+	tinyxml2::XMLElement* element = root->FirstChildElement();
+	std::vector<Map_chunk> chunks;
+	std::vector<Moving_element> moving;
+	while (element != nullptr)
+	{
+		string name = element->Name();
+		if (name == "chunk")
+		{
+			chunks.push_back(parse_chunk(element));
+		}
+		//TODO: add movables to level
+		element = element->NextSiblingElement();
+	}
+	return Level(std::move(chunks), std::move(moving), global_pos);
 }
 
-Light_source Parser::parse_light_source(tinyxml2::XMLElement* element)
+Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root)
+{
+	std::vector<std::shared_ptr<Updatable>> updatables;
+	std::vector<std::pair<int, std::shared_ptr<Renderable>>> drawables;
+	std::vector<std::shared_ptr<const Collidable>> collidables;
+	tinyxml2::XMLElement* element = root->FirstChildElement();
+	while (element != nullptr)
+	{
+		string name = element->Name();
+		if (name == "platform")
+		{
+			auto [layer, platform] = parse_platform(element);
+			std::shared_ptr<Platform> ptr = std::shared_ptr<Platform>(&platform);
+			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
+			collidables.push_back(std::static_pointer_cast<Collidable>(ptr));
+		}
+		else if (name == "wall")
+		{
+			auto [layer, wall] = parse_wall(element);
+			std::shared_ptr<Textured_polygon> ptr =
+				std::shared_ptr<Textured_polygon>(&wall);
+			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
+		}
+		else if (name == "object")
+		{
+			auto [layer, object] = parse_object(element);
+			std::shared_ptr<Object> ptr = std::shared_ptr<Object>(&object);
+			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
+		}
+		else if (name == "animated_object")
+		{
+			auto [layer, object] = parse_animated_object(element);
+			std::shared_ptr<Animated_object> ptr =
+				std::shared_ptr<Animated_object>(&object);
+			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
+			updatables.push_back(std::static_pointer_cast<Updatable>(ptr));
+		}
+		else if (name == "damage_zone")
+		{
+			Damage_zone zone = parse_damage_zone(element);
+			std::shared_ptr<Damage_zone> ptr = std::shared_ptr<Damage_zone>(&zone);
+			updatables.push_back(std::static_pointer_cast<Updatable>(ptr));
+		}
+		else if (name == "pendulum")
+		{
+			auto [layer, pendulum] = parse_pendulum(element);
+			std::shared_ptr<Pendulum> ptr =
+				std::shared_ptr<Pendulum>(&pendulum);
+			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
+			updatables.push_back(std::static_pointer_cast<Updatable>(ptr));
+			collidables.push_back(std::static_pointer_cast<Collidable>(ptr));
+		}
+		else if (name == "moving_platform")
+		{
+			auto [layer, platform] = parse_moving_platform(element);
+			std::shared_ptr<Moving_platform> ptr =
+				std::shared_ptr<Moving_platform>(&platform);
+			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
+			updatables.push_back(std::static_pointer_cast<Updatable>(ptr));
+			collidables.push_back(std::static_pointer_cast<Collidable>(ptr));
+		}
+		else if (name == "moving_object")
+		{
+			auto [layer, object] = parse_moving_object(element);
+			std::shared_ptr<Moving_object> ptr =
+				std::shared_ptr<Moving_object>(&object);
+			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
+			updatables.push_back(std::static_pointer_cast<Updatable>(ptr));
+		}
+		element = element->NextSiblingElement();
+	}
+	sf::FloatRect bound = sf::FloatRect(INFINITY, INFINITY, 0, 0);
+	for (const auto& it : updatables)
+	{
+		std::shared_ptr<Map_object> object = std::dynamic_pointer_cast<Map_object>(it);
+		if (object == nullptr)
+		{
+			continue;
+		}
+		sf::FloatRect object_rect = object->get_bounding_rect();
+		bound.left = std::min(bound.left, object_rect.left);
+		bound.top = std::min(bound.top, object_rect.top);
+		bound.width = std::max(bound.width, object_rect.width);
+		bound.height = std::max(bound.height, object_rect.height);
+	}
+	string temp = get_attribute_by_name("left", root);
+	bound.left += (temp == "") ? 0 : std::stof(temp);
+	string temp = get_attribute_by_name("top", root);
+	bound.top += (temp == "") ? 0 : std::stof(temp);
+	string temp = get_attribute_by_name("width", root);
+	bound.width += (temp == "") ? 0 : std::stof(temp);
+	string temp = get_attribute_by_name("height", root);
+	bound.height += (temp == "") ? 0 : std::stof(temp);
+	return Map_chunk(std::move(updatables), std::move(drawables),
+		std::move(collidables), bound);
+
+}
+
+std::pair<int, Platform> Parser::parse_platform(tinyxml2::XMLElement* element)
 {
 	try
 	{
-		return parse_light_source_raw(element);
-	}
-	catch (const std::invalid_argument& e)
-	{
-		context.console->err << "Wyjatek: " << e.what() << '\n';
-		context.console->err << "Element: " << "light_source" << '\n';
-		context.console->err << "Nieprawid³owa pozycja lub kolor" << '\n';
-	}
-	throw std::runtime_error("Light source error");
-}
-
-Light_source Parser::parse_light_source_raw(tinyxml2::XMLElement* element)
-{
-	const sf::Texture* tex;
-	sf::Color color = DEFAULT_LIGHT_COLOR;
-	Vectorf pos = parse_num_pairf(get_attribute_by_name("position", element));
-	pos *= context.global_scale;
-	tex = assets->light;
-	std::string tmp = get_attribute_by_name("intensity", element);
-	float intensity = DEFAULT_LIGHT_INTENSITY;
-	if (tmp != "")
-		intensity = std::stof(tmp);
-	tmp = get_attribute_by_name("color", element);
-	if (tmp != "")
-		color = parse_color(tmp);
-	if (intensity <= 0)
-	{
-		throw std::invalid_argument("Invalid light intensity");
-	}
-	return Light_source(pos, tex, color, intensity);
-}
-
-Platform Parser::parse_platform(tinyxml2::XMLElement* element)
-{
-	try
-	{
-		return parse_platform_raw(element);
+		string val = get_attribute_by_name("texture", element);
+		const sf::Texture* tex = assets->textures.at(val);
+		Vectorf pos = get_and_parse_var<Vectorf>("position", element);
+		pos *= context.global_scale;
+		std::pair<int, float> fliprot = parse_flip_rotation(element);
+		std::vector<sf::Vertex> points =
+			parse_vertices(element->FirstChildElement(), fliprot);
+		int layer = parse_layer(element, DEFAULT_PLATFORM_LAYER);
+		return std::make_pair(layer, Platform(pos, tex, points));
 	}
 	catch (const std::invalid_argument& e)
 	{
@@ -174,54 +291,19 @@ Platform Parser::parse_platform(tinyxml2::XMLElement* element)
 	throw std::runtime_error("Platform error");
 }
 
-Platform Parser::parse_platform_raw(tinyxml2::XMLElement* element)
-{
-	std::vector<sf::Vertex> points;
-	std::string visible_str = get_attribute_by_name("visible", element);
-	bool visible = true;
-	const sf::Texture* tex;
-	if (visible_str == "0")
-	{
-		visible = false;
-		tex = new sf::Texture();
-	}
-	else
-	{
-		std::string val = get_attribute_by_name("texture", element);
-		tex = assets->textures.at(val);
-	}
-	Vectorf pos = parse_num_pairf(get_attribute_by_name("position", element));
-	pos *= context.global_scale;
-	tinyxml2::XMLElement* e = element->FirstChildElement();
-	std::pair<int, float> fliprot = parse_flip_rotation(element);
-	while (e != NULL)
-	{
-		std::string n = e->Name();
-		if (n == "v")
-		{
-			Vectorf v = parse_num_pairf(e->GetText());
-			v *= context.global_scale;
-			Vectorf v2 = util::rotate_vector(v, util::deg_to_rad(fliprot.second));
-			v2.x *= fliptab[fliprot.first].x;
-			v2.y *= fliptab[fliprot.first].y;
-			points.push_back(sf::Vertex(v, v2));
-		}
-		else
-		{
-			context.console->err << "B³¹d w platformie" << '\n';
-			throw std::invalid_argument("Error in platfrom vertices");
-		}
-		e = e->NextSiblingElement();
-	}
-	int layer = parse_layer(element,DEFAULT_PLATFORM_LAYER);
-	return Platform(pos, tex, points, layer, visible);
-}
-
-Textured_polygon Parser::parse_wall(tinyxml2::XMLElement* element)
+std::pair<int, Textured_polygon> Parser::parse_wall(tinyxml2::XMLElement* element)
 {
 	try
 	{
-		return parse_wall_raw(element);
+		Vectorf pos = get_and_parse_var<Vectorf>("position", element);
+		pos *= context.global_scale;
+		string val = get_attribute_by_name("texture", element);
+		const sf::Texture* tex = assets->textures.at(val);
+		std::pair<int, float> fliprot = parse_flip_rotation(element);
+		std::vector<sf::Vertex> points =
+			parse_vertices(element->FirstChildElement(), fliprot);
+		int layer = parse_layer(element, DEFAULT_WALL_LAYER);
+		return std::make_pair(layer, Textured_polygon(pos, tex, points));
 	}
 	catch (const std::invalid_argument& e)
 	{
@@ -238,45 +320,18 @@ Textured_polygon Parser::parse_wall(tinyxml2::XMLElement* element)
 	throw std::runtime_error("Textured_polygon error");
 }
 
-Textured_polygon Parser::parse_wall_raw(tinyxml2::XMLElement* element)
-{
-	std::vector<sf::Vertex> points;
-	const sf::Texture* tex;
-	Vectorf pos = parse_num_pairf(get_attribute_by_name("position", element));
-	pos *= context.global_scale;
-	std::string val = get_attribute_by_name("texture", element);
-	tex = assets->textures.at(val);
-	
-	std::pair<int, float> fliprot = parse_flip_rotation(element);
-	tinyxml2::XMLElement* e = element->FirstChildElement();
-	while (e != NULL)
-	{
-		std::string n = e->Name();
-		if (n == "v")
-		{
-			Vectorf v = parse_num_pairf(e->GetText());
-			v *= context.global_scale;
-			Vectorf v2 = util::rotate_vector(v, util::deg_to_rad(fliprot.second));
-			v2.x *= fliptab[fliprot.first].x;
-			v2.y *= fliptab[fliprot.first].y;
-			points.push_back(sf::Vertex(v, v2));
-		}
-		else
-		{
-			context.console->err << "B³¹d w œcianie" << '\n';
-			throw std::invalid_argument("Error in wall vertices");
-		}
-		e = e->NextSiblingElement();
-	}
-	int layer = parse_layer(element, DEFAULT_WALL_LAYER);
-	return Textured_polygon(pos, tex, points, layer);
-}
-
-Object Parser::parse_object(tinyxml2::XMLElement* element)
+std::pair<int, Object> Parser::parse_object(tinyxml2::XMLElement* element)
 {
 	try
 	{
-		return parse_object_raw(element);
+		Vectorf pos = get_and_parse_var<Vectorf>("position", element);
+		pos *= context.global_scale;
+		string val = get_attribute_by_name("texture", element);
+		const sf::Texture* tex = assets->textures.at(val);
+		float height = std::stof(get_attribute_by_name("height", element));
+		std::pair<int, float> fliprot = parse_flip_rotation(element);
+		int layer = parse_layer(element, DEFAULT_OBJECT_LAYER);
+		return std::make_pair(layer, Object(pos, tex, height, fliprot.first, fliprot.second));
 	}
 	catch (const std::out_of_range& e)
 	{
@@ -287,9 +342,46 @@ Object Parser::parse_object(tinyxml2::XMLElement* element)
 	throw std::runtime_error("Object error");
 }
 
-int Parser::parse_layer(tinyxml2::XMLElement* element,int default_value)
+std::pair<int, Animated_object> Parser::parse_animated_object(tinyxml2::XMLElement* element)
 {
-	std::string layer = get_attribute_by_name("layer", element);
+	try
+	{
+		Vectorf pos = get_and_parse_var<Vectorf>("position", element);
+		pos *= context.global_scale;
+		string val = get_attribute_by_name("texture", element);
+		std::vector<sf::Texture>* tex = &assets->animations.at(val);
+		float height = std::stof(get_attribute_by_name("height", element));
+		std::pair<int, float> fliprot = parse_flip_rotation(element);
+		string frames_str = get_attribute_by_name("frame_time", element);
+		float frame_time = 1.f;
+		if (frames_str != "")
+		{
+			frame_time = std::stof(frames_str);
+		}
+		string frame_delta_str = get_attribute_by_name("offset", element);
+		float frame_offset = 0;
+		if (frame_delta_str != "")
+		{
+			frame_offset = std::stof(frame_delta_str);
+		}
+		Static_animation_struct sas = Static_animation_struct(tex, frame_time);
+		std::unique_ptr<Animation> animation = std::unique_ptr<Animation>(&Static_animation(sas, frame_offset));
+		int layer = parse_layer(element, DEFAULT_OBJECT_LAYER);
+		return std::make_pair(layer, Animated_object(pos, std::move(animation),
+			height, fliprot.first, fliprot.second));
+	}
+	catch (const std::out_of_range& e)
+	{
+		context.console->err << "Wyjatek: " << e.what() << '\n';
+		context.console->err << "Element: " << "object" << '\n';
+		context.console->err << "Prawdopodobnie nieprawid³owa animacja" << '\n';
+	}
+	throw std::runtime_error("Animated object error");
+}
+
+int Parser::parse_layer(tinyxml2::XMLElement* element, int default_value)
+{
+	string layer = get_attribute_by_name("layer", element);
 	if (layer != "")
 	{
 		int l = std::stoi(layer);
@@ -304,13 +396,13 @@ int Parser::parse_layer(tinyxml2::XMLElement* element,int default_value)
 
 std::pair<int, float> Parser::parse_flip_rotation(tinyxml2::XMLElement* element)
 {
-	std::string rotation = get_attribute_by_name("rotation", element);
+	string rotation = get_attribute_by_name("rotation", element);
 	float rotationang = rotation == "" ? 0 : std::stof(rotation);
-	std::string flip = get_attribute_by_name("flip", element);
+	string flip = get_attribute_by_name("flip", element);
 	int flipint = 0;
 	if (flip != "")
 	{
-		Vectori flipiv = parse_num_pairi(flip);
+		Vectori flipiv = parse_var<Vectori>(flip);
 		if (flipiv.x < 0)
 			flipint = 1;
 		if (flipiv.y < 0)
@@ -323,138 +415,40 @@ std::pair<int, float> Parser::parse_flip_rotation(tinyxml2::XMLElement* element)
 	return std::make_pair(flipint, rotationang);
 }
 
-Object Parser::parse_object_raw(tinyxml2::XMLElement* element)
+Map Parser::parse_map(tinyxml2::XMLElement* root)
 {
-	const sf::Texture* tex;
-	Vectorf pos = parse_num_pairf(get_attribute_by_name("position", element));
-	pos *= context.global_scale;
-	std::string val = get_attribute_by_name("texture", element);
-	tex = assets->textures.at(val);
-	float height = std::stof(get_attribute_by_name("height", element));
-	std::pair<int, float> fliprot = parse_flip_rotation(element);
-	int layer = parse_layer(element, DEFAULT_OBJECT_LAYER);
-	return Object(pos, tex, height, layer, fliprot.first, fliprot.second);
-}
-
-Animated_object Parser::parse_animated_object_raw(tinyxml2::XMLElement* element)
-{
-	std::vector<sf::Texture>* tex;
-	Vectorf pos = parse_num_pairf(get_attribute_by_name("position", element));
-	pos *= context.global_scale;
-	std::string val = get_attribute_by_name("texture", element);
-	tex = &assets->animations.at(val);
-	float height = std::stof(get_attribute_by_name("height", element));
-	std::string frames_str = get_attribute_by_name("fpf", element);
-	int frames = 1;
-	std::string frame_delta_str = get_attribute_by_name("delta", element);
-	int frame_delta = 0;
-	std::pair<int, float> fliprot = parse_flip_rotation(element);
-	if (frames_str != "")
+	auto map_data = parse_map_element(root);
+	Vectori map_size = map_data.first;
+	Vectori player_pos = map_data.second;
+	tinyxml2::XMLElement* element = root->FirstChildElement();
+	Map map(map_size, player_pos);
+	while (element != NULL)
 	{
-		frames = std::stoi(frames_str);
-	}
-	if (frame_delta_str != "")
-	{
-		frame_delta = std::stoi(frame_delta_str);
-	}
-	int layer = parse_layer(element, DEFAULT_OBJECT_LAYER);
-	return Animated_object(pos, tex, height, layer, frames,
-		fliprot.first,fliprot.second, frame_delta);
-}
-
-Animated_object Parser::parse_animated_object(tinyxml2::XMLElement* element)
-{
-	try
-	{
-		return parse_animated_object_raw(element);
-	}
-	catch (const std::out_of_range& e)
-	{
-		context.console->err << "Wyjatek: " << e.what() << '\n';
-		context.console->err << "Element: " << "object" << '\n';
-		context.console->err << "Prawdopodobnie nieprawid³owa animacja" << '\n';
-	}
-	throw std::runtime_error("Animated object error");
-}
-
-old_Map Parser::parse_map(tinyxml2::XMLElement* root)
-{
-	Vectori map_player_pos = Vectori(-1, -1), map_size = Vectori(-1, -1);
-	std::vector<old_Level> vec;
-	if (root == NULL)
-	{
-		context.console->err << "B³¹d w pierwszym elemencie pliku!" << '\n';
-		throw std::invalid_argument("NULL pointer");
-	}
-	else
-	{
-		std::string root_name = root->Name();
-		if (root_name != "map")
+		string name = element->Name();
+		if (name == "level")
 		{
-			context.console->err << "Brak elementu map" << '\n';
-			throw std::invalid_argument("No Map node");
-		}
-		tinyxml2::XMLAttribute* att;
-		map_player_pos = parse_num_pairi(get_attribute_by_name("player_pos", root));
-		map_size = parse_num_pairi(get_attribute_by_name("size", root));
-		if (map_player_pos == Vectori(-1, -1) || map_size == Vectori(-1, -1))
-		{
-			context.console->err << "B³¹d w definicji mapy\n";
-			throw std::invalid_argument("Invalid map attributes");
-		}
-		if (map_player_pos.x < 0 || map_player_pos.y < 0)
-		{
-			throw std::invalid_argument("negative player pos");
-		}
-		if (map_size.x < 0 || map_size.y < 0)
-		{
-			throw std::invalid_argument("negative map size");
-		}
-		tinyxml2::XMLElement* element = root->FirstChildElement();
-		while (element != NULL)
-		{
-			att = (tinyxml2::XMLAttribute*)element->FirstAttribute();
-			std::string name = element->Name();
-			if (name == "level")
+			auto level_data = parse_level_element(element, map_size);
+			Vectori pos = level_data.first;
+			string filepath = level_data.second;
 			{
-				Vectori pos;
-				Vectori size;
-				std::string filepath;
-				pos = parse_num_pairi(get_attribute_by_name("position", element));
-				size = parse_num_pairi(get_attribute_by_name("size", element));
-				if (size.x < 0 || size.y < 0)
-				{
-					throw std::invalid_argument("negative level size");
-				}
-				if (pos.x < 0 || pos.y < 0)
-				{
-					throw std::invalid_argument("negative level pos");
-				}
-				if (size.x + pos.x > map_size.x || size.y + pos.y > map_size.y)
-				{
-					throw std::invalid_argument("level outside of map size");
-				}
-				filepath = get_attribute_by_name("filename", element);
-				{
-					tinyxml2::XMLDocument lvl_root;
-					lvl_root.LoadFile(filepath.c_str());
-					old_Level lvl = parse_level(lvl_root.FirstChildElement());
-					lvl.global_size = size;
-					lvl.global_pos = pos;
-					vec.push_back(lvl);
-				}
+				tinyxml2::XMLDocument lvl_root;
+				lvl_root.LoadFile(filepath.c_str());
+				map.add_level(parse_level(lvl_root.FirstChildElement(), pos));
 			}
-			element = element->NextSiblingElement();
 		}
+		else
+		{
+			throw std::invalid_argument("Incorrect element in map file");
+		}
+		element = element->NextSiblingElement();
 	}
-	return old_Map(map_size, vec, map_player_pos, *assets->bg,
-		*assets->layer2, assets->light);
+	return map;
 }
 
-void Parser::parse_additional_textures(std::string path)
+void Parser::parse_additional_textures(string path)
 {
 	std::ifstream file;
-	std::string p, name;
+	string p, name;
 	int repeat;
 
 	file.open(path);
@@ -468,10 +462,10 @@ void Parser::parse_additional_textures(std::string path)
 	}
 }
 
-void Parser::parse_additional_animations(std::string path)
+void Parser::parse_additional_animations(string path)
 {
 	std::ifstream file;
-	std::string p, name;
+	string p, name;
 	int x, y, sx, sy;
 
 	file.open(path);
@@ -486,98 +480,44 @@ void Parser::parse_additional_animations(std::string path)
 	}
 }
 
-Pendulum Parser::parse_pendulum(tinyxml2::XMLElement* element)
+std::pair<int, Moving_platform> Parser::parse_moving_platform(tinyxml2::XMLElement* element)
 {
 	try
 	{
-		return parse_pendulum_raw(element);
-	}
-	catch (const std::invalid_argument& e)
-	{
-		context.console->err << "Wyjatek: " << e.what() << '\n';
-		context.console->err << "Element: " << "pendulum" << '\n';
-		context.console->err << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz platformy wahad³a" << '\n';
-	}
-	catch (const std::out_of_range& e)
-	{
-		context.console->err << "Wyjatek: " << e.what() << '\n';
-		context.console->err << "Element: " << "pendulum" << '\n';
-		context.console->err << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
-	}
-	throw std::runtime_error("Pendulum error");
-}
-
-Pendulum Parser::parse_pendulum_raw(tinyxml2::XMLElement* element)
-{
-	std::vector<sf::Vertex> vert;
-	std::vector<Vectorf> attach_points;
-	const sf::Texture* tex;
-	const sf::Texture* line_tex;
-	bool visible = true;
-	std::string visible_str = get_attribute_by_name("visible", element);
-	if (visible_str == "0")
-	{
-		visible = false;
-		tex = new sf::Texture();
-	}
-	else
-	{
-		std::string val = get_attribute_by_name("texture", element);
-		tex = assets->textures.at(val);
-	}
-	std::string line_tex_str = get_attribute_by_name("line", element);
-	line_tex = assets->textures.at(line_tex_str);
-	Vectorf pos = parse_num_pairf(get_attribute_by_name("position", element));
-	pos *= context.global_scale;
-	float line_len = std::stof(get_attribute_by_name("length", element));
-	float angle = std::stof(get_attribute_by_name("angle", element));
-	angle = util::deg_to_rad(angle);
-	std::pair<int, float> fliprot = parse_flip_rotation(element);
-	tinyxml2::XMLElement* e = element->FirstChildElement();
-	while (e != NULL)
-	{
-		std::string n = e->Name();
-		if (n == "v")
+		std::vector<sf::Vertex> vert;
+		string val = get_attribute_by_name("texture", element);
+		const sf::Texture* tex = assets->textures.at(val);
+		Vectorf pos = get_and_parse_var<Vectorf>("position", element);
+		pos *= context.global_scale;
+		std::pair<int, float> fliprot = parse_flip_rotation(element);
+		std::vector<std::pair<Vectorf, float>> path;
+		string time_offset_str = get_attribute_by_name("offset", element);
+		float time_offset = 0;
+		if (time_offset_str != "")
 		{
-			Vectorf v = parse_num_pairf(e->GetText());
-			v *= context.global_scale;
-			Vectorf v2 = util::rotate_vector(v, util::deg_to_rad(fliprot.second));
-			v2.x *= fliptab[fliprot.first].x;
-			v2.y *= fliptab[fliprot.first].y;
-			vert.push_back(sf::Vertex(v, v2));
+			time_offset = std::stof(time_offset_str);
 		}
-		else if (n == "vt")
+		tinyxml2::XMLElement* e = element->FirstChildElement();
+		while (e != NULL)
 		{
-			string content = e->GetText();
-			size_t pos = content.find(",", content.find(",") + 1);
-			Vectorf v = parse_num_pairf(content.substr(0, pos));
-			v *= context.global_scale;
-			Vectorf t = parse_num_pairf(content.substr(pos + 1));
-			vert.push_back(sf::Vertex(v, t));
+			string n = e->Name();
+			if (n == "v")
+			{
+				vert.push_back(parse_vertex(e->GetText(), fliprot));
+			}
+			else if (n == "vt")
+			{
+				vert.push_back(parse_textured_vertex(e->GetText()));
+			}
+			else if (n == "p")
+			{
+				path.push_back(parse_path_node(e->GetText(), pos));
+			}
+			e = e->NextSiblingElement();
 		}
-		else if (n == "a")
-		{
-			Vectorf a = parse_num_pairf(e->GetText());
-			a *= context.global_scale;
-			attach_points.push_back(a);
-		}
-		else
-		{
-			context.console->err << "B³¹d w wahadle" << '\n';
-			throw std::invalid_argument("Error in pendulum vertices/attachment points");
-		}
-		e = e->NextSiblingElement();
-	}
-	int layer = parse_layer(element, DEFAULT_PLATFORM_LAYER);
-	return Pendulum(tex, line_tex, attach_points, vert, line_len, pos, angle,
-		layer, visible);
-}
-
-Linear_moving_platform Parser::parse_linear_platform(tinyxml2::XMLElement* element)
-{
-	try
-	{
-		return parse_linear_platform_raw(element);
+		int layer = parse_layer(element, DEFAULT_PLATFORM_LAYER);
+		return std::make_pair(layer, Moving_platform(pos, tex, std::move(vert),
+			std::make_unique<Simple_AI>(Linear_AI(path, time_offset))));
 	}
 	catch (const std::invalid_argument& e)
 	{
@@ -594,98 +534,36 @@ Linear_moving_platform Parser::parse_linear_platform(tinyxml2::XMLElement* eleme
 	throw std::runtime_error("Linear platform error");
 }
 
-Linear_moving_platform Parser::parse_linear_platform_raw(tinyxml2::XMLElement* element)
-{
-	std::vector<sf::Vertex> vert;
-	const sf::Texture* tex;
-	Linear_move path;
-	bool visible = true;
-	std::string visible_str = get_attribute_by_name("visible", element);
-	if (visible_str == "0")
-	{
-		visible = false;
-		tex = new sf::Texture();
-	}
-	else
-	{
-		std::string val = get_attribute_by_name("texture", element);
-		tex = assets->textures.at(val);
-	}
-	Vectorf pos = parse_num_pairf(get_attribute_by_name("position", element));
-	pos *= context.global_scale;
-	std::pair<int, float> fliprot = parse_flip_rotation(element);
-	tinyxml2::XMLElement* e = element->FirstChildElement();
-	while (e != NULL)
-	{
-		std::string n = e->Name();
-		if (n == "v")
-		{
-			Vectorf v = parse_num_pairf(e->GetText());
-			v *= context.global_scale;
-			Vectorf v2 = util::rotate_vector(v, util::deg_to_rad(fliprot.second));
-			v2.x *= fliptab[fliprot.first].x;
-			v2.y *= fliptab[fliprot.first].y;
-			vert.push_back(sf::Vertex(v, v2));
-		}
-		else if (n == "vt")
-		{
-			string content = e->GetText();
-			size_t pos2 = content.find(",", content.find(",") + 1);
-			Vectorf v = parse_num_pairf(content.substr(0, pos2));
-			v *= context.global_scale;
-			Vectorf t = parse_num_pairf(content.substr(pos2 + 1));
-			vert.push_back(sf::Vertex(v, t));
-		}
-		else if (n == "p")
-		{
-			string content = e->GetText();
-			size_t pos2 = content.find(",", content.find(",") + 1);
-			Vectorf v = parse_num_pairf(content.substr(0, pos2));
-			v *= context.global_scale;
-			v += pos;
-			float time = std::stof(content.substr(pos2 + 1));
-			path.points.push_back({ v, time });
-		}
-		e = e->NextSiblingElement();
-	}
-	int layer = parse_layer(element, DEFAULT_PLATFORM_LAYER);
-	return Linear_moving_platform(path, tex, pos, vert, layer, visible);
-}
-
-Moving_object Parser::parse_moving_object_raw(tinyxml2::XMLElement* element)
-{
-	const sf::Texture* tex;
-	Linear_move path;
-	Vectorf pos = parse_num_pairf(get_attribute_by_name("position", element));
-	pos *= context.global_scale;
-	std::string val = get_attribute_by_name("texture", element);
-	tex = assets->textures.at(val);
-	float height = std::stof(get_attribute_by_name("height", element));
-	std::pair<int, float> fliprot = parse_flip_rotation(element);
-	int layer = parse_layer(element, DEFAULT_OBJECT_LAYER);
-	tinyxml2::XMLElement* e = element->FirstChildElement();
-	while (e != NULL)
-	{
-		std::string n = e->Name();
-		if (n == "p")
-		{
-			string content = e->GetText();
-			size_t pos2 = content.find(",", content.find(",") + 1);
-			Vectorf v = parse_num_pairf(content.substr(0, pos2));
-			v *= context.global_scale;
-			float time = std::stof(content.substr(pos2 + 1));
-			path.points.push_back({ v, time });
-		}
-		e = e->NextSiblingElement();
-	}
-	return Moving_object(pos, tex, height, layer, fliprot.first, fliprot.second,path);
-}
-
-Moving_object Parser::parse_moving_object(tinyxml2::XMLElement* element)
+std::pair<int, Moving_object> Parser::parse_moving_object(tinyxml2::XMLElement* element)
 {
 	try
 	{
-		return parse_moving_object_raw(element);
+		const sf::Texture* tex;
+		Vectorf pos = get_and_parse_var<Vectorf>("position", element);
+		pos *= context.global_scale;
+		string val = get_attribute_by_name("texture", element);
+		tex = assets->textures.at(val);
+		float height = std::stof(get_attribute_by_name("height", element));
+		std::pair<int, float> fliprot = parse_flip_rotation(element);
+		std::vector<std::pair<Vectorf, float>> path;
+		string time_offset_str = get_attribute_by_name("offset", element);
+		float time_offset = 0;
+		if (time_offset_str != "")
+		{
+			time_offset = std::stof(time_offset_str);
+		}
+		tinyxml2::XMLElement* e = element->FirstChildElement();
+		while (e != NULL)
+		{
+			string n = e->Name();
+			if (n == "p")
+			{
+				path.push_back(parse_path_node(e->GetText(), pos));
+			}
+			e = e->NextSiblingElement();
+		}
+		int layer = parse_layer(element, DEFAULT_OBJECT_LAYER);
+		return std::make_pair(layer, Moving_object(pos, tex, height, std::make_unique<Simple_AI>(Linear_AI(path, time_offset))));
 	}
 	catch (const std::out_of_range& e)
 	{
@@ -696,37 +574,92 @@ Moving_object Parser::parse_moving_object(tinyxml2::XMLElement* element)
 	throw std::runtime_error("Moving object error");
 }
 
-Damage_zone Parser::parse_damage_zone_raw(tinyxml2::XMLElement* element)
+std::pair<int, Pendulum> Parser::parse_pendulum(tinyxml2::XMLElement* element)
 {
-	std::vector<Vectorf> vert;
-	Vectorf pos = parse_num_pairf(get_attribute_by_name("position", element));
-	pos *= context.global_scale;
-	tinyxml2::XMLElement* e = element->FirstChildElement();
-	std::vector<std::pair<int, int>> dmg;
-	while (e != NULL)
+	try
 	{
-		std::string n = e->Name();
-		if (n == "v")
+		string tex_string = get_attribute_by_name("texture", element);
+		const sf::Texture* tex = assets->textures.at(tex_string);
+		string line_tex_string = get_attribute_by_name("line", element);
+		const sf::Texture* line_tex = assets->textures.at(line_tex_string);
+		Vectorf pos = get_and_parse_var<Vectorf>("position", element);
+		pos *= context.global_scale;
+		float line_len = std::stof(get_attribute_by_name("length", element));
+		float angle = util::deg_to_rad(std::stof(get_attribute_by_name("angle", element)));
+		Vectori line_offset = get_and_parse_var<Vectori>("line_offset", element);
+		std::pair<int, float> fliprot = parse_flip_rotation(element);
+		std::vector<Vectorf> attach_points;
+		std::vector<sf::Vertex> vert;
+		tinyxml2::XMLElement* e = element->FirstChildElement();
+		while (e != NULL)
 		{
-			Vectorf v = parse_num_pairf(e->GetText());
-			v *= context.global_scale;
-			vert.push_back(v);
+			string n = e->Name();
+			if (n == "v")
+			{
+				vert.push_back(parse_vertex(e->GetText(), fliprot));
+			}
+			else if (n == "vt")
+			{
+				vert.push_back(parse_textured_vertex(e->GetText()));
+			}
+			else if (n == "a")
+			{
+				Vectorf a = parse_var<Vectorf>(e->GetText());
+				a *= context.global_scale;
+				attach_points.push_back(a);
+			}
+			else
+			{
+				context.console->err << "B³¹d w wahadle" << '\n';
+				throw std::invalid_argument("Error in pendulum vertices/attachment points");
+			}
+			e = e->NextSiblingElement();
 		}
-		if (n == "d")
-		{
-			Vectori d = parse_num_pairi(e->GetText());
-			dmg.push_back({ d.x, d.y });
-		}
-		e = e->NextSiblingElement();
+		int layer = parse_layer(element, DEFAULT_PLATFORM_LAYER);
+		return std::make_pair(layer, Pendulum(pos, tex, std::move(vert),
+			attach_points, angle, line_len, line_tex, line_offset));
 	}
-	return Damage_zone(vert, pos, dmg);
+	catch (const std::invalid_argument& e)
+	{
+		context.console->err << "Wyjatek: " << e.what() << '\n';
+		context.console->err << "Element: " << "pendulum" << '\n';
+		context.console->err << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz platformy wahad³a" << '\n';
+	}
+	catch (const std::out_of_range& e)
+	{
+		context.console->err << "Wyjatek: " << e.what() << '\n';
+		context.console->err << "Element: " << "pendulum" << '\n';
+		context.console->err << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
+	}
+	throw std::runtime_error("Pendulum error");
 }
 
 Damage_zone Parser::parse_damage_zone(tinyxml2::XMLElement* element)
 {
 	try
 	{
-		return parse_damage_zone_raw(element);
+		std::vector<Vectorf> vert;
+		Vectorf pos = get_and_parse_var<Vectorf>("position", element);
+		pos *= context.global_scale;
+		tinyxml2::XMLElement* e = element->FirstChildElement();
+		std::vector<std::pair<int, int>> dmg;
+		while (e != NULL)
+		{
+			string n = e->Name();
+			if (n == "v")
+			{
+				Vectorf v = parse_var<Vectorf>(e->GetText());
+				v *= context.global_scale;
+				vert.push_back(v);
+			}
+			if (n == "d")
+			{
+				Vectori d = parse_var<Vectori>(e->GetText());
+				dmg.push_back({ d.x, d.y });
+			}
+			e = e->NextSiblingElement();
+		}
+		return Damage_zone(vert, pos, dmg);
 	}
 	catch (const std::invalid_argument& e)
 	{

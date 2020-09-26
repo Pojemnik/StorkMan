@@ -16,7 +16,7 @@ class Map
 
 public:
 	Map(Vectori size_, Vectori pos);
-	void add_level(Level&& lvl, Vectori pos);
+	void add_level(Level&& lvl);
 	void draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) const;
