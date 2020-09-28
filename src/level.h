@@ -20,7 +20,7 @@ public:
 	sf::FloatRect get_bounding_rect() const;
 	void update(float dt);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-	Moving_element(std::shared_ptr<Updatable> updatable_, int layer_);
+	Moving_element(std::shared_ptr<Updatable> updatable_, int layer_ = 0);
 };
 
 class Map_chunk : public Updatable, public Map_object

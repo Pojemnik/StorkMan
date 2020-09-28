@@ -14,7 +14,7 @@ bool Player_controller::command_available()
 
 void Player_controller::update(float dt)
 {
-	if (window.hasFocus())//TODO: Trzeba sk¹dœ to braæ
+	if (context.window_focus)
 	{
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
 		{

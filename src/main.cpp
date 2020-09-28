@@ -1,49 +1,47 @@
 #include <tinyxml2.h>
 #include "map.h"
 #include "assets.h"
-#include "entities.h"
 #include "parser.h"
 #include "util.h"
 #include "console.h"
 #include "interpreter.h"
 #include "ui.h"
+#include "entity_states.h"
+#include "control.h"
 
 const std::string VERSION = "pre-alpha 0.4.6.5";
 
-bool update(float dt, old_Map& map, int move_direction)
+bool update(float dt, Map& map, Entity& player, sf::FloatRect screen)
 {
 	static float acc(0);
 	acc += dt;
-	bool updated = 0;
+	bool updated = false;
 	if (acc >= 1000.0f / context.fps)
-		updated = 1;
+		updated = true;
 	while (acc >= 1000.0f / context.fps)
 	{
-		map.player->next_frame();
-		map.player->update(1);
-		map.update(1);
+		player.update(1);
+		map.update(1, player.get_position(), screen);
 		acc -= 1000.0f / context.fps;
-		map.player->move_angled(move_direction);
 	}
 	return updated;
 }
 
-void resize_window(old_Map& map, sf::RenderWindow& window, Assets& assets)
+void resize_window(Map& map, sf::RenderWindow& window, Assets& assets)
 {
 	assets.blurh.setUniform("blurSize", 1.0f / context.resolution.x);
 	assets.blurv.setUniform("blurSize", 1.0f / context.resolution.y);
-	map.calc_map_vertices();
 	window.setSize(sf::Vector2u(context.resolution.x, context.resolution.y));
 }
 
-bool process_event(sf::Event& event, bool window_focus)
+bool process_event(sf::Event& event)
 {
 	switch (event.type)
 	{
 	case sf::Event::Closed:
 		return true;
 	case sf::Event::KeyPressed:
-		if (window_focus)
+		if (context.window_focus)
 		{
 			if (event.key.code == sf::Keyboard::Tilde)
 			{
@@ -80,7 +78,7 @@ bool process_event(sf::Event& event, bool window_focus)
 		}
 		break;
 	case sf::Event::KeyReleased:
-		if (window_focus)
+		if (context.window_focus)
 		{
 			if (event.key.code == sf::Keyboard::Up
 				&& !context.console->is_active())
@@ -90,7 +88,7 @@ bool process_event(sf::Event& event, bool window_focus)
 		}
 		break;
 	case sf::Event::TextEntered:
-		if (context.console->is_active() && window_focus)
+		if (context.console->is_active() && context.window_focus)
 		{
 			if (event.text.unicode < 128)
 			{
@@ -100,7 +98,7 @@ bool process_event(sf::Event& event, bool window_focus)
 		}
 		break;
 	case sf::Event::MouseWheelScrolled:
-		if (context.console->is_active() && window_focus)
+		if (context.console->is_active() && context.window_focus)
 		{
 			context.console->scroll((int)event.mouseWheelScroll.delta);
 		}
@@ -122,16 +120,6 @@ bool execute_init_file(string path)
 		init = true;
 	}
 	return init;
-}
-
-void draw_player_hitbox(Player& player, sf::RenderWindow& window, sf::RenderStates rs)
-{
-	sf::ConvexShape r = sf::ConvexShape(4);
-	int i = 0;
-	for (auto& it : player.mesh.vertices)
-		r.setPoint(i, it), i++;
-	r.setOutlineColor({ 255,0,0 });
-	window.draw(r, rs);
 }
 
 int main(int argc, char** argv)	//Second argument is a map file for editor
@@ -157,7 +145,6 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	window.setIcon(icon_size.x, icon_size.y, assets.icon.getPixelsPtr());
 
 	//Map
-	old_Map map;
 	std::string path = (argc == 2) ? argv[1] : "map/map.xml";
 	tinyxml2::XMLDocument doc;
 	tinyxml2::XMLError error = doc.LoadFile(path.c_str());
@@ -168,19 +155,18 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	}
 	context.console->log << "Initializing map..." << '\n';
 	tinyxml2::XMLElement* root = doc.FirstChildElement();
-	map = parser.parse_map(root);
-	map.background.setPosition(context.background_position);
-	map.layer2.setPosition(context.layer2_position);
+	Map map = parser.parse_map(root);
 	context.console->log << "done!" << '\n';
 
 	//Player
-	sf::FloatRect f(380, 70, 20, 60);
-	Player player({ 400, 100 }, assets.pieces, assets.pieces_rect,
-		assets.dynamic_animations, f, assets.stork_tree, 1.92f,
-		context.global_scale, 87.f, 1000);
-	map.player = &player;
-	int move_direction = 0;
-	float acc = 0;
+	std::unique_ptr<Animation> animation(new Dynamic_animation(assets.pieces, assets.pieces_rect,
+		assets.dynamic_animations, assets.stork_tree));
+	std::vector<Vectorf> mesh = { {20, -30}, {40, -30}, {40, 30}, {20, 30} };
+	Physical physical(std::move(mesh), { 400, 100 });
+	std::unique_ptr<Entity_state_machine> machine(new Entity_state_machine(new Idle_state()));
+	std::unique_ptr<Controller> controller(new Player_controller());
+	Entity player(std::move(animation), physical, std::move(machine),
+		std::move(controller), 1.92f, 1000);
 
 	//Config file
 	bool init = execute_init_file("config.cfg");
@@ -208,13 +194,15 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	//Other
 	context.thread_pool = new ctpl::thread_pool(4);
 	sf::Clock clock;
+	float acc = 0;
 
 	while (window.isOpen())
 	{
 		sf::Event event;
+		context.window_focus = window.hasFocus();
 		while (window.pollEvent(event))
 		{
-			if (process_event(event, window.hasFocus()))
+			if (process_event(event))
 			{
 				window.close();
 				return 0;
@@ -236,16 +224,16 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 				case Command_code::CHANGE_RESOLUTION:
 					resize_window(map, window, assets);
 					break;
-				case Command_code::CHANGE_SCALE:
-					map.rescale(context.global_scale);
-					player.rescale(context.global_scale);
-					break;
+				//case Command_code::CHANGE_SCALE:
+				//	map.rescale(context.global_scale);
+				//	player.rescale(context.global_scale);
+				//	break;
 				case Command_code::MOVE_PLAYER:
 					player.set_position(code.second * context.global_scale);
 					break;
-				case Command_code::RELOAD_LIGHT:
-					map.recalc_light();
-					break;
+				//case Command_code::RELOAD_LIGHT:
+				//	map.recalc_light();
+				//	break;
 				case Command_code::GET_POSITION:
 					context.console->out <<
 						player.get_position() / context.global_scale << '\n';
@@ -280,11 +268,6 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		{
 			context.console->update_content();
 		}
-		else
-		{
-			move_direction = 0;
-			
-		}
 		float time = (float)clock.getElapsedTime().asMicroseconds();
 		time /= 1000.0f;
 		if (time > 2500.0f / context.fps)
@@ -293,43 +276,26 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		}
 		acc += time;
 		clock.restart();
-		if (context.console->is_active() || update(time, map, move_direction))
+		Vectorf camera_pos = player.get_position();
+		camera_pos -= Vectorf((float)context.default_resolution.x / 2,
+			(float)context.default_resolution.y / 2);
+		sf::FloatRect screen_rect(camera_pos.x, camera_pos.y,
+		context.default_resolution.x, context.default_resolution.y);
+		if (context.console->is_active() || update(time, map, player, screen_rect))
 		{
 			if (context.draw_fps_counter)
 				context.fps_counter.setString(std::to_string(int(1000.f / acc)));
 			acc = 0;
 			window.clear();
-			sf::Vector2f camera_pos = player.get_position();
+			camera_pos = player.get_position();
 			camera_pos -= sf::Vector2f((float)context.default_resolution.x / 2,
 				(float)context.default_resolution.y / 2);
 			sf::RenderStates rs = sf::RenderStates::Default;
 			rs.transform = sf::Transform().translate(-camera_pos);
-			player.pre_draw();
-			map.pre_draw();
-			map.draw_backgrounds(window, rs);
 			map.draw_bottom_layers(window, rs);
-			if (context.draw_collisions)
-			{
-				draw_player_hitbox(player, window, rs);
-			}
 			window.draw(player, rs);
 			map.draw_middle_layers(window, rs);
-			context.final_states.transform = rs.transform;
-			context.final_states.transform.translate(
-				-map.level_size.x / 2, -map.level_size.y / 2);
-			if (context.generate_light)
-			{
-				window.draw(map.light_sprite, context.final_states);
-			}
 			map.draw_top_layers(window, rs);
-			if (context.draw_damage_zones)
-			{
-				map.draw_damage_zones(window, rs);
-			}
-			if (context.draw_map_vertices)
-			{
-				map.draw_map_vertices(window, rs);
-			}
 			if (context.draw_hp)
 			{
 				hp.setString(std::to_string(player.health));

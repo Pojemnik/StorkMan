@@ -69,6 +69,7 @@ struct Context
 	sf::Sound aaa;
 	int level_tile_size = 5;
 	Vectori level_size = { 100, 100 };
+	bool window_focus = false;
 };
 
 extern struct Context context;

@@ -46,6 +46,11 @@ Entity::Entity(std::unique_ptr<Animation>&& animation_, Physical& physical_,
 			info.character_position.y + info.part_size.y / 2 });
 }
 
+const Collision* const Entity::get_collision() const
+{
+	return physical.get_collision();
+}
+
 void Entity::set_animation(Animation_index a)
 {
 	animation->set_animation(a);
@@ -100,6 +105,13 @@ void Entity::update(float dt)
 	on_ground = physical.is_on_ground();
 	state->update(*this, dt);
 	physical.update(dt);
+	animation->next_frame(dt);
+	sprite.setTexture(*animation->get_texture());
+}
+
+void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	target.draw(sprite, states);
 }
 
 Vectorf Entity::get_position()

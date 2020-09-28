@@ -51,9 +51,6 @@ void Idle_jump_state::enter(Entity& entity)
 
 void Run_jump_state::enter(Entity& entity)
 {
-	//Problem
-	//We need to know on which keyframe we are in order to make correct transition
-	//On the other hand, it's not portable
 	entity.set_animation(Animation_index::JUMP_RUN);
 	entity.jump();
 	entity.send_message(Message::Message_type::JUMPED, NULL);

@@ -31,14 +31,15 @@ struct Command
 	std::variant<int> args;
 };
 
-class Controller : public Updatable
+class Controller
 {
 public:
 	virtual Command pop_command() = 0;
 	virtual bool command_available() = 0;
+	virtual void update(float dt) = 0;
 };
 
-class Entity : public Animatable, public Updatable, public Collidable, public Message_sender
+class Entity : public Updatable, public Collidable, public Message_sender, public Renderable
 {
 protected:
 	const float move_speed = 1.f;
@@ -62,6 +63,7 @@ public:
 	Surface_type surface;
 	bool on_ground;
 
+	const Collision* const get_collision() const;
 	void set_animation(Animation_index a);
 	Animation_index get_current_animation();
 	void move(int direction);
@@ -74,6 +76,7 @@ public:
 	Vectorf get_position();
 	void set_position(Vectorf new_position);
 	void update(float dt);
+	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	Entity(std::unique_ptr<Animation>&& animation_, Physical& physical_,
 		std::unique_ptr<Entity_state_machine>&& state_,
 		std::unique_ptr<Controller>&& controller_, float height_, int health_);

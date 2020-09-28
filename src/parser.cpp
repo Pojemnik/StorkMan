@@ -158,7 +158,39 @@ Level Parser::parse_level(tinyxml2::XMLElement* root, Vectori global_pos)
 		{
 			chunks.push_back(parse_chunk(element));
 		}
-		//TODO: add movables to level
+		else if (name == "animated_object")
+		{
+			auto [layer, object] = parse_animated_object(element);
+			std::shared_ptr<Animated_object> ptr(&object);
+			moving.emplace_back(std::static_pointer_cast<Updatable>(ptr), layer);
+		}
+		else if (name == "damage_zone")
+		{
+			Damage_zone zone = parse_damage_zone(element);
+			std::shared_ptr<Damage_zone> ptr = std::shared_ptr<Damage_zone>(&zone);
+			moving.emplace_back(std::static_pointer_cast<Updatable>(ptr));
+		}
+		else if (name == "pendulum")
+		{
+			auto [layer, pendulum] = parse_pendulum(element);
+			std::shared_ptr<Pendulum> ptr =
+				std::shared_ptr<Pendulum>(&pendulum);
+			moving.emplace_back(std::static_pointer_cast<Updatable>(ptr), layer);
+		}
+		else if (name == "moving_platform")
+		{
+			auto [layer, platform] = parse_moving_platform(element);
+			std::shared_ptr<Moving_platform> ptr =
+				std::shared_ptr<Moving_platform>(&platform);
+			moving.emplace_back(std::static_pointer_cast<Updatable>(ptr), layer);
+		}
+		else if (name == "moving_object")
+		{
+			auto [layer, object] = parse_moving_object(element);
+			std::shared_ptr<Moving_object> ptr =
+				std::shared_ptr<Moving_object>(&object);
+			moving.emplace_back(std::static_pointer_cast<Updatable>(ptr), layer);
+		}
 		element = element->NextSiblingElement();
 	}
 	return Level(std::move(chunks), std::move(moving), global_pos);
