@@ -5,12 +5,6 @@
 
 #include "util.h"
 
-class Collidable
-{
-public:
-	virtual const Collision* const get_collision() const = 0;
-};
-
 enum class Surface_type : int {NONE = 0, GRASS, CONCRETE};
 
 struct Collision
@@ -26,6 +20,12 @@ struct Collision
 	Collision(const std::vector<sf::Vertex>& vertices, Vectorf pos);
 	Collision(sf::FloatRect rect_, float scale, Vectorf pos);
 	void calculate_min_max_arr();
+};
+
+class Collidable
+{
+public:
+	virtual const Collision* const get_collision() const = 0;
 };
 
 struct Collision_info

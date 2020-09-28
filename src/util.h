@@ -26,8 +26,6 @@ const int BOTTOM_LAYERS = 7;
 const int MIDDLE_LAYERS = 3;
 const int TOP_LAYERS = 2;
 
-enum Collidable_type { STATIC, MOVING };
-
 struct Context
 {
 	bool draw_collisions = false;
@@ -119,7 +117,7 @@ namespace util
 
 	//Misc
 	template <class T> typename std::vector<T>::iterator increment_iterator(
-		typename std::vector<T>::iterator a, const std::vector<T>& vec)
+		typename std::vector<T>::iterator a, std::vector<T>& vec)
 	{
 		a++;
 		return a == vec.end() ? vec.begin() : a;

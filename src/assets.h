@@ -1,5 +1,6 @@
 #pragma once
-#include "entities.h"
+#include <algorithm>
+#include "animations.h"
 
 class Assets
 {

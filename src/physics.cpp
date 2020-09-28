@@ -7,7 +7,7 @@ void Physical::reset_physics()
 }
 
 Physical::Physical(std::vector<Vectorf>&& mesh, Vectorf pos_) : collision(std::move(mesh)),
-pos(pos_), acceleration(0, 0), speed(0, 0) {}
+pos(pos_), acceleration(0, 0), speed(0, 0), surface(Surface_type::NONE) {}
 
 const Collision* const Physical::get_collision() const
 {
@@ -45,7 +45,7 @@ void Physical::update(float dt)
 	if (util::vector_dot_product({ 0,-1 }, collision_vector) /
 		(std::hypot(collision_vector.x, collision_vector.y)) > 0.5f)
 	{
-		on_ground - true;
+		on_ground = true;
 	}
 	surface = Surface_type::NONE;
 	max_up = -1.f;

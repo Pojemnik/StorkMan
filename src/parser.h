@@ -1,5 +1,4 @@
 #pragma once
-#include "entities.h"
 #include "map.h"
 #include "assets.h"
 #include "tinyxml2.h"
@@ -71,8 +70,8 @@ Vectorf Parser::get_and_parse_var<Vectorf>(string name, tinyxml2::XMLElement* el
 template <>
 Vectori Parser::get_and_parse_var<Vectori>(string name, tinyxml2::XMLElement* element)
 {
-	Vectori temp = get_and_parse_var<Vectori>(name, element);
-	
+	string val = get_attribute_by_name(name, element);
+	return parse_var<Vectori>(val);
 }
 
 template<typename T>

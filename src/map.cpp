@@ -45,7 +45,7 @@ void Map::add_level(Level&& lvl)
 	{
 		levels.at(pos.x).at(pos.y) = lvl;
 	}
-	catch(std::out_of_range e)
+	catch (std::out_of_range e)
 	{
 		std::cout << "Incorrect level position in map" << std::endl;
 		throw std::invalid_argument("Invalid level position");
@@ -69,11 +69,11 @@ void Map::draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) 
 				continue;
 			}
 			states.transform *= sf::Transform().translate(
-				{ context.level_size.x * x, context.level_size.y * y}
+				Vectorf(context.level_size.x * x, context.level_size.y * y)
 			);
 			levels[x][y].draw_bottom_layers(target, states);
 			states.transform *= sf::Transform().translate(
-				{ -context.level_size.x * x, -context.level_size.y * y }
+				Vectorf(-context.level_size.x * x, -context.level_size.y * y)
 			);
 		}
 	}
@@ -96,11 +96,11 @@ void Map::draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) 
 				continue;
 			}
 			states.transform *= sf::Transform().translate(
-				{ context.level_size.x * x, context.level_size.y * y }
+				Vectorf(context.level_size.x * x, context.level_size.y * y)
 			);
-			levels[x][y].draw_middle_layers(target, states);
+			levels[x][y].draw_bottom_layers(target, states);
 			states.transform *= sf::Transform().translate(
-				{ -context.level_size.x * x, -context.level_size.y * y }
+				Vectorf(-context.level_size.x * x, -context.level_size.y * y)
 			);
 		}
 	}
@@ -123,11 +123,11 @@ void Map::draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) con
 				continue;
 			}
 			states.transform *= sf::Transform().translate(
-				{ context.level_size.x * x, context.level_size.y * y }
+				Vectorf(context.level_size.x * x, context.level_size.y * y)
 			);
-			levels[x][y].draw_top_layers(target, states);
+			levels[x][y].draw_bottom_layers(target, states);
 			states.transform *= sf::Transform().translate(
-				{ -context.level_size.x * x, -context.level_size.y * y }
+				Vectorf(-context.level_size.x * x, -context.level_size.y * y)
 			);
 		}
 	}
@@ -135,8 +135,8 @@ void Map::draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) con
 
 void Map::update(float dt, Vectorf player_pos, sf::FloatRect screen_rect)
 {
-	Vectori player_pos_on_map = { player_pos.x / context.level_size.x,
-		player_pos.y / context.level_size.y };
+	Vectori player_pos_on_map = Vectori(player_pos.x / context.level_size.x,
+		player_pos.y / context.level_size.y);
 	if (player_pos_on_map != current_pos)
 	{
 		current_pos = player_pos_on_map;

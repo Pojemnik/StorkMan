@@ -17,10 +17,9 @@ void Message_receiver::push_message(Message& msg)
 	msg_queue.push(msg);
 }
 
-template <typename T>
-void Message_sender::send_message(Message::Message_type type, T args) const
+void Message_sender::send_message(Message::Message_type type, int args) const
 {
-	std::variant<T> args_variant = args;
+	std::variant<int> args_variant = args;
 	Message msg(type, this, args_variant);
 	for (const auto& it : receivers)
 	{
@@ -35,8 +34,9 @@ void Message_sender::add_receiver(Message_receiver* receiver)
 
 void Message_sender::remove_receiver(Message_receiver* receiver)
 {
-	std::remove_if(receivers.begin(), receivers.end(), receiver);
+	std::remove_if(receivers.begin(), receivers.end(),
+		[receiver](const Message_receiver* other) {return other == receiver; });
 }
 
-Message::Message(Message_type type_, Message_sender* sender_) :
+Message::Message(Message_type type_, const Message_sender* sender_) :
 	type(type_), sender(sender_) {}

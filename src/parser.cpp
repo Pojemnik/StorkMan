@@ -70,6 +70,7 @@ sf::Vertex Parser::parse_textured_vertex(string content)
 	Vectorf v = parse_var<Vectorf>(content.substr(0, pos));
 	v *= context.global_scale;
 	Vectorf t = parse_var<Vectorf>(content.substr(pos + 1));
+	return sf::Vertex(v, t);
 }
 
 std::pair<Vectorf, float> Parser::parse_path_node(string content, Vectorf pos)
@@ -283,11 +284,11 @@ Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root)
 	}
 	string temp = get_attribute_by_name("left", root);
 	bound.left += (temp == "") ? 0 : std::stof(temp);
-	string temp = get_attribute_by_name("top", root);
+	temp = get_attribute_by_name("top", root);
 	bound.top += (temp == "") ? 0 : std::stof(temp);
-	string temp = get_attribute_by_name("width", root);
+	temp = get_attribute_by_name("width", root);
 	bound.width += (temp == "") ? 0 : std::stof(temp);
-	string temp = get_attribute_by_name("height", root);
+	temp = get_attribute_by_name("height", root);
 	bound.height += (temp == "") ? 0 : std::stof(temp);
 	return Map_chunk(std::move(updatables), std::move(drawables),
 		std::move(collidables), bound);
@@ -396,8 +397,9 @@ std::pair<int, Animated_object> Parser::parse_animated_object(tinyxml2::XMLEleme
 		{
 			frame_offset = std::stof(frame_delta_str);
 		}
-		Static_animation_struct sas = Static_animation_struct(tex, frame_time);
-		std::unique_ptr<Animation> animation = std::unique_ptr<Animation>(&Static_animation(sas, frame_offset));
+		Static_animation_struct sas(tex, frame_time);
+		Static_animation sa(sas, frame_offset);
+		std::unique_ptr<Animation> animation = std::unique_ptr<Animation>(&sa);
 		int layer = parse_layer(element, DEFAULT_OBJECT_LAYER);
 		return std::make_pair(layer, Animated_object(pos, std::move(animation),
 			height, fliprot.first, fliprot.second));
@@ -549,7 +551,7 @@ std::pair<int, Moving_platform> Parser::parse_moving_platform(tinyxml2::XMLEleme
 		}
 		int layer = parse_layer(element, DEFAULT_PLATFORM_LAYER);
 		return std::make_pair(layer, Moving_platform(pos, tex, std::move(vert),
-			std::make_unique<Simple_AI>(Linear_AI(path, time_offset))));
+			std::unique_ptr<Simple_AI>(new Linear_AI(path, time_offset))));
 	}
 	catch (const std::invalid_argument& e)
 	{
@@ -595,7 +597,8 @@ std::pair<int, Moving_object> Parser::parse_moving_object(tinyxml2::XMLElement* 
 			e = e->NextSiblingElement();
 		}
 		int layer = parse_layer(element, DEFAULT_OBJECT_LAYER);
-		return std::make_pair(layer, Moving_object(pos, tex, height, std::make_unique<Simple_AI>(Linear_AI(path, time_offset))));
+		return std::make_pair(layer, Moving_object(pos, tex, height,
+			std::unique_ptr<Simple_AI>(new Linear_AI(path, time_offset))));
 	}
 	catch (const std::out_of_range& e)
 	{

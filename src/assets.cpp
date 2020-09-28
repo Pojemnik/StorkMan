@@ -107,11 +107,11 @@ Animation_tree Assets::load_animation_tree(std::string path)
 		tree.tree[node_names[a]].push_back(node_names[b]);
 	}
 	tree.nodes[tree.root].delta_pos = { Vectori(0,0),Vectori(0,0) };
-	string line;
 	while (!file.eof())
 	{
+		string line;
 		std::getline(file, line);
-		if (std::all_of(line.begin(), line.end(), std::isspace))
+		if (std::all_of(line.begin(), line.end(), [](char c) {return static_cast<bool>(std::isspace(c));}))
 		{
 			continue;
 		}

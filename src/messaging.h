@@ -3,17 +3,17 @@
 #include <vector>
 #include <algorithm>
 #include <variant>
-#include <optional>
+
+class Message_sender;
 
 struct Message
 {
 	enum class Message_type { DIED, DAMAGED, MOVED, JUMPED } type;
 	std::variant<int> args;
-	Message_sender* sender;
+	const Message_sender* sender;
 
-	Message(Message_type type_, Message_sender* sender_);
-	template <typename T>
-	Message(Message_type type_, Message_sender* sender_, std::variant<T> args_) :
+	Message(Message_type type_, const Message_sender* sender_);
+	Message(Message_type type_, const Message_sender* sender_, std::variant<int> args_) :
 		type(type_), sender(sender_), args(args_) {}
 };
 
@@ -38,6 +38,5 @@ protected:
 	void remove_receiver(Message_receiver* receiver);
 
 public:
-	template <typename T>
-	void send_message(Message::Message_type type, T args) const;
+	void send_message(Message::Message_type type, int args) const;
 };

@@ -1,6 +1,5 @@
 #pragma once
-#include "worldparts.h"
-#include "platforms.h"
+#include "compound_map_objects.h"
 #include "physics.h"
 
 class Moving_element : public Updatable, public Renderable, public Map_object

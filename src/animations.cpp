@@ -86,7 +86,7 @@ void Dynamic_animation::set_animation(Animation_index a)
 		{
 			if (it == key)
 			{
-				contains - true;
+				contains = true;
 				break;
 			}
 		}

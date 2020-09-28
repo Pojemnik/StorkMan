@@ -6,6 +6,7 @@ class Simple_AI
 public:
 	virtual void calc_pos(float dt) = 0;
 	virtual sf::Transform get_pos() = 0;
+	virtual ~Simple_AI() {}
 };
 
 class Linear_AI : public Simple_AI

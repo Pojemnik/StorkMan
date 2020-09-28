@@ -32,7 +32,7 @@ public:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
-class Animated_object : public Animatable, public Object
+class Animated_object : public Animatable, public Object, public Updatable
 {
 protected:
 	std::unique_ptr<Animation> animation;
@@ -42,9 +42,10 @@ public:
 		float height_, int flip_ = 0, float angle_ = 0);
 	void update_frame();
 	void next_frame(float dt);
+	void update(float dt);
 };
 
-class Moving_animated_object : public Animated_object, public Updatable
+class Moving_animated_object : public Animated_object
 {
 private:
 	std::unique_ptr<Simple_AI> ai;

@@ -33,11 +33,31 @@ public:
 	virtual void set_animation(Animation_index a) = 0;
 	virtual Animation_index get_current_animation() const = 0;
 	virtual Frame_info get_frame_info() const = 0;
+	virtual ~Animation() {}
 };
 
 struct Animation_node
 {
 	std::array<Vectori, 2> delta_pos;
+};
+
+template<typename T>
+inline void hash_combine(std::size_t& seed, const T& val)
+{
+	std::hash<T> hasher;
+	seed ^= hasher(val) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+}
+
+struct pair_hash
+{
+	template<typename S, typename T>
+	inline size_t operator()(const std::pair<S, T>& val) const
+	{
+		size_t seed = 0;
+		hash_combine(seed, val.first);
+		hash_combine(seed, val.second);
+		return seed;
+	}
 };
 
 struct Animation_tree
@@ -48,7 +68,8 @@ struct Animation_tree
 	std::vector<Animation_node> nodes;
 	std::vector<std::vector<int>> tree;
 	int root;
-	std::unordered_map<std::pair<int, int>, std::pair<Animation_index, std::vector<int>>> alternative_animations;
+	std::unordered_map<std::pair<int, int>, std::pair<Animation_index,
+		std::vector<int>>, pair_hash> alternative_animations;
 
 	Animation_tree() = default;
 	Animation_tree(int _count, int i_count);

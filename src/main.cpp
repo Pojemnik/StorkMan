@@ -1,12 +1,7 @@
 #include <tinyxml2.h>
-#include "map.h"
-#include "assets.h"
 #include "parser.h"
-#include "util.h"
-#include "console.h"
 #include "interpreter.h"
 #include "ui.h"
-#include "entity_states.h"
 #include "control.h"
 
 const std::string VERSION = "pre-alpha 0.4.6.5";
@@ -27,7 +22,7 @@ bool update(float dt, Map& map, Entity& player, sf::FloatRect screen)
 	return updated;
 }
 
-void resize_window(Map& map, sf::RenderWindow& window, Assets& assets)
+void resize_window(sf::RenderWindow& window, Assets& assets)
 {
 	assets.blurh.setUniform("blurSize", 1.0f / context.resolution.x);
 	assets.blurv.setUniform("blurSize", 1.0f / context.resolution.y);
@@ -222,7 +217,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 				switch (code.first)
 				{
 				case Command_code::CHANGE_RESOLUTION:
-					resize_window(map, window, assets);
+					resize_window(window, assets);
 					break;
 				//case Command_code::CHANGE_SCALE:
 				//	map.rescale(context.global_scale);

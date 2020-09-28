@@ -21,7 +21,7 @@ sf::FloatRect Object::get_bounding_rect() const
 }
 
 Moving_object::Moving_object(Vectorf pos_, const sf::Texture* texture_, float height_,
-	std::unique_ptr<Simple_AI> ai_, int flip_ = 0, float angle_ = 0) :
+	std::unique_ptr<Simple_AI> ai_, int flip_, float angle_) :
 	Object(pos_, texture_, height_, flip_, angle_), ai(std::move(ai_)) {}
 
 void Moving_object::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -50,10 +50,15 @@ void Animated_object::next_frame(float dt)
 	animation->next_frame(dt);
 }
 
+void Animated_object::update(float dt)
+{
+	next_frame(dt);
+	update_frame();
+}
+
 Moving_animated_object::Moving_animated_object(Vectorf pos_,
 	std::unique_ptr<Animation> animation_, float height_,
-	std::unique_ptr<Simple_AI> ai_, int flip_ = 0,
-	float angle_ = 0) :
+	std::unique_ptr<Simple_AI> ai_, int flip_, float angle_) :
 	Animated_object(pos_, std::move(animation_), height_, flip_, angle_), ai(std::move(ai_))
 {}
 
@@ -65,6 +70,7 @@ void Moving_animated_object::draw(sf::RenderTarget& target, sf::RenderStates sta
 
 void Moving_animated_object::update(float dt)
 {
+	Animated_object::update(dt);
 	ai->calc_pos(dt);
 }
 

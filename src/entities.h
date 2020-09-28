@@ -5,25 +5,10 @@
 #include "logic.h"
 #include "animations.h"
 #include "messaging.h"
-#include "interfaces.h"
 
 enum class Entity_state_info {PUSH, POP, REPLACE, NONE};
 
-struct Entity_state
-{
-	virtual void enter(Entity& entity) = 0;
-	virtual void exit(Entity& entity) {};
-	virtual std::pair<Entity_state*, Entity_state_info> update(Entity& entity, float dt) = 0;
-};
-
-class Entity_state_machine
-{
-	std::stack<Entity_state*> state_stack;
-
-public:
-	virtual void update(Entity& entity, float dt);
-	Entity_state_machine(Entity_state* state);
-};
+class Entity_state_machine;
 
 struct Command
 {
@@ -37,6 +22,7 @@ public:
 	virtual Command pop_command() = 0;
 	virtual bool command_available() = 0;
 	virtual void update(float dt) = 0;
+	virtual ~Controller() {}
 };
 
 class Entity : public Updatable, public Collidable, public Message_sender, public Renderable
@@ -80,4 +66,64 @@ public:
 	Entity(std::unique_ptr<Animation>&& animation_, Physical& physical_,
 		std::unique_ptr<Entity_state_machine>&& state_,
 		std::unique_ptr<Controller>&& controller_, float height_, int health_);
+};
+
+struct Entity_state
+{
+	virtual void enter(Entity& entity) = 0;
+	virtual void exit(Entity& entity) { (void)entity; /*Unused*/ };
+	virtual std::pair<Entity_state*, Entity_state_info> update(Entity& entity, float dt) = 0;
+	virtual ~Entity_state() {};
+};
+
+struct Run_state : public Entity_state
+{
+	void enter(Entity& entity);
+	std::pair<Entity_state*, Entity_state_info> update(Entity& entity, float dt);
+};
+
+struct Jump_state : public Entity_state
+{
+	float time_sum = 0.f;
+	const float ASCENDING_TIME = 10.f;
+	virtual void enter(Entity& entity) = 0;
+	virtual std::pair<Entity_state*, Entity_state_info> update(Entity& entity, float dt);
+};
+
+struct Idle_jump_state : public Jump_state
+{
+	void enter(Entity& entity);
+};
+
+struct Run_jump_state : public Jump_state
+{
+	void enter(Entity& entity);
+};
+
+struct Idle_state : public Entity_state
+{
+	void enter(Entity& entity);
+	std::pair<Entity_state*, Entity_state_info> update(Entity& entity, float dt);
+};
+
+struct Die_state : public Entity_state
+{
+	void enter(Entity& entity);
+	void exit(Entity& entity);
+	std::pair<Entity_state*, Entity_state_info> update(Entity& entity, float dt);
+};
+
+struct In_air_state : public Entity_state
+{
+	void enter(Entity& entity);
+	std::pair<Entity_state*, Entity_state_info> update(Entity& entity, float dt);
+};
+
+class Entity_state_machine
+{
+	std::stack<Entity_state*> state_stack;
+
+public:
+	virtual void update(Entity& entity, float dt);
+	Entity_state_machine(Entity_state* state);
 };
