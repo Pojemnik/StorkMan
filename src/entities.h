@@ -50,6 +50,8 @@ public:
 	bool on_ground;
 
 	const Collision* const get_collision() const;
+	void resolve_collision(const std::vector<std::shared_ptr<const Collidable>>& others);
+	void resolve_collision(const Collidable& other);
 	void set_animation(Animation_index a);
 	Animation_index get_current_animation();
 	void move(int direction);

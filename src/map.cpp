@@ -7,7 +7,7 @@ void Map::update_levels(float dt, sf::FloatRect screen_rect)
 
 void Map::resolve_collisions()
 {
-	call_on_considered_levels(std::bind(&Level::resolve_collisions, std::placeholders::_1, physicals));
+	call_on_considered_levels(std::bind(&Level::resolve_collisions, std::placeholders::_1, entities));
 }
 
 void Map::call_on_considered_levels(std::function<void(Level&)> foo)
@@ -29,11 +29,6 @@ void Map::call_on_considered_levels(std::function<void(Level&)> foo)
 			foo(levels[x][y]);
 		}
 	}
-}
-
-void Map::call_on_considered_levels(std::function<void(const Level&)> foo) const
-{
-
 }
 
 Map::Map(Vectori size_, Vectori pos) : size(size_), current_pos(pos)
@@ -105,7 +100,7 @@ void Map::draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) 
 			states.transform *= sf::Transform().translate(
 				Vectorf(context.level_size.x * x, context.level_size.y * y)
 			);
-			levels[x][y].draw_bottom_layers(target, states);
+			levels[x][y].draw_middle_layers(target, states);
 			states.transform *= sf::Transform().translate(
 				Vectorf(-context.level_size.x * x, -context.level_size.y * y)
 			);
@@ -132,7 +127,7 @@ void Map::draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) con
 			states.transform *= sf::Transform().translate(
 				Vectorf(context.level_size.x * x, context.level_size.y * y)
 			);
-			levels[x][y].draw_bottom_layers(target, states);
+			levels[x][y].draw_top_layers(target, states);
 			states.transform *= sf::Transform().translate(
 				Vectorf(-context.level_size.x * x, -context.level_size.y * y)
 			);
@@ -142,8 +137,9 @@ void Map::draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) con
 
 void Map::update(float dt, Vectorf player_pos, sf::FloatRect screen_rect)
 {
-	Vectori player_pos_on_map = Vectori(player_pos.x / context.level_size.x,
-		player_pos.y / context.level_size.y);
+	Vectori player_pos_on_map = Vectori(
+		player_pos.x / context.global_scale / context.level_size.x,
+		player_pos.y / context.global_scale / context.level_size.y);
 	if (player_pos_on_map != current_pos)
 	{
 		current_pos = player_pos_on_map;
@@ -151,4 +147,9 @@ void Map::update(float dt, Vectorf player_pos, sf::FloatRect screen_rect)
 	update_levels(dt, screen_rect);
 	resolve_collisions();
 	//TODO: Dealing damage from enviroment
+}
+
+void Map::add_entity(Entity* entity)
+{
+	entities.push_back(entity);
 }

@@ -7,11 +7,23 @@ Collision::Collision(sf::FloatRect rect_)
 	mesh.push_back({ rect_.left + rect_.width, rect_.top });
 	mesh.push_back({ rect_.left + rect_.width, rect_.top + rect_.height });
 	mesh.push_back({ rect_.left, rect_.top + rect_.height });
+	calculate_min_max_arr();
 }
 
-Collision::Collision(std::vector<Vectorf> mesh_) : mesh(mesh_)
+Collision::Collision(std::vector<Vectorf>&& mesh_) : mesh(mesh_)
 {
 	rect = util::mesh_to_rect(mesh);
+	calculate_min_max_arr();
+}
+
+Collision::Collision(std::vector<Vectorf>&& mesh_, Vectorf pos) : mesh(mesh_)
+{
+	for (auto& it : mesh)
+	{
+		it += pos;
+	}
+	rect = util::mesh_to_rect(mesh);
+	calculate_min_max_arr();
 }
 
 Collision::Collision(const std::vector<sf::Vertex>& vertices, Vectorf pos) : mesh(vertices.size())
@@ -22,6 +34,7 @@ Collision::Collision(const std::vector<sf::Vertex>& vertices, Vectorf pos) : mes
 		mesh[i++] = it.position + pos;
 	}
 	rect = util::mesh_to_rect(mesh);
+	calculate_min_max_arr();
 }
 
 Collision::Collision(sf::FloatRect rect_, float scale, Vectorf pos)
@@ -31,6 +44,7 @@ Collision::Collision(sf::FloatRect rect_, float scale, Vectorf pos)
 	mesh.push_back({ rect_.left * scale + pos.x + rect_.width * scale, rect_.top * scale + pos.y });
 	mesh.push_back({ rect_.left * scale + pos.x + rect_.width * scale, rect_.top * scale + pos.y + rect_.height * scale });
 	mesh.push_back({ rect_.left * scale + pos.x, rect_.top * scale + pos.y + rect_.height * scale });
+	calculate_min_max_arr();
 }
 
 void Collision::calculate_min_max_arr()

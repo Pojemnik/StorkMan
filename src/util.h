@@ -38,7 +38,7 @@ struct Context
 	bool jump_available = true;
 	bool generate_light = false;
 	float fps = 60.f;
-	float gravity = 22;
+	float gravity = 1; //22
 	float jump_force = 775.f;
 	float parallax = -1.5f;
 	float parallax2 = -2.f;

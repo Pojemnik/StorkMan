@@ -45,9 +45,9 @@ void Map_chunk::draw_top_layers(sf::RenderTarget& target, sf::RenderStates state
 	}
 }
 
-void Map_chunk::resolve_collisions(Physical& physical) const
+void Map_chunk::resolve_collisions(Entity& entity) const
 {
-	physical.resolve_collision(collidables);
+	entity.resolve_collision(collidables);
 }
 
 Map_chunk::Map_chunk(std::vector<std::shared_ptr<Updatable>>&& updatables_,
@@ -198,22 +198,22 @@ void Level::draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) c
 	}
 }
 
-void Level::resolve_collisions(std::vector<Physical>& entities)
+void Level::resolve_collisions(std::vector<Entity*>& entities)
 {
 	for (auto& it : entities)
 	{
 		for (const auto& chunk_it : chunks)
 		{
-			if (it.get_collision()->rect.intersects(chunk_it.get_bounding_rect()))
+			if (it->get_collision()->rect.intersects(chunk_it.get_bounding_rect()))
 			{
-				chunk_it.resolve_collisions(it);
+				chunk_it.resolve_collisions(*it);
 			}
 		}
 		for (const auto& moving_it : moving)
 		{
 			if (moving_it.is_collidable)
 			{
-				it.resolve_collision(*moving_it.get_collidable());
+				it->resolve_collision(*moving_it.get_collidable());
 			}
 		}
 	}

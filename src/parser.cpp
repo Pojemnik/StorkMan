@@ -377,8 +377,7 @@ std::pair<int, std::shared_ptr<Animated_object>> Parser::parse_animated_object(t
 			frame_offset = std::stof(frame_delta_str);
 		}
 		Static_animation_struct sas(tex, frame_time);
-		Static_animation sa(sas, frame_offset);
-		std::unique_ptr<Animation> animation = std::unique_ptr<Animation>(&sa);
+		std::unique_ptr<Animation> animation = std::make_unique<Static_animation>(sas, frame_offset);
 		int layer = parse_layer(element, DEFAULT_OBJECT_LAYER);
 		return std::make_pair(layer, std::make_shared<Animated_object>(pos, std::move(animation),
 			height, fliprot.first, fliprot.second));

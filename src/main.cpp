@@ -15,8 +15,8 @@ bool update(float dt, Map& map, Entity& player, sf::FloatRect screen)
 		updated = true;
 	while (acc >= 1000.0f / context.fps)
 	{
-		player.update(1);
 		map.update(1, player.get_position(), screen);
+		player.update(1);
 		acc -= 1000.0f / context.fps;
 	}
 	return updated;
@@ -157,11 +157,12 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	auto animation = std::make_unique<Dynamic_animation>(assets.pieces, assets.pieces_rect,
 		assets.dynamic_animations, assets.stork_tree);
 	std::vector<Vectorf> mesh = { {20, -30}, {40, -30}, {40, 30}, {20, 30} };
-	Physical physical(std::move(mesh), { 400, 100 });
+	Physical physical(std::move(mesh), { 10*context.global_scale, 5*context.global_scale });
 	auto machine = std::make_unique<Entity_state_machine>(new Idle_state());
 	auto controller = std::make_unique<Player_controller>();
 	Entity player(std::move(animation), physical, std::move(machine),
 		std::move(controller), 1.92f, 1000);
+	map.add_entity(&player);
 
 	//Config file
 	bool init = execute_init_file("config.cfg");

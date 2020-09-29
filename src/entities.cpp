@@ -236,6 +236,16 @@ const Collision* const Entity::get_collision() const
 	return physical.get_collision();
 }
 
+void Entity::resolve_collision(const std::vector<std::shared_ptr<const Collidable>>& others)
+{
+	physical.resolve_collision(others);
+}
+
+void Entity::resolve_collision(const Collidable& other)
+{
+	physical.resolve_collision(other);
+}
+
 void Entity::set_animation(Animation_index a)
 {
 	animation->set_animation(a);
@@ -246,13 +256,13 @@ Animation_index Entity::get_current_animation()
 	return animation->get_current_animation();
 }
 
-void Entity::move(int direction)
+void Entity::move(int dir)
 {
-	physical.move({ move_speed * direction, 0.f });
-	if (last_direction != direction)
+	physical.move({ move_speed * dir, 0.f });
+	if (last_direction != dir)
 	{
-		flip(direction);
-		last_direction = direction;
+		flip(dir);
+		last_direction = dir;
 	}
 }
 
@@ -266,10 +276,10 @@ void Entity::jump()
 	physical.apply_force({ 0, -jump_force });
 }
 
-void Entity::flip(int direction)
+void Entity::flip(int dir)
 {
 	Frame_info info = animation->get_frame_info();
-	if (direction == -1)
+	if (dir == -1)
 	{
 		sprite.setOrigin(Vectorf( info.character_position.x - info.part_size.x / 2,
 			info.offset.y + info.part_size.y / 2 ));
@@ -290,6 +300,7 @@ void Entity::update(float dt)
 	on_ground = physical.is_on_ground();
 	state->update(*this, dt);
 	physical.update(dt);
+	sprite.setPosition(physical.get_pos());
 	animation->next_frame(dt);
 	sprite.setTexture(*animation->get_texture());
 }

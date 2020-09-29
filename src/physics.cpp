@@ -6,7 +6,7 @@ void Physical::reset_physics()
 	speed = { 0,0 };
 }
 
-Physical::Physical(std::vector<Vectorf>&& mesh, Vectorf pos_) : collision(std::move(mesh)),
+Physical::Physical(std::vector<Vectorf>&& mesh, Vectorf pos_) : collision(std::move(mesh), pos_),
 pos(pos_), acceleration(0, 0), speed(0, 0), surface(Surface_type::NONE) {}
 
 const Collision* const Physical::get_collision() const
@@ -42,11 +42,13 @@ void Physical::update(float dt)
 		delta_pos += temp_delta;
 	}
 	collision_vector = temp_delta;
+	temp_delta = Vectorf(0, 0);
 	if (util::vector_dot_product({ 0,-1 }, collision_vector) /
 		(std::hypot(collision_vector.x, collision_vector.y)) > 0.5f)
 	{
 		on_ground = true;
 	}
+	collision.calculate_min_max_arr();
 	surface = Surface_type::NONE;
 	max_up = -1.f;
 }

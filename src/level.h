@@ -1,6 +1,6 @@
 #pragma once
 #include "compound_map_objects.h"
-#include "physics.h"
+#include "entities.h"
 
 class Moving_element : public Updatable, public Renderable, public Map_object
 {
@@ -41,7 +41,7 @@ public:
 	void draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) const;
-	void resolve_collisions(Physical& physical) const;
+	void resolve_collisions(Entity& entity) const;
 	sf::FloatRect get_bounding_rect() const;
 };
 
@@ -59,6 +59,6 @@ public:
 	void draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) const;
-	void resolve_collisions(std::vector<Physical>& entities);
+	void resolve_collisions(std::vector<Entity*>& entities);
 	Vectori get_global_pos() const;
 };

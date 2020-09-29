@@ -198,37 +198,32 @@
 		<object position="24, 7.5" texture="house0" height="8" layer="2"/>
 		<object position="31.5, 3.5" texture="house1" height="12" layer="3"/>
 		<object position="3.5, 15" texture="rocks1" height="3.5" layer="8"/>
-		<animated_object position="2, 7.4" texture="grass7" height="1.5" layer="8" fpf="6" rotation="39"/>
-		<animated_object position="8.25, 4.55" texture="grass8" height="1" layer="8" fpf="6" rotation="-14" delta="3"/>
-		<animated_object position="33.5, 14.55" texture="grass6" height="1" layer="8" fpf="6" rotation="-9" delta="11"/>
-		<animated_object position="34.9, 14.35" texture="grass8" height="1" layer="8" fpf="6" rotation="-9" delta="16"/>
-		<animated_object position="37.25, 13.57" texture="grass7" height="1.5" layer="8" fpf="6" rotation="8" delta="25"/>
-		<animated_object position="40.3, 13.96" texture="grass6" height="1.5" layer="8" fpf="6" rotation="12" delta="34"/>
-		<animated_object position="43.2, 14.65" texture="grass7" height="1.5" layer="8" fpf="6" rotation="12" delta="40"/>
-		<animated_object position="45.5, 15.65" texture="grass8" height="1" layer="8" fpf="6" rotation="20" delta="46"/>
-		<animated_object position="47.4, 15.9" texture="grass6" height="1.5" layer="8" fpf="6" rotation="25" delta="53"/>
-		<animated_object position="15.5, 14.5" texture="grass7" height="1" layer="8" fpf="6" delta="61"/>
-		<animated_object position="17.5, 14.5" texture="grass6" height="1" layer="8" fpf="6" delta="69"/>
-		<animated_object position="19.5, 14.5" texture="grass7" height="1" layer="8" fpf="6" delta="74"/>
-		<animated_object position="21.5, 14.5" texture="grass8" height="1" layer="8" fpf="6" delta="83"/>
-		<animated_object position="23.5, 14.5" texture="grass6" height="1" layer="8" fpf="6" delta="90"/>
-		<animated_object position="25.5, 14.5" texture="grass8" height="1" layer="8" fpf="6" delta="97"/>
-		<animated_object position="27.5, 14.5" texture="grass7" height="1" layer="8" fpf="6" delta="105"/>
-		<animated_object position="29.5, 14.5" texture="grass6" height="1" layer="8" fpf="6"/>
-		<animated_object position="31.5, 14.5" texture="grass8" height="1" layer="8" fpf="6"/>
+		<animated_object position="2, 7.4" texture="grass7" height="1.5" layer="8" frame_time="6" rotation="39"/>
+		<animated_object position="8.25, 4.55" texture="grass8" height="1" layer="8" frame_time="6" rotation="-14" offset="3"/>
+		<animated_object position="33.5, 14.55" texture="grass6" height="1" layer="8" frame_time="6" rotation="-9" offset="11"/>
+		<animated_object position="34.9, 14.35" texture="grass8" height="1" layer="8" frame_time="6" rotation="-9" offset="16"/>
+		<animated_object position="37.25, 13.57" texture="grass7" height="1.5" layer="8" frame_time="6" rotation="8" offset="25"/>
+		<animated_object position="40.3, 13.96" texture="grass6" height="1.5" layer="8" frame_time="6" rotation="12" offset="34"/>
+		<animated_object position="43.2, 14.65" texture="grass7" height="1.5" layer="8" frame_time="6" rotation="12" offset="40"/>
+		<animated_object position="45.5, 15.65" texture="grass8" height="1" layer="8" frame_time="6" rotation="20" offset="46"/>
+		<animated_object position="47.4, 15.9" texture="grass6" height="1.5" layer="8" frame_time="6" rotation="25" offset="53"/>
+		<animated_object position="15.5, 14.5" texture="grass7" height="1" layer="8" frame_time="6" offset="61"/>
+		<animated_object position="17.5, 14.5" texture="grass6" height="1" layer="8" frame_time="6" offset="69"/>
+		<animated_object position="19.5, 14.5" texture="grass7" height="1" layer="8" frame_time="6" offset="74"/>
+		<animated_object position="21.5, 14.5" texture="grass8" height="1" layer="8" frame_time="6" offset="83"/>
+		<animated_object position="23.5, 14.5" texture="grass6" height="1" layer="8" frame_time="6" offset="90"/>
+		<animated_object position="25.5, 14.5" texture="grass8" height="1" layer="8" frame_time="6" offset="97"/>
+		<animated_object position="27.5, 14.5" texture="grass7" height="1" layer="8" frame_time="6" offset="105"/>
+		<animated_object position="29.5, 14.5" texture="grass6" height="1" layer="8" frame_time="6"/>
+		<animated_object position="31.5, 14.5" texture="grass8" height="1" layer="8" frame_time="6"/>
 		<object position="16, 12.5" texture="street0" height="3" layer="8"/>
-		<light position="16.5, 13" color="255,255,128" intensity="0.5"/>
 		<object position="23.5, 12.5" texture="street0" height="3" layer="8"/>
-		<light position="24, 13" color="255,255,128" intensity="0.5"/>
 		<object position="30.5, 12.5" texture="street0" height="3" layer="8"/>
-		<light position="31, 13" color="255,255,128" intensity="0.5"/>
 		<object position="33, 12.5" texture="street0" height="3" layer="8"/>
-		<light position="33.5, 13" color="255,255,128" intensity="0.5"/>
 		<object position="1, 16.5" texture="crystal3" height="2"/>
-		<light position="2, 17.5" color="128,128,255" intensity="0.7"/>
-		<animated_object position="21, 10.5" texture="wind0" height="5" fpf="5" flip="-1,1"/>
-		<animated_object position="34, 9.5" texture="wind0" height="6" fpf="6" delta="15" flip="-1,1"/>
-		<animated_object position="50, 13" texture="wind0" height="5.5" fpf="5" flip="-1,1" delta="19" rotation="30"/>
+		<animated_object position="21, 10.5" texture="wind0" height="5" frame_time="5" flip="-1,1"/>
+		<animated_object position="34, 9.5" texture="wind0" height="6" frame_time="6" offset="15" flip="-1,1"/>
+		<animated_object position="50, 13" texture="wind0" height="5.5" frame_time="5" flip="-1,1" offset="19" rotation="30"/>
 	/---------------------------------------------------------------------BUDYNEK ZARZĄDU
 		<wall position="50,0.5" texture="lumber0">
 			<v>0,0</v>
@@ -554,25 +549,16 @@
 		<object position="51, 16.5" texture="door0" height="2" flip="-1,1"/>
 		<object position="51, 16.5" texture="door1" height="2" layer="8" flip="-1,1"/>
 		<object position="65.5, 15" texture="lamp1" height="1"/>
-		<animated_object position="66, 3" texture="dymek3" height="8" layer="11" fpf="600"/>
-		<animated_object position="65, 2" texture="explorer_idle0" height="2" layer="3" fpf="12"/>
-		<light position="66.5, 15.5" color="255,255,128" intensity="0.4"/>
+		<animated_object position="66, 3" texture="dymek3" height="8" layer="11" frame_time="600"/>
+		<animated_object position="65, 2" texture="explorer_idle0" height="2" layer="3" frame_time="12"/>
 		<object position="63, 11" texture="lamp1" height="1"/>
-		<light position="64, 11.5" color="255,255,128" intensity="0.4"/>
 		<object position="64, 5" texture="lamp1" height="1"/>
-		<light position="65, 5.5" color="255,255,128" intensity="0.4"/>
 		<object position="64.5, 1" texture="lamp1" height="1"/>
-		<light position="65.5, 1.5" color="255,255,128" intensity="0.4"/>
 		<object position="53.5, 5" texture="lamp1" height="1"/>
-		<light position="54.5, 5.5" color="255,255,128" intensity="0.4"/>
 		<object position="55.5, 1" texture="lamp1" height="1"/>
-		<light position="56.5, 1.5" color="255,255,128" intensity="0.4"/>
 		<object position="51.5, 8.5" texture="lamp1" height="1"/>
-		<light position="52.5, 9" color="255,255,128" intensity="0.4"/>
 		<object position="54, 11.5" texture="lamp1" height="1"/>
-		<light position="55, 12" color="255,255,128" intensity="0.4"/>
 		<object position="51, 15" texture="lamp1" height="1"/>
-		<light position="52, 15.5" color="255,255,128" intensity="0.4"/>
 	/---------------------------------------------------------------------PIWNICA
 		<wall position="33,19.5" texture="lumber0">
 			<v>0.5,0</v>
@@ -685,9 +671,7 @@
 		<object position="29, 23.5" texture="column0" height="3" layer="8"/>
 		<object position="65.5, 20.5" texture="chest0" height="2"/>
 		<object position="15, 17.5" texture="crystal1" height="2"/>
-		<light position="16, 18.5" color="255,128,128" intensity="0.7"/>
 		<object position="34, 24.5" texture="crystal0" height="2"/>
-		<light position="35, 25.5" color="255,128,255" intensity="0.7"/>
 	/---------------------------------------------------------------------WYKOPALISKA
 		<platform position="98.5,0" texture="wood,2">
 			<v>0,0</v>
@@ -1154,9 +1138,6 @@
 		<object position="79, 22.5" texture="rocks2" height="2.5" layer="7" flip="-1,1"/>
 		<object position="78, 20.5" texture="rocks0" height="3.5" rotation="20" flip="-1,1"/>
 		<object position="70, 20.5" texture="rocks1" height="4" layer="9"/>
-		<light position="98.9, 0.6" color="255,255,196" intensity="2"/>
-		<light position="72.25, 0" color="255,0,0" intensity="0.1"/>
-		<light position="73.75, 0" color="255,0,0" intensity="0.1"/>
 	/---------------------------------------------------------------------GÓRNY SZYB
 		<platform position="99,36" texture="dirt,0">
 			<v>0,0</v>
@@ -1396,35 +1377,20 @@
 		<object position="86.5, 44" texture="arrow6" height="2"/>
 		<object position="89.5, 43" texture="chain0" height="4" layer="9"/>
 		<object position="89.5, 47" texture="mine2" height="4" layer="9"/>
-		<light position="91.5, 50" color="255,255,128" intensity="0.4"/>
 		<object position="88.5, 43" texture="mine2" height="4" layer="8"/>
-		<light position="90.5, 46" color="255,255,128" intensity="0.4"/>
 		<object position="80, 37" texture="mine2" height="4" layer="8"/>
-		<light position="81, 40" color="255,255,128" intensity="0.4"/>
 		<object position="80, 63" texture="mine0" height="2" layer="8"/>
-		<light position="81.25, 64.25" color="255,255,0" intensity="0.3"/>
 		<object position="87, 62" texture="mine0" height="2" layer="8" flip="-1,1"/>
-		<light position="85.75, 63.25" color="255,255,0" intensity="0.3"/>
 		<object position="80, 57.5" texture="mine0" height="2" layer="8"/>
-		<light position="81.25, 58.75" color="255,255,0" intensity="0.3"/>
 		<object position="80, 50.5" texture="mine0" height="2" layer="8"/>
-		<light position="81.25, 51.75" color="255,255,0" intensity="0.3"/>
 		<object position="87.5, 47" texture="mine0" height="2" layer="8" flip="-1,1"/>
-		<light position="86.25, 48.25" color="255,255,0" intensity="0.3"/>
 		<object position="80, 43" texture="mine0" height="2" layer="8"/>
-		<light position="81.25, 44.25" color="255,255,0" intensity="0.3"/>
 		<object position="93, 60.5" texture="mine0" height="2" layer="8" flip="-1,1"/>
-		<light position="91.75, 61.75" color="255,255,0" intensity="0.3"/>
 		<object position="94, 42.5" texture="mine0" height="2" layer="8"/>
-		<light position="95.25, 43.75" color="255,255,0" intensity="0.3"/>
 		<object position="94, 36" texture="mine0" height="2" layer="8"/>
-		<light position="95.25, 37.25" color="255,255,0" intensity="0.3"/>
 		<object position="84, 54" texture="crystal0" height="2"/>
-		<light position="85, 55" color="255,128,255" intensity="0.7"/>
 		<object position="96, 50" texture="crystal2" height="2" flip="-1,1"/>
-		<light position="95, 51" color="128,255,128" intensity="0.7"/>
 		<object position="83, 97" texture="crystal2" height="2"/>
-		<light position="84, 98" color="128,255,128" intensity="0.7"/>
 	/---------------------------------------------------------------------DOLNY SZYB
 		<platform position="79,99" texture="dirt,0">
 			<v>0,0</v>
@@ -1749,35 +1715,20 @@
 		<object position="91.5, 71" texture="chain0" height="4" layer="8"/>
 		<object position="91.5, 75" texture="chain0" height="4" layer="8"/>
 		<object position="91.5, 79" texture="mine2" height="4" layer="8"/>
-		<light position="92.5, 82" color="255,255,128" intensity="0.4"/>
 		<object position="90, 67" texture="mine2" height="4" layer="9"/>
-		<light position="91, 70" color="255,255,128" intensity="0.3"/>
 		<object position="84.5, 71" texture="mine2" height="4" layer="8"/>
-		<light position="85.5, 74" color="255,255,128" intensity="0.4"/>
 		<object position="94.5, 91" texture="mine0" height="2" layer="8"/>
-		<light position="97.75, 89.25" color="255,255,0" intensity="0.3"/>
 		<object position="99, 88" texture="mine0" height="2" flip="-1,1" layer="8"/>
-		<light position="95.75, 92.25" color="255,255,0" intensity="0.3"/>
 		<object position="99, 94" texture="mine0" height="2" flip="-1,1" layer="8"/>
-		<light position="97.75, 95.25" color="255,255,0" intensity="0.3"/>
 		<object position="90, 95.5" texture="mine0" height="2" layer="8"/>
-		<light position="91.25, 96.75" color="255,255,0" intensity="0.3"/>
 		<object position="94.5, 83.5" texture="mine0" height="2" layer="8"/>
-		<light position="95.75, 84.75" color="255,255,0" intensity="0.3"/>
 		<object position="99, 79" texture="mine0" height="2" flip="-1,1" layer="8"/>
-		<light position="97.75, 80.25" color="255,255,0" intensity="0.3"/>
 		<object position="89.5, 75" texture="mine0" height="2" flip="-1,1" layer="8"/>
-		<light position="88.25, 76.25" color="255,255,0" intensity="0.3"/>
 		<object position="84.5, 79" texture="mine0" height="2" layer="8"/>
-		<light position="85.75, 80.25" color="255,255,0" intensity="0.3"/>
 		<object position="89, 83.5" texture="mine0" height="2" flip="-1,1" layer="8"/>
-		<light position="87.75, 84.75" color="255,255,0" intensity="0.3"/>
 		<object position="96, 74.5" texture="mine0" height="2" flip="-1,1" layer="8"/>
-		<light position="94.75, 75.75" color="255,255,0" intensity="0.3"/>
 		<object position="97, 67" texture="mine0" height="2" flip="-1,1" layer="8"/>
-		<light position="95.75, 68.25" color="255,255,0" intensity="0.3"/>
 		<object position="89, 70.5" texture="mine0" height="2" layer="8"/>
-		<light position="90.25, 71.75" color="255,255,0" intensity="0.3"/>
 	/---------------------------------------------------------------------WEJŚCIE DO ŚWIĄTYNI
 		<platform position="76,74" texture="bricks,1">
 			<v>0,0</v>
@@ -2371,48 +2322,27 @@
 		<object position="76, 67" texture="ruin0" height="3" layer="8" flip="-1,1"/>
 		<object position="53, 79" texture="ruin0" height="3" layer="8"/>
 		<object position="51.5, 67" texture="ruin0" height="3" layer="8" flip="-1,1"/>
-		<animated_object position="76, 71.5" texture="torch0" height="2" fpf="4" delta="1"/>
-		<light position="77, 72" color="255,255,128" intensity="0.4"/>
-		<animated_object position="72.5, 79" texture="torch0" height="2" fpf="4" delta="39"/>
-		<light position="73.5, 79.5" color="255,255,128" intensity="0.4"/>
-		<animated_object position="68.5, 71.5" texture="torch0" height="2" fpf="4" delta="55"/>
-		<light position="69.5, 72" color="255,255,128" intensity="0.4"/>
-		<animated_object position="71.5, 85.5" texture="torch0" height="2" fpf="4" delta="22"/>
-		<light position="72.5, 86" color="255,255,128" intensity="0.4"/>
-		<animated_object position="68, 92.5" texture="torch0" height="2" fpf="4" delta="18"/>
-		<light position="69, 93" color="255,255,128" intensity="0.4"/>
-		<animated_object position="73, 89.5" texture="torch0" height="2" fpf="4" delta="27"/>
-		<light position="74, 90" color="255,255,128" intensity="0.4"/>
-		<animated_object position="67, 78" texture="torch0" height="2" fpf="4" delta="7"/>
-		<light position="68, 78.5" color="255,255,128" intensity="0.4"/>
-		<animated_object position="62.5, 65.5" texture="torch0" height="2" fpf="4" delta="43"/>
-		<light position="63.5, 66" color="255,255,128" intensity="0.4"/>
-		<animated_object position="76.5, 67" texture="torch0" height="2" fpf="4" delta="50"/>
-		<light position="77.5, 67.5" color="255,255,128" intensity="0.4"/>
-		<animated_object position="69.5, 67" texture="torch0" height="2" fpf="4" delta="23"/>
-		<light position="70.5, 67.5" color="255,255,128" intensity="0.4"/>
-		<animated_object position="62.5, 78" texture="torch0" height="2" fpf="4" delta="17"/>
-		<light position="63.5, 78.5" color="255,255,128" intensity="0.4"/>
-		<animated_object position="67.5, 88" texture="torch0" height="2" fpf="4" delta="42"/>
-		<light position="68.5, 88.5" color="255,255,128" intensity="0.4"/>
-		<animated_object position="62.5, 88" texture="torch0" height="2" fpf="4" delta="11"/>
-		<light position="63.5, 88.5" color="255,255,128" intensity="0.4"/>
-		<animated_object position="54, 84" texture="torch0" height="2" fpf="4" delta="3"/>
-		<light position="55, 84.5" color="255,255,128" intensity="0.4"/>
-		<animated_object position="54, 92.5" texture="torch0" height="2" fpf="4" delta="38"/>
-		<light position="55, 93" color="255,255,128" intensity="0.4"/>
-		<animated_object position="52, 78.5" texture="torch0" height="2" fpf="4" delta="13"/>
-		<light position="53, 79" color="255,255,128" intensity="0.4"/>
-		<animated_object position="58.5, 73" texture="torch0" height="2" fpf="4" delta="61"/>
-		<light position="59.5, 73.5" color="255,255,128" intensity="0.4"/>
-		<animated_object position="49, 66" texture="torch0" height="2" fpf="4" delta="57"/>
-		<light position="50, 66.5" color="255,255,128" intensity="0.4"/>
-		<animated_object position="58.5, 63" texture="torch0" height="2" fpf="4" delta="22"/>
-		<light position="59.5, 63.5" color="255,255,128" intensity="0.4"/>
+		<animated_object position="76, 71.5" texture="torch0" height="2" frame_time="4" offset="1"/>
+		<animated_object position="72.5, 79" texture="torch0" height="2" frame_time="4" offset="39"/>
+		<animated_object position="68.5, 71.5" texture="torch0" height="2" frame_time="4" offset="55"/>
+		<animated_object position="71.5, 85.5" texture="torch0" height="2" frame_time="4" offset="22"/>
+		<animated_object position="68, 92.5" texture="torch0" height="2" frame_time="4" offset="18"/>
+		<animated_object position="73, 89.5" texture="torch0" height="2" frame_time="4" offset="27"/>
+		<animated_object position="67, 78" texture="torch0" height="2" frame_time="4" offset="7"/>
+		<animated_object position="62.5, 65.5" texture="torch0" height="2" frame_time="4" offset="43"/>
+		<animated_object position="76.5, 67" texture="torch0" height="2" frame_time="4" offset="50"/>
+		<animated_object position="69.5, 67" texture="torch0" height="2" frame_time="4" offset="23"/>
+		<animated_object position="62.5, 78" texture="torch0" height="2" frame_time="4" offset="17"/>
+		<animated_object position="67.5, 88" texture="torch0" height="2" frame_time="4" offset="42"/>
+		<animated_object position="62.5, 88" texture="torch0" height="2" frame_time="4" offset="11"/>
+		<animated_object position="54, 84" texture="torch0" height="2" frame_time="4" offset="3"/>
+		<animated_object position="54, 92.5" texture="torch0" height="2" frame_time="4" offset="38"/>
+		<animated_object position="52, 78.5" texture="torch0" height="2" frame_time="4" offset="13"/>
+		<animated_object position="58.5, 73" texture="torch0" height="2" frame_time="4" offset="61"/>
+		<animated_object position="49, 66" texture="torch0" height="2" frame_time="4" offset="57"/>
+		<animated_object position="58.5, 63" texture="torch0" height="2" frame_time="4" offset="22"/>
 		<object position="78, 97" texture="crystal1" height="2" flip="-1,1"/>
-		<light position="77, 98" color="255,128,128" intensity="0.7"/>
 		<object position="79, 62.5" texture="crystal3" height="2" flip="-1,1"/>
-		<light position="78, 63.5" color="128,128,255" intensity="0.7"/>
 	/---------------------------------------------------------------------JASKINIE
 		<platform position="31,33" texture="dirt,0">
 			<v>0,0</v>
@@ -2705,26 +2635,8 @@
 		<object position="41, 35.5" texture="stalagmit4" height="2" flip="-1,1"/>
 		<object position="75, 30" texture="stalagmit1" height="2" flip="1,1"/>
 		<object position="31, 59" texture="stalagmit4" height="2" flip="1,-1"/>
-		<light position="53, 57.5" color="128,064,128" intensity="1"/>
-		<light position="62, 56" color="128,064,128" intensity="1"/>
-		<light position="68, 53" color="128,064,128" intensity="1"/>
-		<light position="45, 52" color="128,064,128" intensity="1"/>
-		<light position="75, 51.5" color="128,064,128" intensity="1"/>
-		<light position="57, 49" color="128,064,128" intensity="1"/>
-		<light position="37.5, 53" color="128,064,128" intensity="1"/>
-		<light position="54.5, 38.5" color="128,064,128" intensity="1"/>
-		<light position="41.5, 40" color="128,064,128" intensity="1"/>
-		<light position="74, 42" color="128,064,128" intensity="1"/>
-		<light position="67.5, 38" color="128,064,128" intensity="1"/>
-		<light position="42, 34.5" color="128,064,128" intensity="1"/>
-		<light position="62.5, 34" color="128,064,128" intensity="1"/>
-		<light position="74, 36.5" color="128,064,128" intensity="1"/>
-		<light position="53, 31.5" color="128,064,128" intensity="1"/>
-		<light position="33.5, 33" color="128,064,128" intensity="1"/>
-		<animated_object position="74, 51.5" texture="torch0" height="2" fpf="4" delta="11"/>
-		<light position="75, 52" color="255,255,128" intensity="0.4"/>
+		<animated_object position="74, 51.5" texture="torch0" height="2" frame_time="4" offset="11"/>
 		<object position="79, 58" texture="crystal1" height="2" flip="-1,1"/>
-		<light position="78, 59" color="255,128,128" intensity="0.7"/>
 	/---------------------------------------------------------------------ŚWIĄTYNIA
 		<platform position="0,60" texture="bricks,1">
 			<v>0,0</v>
@@ -3430,75 +3342,41 @@
 		<object position="15, 61" texture="web1" height="2" layer="8"/>
 		<object position="45, 75.5" texture="ruin0" height="2.5" layer="8" flip="-1,1"/>
 		<object position="32.4, 61" texture="ruin0" height="2" flip="-1,1"/>
-		<animated_object position="32, 61" texture="torch0" height="2" fpf="4" delta="29"/>
-		<light position="33, 61.5" color="255,255,128" intensity="0.4"/>
-		<animated_object position="43.5, 66.5" texture="torch0" height="2" fpf="4" delta="0"/>
-		<light position="44.5, 67" color="255,255,128" intensity="0.4"/>
-		<animated_object position="43.5, 70.5" texture="torch0" height="2" fpf="4" delta="16"/>
-		<light position="44.5, 71" color="255,255,128" intensity="0.4"/>
-		<animated_object position="37.5, 66.5" texture="torch0" height="2" fpf="4" delta="55"/>
-		<light position="38.5, 67" color="255,255,128" intensity="0.4"/>
-		<animated_object position="37.5, 70.5" texture="torch0" height="2" fpf="4" delta="34"/>
-		<light position="38.5, 71" color="255,255,128" intensity="0.4"/>
-		<animated_object position="4.5, 88.5" texture="torch0" height="2" fpf="4" delta="2"/>
-		<light position="5.5, 89" color="255,255,128" intensity="0.4"/>
-		<animated_object position="4.5, 80.5" texture="torch0" height="2" fpf="4" delta="40"/>
-		<light position="5.5, 81" color="255,255,128" intensity="0.4"/>
-		<animated_object position="4.5, 72.5" texture="torch0" height="2" fpf="4" delta="55"/>
-		<light position="5.5, 73" color="255,255,128" intensity="0.4"/>
-		<animated_object position="4.5, 64.5" texture="torch0" height="2" fpf="4" delta="12"/>
-		<light position="5.5, 65" color="255,255,128" intensity="0.4"/>
-		<animated_object position="12.5, 79.5" texture="torch0" height="2" fpf="4" delta="12"/>
-		<light position="13.5, 80" color="255,255,128" intensity="0.4"/>
-		<animated_object position="45, 96.5" texture="torch0" height="2" fpf="4" delta="12"/>
-		<light position="46, 97" color="255,255,128" intensity="0.4"/>
-		<animated_object position="36.5, 80" texture="torch0" height="2" fpf="4" delta="15"/>
-		<light position="37.5, 80.5" color="255,255,128" intensity="0.4"/>
-		<animated_object position="21.5, 80" texture="torch0" height="2" fpf="4" delta="55"/>
-		<light position="22.5, 80.5" color="255,255,128" intensity="0.4"/>
-		<animated_object position="29, 80" texture="torch0" height="2" fpf="4" delta="44"/>
-		<light position="30, 80.5" color="255,255,128" intensity="0.4"/>
-		<animated_object position="36.5, 87" texture="torch0" height="2" fpf="4" delta="51"/>
-		<light position="37.5, 87.5" color="255,255,128" intensity="0.4"/>
-		<animated_object position="21.5, 87" texture="torch0" height="2" fpf="4" delta="8"/>
-		<light position="22.5, 87.5" color="255,255,128" intensity="0.4"/>
-		<animated_object position="29, 87" texture="torch0" height="2" fpf="4" delta="62"/>
-		<light position="30, 87.5" color="255,255,128" intensity="0.4"/>
-		<animated_object position="36.5, 94" texture="torch0" height="2" fpf="4" delta="33"/>
-		<light position="37.5, 94.5" color="255,255,128" intensity="0.4"/>
-		<animated_object position="21.5, 94" texture="torch0" height="2" fpf="4" delta="41"/>
-		<light position="22.5, 94.5" color="255,255,128" intensity="0.4"/>
-		<animated_object position="29, 94" texture="torch0" height="2" fpf="4" delta="23"/>
-		<light position="30, 94.5" color="255,255,128" intensity="0.4"/>
-		<animated_object position="33, 75.5" texture="torch0" height="2" fpf="4" delta="23"/>
-		<light position="34, 76" color="255,255,128" intensity="0.4"/>
-		<animated_object position="43, 75.5" texture="torch0" height="2" fpf="4" delta="23"/>
-		<light position="44, 76" color="255,255,128" intensity="0.4"/>
-		<animated_object position="12.5, 64" texture="torch0" height="2" fpf="4" delta="5"/>
-		<light position="13.5, 64.5" color="255,255,128" intensity="0.4"/>
-		<animated_object position="12.5, 67" texture="torch0" height="2" fpf="4" delta="35"/>
-		<light position="13.5, 67.5" color="255,255,128" intensity="0.4"/>
-		<animated_object position="12.5, 70" texture="torch0" height="2" fpf="4" delta="14"/>
-		<light position="13.5, 70.5" color="255,255,128" intensity="0.4"/>
-		<animated_object position="12.5, 73" texture="torch0" height="2" fpf="4" delta="58"/>
-		<light position="13.5, 73.5" color="255,255,128" intensity="0.4"/>
-		<animated_object position="13.5, 61" texture="torch0" height="2" fpf="4" delta="62"/>
-		<light position="14.5, 61.5" color="255,255,128" intensity="0.4"/>
-		<animated_object position="13.5, 76" texture="torch0" height="2" fpf="4" delta="25"/>
-		<light position="14.5, 76.5" color="255,255,128" intensity="0.4"/>
-		<animated_object position="29, 64" texture="torch0" height="2" fpf="4" delta="38"/>
-		<light position="30, 64.5" color="255,255,128" intensity="0.4"/>
-		<animated_object position="16, 65" texture="torch0" height="2" fpf="4" delta="38"/>
-		<light position="17, 65.5" color="255,255,128" intensity="0.4"/>
-		<animated_object position="21, 69.5" texture="torch0" height="2" fpf="4" delta="38"/>
-		<light position="22, 70" color="255,255,128" intensity="0.4"/>
-		<animated_object position="26, 74" texture="torch0" height="2" fpf="4" delta="38"/>
-		<light position="27, 74.5" color="255,255,128" intensity="0.4"/>
+		<animated_object position="32, 61" texture="torch0" height="2" frame_time="4" offset="29"/>
+		<animated_object position="43.5, 66.5" texture="torch0" height="2" frame_time="4" offset="0"/>
+		<animated_object position="43.5, 70.5" texture="torch0" height="2" frame_time="4" offset="16"/>
+		<animated_object position="37.5, 66.5" texture="torch0" height="2" frame_time="4" offset="55"/>
+		<animated_object position="37.5, 70.5" texture="torch0" height="2" frame_time="4" offset="34"/>
+		<animated_object position="4.5, 88.5" texture="torch0" height="2" frame_time="4" offset="2"/>
+		<animated_object position="4.5, 80.5" texture="torch0" height="2" frame_time="4" offset="40"/>
+		<animated_object position="4.5, 72.5" texture="torch0" height="2" frame_time="4" offset="55"/>
+		<animated_object position="4.5, 64.5" texture="torch0" height="2" frame_time="4" offset="12"/>
+		<animated_object position="12.5, 79.5" texture="torch0" height="2" frame_time="4" offset="12"/>
+		<animated_object position="45, 96.5" texture="torch0" height="2" frame_time="4" offset="12"/>
+		<animated_object position="36.5, 80" texture="torch0" height="2" frame_time="4" offset="15"/>
+		<animated_object position="21.5, 80" texture="torch0" height="2" frame_time="4" offset="55"/>
+		<animated_object position="29, 80" texture="torch0" height="2" frame_time="4" offset="44"/>
+		<animated_object position="36.5, 87" texture="torch0" height="2" frame_time="4" offset="51"/>
+		<animated_object position="21.5, 87" texture="torch0" height="2" frame_time="4" offset="8"/>
+		<animated_object position="29, 87" texture="torch0" height="2" frame_time="4" offset="62"/>
+		<animated_object position="36.5, 94" texture="torch0" height="2" frame_time="4" offset="33"/>
+		<animated_object position="21.5, 94" texture="torch0" height="2" frame_time="4" offset="41"/>
+		<animated_object position="29, 94" texture="torch0" height="2" frame_time="4" offset="23"/>
+		<animated_object position="33, 75.5" texture="torch0" height="2" frame_time="4" offset="23"/>
+		<animated_object position="43, 75.5" texture="torch0" height="2" frame_time="4" offset="23"/>
+		<animated_object position="12.5, 64" texture="torch0" height="2" frame_time="4" offset="5"/>
+		<animated_object position="12.5, 67" texture="torch0" height="2" frame_time="4" offset="35"/>
+		<animated_object position="12.5, 70" texture="torch0" height="2" frame_time="4" offset="14"/>
+		<animated_object position="12.5, 73" texture="torch0" height="2" frame_time="4" offset="58"/>
+		<animated_object position="13.5, 61" texture="torch0" height="2" frame_time="4" offset="62"/>
+		<animated_object position="13.5, 76" texture="torch0" height="2" frame_time="4" offset="25"/>
+		<animated_object position="29, 64" texture="torch0" height="2" frame_time="4" offset="38"/>
+		<animated_object position="16, 65" texture="torch0" height="2" frame_time="4" offset="38"/>
+		<animated_object position="21, 69.5" texture="torch0" height="2" frame_time="4" offset="38"/>
+		<animated_object position="26, 74" texture="torch0" height="2" frame_time="4" offset="38"/>
 		<object position="35.5, 64.5" texture="crystal0" height="2" rotation="90"/>
-		<light position="34.5, 65.5" color="255,128,255" intensity="0.7"/>
 		<object position="4.5, 95" texture="grail0" height="2" layer="5"/>
 		<object position="2, 92" texture="glow0" height="7" layer="4"/>
-		<light position="5.5, 96" color="255,255,128" intensity="1"/>
 	/---------------------------------------------------------------------WYJŚCIE Z PODZIEMI
 		<platform position="30,33" texture="dirt,0">
 			<v>0,0</v>
@@ -3701,87 +3579,65 @@
 		<object position="9, 22" texture="web1" height="3" layer="8" flip="-1,1"/>
 		<object position="16, 57" texture="column0" height="3" layer="8"/>
 		<object position="17, 57" texture="column0" height="3" layer="8"/>
-		<animated_object position="16, 57.5" texture="torch1" height="2" layer="9" fpf="4" delta="56"/>
-		<light position="17, 58" color="255,255,000" intensity="0.4"/>
+		<animated_object position="16, 57.5" texture="torch1" height="2" layer="9" frame_time="4" offset="56"/>
 		<object position="22, 57" texture="column0" height="3" layer="8"/>
 		<object position="23, 57" texture="column0" height="3" layer="8"/>
-		<animated_object position="22, 57.5" texture="torch1" height="2" layer="9" fpf="4" delta="39"/>
-		<light position="23, 58" color="255,255,000" intensity="0.4"/>
+		<animated_object position="22, 57.5" texture="torch1" height="2" layer="9" frame_time="4" offset="39"/>
 		<object position="22, 53" texture="column0" height="3" layer="8"/>
 		<object position="23, 53" texture="column0" height="3" layer="8"/>
-		<animated_object position="22, 53.5" texture="torch1" height="2" layer="9" fpf="4" delta="60"/>
-		<light position="23, 54" color="255,255,000" intensity="0.4"/>
+		<animated_object position="22, 53.5" texture="torch1" height="2" layer="9" frame_time="4" offset="60"/>
 		<object position="16, 53" texture="column0" height="3" layer="8"/>
 		<object position="17, 53" texture="column0" height="3" layer="8"/>
-		<animated_object position="16, 53.5" texture="torch1" height="2" layer="9" fpf="4" delta="10"/>
-		<light position="17, 54" color="255,255,000" intensity="0.4"/>
+		<animated_object position="16, 53.5" texture="torch1" height="2" layer="9" frame_time="4" offset="10"/>
 		<object position="16, 47" texture="column0" height="3" layer="8"/>
 		<object position="17, 47" texture="column0" height="3" layer="8"/>
-		<animated_object position="16, 47.5" texture="torch1" height="2" layer="9" fpf="4" delta="23"/>
-		<light position="17, 48" color="255,255,000" intensity="0.4"/>
+		<animated_object position="16, 47.5" texture="torch1" height="2" layer="9" frame_time="4" offset="23"/>
 		<object position="10, 47" texture="column0" height="3" layer="8"/>
 		<object position="11, 47" texture="column0" height="3" layer="8"/>
-		<animated_object position="10, 47.5" texture="torch1" height="2" layer="9" fpf="4" delta="39"/>
-		<light position="11, 48" color="255,255,000" intensity="0.4"/>
+		<animated_object position="10, 47.5" texture="torch1" height="2" layer="9" frame_time="4" offset="39"/>
 		<object position="10, 53" texture="column0" height="3" layer="8"/>
 		<object position="11, 53" texture="column0" height="3" layer="8"/>
-		<animated_object position="10, 53.5" texture="torch1" height="2" layer="9" fpf="4" delta="50"/>
-		<light position="11, 54" color="255,255,000" intensity="0.4"/>
+		<animated_object position="10, 53.5" texture="torch1" height="2" layer="9" frame_time="4" offset="50"/>
 		<object position="3, 53" texture="column0" height="3" layer="8"/>
 		<object position="4, 53" texture="column0" height="3" layer="8"/>
-		<animated_object position="3, 53.5" texture="torch1" height="2" layer="9" fpf="4" delta="4"/>
-		<light position="4, 54" color="255,255,000" intensity="0.4"/>
+		<animated_object position="3, 53.5" texture="torch1" height="2" layer="9" frame_time="4" offset="4"/>
 		<object position="3, 47" texture="column0" height="3" layer="8"/>
 		<object position="4, 47" texture="column0" height="3" layer="8"/>
-		<animated_object position="3, 47.5" texture="torch1" height="2" layer="9" fpf="4" delta="9"/>
-		<light position="4, 48" color="255,255,000" intensity="0.4"/>
+		<animated_object position="3, 47.5" texture="torch1" height="2" layer="9" frame_time="4" offset="9"/>
 		<object position="22, 47" texture="column0" height="3" layer="8"/>
 		<object position="23, 47" texture="column0" height="3" layer="8"/>
-		<animated_object position="22, 47.5" texture="torch1" height="2" layer="9" fpf="4" delta="35"/>
-		<light position="23, 48" color="255,255,000" intensity="0.4"/>
+		<animated_object position="22, 47.5" texture="torch1" height="2" layer="9" frame_time="4" offset="35"/>
 		<object position="3, 41" texture="column0" height="3" layer="8"/>
 		<object position="4, 41" texture="column0" height="3" layer="8"/>
-		<animated_object position="3, 41.5" texture="torch1" height="2" layer="9" fpf="4" delta="16"/>
-		<light position="4, 42" color="255,255,000" intensity="0.4"/>
+		<animated_object position="3, 41.5" texture="torch1" height="2" layer="9" frame_time="4" offset="16"/>
 		<object position="10, 41" texture="column0" height="3" layer="8"/>
 		<object position="11, 41" texture="column0" height="3" layer="8"/>
-		<animated_object position="10, 41.5" texture="torch1" height="2" layer="9" fpf="4" delta="60"/>
-		<light position="11, 42" color="255,255,000" intensity="0.4"/>
+		<animated_object position="10, 41.5" texture="torch1" height="2" layer="9" frame_time="4" offset="60"/>
 		<object position="16, 41" texture="column0" height="3" layer="8"/>
 		<object position="17, 41" texture="column0" height="3" layer="8"/>
-		<animated_object position="16, 41.5" texture="torch1" height="2" layer="9" fpf="4" delta="42"/>
-		<light position="17, 42" color="255,255,000" intensity="0.4"/>
+		<animated_object position="16, 41.5" texture="torch1" height="2" layer="9" frame_time="4" offset="42"/>
 		<object position="22, 41" texture="column0" height="3" layer="8"/>
 		<object position="23, 41" texture="column0" height="3" layer="8"/>
-		<animated_object position="22, 41.5" texture="torch1" height="2" layer="9" fpf="4" delta="47"/>
-		<light position="23, 42" color="255,255,000" intensity="0.4"/>
+		<animated_object position="22, 41.5" texture="torch1" height="2" layer="9" frame_time="4" offset="47"/>
 		<object position="4, 34" texture="column0" height="3" layer="8"/>
 		<object position="5, 34" texture="column0" height="3" layer="8"/>
-		<animated_object position="4, 34.5" texture="torch1" height="2" layer="9" fpf="4" delta="59"/>
-		<light position="5, 35" color="255,255,000" intensity="0.4"/>
+		<animated_object position="4, 34.5" texture="torch1" height="2" layer="9" frame_time="4" offset="59"/>
 		<object position="4, 28" texture="column0" height="3" layer="8"/>
 		<object position="5, 28" texture="column0" height="3" layer="8"/>
-		<animated_object position="4, 28.5" texture="torch1" height="2" layer="9" fpf="4" delta="47"/>
-		<light position="5, 29" color="255,255,000" intensity="0.4"/>
+		<animated_object position="4, 28.5" texture="torch1" height="2" layer="9" frame_time="4" offset="47"/>
 		<object position="4, 22" texture="column0" height="3" layer="8"/>
 		<object position="5, 22" texture="column0" height="3" layer="8"/>
-		<animated_object position="4, 22.5" texture="torch1" height="2" layer="9" fpf="4" delta="20"/>
-		<light position="5, 23" color="255,255,000" intensity="0.4"/>
+		<animated_object position="4, 22.5" texture="torch1" height="2" layer="9" frame_time="4" offset="20"/>
 		<object position="11, 25" texture="column0" height="3" layer="8"/>
 		<object position="12, 25" texture="column0" height="3" layer="8"/>
-		<animated_object position="11, 25.5" texture="torch1" height="2" layer="9" fpf="4" delta="20"/>
-		<light position="12, 26" color="255,255,000" intensity="0.4"/>
+		<animated_object position="11, 25.5" texture="torch1" height="2" layer="9" frame_time="4" offset="20"/>
 		<object position="11, 31" texture="column0" height="3" layer="8"/>
 		<object position="12, 31" texture="column0" height="3" layer="8"/>
-		<animated_object position="11, 31.5" texture="torch1" height="2" layer="9" fpf="4" delta="20"/>
-		<light position="12, 32" color="255,255,000" intensity="0.4"/>
+		<animated_object position="11, 31.5" texture="torch1" height="2" layer="9" frame_time="4" offset="20"/>
 		<object position="11, 37" texture="column0" height="3" layer="8"/>
 		<object position="12, 37" texture="column0" height="3" layer="8"/>
-		<animated_object position="11, 37.5" texture="torch1" height="2" layer="9" fpf="4" delta="20"/>
-		<light position="12, 38" color="255,255,000" intensity="0.4"/>
+		<animated_object position="11, 37.5" texture="torch1" height="2" layer="9" frame_time="4" offset="20"/>
 		<object position="15, 28.5" texture="crystal2" height="2"/>
-		<light position="16, 29" color="128,255,128" intensity="0.7"/>
 		<object position="15, 38" texture="crystal3" height="2"/>
-		<light position="16, 39" color="128,128,255" intensity="0.7"/>
 	</chunk>
 </level>
