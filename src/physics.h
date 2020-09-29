@@ -12,6 +12,7 @@ class Physical : public Updatable, public Collidable
 	Vectorf collision_vector;
 	Surface_type surface;
 	bool on_ground = false;
+	bool last_on_ground = false;
 	float max_up = -1.f;
 	Vectorf temp_delta = { 0,0 };
 

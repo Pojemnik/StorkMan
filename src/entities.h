@@ -12,7 +12,7 @@ class Entity_state_machine;
 
 struct Command
 {
-	enum class Command_type { JUMP, STOP_JUMP, MOVE } type;
+	enum class Command_type { JUMP, STOP_JUMP, MOVE, STOP_MOVE } type;
 	std::variant<int> args;
 };
 
@@ -29,7 +29,7 @@ class Entity : public Updatable, public Collidable, public Message_sender, publi
 {
 protected:
 	const float move_speed = 1.f;
-	const float jump_force = 50.f;
+	const float jump_force = 1.f;
 	int last_direction = 1;
 	Physical physical;
 	sf::Sprite sprite;

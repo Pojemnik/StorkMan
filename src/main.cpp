@@ -4,7 +4,7 @@
 #include "ui.h"
 #include "control.h"
 
-const std::string VERSION = "pre-alpha 0.4.6.5";
+const std::string VERSION = "pre-alpha 0.4.???";
 
 bool update(float dt, Map& map, Entity& player, sf::FloatRect screen)
 {
@@ -157,7 +157,8 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	auto animation = std::make_unique<Dynamic_animation>(assets.pieces, assets.pieces_rect,
 		assets.dynamic_animations, assets.stork_tree);
 	std::vector<Vectorf> mesh = { {20, -30}, {40, -30}, {40, 30}, {20, 30} };
-	Physical physical(std::move(mesh), { 10*context.global_scale, 5*context.global_scale });
+	Physical physical(std::move(mesh), { 15
+		*context.global_scale, 5*context.global_scale });
 	auto machine = std::make_unique<Entity_state_machine>(new Idle_state());
 	auto controller = std::make_unique<Player_controller>();
 	Entity player(std::move(animation), physical, std::move(machine),

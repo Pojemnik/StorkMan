@@ -22,6 +22,15 @@ Vectorf Physical::get_pos()
 void Physical::update(float dt)
 {
 	speed += acceleration * dt;
+	temp_delta = -temp_delta;
+	if (temp_delta != Vectorf(0, 0))
+	{
+		//float k = util::vector_dot_product(speed, temp_delta) /
+		//	util::vector_dot_product(temp_delta, temp_delta);
+		//if (k > 0)
+		//	speed -= temp_delta * k;
+		delta_pos += temp_delta;
+	}
 	delta_pos += speed * dt;
 	pos += delta_pos;
 	collision.rect.left += delta_pos.x;
@@ -31,22 +40,19 @@ void Physical::update(float dt)
 		it += delta_pos;
 	}
 	acceleration = { 0,0 };
-	delta_pos = { 0,0 };
-	on_ground = false;
-	if (temp_delta != Vectorf(0, 0))
-	{
-		float k = util::vector_dot_product(speed, temp_delta) /
-			util::vector_dot_product(temp_delta, temp_delta);
-		if (k > 0)
-			speed -= temp_delta * k;
-		delta_pos += temp_delta;
-	}
 	collision_vector = temp_delta;
 	temp_delta = Vectorf(0, 0);
+	delta_pos = Vectorf(0, 0);
+	last_on_ground = on_ground;
 	if (util::vector_dot_product({ 0,-1 }, collision_vector) /
 		(std::hypot(collision_vector.x, collision_vector.y)) > 0.5f)
 	{
 		on_ground = true;
+		speed.y = 0;
+	}
+	else
+	{
+		on_ground = false;
 	}
 	collision.calculate_min_max_arr();
 	surface = Surface_type::NONE;
@@ -119,7 +125,7 @@ std::pair<Vectorf, Surface_type> Physical::get_collision_info() const
 
 bool Physical::is_on_ground() const
 {
-	return on_ground;
+	return on_ground || last_on_ground;
 }
 
 sf::FloatRect Physical::get_bounding_rect() const

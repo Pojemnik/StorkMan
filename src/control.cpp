@@ -24,7 +24,16 @@ void Player_controller::update(float dt)
 		{
 			//player.attack(2);
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+		if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Right) &&
+			sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) ||
+			(!sf::Keyboard::isKeyPressed(sf::Keyboard::Right) &&
+				!sf::Keyboard::isKeyPressed(sf::Keyboard::Left)))
+		{
+			Command command;
+			command.type = Command::Command_type::STOP_MOVE;
+			commands.push(command);
+		}
+		else
 		{
 			if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 			{
@@ -33,9 +42,6 @@ void Player_controller::update(float dt)
 				command.args = 1;
 				commands.push(command);
 			}
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-		{
 			if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 			{
 				Command command;

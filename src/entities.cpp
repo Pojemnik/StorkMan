@@ -27,10 +27,14 @@ std::pair<Entity_state*, Entity_state_info> Run_state::update(Entity& entity, fl
 			return std::make_pair(new Run_jump_state(), Entity_state_info::REPLACE);
 			break;
 		case Command::Command_type::MOVE:
-			if (entity.direction == std::get<int>(cmd.args))
-				break;
-			entity.direction = std::get<int>(cmd.args);
-			return std::make_pair(new Run_state(), Entity_state_info::REPLACE);
+			if (entity.direction != std::get<int>(cmd.args))
+			{
+				entity.direction = std::get<int>(cmd.args);
+				return std::make_pair(new Run_state(), Entity_state_info::REPLACE);
+			}
+			break;
+		case Command::Command_type::STOP_MOVE:
+			return std::make_pair(new Idle_state(), Entity_state_info::REPLACE);
 			break;
 		default:
 			break;
@@ -38,7 +42,7 @@ std::pair<Entity_state*, Entity_state_info> Run_state::update(Entity& entity, fl
 	}
 	entity.move(entity.direction);
 	entity.apply_force({ 0, context.gravity });
-	assert(entity.get_current_animation() == Animation_index::MOVE);
+	//assert(entity.get_current_animation() == Animation_index::MOVE);
 	return std::make_pair(nullptr, Entity_state_info::NONE);
 }
 
@@ -281,13 +285,13 @@ void Entity::flip(int dir)
 	Frame_info info = animation->get_frame_info();
 	if (dir == -1)
 	{
-		sprite.setOrigin(Vectorf( info.character_position.x - info.part_size.x / 2,
-			info.offset.y + info.part_size.y / 2 ));
+		sprite.setOrigin(Vectorf(info.character_position.x - info.part_size.x / 2,
+			info.offset.y + info.part_size.y / 2));
 	}
 	else
 	{
-		sprite.setOrigin(Vectorf( info.character_position.x + info.part_size.x / 2,
-			info.offset.y + info.part_size.y / 2 ));
+		sprite.setOrigin(Vectorf(info.character_position.x + info.part_size.x / 2,
+			info.offset.y + info.part_size.y / 2));
 	}
 	sprite.scale(-1, 1);
 }
@@ -298,6 +302,7 @@ void Entity::update(float dt)
 	collision_vector = temp.first;
 	surface = temp.second;
 	on_ground = physical.is_on_ground();
+	controller->update(dt);
 	state->update(*this, dt);
 	physical.update(dt);
 	sprite.setPosition(physical.get_pos());
