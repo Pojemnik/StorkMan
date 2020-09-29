@@ -81,6 +81,10 @@ Animation_tree Assets::load_animation_tree(std::string path)
 {
 	std::ifstream file;
 	file.open(path);
+	if (!file.is_open())
+	{
+		throw std::runtime_error("Can't open file!");
+	}
 	int count, independent_count;
 	file >> count >> independent_count;
 	Animation_tree tree(count, independent_count);
@@ -130,11 +134,23 @@ Animation_tree Assets::load_animation_tree(std::string path)
 		}
 		string s;
 		std::vector<int> keys;
+		ss >> s;
+		if (s != "(")
+		{
+			throw std::invalid_argument("Error in animation tree!");
+		}
 		while (ss >> s)
 		{
 			try
 			{
-				keys.push_back(std::stoi(s));
+				if (s != ")")
+				{
+					keys.push_back(std::stoi(s));
+				}
+				else
+				{
+					break;
+				}
 			}
 			catch (...)
 			{
@@ -289,16 +305,16 @@ void Assets::load_assets()
 	console_bg->loadFromFile("img/ui/console_bg.png");
 	load_hp_bar();
 	//Dynamic animations
-	Dynamic_animation_struct stork_default_idle = *load_dynamic_animation("animations/stork/idle.txt");
-	dynamic_animations.push_back(&stork_default_idle);
-	dynamic_animations.push_back(&stork_default_idle);
+	Dynamic_animation_struct* stork_default_idle = load_dynamic_animation("animations/stork/idle.txt");
+	dynamic_animations.push_back(stork_default_idle);
+	dynamic_animations.push_back(stork_default_idle);
 	dynamic_animations.push_back(load_dynamic_animation("animations/stork/run.txt"));
 	dynamic_animations.push_back(load_dynamic_animation("animations/stork/jump_idle.txt"));
 	dynamic_animations.push_back(load_dynamic_animation("animations/stork/jump_run.txt"));
 	dynamic_animations.push_back(load_dynamic_animation("animations/stork/punch1.txt"));
 	dynamic_animations.push_back(load_dynamic_animation("animations/stork/punch2.txt"));
 	dynamic_animations.push_back(load_dynamic_animation("animations/stork/death.txt"));
-	dynamic_animations.push_back(&stork_default_idle);	//Hit
+	dynamic_animations.push_back(stork_default_idle);	//Hit
 	dynamic_animations.push_back(load_dynamic_animation("animations/stork/jump_run2.txt"));	//Additional 1
 	stork_tree = load_animation_tree("animations/stork/tree.txt");
 	//Textures

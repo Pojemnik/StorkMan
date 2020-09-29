@@ -72,6 +72,7 @@ Dynamic_animation::Dynamic_animation(sf::Texture* texture_,
 	}
 	if (!tex.create(frame_info.frame_size.x, frame_info.frame_size.y))
 		return;
+	next_frame(.0f);
 }
 
 void Dynamic_animation::set_animation(Animation_index a)
@@ -191,6 +192,7 @@ Static_animation::Static_animation(Static_animation_struct& animation_, float ti
 		time -= animation.frame_time;
 		animation.it = util::increment_iterator(animation.it, *animation.animation);
 	}
+	next_frame(.0f);
 }
 
 void Static_animation::next_frame(float dt)

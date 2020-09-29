@@ -154,12 +154,12 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	context.console->log << "done!" << '\n';
 
 	//Player
-	std::unique_ptr<Animation> animation(new Dynamic_animation(assets.pieces, assets.pieces_rect,
-		assets.dynamic_animations, assets.stork_tree));
+	auto animation = std::make_unique<Dynamic_animation>(assets.pieces, assets.pieces_rect,
+		assets.dynamic_animations, assets.stork_tree);
 	std::vector<Vectorf> mesh = { {20, -30}, {40, -30}, {40, 30}, {20, 30} };
 	Physical physical(std::move(mesh), { 400, 100 });
-	std::unique_ptr<Entity_state_machine> machine(new Entity_state_machine(new Idle_state()));
-	std::unique_ptr<Controller> controller(new Player_controller());
+	auto machine = std::make_unique<Entity_state_machine>(new Idle_state());
+	auto controller = std::make_unique<Player_controller>();
 	Entity player(std::move(animation), physical, std::move(machine),
 		std::move(controller), 1.92f, 1000);
 

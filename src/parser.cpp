@@ -6,13 +6,13 @@ std::pair<Vectori, Vectori> Parser::parse_map_element(tinyxml2::XMLElement* elem
 {
 	if (element == nullptr)
 	{
-		context.console->err << "B³¹d w pierwszym elemencie pliku!" << '\n';
+		std::cout << "B³¹d w pierwszym elemencie pliku!" << '\n';
 		throw std::invalid_argument("NULL pointer");
 	}
 	string root_name = element->Name();
 	if (root_name != "map")
 	{
-		context.console->err << "Brak elementu map" << '\n';
+		std::cout << "Brak elementu map" << '\n';
 		throw std::invalid_argument("No Map node");
 	}
 	Vectori map_player_pos, map_size;
@@ -23,7 +23,7 @@ std::pair<Vectori, Vectori> Parser::parse_map_element(tinyxml2::XMLElement* elem
 	}
 	catch (...)
 	{
-		context.console->err << "B³¹d w definicji mapy\n";
+		std::cout << "B³¹d w definicji mapy\n";
 		throw std::invalid_argument("Invalid map attributes");
 	}
 	if (map_player_pos.x < 0 || map_player_pos.y < 0)
@@ -99,7 +99,7 @@ std::vector<sf::Vertex> Parser::parse_vertices(tinyxml2::XMLElement* element, st
 		}
 		else
 		{
-			context.console->err << "B³¹d w wierzcho³kach" << '\n';
+			std::cout << "B³¹d w wierzcho³kach" << '\n';
 			throw std::invalid_argument("Error in vertices");
 		}
 		element = element->NextSiblingElement();
@@ -140,13 +140,13 @@ Level Parser::parse_level(tinyxml2::XMLElement* root, Vectori global_pos)
 {
 	if (root == nullptr)
 	{
-		context.console->err << "B³¹d w pierwszym elemencie pliku!" << '\n';
+		std::cout << "B³¹d w pierwszym elemencie pliku!" << '\n';
 		throw std::invalid_argument("NULL pointer in level file");
 	}
 	string root_name = root->Name();
 	if (root_name != "level")
 	{
-		context.console->err << "Brak elementu level" << '\n';
+		std::cout << "Brak elementu level" << '\n';
 		throw std::invalid_argument("No level node");
 	}
 	tinyxml2::XMLElement* element = root->FirstChildElement();
@@ -161,35 +161,27 @@ Level Parser::parse_level(tinyxml2::XMLElement* root, Vectori global_pos)
 		}
 		else if (name == "animated_object")
 		{
-			auto [layer, object] = parse_animated_object(element);
-			std::shared_ptr<Animated_object> ptr(&object);
+			auto [layer, ptr] = parse_animated_object(element);
 			moving.emplace_back(std::static_pointer_cast<Updatable>(ptr), layer);
 		}
 		else if (name == "damage_zone")
 		{
-			Damage_zone zone = parse_damage_zone(element);
-			std::shared_ptr<Damage_zone> ptr = std::shared_ptr<Damage_zone>(&zone);
+			auto ptr = parse_damage_zone(element);
 			moving.emplace_back(std::static_pointer_cast<Updatable>(ptr));
 		}
 		else if (name == "pendulum")
 		{
-			auto [layer, pendulum] = parse_pendulum(element);
-			std::shared_ptr<Pendulum> ptr =
-				std::shared_ptr<Pendulum>(&pendulum);
+			auto [layer, ptr] = parse_pendulum(element);
 			moving.emplace_back(std::static_pointer_cast<Updatable>(ptr), layer);
 		}
 		else if (name == "moving_platform")
 		{
-			auto [layer, platform] = parse_moving_platform(element);
-			std::shared_ptr<Moving_platform> ptr =
-				std::shared_ptr<Moving_platform>(&platform);
+			auto [layer, ptr] = parse_moving_platform(element);
 			moving.emplace_back(std::static_pointer_cast<Updatable>(ptr), layer);
 		}
 		else if (name == "moving_object")
 		{
-			auto [layer, object] = parse_moving_object(element);
-			std::shared_ptr<Moving_object> ptr =
-				std::shared_ptr<Moving_object>(&object);
+			auto [layer, ptr] = parse_moving_object(element);
 			moving.emplace_back(std::static_pointer_cast<Updatable>(ptr), layer);
 		}
 		element = element->NextSiblingElement();
@@ -208,61 +200,48 @@ Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root)
 		string name = element->Name();
 		if (name == "platform")
 		{
-			auto [layer, platform] = parse_platform(element);
-			std::shared_ptr<Platform> ptr = std::shared_ptr<Platform>(&platform);
+			auto [layer, ptr] = parse_platform(element);
 			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
 			collidables.push_back(std::static_pointer_cast<Collidable>(ptr));
 		}
 		else if (name == "wall")
 		{
-			auto [layer, wall] = parse_wall(element);
-			std::shared_ptr<Textured_polygon> ptr =
-				std::shared_ptr<Textured_polygon>(&wall);
+			auto [layer, ptr] = parse_wall(element);
 			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
 		}
 		else if (name == "object")
 		{
-			auto [layer, object] = parse_object(element);
-			std::shared_ptr<Object> ptr = std::shared_ptr<Object>(&object);
+			auto [layer, ptr] = parse_object(element);
 			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
 		}
 		else if (name == "animated_object")
 		{
-			auto [layer, object] = parse_animated_object(element);
-			std::shared_ptr<Animated_object> ptr =
-				std::shared_ptr<Animated_object>(&object);
+			auto [layer, ptr] = parse_animated_object(element);
 			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
 			updatables.push_back(std::static_pointer_cast<Updatable>(ptr));
 		}
 		else if (name == "damage_zone")
 		{
-			Damage_zone zone = parse_damage_zone(element);
-			std::shared_ptr<Damage_zone> ptr = std::shared_ptr<Damage_zone>(&zone);
+			auto ptr = parse_damage_zone(element);
 			updatables.push_back(std::static_pointer_cast<Updatable>(ptr));
 		}
 		else if (name == "pendulum")
 		{
-			auto [layer, pendulum] = parse_pendulum(element);
-			std::shared_ptr<Pendulum> ptr =
-				std::shared_ptr<Pendulum>(&pendulum);
+			auto [layer, ptr] = parse_pendulum(element);
 			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
 			updatables.push_back(std::static_pointer_cast<Updatable>(ptr));
 			collidables.push_back(std::static_pointer_cast<Collidable>(ptr));
 		}
 		else if (name == "moving_platform")
 		{
-			auto [layer, platform] = parse_moving_platform(element);
-			std::shared_ptr<Moving_platform> ptr =
-				std::shared_ptr<Moving_platform>(&platform);
+			auto [layer, ptr] = parse_moving_platform(element);
 			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
 			updatables.push_back(std::static_pointer_cast<Updatable>(ptr));
 			collidables.push_back(std::static_pointer_cast<Collidable>(ptr));
 		}
 		else if (name == "moving_object")
 		{
-			auto [layer, object] = parse_moving_object(element);
-			std::shared_ptr<Moving_object> ptr =
-				std::shared_ptr<Moving_object>(&object);
+			auto [layer, ptr] = parse_moving_object(element);
 			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
 			updatables.push_back(std::static_pointer_cast<Updatable>(ptr));
 		}
@@ -295,7 +274,7 @@ Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root)
 
 }
 
-std::pair<int, Platform> Parser::parse_platform(tinyxml2::XMLElement* element)
+std::pair<int, std::shared_ptr<Platform>> Parser::parse_platform(tinyxml2::XMLElement* element)
 {
 	try
 	{
@@ -307,24 +286,24 @@ std::pair<int, Platform> Parser::parse_platform(tinyxml2::XMLElement* element)
 		std::vector<sf::Vertex> points =
 			parse_vertices(element->FirstChildElement(), fliprot);
 		int layer = parse_layer(element, DEFAULT_PLATFORM_LAYER);
-		return std::make_pair(layer, Platform(pos, tex, points));
+		return std::make_pair(layer, std::make_shared<Platform>(pos, tex, points));
 	}
 	catch (const std::invalid_argument& e)
 	{
-		context.console->err << "Wyjatek: " << e.what() << '\n';
-		context.console->err << "Element: " << "platform" << '\n';
-		context.console->err << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz platformy" << '\n';
+		std::cout << "Wyjatek: " << e.what() << '\n';
+		std::cout << "Element: " << "platform" << '\n';
+		std::cout << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz platformy" << '\n';
 	}
 	catch (const std::out_of_range& e)
 	{
-		context.console->err << "Wyjatek: " << e.what() << '\n';
-		context.console->err << "Element: " << "platform" << '\n';
-		context.console->err << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
+		std::cout << "Wyjatek: " << e.what() << '\n';
+		std::cout << "Element: " << "platform" << '\n';
+		std::cout << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
 	}
 	throw std::runtime_error("Platform error");
 }
 
-std::pair<int, Textured_polygon> Parser::parse_wall(tinyxml2::XMLElement* element)
+std::pair<int, std::shared_ptr<Textured_polygon>> Parser::parse_wall(tinyxml2::XMLElement* element)
 {
 	try
 	{
@@ -336,24 +315,24 @@ std::pair<int, Textured_polygon> Parser::parse_wall(tinyxml2::XMLElement* elemen
 		std::vector<sf::Vertex> points =
 			parse_vertices(element->FirstChildElement(), fliprot);
 		int layer = parse_layer(element, DEFAULT_WALL_LAYER);
-		return std::make_pair(layer, Textured_polygon(pos, tex, points));
+		return std::make_pair(layer, std::make_shared<Textured_polygon>(pos, tex, points));
 	}
 	catch (const std::invalid_argument& e)
 	{
-		context.console->err << "Wyjatek: " << e.what() << '\n';
-		context.console->err << "Element: " << "wall" << '\n';
-		context.console->err << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz œciany" << '\n';
+		std::cout << "Wyjatek: " << e.what() << '\n';
+		std::cout << "Element: " << "wall" << '\n';
+		std::cout << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz œciany" << '\n';
 	}
 	catch (const std::out_of_range& e)
 	{
-		context.console->err << "Wyjatek: " << e.what() << '\n';
-		context.console->err << "Element: " << "wall" << '\n';
-		context.console->err << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
+		std::cout << "Wyjatek: " << e.what() << '\n';
+		std::cout << "Element: " << "wall" << '\n';
+		std::cout << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
 	}
 	throw std::runtime_error("Textured_polygon error");
 }
 
-std::pair<int, Object> Parser::parse_object(tinyxml2::XMLElement* element)
+std::pair<int, std::shared_ptr<Object>> Parser::parse_object(tinyxml2::XMLElement* element)
 {
 	try
 	{
@@ -364,18 +343,18 @@ std::pair<int, Object> Parser::parse_object(tinyxml2::XMLElement* element)
 		float height = std::stof(get_attribute_by_name("height", element));
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		int layer = parse_layer(element, DEFAULT_OBJECT_LAYER);
-		return std::make_pair(layer, Object(pos, tex, height, fliprot.first, fliprot.second));
+		return std::make_pair(layer, std::make_shared<Object>(pos, tex, height, fliprot.first, fliprot.second));
 	}
 	catch (const std::out_of_range& e)
 	{
-		context.console->err << "Wyjatek: " << e.what() << '\n';
-		context.console->err << "Element: " << "object" << '\n';
-		context.console->err << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
+		std::cout << "Wyjatek: " << e.what() << '\n';
+		std::cout << "Element: " << "object" << '\n';
+		std::cout << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
 	}
 	throw std::runtime_error("Object error");
 }
 
-std::pair<int, Animated_object> Parser::parse_animated_object(tinyxml2::XMLElement* element)
+std::pair<int, std::shared_ptr<Animated_object>> Parser::parse_animated_object(tinyxml2::XMLElement* element)
 {
 	try
 	{
@@ -401,14 +380,14 @@ std::pair<int, Animated_object> Parser::parse_animated_object(tinyxml2::XMLEleme
 		Static_animation sa(sas, frame_offset);
 		std::unique_ptr<Animation> animation = std::unique_ptr<Animation>(&sa);
 		int layer = parse_layer(element, DEFAULT_OBJECT_LAYER);
-		return std::make_pair(layer, Animated_object(pos, std::move(animation),
+		return std::make_pair(layer, std::make_shared<Animated_object>(pos, std::move(animation),
 			height, fliprot.first, fliprot.second));
 	}
 	catch (const std::out_of_range& e)
 	{
-		context.console->err << "Wyjatek: " << e.what() << '\n';
-		context.console->err << "Element: " << "object" << '\n';
-		context.console->err << "Prawdopodobnie nieprawid³owa animacja" << '\n';
+		std::cout << "Wyjatek: " << e.what() << '\n';
+		std::cout << "Element: " << "object" << '\n';
+		std::cout << "Prawdopodobnie nieprawid³owa animacja" << '\n';
 	}
 	throw std::runtime_error("Animated object error");
 }
@@ -514,7 +493,7 @@ void Parser::parse_additional_animations(string path)
 	}
 }
 
-std::pair<int, Moving_platform> Parser::parse_moving_platform(tinyxml2::XMLElement* element)
+std::pair<int, std::shared_ptr<Moving_platform>> Parser::parse_moving_platform(tinyxml2::XMLElement* element)
 {
 	try
 	{
@@ -550,25 +529,25 @@ std::pair<int, Moving_platform> Parser::parse_moving_platform(tinyxml2::XMLEleme
 			e = e->NextSiblingElement();
 		}
 		int layer = parse_layer(element, DEFAULT_PLATFORM_LAYER);
-		return std::make_pair(layer, Moving_platform(pos, tex, std::move(vert),
+		return std::make_pair(layer, std::make_shared<Moving_platform>(pos, tex, std::move(vert),
 			std::unique_ptr<Simple_AI>(new Linear_AI(path, time_offset))));
 	}
 	catch (const std::invalid_argument& e)
 	{
-		context.console->err << "Wyjatek: " << e.what() << '\n';
-		context.console->err << "Element: " << "linear platform" << '\n';
-		context.console->err << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz platformy wahad³a" << '\n';
+		std::cout << "Wyjatek: " << e.what() << '\n';
+		std::cout << "Element: " << "linear platform" << '\n';
+		std::cout << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz platformy wahad³a" << '\n';
 	}
 	catch (const std::out_of_range& e)
 	{
-		context.console->err << "Wyjatek: " << e.what() << '\n';
-		context.console->err << "Element: " << "linear platform" << '\n';
-		context.console->err << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
+		std::cout << "Wyjatek: " << e.what() << '\n';
+		std::cout << "Element: " << "linear platform" << '\n';
+		std::cout << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
 	}
 	throw std::runtime_error("Linear platform error");
 }
 
-std::pair<int, Moving_object> Parser::parse_moving_object(tinyxml2::XMLElement* element)
+std::pair<int, std::shared_ptr<Moving_object>> Parser::parse_moving_object(tinyxml2::XMLElement* element)
 {
 	try
 	{
@@ -597,19 +576,19 @@ std::pair<int, Moving_object> Parser::parse_moving_object(tinyxml2::XMLElement* 
 			e = e->NextSiblingElement();
 		}
 		int layer = parse_layer(element, DEFAULT_OBJECT_LAYER);
-		return std::make_pair(layer, Moving_object(pos, tex, height,
+		return std::make_pair(layer, std::make_shared<Moving_object>(pos, tex, height,
 			std::unique_ptr<Simple_AI>(new Linear_AI(path, time_offset))));
 	}
 	catch (const std::out_of_range& e)
 	{
-		context.console->err << "Wyjatek: " << e.what() << '\n';
-		context.console->err << "Element: " << "moving_object" << '\n';
-		context.console->err << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
+		std::cout << "Wyjatek: " << e.what() << '\n';
+		std::cout << "Element: " << "moving_object" << '\n';
+		std::cout << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
 	}
 	throw std::runtime_error("Moving object error");
 }
 
-std::pair<int, Pendulum> Parser::parse_pendulum(tinyxml2::XMLElement* element)
+std::pair<int, std::shared_ptr<Pendulum>> Parser::parse_pendulum(tinyxml2::XMLElement* element)
 {
 	try
 	{
@@ -645,31 +624,31 @@ std::pair<int, Pendulum> Parser::parse_pendulum(tinyxml2::XMLElement* element)
 			}
 			else
 			{
-				context.console->err << "B³¹d w wahadle" << '\n';
+				std::cout << "B³¹d w wahadle" << '\n';
 				throw std::invalid_argument("Error in pendulum vertices/attachment points");
 			}
 			e = e->NextSiblingElement();
 		}
 		int layer = parse_layer(element, DEFAULT_PLATFORM_LAYER);
-		return std::make_pair(layer, Pendulum(pos, tex, std::move(vert),
+		return std::make_pair(layer, std::make_shared<Pendulum>(pos, tex, std::move(vert),
 			attach_points, angle, line_len, line_tex, line_offset));
 	}
 	catch (const std::invalid_argument& e)
 	{
-		context.console->err << "Wyjatek: " << e.what() << '\n';
-		context.console->err << "Element: " << "pendulum" << '\n';
-		context.console->err << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz platformy wahad³a" << '\n';
+		std::cout << "Wyjatek: " << e.what() << '\n';
+		std::cout << "Element: " << "pendulum" << '\n';
+		std::cout << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz platformy wahad³a" << '\n';
 	}
 	catch (const std::out_of_range& e)
 	{
-		context.console->err << "Wyjatek: " << e.what() << '\n';
-		context.console->err << "Element: " << "pendulum" << '\n';
-		context.console->err << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
+		std::cout << "Wyjatek: " << e.what() << '\n';
+		std::cout << "Element: " << "pendulum" << '\n';
+		std::cout << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
 	}
 	throw std::runtime_error("Pendulum error");
 }
 
-Damage_zone Parser::parse_damage_zone(tinyxml2::XMLElement* element)
+std::shared_ptr <Damage_zone> Parser::parse_damage_zone(tinyxml2::XMLElement* element)
 {
 	try
 	{
@@ -694,13 +673,13 @@ Damage_zone Parser::parse_damage_zone(tinyxml2::XMLElement* element)
 			}
 			e = e->NextSiblingElement();
 		}
-		return Damage_zone(vert, pos, dmg);
+		return std::make_shared<Damage_zone>(vert, pos, dmg);
 	}
 	catch (const std::invalid_argument& e)
 	{
-		context.console->err << "Wyjatek: " << e.what() << '\n';
-		context.console->err << "Element: " << "wall" << '\n';
-		context.console->err << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz strefy" << '\n';
+		std::cout << "Wyjatek: " << e.what() << '\n';
+		std::cout << "Element: " << "wall" << '\n';
+		std::cout << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz strefy" << '\n';
 	}
 	throw std::runtime_error("Textured_polygon error");
 }

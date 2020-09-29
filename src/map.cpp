@@ -36,7 +36,14 @@ void Map::call_on_considered_levels(std::function<void(const Level&)> foo) const
 
 }
 
-Map::Map(Vectori size_, Vectori pos) : size(size_), current_pos(pos) {}
+Map::Map(Vectori size_, Vectori pos) : size(size_), current_pos(pos)
+{
+	levels.resize(size.x);
+	for (auto& it : levels)
+	{
+		it.resize(size.y);
+	}
+}
 
 void Map::add_level(Level&& lvl)
 {

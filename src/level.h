@@ -52,6 +52,7 @@ class Level
 	std::vector<Moving_element> moving;
 
 public:
+	Level() = default;
 	Level(std::vector<Map_chunk>&& chunks_,
 		std::vector<Moving_element>&& moving_, Vectori pos);
 	void update(float dt, sf::FloatRect screen_rect);
