@@ -177,9 +177,6 @@ void Assets::load_sounds()
 	load_sound(sounds[0], "sound/aaa.wav");
 	load_sound(sounds[1], "sound/jump_idle.wav");
 	load_sound(sounds[2], "sound/jump_run.wav");
-	context.aaa.setBuffer(sounds[0]);
-	context.jump_idle.setBuffer(sounds[1]);
-	context.jump_run.setBuffer(sounds[2]);
 }
 
 void Assets::load_textures(std::vector<sf::Texture>& v, std::string path, bool rep)
@@ -220,21 +217,6 @@ void Assets::load_textures(std::vector<sf::Texture>& v, std::string path, bool r
 			load_texture(v.back(), image, i * a, j * b, a, b, rep);
 		}
 	}
-}
-
-void Assets::load_shaders()
-{
-	blurh.loadFromFile("img/shaders/blur_h.frag", sf::Shader::Fragment);
-	blurv.loadFromFile("img/shaders/blur_v.frag", sf::Shader::Fragment);
-	blurh.setUniform("sigma", 50.0f);
-	blurh.setUniform("blurSize", 1.0f / context.resolution.x);
-	blurh.setUniform("blurSampler", sf::Shader::CurrentTexture);
-	blurv.setUniform("sigma", 50.0f);
-	blurv.setUniform("blurSize", 1.0f / context.resolution.y);
-	blurv.setUniform("blurSampler", sf::Shader::CurrentTexture);
-	white.loadFromFile("img/shaders/white.frag", sf::Shader::Fragment);
-	context.global.loadFromFile("img/shaders/global.frag", sf::Shader::Fragment);
-	context.global.setUniform("light", sf::Shader::CurrentTexture);
 }
 
 void Assets::load_additional_texture(std::string path, std::string name,
@@ -346,11 +328,6 @@ void Assets::load_assets()
 	}
 
 	//Shaders
-	load_shaders();
-	context.blurh_states.shader = &blurh;
-	context.blurv_states.shader = &blurv;
-	context.final_states.blendMode = sf::BlendMultiply;
-	context.white_states.shader = &white;
 	//Icon
 	icon.loadFromFile("img/ikona.png");
 	//Fonts

@@ -28,7 +28,6 @@ const int TOP_LAYERS = 2;
 
 struct Context
 {
-	bool draw_collisions = false;
 	bool draw_map_vertices = false;
 	bool draw_fps_counter = false;
 	bool draw_hp = false;
@@ -46,25 +45,19 @@ struct Context
 	Vectorf max_move_speed = { 5,5 };
 	float min_move_speed = 0.5;
 	Vectorf move_speed_reduction = { 0.5f, 0.5f };
-	Vectorf player_move_speed = { 8,0 };
+	float player_move_speed = 8.f;
 	Vectorf background_position = { -1000,-2500 };
 	float background_scale = 1.f;
 	Vectorf layer2_position = { -1000, -1800 };
 	float layer2_scale = 1.f;
 	const Vectorf max_force = { 1000.f, 3000.0f };
 	const Vectorf max_speed = { 20.f, 100.0f };
-	sf::RenderStates bg_states, layer2_states, blurh_states, blurv_states,
-		final_states, white_states;
-	sf::Shader global;
 	Vectori resolution = { 1024, 576 };
 	const Vectori default_resolution = { 1024, 576 };
 	sf::Text fps_counter;
 	uint8_t darkness = 70;
 	Console* console = nullptr;
 	ctpl::thread_pool* thread_pool = nullptr;
-	sf::Sound jump_idle;
-	sf::Sound jump_run;
-	sf::Sound aaa;
 	int level_tile_size = 5;
 	Vectori level_size = { 100, 100 };
 	bool window_focus = false;

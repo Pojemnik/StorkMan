@@ -156,9 +156,9 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	//Player
 	auto animation = std::make_unique<Dynamic_animation>(assets.pieces, assets.pieces_rect,
 		assets.dynamic_animations, assets.stork_tree);
-	std::vector<Vectorf> mesh = { {-20, -40}, {0, -40}, {0, 20}, {-20, 20} };
-	Physical physical(std::move(mesh), { 15
-		*context.global_scale, 5*context.global_scale });
+	std::vector<Vectorf> mesh = { {-20, -37}, {-2, -37}, {-2, 23}, {-20, 23} };
+	Physical physical(std::move(mesh), { 15 * context.global_scale,
+		5 * context.global_scale });
 	auto machine = std::make_unique<Entity_state_machine>(new Idle_state());
 	auto controller = std::make_unique<Player_controller>();
 	Entity player(std::move(animation), physical, std::move(machine),
@@ -221,16 +221,16 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 				case Command_code::CHANGE_RESOLUTION:
 					resize_window(window, assets);
 					break;
-				//case Command_code::CHANGE_SCALE:
-				//	map.rescale(context.global_scale);
-				//	player.rescale(context.global_scale);
-				//	break;
+					//case Command_code::CHANGE_SCALE:
+					//	map.rescale(context.global_scale);
+					//	player.rescale(context.global_scale);
+					//	break;
 				case Command_code::MOVE_PLAYER:
 					player.set_position(code.second * context.global_scale);
 					break;
-				//case Command_code::RELOAD_LIGHT:
-				//	map.recalc_light();
-				//	break;
+					//case Command_code::RELOAD_LIGHT:
+					//	map.recalc_light();
+					//	break;
 				case Command_code::GET_POSITION:
 					context.console->out <<
 						player.get_position() / context.global_scale << '\n';
@@ -239,9 +239,6 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 					music.setVolume(code.second.x);
 					break;
 				case Command_code::SET_SOUND_VOLUME:
-					context.aaa.setVolume(code.second.x);
-					context.jump_idle.setVolume(code.second.x);
-					context.jump_run.setVolume(code.second.x);
 					break;
 				case Command_code::SET_PLAYER_MAX_HP:
 					player.set_max_health(code.second.x);
@@ -255,6 +252,18 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 					break;
 				case Command_code::SCALE_HP_BAR:
 					hp_bar.scale_x(code.second.x);
+					break;
+				case Command_code::SET_PLAYER_MOVE_SPEED:
+					player.set_move_speed(code.second.x);
+					break;
+				case Command_code::SET_PLAYER_JUMP_FORCE:
+					player.set_jump_force(code.second.x);
+					break;
+				case Command_code::DRAW_PLAYERS_COLLISION:
+					player.set_draw_collision(static_cast<bool>(code.second.x));
+					break;
+				case Command_code::DRAW_CHUNKS_BORDERS:
+					map.set_draw_chunks_borders(static_cast<bool>(code.second.x));
 					break;
 				default:
 					break;
@@ -277,7 +286,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		camera_pos -= Vectorf((float)context.default_resolution.x / 2,
 			(float)context.default_resolution.y / 2);
 		sf::FloatRect screen_rect(camera_pos.x, camera_pos.y,
-		context.default_resolution.x, context.default_resolution.y);
+			context.default_resolution.x, context.default_resolution.y);
 		if (context.console->is_active() || update(time, map, player, screen_rect))
 		{
 			if (context.draw_fps_counter)

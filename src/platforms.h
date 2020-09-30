@@ -15,7 +15,7 @@ public:
 	virtual sf::FloatRect get_bounding_rect() const;
 };
 
-class Textured_polygon : public Renderable
+class Textured_polygon : public Renderable, public Map_object
 {
 protected:
 	sf::VertexBuffer shape;

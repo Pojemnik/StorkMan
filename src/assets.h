@@ -45,7 +45,6 @@ private:
 	void load_texture(sf::Texture& t, sf::Image& img, int y, int x, int sx, int sy, bool rep);
 	void load_texture(sf::Texture& t, string path, bool rep);
 	void load_textures(std::vector<sf::Texture>& v, std::string path, bool rep);
-	void load_shaders();
 	void load_animation(std::vector<sf::Texture>& a, sf::Image& img, int x, int y,
 		int sx, int sy);//a musi byæ zaalokowane wczeœniej
 	Dynamic_animation_struct* load_dynamic_animation(std::string path);

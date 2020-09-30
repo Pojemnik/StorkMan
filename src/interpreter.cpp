@@ -1,6 +1,5 @@
 #include "interpreter.h"
 
-
 std::pair<Command_code, Vectorf>
 Commands_interpreter::get_and_execute_command(string s)
 {
@@ -151,8 +150,9 @@ std::pair<Command_code, Vectorf> Commands_interpreter::execute_command_raw(Comma
 {
 	if (cmd.name == "col")
 	{
-		context.draw_collisions =
-			get_bool(cmd, "Player collision mesh", { "drawn", "hidden" });
+		bool col = get_bool(cmd, "Player collision mesh", { "drawn", "hidden" });
+		return std::make_pair(Command_code::DRAW_PLAYERS_COLLISION,
+			Vectorf(static_cast<int>(col), 0));
 	}
 	else if (cmd.name == "mapvertices")
 	{
@@ -202,7 +202,8 @@ std::pair<Command_code, Vectorf> Commands_interpreter::execute_command_raw(Comma
 	}
 	else if (cmd.name == "jumpforce")
 	{
-		context.jump_force = get_float(cmd, "Storkman jump force");
+		float force = get_float(cmd, "Storkman jump force");
+		return std::make_pair(Command_code::SET_PLAYER_JUMP_FORCE, Vectorf(force, 0));
 	}
 	else if (cmd.name == "storkminspeed")
 	{
@@ -218,7 +219,8 @@ std::pair<Command_code, Vectorf> Commands_interpreter::execute_command_raw(Comma
 	}
 	else if (cmd.name == "storkmovespeed")
 	{
-		context.player_move_speed = get_vectorf(cmd, "Move speed");
+		float speed = get_float(cmd, "Move speed");
+		return std::make_pair(Command_code::SET_PLAYER_MOVE_SPEED, Vectorf(speed, 0));
 	}
 	else if (cmd.name == "bgpos")
 	{
@@ -268,7 +270,7 @@ std::pair<Command_code, Vectorf> Commands_interpreter::execute_command_raw(Comma
 	else if (cmd.name == "tp")
 	{
 		Vectorf target = get_vectorf(cmd, "Player moved");
-		return std::make_pair(Command_code::MOVE_PLAYER, (Vectorf)target);
+		return std::make_pair(Command_code::MOVE_PLAYER, target);
 	}
 	else if (cmd.name == "reloadlight")
 	{
@@ -327,6 +329,12 @@ std::pair<Command_code, Vectorf> Commands_interpreter::execute_command_raw(Comma
 			throw std::invalid_argument("Incorrect argument");
 		}
 		return std::make_pair(Command_code::SCALE_HP_BAR, Vectorf(val, 0));
+	}
+	else if (cmd.name == "drawchunksborders")
+	{
+		bool draw = get_bool(cmd, "Chunks' borders", { "drawn", "hidden" });
+		return std::make_pair(Command_code::DRAW_CHUNKS_BORDERS,
+			Vectorf(static_cast<bool>(draw), 0));
 	}
 	else
 		context.console->err << "Unknown command: " + cmd.name << '\n';

@@ -5,9 +5,10 @@ const Vectorf fliptab[] = { {1,1},{-1,1},{1,-1},{-1,-1} };
 Object::Object(Vectorf pos_, const sf::Texture* const texture_, float height_,
 	int flip_, float angle_) : pos(pos_), height(height_), flip(flip_), sprite(*texture_)
 {
-	sprite.setScale(fliptab[flip] * height);
+	float scale = height * context.global_scale / texture_->getSize().y;
+	sprite.setScale(fliptab[flip] * scale);
 	sprite.setRotation(angle_);
-	sprite.setPosition(pos * context.global_scale);
+	sprite.setPosition(pos);
 }
 
 void Object::draw(sf::RenderTarget& target, sf::RenderStates states) const

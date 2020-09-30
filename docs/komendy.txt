@@ -31,6 +31,7 @@ maxhealth 				int				100					Maksymalne zdrowie gracza
 heal					brak			-					Uzdrawia gracza
 dealdamage				int				-					Zadaje graczowi obrażenia
 scalebar				float			0.5					Zmienia szerokość paska zdrowia
+drawchunksborders		bool			false				Rysuje granice chunków
 
 
 Komendy podajesz wraz z argumentami w jednej linii.

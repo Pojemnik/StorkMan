@@ -28,8 +28,8 @@ public:
 class Entity : public Updatable, public Collidable, public Message_sender, public Renderable
 {
 protected:
-	const float move_speed = 1.f;
-	const float jump_force = 1.f;
+	float move_speed = 4.f;
+	float jump_force = 1.5f;
 	int last_direction = 1;
 	Physical physical;
 	sf::Sprite sprite;
@@ -39,6 +39,7 @@ protected:
 	int max_health;
 	float scale;
 	sf::RectangleShape coll_shape;
+	bool draw_collision = false;
 
 	void flip(int direction);
 
@@ -51,6 +52,9 @@ public:
 	Surface_type surface;
 	bool on_ground;
 
+	void set_draw_collision(bool draw);
+	void set_jump_force(float new_force);
+	void set_move_speed(float new_speed);
 	const Collision* const get_collision() const;
 	void resolve_collision(const std::vector<std::shared_ptr<const Collidable>>& others);
 	void resolve_collision(const Collidable& other);

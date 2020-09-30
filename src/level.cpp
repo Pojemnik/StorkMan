@@ -45,6 +45,11 @@ void Map_chunk::draw_top_layers(sf::RenderTarget& target, sf::RenderStates state
 	}
 }
 
+void Map_chunk::draw_border(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	target.draw(border, states);
+}
+
 void Map_chunk::resolve_collisions(Entity& entity) const
 {
 	entity.resolve_collision(collidables);
@@ -71,6 +76,11 @@ Map_chunk::Map_chunk(std::vector<std::shared_ptr<Updatable>>&& updatables_,
 		}
 		top_layers[it.first - BOTTOM_LAYERS - MIDDLE_LAYERS].push_back(it.second);
 	}
+	border.setPosition(bound.left, bound.top);
+	border.setSize({bound.width, bound.height});
+	border.setOutlineColor(sf::Color::Green);
+	border.setFillColor(sf::Color::Transparent);
+	border.setOutlineThickness(1);
 }
 
 void Map_chunk::update(float dt)
@@ -187,6 +197,10 @@ void Level::draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) c
 	for (const auto& it : chunks)
 	{
 		it.draw_top_layers(target, states);
+		if (draw_chunks_borders)
+		{
+			it.draw_border(target, states);
+		}
 	}
 	for (const auto& it : moving)
 	{
@@ -217,6 +231,16 @@ void Level::resolve_collisions(std::vector<Entity*>& entities)
 			}
 		}
 	}
+}
+
+void Level::set_draw_border(bool draw)
+{
+	draw_border = draw;
+}
+
+void Level::set_draw_chunks_borders(bool draw)
+{
+	draw_chunks_borders = draw;
 }
 
 Vectori Level::get_global_pos() const

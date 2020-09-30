@@ -258,17 +258,17 @@ Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root)
 		sf::FloatRect object_rect = object->get_bounding_rect();
 		bound.left = std::min(bound.left, object_rect.left);
 		bound.top = std::min(bound.top, object_rect.top);
-		bound.width = std::max(bound.width, object_rect.width);
-		bound.height = std::max(bound.height, object_rect.height);
+		bound.width = std::max(bound.width, object_rect.width + object_rect.left - bound.left);
+		bound.height = std::max(bound.height, object_rect.height + object_rect.top - bound.top);
 	}
-	string temp = get_attribute_by_name("left", root);
-	bound.left += (temp == "") ? 0 : std::stof(temp);
-	temp = get_attribute_by_name("top", root);
-	bound.top += (temp == "") ? 0 : std::stof(temp);
-	temp = get_attribute_by_name("width", root);
-	bound.width += (temp == "") ? 0 : std::stof(temp);
-	temp = get_attribute_by_name("height", root);
-	bound.height += (temp == "") ? 0 : std::stof(temp);
+	float left = get_and_parse_var<float>("left", root, 0) * context.global_scale;
+	bound.left -= left;
+	float top  = get_and_parse_var<float>("top", root, 0) * context.global_scale;
+	bound.top -= top;
+	float right = get_and_parse_var<float>("right", root, 0) * context.global_scale;
+	bound.width += right + left;
+	float bottom = get_and_parse_var<float>("bottom", root, 0) * context.global_scale;
+	bound.height += bottom + top;
 	return Map_chunk(std::move(updatables), std::move(drawables),
 		std::move(collidables), bound);
 
@@ -340,7 +340,7 @@ std::pair<int, std::shared_ptr<Object>> Parser::parse_object(tinyxml2::XMLElemen
 		pos *= context.global_scale;
 		string val = get_attribute_by_name("texture", element);
 		const sf::Texture* tex = assets->textures.at(val);
-		float height = std::stof(get_attribute_by_name("height", element));
+		float height = get_and_parse_var<float>("height", element);
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		int layer = parse_layer(element, DEFAULT_OBJECT_LAYER);
 		return std::make_pair(layer, std::make_shared<Object>(pos, tex, height, fliprot.first, fliprot.second));
@@ -362,20 +362,10 @@ std::pair<int, std::shared_ptr<Animated_object>> Parser::parse_animated_object(t
 		pos *= context.global_scale;
 		string val = get_attribute_by_name("texture", element);
 		std::vector<sf::Texture>* tex = &assets->animations.at(val);
-		float height = std::stof(get_attribute_by_name("height", element));
+		float height = get_and_parse_var < float>("height", element);
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
-		string frames_str = get_attribute_by_name("frame_time", element);
-		float frame_time = 1.f;
-		if (frames_str != "")
-		{
-			frame_time = std::stof(frames_str);
-		}
-		string frame_delta_str = get_attribute_by_name("offset", element);
-		float frame_offset = 0;
-		if (frame_delta_str != "")
-		{
-			frame_offset = std::stof(frame_delta_str);
-		}
+		float frame_time = get_and_parse_var<float>("frame_time", element, 1.f);
+		float frame_offset = get_and_parse_var<float>("offset", element, 0.f);
 		Static_animation_struct sas(tex, frame_time);
 		std::unique_ptr<Animation> animation = std::make_unique<Static_animation>(sas, frame_offset);
 		int layer = parse_layer(element, DEFAULT_OBJECT_LAYER);
@@ -393,23 +383,17 @@ std::pair<int, std::shared_ptr<Animated_object>> Parser::parse_animated_object(t
 
 int Parser::parse_layer(tinyxml2::XMLElement* element, int default_value)
 {
-	string layer = get_attribute_by_name("layer", element);
-	if (layer != "")
+	int layer = get_and_parse_var<int>("layer", element, default_value);
+	if (layer < 0 || layer >= BOTTOM_LAYERS + MIDDLE_LAYERS + TOP_LAYERS)
 	{
-		int l = std::stoi(layer);
-		if (l < 0 || l >= BOTTOM_LAYERS + MIDDLE_LAYERS + TOP_LAYERS)
-		{
-			throw std::invalid_argument("Invalid layer");
-		}
-		return l;
+		throw std::invalid_argument("Invalid layer");
 	}
-	return default_value;
+	return layer;
 }
 
 std::pair<int, float> Parser::parse_flip_rotation(tinyxml2::XMLElement* element)
 {
-	string rotation = get_attribute_by_name("rotation", element);
-	float rotationang = rotation == "" ? 0 : std::stof(rotation);
+	float rotationang = get_and_parse_var<float>("rotation", element, 0.f);
 	string flip = get_attribute_by_name("flip", element);
 	int flipint = 0;
 	if (flip != "")
@@ -433,7 +417,7 @@ Map Parser::parse_map(tinyxml2::XMLElement* root)
 	Vectori map_size = map_data.first;
 	Vectori player_pos = map_data.second;
 	tinyxml2::XMLElement* element = root->FirstChildElement();
-	Map map(map_size, player_pos);
+	Map map(map_size, player_pos, assets->bg);
 	while (element != NULL)
 	{
 		string name = element->Name();
@@ -496,19 +480,14 @@ std::pair<int, std::shared_ptr<Moving_platform>> Parser::parse_moving_platform(t
 {
 	try
 	{
-		std::vector<sf::Vertex> vert;
 		string val = get_attribute_by_name("texture", element);
 		const sf::Texture* tex = assets->textures.at(val);
 		Vectorf pos = get_and_parse_var<Vectorf>("position", element);
 		pos *= context.global_scale;
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		std::vector<std::pair<Vectorf, float>> path;
-		string time_offset_str = get_attribute_by_name("offset", element);
-		float time_offset = 0;
-		if (time_offset_str != "")
-		{
-			time_offset = std::stof(time_offset_str);
-		}
+		float time_offset = get_and_parse_var<float>("offset", element, 0.f);
+		std::vector<sf::Vertex> vert;
 		tinyxml2::XMLElement* e = element->FirstChildElement();
 		while (e != NULL)
 		{
@@ -555,15 +534,10 @@ std::pair<int, std::shared_ptr<Moving_object>> Parser::parse_moving_object(tinyx
 		pos *= context.global_scale;
 		string val = get_attribute_by_name("texture", element);
 		tex = assets->textures.at(val);
-		float height = std::stof(get_attribute_by_name("height", element));
+		float height = get_and_parse_var<float>("height", element);
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		std::vector<std::pair<Vectorf, float>> path;
-		string time_offset_str = get_attribute_by_name("offset", element);
-		float time_offset = 0;
-		if (time_offset_str != "")
-		{
-			time_offset = std::stof(time_offset_str);
-		}
+		float time_offset = get_and_parse_var<float>("offset", element, 0.f);
 		tinyxml2::XMLElement* e = element->FirstChildElement();
 		while (e != NULL)
 		{
@@ -597,8 +571,8 @@ std::pair<int, std::shared_ptr<Pendulum>> Parser::parse_pendulum(tinyxml2::XMLEl
 		const sf::Texture* line_tex = assets->textures.at(line_tex_string);
 		Vectorf pos = get_and_parse_var<Vectorf>("position", element);
 		pos *= context.global_scale;
-		float line_len = std::stof(get_attribute_by_name("length", element));
-		float angle = util::deg_to_rad(std::stof(get_attribute_by_name("angle", element)));
+		float line_len = get_and_parse_var<float>("length", element);
+		float angle = util::deg_to_rad(get_and_parse_var<float>("angle", element));
 		Vectori line_offset = get_and_parse_var<Vectori>("line_offset", element);
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		std::vector<Vectorf> attach_points;

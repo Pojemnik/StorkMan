@@ -242,6 +242,21 @@ Entity::Entity(std::unique_ptr<Animation>&& animation_, Physical& physical_,
 	coll_shape.setPosition({ rect.left, rect.top });
 }
 
+void Entity::set_draw_collision(bool draw)
+{
+	draw_collision = draw;
+}
+
+void Entity::set_jump_force(float new_force)
+{
+	jump_force = new_force;
+}
+
+void Entity::set_move_speed(float new_speed)
+{
+	move_speed = new_speed;
+}
+
 const Collision* const Entity::get_collision() const
 {
 	return physical.get_collision();
@@ -315,13 +330,19 @@ void Entity::update(float dt)
 	sprite.setPosition(physical.get_pos());
 	animation->next_frame(dt);
 	sprite.setTexture(*animation->get_texture());
-	sf::FloatRect rect = physical.get_bounding_rect();
-	coll_shape.setPosition({ rect.left, rect.top });
+	if (draw_collision)
+	{
+		sf::FloatRect rect = physical.get_bounding_rect();
+		coll_shape.setPosition({ rect.left, rect.top });
+	}
 }
 
 void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	target.draw(coll_shape, states);
+	if (draw_collision)
+	{
+		target.draw(coll_shape, states);
+	}
 	target.draw(sprite, states);
 }
 

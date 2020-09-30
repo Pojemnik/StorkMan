@@ -19,6 +19,15 @@ class Parser
 	Vectori get_and_parse_var<Vectori>(string name, tinyxml2::XMLElement* element);
 
 	template <typename T>
+	T get_and_parse_var(string name, tinyxml2::XMLElement* element, T default_val);
+	template <>
+	Vectorf get_and_parse_var<Vectorf>(string name, tinyxml2::XMLElement* element,
+		Vectorf default_val);
+	template <>
+	Vectori get_and_parse_var<Vectori>(string name, tinyxml2::XMLElement* element,
+		Vectori default_val);
+
+	template <typename T>
 	T parse_var(string val);
 	template <>
 	Vectorf parse_var<Vectorf>(string val);
@@ -57,21 +66,66 @@ template <typename T>
 T Parser::get_and_parse_var(string name, tinyxml2::XMLElement* element)
 {
 	string s = get_attribute_by_name(name, element);
+	if (s == "")
+	{
+		throw std::invalid_argument("Attribute not found!");
+	}
 	return parse_var<T>(s);
 }
 
 template <>
 Vectorf Parser::get_and_parse_var<Vectorf>(string name, tinyxml2::XMLElement* element)
 {
-	string val = get_attribute_by_name(name, element);
-	return parse_var<Vectorf>(val);
+	string s = get_attribute_by_name(name, element);
+	if (s == "")
+	{
+		throw std::invalid_argument("Attribute not found!");
+	}
+	return parse_var<Vectorf>(s);
 }
 
 template <>
 Vectori Parser::get_and_parse_var<Vectori>(string name, tinyxml2::XMLElement* element)
 {
-	string val = get_attribute_by_name(name, element);
-	return parse_var<Vectori>(val);
+	string s = get_attribute_by_name(name, element);
+	if (s == "")
+	{
+		throw std::invalid_argument("Attribute not found!");
+	}
+	return parse_var<Vectori>(s);
+}
+
+template<typename T>
+inline T Parser::get_and_parse_var(string name, tinyxml2::XMLElement* element, T default_val)
+{
+	string s = get_attribute_by_name(name, element);
+	if (s == "")
+	{
+		return default_val;
+	}
+	return parse_var<T>(s);
+}
+
+template<>
+inline Vectorf Parser::get_and_parse_var(string name, tinyxml2::XMLElement* element, Vectorf default_val)
+{
+	string s = get_attribute_by_name(name, element);
+	if (s == "")
+	{
+		return default_val;
+	}
+	return parse_var<Vectorf>(s);
+}
+
+template<>
+inline Vectori Parser::get_and_parse_var(string name, tinyxml2::XMLElement* element, Vectori default_val)
+{
+	string s = get_attribute_by_name(name, element);
+	if (s == "")
+	{
+		return default_val;
+	}
+	return parse_var<Vectori>(s);
 }
 
 template<typename T>

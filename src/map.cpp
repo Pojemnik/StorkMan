@@ -31,8 +31,10 @@ void Map::call_on_considered_levels(std::function<void(Level&)> foo)
 	}
 }
 
-Map::Map(Vectori size_, Vectori pos) : size(size_), current_pos(pos)
+Map::Map(Vectori size_, Vectori pos, const sf::Texture* bg_tex) : size(size_),
+current_pos(pos), background(*bg_tex)
 {
+	background.setPosition(-1000, -2500);
 	levels.resize(size.x);
 	for (auto& it : levels)
 	{
@@ -56,6 +58,7 @@ void Map::add_level(Level&& lvl)
 
 void Map::draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const
 {
+	target.draw(background);
 	for (int i = -1; i < 2; i++)
 	{
 		int y = current_pos.y + i;
@@ -152,4 +155,15 @@ void Map::update(float dt, Vectorf player_pos, sf::FloatRect screen_rect)
 void Map::add_entity(Entity* entity)
 {
 	entities.push_back(entity);
+}
+
+void Map::set_draw_chunks_borders(bool draw)
+{
+	for (auto& it : levels)
+	{
+		for (auto& it2 : it)
+		{
+			it2.set_draw_chunks_borders(draw);
+		}
+	}
 }
