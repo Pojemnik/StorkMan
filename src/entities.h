@@ -33,10 +33,12 @@ protected:
 	int last_direction = 1;
 	Physical physical;
 	sf::Sprite sprite;
-	float height;
+	std::pair<float, int> height;
 	std::unique_ptr<Animation> animation;
 	std::unique_ptr<Entity_state_machine> state;
 	int max_health;
+	float scale;
+	sf::RectangleShape coll_shape;
 
 	void flip(int direction);
 
@@ -67,7 +69,7 @@ public:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	Entity(std::unique_ptr<Animation>&& animation_, Physical& physical_,
 		std::unique_ptr<Entity_state_machine>&& state_,
-		std::unique_ptr<Controller>&& controller_, float height_, int health_);
+		std::unique_ptr<Controller>&& controller_, std::pair<float, int> height_, int health_);
 };
 
 struct Entity_state

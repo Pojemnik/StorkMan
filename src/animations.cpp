@@ -56,7 +56,7 @@ Dynamic_animation::Dynamic_animation(sf::Texture* texture_,
 	std::vector<sf::IntRect>& part_sizes,
 	std::vector<const Dynamic_animation_struct*> animations_, Animation_tree tree_)
 	: animations(animations_), tree(tree_), frame_info(
-		{ part_sizes[0].width, part_sizes[0].height }, { 192, 192 }, { 500, 500 })
+		{ part_sizes[0].width, part_sizes[0].height },  { 500, 500 }, { 192, 192 })
 {
 	last_animation = animation = Animation_index::DEFAULT;
 	key = 0;

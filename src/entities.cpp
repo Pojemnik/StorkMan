@@ -224,7 +224,8 @@ Entity_state_machine::Entity_state_machine(Entity_state* state)
 
 Entity::Entity(std::unique_ptr<Animation>&& animation_, Physical& physical_,
 	std::unique_ptr<Entity_state_machine>&& state_,
-	std::unique_ptr<Controller>&& controller_, float height_, int health_)
+	std::unique_ptr<Controller>&& controller_, std::pair<float, int> height_,
+	int health_)
 	: animation(std::move(animation_)), physical(physical_),
 	state(std::move(state_)), controller(std::move(controller_)),
 	health(health_), height(height_)
@@ -233,6 +234,12 @@ Entity::Entity(std::unique_ptr<Animation>&& animation_, Physical& physical_,
 	Frame_info info = animation->get_frame_info();
 	sprite.setOrigin({ info.character_position.x + info.part_size.x / 2,
 			info.character_position.y + info.part_size.y / 2 });
+	scale = context.global_scale * height.first / height.second;
+	sprite.setScale(scale, scale);
+	sf::FloatRect rect = physical.get_bounding_rect();
+	coll_shape.setFillColor(sf::Color::White);
+	coll_shape.setSize({ rect.width, rect.height });
+	coll_shape.setPosition({ rect.left, rect.top });
 }
 
 const Collision* const Entity::get_collision() const
@@ -308,10 +315,13 @@ void Entity::update(float dt)
 	sprite.setPosition(physical.get_pos());
 	animation->next_frame(dt);
 	sprite.setTexture(*animation->get_texture());
+	sf::FloatRect rect = physical.get_bounding_rect();
+	coll_shape.setPosition({ rect.left, rect.top });
 }
 
 void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
+	target.draw(coll_shape, states);
 	target.draw(sprite, states);
 }
 

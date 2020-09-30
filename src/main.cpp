@@ -156,13 +156,13 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	//Player
 	auto animation = std::make_unique<Dynamic_animation>(assets.pieces, assets.pieces_rect,
 		assets.dynamic_animations, assets.stork_tree);
-	std::vector<Vectorf> mesh = { {20, -30}, {40, -30}, {40, 30}, {20, 30} };
+	std::vector<Vectorf> mesh = { {-20, -40}, {0, -40}, {0, 20}, {-20, 20} };
 	Physical physical(std::move(mesh), { 15
 		*context.global_scale, 5*context.global_scale });
 	auto machine = std::make_unique<Entity_state_machine>(new Idle_state());
 	auto controller = std::make_unique<Player_controller>();
 	Entity player(std::move(animation), physical, std::move(machine),
-		std::move(controller), 1.92f, 1000);
+		std::move(controller), { 1.92f, 350 }, 1000);
 	map.add_entity(&player);
 
 	//Config file
