@@ -126,7 +126,7 @@ Animation_tree Assets::load_animation_tree(std::string path)
 		try
 		{
 			ss >> transition.first >> transition.second >> temp;
-			alternative = reverse_animation_index[temp];
+			alternative = static_cast<Animation_index>(temp);
 		}
 		catch (...)
 		{

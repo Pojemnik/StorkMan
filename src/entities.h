@@ -94,7 +94,7 @@ struct Jump_state : public Entity_state
 {
 	float time_sum = 0.f;
 	const float ASCENDING_TIME = 10.f;
-	virtual void enter(Entity& entity) = 0;
+	virtual void enter(Entity& entity);
 	virtual std::pair<Entity_state*, Entity_state_info> update(Entity& entity, float dt);
 };
 

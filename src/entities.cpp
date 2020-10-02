@@ -5,6 +5,7 @@ void Run_state::enter(Entity& entity)
 	entity.set_animation(Animation_index::MOVE);
 	entity.move(entity.direction);
 	entity.send_message(Message::Message_type::MOVED, static_cast<int>(entity.surface));
+	std::cout << "Run enter" << std::endl;
 }
 
 std::pair<Entity_state*, Entity_state_info> Run_state::update(Entity& entity, float dt)
@@ -49,15 +50,22 @@ std::pair<Entity_state*, Entity_state_info> Run_state::update(Entity& entity, fl
 void Idle_jump_state::enter(Entity& entity)
 {
 	entity.set_animation(Animation_index::JUMP_IDLE);
-	entity.jump();
-	entity.send_message(Message::Message_type::JUMPED, 0);
+	Jump_state::enter(entity);
+	std::cout << "Idle jump enter" << std::endl;
 }
 
 void Run_jump_state::enter(Entity& entity)
 {
 	entity.set_animation(Animation_index::JUMP_RUN);
+	Jump_state::enter(entity);
+	std::cout << "Run jump enter" << std::endl;
+}
+
+void Jump_state::enter(Entity& entity)
+{
 	entity.jump();
 	entity.send_message(Message::Message_type::JUMPED, 0);
+	entity.on_ground = false;
 }
 
 std::pair<Entity_state*, Entity_state_info> Jump_state::update(Entity& entity, float dt)
@@ -69,7 +77,7 @@ std::pair<Entity_state*, Entity_state_info> Jump_state::update(Entity& entity, f
 	}
 	if (entity.on_ground)
 	{
-		return std::make_pair(new Idle_state(), Entity_state_info::REPLACE);
+		//return std::make_pair(new Idle_state(), Entity_state_info::REPLACE);
 	}
 	time_sum += dt;
 	while (entity.controller->command_available())
@@ -98,6 +106,7 @@ std::pair<Entity_state*, Entity_state_info> Jump_state::update(Entity& entity, f
 void Idle_state::enter(Entity& entity)
 {
 	entity.set_animation(Animation_index::IDLE);
+	std::cout << "Idle enter" << std::endl;
 }
 
 std::pair<Entity_state*, Entity_state_info> Idle_state::update(Entity& entity, float dt)
@@ -159,6 +168,7 @@ std::pair<Entity_state*, Entity_state_info> Die_state::update(Entity& entity, fl
 void In_air_state::enter(Entity& entity)
 {
 	(void)entity; //Unused
+	std::cout << "In air enter" << std::endl;
 }
 
 std::pair<Entity_state*, Entity_state_info> In_air_state::update(Entity& entity, float dt)
@@ -325,8 +335,8 @@ void Entity::update(float dt)
 	surface = temp.second;
 	on_ground = physical.is_on_ground();
 	controller->update(dt);
-	state->update(*this, dt);
 	physical.update(dt);
+	state->update(*this, dt);
 	sprite.setPosition(physical.get_pos());
 	animation->next_frame(dt);
 	sprite.setTexture(*animation->get_texture());

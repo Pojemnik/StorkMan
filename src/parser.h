@@ -54,6 +54,7 @@ class Parser
 	std::pair<int, std::shared_ptr<Moving_object>> parse_moving_object(tinyxml2::XMLElement* element);
 	std::pair<int, std::shared_ptr<Pendulum>> parse_pendulum(tinyxml2::XMLElement* element);
 	std::shared_ptr<Damage_zone> parse_damage_zone(tinyxml2::XMLElement* element);
+	std::shared_ptr<Barrier> parse_barrier(tinyxml2::XMLElement* element);
 
 public:
 	Map parse_map(tinyxml2::XMLElement* root);

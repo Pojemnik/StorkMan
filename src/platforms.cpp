@@ -68,18 +68,10 @@ void Moving_platform::draw(sf::RenderTarget& target, sf::RenderStates states) co
 	target.draw(shape, states);
 }
 
-Barrier::Barrier(std::vector<Vectorf>&& vertices_, Vectorf pos_)
-	: vertices(std::move(vertices_))
-{
-	for (auto& it : vertices)
-	{
-		it += pos_;
-		collision.mesh.push_back(it);
-	}
-	collision.rect = util::mesh_to_rect(collision.mesh);
-}
+Barrier::Barrier(std::vector<sf::Vertex>&& vertices_, Vectorf pos_)
+	: collision(std::move(vertices_), pos_) {}
 
-const Collision* const Barrier::get_collision()
+const Collision* const Barrier::get_collision() const
 {
 	return &collision;
 }

@@ -245,6 +245,11 @@ Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root)
 			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
 			updatables.push_back(std::static_pointer_cast<Updatable>(ptr));
 		}
+		else if (name == "barrier")
+		{
+			auto ptr = parse_barrier(element);
+			collidables.push_back(std::static_pointer_cast<Collidable>(ptr));
+		}
 		element = element->NextSiblingElement();
 	}
 	sf::FloatRect bound = sf::FloatRect(INFINITY, INFINITY, 0, 0);
@@ -651,8 +656,27 @@ std::shared_ptr <Damage_zone> Parser::parse_damage_zone(tinyxml2::XMLElement* el
 	catch (const std::invalid_argument& e)
 	{
 		std::cout << "Wyjatek: " << e.what() << '\n';
-		std::cout << "Element: " << "wall" << '\n';
+		std::cout << "Element: " << "damage zone" << '\n';
 		std::cout << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz strefy" << '\n';
 	}
 	throw std::runtime_error("Textured_polygon error");
+}
+
+std::shared_ptr<Barrier> Parser::parse_barrier(tinyxml2::XMLElement* element)
+{
+	try
+	{
+		Vectorf pos = get_and_parse_var<Vectorf>("position", element);
+		pos *= context.global_scale;
+		std::pair<int, float> fliprot = parse_flip_rotation(element);
+		std::vector<sf::Vertex> points =
+			parse_vertices(element->FirstChildElement(), fliprot);
+		return std::make_shared<Barrier>(std::move(points), pos);
+	}
+	catch (const std::exception e)
+	{
+		std::cout << "Wyjatek: " << e.what() << '\n';
+		std::cout << "Element: " << "barrier" << '\n';
+	}
+	throw std::runtime_error("Barrier error");
 }
