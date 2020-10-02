@@ -1,8 +1,19 @@
 #include "animations.h"
 
-Vectorf Dynamic_animation::count_pos(Vectorf start, const float size1, const float size2,
-	Vectori translation1, float a1, Vectori translation2, float a2)
+Animation_tree::Animation_tree(int _count, int i_count, Frame_info info) :
+	count(_count), independent_count(i_count), frame_info(info)
 {
+	root = 0;
+	tree.resize(count);
+	position_of_element_in_animation_array.resize(count);
+	nodes.resize(count);
+}
+
+Vectorf Dynamic_animation::count_pos(Vectorf start, Vectori translation1,
+	float a1, Vectori translation2, float a2)
+{
+	const float size1 = tree.frame_info.part_size.x;
+	const float size2 = tree.frame_info.part_size.y;
 	float angle1 = util::deg_to_rad(a1);
 	float angle2 = util::deg_to_rad(a2);
 	Vectorf l1 = { translation1.x - size1 / 2, translation1.y - size1 / 2 };
@@ -33,7 +44,7 @@ void Dynamic_animation::animate(std::vector<float> frame)
 			q.push(next);
 			vec[next].r = util::ang_reduce(vec[current].r
 				+ frame[tree.position_of_element_in_animation_array[next] + 3]);
-			vec[next].pos = count_pos(vec[current].pos, 128, 128,
+			vec[next].pos = count_pos(vec[current].pos,
 				tree.nodes[next].delta_pos[0], vec[current].r,
 				tree.nodes[next].delta_pos[1], vec[next].r);
 			parts[next].setRotation(vec[next].r);
@@ -54,10 +65,9 @@ void Dynamic_animation::pre_draw()
 
 Dynamic_animation::Dynamic_animation(sf::Texture* texture_,
 	std::vector<sf::IntRect>& part_sizes,
-	std::vector<const Dynamic_animation_struct*> animations_, Animation_tree tree_)
-	: animations(animations_), tree(tree_), frame_info(
-		{ part_sizes[0].width, part_sizes[0].height },  { 500, 500 }, { 192, 192 }),
-	key(0), animation(Animation_index::DEFAULT)
+	std::vector<const Dynamic_animation_struct*> animations_, const Animation_tree& tree_)
+	: animations(animations_), tree(tree_), key(0),
+	animation(Animation_index::DEFAULT)
 {
 	last_key = &animations[static_cast<int>(animation)]->key_frames[key];
 	time_to_next_frame = animations[static_cast<int>(animation)]->lengths[key];
@@ -69,7 +79,7 @@ Dynamic_animation::Dynamic_animation(sf::Texture* texture_,
 		parts.push_back(sf::Sprite(*texture_, part_sizes[i]));
 		parts[i].setOrigin((float)part_sizes[i].width / 2, (float)part_sizes[i].height / 2);
 	}
-	if (!tex.create(frame_info.frame_size.x, frame_info.frame_size.y))
+	if (!tex.create(tree.frame_info.frame_size.x, tree.frame_info.frame_size.y))
 		return;
 	next_frame(.0f);
 }
@@ -115,7 +125,7 @@ Animation_index Dynamic_animation::get_current_animation() const
 
 Frame_info Dynamic_animation::get_frame_info() const
 {
-	Frame_info info = frame_info;
+	Frame_info info = tree.frame_info;
 	info.character_position = { actual_frame[0], actual_frame[1] };
 	return info;
 }
@@ -146,10 +156,6 @@ void Dynamic_animation::increment_key()
 void Dynamic_animation::next_frame(float dt)
 {
 	time_to_next_frame -= dt;
-	//if (last_animation != animation)//?
-	//{
-	//	set_animation(animation);
-	//}
 	while (time_to_next_frame <= 0)
 	{
 		increment_key();

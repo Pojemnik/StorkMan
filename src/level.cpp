@@ -131,7 +131,7 @@ Moving_element::Moving_element(std::shared_ptr<Updatable> updatable_, int layer_
 
 Level::Level(std::vector<Map_chunk>&& chunks_,
 	std::vector<Moving_element>&& moving_, Vectori pos)
-	: chunks(std::move(chunks_)), moving(std::move(moving)),
+	: chunks(std::move(chunks_)), moving(std::move(moving_)),
 	global_pos(pos) {}
 
 void Level::update(float dt, sf::FloatRect screen_rect)

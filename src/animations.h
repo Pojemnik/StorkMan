@@ -8,6 +8,8 @@ enum class Animation_index : int
 	DIE, HIT, ADDITONAL_1
 };
 
+const int ANIMATIONS_N = 10;
+
 struct Frame_info
 {
 	Vectori part_size;
@@ -15,6 +17,7 @@ struct Frame_info
 	Vectori offset;
 	Vectorf character_position;
 
+	Frame_info() = default;
 	Frame_info(Vectori part_size_, Vectori frame_size_, Vectori offset_);
 };
 
@@ -70,9 +73,10 @@ struct Animation_tree
 	int root;
 	std::unordered_map<std::pair<int, int>, std::pair<Animation_index,
 		std::vector<int>>, pair_hash> alternative_animations;
+	Frame_info frame_info;
 
 	Animation_tree() = default;
-	Animation_tree(int _count, int i_count);
+	Animation_tree(int _count, int i_count, Frame_info info);
 };
 
 struct Dynamic_animation_struct
@@ -108,9 +112,8 @@ protected:
 	std::vector<float> actual_frame;
 	Animation_index animation;
 	const int ANIMATION_CHANGE_DELTA = 5;
-	Frame_info frame_info;
 
-	Vectorf count_pos(Vectorf start, float size1, float size2,
+	Vectorf count_pos(Vectorf start,
 		Vectori translation1, float a1,
 		Vectori translation2, float a2);
 	void animate(std::vector<float> arr);
@@ -119,7 +122,7 @@ protected:
 
 public:
 	Dynamic_animation(sf::Texture* texture_, std::vector<sf::IntRect>& part_sizes,
-		std::vector<const Dynamic_animation_struct*> animations_, Animation_tree tree_);
+		std::vector<const Dynamic_animation_struct*> animations_, const Animation_tree& tree_);
 	void next_frame(float dt);
 	const sf::Texture* const get_texture();
 	void set_animation(Animation_index a);

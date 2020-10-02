@@ -1,5 +1,14 @@
+#Number of parts
 27
+#Number of independent parts
 18
+
+#Size of every part
+128 128
+#Size of texture
+500 500
+#Offset [px]
+192 192
 
 LRA 6
 SL1 16
@@ -56,4 +65,5 @@ PPR SP4 59 79 64 11
 PPR SP5 59 94 64 11
 PPR PDL 60 105 61 53
 
+#Additional animations
 4 2 9 ( 4 5 6 )
