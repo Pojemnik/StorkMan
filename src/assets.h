@@ -30,10 +30,6 @@ public:
 	sf::Font storkfont, consola;
 	sf::Image icon;
 	std::vector<sf::SoundBuffer> sounds;
-	Animation_index reverse_animation_index[10] = { Animation_index::DEFAULT,
-		Animation_index::IDLE, Animation_index::MOVE, Animation_index::JUMP_IDLE,
-		Animation_index::JUMP_RUN, Animation_index::PUNCH_1, Animation_index::PUNCH_2,
-		Animation_index::DIE, Animation_index::HIT, Animation_index::ADDITONAL_1 };
 
 	void load_assets();
 	void load_additional_texture(std::string path, std::string name, int repeat);

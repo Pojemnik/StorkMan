@@ -56,10 +56,9 @@ Dynamic_animation::Dynamic_animation(sf::Texture* texture_,
 	std::vector<sf::IntRect>& part_sizes,
 	std::vector<const Dynamic_animation_struct*> animations_, Animation_tree tree_)
 	: animations(animations_), tree(tree_), frame_info(
-		{ part_sizes[0].width, part_sizes[0].height },  { 500, 500 }, { 192, 192 })
+		{ part_sizes[0].width, part_sizes[0].height },  { 500, 500 }, { 192, 192 }),
+	key(0), animation(Animation_index::DEFAULT)
 {
-	last_animation = animation = Animation_index::DEFAULT;
-	key = 0;
 	last_key = &animations[static_cast<int>(animation)]->key_frames[key];
 	time_to_next_frame = animations[static_cast<int>(animation)]->lengths[key];
 	key++;
@@ -77,7 +76,6 @@ Dynamic_animation::Dynamic_animation(sf::Texture* texture_,
 
 void Dynamic_animation::set_animation(Animation_index a)
 {
-	last_animation = animation;
 	Animation_index alternative = Animation_index::DEFAULT;
 	std::pair<int, int> transition = std::make_pair(key, static_cast<int>(a));
 	if (tree.alternative_animations.contains(transition))
@@ -97,7 +95,7 @@ void Dynamic_animation::set_animation(Animation_index a)
 		}
 	}
 	key = 0;
-	time_to_next_frame += ANIMATION_CHANGE_DELTA;
+	time_to_next_frame = ANIMATION_CHANGE_DELTA;
 	if (alternative == Animation_index::DEFAULT)
 	{
 		animation = a;
@@ -106,6 +104,7 @@ void Dynamic_animation::set_animation(Animation_index a)
 	{
 		animation = alternative;
 	}
+	last_key = next_key;
 	next_key = &animations[static_cast<int>(animation)]->key_frames[0];
 }
 
@@ -124,6 +123,7 @@ Frame_info Dynamic_animation::get_frame_info() const
 void Dynamic_animation::increment_key()
 {
 	last_key = next_key;
+	actual_frame = *last_key;
 	if (++key >= animations[static_cast<int>(animation)]->key_frames.size())
 	{
 		if (animations[static_cast<int>(animation)]->repeat)
@@ -133,13 +133,12 @@ void Dynamic_animation::increment_key()
 		}
 		else
 		{
-			animation = Animation_index::DEFAULT;
-			set_animation(animation);
+			set_animation(Animation_index::DEFAULT);
 		}
 	}
 	else
 	{
-		time_to_next_frame += animations[static_cast<int>(animation)]->lengths.back();
+		time_to_next_frame += animations[static_cast<int>(animation)]->lengths[key];
 	}
 	next_key = &animations[static_cast<int>(animation)]->key_frames[key];
 }
@@ -147,11 +146,11 @@ void Dynamic_animation::increment_key()
 void Dynamic_animation::next_frame(float dt)
 {
 	time_to_next_frame -= dt;
-	if (last_animation != animation)//?
-	{
-		set_animation(animation);
-	}
-	while (time_to_next_frame < 0)
+	//if (last_animation != animation)//?
+	//{
+	//	set_animation(animation);
+	//}
+	while (time_to_next_frame <= 0)
 	{
 		increment_key();
 	}

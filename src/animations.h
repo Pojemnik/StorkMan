@@ -107,7 +107,6 @@ protected:
 	const std::vector<float>* next_key;
 	std::vector<float> actual_frame;
 	Animation_index animation;
-	Animation_index last_animation;
 	const int ANIMATION_CHANGE_DELTA = 5;
 	Frame_info frame_info;
 
@@ -121,7 +120,6 @@ protected:
 public:
 	Dynamic_animation(sf::Texture* texture_, std::vector<sf::IntRect>& part_sizes,
 		std::vector<const Dynamic_animation_struct*> animations_, Animation_tree tree_);
-	~Dynamic_animation() {}
 	void next_frame(float dt);
 	const sf::Texture* const get_texture();
 	void set_animation(Animation_index a);
