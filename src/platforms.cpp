@@ -65,7 +65,7 @@ void Moving_platform::update(float dt)
 void Moving_platform::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	states.transform *= ai->get_pos();
-	target.draw(shape, states);
+	Platform::draw(target, states);
 }
 
 Barrier::Barrier(std::vector<sf::Vertex>&& vertices_, Vectorf pos_)

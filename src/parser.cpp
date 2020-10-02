@@ -73,12 +73,11 @@ sf::Vertex Parser::parse_textured_vertex(string content)
 	return sf::Vertex(v, t);
 }
 
-std::pair<Vectorf, float> Parser::parse_path_node(string content, Vectorf pos)
+std::pair<Vectorf, float> Parser::parse_path_node(string content)
 {
 	size_t pos2 = content.find(",", content.find(",") + 1);
 	Vectorf v = parse_var<Vectorf>(content.substr(0, pos2));
 	v *= context.global_scale;
-	v += pos;
 	float time = std::stof(content.substr(pos2 + 1));
 	return { v, time };
 }
@@ -507,7 +506,7 @@ std::pair<int, std::shared_ptr<Moving_platform>> Parser::parse_moving_platform(t
 			}
 			else if (n == "p")
 			{
-				path.push_back(parse_path_node(e->GetText(), pos));
+				path.push_back(parse_path_node(e->GetText()));
 			}
 			e = e->NextSiblingElement();
 		}
@@ -549,7 +548,7 @@ std::pair<int, std::shared_ptr<Moving_object>> Parser::parse_moving_object(tinyx
 			string n = e->Name();
 			if (n == "p")
 			{
-				path.push_back(parse_path_node(e->GetText(), pos));
+				path.push_back(parse_path_node(e->GetText()));
 			}
 			e = e->NextSiblingElement();
 		}

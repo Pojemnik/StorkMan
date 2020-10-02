@@ -42,7 +42,7 @@ class Parser
 	std::pair<Vectori, string> parse_level_element(tinyxml2::XMLElement* element, Vectori map_size);
 	sf::Vertex parse_vertex(string content, std::pair<int, float> fliprot);
 	sf::Vertex parse_textured_vertex(string content);
-	std::pair<Vectorf, float> parse_path_node(string content, Vectorf pos);
+	std::pair<Vectorf, float> parse_path_node(string content);
 	std::vector<sf::Vertex> parse_vertices(tinyxml2::XMLElement* element, std::pair<int, float> fliprot);
 	Level parse_level(tinyxml2::XMLElement* root, Vectori global_pos);
 	Map_chunk parse_chunk(tinyxml2::XMLElement* root);
