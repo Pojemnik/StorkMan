@@ -3261,8 +3261,8 @@
 			<v>0,0.5</v>
 		</moving_platform>
 		<pendulum position="29,85" texture="bricks,1" line="rope2" length="6" angle="40" layer="7" line_offset="250,0">
-			<a>30,78.5</a>
-			<a>32,78.5</a>
+			<a>30,79</a>
+			<a>32,79</a>
 
 			<v>0,0</v>
 			<v>4,0</v>
@@ -3270,8 +3270,8 @@
 			<v>0,2</v>
 		</pendulum>
 		<pendulum position="18,84" texture="bricks,1" line="rope2" length="5" angle="40" layer="7" line_offset="250,0">
-			<a>19,78.5</a>
-			<a>21,78.5</a>
+			<a>19,79</a>
+			<a>21,79</a>
 
 			<v>0,0</v>
 			<v>4,0</v>
@@ -3279,8 +3279,8 @@
 			<v>0,2</v>
 		</pendulum>
 		<pendulum position="22,94" texture="bricks,1" line="rope2" length="15" angle="30" layer="7" line_offset="250,0">
-			<a>23,77.75</a>
-			<a>25,77.75</a>
+			<a>23,79</a>
+			<a>25,79</a>
 
 			<v>0,0</v>
 			<v>4,0</v>
@@ -3288,8 +3288,8 @@
 			<v>0,2</v>
 		</pendulum>
 		<pendulum position="35,89" texture="bricks,1" line="rope2" length="10" angle="35" layer="7" line_offset="250,0">
-			<a>36,78.25</a>
-			<a>38,78.25</a>
+			<a>36,79</a>
+			<a>38,79</a>
 
 			<v>0,0</v>
 			<v>4,0</v>
@@ -3297,8 +3297,8 @@
 			<v>0,2</v>
 		</pendulum>
 		<pendulum position="28,97" texture="bricks,1" line="rope2" length="18" angle="25" layer="7" line_offset="250,0">
-			<a>29,77.5</a>
-			<a>31,77.5</a>
+			<a>29,79</a>
+			<a>31,79</a>
 
 			<v>0,0</v>
 			<v>4,0</v>
@@ -3306,8 +3306,8 @@
 			<v>0,2</v>
 		</pendulum>
 		<pendulum position="20,69" texture="bricks,1" line="rope2" length="5" angle="66" layer="7" line_offset="250,0">
-			<a>21,63.5</a>
-			<a>23,63.5</a>
+			<a>21,64</a>
+			<a>23,64</a>
 
 			<v>0,0</v>
 			<v>4,0</v>
@@ -3315,8 +3315,8 @@
 			<v>0,2</v>
 		</pendulum>
 		<pendulum position="20,72" texture="bricks,1" line="rope2" length="8" angle="38" layer="7" line_offset="250,0">
-			<a>21,63.5</a>
-			<a>23,63.5</a>
+			<a>21,64</a>
+			<a>23,64</a>
 
 			<v>0,0</v>
 			<v>4,0</v>
@@ -3324,8 +3324,8 @@
 			<v>0,2</v>
 		</pendulum>
 		<pendulum position="20,75" texture="bricks,1" line="rope2" length="11" angle="27" layer="7" line_offset="250,0">
-			<a>21,63.5</a>
-			<a>23,63.5</a>
+			<a>21,64</a>
+			<a>23,64</a>
 
 			<v>0,0</v>
 			<v>4,0</v>

@@ -23,7 +23,6 @@ class Moving_object : public Object, public Updatable
 {
 protected:
 	std::unique_ptr<Simple_AI> ai;
-	Vectorf move_pos;
 
 public:
 	Moving_object(Vectorf pos_, const sf::Texture* texture_, float height_,
