@@ -58,9 +58,10 @@ void Map_chunk::resolve_collisions(Entity& entity) const
 Map_chunk::Map_chunk(std::vector<std::shared_ptr<Updatable>>&& updatables_,
 	std::vector<std::pair<int, std::shared_ptr<Renderable>>>&& drawables_,
 	std::vector<std::shared_ptr<const Collidable>>&& collidables_,
+	std::vector<std::shared_ptr<Zone>>&& zones_,
 	sf::FloatRect bound_)
 	: updatables(std::move(updatables_)), collidables(std::move(collidables_)),
-	bound(bound_)
+	bound(bound_), zones(std::move(zones_))
 {
 	for (auto& it : drawables_)
 	{

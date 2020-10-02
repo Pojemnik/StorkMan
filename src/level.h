@@ -26,6 +26,7 @@ class Map_chunk : public Updatable, public Map_object
 {
 	std::vector<std::shared_ptr<Updatable>> updatables;
 	std::vector<std::shared_ptr<const Collidable>> collidables;
+	std::vector<std::shared_ptr<Zone>> zones;
 	std::array<std::vector<std::shared_ptr<Renderable>>, BOTTOM_LAYERS> bottom_layers;
 	std::array<std::vector<std::shared_ptr<Renderable>>, MIDDLE_LAYERS> middle_layers;
 	std::array<std::vector<std::shared_ptr<Renderable>>, TOP_LAYERS> top_layers;
@@ -37,6 +38,7 @@ public:
 	Map_chunk(std::vector<std::shared_ptr<Updatable>>&& updatables_,
 		std::vector<std::pair<int, std::shared_ptr<Renderable>>>&& drawables_,
 		std::vector<std::shared_ptr<const Collidable>>&& collidables_,
+		std::vector<std::shared_ptr<Zone>>&& zones_,
 		sf::FloatRect bound_);
 	void update(float dt);
 	void draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const;

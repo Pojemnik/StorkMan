@@ -193,6 +193,8 @@ Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root)
 	std::vector<std::shared_ptr<Updatable>> updatables;
 	std::vector<std::pair<int, std::shared_ptr<Renderable>>> drawables;
 	std::vector<std::shared_ptr<const Collidable>> collidables;
+	std::vector<std::shared_ptr<Zone>> zones;
+	std::vector<std::shared_ptr<Map_object>> map_objects;
 	tinyxml2::XMLElement* element = root->FirstChildElement();
 	while (element != nullptr)
 	{
@@ -202,27 +204,33 @@ Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root)
 			auto [layer, ptr] = parse_platform(element);
 			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
 			collidables.push_back(std::static_pointer_cast<Collidable>(ptr));
+			map_objects.push_back(std::static_pointer_cast<Map_object>(ptr));
 		}
 		else if (name == "wall")
 		{
 			auto [layer, ptr] = parse_wall(element);
 			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
+			map_objects.push_back(std::static_pointer_cast<Map_object>(ptr));
 		}
 		else if (name == "object")
 		{
 			auto [layer, ptr] = parse_object(element);
 			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
+			map_objects.push_back(std::static_pointer_cast<Map_object>(ptr));
 		}
 		else if (name == "animated_object")
 		{
 			auto [layer, ptr] = parse_animated_object(element);
 			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
 			updatables.push_back(std::static_pointer_cast<Updatable>(ptr));
+			map_objects.push_back(std::static_pointer_cast<Map_object>(ptr));
 		}
 		else if (name == "damage_zone")
 		{
 			auto ptr = parse_damage_zone(element);
 			updatables.push_back(std::static_pointer_cast<Updatable>(ptr));
+			zones.push_back(std::static_pointer_cast<Zone>(ptr));
+			map_objects.push_back(std::static_pointer_cast<Map_object>(ptr));
 		}
 		else if (name == "pendulum")
 		{
@@ -230,6 +238,7 @@ Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root)
 			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
 			updatables.push_back(std::static_pointer_cast<Updatable>(ptr));
 			collidables.push_back(std::static_pointer_cast<Collidable>(ptr));
+			map_objects.push_back(std::static_pointer_cast<Map_object>(ptr));
 		}
 		else if (name == "old_moving_platform")
 		{
@@ -237,6 +246,7 @@ Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root)
 			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
 			updatables.push_back(std::static_pointer_cast<Updatable>(ptr));
 			collidables.push_back(std::static_pointer_cast<Collidable>(ptr));
+			map_objects.push_back(std::static_pointer_cast<Map_object>(ptr));
 		}
 		else if (name == "moving_platform")
 		{
@@ -244,50 +254,33 @@ Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root)
 			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
 			updatables.push_back(std::static_pointer_cast<Updatable>(ptr));
 			collidables.push_back(std::static_pointer_cast<Collidable>(ptr));
+			map_objects.push_back(std::static_pointer_cast<Map_object>(ptr));
 		}
 		else if (name == "old_moving_object")
 		{
 			auto [layer, ptr] = parse_old_moving_object(element);
 			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
 			updatables.push_back(std::static_pointer_cast<Updatable>(ptr));
+			map_objects.push_back(std::static_pointer_cast<Map_object>(ptr));
 		}
 		else if (name == "moving_object")
 		{
 			auto [layer, ptr] = parse_moving_object(element);
 			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
 			updatables.push_back(std::static_pointer_cast<Updatable>(ptr));
+			map_objects.push_back(std::static_pointer_cast<Map_object>(ptr));
 		}
 		else if (name == "barrier")
 		{
 			auto ptr = parse_barrier(element);
 			collidables.push_back(std::static_pointer_cast<Collidable>(ptr));
+			map_objects.push_back(std::static_pointer_cast<Map_object>(ptr));
 		}
 		element = element->NextSiblingElement();
 	}
-	sf::FloatRect bound = sf::FloatRect(INFINITY, INFINITY, 0, 0);
-	for (const auto& it : updatables)
-	{
-		std::shared_ptr<Map_object> object = std::dynamic_pointer_cast<Map_object>(it);
-		if (object == nullptr)
-		{
-			continue;
-		}
-		sf::FloatRect object_rect = object->get_bounding_rect();
-		bound.left = std::min(bound.left, object_rect.left);
-		bound.top = std::min(bound.top, object_rect.top);
-		bound.width = std::max(bound.width, object_rect.width + object_rect.left - bound.left);
-		bound.height = std::max(bound.height, object_rect.height + object_rect.top - bound.top);
-	}
-	float left = get_and_parse_var<float>("left", root, 0) * context.global_scale;
-	bound.left -= left;
-	float top  = get_and_parse_var<float>("top", root, 0) * context.global_scale;
-	bound.top -= top;
-	float right = get_and_parse_var<float>("right", root, 0) * context.global_scale;
-	bound.width += right + left;
-	float bottom = get_and_parse_var<float>("bottom", root, 0) * context.global_scale;
-	bound.height += bottom + top;
+	sf::FloatRect bound = calculate_chunk_bounds(root, map_objects);
 	return Map_chunk(std::move(updatables), std::move(drawables),
-		std::move(collidables), bound);
+		std::move(collidables), std::move(zones), bound);
 
 }
 
@@ -799,4 +792,27 @@ std::shared_ptr<Barrier> Parser::parse_barrier(tinyxml2::XMLElement* element)
 		std::cout << "Element: " << "barrier" << '\n';
 	}
 	throw std::runtime_error("Barrier error");
+}
+
+sf::FloatRect Parser::calculate_chunk_bounds(tinyxml2::XMLElement* root,
+	std::vector<std::shared_ptr<Map_object>>& objects)
+{
+	sf::FloatRect bound = sf::FloatRect(INFINITY, INFINITY, 0, 0);
+	for (const auto& it : objects)
+	{
+		sf::FloatRect object_rect = it->get_bounding_rect();
+		bound.left = std::min(bound.left, object_rect.left);
+		bound.top = std::min(bound.top, object_rect.top);
+		bound.width = std::max(bound.width, object_rect.width + object_rect.left - bound.left);
+		bound.height = std::max(bound.height, object_rect.height + object_rect.top - bound.top);
+	}
+	float left = get_and_parse_var<float>("left", root, 0) * context.global_scale;
+	bound.left -= left;
+	float top = get_and_parse_var<float>("top", root, 0) * context.global_scale;
+	bound.top -= top;
+	float right = get_and_parse_var<float>("right", root, 0) * context.global_scale;
+	bound.width += right + left;
+	float bottom = get_and_parse_var<float>("bottom", root, 0) * context.global_scale;
+	bound.height += bottom + top;
+	return bound;
 }
