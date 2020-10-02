@@ -10,8 +10,8 @@ private:
 	Collision collision;
 
 public:
-	Barrier(std::vector<Vectorf>&& vertices_, Vectorf pos_);
-	const Collision* const get_collision();
+	Barrier(std::vector<sf::Vertex>&& vertices_, Vectorf pos_);
+	const Collision* const get_collision() const;
 	virtual sf::FloatRect get_bounding_rect() const;
 };
 
