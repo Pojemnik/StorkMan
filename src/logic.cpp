@@ -29,7 +29,7 @@ void Swing_AI::calc_pos(float dt)
 	const float angleAccel = (GRAVITY / line_len) * sin(rad_angle);
 	a_speed += angleAccel * dt;
 	rad_angle += a_speed * dt;
-	pos=sf::Vector2f(cos(rad_angle),sin(rad_angle))*line_len;
+	pos=sf::Vector2f(-sin(rad_angle),cos(rad_angle))*line_len*context.global_scale;
 }
 
 sf::Transform Swing_AI::get_pos()
