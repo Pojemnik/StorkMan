@@ -24,8 +24,6 @@ bool update(float dt, Map& map, Entity& player, sf::FloatRect screen)
 
 void resize_window(sf::RenderWindow& window, Assets& assets)
 {
-	assets.blurh.setUniform("blurSize", 1.0f / context.resolution.x);
-	assets.blurv.setUniform("blurSize", 1.0f / context.resolution.y);
 	window.setSize(sf::Vector2u(context.resolution.x, context.resolution.y));
 }
 
@@ -72,16 +70,6 @@ bool process_event(sf::Event& event)
 			}
 		}
 		break;
-	case sf::Event::KeyReleased:
-		if (context.window_focus)
-		{
-			if (event.key.code == sf::Keyboard::Up
-				&& !context.console->is_active())
-			{
-				context.jump_available = true;
-			}
-		}
-		break;
 	case sf::Event::TextEntered:
 		if (context.console->is_active() && context.window_focus)
 		{
@@ -122,8 +110,8 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	//Assets
 	Assets assets;
 	assets.load_assets();
-	context.console =
-		new Console(assets.console_bg, &assets.consola, context.resolution);
+	context.console = std::unique_ptr<Console>(
+		new Console(assets.console_bg, &assets.consola, context.resolution));
 	context.console->out << "Stork'man version " + VERSION << '\n';
 
 	//Parsing
@@ -177,8 +165,9 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	music.play();
 
 	//User interface
-	context.fps_counter.setFont(assets.consola);
-	context.fps_counter.setPosition(0, 0);
+	sf::Text fps_counter;
+	fps_counter.setFont(assets.consola);
+	fps_counter.setPosition(0, 0);
 
 	Hp_bar hp_bar(assets.hp_bar.bot, assets.hp_bar.mid, assets.hp_bar.top,
 		assets.hp_bar.content_bot, assets.hp_bar.content_mid,
@@ -191,7 +180,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	hp.setString(std::to_string(player.health));
 
 	//Other
-	context.thread_pool = new ctpl::thread_pool(4);
+	context.thread_pool = std::unique_ptr<ctpl::thread_pool>(new ctpl::thread_pool(4));
 	sf::Clock clock;
 	float acc = 0;
 
@@ -223,16 +212,9 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 				case Command_code::CHANGE_RESOLUTION:
 					resize_window(window, assets);
 					break;
-					//case Command_code::CHANGE_SCALE:
-					//	map.rescale(context.global_scale);
-					//	player.rescale(context.global_scale);
-					//	break;
 				case Command_code::MOVE_PLAYER:
 					player.set_position(code.second * context.global_scale);
 					break;
-					//case Command_code::RELOAD_LIGHT:
-					//	map.recalc_light();
-					//	break;
 				case Command_code::GET_POSITION:
 					context.console->out <<
 						player.get_position() / context.global_scale << '\n';
@@ -292,7 +274,9 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 		if (context.console->is_active() || update(time, map, player, screen_rect))
 		{
 			if (context.draw_fps_counter)
-				context.fps_counter.setString(std::to_string(int(1000.f / acc)));
+			{
+				fps_counter.setString(std::to_string(int(1000.f / acc)));
+			}
 			acc = 0;
 			window.clear();
 			camera_pos = player.get_position();
@@ -310,9 +294,11 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 				window.draw(hp);
 			}
 			hp_bar.pre_draw(player.health);
-			window.draw(hp_bar);
+			window.draw(hp_bar);	
 			if (context.draw_fps_counter)
-				window.draw(context.fps_counter);
+			{
+				window.draw(fps_counter);
+			}
 			if (context.console->is_active())
 			{
 				window.draw(*context.console);

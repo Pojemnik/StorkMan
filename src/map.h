@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include "entities.h"
 #include "level.h"
 

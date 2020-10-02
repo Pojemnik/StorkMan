@@ -1,4 +1,7 @@
 #pragma once
+#include <iostream>
+#include <sstream>
+#include <assert.h>
 #include "map.h"
 #include "assets.h"
 #include "tinyxml2.h"

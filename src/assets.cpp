@@ -327,8 +327,6 @@ void Assets::load_assets()
 			textures[tex_names[i]] = &enemy_textures[i];
 		}
 	}
-
-	//Shaders
 	//Icon
 	icon.loadFromFile("img/ikona.png");
 	//Fonts

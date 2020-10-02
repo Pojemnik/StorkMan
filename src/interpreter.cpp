@@ -179,11 +179,6 @@ std::pair<Command_code, Vectorf> Commands_interpreter::execute_command_raw(Comma
 		context.god_mode =
 			get_bool(cmd, "God mode", { "on", "off" });
 	}
-	else if (cmd.name == "night")
-	{
-		context.night = get_bool(cmd, "Night", { "on", "off" });
-		return std::make_pair(Command_code::RELOAD_LIGHT, Vectorf());
-	}
 	else if (cmd.name == "fps")
 	{
 		context.fps = get_float(cmd, "FPS");
@@ -192,64 +187,15 @@ std::pair<Command_code, Vectorf> Commands_interpreter::execute_command_raw(Comma
 	{
 		context.gravity = get_float(cmd, "Gravity");
 	}
-	else if (cmd.name == "bgparallax")
-	{
-		context.parallax = get_float(cmd, "Background parallax");
-	}
-	else if (cmd.name == "layer2parallax")
-	{
-		context.parallax2 = get_float(cmd, "Layer 2 parallax");
-	}
 	else if (cmd.name == "jumpforce")
 	{
 		float force = get_float(cmd, "Storkman jump force");
 		return std::make_pair(Command_code::SET_PLAYER_JUMP_FORCE, Vectorf(force, 0));
 	}
-	else if (cmd.name == "storkminspeed")
-	{
-		context.min_move_speed = get_float(cmd, "Minimal storkman speed");
-	}
-	else if (cmd.name == "storkmaxspeed")
-	{
-		context.max_move_speed = get_vectorf(cmd, "Maximal storkman speed");
-	}
-	else if (cmd.name == "storkspeedreduction")
-	{
-		context.move_speed_reduction = get_vectorf(cmd, "Move speed reduction");
-	}
 	else if (cmd.name == "storkmovespeed")
 	{
 		float speed = get_float(cmd, "Move speed");
 		return std::make_pair(Command_code::SET_PLAYER_MOVE_SPEED, Vectorf(speed, 0));
-	}
-	else if (cmd.name == "bgpos")
-	{
-		context.background_position = get_vectorf(cmd, "Background position");
-	}
-	else if (cmd.name == "layer2pos")
-	{
-		context.layer2_position = get_vectorf(cmd, "Layer 2 position");
-	}
-	else if (cmd.name == "bgscale")
-	{
-		context.background_scale = get_float(cmd, "Background scale");
-	}
-	else if (cmd.name == "layer2scale")
-	{
-		context.layer2_scale = get_float(cmd, "Layer 2 scale");
-	}
-	else if (cmd.name == "darkness")
-	{
-		int val = get_int(cmd, "Darkness level");
-		if (val > 255 || val < 0)
-		{
-			context.console->err << "Nieprawid³owa wartoœæ ciemnoœci" << "\n";
-		}
-		else
-		{
-			context.darkness = (uint8_t)val;
-			return std::make_pair(Command_code::RELOAD_LIGHT, Vectorf());
-		}
 	}
 	else if (cmd.name == "clear")
 	{
@@ -261,20 +207,10 @@ std::pair<Command_code, Vectorf> Commands_interpreter::execute_command_raw(Comma
 		return std::make_pair(Command_code::CHANGE_RESOLUTION,
 			(Vectorf)context.resolution);
 	}
-	else if (cmd.name == "scale")
-	{
-		context.global_scale = get_float(cmd, "Global scale");
-		return std::make_pair(Command_code::CHANGE_SCALE,
-			Vectorf(context.global_scale, 0));
-	}
 	else if (cmd.name == "tp")
 	{
 		Vectorf target = get_vectorf(cmd, "Player moved");
 		return std::make_pair(Command_code::MOVE_PLAYER, target);
-	}
-	else if (cmd.name == "reloadlight")
-	{
-		return std::make_pair(Command_code::RELOAD_LIGHT, Vectorf());
 	}
 	else if (cmd.name == "getpos")
 	{

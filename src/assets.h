@@ -1,5 +1,4 @@
 #pragma once
-#include <algorithm>
 #include "animations.h"
 
 struct Entity_config
@@ -33,7 +32,6 @@ public:
 	sf::Texture* layer2 = nullptr;
 	sf::Texture* light = nullptr;
 	sf::Texture* console_bg = nullptr;
-	sf::Shader blurv, blurh, white;
 	sf::Font storkfont, consola;
 	sf::Image icon;
 	std::vector<sf::SoundBuffer> sounds;

@@ -1,6 +1,8 @@
 #pragma once
 #include <stack>
 #include <variant>
+#include <iostream>
+#include <assert.h>
 #include "physics.h"
 #include "logic.h"
 #include "animations.h"

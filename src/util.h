@@ -2,17 +2,12 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <cmath>
-#include <string>
-#include <iostream>
 #include <sstream>
-#include <algorithm>
+#include <string>
 #include <vector>
-#include <list>
-#include <array>
 #include <fstream>
-#include <map>
-#include <cfloat>
-#include <assert.h>
+#include <algorithm>
+
 #include "console.h"
 #include "../include/ctpl_stl.h"
 
@@ -32,33 +27,16 @@ struct Context
 	bool draw_fps_counter = false;
 	bool draw_hp = false;
 	bool draw_damage_zones = false;
-	bool night = true;
 	bool god_mode = false;
-	bool jump_available = true;
-	bool generate_light = false;
 	float fps = 60.f;
 	float gravity = 1; //22
 	float jump_force = 775.f;
-	float parallax = -1.5f;
-	float parallax2 = -2.f;
 	float global_scale = 32;	//[px/m]
-	Vectorf max_move_speed = { 5,5 };
-	float min_move_speed = 0.5;
-	Vectorf move_speed_reduction = { 0.5f, 0.5f };
 	float player_move_speed = 8.f;
-	Vectorf background_position = { -1000,-2500 };
-	float background_scale = 1.f;
-	Vectorf layer2_position = { -1000, -1800 };
-	float layer2_scale = 1.f;
-	const Vectorf max_force = { 1000.f, 3000.0f };
-	const Vectorf max_speed = { 20.f, 100.0f };
 	Vectori resolution = { 1024, 576 };
 	const Vectori default_resolution = { 1024, 576 };
-	sf::Text fps_counter;
-	uint8_t darkness = 70;
-	Console* console = nullptr;
-	ctpl::thread_pool* thread_pool = nullptr;
-	int level_tile_size = 5;
+	std::unique_ptr<Console> console;
+	std::unique_ptr<ctpl::thread_pool> thread_pool;
 	Vectori level_size = { 100, 100 };
 	bool window_focus = false;
 };
