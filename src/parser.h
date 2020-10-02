@@ -34,6 +34,17 @@ class Parser
 	template <>
 	Vectori parse_var<Vectori>(string val);
 
+
+	template <typename T>
+	std::unique_ptr<Simple_AI> parse_Simple_AI(tinyxml2::XMLElement* element);
+	template <>
+	std::unique_ptr<Simple_AI> parse_Simple_AI<Linear_AI>(tinyxml2::XMLElement* element);
+	template <>
+	std::unique_ptr<Simple_AI> parse_Simple_AI<Swing_AI>(tinyxml2::XMLElement* element);
+	template <>
+	std::unique_ptr<Simple_AI> parse_Simple_AI<Swing_rotation_AI>(tinyxml2::XMLElement* element);
+
+
 	std::pair<int, float> parse_flip_rotation(tinyxml2::XMLElement* element);
 	int parse_layer(tinyxml2::XMLElement* element, int default_value);
 	sf::Color parse_color(std::string val);
@@ -50,11 +61,14 @@ class Parser
 	std::pair<int, std::shared_ptr<Textured_polygon>> parse_wall(tinyxml2::XMLElement* element);
 	std::pair<int, std::shared_ptr<Object>> parse_object(tinyxml2::XMLElement* element);
 	std::pair<int, std::shared_ptr<Animated_object>> parse_animated_object(tinyxml2::XMLElement* element);
+	std::pair<int, std::shared_ptr<Moving_platform>> parse_old_moving_platform(tinyxml2::XMLElement* element);
+	std::pair<int, std::shared_ptr<Moving_object>> parse_old_moving_object(tinyxml2::XMLElement* element);
 	std::pair<int, std::shared_ptr<Moving_platform>> parse_moving_platform(tinyxml2::XMLElement* element);
 	std::pair<int, std::shared_ptr<Moving_object>> parse_moving_object(tinyxml2::XMLElement* element);
 	std::pair<int, std::shared_ptr<Pendulum>> parse_pendulum(tinyxml2::XMLElement* element);
 	std::shared_ptr<Damage_zone> parse_damage_zone(tinyxml2::XMLElement* element);
 	std::shared_ptr<Barrier> parse_barrier(tinyxml2::XMLElement* element);
+
 
 public:
 	Map parse_map(tinyxml2::XMLElement* root);
@@ -162,4 +176,27 @@ Vectori Parser::parse_var<Vectori>(string val)
 	int x = std::stoi(val.substr(0, p));
 	int y = std::stoi(val.substr(p + 1));
 	return Vectori(x, y);
+}
+
+template<>
+inline std::unique_ptr<Simple_AI> Parser::parse_Simple_AI<Linear_AI>(tinyxml2::XMLElement* element)
+{
+
+	std::vector<std::pair<Vectorf, float>> path;
+	tinyxml2::XMLElement* e = element->FirstChildElement();
+	while (e != NULL)
+	{
+		string n = e->Name();
+		if (n == "p")
+		{
+			path.push_back(parse_path_node(e->GetText()));
+		}
+		else
+		{
+			throw(std::invalid_argument(""));
+		}
+		e = e->NextSiblingElement();
+	}
+	float time_offset = get_and_parse_var<float>("offset", element, 0.f);
+	return std::unique_ptr<Simple_AI>(new Linear_AI(path, time_offset));
 }
