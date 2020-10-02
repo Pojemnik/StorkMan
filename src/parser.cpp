@@ -493,6 +493,32 @@ void Parser::parse_additional_animations(string path)
 	}
 }
 
+Entity_config Parser::parse_entity_config(string path)
+{
+	std::ifstream raw_file(path);
+	if (!raw_file.is_open())
+	{
+		throw std::runtime_error("Can't open entity config file!");
+	}
+	std::stringstream file = util::remove_comments(raw_file);
+	Entity_config config;
+	file >> config.tree_file;
+	for (int i = 0; i < ANIMATIONS_N; i++)
+	{
+		string s;
+		file >> s;
+		config.animation_files.push_back(s);
+	}
+	Vectorf temp;
+	for (int i = 0; i < 4; i++)
+	{
+		file >> temp.x >> temp.y;
+		config.mesh.push_back(temp);
+	}
+	file >> config.max_hp >> config.height.first >> config.height.second;
+	return config;
+}
+
 std::pair<int, std::shared_ptr<Moving_platform>> Parser::parse_old_moving_platform(tinyxml2::XMLElement* element)
 {
 	try

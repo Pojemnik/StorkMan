@@ -89,6 +89,7 @@ void Hp_bar::set_max_hp(int new_max_hp)
 
 void Hp_bar::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
+	(void)states; //Unused
 	target.draw(bot.bar);
 	target.draw(mid.bar);
 	target.draw(top.bar);

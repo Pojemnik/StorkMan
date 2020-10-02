@@ -124,6 +124,13 @@ damage_zone:
 		znaczniki <d> opisujące sekwencję zadawania obrażeń przez strefę
 	
 	uwagi: Strefy obrażeń nie powinny się nakładać
+	
+barrier:
+	atrybuty:
+		position - pozycja [m]
+		
+	zawartość:
+		znaczniki <v> opisujące kolejne wierzchołki
 		
 v:
 	zawartość - obrażenia zadawane przez strefę, długość okresu zadawanie tych obrażeń

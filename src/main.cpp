@@ -154,15 +154,17 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	context.console->log << "done!" << '\n';
 
 	//Player
+	Entity_config storkman_config = parser.parse_entity_config("data/storkman.txt");
+	auto animations = assets.load_dynamic_animations(storkman_config.animation_files);
+	const auto stork_tree = assets.load_animation_tree(storkman_config.tree_file);
 	auto animation = std::make_unique<Dynamic_animation>(assets.pieces, assets.pieces_rect,
-		assets.dynamic_animations, assets.stork_tree);
-	std::vector<Vectorf> mesh = { {-20, -37}, {-2, -37}, {-2, 23}, {-20, 23} };
-	Physical physical(std::move(mesh), { 15 * context.global_scale,
+		*animations, stork_tree);
+	Physical physical(std::move(storkman_config.mesh), { 15 * context.global_scale,
 		5 * context.global_scale });
 	auto machine = std::make_unique<Entity_state_machine>(new Idle_state());
 	auto controller = std::make_unique<Player_controller>();
 	Entity player(std::move(animation), physical, std::move(machine),
-		std::move(controller), { 1.92f, 350 }, 1000);
+		std::move(controller), storkman_config.height, storkman_config.max_hp);
 	map.add_entity(&player);
 
 	//Config file

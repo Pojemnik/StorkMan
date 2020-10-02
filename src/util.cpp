@@ -2,6 +2,25 @@
 
 struct Context context;
 
+std::stringstream util::remove_comments(std::ifstream& file)
+{
+	std::stringstream ss;
+	while (!file.eof())
+	{
+		string s;
+		std::getline(file, s);
+		const char* white_space = " \t\v\r\n";
+		std::size_t start = s.find_first_not_of(white_space);
+		if (start == string::npos)
+			continue;
+		s = s.substr(start);
+		if (s[0] != '#')
+		{
+			ss << s << '\n';
+		}
+	}
+	return ss;
+}
 
 std::string util::pass_or_default(std::string val, std::string default_val)
 {
