@@ -31,6 +31,11 @@ void Map::call_on_considered_levels(std::function<void(Level&)> foo)
 	}
 }
 
+void Map::make_zones_interactions()
+{
+	call_on_considered_levels(std::bind(&Level::make_zones_interactions, std::placeholders::_1, entities));
+}
+
 Map::Map(Vectori size_, Vectori pos, const sf::Texture* bg_tex) : size(size_),
 current_pos(pos), background(*bg_tex)
 {
@@ -149,7 +154,7 @@ void Map::update(float dt, Vectorf player_pos, sf::FloatRect screen_rect)
 	}
 	update_levels(dt, screen_rect);
 	resolve_collisions();
-	//TODO: Dealing damage from enviroment
+	make_zones_interactions();
 }
 
 void Map::add_entity(Entity* entity)

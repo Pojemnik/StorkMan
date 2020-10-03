@@ -75,46 +75,27 @@ void Moving_animated_object::update(float dt)
 	ai->calc_pos(dt);
 }
 
-Zone::Zone(const std::vector<Vectorf>& vert, Vectorf p) : vertices(vert), pos(p)
-{
-	static int next_id(0);
-	id = next_id++;
-	center = { 0,0 };
-	max_x = -INFINITY;
-	for (auto it : vertices)
-	{
-		if (it.x > max_x)
-			max_x = it.x;
-		center += it;
-	}
-	max_x += pos.x;
-	center = { center.x / vertices.size(), center.y / vertices.size() };
-	bound = util::mesh_to_rect(vertices);
-}
-
-Zone::Zone(std::vector<Vectorf>& vert, Vectorf p) : Zone((const std::vector<Vectorf>)vert, p)
-{}
-
-bool Zone::contains(Vectorf p)
-{
-	return(util::contained_in_polygon(p - pos, max_x, vertices));
-}
+Zone::Zone(std::vector<Vectorf>& vert, Vectorf pos_) : pos(pos_),
+	collision(std::move(vert), pos_) {}
 
 sf::FloatRect Zone::get_bounding_rect() const
 {
-	return bound;
+	return collision.rect;
 }
 
 Damage_zone::Damage_zone(std::vector<Vectorf>& vert, Vectorf p,
-	std::vector<std::pair<int, int>>& dmg) : Zone(vert, p), damage(dmg),
-	bounds(util::mesh_to_rect(vert))
+	std::vector<std::pair<int, float>>& dmg) : Zone(vert, p), damage(dmg)
 {
 	current_damage = damage.begin();
 }
 
-sf::FloatRect Damage_zone::get_bounding_rect() const
+void Damage_zone::interact(Entity& entity)
 {
-	return bounds;
+	bool present = contained.insert(&entity).second;
+	if (changed_damage || !present)
+	{
+		entity.deal_damage(current_damage->first);
+	}
 }
 
 void Damage_zone::update(float dt)

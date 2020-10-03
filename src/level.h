@@ -46,6 +46,7 @@ public:
 	void draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_border(sf::RenderTarget& target, sf::RenderStates states) const;
 	void resolve_collisions(Entity& entity) const;
+	void make_zones_interactions(Entity& entity) const;
 	sf::FloatRect get_bounding_rect() const;
 };
 
@@ -68,5 +69,6 @@ public:
 	void resolve_collisions(std::vector<Entity*>& entities);
 	void set_draw_border(bool draw);//Currently unused
 	void set_draw_chunks_borders(bool draw);
+	void make_zones_interactions(std::vector<Entity*>& entities);
 	Vectori get_global_pos() const;
 };

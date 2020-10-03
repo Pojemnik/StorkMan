@@ -3,6 +3,7 @@
 #include "interpreter.h"
 #include "ui.h"
 #include "control.h"
+#include "entity_states.h"
 
 const std::string VERSION = "pre-alpha 0.4.???";
 
@@ -152,7 +153,8 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	auto machine = std::make_unique<Entity_state_machine>(new Idle_state());
 	auto controller = std::make_unique<Player_controller>();
 	Entity player(std::move(animation), physical, std::move(machine),
-		std::move(controller), storkman_config.height, storkman_config.max_hp);
+		std::move(controller), storkman_config.height, storkman_config.max_hp,
+		Entity_type::PLAYER);
 	map.add_entity(&player);
 
 	//Config file

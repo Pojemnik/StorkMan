@@ -55,6 +55,20 @@ void Map_chunk::resolve_collisions(Entity& entity) const
 	entity.resolve_collision(collidables);
 }
 
+void Map_chunk::make_zones_interactions(Entity& entity) const
+{
+	for (auto& it : zones)
+	{
+		if (it->get_bounding_rect().intersects(entity.get_collision()->rect))
+		{
+			if (coll::test_bollean(*entity.get_collision(), it->collision))
+			{
+				it->interact(entity);
+			}
+		}
+	}
+}
+
 Map_chunk::Map_chunk(std::vector<std::shared_ptr<Updatable>>&& updatables_,
 	std::vector<std::pair<int, std::shared_ptr<Renderable>>>&& drawables_,
 	std::vector<std::shared_ptr<const Collidable>>&& collidables_,
@@ -242,6 +256,17 @@ void Level::set_draw_border(bool draw)
 void Level::set_draw_chunks_borders(bool draw)
 {
 	draw_chunks_borders = draw;
+}
+
+void Level::make_zones_interactions(std::vector<Entity*>& entities)
+{
+	for (auto& it : entities)
+	{
+		for (const auto& chunk_it : chunks)
+		{
+			chunk_it.make_zones_interactions(*it);
+		}
+	}
 }
 
 Vectori Level::get_global_pos() const

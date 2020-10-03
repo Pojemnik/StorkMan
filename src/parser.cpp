@@ -747,7 +747,7 @@ std::shared_ptr <Damage_zone> Parser::parse_damage_zone(tinyxml2::XMLElement* el
 		Vectorf pos = get_and_parse_var<Vectorf>("position", element);
 		pos *= context.global_scale;
 		tinyxml2::XMLElement* e = element->FirstChildElement();
-		std::vector<std::pair<int, int>> dmg;
+		std::vector<std::pair<int, float>> dmg;
 		while (e != NULL)
 		{
 			string n = e->Name();
@@ -759,8 +759,8 @@ std::shared_ptr <Damage_zone> Parser::parse_damage_zone(tinyxml2::XMLElement* el
 			}
 			if (n == "d")
 			{
-				Vectori d = parse_var<Vectori>(e->GetText());
-				dmg.push_back({ d.x, d.y });
+				Vectorf d = parse_var<Vectorf>(e->GetText());
+				dmg.push_back({ static_cast<int>(d.x), d.y });
 			}
 			e = e->NextSiblingElement();
 		}

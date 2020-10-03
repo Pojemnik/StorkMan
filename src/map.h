@@ -14,6 +14,7 @@ class Map
 	void update_levels(float dt, sf::FloatRect screen_rect);
 	void resolve_collisions();
 	void call_on_considered_levels(std::function<void(Level&)> foo);
+	void make_zones_interactions();
 
 public:
 	Map(Vectori size_, Vectori pos, const sf::Texture* bg_tex);

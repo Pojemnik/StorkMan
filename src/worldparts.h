@@ -1,8 +1,11 @@
 #pragma once
+#include <unordered_set>
+
 #include "collisions.h"
 #include "logic.h"
 #include "animations.h"
 #include "interfaces.h"
+#include "entities.h"
 
 struct Object : public Renderable, public Map_object
 {
@@ -46,7 +49,6 @@ public:
 
 class Moving_animated_object : public Animated_object
 {
-private:
 	std::unique_ptr<Simple_AI> ai;
 
 public:
@@ -59,43 +61,29 @@ public:
 
 class Zone : public Map_object
 {
-	sf::FloatRect bound;
+protected:
+	std::unordered_set<Entity*, std::hash<Entity*>, Compare_entities> contained;
+	Vectorf pos;
 
 public:
-	std::vector<Vectorf> vertices;
-	Vectorf pos;
-	Vectorf center;
-	float max_x;
-	int id;
+	Collision collision;
 
-	Zone(const std::vector<Vectorf>& vert, Vectorf p);
 	Zone(std::vector<Vectorf>& vert, Vectorf p);
-	bool contains(Vectorf p);
+	virtual void interact(Entity& entity) = 0;
 	virtual sf::FloatRect get_bounding_rect() const;
 };
 
 class Damage_zone : public Zone, public Updatable
 {
-	std::vector<std::pair<int, int>> damage;
+	std::vector<std::pair<int, float>> damage;
 	float time = 0;
-	sf::FloatRect bounds;
+	bool changed_damage = false;
+	std::vector<std::pair<int, float>>::iterator current_damage;
 
 public:
-	std::vector<std::pair<int, int>>::iterator current_damage;
-	bool changed_damage = false;
 
-	void update(float dt);
 	Damage_zone(std::vector<Vectorf>& vert, Vectorf p,
-		std::vector<std::pair<int, int>>& dmg);
-	virtual sf::FloatRect get_bounding_rect() const;
+		std::vector<std::pair<int, float>>& dmg);
+	void update(float dt);
+	virtual void interact(Entity& entity);
 };
-
-inline bool operator==(const Damage_zone& lhs, const Damage_zone& rhs)
-{
-	return lhs.id == rhs.id;
-}
-
-inline bool operator!=(const Damage_zone& lhs, const Damage_zone& rhs)
-{
-	return !(lhs == rhs);
-}

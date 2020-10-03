@@ -7,24 +7,22 @@
 #include "logic.h"
 #include "animations.h"
 #include "messaging.h"
+#include "control.h"
 
 enum class Entity_state_info {PUSH, POP, REPLACE, NONE};
+enum class Entity_type { PLAYER };
 
 class Entity_state_machine;
 
-struct Command
-{
-	enum class Command_type { JUMP, STOP_JUMP, MOVE, STOP_MOVE } type;
-	std::variant<int> args;
-};
+class Entity_id
+{	
+	Entity_type type;
+	int id;
 
-class Controller
-{
 public:
-	virtual Command pop_command() = 0;
-	virtual bool command_available() = 0;
-	virtual void update(float dt) = 0;
-	virtual ~Controller() {}
+	Entity_id(Entity_type type_);
+	Entity_type get_type() const;
+	int get_id() const;
 };
 
 class Entity : public Updatable, public Collidable, public Message_sender, public Renderable
@@ -53,6 +51,7 @@ public:
 	Vectorf collision_vector;
 	Surface_type surface;
 	bool on_ground;
+	Entity_id id;
 
 	void set_draw_collision(bool draw);
 	void set_jump_force(float new_force);
@@ -75,7 +74,16 @@ public:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	Entity(std::unique_ptr<Animation>&& animation_, Physical& physical_,
 		std::unique_ptr<Entity_state_machine>&& state_,
-		std::unique_ptr<Controller>&& controller_, std::pair<float, int> height_, int health_);
+		std::unique_ptr<Controller>&& controller_, std::pair<float, int> height_,
+		int health_, Entity_type type);
+};
+
+struct Compare_entities
+{
+	bool operator() (Entity* const &lhs, Entity* const &rhs) const
+	{
+		return (lhs->id.get_id() == rhs->id.get_id());
+	}
 };
 
 struct Entity_state
@@ -84,49 +92,6 @@ struct Entity_state
 	virtual void exit(Entity& entity) { (void)entity; /*Unused*/ };
 	virtual std::pair<Entity_state*, Entity_state_info> update(Entity& entity, float dt) = 0;
 	virtual ~Entity_state() {};
-};
-
-struct Run_state : public Entity_state
-{
-	void enter(Entity& entity);
-	std::pair<Entity_state*, Entity_state_info> update(Entity& entity, float dt);
-};
-
-struct Jump_state : public Entity_state
-{
-	float time_sum = 0.f;
-	const float ASCENDING_TIME = 10.f;
-	virtual void enter(Entity& entity);
-	virtual std::pair<Entity_state*, Entity_state_info> update(Entity& entity, float dt);
-};
-
-struct Idle_jump_state : public Jump_state
-{
-	void enter(Entity& entity);
-};
-
-struct Run_jump_state : public Jump_state
-{
-	void enter(Entity& entity);
-};
-
-struct Idle_state : public Entity_state
-{
-	void enter(Entity& entity);
-	std::pair<Entity_state*, Entity_state_info> update(Entity& entity, float dt);
-};
-
-struct Die_state : public Entity_state
-{
-	void enter(Entity& entity);
-	void exit(Entity& entity);
-	std::pair<Entity_state*, Entity_state_info> update(Entity& entity, float dt);
-};
-
-struct In_air_state : public Entity_state
-{
-	void enter(Entity& entity);
-	std::pair<Entity_state*, Entity_state_info> update(Entity& entity, float dt);
 };
 
 class Entity_state_machine

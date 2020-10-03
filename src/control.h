@@ -1,6 +1,23 @@
 #pragma once
-#include "entities.h"
+#include <variant>
 #include <queue>
+
+#include "util.h"
+
+struct Command
+{
+	enum class Command_type { JUMP, STOP_JUMP, MOVE, STOP_MOVE } type;
+	std::variant<int> args;
+};
+
+class Controller
+{
+public:
+	virtual Command pop_command() = 0;
+	virtual bool command_available() = 0;
+	virtual void update(float dt) = 0;
+	virtual ~Controller() {}
+};
 
 class Player_controller : public Controller
 {
