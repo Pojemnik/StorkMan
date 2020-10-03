@@ -59,13 +59,8 @@ void Map_chunk::make_zones_interactions(Entity& entity) const
 {
 	for (auto& it : zones)
 	{
-		if (it->get_bounding_rect().intersects(entity.get_collision()->rect))
-		{
-			if (coll::test_bollean(*entity.get_collision(), it->collision))
-			{
-				it->interact(entity);
-			}
-		}
+
+		it->interact(entity);
 	}
 }
 
@@ -92,7 +87,7 @@ Map_chunk::Map_chunk(std::vector<std::shared_ptr<Updatable>>&& updatables_,
 		top_layers[it.first - BOTTOM_LAYERS - MIDDLE_LAYERS].push_back(it.second);
 	}
 	border.setPosition(bound.left, bound.top);
-	border.setSize({bound.width, bound.height});
+	border.setSize({ bound.width, bound.height });
 	border.setOutlineColor(sf::Color::Green);
 	border.setFillColor(sf::Color::Transparent);
 	border.setOutlineThickness(1);

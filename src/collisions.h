@@ -5,7 +5,7 @@
 
 #include "util.h"
 
-enum class Surface_type : int {NONE = 0, GRASS, CONCRETE};
+enum class Surface_type : int {NONE = 0, GRASS, CONCRETE, ICE};
 
 struct Collision
 {

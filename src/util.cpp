@@ -29,7 +29,7 @@ std::string util::pass_or_default(std::string val, std::string default_val)
 
 sf::Vector2f util::normalize(sf::Vector2f x, float l)
 {
-	return x / float(sqrt(x.x * x.x + x.y * x.y) * l);
+	return x / std::hypot(x.x, x.y) * l;
 }
 
 sf::Vector2f util::get_axis_normal(const std::vector<sf::Vector2f>& a,
@@ -187,7 +187,7 @@ sf::FloatRect util::mesh_to_rect(const std::vector<Vectorf>& vertices)
 	float maxx, maxy, miny, minx;
 	maxx = minx = vertices[0].x;
 	maxy = miny = vertices[0].y;
-	for (const auto &it : vertices)
+	for (const auto& it : vertices)
 	{
 		if (it.x < minx)
 			minx = it.x;

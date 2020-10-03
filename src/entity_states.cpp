@@ -166,7 +166,10 @@ std::pair<Entity_state*, Entity_state_info> Die_state::update(Entity& entity, fl
 
 void In_air_state::enter(Entity& entity)
 {
-	(void)entity; //Unused
+	if (entity.get_current_animation() == Animation_index::MOVE)
+	{
+		entity.set_animation(Animation_index::IDLE);
+	}
 	std::cout << "In air enter" << std::endl;
 }
 

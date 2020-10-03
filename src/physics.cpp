@@ -25,11 +25,29 @@ void Physical::update(float dt)
 	temp_delta = -temp_delta;
 	if (temp_delta != Vectorf(0, 0))
 	{
-		//float k = util::vector_dot_product(speed, temp_delta) /
-		//	util::vector_dot_product(temp_delta, temp_delta);
-		//if (k > 0)
-		//	speed -= temp_delta * k;
-		delta_pos += temp_delta;
+		float k = util::vector_dot_product(speed, temp_delta) /
+			util::vector_dot_product(temp_delta, temp_delta);
+		if (k < 0)
+		{
+			if (surface == Surface_type::ICE)
+			{
+				speed -= temp_delta * k;
+				speed *= 0.9f;
+			}
+			else
+			{
+				if (abs(temp_delta.x) > 0.0001 && temp_delta.x * speed.x < 0)
+				{
+					speed.x = 0;
+				}
+				if (abs(temp_delta.y) > 0.0001 && temp_delta.y * speed.y < 0)
+				{
+					speed.y = 0;
+				}
+
+			}
+		}
+		delta_pos += temp_delta- util::normalize(temp_delta,2.0f);
 	}
 	delta_pos += speed * dt;
 	pos += delta_pos;
@@ -39,22 +57,20 @@ void Physical::update(float dt)
 	{
 		it += delta_pos;
 	}
-	acceleration = { 0,0 };
-	collision_vector = temp_delta;
-	temp_delta = Vectorf(0, 0);
-	delta_pos = Vectorf(0, 0);
 	last_on_ground = on_ground;
-	if (util::vector_dot_product({ 0,-1 }, collision_vector) /
-		(std::hypot(collision_vector.x, collision_vector.y)) > 0.5f)
+	if (util::vector_dot_product({ 0,-1 }, temp_delta) /
+		(std::hypot(temp_delta.x, temp_delta.y)) > 0.2f)
 	{
 		on_ground = true;
-		speed.y = 0;
 	}
 	else
 	{
 		on_ground = false;
 	}
 	collision.calculate_min_max_arr();
+	acceleration = { 0,0 };
+	temp_delta = Vectorf(0, 0);
+	delta_pos = Vectorf(0, 0);
 	surface = Surface_type::NONE;
 	max_up = -1.f;
 }

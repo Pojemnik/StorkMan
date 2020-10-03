@@ -136,8 +136,8 @@ void Entity::update(float dt)
 	surface = temp.second;
 	on_ground = physical.is_on_ground();
 	controller->update(dt);
-	physical.update(dt);
 	state->update(*this, dt);
+	physical.update(dt);
 	sprite.setPosition(physical.get_pos());
 	animation->next_frame(dt);
 	sprite.setTexture(*animation->get_texture());

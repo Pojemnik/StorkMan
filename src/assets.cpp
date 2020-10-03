@@ -330,8 +330,8 @@ void Assets::load_assets()
 	//Icon
 	icon.loadFromFile("img/ikona.png");
 	//Fonts
-	storkfont.loadFromFile("StorkFont.ttf");
-	consola.loadFromFile("consola.ttf");
+	storkfont.loadFromFile("data/fonts/StorkFont.ttf");
+	consola.loadFromFile("data/fonts/consola.ttf");
 	//Sounds and music
 	load_sounds();
 }

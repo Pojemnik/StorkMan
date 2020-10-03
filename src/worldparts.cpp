@@ -91,11 +91,19 @@ Damage_zone::Damage_zone(std::vector<Vectorf>& vert, Vectorf p,
 
 void Damage_zone::interact(Entity& entity)
 {
-	bool present = contained.insert(&entity).second;
-	if (changed_damage || !present)
+	if (get_bounding_rect().intersects(entity.get_collision()->rect))
 	{
-		entity.deal_damage(current_damage->first);
+		if (coll::test_bollean(*entity.get_collision(), collision))
+		{
+			bool present = contained.insert(&entity).second;
+			if (changed_damage || present)
+			{
+				entity.deal_damage(current_damage->first);
+			}
+			return;
+		}
 	}
+	contained.erase(&entity);
 }
 
 void Damage_zone::update(float dt)

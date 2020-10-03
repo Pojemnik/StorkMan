@@ -80,7 +80,7 @@ public:
 
 struct Compare_entities
 {
-	bool operator() (Entity* const &lhs, Entity* const &rhs) const
+	bool operator() (Entity const* lhs, Entity const* rhs) const
 	{
 		return (lhs->id.get_id() == rhs->id.get_id());
 	}
