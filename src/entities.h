@@ -46,7 +46,6 @@ protected:
 public:
 	std::unique_ptr<Controller> controller;
 	int health;
-	int last_dmgz_id = -1;
 	int direction = 1;//x sign
 	Vectorf collision_vector;
 	Surface_type surface;

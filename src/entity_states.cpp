@@ -41,8 +41,8 @@ std::pair<Entity_state*, Entity_state_info> Run_state::update(Entity& entity, fl
 			break;
 		}
 	}
-	entity.move(entity.direction);
 	entity.apply_force({ 0, context.gravity });
+	entity.move(entity.direction);
 	return std::make_pair(nullptr, Entity_state_info::NONE);
 }
 

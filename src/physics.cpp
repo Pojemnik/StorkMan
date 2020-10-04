@@ -40,14 +40,13 @@ void Physical::update(float dt)
 				{
 					speed.x = 0;
 				}
-				if (abs(temp_delta.y) > 0.0001 && temp_delta.y * speed.y < 0)
+				if (abs(temp_delta.y) > 0.1 && temp_delta.y * speed.y < 0)
 				{
 					speed.y = 0;
 				}
-
 			}
 		}
-		delta_pos += temp_delta- util::normalize(temp_delta,2.0f);
+		delta_pos += temp_delta - util::normalize(temp_delta, 2.0f);
 	}
 	delta_pos += speed * dt;
 	pos += delta_pos;
@@ -58,8 +57,7 @@ void Physical::update(float dt)
 		it += delta_pos;
 	}
 	last_on_ground = on_ground;
-	if (util::vector_dot_product({ 0,-1 }, temp_delta) /
-		(std::hypot(temp_delta.x, temp_delta.y)) > 0.2f)
+	if(max_up < 0)
 	{
 		on_ground = true;
 	}
@@ -72,7 +70,7 @@ void Physical::update(float dt)
 	temp_delta = Vectorf(0, 0);
 	delta_pos = Vectorf(0, 0);
 	surface = Surface_type::NONE;
-	max_up = -1.f;
+	max_up = 1.f;
 }
 
 void Physical::apply_force(Vectorf force_)
@@ -94,7 +92,7 @@ void Physical::resolve_collision(const std::vector<std::shared_ptr<const Collida
 		{
 			float up = util::vector_dot_product({ 0,-1 }, temp_delta) /
 				(std::hypot(temp_delta.x, temp_delta.y));
-			if (up > max_up)
+			if (up < max_up)
 			{
 				max_up = up;
 				surface = it->get_collision()->surface;
@@ -115,7 +113,7 @@ void Physical::resolve_collision(const Collidable& other)
 	{
 		float up = util::vector_dot_product({ 0,-1 }, temp_delta) /
 			(std::hypot(temp_delta.x, temp_delta.y));
-		if (up > max_up)
+		if (up < max_up)
 		{
 			max_up = up;
 			surface = other.get_collision()->surface;

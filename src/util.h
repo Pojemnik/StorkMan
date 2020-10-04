@@ -29,7 +29,7 @@ struct Context
 	bool draw_damage_zones = false;
 	bool god_mode = false;
 	float fps = 60.f;
-	float gravity = 1; //22
+	float gravity = 2; //22
 	float jump_force = 775.f;
 	float global_scale = 32;	//[px/m]
 	float player_move_speed = 8.f;

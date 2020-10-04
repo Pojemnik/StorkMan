@@ -1,4 +1,6 @@
 #pragma once
+#include <iostream>
+
 #include "collisions.h"
 #include "interfaces.h"
 
@@ -13,7 +15,7 @@ class Physical : public Updatable, public Collidable
 	Surface_type surface;
 	bool on_ground = false;
 	bool last_on_ground = false;
-	float max_up = -1.f;
+	float max_up = 1.f;
 	Vectorf temp_delta = { 0,0 };
 
 	void reset_physics();
