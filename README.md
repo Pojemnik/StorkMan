@@ -1,21 +1,41 @@
 # Storkman
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/Pojemnik/StorkMan??style=flat-square)
 
-![Storkman village](docs/stork_idle.gif)
-
-Storkman is a 2D metroidvania game. Main goal of the project is to learn new things.
-
 ![Logo](/docs/logo.png)
+
+## Main Informations
+Storkman is a 2D metroidvania game. Main goal of the project is to gain experience and learn new abilities.
+That's how it looks at the moment:
+
+![Storkman trailer](docs/readme_film.gif)
 
 ## Features:
 - Vector based graphics engine
 - Key frames based animations system
 - Open world (coming soon)
+- Close combat system (coming soon)
+
+## Authors:
+Adam "Gahlammon" Dachtera - graphics, music, level design and game concept
+Andrzej "Pojemnik" Gauza - game concept and programming
+Tobiasz "IlaMoCLitTMW" Szulc - programming
+
+## About project:
+Stork'man is our team very first game. We're schoolmates from an IT class and we decided (somehow) to create a game together. Pojemnik and IlaMoCLitTMW were already working with some smaller projects before. Gahlammon joined them to take care of everything but programming. The idea of a hero called The Distinguished Stork'man was born during one phisics lesson and now we're trying to build a game from this joke. We're learning how it is to work on such a big project, fight with naughty code and to decide which of our wishes are really worth to come true. Also, we have to learn how to work together remotely because of different locations and pandemics.
+
+## Coming:
+Tough to say. Maybe July 2021. We hope so.
 
 ## Technologies:
 - SFML 2.5.1
 
-## Screenshots:
-![Screenshot 1](/docs/screen1.png)
-![Screenshot 2](/docs/screen2.png)
-![Screenshot 3](/docs/screen3.png)
+## Tools:
+- Visual Studio
+- GIMP
+- VirtualDub
+- BRELS MIDI editor
+- Birdfont
+
+## Languages:
+- C++ for everything but level design
+- Python for level design
