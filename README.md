@@ -16,9 +16,9 @@ That's how it looks at the moment:
 - Close combat system (coming soon)
 
 ## Authors:
-Adam "Gahlammon" Dachtera - graphics, music, level design and game concept
-Andrzej "Pojemnik" Gauza - game concept and programming
-Tobiasz "IlaMoCLitTMW" Szulc - programming
+- Adam "Gahlammon" Dachtera - graphics, music, level design and game concept
+- Andrzej "Pojemnik" Gauza - game concept and programming
+- Tobiasz "IlaMoCLitTMW" Szulc - programming
 
 ## About project:
 Stork'man is our team very first game. We're schoolmates from an IT class and we decided (somehow) to create a game together. Pojemnik and IlaMoCLitTMW were already working with some smaller projects before. Gahlammon joined them to take care of everything but programming. The idea of a hero called The Distinguished Stork'man was born during one phisics lesson and now we're trying to build a game from this joke. We're learning how it is to work on such a big project, fight with naughty code and to decide which of our wishes are really worth to come true. Also, we have to learn how to work together remotely because of different locations and pandemics.
