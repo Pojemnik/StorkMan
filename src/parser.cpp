@@ -156,31 +156,31 @@ Level Parser::parse_level(tinyxml2::XMLElement* root, Vectori global_pos)
 		string name = element->Name();
 		if (name == "chunk")
 		{
-			chunks.push_back(parse_chunk(element));
+			chunks.push_back(parse_chunk(element, global_pos));
 		}
 		else if (name == "animated_object")
 		{
-			auto [layer, ptr] = parse_animated_object(element);
+			auto [layer, ptr] = parse_animated_object(element, global_pos);
 			moving.emplace_back(std::static_pointer_cast<Updatable>(ptr), layer);
 		}
 		else if (name == "damage_zone")
 		{
-			auto ptr = parse_damage_zone(element);
+			auto ptr = parse_damage_zone(element, global_pos);
 			moving.emplace_back(std::static_pointer_cast<Updatable>(ptr));
 		}
 		else if (name == "pendulum")
 		{
-			auto [layer, ptr] = parse_pendulum(element);
+			auto [layer, ptr] = parse_pendulum(element, global_pos);
 			moving.emplace_back(std::static_pointer_cast<Updatable>(ptr), layer);
 		}
 		else if (name == "old_moving_platform")
 		{
-			auto [layer, ptr] = parse_old_moving_platform(element);
+			auto [layer, ptr] = parse_old_moving_platform(element, global_pos);
 			moving.emplace_back(std::static_pointer_cast<Updatable>(ptr), layer);
 		}
 		else if (name == "old_moving_object")
 		{
-			auto [layer, ptr] = parse_old_moving_object(element);
+			auto [layer, ptr] = parse_old_moving_object(element, global_pos);
 			moving.emplace_back(std::static_pointer_cast<Updatable>(ptr), layer);
 		}
 		element = element->NextSiblingElement();
@@ -188,7 +188,7 @@ Level Parser::parse_level(tinyxml2::XMLElement* root, Vectori global_pos)
 	return Level(std::move(chunks), std::move(moving), global_pos);
 }
 
-Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root)
+Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root, Vectori level_pos)
 {
 	std::vector<std::shared_ptr<Updatable>> updatables;
 	std::vector<std::pair<int, std::shared_ptr<Renderable>>> drawables;
@@ -201,40 +201,40 @@ Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root)
 		string name = element->Name();
 		if (name == "platform")
 		{
-			auto [layer, ptr] = parse_platform(element);
+			auto [layer, ptr] = parse_platform(element, level_pos);
 			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
 			collidables.push_back(std::static_pointer_cast<Collidable>(ptr));
 			map_objects.push_back(std::static_pointer_cast<Map_object>(ptr));
 		}
 		else if (name == "wall")
 		{
-			auto [layer, ptr] = parse_wall(element);
+			auto [layer, ptr] = parse_wall(element, level_pos);
 			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
 			map_objects.push_back(std::static_pointer_cast<Map_object>(ptr));
 		}
 		else if (name == "object")
 		{
-			auto [layer, ptr] = parse_object(element);
+			auto [layer, ptr] = parse_object(element, level_pos);
 			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
 			map_objects.push_back(std::static_pointer_cast<Map_object>(ptr));
 		}
 		else if (name == "animated_object")
 		{
-			auto [layer, ptr] = parse_animated_object(element);
+			auto [layer, ptr] = parse_animated_object(element, level_pos);
 			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
 			updatables.push_back(std::static_pointer_cast<Updatable>(ptr));
 			map_objects.push_back(std::static_pointer_cast<Map_object>(ptr));
 		}
 		else if (name == "damage_zone")
 		{
-			auto ptr = parse_damage_zone(element);
+			auto ptr = parse_damage_zone(element, level_pos);
 			updatables.push_back(std::static_pointer_cast<Updatable>(ptr));
 			zones.push_back(std::static_pointer_cast<Zone>(ptr));
 			map_objects.push_back(std::static_pointer_cast<Map_object>(ptr));
 		}
 		else if (name == "pendulum")
 		{
-			auto [layer, ptr] = parse_pendulum(element);
+			auto [layer, ptr] = parse_pendulum(element, level_pos);
 			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
 			updatables.push_back(std::static_pointer_cast<Updatable>(ptr));
 			collidables.push_back(std::static_pointer_cast<Collidable>(ptr));
@@ -242,7 +242,7 @@ Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root)
 		}
 		else if (name == "old_moving_platform")
 		{
-			auto [layer, ptr] = parse_old_moving_platform(element);
+			auto [layer, ptr] = parse_old_moving_platform(element, level_pos);
 			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
 			updatables.push_back(std::static_pointer_cast<Updatable>(ptr));
 			collidables.push_back(std::static_pointer_cast<Collidable>(ptr));
@@ -250,7 +250,7 @@ Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root)
 		}
 		else if (name == "moving_platform")
 		{
-			auto [layer, ptr] = parse_moving_platform(element);
+			auto [layer, ptr] = parse_moving_platform(element, level_pos);
 			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
 			updatables.push_back(std::static_pointer_cast<Updatable>(ptr));
 			collidables.push_back(std::static_pointer_cast<Collidable>(ptr));
@@ -258,21 +258,21 @@ Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root)
 		}
 		else if (name == "old_moving_object")
 		{
-			auto [layer, ptr] = parse_old_moving_object(element);
+			auto [layer, ptr] = parse_old_moving_object(element, level_pos);
 			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
 			updatables.push_back(std::static_pointer_cast<Updatable>(ptr));
 			map_objects.push_back(std::static_pointer_cast<Map_object>(ptr));
 		}
 		else if (name == "moving_object")
 		{
-			auto [layer, ptr] = parse_moving_object(element);
+			auto [layer, ptr] = parse_moving_object(element, level_pos);
 			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
 			updatables.push_back(std::static_pointer_cast<Updatable>(ptr));
 			map_objects.push_back(std::static_pointer_cast<Map_object>(ptr));
 		}
 		else if (name == "barrier")
 		{
-			auto ptr = parse_barrier(element);
+			auto ptr = parse_barrier(element, level_pos);
 			collidables.push_back(std::static_pointer_cast<Collidable>(ptr));
 			map_objects.push_back(std::static_pointer_cast<Map_object>(ptr));
 		}
@@ -284,13 +284,16 @@ Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root)
 
 }
 
-std::pair<int, std::shared_ptr<Platform>> Parser::parse_platform(tinyxml2::XMLElement* element)
+std::pair<int, std::shared_ptr<Platform>>
+Parser::parse_platform(tinyxml2::XMLElement* element, Vectori level_pos)
 {
 	try
 	{
 		string val = get_attribute_by_name("texture", element);
 		const sf::Texture* tex = assets->textures.at(val);
 		Vectorf pos = get_and_parse_var<Vectorf>("position", element);
+		pos += Vectorf(level_pos.x * context.level_size.x,
+			level_pos.y * context.level_size.y);
 		pos *= context.global_scale;
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		std::vector<sf::Vertex> points =
@@ -313,11 +316,14 @@ std::pair<int, std::shared_ptr<Platform>> Parser::parse_platform(tinyxml2::XMLEl
 	throw std::runtime_error("Platform error");
 }
 
-std::pair<int, std::shared_ptr<Textured_polygon>> Parser::parse_wall(tinyxml2::XMLElement* element)
+std::pair<int, std::shared_ptr<Textured_polygon>> 
+Parser::parse_wall(tinyxml2::XMLElement* element, Vectori level_pos)
 {
 	try
 	{
 		Vectorf pos = get_and_parse_var<Vectorf>("position", element);
+		pos += Vectorf(level_pos.x * context.level_size.x,
+			level_pos.y * context.level_size.y);
 		pos *= context.global_scale;
 		string val = get_attribute_by_name("texture", element);
 		const sf::Texture* tex = assets->textures.at(val);
@@ -342,11 +348,14 @@ std::pair<int, std::shared_ptr<Textured_polygon>> Parser::parse_wall(tinyxml2::X
 	throw std::runtime_error("Textured_polygon error");
 }
 
-std::pair<int, std::shared_ptr<Object>> Parser::parse_object(tinyxml2::XMLElement* element)
+std::pair<int, std::shared_ptr<Object>> 
+Parser::parse_object(tinyxml2::XMLElement* element, Vectori level_pos)
 {
 	try
 	{
 		Vectorf pos = get_and_parse_var<Vectorf>("position", element);
+		pos += Vectorf(level_pos.x * context.level_size.x,
+			level_pos.y * context.level_size.y);
 		pos *= context.global_scale;
 		string val = get_attribute_by_name("texture", element);
 		const sf::Texture* tex = assets->textures.at(val);
@@ -364,11 +373,14 @@ std::pair<int, std::shared_ptr<Object>> Parser::parse_object(tinyxml2::XMLElemen
 	throw std::runtime_error("Object error");
 }
 
-std::pair<int, std::shared_ptr<Animated_object>> Parser::parse_animated_object(tinyxml2::XMLElement* element)
+std::pair<int, std::shared_ptr<Animated_object>> 
+Parser::parse_animated_object(tinyxml2::XMLElement* element, Vectori level_pos)
 {
 	try
 	{
 		Vectorf pos = get_and_parse_var<Vectorf>("position", element);
+		pos += Vectorf(level_pos.x * context.level_size.x,
+			level_pos.y * context.level_size.y);
 		pos *= context.global_scale;
 		string val = get_attribute_by_name("texture", element);
 		std::vector<sf::Texture>* tex = &assets->animations.at(val);
@@ -512,13 +524,16 @@ Entity_config Parser::parse_entity_config(string path)
 	return config;
 }
 
-std::pair<int, std::shared_ptr<Moving_platform>> Parser::parse_old_moving_platform(tinyxml2::XMLElement* element)
+std::pair<int, std::shared_ptr<Moving_platform>> 
+Parser::parse_old_moving_platform(tinyxml2::XMLElement* element, Vectori level_pos)
 {
 	try
 	{
 		string val = get_attribute_by_name("texture", element);
 		const sf::Texture* tex = assets->textures.at(val);
 		Vectorf pos = get_and_parse_var<Vectorf>("position", element);
+		pos += Vectorf(level_pos.x * context.level_size.x,
+			level_pos.y * context.level_size.y);
 		pos *= context.global_scale;
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		std::vector<std::pair<Vectorf, float>> path;
@@ -561,12 +576,15 @@ std::pair<int, std::shared_ptr<Moving_platform>> Parser::parse_old_moving_platfo
 	throw std::runtime_error("Linear platform error");
 }
 
-std::pair<int, std::shared_ptr<Moving_object>> Parser::parse_old_moving_object(tinyxml2::XMLElement* element)
+std::pair<int, std::shared_ptr<Moving_object>> 
+Parser::parse_old_moving_object(tinyxml2::XMLElement* element, Vectori level_pos)
 {
 	try
 	{
 		const sf::Texture* tex;
 		Vectorf pos = get_and_parse_var<Vectorf>("position", element);
+		pos += Vectorf(level_pos.x * context.level_size.x,
+			level_pos.y * context.level_size.y);
 		pos *= context.global_scale;
 		string val = get_attribute_by_name("texture", element);
 		tex = assets->textures.at(val);
@@ -597,13 +615,16 @@ std::pair<int, std::shared_ptr<Moving_object>> Parser::parse_old_moving_object(t
 	throw std::runtime_error("Moving object error");
 }
 
-std::pair<int, std::shared_ptr<Moving_platform>> Parser::parse_moving_platform(tinyxml2::XMLElement* element)
+std::pair<int, std::shared_ptr<Moving_platform>> 
+Parser::parse_moving_platform(tinyxml2::XMLElement* element, Vectori level_pos)
 {
 	try
 	{
 		string val = get_attribute_by_name("texture", element);
 		const sf::Texture* tex = assets->textures.at(val);
 		Vectorf pos = get_and_parse_var<Vectorf>("position", element);
+		pos += Vectorf(level_pos.x * context.level_size.x,
+			level_pos.y * context.level_size.y);
 		pos *= context.global_scale;
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		std::vector<sf::Vertex> vert;
@@ -645,12 +666,15 @@ std::pair<int, std::shared_ptr<Moving_platform>> Parser::parse_moving_platform(t
 
 }
 
-std::pair<int, std::shared_ptr<Moving_object>> Parser::parse_moving_object(tinyxml2::XMLElement* element)
+std::pair<int, std::shared_ptr<Moving_object>> 
+Parser::parse_moving_object(tinyxml2::XMLElement* element, Vectori level_pos)
 {
 	try
 	{
 		const sf::Texture* tex;
 		Vectorf pos = get_and_parse_var<Vectorf>("position", element);
+		pos += Vectorf(level_pos.x * context.level_size.x,
+			level_pos.y * context.level_size.y);
 		pos *= context.global_scale;
 		string val = get_attribute_by_name("texture", element);
 		tex = assets->textures.at(val);
@@ -663,12 +687,12 @@ std::pair<int, std::shared_ptr<Moving_object>> Parser::parse_moving_object(tinyx
 			string n = e->Name();
 			if (n == "linear_move")
 			{
-				ai=parse_Simple_AI<Linear_AI>(e);
+				ai = parse_Simple_AI<Linear_AI>(e);
 			}
 			e = e->NextSiblingElement();
 		}
 		int layer = parse_layer(element, DEFAULT_OBJECT_LAYER);
-		return std::make_pair(layer, std::make_shared<Moving_object>(pos, tex, height,std::move(ai)));
+		return std::make_pair(layer, std::make_shared<Moving_object>(pos, tex, height, std::move(ai)));
 	}
 	catch (const std::out_of_range& e)
 	{
@@ -679,7 +703,8 @@ std::pair<int, std::shared_ptr<Moving_object>> Parser::parse_moving_object(tinyx
 	throw std::runtime_error("Moving object error");
 }
 
-std::pair<int, std::shared_ptr<Pendulum>> Parser::parse_pendulum(tinyxml2::XMLElement* element)
+std::pair<int, std::shared_ptr<Pendulum>> 
+Parser::parse_pendulum(tinyxml2::XMLElement* element, Vectori level_pos)
 {
 	try
 	{
@@ -688,6 +713,8 @@ std::pair<int, std::shared_ptr<Pendulum>> Parser::parse_pendulum(tinyxml2::XMLEl
 		string line_tex_string = get_attribute_by_name("line", element);
 		const sf::Texture* line_tex = assets->textures.at(line_tex_string);
 		Vectorf pos = get_and_parse_var<Vectorf>("position", element);
+		pos += Vectorf(level_pos.x * context.level_size.x,
+			level_pos.y * context.level_size.y);
 		pos *= context.global_scale;
 		float line_len = get_and_parse_var<float>("length", element);
 		float angle = util::deg_to_rad(get_and_parse_var<float>("angle", element));
@@ -739,12 +766,14 @@ std::pair<int, std::shared_ptr<Pendulum>> Parser::parse_pendulum(tinyxml2::XMLEl
 	throw std::runtime_error("Pendulum error");
 }
 
-std::shared_ptr <Damage_zone> Parser::parse_damage_zone(tinyxml2::XMLElement* element)
+std::shared_ptr <Damage_zone> Parser::parse_damage_zone(tinyxml2::XMLElement* element, Vectori level_pos)
 {
 	try
 	{
 		std::vector<Vectorf> vert;
 		Vectorf pos = get_and_parse_var<Vectorf>("position", element);
+		pos += Vectorf(level_pos.x * context.level_size.x,
+			level_pos.y * context.level_size.y);
 		pos *= context.global_scale;
 		tinyxml2::XMLElement* e = element->FirstChildElement();
 		std::vector<std::pair<int, float>> dmg;
@@ -775,11 +804,13 @@ std::shared_ptr <Damage_zone> Parser::parse_damage_zone(tinyxml2::XMLElement* el
 	throw std::runtime_error("Textured_polygon error");
 }
 
-std::shared_ptr<Barrier> Parser::parse_barrier(tinyxml2::XMLElement* element)
+std::shared_ptr<Barrier> Parser::parse_barrier(tinyxml2::XMLElement* element, Vectori level_pos)
 {
 	try
 	{
 		Vectorf pos = get_and_parse_var<Vectorf>("position", element);
+		pos += Vectorf(level_pos.x * context.level_size.x,
+			level_pos.y * context.level_size.y);
 		pos *= context.global_scale;
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		std::vector<sf::Vertex> points =

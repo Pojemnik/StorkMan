@@ -59,18 +59,18 @@ class Parser
 	std::pair<Vectorf, float> parse_path_node(string content);
 	std::vector<sf::Vertex> parse_vertices(tinyxml2::XMLElement* element, std::pair<int, float> fliprot);
 	Level parse_level(tinyxml2::XMLElement* root, Vectori global_pos);
-	Map_chunk parse_chunk(tinyxml2::XMLElement* root);
-	std::pair<int, std::shared_ptr<Platform>> parse_platform(tinyxml2::XMLElement* element);
-	std::pair<int, std::shared_ptr<Textured_polygon>> parse_wall(tinyxml2::XMLElement* element);
-	std::pair<int, std::shared_ptr<Object>> parse_object(tinyxml2::XMLElement* element);
-	std::pair<int, std::shared_ptr<Animated_object>> parse_animated_object(tinyxml2::XMLElement* element);
-	std::pair<int, std::shared_ptr<Moving_platform>> parse_old_moving_platform(tinyxml2::XMLElement* element);
-	std::pair<int, std::shared_ptr<Moving_object>> parse_old_moving_object(tinyxml2::XMLElement* element);
-	std::pair<int, std::shared_ptr<Moving_platform>> parse_moving_platform(tinyxml2::XMLElement* element);
-	std::pair<int, std::shared_ptr<Moving_object>> parse_moving_object(tinyxml2::XMLElement* element);
-	std::pair<int, std::shared_ptr<Pendulum>> parse_pendulum(tinyxml2::XMLElement* element);
-	std::shared_ptr<Damage_zone> parse_damage_zone(tinyxml2::XMLElement* element);
-	std::shared_ptr<Barrier> parse_barrier(tinyxml2::XMLElement* element);
+	Map_chunk parse_chunk(tinyxml2::XMLElement* root, Vectori level_pos);
+	std::pair<int, std::shared_ptr<Platform>> parse_platform(tinyxml2::XMLElement* element, Vectori level_pos);
+	std::pair<int, std::shared_ptr<Textured_polygon>> parse_wall(tinyxml2::XMLElement* element, Vectori level_pos);
+	std::pair<int, std::shared_ptr<Object>> parse_object(tinyxml2::XMLElement* element, Vectori level_pos);
+	std::pair<int, std::shared_ptr<Animated_object>> parse_animated_object(tinyxml2::XMLElement* element, Vectori level_pos);
+	std::pair<int, std::shared_ptr<Moving_platform>> parse_old_moving_platform(tinyxml2::XMLElement* element, Vectori level_pos);
+	std::pair<int, std::shared_ptr<Moving_object>> parse_old_moving_object(tinyxml2::XMLElement* element, Vectori level_pos);
+	std::pair<int, std::shared_ptr<Moving_platform>> parse_moving_platform(tinyxml2::XMLElement* element, Vectori level_pos);
+	std::pair<int, std::shared_ptr<Moving_object>> parse_moving_object(tinyxml2::XMLElement* element, Vectori level_pos);
+	std::pair<int, std::shared_ptr<Pendulum>> parse_pendulum(tinyxml2::XMLElement* element, Vectori level_pos);
+	std::shared_ptr<Damage_zone> parse_damage_zone(tinyxml2::XMLElement* element, Vectori level_pos);
+	std::shared_ptr<Barrier> parse_barrier(tinyxml2::XMLElement* element, Vectori level_pos);
 	sf::FloatRect calculate_chunk_bounds(tinyxml2::XMLElement* root,
 		std::vector<std::shared_ptr<Map_object>>& objects);
 

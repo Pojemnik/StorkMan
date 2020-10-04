@@ -78,13 +78,7 @@ void Map::draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) 
 			{
 				continue;
 			}
-			states.transform *= sf::Transform().translate(
-				Vectorf(context.level_size.x * x, context.level_size.y * y)
-			);
 			levels[x][y].draw_bottom_layers(target, states);
-			states.transform *= sf::Transform().translate(
-				Vectorf(-context.level_size.x * x, -context.level_size.y * y)
-			);
 		}
 	}
 }
@@ -105,13 +99,7 @@ void Map::draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) 
 			{
 				continue;
 			}
-			states.transform *= sf::Transform().translate(
-				Vectorf(context.level_size.x * x, context.level_size.y * y)
-			);
 			levels[x][y].draw_middle_layers(target, states);
-			states.transform *= sf::Transform().translate(
-				Vectorf(-context.level_size.x * x, -context.level_size.y * y)
-			);
 		}
 	}
 }
@@ -132,13 +120,7 @@ void Map::draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) con
 			{
 				continue;
 			}
-			states.transform *= sf::Transform().translate(
-				Vectorf(context.level_size.x * x, context.level_size.y * y)
-			);
 			levels[x][y].draw_top_layers(target, states);
-			states.transform *= sf::Transform().translate(
-				Vectorf(-context.level_size.x * x, -context.level_size.y * y)
-			);
 		}
 	}
 }
