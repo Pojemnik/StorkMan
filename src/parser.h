@@ -73,6 +73,7 @@ class Parser
 	std::shared_ptr<Barrier> parse_barrier(tinyxml2::XMLElement* element, Vectori level_pos);
 	sf::FloatRect calculate_chunk_bounds(tinyxml2::XMLElement* root,
 		std::vector<std::shared_ptr<Map_object>>& objects);
+	void add_vertices(std::vector<sf::Vertex>& vec, const Collision* col);
 
 public:
 	Map parse_map(tinyxml2::XMLElement* root);

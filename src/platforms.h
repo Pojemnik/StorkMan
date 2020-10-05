@@ -18,7 +18,7 @@ public:
 class Textured_polygon : public Renderable, public Map_object
 {
 protected:
-	sf::VertexBuffer shape;
+	sf::VertexBuffer polygon;
 	const sf::Texture* texture;
 	sf::FloatRect bound;
 
@@ -33,6 +33,7 @@ class Platform : public Textured_polygon, public Collidable
 {
 protected:
 	Collision collision;
+
 public:
 	const Collision* const get_collision() const;
 	Platform(Vectorf pos_, const sf::Texture* texture_, std::vector<sf::Vertex> points_);
@@ -44,11 +45,13 @@ class Moving_platform : public Platform, public Updatable
 	std::unique_ptr<Simple_AI> ai;
 	std::vector<Vectorf> base_mesh;
 	sf::FloatRect base_rect;
+	sf::VertexBuffer vertex;
 
 public:
 	const Collision* const get_collision() const;
 	Moving_platform(Vectorf pos_, const sf::Texture* texture_,
-		std::vector<sf::Vertex>&& points_, std::unique_ptr<Simple_AI> ai_);
+		std::vector<sf::Vertex> points_, std::unique_ptr<Simple_AI> ai_);
 	void update(float dt);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	virtual void draw_dynamic_collision(sf::RenderTarget& target, sf::RenderStates states) const;
 };

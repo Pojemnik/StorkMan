@@ -9,7 +9,7 @@ class Pendulum : public Updatable, public Renderable, public Collidable, public 
 public:
 	const Collision* const get_collision() const;
 	Pendulum(Vectorf pos_, const sf::Texture* texture_,
-		std::vector<sf::Vertex>&& points_, std::vector<Vectorf> attach_pts,
+		std::vector<sf::Vertex> points_, std::vector<Vectorf> attach_pts,
 		float angle_, float line_len_, const sf::Texture* const line_texture_,
 		Vectori line_size);
 	void update(float dt);

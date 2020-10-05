@@ -27,6 +27,7 @@ class Collidable
 {
 public:
 	virtual const Collision* const get_collision() const = 0;
+	virtual void draw_dynamic_collision(sf::RenderTarget& target, sf::RenderStates states) const {}
 };
 
 struct Collision_info

@@ -25,4 +25,5 @@ public:
 	void update(float dt, Vectorf player_pos, sf::FloatRect screen_rect);
 	void add_entity(Entity* entity);
 	void set_draw_chunks_borders(bool draw);
+	void draw_vertices(sf::RenderTarget& target, sf::RenderStates states) const;
 };

@@ -195,6 +195,7 @@ Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root, Vectori level_pos)
 	std::vector<std::shared_ptr<const Collidable>> collidables;
 	std::vector<std::shared_ptr<Zone>> zones;
 	std::vector<std::shared_ptr<Map_object>> map_objects;
+	std::vector<sf::Vertex> collision_vertices;
 	tinyxml2::XMLElement* element = root->FirstChildElement();
 	while (element != nullptr)
 	{
@@ -205,6 +206,7 @@ Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root, Vectori level_pos)
 			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
 			collidables.push_back(std::static_pointer_cast<Collidable>(ptr));
 			map_objects.push_back(std::static_pointer_cast<Map_object>(ptr));
+			add_vertices(collision_vertices, collidables.back()->get_collision());
 		}
 		else if (name == "wall")
 		{
@@ -275,12 +277,16 @@ Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root, Vectori level_pos)
 			auto ptr = parse_barrier(element, level_pos);
 			collidables.push_back(std::static_pointer_cast<Collidable>(ptr));
 			map_objects.push_back(std::static_pointer_cast<Map_object>(ptr));
+			add_vertices(collision_vertices, collidables.back()->get_collision());
 		}
 		element = element->NextSiblingElement();
 	}
 	sf::FloatRect bound = calculate_chunk_bounds(root, map_objects);
+	sf::VertexBuffer collision_buffer(sf::Lines, sf::VertexBuffer::Static);
+	collision_buffer.create(collision_vertices.size());
+	collision_buffer.update(collision_vertices.data());
 	return Map_chunk(std::move(updatables), std::move(drawables),
-		std::move(collidables), std::move(zones), bound);
+		std::move(collidables), std::move(zones), bound, std::move(collision_buffer));
 
 }
 
@@ -846,4 +852,15 @@ sf::FloatRect Parser::calculate_chunk_bounds(tinyxml2::XMLElement* root,
 	float bottom = get_and_parse_var<float>("bottom", root, 0) * context.global_scale;
 	bound.height += bottom + top;
 	return bound;
+}
+
+void Parser::add_vertices(std::vector<sf::Vertex>& vec, const Collision* col)
+{
+	for (int i = 1; i < col->mesh.size(); i++)
+	{
+		vec.emplace_back(col->mesh[i - 1], sf::Color::White);
+		vec.emplace_back(col->mesh[i], sf::Color::White);
+	}
+	vec.emplace_back(col->mesh.back(), sf::Color::White);
+	vec.emplace_back(col->mesh.front(), sf::Color::White);
 }

@@ -125,6 +125,28 @@ void Map::draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) con
 	}
 }
 
+void Map::draw_vertices(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	for (int i = -1; i < 2; i++)
+	{
+		int y = current_pos.y + i;
+		if (y < 0 || y >= size.y)
+		{
+			continue;
+		}
+		for (int j = -1; j < 2; j++)
+		{
+			int x = current_pos.x + j;
+			if (x < 0 || x >= size.x)
+			{
+				continue;
+			}
+			levels[x][y].draw_moving_collisions(target, states);
+			levels[x][y].draw_static_collisions(target, states);
+		}
+	}
+}
+
 void Map::update(float dt, Vectorf player_pos, sf::FloatRect screen_rect)
 {
 	Vectori player_pos_on_map = Vectori(

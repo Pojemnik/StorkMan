@@ -50,6 +50,19 @@ void Map_chunk::draw_border(sf::RenderTarget& target, sf::RenderStates states) c
 	target.draw(border, states);
 }
 
+void Map_chunk::draw_moving_collisions(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	for (const auto& it : collidables)
+	{
+		it->draw_dynamic_collision(target, states);
+	}
+}
+
+void Map_chunk::draw_static_collisions(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	target.draw(static_collision_vertices, states);
+}
+
 void Map_chunk::resolve_collisions(Entity& entity) const
 {
 	entity.resolve_collision(collidables);
@@ -68,9 +81,9 @@ Map_chunk::Map_chunk(std::vector<std::shared_ptr<Updatable>>&& updatables_,
 	std::vector<std::pair<int, std::shared_ptr<Renderable>>>&& drawables_,
 	std::vector<std::shared_ptr<const Collidable>>&& collidables_,
 	std::vector<std::shared_ptr<Zone>>&& zones_,
-	sf::FloatRect bound_)
+	sf::FloatRect bound_, sf::VertexBuffer&& static_vertices)
 	: updatables(std::move(updatables_)), collidables(std::move(collidables_)),
-	bound(bound_), zones(std::move(zones_))
+	bound(bound_), zones(std::move(zones_)), static_collision_vertices(std::move(static_vertices))
 {
 	for (auto& it : drawables_)
 	{
@@ -126,6 +139,14 @@ void Moving_element::draw(sf::RenderTarget& target, sf::RenderStates states) con
 	if (is_drawable && on_screen)
 	{
 		target.draw(*renderable, states);
+	}
+}
+
+void Moving_element::draw_moving_collisions(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	if (is_collidable)
+	{
+		collidable->draw_dynamic_collision(target, states);
 	}
 }
 
@@ -261,6 +282,26 @@ void Level::make_zones_interactions(std::vector<Entity*>& entities)
 		{
 			chunk_it.make_zones_interactions(*it);
 		}
+	}
+}
+
+void Level::draw_moving_collisions(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	for (const auto& it : chunks)
+	{
+		it.draw_moving_collisions(target, states);
+	}
+	for (const auto& it : moving)
+	{
+		it.draw_moving_collisions(target, states);
+	}
+}
+
+void Level::draw_static_collisions(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	for (const auto& it : chunks)
+	{
+		it.draw_static_collisions(target, states);
 	}
 }
 

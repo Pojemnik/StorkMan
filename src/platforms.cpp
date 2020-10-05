@@ -7,9 +7,9 @@ Textured_polygon::Textured_polygon(Vectorf pos, const sf::Texture* texture_,
 	{
 		it.position += pos;
 	}
-	shape = sf::VertexBuffer(sf::TrianglesFan, sf::VertexBuffer::Static);
-	shape.create(points.size());
-	shape.update(&points[0]);
+	polygon = sf::VertexBuffer(sf::TrianglesFan, sf::VertexBuffer::Static);
+	polygon.create(points.size());
+	polygon.update(&points[0]);
 	bound = util::mesh_to_rect(points);
 }
 
@@ -21,7 +21,7 @@ sf::FloatRect Textured_polygon::get_bounding_rect() const
 void Textured_polygon::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	states.texture = texture;
-	target.draw(shape, states);
+	target.draw(polygon, states);
 }
 
 const Collision* const Platform::get_collision() const
@@ -42,12 +42,20 @@ const Collision* const Moving_platform::get_collision() const
 }
 
 Moving_platform::Moving_platform(Vectorf pos_, const sf::Texture* texture_,
-	std::vector<sf::Vertex>&& points_, std::unique_ptr<Simple_AI> ai_) :
-	Platform(pos_, texture_, std::move(std::vector<sf::Vertex>(points_))),
-	ai(std::move(ai_))
+	std::vector<sf::Vertex> points_, std::unique_ptr<Simple_AI> ai_) :
+	Platform(pos_, texture_, points_), ai(std::move(ai_)),
+	vertex(sf::LineStrip, sf::VertexBuffer::Static)
 {
 	base_rect = collision.rect;
 	base_mesh = collision.mesh;
+	vertex.create(base_mesh.size() + 1);
+	sf::Vertex* tmp = new sf::Vertex[base_mesh.size() + 1];
+	for (int i = 0; i < base_mesh.size(); i++)
+	{
+		tmp[i] = sf::Vertex(base_mesh[i], sf::Color::White);
+	}
+	tmp[base_mesh.size()] = sf::Vertex(base_mesh[0], sf::Color::White);
+	vertex.update(tmp);
 }
 
 void Moving_platform::update(float dt)
@@ -66,6 +74,12 @@ void Moving_platform::draw(sf::RenderTarget& target, sf::RenderStates states) co
 {
 	states.transform *= ai->get_pos();
 	Platform::draw(target, states);
+}
+
+void Moving_platform::draw_dynamic_collision(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	states.transform *= ai->get_pos();
+	target.draw(vertex, states);
 }
 
 Barrier::Barrier(std::vector<sf::Vertex>&& vertices_, Vectorf pos_)
