@@ -28,8 +28,8 @@ public:
 class Entity : public Updatable, public Collidable, public Message_sender, public Renderable
 {
 protected:
-	float move_speed = 4.f;
-	float jump_force = 1.5f;
+	float move_speed = 4.6f;
+	float jump_force = 0.8f;
 	int last_direction = 1;
 	Physical physical;
 	sf::Sprite sprite;

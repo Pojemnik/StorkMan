@@ -2,53 +2,34 @@ Lista komend:
 
 komenda					argumenty		wart. domyślna		opis
 fps						float			60					Docelowa lość klatek na sekundę
-gravity					float			22					Przyspieszenie grawitacyjne
-bgparallax				float			-1.5				Paralaksa tła
-storkminspeed			float			0.5					Minimalna prędkość ruchu - z tą prędkością strokman rusza
-storkmaxspeed			float float		5 5					Masymalna prędkość ruchu
-storkspeedreduction		float float		0.5 0.5				Wartość, o jaką postać zwalnia po puszczeniu klawisza ruchu
-storkmovespeed			float float		8 0					Wartość przyspieszenia storkmana
-jumpforce				float			825					Siła skoku
-bgscale					float			1					Skala tła
-layer2scale				float			1					Skala warstwy 2 (lasu)
-layer2parallax			float			-2					Paralaksa warstwy 2
-bgpos					float float 	-1000 -2500			Pozycja tła
-layer2pos				float float 	-1000 -1800			Pozycja warstwy 2
-mapvertices				bool			0					Rysowanie krawędzi platform
-fpscounter				bool			0					Wyświetla licznik fps
-night					bool			0					Przełącza dzień i noc
+gravity					float			0.3					Przyspieszenie grawitacyjne
+jumpforce				float			0.8					Siła skoku
+mapvertices				bool			false				Rysowanie krawędzi platform
+fpscounter				bool			false				Wyświetla licznik fps
 tp						float float		-					Przenosi gracza do zadanej pozycji
 getpos					brak			-					Wypisuje aktualną pozycję gracza
-reloadlight				brak			-					Wymusza ponowne przeliczenie światła
-darkness 				int				70					Wartość jasności nioświetlonych fragmentów poziomu (0-255)
 clear 					brak			-					Czyści konsolę
 godmode					bool			true				Ustawione na true uniemożliwia śmierć
 musicvolume				float			50					Ustawia głośność muzyki. Wartość w %
 soundvolume				float			50					Ustawia głośność dźwięków. Wartość w %
-drawhp					bool			0					Rysowanie poziomu zdrowia bohatera
-damagezones				bool			0					Rysowanie stref zadających obrażenia (ich kolor zależy od wartości obrażeń)
+drawhp					bool			true				Rysowanie poziomu zdrowia bohatera
 maxhealth 				int				100					Maksymalne zdrowie gracza
 heal					brak			-					Uzdrawia gracza
 dealdamage				int				-					Zadaje graczowi obrażenia
 scalebar				float			0.5					Zmienia szerokość paska zdrowia
 drawchunksborders		bool			false				Rysuje granice chunków
+storkmovespeed			float			4.6					Prędkość ruchu Storkmana
 
 
 Komendy podajesz wraz z argumentami w jednej linii.
 Przykład:
-storkmaxspeed 10 10
+tp 10 12
 
 Uwagi:
 Gra nie powinna się wywalać w przypadku nieprawidłowych argumentów.
 
-W przypadku komend: storkmaxspeed, storkspeedreduction i storkmovespeed drugi argument dotyczy osi y,
-nie powinien być inny niż wartość domyślna, bo może to coś zepsuć. Możliwość jego zmiany jest zostawiona
-z myślą o przyszłośći (nie wiadomo co będzie trzeba dodać).
-
 Argumenty typu bool oprócz 0 i 1 mogą też przyjąć true i false. Przykład:
 mapvertices 1
 mapvertices true
-
-storkminspeed działa źle - zmniejszenie wartości zwiększa prędkość. Lepiej nie tykać.
 
 Ruszanie zmiennej fps jest raczej złym pomysłem.

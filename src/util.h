@@ -29,10 +29,8 @@ struct Context
 	bool draw_damage_zones = false;
 	bool god_mode = false;
 	float fps = 60.f;
-	float gravity = 2; //22
-	float jump_force = 775.f;
+	float gravity = 0.3f;
 	float global_scale = 32;	//[px/m]
-	float player_move_speed = 8.f;
 	Vectori resolution = { 1024, 576 };
 	const Vectori default_resolution = { 1024, 576 };
 	std::unique_ptr<Console> console;

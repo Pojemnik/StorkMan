@@ -154,9 +154,9 @@ Moving_element::Moving_element(std::shared_ptr<Updatable> updatable_, int layer_
 	updatable(std::move(updatable_)), layer(layer_)
 {
 	renderable = std::dynamic_pointer_cast<Renderable>(updatable);
-	is_drawable = (renderable == nullptr);
+	is_drawable = (renderable != nullptr);
 	collidable = std::dynamic_pointer_cast<Collidable>(updatable);
-	is_collidable = (collidable == nullptr);
+	is_collidable = (collidable != nullptr);
 	object = std::dynamic_pointer_cast<Map_object>(updatable);
 }
 
@@ -203,7 +203,7 @@ void Level::draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states
 	{
 		if (it.layer < BOTTOM_LAYERS)
 		{
-			target.draw(it);
+			target.draw(it, states);
 		}
 	}
 }
@@ -218,7 +218,7 @@ void Level::draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states
 	{
 		if (it.layer < BOTTOM_LAYERS + MIDDLE_LAYERS && it.layer >= BOTTOM_LAYERS)
 		{
-			target.draw(it);
+			target.draw(it, states);
 		}
 	}
 }
@@ -238,7 +238,7 @@ void Level::draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) c
 		if (it.layer < BOTTOM_LAYERS + MIDDLE_LAYERS + TOP_LAYERS &&
 			it.layer >= BOTTOM_LAYERS + MIDDLE_LAYERS)
 		{
-			target.draw(it);
+			target.draw(it, states);
 		}
 	}
 }

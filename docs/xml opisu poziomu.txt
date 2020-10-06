@@ -1,3 +1,5 @@
+Uwaga: Gra intensywnie się rozwija i dokumentacja może być nieaktualna. W razie wątpliwości pytać
+
 Przykład:
 <Znacznik atrybut1="XXX" atrybut2="XXX" ...>
 	*zawartość*
@@ -5,111 +7,119 @@ Przykład:
 
 * przy atrybucie oznacza atrybut nieobowązkowy
 
+Często używane atrybuty:
+
+- position (float, float) - pozycja [m]
+- texture (string) - tekstura, patrz dokumentacja/grafiki.txt
+- layer (int) - warstwa, na której znajduje się platforma (liczone "od dołu"), liczba od 0 do 11, pierwsze 7 jest pod graczem, 3 kolejne pomiędzy nim, a światłem, 2 ostatnie nad światłem
+- rotation (float) - obrót tekstury, zgodnie z ruchem wskazówek zegara [stopnie]
+- flip (int,int) - odbicie tekstury w osi x i w osi y (-1 - odbicie, 1 - brak odbicia) (przykład: flip="-1,1" - odbicie w osi x, baz odbicia w osi y)
+- height (float) - wysokość [m], używana do obliczania skali
+- frame_time (float) - co ile czasu ma się zmieniać klatka animacji obiekty [1/60s]
+- offset (float) - od którego momentu zacząć animację [1/60s]
+
+Znaczniki główne:
+
 level:
 	atrybuty:
 		name* - nazwa, nieużywany przez grę
 		background* - tło, nieużywany przez grę
 	
 	zawartość:
-		pozostałe zanczniki opisu poziomu
+		znaczniki <chunk> lub znaczniki oznaczające poruszające się elementy mapy
+		
+chunk:
+	atrybuty:
+		top, bottom, left, right (float) - powiększenie chunka w wybranym kierunku [m]
+		
+	zawartość:
+		znaczniki elementów mapy
+		
+Znaczniki elementów mapy:
 
 platform:
 	atrybuty:
-		position - pozycja [m]
-		texture - tekstura, patrz dokumentacja/grafiki.txt
-		layer* - (domyślne 5) warstwa, na której znajduje się platforma (liczone "od dołu"), liczba od 0 do 11, pierwsze 7 jest pod graczem, 3 kolejne pomiędzy nim, a światłem, 2 ostatnie nad światłem
-		rotation* - (domyślnie 0) obrót tekstury, zgodnie z ruchem wskazówek zegara [stopnie]
-		flip* - (domyślnie 1,1) odbicie tekstury w osi x i w osi y (-1 - odbicie, 1 - brak odbicia) (przykład: flip="-1,1" - odbicie w osi x, baz odbicia w osi y)
+		position
+		texture
+		layer* (domyślne 5)
+		rotation* (domyślnie 0)
+		flip* (domyślnie 1,1)
 	
 	zawartość:
 		znaczniki <v> opisujące kolejne wierzchołki
-	
-v:
-	zawartość - pozycja wierzchołka [m]
-	
-vt:
-	zawartość - pozycja wierzchołka [m], pozycja danego wierzchołka na teksturze w pikselach - przydatne w przypadku pojedyńczych tekstur
 
 object:
 	atrybuty:
-		position - pozycja [m]
-		texture - tekstura
-		height - wysokość [m], używana do obliczania skali
-		rotation* - (domyślnie 0) obrót obiektu względem lewego górnego rogu, zgodnie z ruchem wskazówek zegara [stopnie]
-		flip* - (domyślnie 1,1) odbicie w osi x i w osi y (-1 - odbicie, 1 - brak odbicia) (przykład flip="-1,1" - odbicie w osi x, baz odbicia w osi y)
-		layer* - (domyślne 3) warstwa, na której znajduje się obiekt (liczone "od dołu"), liczba od 0 do 11, pierwsze 7 jest pod graczem, 3 kolejne pomiędzy nim, a światłem, 2 ostatnie nad światłem
+		position
+		texture
+		height
+		rotation* (domyślnie 0)
+		flip* (domyślnie 1,1)
+		layer* (domyślne 3)
 		
 animated_object:
 	atrybuty:
-		position - pozycja [m]
-		texture - tekstura
-		height - wysokość [m], używana do obliczania skali
-		rotation* - (domyślnie 0) obrót obiektu względem lewego górnego rogu, zgodnie z ruchem wskazówek zegara [stopnie]
-		flip* - (domyślnie 1,1) odbicie w osi x i w osi y (-1 - odbicie, 1 - brak odbicia) (przykład flip="-1,1" - odbicie w osi x, baz odbicia w osi y)
-		layer* - (domyślne 3) warstwa, na której znajduje się obiekt (liczone "od dołu"), liczba od 0 do 11, pierwsze 7 jest pod graczem, 3 kolejne pomiędzy nim, a światłem, 2 ostatnie nad światłem
-		fpf* - (domyślnie 1) co ile klatek gry ma się zmieniać klatka animacji obiekty (rozwiązanie tymczasowe)
-		delta* - (domyślnie 0) od której klatki zacząć animację, bierze pod uwagę ustawienie fpf (przykład fpf="10" delta = "15" - zacznie od 2 klatki animacji, po 5 klatkach gry przejdzie do 3, dalej już co 10)
+		position
+		texture
+		height
+		rotation* (domyślnie 0)
+		flip* - (domyślnie 1,1)
+		layer* (domyślne 3)
+		frame_time* (domyślnie 1)
+		offset* (domyślnie 0)
 		
 moving_object:
 	atrybuty:
-		position - pozycja [m]
-		texture - tekstura
-		height - wysokość [m], używana do obliczania skali
-		rotation* - (domyślnie 0) obrót obiektu względem lewego górnego rogu, zgodnie z ruchem wskazówek zegara [stopnie]
-		flip* - (domyślnie 1,1) odbicie w osi x i w osi y (-1 - odbicie, 1 - brak odbicia) (przykład flip="-1,1" - odbicie w osi x, baz odbicia w osi y)
-		layer* - (domyślne 3) warstwa, na której znajduje się obiekt (liczone "od dołu"), liczba od 0 do 11, pierwsze 7 jest pod graczem, 3 kolejne pomiędzy nim, a światłem, 2 ostatnie nad światłem
-		fpf* - (domyślnie 1) co ile klatek gry ma się zmieniać klatka animacji obiekty (rozwiązanie tymczasowe)
-		delta* - (domyślnie 0) od której klatki zacząć animację, bierze pod uwagę ustawienie fpf (przykład fpf="10" delta = "15" - zacznie od 2 klatki animacji, po 5 klatkach gry przejdzie do 3, dalej już co 10)
+		position
+		texture
+		height
+		rotation* (domyślnie 0)
+		flip* (domyślnie 1,1)
+		layer* (domyślne 3)
+		frame_time* (domyślnie 1)
+		offset* (domyślnie 0)
 	
 	zawartość:
-		znaczniki <p> opsujące trasę ruchu obiektu
+		<linear_move> opisujący ruch
 		
 		
 pendulum:
 	atrybuty:
-		position - pozycja [m]
-		texture - tekstura, patrz dokumentacja/grafiki.txt
-		line - tekstura liny, na której rusza się wahadło
-		length - długość liny [m]
-		angle - początkowy kąt wychylenia wahadła [stopnie]
-		layer* - (domyślne 5) warstwa, na której znajduje się platforma (liczone "od dołu"), liczba od 0 do 11, pierwsze 7 jest pod graczem, 3 kolejne pomiędzy nim, a światłem, 2 ostatnie nad światłem
-		rotation* - (domyślnie 0) obrót tekstury, zgodnie z ruchem wskazówek zegara [stopnie]
-		flip* - (domyślnie 1,1) odbicie tekstury w osi x i w osi y (-1 - odbicie, 1 - brak odbicia) (przykład flip="-1,1" - odbicie w osi x, baz odbicia w osi y)
-		line_offset - miejsce, gdzie zaczyna się tekstura liny na grafice - współrzędne lewego górnego rogu w pikselach
+		position
+		texture
+		line (string) - tekstura liny, na której rusza się wahadło
+		length (float) - długość liny [m]
+		angle (float) - początkowy kąt wychylenia wahadła [stopnie]
+		layer* (domyślne 5)
+		rotation* (domyślnie 0)
+		flip* (domyślnie 1,1)
+		line_offset (int, int) - miejsce, gdzie zaczyna się tekstura liny na grafice - współrzędne lewego górnego rogu w pikselach
 		
 	zawartość:
 		znaczniki <v> lub <vt> opisujące kolejne wierzchołki
 		znaczniki <a> opisujące punkty zaczepienia lin wahadła
 		
-a:
-	zawartość - pozycja punktu [m]
-	
 moving_platform:
 	atrybuty:
-		position - pozycja [m]
-		texture - tekstura, patrz dokumentacja/grafiki.txt
-		layer* - (domyślne 5) warstwa, na której znajduje się platforma (liczone "od dołu"), liczba od 0 do 11, pierwsze 7 jest pod graczem, 3 kolejne pomiędzy nim, a światłem, 2 ostatnie nad światłem
-		rotation* - (domyślnie 0) obrót tekstury, zgodnie z ruchem wskazówek zegara [stopnie]
-		flip* - (domyślnie 1,1) odbicie tekstury w osi x i w osi y (-1 - odbicie, 1 - brak odbicia) (przykład flip="-1,1" - odbicie w osi x, baz odbicia w osi y)
-		offset* - (domyślne 0) początkowy czas
+		position
+		texture
+		layer* (domyślne 5)
+		rotation* (domyślnie 0)
+		flip* (domyślnie 1,1)
+		offset* (domyślne 0)
 		
 	zawartość:
 		znaczniki <v> lub <vt> opsujące kolejne wierzchołki
-		znaczniki <p> opsujące trasę ruchu platformy
+		<linear_move> opisujący ruch
 		
-p:
-	zawartość - pozycja punktu na trasie platformy, czas podróży to tego punktu w klatkach
-	
-light:
-	atrybuty:
-		position - pozycja [m]
-		intensity* - (domyślnie 1) siła światła w stosunku do domyślnej, domyślne światło świeci na 15,625m
-		color* - (domyślnie 255,255,255) kolor światła r,g,b
+linear_move:
+	zawartość:
+		znaczniki <p> opsujące trasę ruchu platformy
 
 wall:
 	atrybuty:
-		position - pozycja [m]
-		texture - tekstura, patrz dokumentacja/grafiki.txt
+		position
+		texture
 		layer* - (domyślne 1) warstwa, na której znajduje się ściana (liczone "od dołu"), liczba od 0 do 11, pierwsze 7 jest pod graczem, 3 kolejne pomiędzy nim, a światłem, 2 ostatnie nad światłem
 	
 	zawartość:
@@ -117,20 +127,33 @@ wall:
 		
 damage_zone:
 	atrybuty:
-		position - pozycja [m]
+		position
 		
 	zawartość:
 		znaczniki <v> opisujące kolejne wierzchołki
 		znaczniki <d> opisujące sekwencję zadawania obrażeń przez strefę
 	
-	uwagi: Strefy obrażeń nie powinny się nakładać
-	
 barrier:
 	atrybuty:
-		position - pozycja [m]
+		position
 		
 	zawartość:
 		znaczniki <v> opisujące kolejne wierzchołki
-		
+	
+
+Znaczniki pomocnicze (nie występują samodzielnie):
+
+d:
+	zawartość: (int, float) - obrażenia zadawane przez strefę, długość okresu zadawanie tych obrażeń [1/60s]
+	
+p:
+	zawartość: (float, float) - pozycja punktu na trasie platformy, czas podróży to tego punktu w klatkach
+	
+a:
+	zawartość: (float, float) - pozycja punktu [m]
+	
 v:
-	zawartość - obrażenia zadawane przez strefę, długość okresu zadawanie tych obrażeń
+	zawartość: (float, float) - pozycja wierzchołka [m]
+	
+vt:
+	zawartość: (float, int) - pozycja wierzchołka [m], pozycja danego wierzchołka na teksturze w pikselach - przydatne w przypadku pojedyńczych tekstur
