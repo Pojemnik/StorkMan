@@ -39,7 +39,9 @@ void Moving_object::update(float dt)
 Animated_object::Animated_object(Vectorf pos_, std::unique_ptr<Animation>&& animation_,
 	float height_, int flip_, float angle_) :
 	Object(pos_, animation_->get_texture(), height_, flip_, angle_), animation(std::move(animation_))
-{}
+{
+	update_frame();
+}
 
 void Animated_object::update_frame()
 {

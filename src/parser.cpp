@@ -322,7 +322,7 @@ Parser::parse_platform(tinyxml2::XMLElement* element, Vectori level_pos)
 	throw std::runtime_error("Platform error");
 }
 
-std::pair<int, std::shared_ptr<Textured_polygon>> 
+std::pair<int, std::shared_ptr<Textured_polygon>>
 Parser::parse_wall(tinyxml2::XMLElement* element, Vectori level_pos)
 {
 	try
@@ -354,7 +354,7 @@ Parser::parse_wall(tinyxml2::XMLElement* element, Vectori level_pos)
 	throw std::runtime_error("Textured_polygon error");
 }
 
-std::pair<int, std::shared_ptr<Object>> 
+std::pair<int, std::shared_ptr<Object>>
 Parser::parse_object(tinyxml2::XMLElement* element, Vectori level_pos)
 {
 	try
@@ -379,7 +379,7 @@ Parser::parse_object(tinyxml2::XMLElement* element, Vectori level_pos)
 	throw std::runtime_error("Object error");
 }
 
-std::pair<int, std::shared_ptr<Animated_object>> 
+std::pair<int, std::shared_ptr<Animated_object>>
 Parser::parse_animated_object(tinyxml2::XMLElement* element, Vectori level_pos)
 {
 	try
@@ -530,7 +530,7 @@ Entity_config Parser::parse_entity_config(string path)
 	return config;
 }
 
-std::pair<int, std::shared_ptr<Moving_platform>> 
+std::pair<int, std::shared_ptr<Moving_platform>>
 Parser::parse_old_moving_platform(tinyxml2::XMLElement* element, Vectori level_pos)
 {
 	try
@@ -582,7 +582,7 @@ Parser::parse_old_moving_platform(tinyxml2::XMLElement* element, Vectori level_p
 	throw std::runtime_error("Linear platform error");
 }
 
-std::pair<int, std::shared_ptr<Moving_object>> 
+std::pair<int, std::shared_ptr<Moving_object>>
 Parser::parse_old_moving_object(tinyxml2::XMLElement* element, Vectori level_pos)
 {
 	try
@@ -621,7 +621,7 @@ Parser::parse_old_moving_object(tinyxml2::XMLElement* element, Vectori level_pos
 	throw std::runtime_error("Moving object error");
 }
 
-std::pair<int, std::shared_ptr<Moving_platform>> 
+std::pair<int, std::shared_ptr<Moving_platform>>
 Parser::parse_moving_platform(tinyxml2::XMLElement* element, Vectori level_pos)
 {
 	try
@@ -672,7 +672,7 @@ Parser::parse_moving_platform(tinyxml2::XMLElement* element, Vectori level_pos)
 
 }
 
-std::pair<int, std::shared_ptr<Moving_object>> 
+std::pair<int, std::shared_ptr<Moving_object>>
 Parser::parse_moving_object(tinyxml2::XMLElement* element, Vectori level_pos)
 {
 	try
@@ -709,7 +709,7 @@ Parser::parse_moving_object(tinyxml2::XMLElement* element, Vectori level_pos)
 	throw std::runtime_error("Moving object error");
 }
 
-std::pair<int, std::shared_ptr<Pendulum>> 
+std::pair<int, std::shared_ptr<Pendulum>>
 Parser::parse_pendulum(tinyxml2::XMLElement* element, Vectori level_pos)
 {
 	try
@@ -838,10 +838,21 @@ sf::FloatRect Parser::calculate_chunk_bounds(tinyxml2::XMLElement* root,
 	for (const auto& it : objects)
 	{
 		sf::FloatRect object_rect = it->get_bounding_rect();
-		bound.left = std::min(bound.left, object_rect.left);
-		bound.top = std::min(bound.top, object_rect.top);
-		bound.width = std::max(bound.width, object_rect.width + object_rect.left - bound.left);
-		bound.height = std::max(bound.height, object_rect.height + object_rect.top - bound.top);
+		if (bound.left != INFINITY)
+		{
+			float r_bound = bound.left + bound.width;
+			float r_obj = object_rect.left + object_rect.width;
+			float b_bound = bound.top + bound.height;
+			float b_obj = object_rect.top + object_rect.height;
+			bound.left = std::min(bound.left, object_rect.left);
+			bound.top = std::min(bound.top, object_rect.top);
+			bound.width = std::max(r_bound, r_obj) - bound.left;
+			bound.height = std::max(b_bound, b_obj) - bound.top;
+		}
+		else
+		{
+			bound = object_rect;
+		}
 	}
 	float left = get_and_parse_var<float>("left", root, 0) * context.global_scale;
 	bound.left -= left;
