@@ -63,6 +63,15 @@ void Map_chunk::draw_static_collisions(sf::RenderTarget& target, sf::RenderState
 	target.draw(static_collision_vertices, states);
 }
 
+void Map_chunk::draw_zones(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	for (const auto& it : zones)
+	{
+
+		it->draw(target, states);
+	}
+}
+
 void Map_chunk::resolve_collisions(Entity& entity) const
 {
 	entity.resolve_collision(collidables);
@@ -313,6 +322,19 @@ void Level::draw_static_collisions(sf::RenderTarget& target, sf::RenderStates st
 	for (const auto& it : chunks)
 	{
 		it.draw_static_collisions(target, states);
+	}
+}
+
+void Level::draw_zones(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	for (const auto& it : chunks)
+	{
+		it.draw_zones(target, states);
+	}
+	for (const auto& it : moving)
+	{
+		//Add, when moving damage zones are added
+		//it.draw_zones(target, states);
 	}
 }
 

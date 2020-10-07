@@ -1,15 +1,22 @@
 ﻿<level name="Podziemna Świątynia - poziom testowy 04">
-		<old_moving_platform position="15,10" texture="panels,0" layer="3">
-			<p>3.5,0,30</p>
-			<p>0,0,120</p>
-			<p>0,0,60</p>
-			<p>3.5,0,60</p>
-
-			<v>0,0</v>
-			<v>0,0.5</v>
-			<v>3.5,0.5</v>
-			<v>3.5,0</v>
-		</old_moving_platform>
+<chunk>
+	<damage_zone position="10,13.5">
+		<d>10,60</d>
+		
+		<v>0,2</v>
+        <v>1,2</v>
+        <v>1,0</v>
+        <v>0,0</v>
+	</damage_zone>
+		<damage_zone position="11,13.5">
+		<d>10,60</d>
+		
+		<v>0,2</v>
+        <v>1,2</v>
+        <v>1,0</v>
+        <v>0,0</v>
+	</damage_zone>
+	</chunk>
 	/---------------------------------------------------------------------PODZIEMIE
 	<chunk>
 		<wall position="79,36.5" texture="ground0">

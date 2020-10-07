@@ -49,6 +49,7 @@ public:
 	void draw_border(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_moving_collisions(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_static_collisions(sf::RenderTarget& target, sf::RenderStates states) const;
+	void draw_zones(sf::RenderTarget& target, sf::RenderStates states) const;
 	void resolve_collisions(Entity& entity) const;
 	void make_zones_interactions(Entity& entity) const;
 	sf::FloatRect get_bounding_rect() const;
@@ -78,5 +79,6 @@ public:
 	void make_zones_interactions(std::vector<Entity*>& entities);
 	void draw_moving_collisions(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_static_collisions(sf::RenderTarget& target, sf::RenderStates states) const;
+	void draw_zones(sf::RenderTarget& target, sf::RenderStates states) const;
 	Vectori get_global_pos() const;
 };

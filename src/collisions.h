@@ -19,6 +19,7 @@ struct Collision
 	Collision(std::vector<Vectorf>&& mesh_);
 	Collision(std::vector<Vectorf>&& mesh_, Vectorf pos);
 	Collision(const std::vector<sf::Vertex>& vertices, Vectorf pos);
+	Collision(const std::vector<Vectorf>& vertices, Vectorf pos);
 	Collision(sf::FloatRect rect_, float scale, Vectorf pos);
 	void calculate_min_max_arr();
 };

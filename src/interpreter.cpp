@@ -266,7 +266,7 @@ std::pair<Command_code, Vectorf> Commands_interpreter::execute_command_raw(Comma
 		}
 		return std::make_pair(Command_code::SCALE_HP_BAR, Vectorf(val, 0));
 	}
-	else if (cmd.name == "drawchunksborders")
+	else if (cmd.name == "chunksborders")
 	{
 		bool draw = get_bool(cmd, "Chunks' borders", { "drawn", "hidden" });
 		return std::make_pair(Command_code::DRAW_CHUNKS_BORDERS,

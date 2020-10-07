@@ -64,13 +64,15 @@ class Zone : public Map_object
 protected:
 	std::unordered_set<Entity*, std::hash<Entity*>, Compare_entities> contained;
 	Vectorf pos;
+	sf::VertexBuffer buffer;
 
 public:
 	Collision collision;
 
-	Zone(std::vector<Vectorf>& vert, Vectorf p);
+	Zone(const std::vector<Vectorf>& vert, Vectorf p);
 	virtual void interact(Entity& entity) = 0;
 	virtual sf::FloatRect get_bounding_rect() const;
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
 class Damage_zone : public Zone, public Updatable
@@ -86,4 +88,5 @@ public:
 		std::vector<std::pair<int, float>>& dmg);
 	void update(float dt);
 	virtual void interact(Entity& entity);
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

@@ -292,6 +292,10 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			window.draw(player, rs);
 			map.draw_middle_layers(window, rs);
 			map.draw_top_layers(window, rs);
+			if (context.draw_damage_zones)
+			{
+				map.draw_zones(window, rs);
+			}
 			if (context.draw_map_vertices)
 			{
 				map.draw_vertices(window, rs);

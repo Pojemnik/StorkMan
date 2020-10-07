@@ -77,12 +77,26 @@ void Moving_animated_object::update(float dt)
 	ai->calc_pos(dt);
 }
 
-Zone::Zone(std::vector<Vectorf>& vert, Vectorf pos_) : pos(pos_),
-	collision(std::move(vert), pos_) {}
+Zone::Zone(const std::vector<Vectorf>& vert, Vectorf pos_) : pos(pos_),
+	collision(vert, pos_), buffer(sf::TriangleFan, sf::VertexBuffer::Static)
+{
+	std::vector<sf::Vertex> vertices;
+	for (const auto& it : vert)
+	{
+		vertices.emplace_back(it + pos, sf::Color(255,255,255,200));
+	}
+	buffer.create(vertices.size());
+	buffer.update(vertices.data());
+}
 
 sf::FloatRect Zone::get_bounding_rect() const
 {
 	return collision.rect;
+}
+
+void Zone::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	target.draw(buffer, states);
 }
 
 Damage_zone::Damage_zone(std::vector<Vectorf>& vert, Vectorf p,
@@ -106,6 +120,11 @@ void Damage_zone::interact(Entity& entity)
 		}
 	}
 	contained.erase(&entity);
+}
+
+void Damage_zone::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	target.draw(buffer, states);
 }
 
 void Damage_zone::update(float dt)
