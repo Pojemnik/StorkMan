@@ -27,4 +27,4 @@ animations/stork/jump_run2.txt
 1.92
 
 #Height [px]
-350
+700

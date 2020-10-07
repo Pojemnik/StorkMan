@@ -286,9 +286,9 @@ void Assets::load_assets()
 {
 	//Storkman
 	pieces = new sf::Texture();
-	pieces->loadFromFile("img/stork/parts_ss_128_128_is_3_9.png");
+	pieces->loadFromFile("img/stork/parts_ss_256_256_is_3_9.png");
 	for (int i = 0; i < 27; i++)
-		pieces_rect.push_back({ 128 * (i % 3),128 * (i / 3),128,128 });
+		pieces_rect.push_back({ 256 * (i % 3),256 * (i / 3),256,256 });
 	//Background
 	bg = new sf::Texture();
 	bg->loadFromFile("img/bg/bg.jpg");
