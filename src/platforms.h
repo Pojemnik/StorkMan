@@ -11,7 +11,7 @@ private:
 	Collision collision;
 
 public:
-	Barrier(std::vector<sf::Vertex>&& vertices_, Vectorf pos_);
+	Barrier(std::vector<sf::Vertex>&& vertices_, Vectorf pos_, Surface_type surface_);
 	const Collision* const get_collision() const;
 	virtual sf::FloatRect get_bounding_rect() const;
 };
@@ -37,7 +37,8 @@ protected:
 
 public:
 	const Collision* const get_collision() const;
-	Platform(Vectorf pos_, const sf::Texture* texture_, std::vector<sf::Vertex> points_);
+	Platform(Vectorf pos_, const sf::Texture* texture_,
+		std::vector<sf::Vertex> points_, Surface_type surface_);
 	virtual sf::FloatRect get_bounding_rect() const;
 };
 
@@ -52,7 +53,8 @@ protected:
 public:
 	const Collision* const get_collision() const;
 	Moving_platform(Vectorf pos_, const sf::Texture* texture_,
-		std::vector<sf::Vertex> points_, std::unique_ptr<Simple_AI> ai_);
+		std::vector<sf::Vertex> points_, std::unique_ptr<Simple_AI> ai_,
+		Surface_type surface_);
 	void update(float dt);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual void draw_dynamic_collision(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -80,7 +82,8 @@ protected:
 
 public:
 	Animated_moving_platform(Vectorf pos_, std::unique_ptr<Animation>&& animation_,
-		std::vector<sf::Vertex> points_, std::unique_ptr<Simple_AI> ai_);
+		std::vector<sf::Vertex> points_, std::unique_ptr<Simple_AI> ai_,
+		Surface_type surface_);
 	void update(float dt);
 	virtual void update_frame();
 	virtual void next_frame(float dt);

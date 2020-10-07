@@ -143,19 +143,19 @@
 			<v>1.5,0.5</v>
 			<v>1.5,0</v>
 		</platform>
-		<platform position="30.5,6" texture="wood,2">
+		<platform position="30.5,6" texture="wood,2" surface="grass">
 			<v>0,0</v>
 			<v>0,0.5</v>
 			<v>3,0.5</v>
 			<v>3,0</v>
 		</platform>
-		<platform position="23,6" texture="wood,2">
+		<platform position="23,6" texture="wood,2" surface="grass">
 			<v>0,0</v>
 			<v>0,0.5</v>
 			<v>3,0.5</v>
 			<v>3,0</v>
 		</platform>
-		<platform position="14,6" texture="wood,2">
+		<platform position="14,6" texture="wood,2" surface="grass">
 			<v>0,0</v>
 			<v>0,0.5</v>
 			<v>3,0.5</v>

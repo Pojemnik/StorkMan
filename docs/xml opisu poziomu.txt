@@ -17,6 +17,7 @@ Często używane atrybuty:
 - height (float) - wysokość [m], używana do obliczania skali
 - frame_time (float) - co ile czasu ma się zmieniać klatka animacji obiekty [1/60s]
 - offset (float) - od którego momentu zacząć animację [1/60s]
+- surface (string) - typ powierzchni. Należy wybrać z dotępnych. Lista dostępnych typów zostanie udostępniona na żądanie
 
 Znaczniki główne:
 
@@ -44,6 +45,7 @@ platform:
 		layer* (domyślne 5)
 		rotation* (domyślnie 0)
 		flip* (domyślnie 1,1)
+		surface* (domyślnie none)
 	
 	zawartość:
 		znaczniki <v> opisujące kolejne wierzchołki
@@ -94,6 +96,7 @@ pendulum:
 		rotation* (domyślnie 0)
 		flip* (domyślnie 1,1)
 		line_offset (int, int) - miejsce, gdzie zaczyna się tekstura liny na grafice - współrzędne lewego górnego rogu w pikselach
+		surface* (domyślnie none)
 		
 	zawartość:
 		znaczniki <v> lub <vt> opisujące kolejne wierzchołki
@@ -107,6 +110,7 @@ moving_platform:
 		rotation* (domyślnie 0)
 		flip* (domyślnie 1,1)
 		offset* (domyślne 0)
+		surface* (domyślnie none)
 		
 	zawartość:
 		znaczniki <v> lub <vt> opsujące kolejne wierzchołki
@@ -134,7 +138,7 @@ animated_wall:
 	zawartość:
 		znaczniki <v> opisujące kolejne wierzchołki
 
-moving_platform:
+animated_moving_platform:
 	atrybuty:
 		position
 		texture
@@ -143,6 +147,7 @@ moving_platform:
 		flip* (domyślnie 1,1)
 		offset* (domyślne 0) - uwaga to jest offset jednocześnie dla animacji i ruchu
 		frame_time* (domyślnie 1)
+		surface* (domyślnie none)
 		
 	zawartość:
 		znaczniki <v> lub <vt> opsujące kolejne wierzchołki

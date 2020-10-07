@@ -14,6 +14,13 @@ class Parser
 	const int DEFAULT_OBJECT_LAYER = 3;
 	const Vectorf fliptab[4] = { {1,1},{-1,1},{1,-1},{-1,-1} };
 	const Assets* assets;
+	const std::unordered_map<string, Surface_type> name_to_surface = 
+	{
+		{"none", Surface_type::NONE},
+		{"grass", Surface_type::GRASS},
+		{"concrete", Surface_type::CONCRETE},
+		{"ice",Surface_type::ICE}
+	};
 
 	template <typename T>
 	T get_and_parse_var(string name, tinyxml2::XMLElement* element);
@@ -59,6 +66,7 @@ class Parser
 	sf::Vertex parse_textured_vertex(string content);
 	std::pair<Vectorf, float> parse_path_node(string content);
 	std::vector<sf::Vertex> parse_vertices(tinyxml2::XMLElement* element, std::pair<int, float> fliprot);
+	Surface_type parse_surface(tinyxml2::XMLElement* element);
 	Level parse_level(tinyxml2::XMLElement* root, Vectori global_pos);
 	Level open_and_parse_level(std::pair<Vectori, string> data);
 	Map_chunk parse_chunk(tinyxml2::XMLElement* root, Vectori level_pos);

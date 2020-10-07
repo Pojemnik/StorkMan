@@ -11,7 +11,7 @@ public:
 	Pendulum(Vectorf pos_, const sf::Texture* texture_,
 		std::vector<sf::Vertex> points_, std::vector<Vectorf> attach_pts,
 		float angle_, float line_len_, const sf::Texture* const line_texture_,
-		Vectori line_size);
+		Vectori line_size, Surface_type surface_);
 	void update(float dt);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual sf::FloatRect get_bounding_rect() const;

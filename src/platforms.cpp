@@ -29,8 +29,10 @@ const Collision* const Platform::get_collision() const
 	return &collision;
 }
 
-Platform::Platform(Vectorf pos_, const sf::Texture* texture_, std::vector<sf::Vertex> points_) :
-	collision(points_, pos_), Textured_polygon(pos_, texture_, std::move(std::vector<sf::Vertex>(points_))) {}
+Platform::Platform(Vectorf pos_, const sf::Texture* texture_,
+	std::vector<sf::Vertex> points_, Surface_type surface_) :
+	collision(points_, pos_, surface_),
+	Textured_polygon(pos_, texture_, std::move(std::vector<sf::Vertex>(points_))) {}
 
 sf::FloatRect Platform::get_bounding_rect() const
 {
@@ -42,8 +44,8 @@ const Collision* const Moving_platform::get_collision() const
 }
 
 Moving_platform::Moving_platform(Vectorf pos_, const sf::Texture* texture_,
-	std::vector<sf::Vertex> points_, std::unique_ptr<Simple_AI> ai_) :
-	Platform(pos_, texture_, points_), ai(std::move(ai_)),
+	std::vector<sf::Vertex> points_, std::unique_ptr<Simple_AI> ai_,
+	Surface_type surface_) : Platform(pos_, texture_, points_, surface_), ai(std::move(ai_)),
 	vertex(sf::LineStrip, sf::VertexBuffer::Static)
 {
 	base_rect = collision.rect;
@@ -82,8 +84,8 @@ void Moving_platform::draw_dynamic_collision(sf::RenderTarget& target, sf::Rende
 	target.draw(vertex, states);
 }
 
-Barrier::Barrier(std::vector<sf::Vertex>&& vertices_, Vectorf pos_)
-	: collision(std::move(vertices_), pos_) {}
+Barrier::Barrier(std::vector<sf::Vertex>&& vertices_, Vectorf pos_, Surface_type surface_)
+	: collision(std::move(vertices_), pos_, surface_) {}
 
 const Collision* const Barrier::get_collision() const
 {
@@ -131,7 +133,8 @@ void Animated_polygon::update(float dt)
 
 Animated_moving_platform::Animated_moving_platform(Vectorf pos_,
 	std::unique_ptr<Animation>&& animation_, std::vector<sf::Vertex> points_,
-	std::unique_ptr<Simple_AI> ai_) : Moving_platform(pos_, nullptr, points_, std::move(ai_)),
+	std::unique_ptr<Simple_AI> ai_, Surface_type surface_)
+	: Moving_platform(pos_, nullptr, points_, std::move(ai_), surface_),
 	animation(std::move(animation_))
 {
 	update(.0f);

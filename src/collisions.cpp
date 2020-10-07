@@ -57,6 +57,29 @@ Collision::Collision(sf::FloatRect rect_, float scale, Vectorf pos)
 	calculate_min_max_arr();
 }
 
+Collision::Collision(std::vector<Vectorf>&& mesh_, Vectorf pos, Surface_type surface_) :
+ surface(surface_)
+{
+	for (auto& it : mesh)
+	{
+		it += pos;
+	}
+	rect = util::mesh_to_rect(mesh);
+	calculate_min_max_arr();
+}
+
+Collision::Collision(const std::vector<sf::Vertex>& vertices, Vectorf pos, Surface_type surface_) :
+	mesh(vertices.size()), surface(surface_)
+{
+	int i = 0;
+	for (const auto& it : vertices)
+	{
+		mesh[i++] = it.position + pos;
+	}
+	rect = util::mesh_to_rect(mesh);
+	calculate_min_max_arr();
+}
+
 void Collision::calculate_min_max_arr()
 {
 	min_max_arr.clear();

@@ -125,6 +125,16 @@ sf::Color Parser::parse_color(string val)
 	return sf::Color(r, g, b);
 }
 
+Surface_type Parser::parse_surface(tinyxml2::XMLElement* element)
+{
+	string surface_str = get_attribute_by_name("surface", element);
+	if (surface_str == "")
+	{
+		return Surface_type::NONE;
+	}
+	return name_to_surface.at(surface_str);
+}
+
 string Parser::get_attribute_by_name(string name, tinyxml2::XMLElement* element)
 {
 	tinyxml2::XMLAttribute* att =
@@ -325,17 +335,20 @@ Parser::parse_platform(tinyxml2::XMLElement* element, Vectori level_pos)
 		pos += Vectorf(level_pos.x * context.level_size.x,
 			level_pos.y * context.level_size.y);
 		pos *= context.global_scale;
+		Surface_type surface = parse_surface(element);
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		std::vector<sf::Vertex> points =
 			parse_vertices(element->FirstChildElement(), fliprot);
 		int layer = parse_layer(element, DEFAULT_PLATFORM_LAYER);
-		return std::make_pair(layer, std::make_shared<Platform>(pos, tex, points));
+		return std::make_pair(layer, std::make_shared<Platform>(pos, tex, points,surface));
 	}
 	catch (const std::invalid_argument& e)
 	{
 		std::cout << "Wyjatek: " << e.what() << '\n';
 		std::cout << "Element: " << "platform" << '\n';
-		std::cout << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz platformy" << '\n';
+		std::cout << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz platformy"
+			" lub nieprawid³owa nazwa typu powierzchni"
+			<< '\n';
 	}
 	catch (const std::out_of_range& e)
 	{
@@ -553,7 +566,7 @@ Parser::parse_old_moving_platform(tinyxml2::XMLElement* element, Vectori level_p
 		}
 		int layer = parse_layer(element, DEFAULT_PLATFORM_LAYER);
 		return std::make_pair(layer, std::make_shared<Moving_platform>(pos, tex, std::move(vert),
-			std::unique_ptr<Simple_AI>(new Linear_AI(path, time_offset))));
+			std::unique_ptr<Simple_AI>(new Linear_AI(path, time_offset)), Surface_type::NONE));
 	}
 	catch (const std::invalid_argument& e)
 	{
@@ -620,6 +633,7 @@ Parser::parse_moving_platform(tinyxml2::XMLElement* element, Vectori level_pos)
 		pos += Vectorf(level_pos.x * context.level_size.x,
 			level_pos.y * context.level_size.y);
 		pos *= context.global_scale;
+		Surface_type surface = parse_surface(element);
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		std::vector<sf::Vertex> vert;
 		std::unique_ptr<Simple_AI> ai;
@@ -642,7 +656,7 @@ Parser::parse_moving_platform(tinyxml2::XMLElement* element, Vectori level_pos)
 			e = e->NextSiblingElement();
 		}
 		int layer = parse_layer(element, DEFAULT_PLATFORM_LAYER);
-		return std::make_pair(layer, std::make_shared<Moving_platform>(pos, tex, std::move(vert), std::move(ai)));
+		return std::make_pair(layer, std::make_shared<Moving_platform>(pos, tex, std::move(vert), std::move(ai),surface));
 	}
 	catch (const std::invalid_argument& e)
 	{
@@ -710,6 +724,7 @@ Parser::parse_pendulum(tinyxml2::XMLElement* element, Vectori level_pos)
 		pos += Vectorf(level_pos.x * context.level_size.x,
 			level_pos.y * context.level_size.y);
 		pos *= context.global_scale;
+		Surface_type surface = parse_surface(element);
 		float line_len = get_and_parse_var<float>("length", element);
 		float angle = util::deg_to_rad(get_and_parse_var<float>("angle", element));
 		Vectori line_offset = get_and_parse_var<Vectori>("line_offset", element);
@@ -743,7 +758,7 @@ Parser::parse_pendulum(tinyxml2::XMLElement* element, Vectori level_pos)
 		}
 		int layer = parse_layer(element, DEFAULT_PLATFORM_LAYER);
 		return std::make_pair(layer, std::make_shared<Pendulum>(pos, tex, std::move(vert),
-			attach_points, angle, line_len, line_tex, line_offset));
+			attach_points, angle, line_len, line_tex, line_offset,surface));
 	}
 	catch (const std::invalid_argument& e)
 	{
@@ -803,6 +818,7 @@ std::pair<int, std::shared_ptr<Animated_moving_platform>> Parser::parse_animated
 		pos += Vectorf(level_pos.x * context.level_size.x,
 			level_pos.y * context.level_size.y);
 		pos *= context.global_scale;
+		Surface_type surface = parse_surface(element);
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		string val = get_attribute_by_name("texture", element);
 		const std::vector<sf::Texture>* tex = &assets->animations.at(val);
@@ -832,7 +848,7 @@ std::pair<int, std::shared_ptr<Animated_moving_platform>> Parser::parse_animated
 			e = e->NextSiblingElement();
 		}
 		return std::make_pair(layer, std::make_shared<Animated_moving_platform>(pos,
-			std::move(animation), points, std::move(ai)));
+			std::move(animation), points, std::move(ai),surface));
 	}
 	catch (const std::invalid_argument& e)
 	{
@@ -895,10 +911,11 @@ std::shared_ptr<Barrier> Parser::parse_barrier(tinyxml2::XMLElement* element, Ve
 		pos += Vectorf(level_pos.x * context.level_size.x,
 			level_pos.y * context.level_size.y);
 		pos *= context.global_scale;
+		Surface_type surface = parse_surface(element);
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		std::vector<sf::Vertex> points =
 			parse_vertices(element->FirstChildElement(), fliprot);
-		return std::make_shared<Barrier>(std::move(points), pos);
+		return std::make_shared<Barrier>(std::move(points), pos,surface);
 	}
 	catch (const std::exception e)
 	{
