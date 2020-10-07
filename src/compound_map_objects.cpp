@@ -31,7 +31,13 @@ void Pendulum::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 sf::FloatRect Pendulum::get_bounding_rect() const
 {
-	return platform.get_collision()->rect;
+	sf::FloatRect bound = platform.get_collision()->rect;
+	for (const auto& it : lines)
+	{
+		sf::FloatRect object_rect = it.get_bounding_rect();
+		bound = util::merge_bounds(bound, object_rect);
+	}
+	return bound;
 }
 
 void Pendulum::update(float dt)

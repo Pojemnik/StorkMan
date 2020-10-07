@@ -104,4 +104,5 @@ namespace util
 	void save_texture(std::string path, sf::Texture* texture);
 	sf::FloatRect mesh_to_rect(const std::vector<Vectorf>& vertices);
 	sf::FloatRect mesh_to_rect(const std::vector<sf::Vertex>& vertices);
+	sf::FloatRect merge_bounds(const sf::FloatRect& first, const sf::FloatRect& second);
 }

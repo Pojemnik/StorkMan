@@ -220,6 +220,20 @@ sf::FloatRect util::mesh_to_rect(const std::vector<sf::Vertex>& vertices)
 	return sf::FloatRect(minx, miny, maxx - minx, maxy - miny);
 }
 
+sf::FloatRect util::merge_bounds(const sf::FloatRect& first, const sf::FloatRect& second)
+{
+	sf::FloatRect bound = first;
+	float r_bound = bound.left + bound.width;
+	float r_obj = second.left + second.width;
+	float b_bound = bound.top + bound.height;
+	float b_obj = second.top + second.height;
+	bound.left = std::min(bound.left, second.left);
+	bound.top = std::min(bound.top, second.top);
+	bound.width = std::max(r_bound, r_obj) - bound.left;
+	bound.height = std::max(b_bound, b_obj) - bound.top;
+	return bound;
+}
+
 bool util::contained_in_polygon(Vectorf point, float max_x, const std::vector<Vectorf>& polygon)
 {
 	Vectorf outside_p = { max_x + 1, point.y };

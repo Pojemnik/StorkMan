@@ -813,14 +813,7 @@ sf::FloatRect Parser::calculate_chunk_bounds(tinyxml2::XMLElement* root,
 		sf::FloatRect object_rect = it->get_bounding_rect();
 		if (bound.left != INFINITY)
 		{
-			float r_bound = bound.left + bound.width;
-			float r_obj = object_rect.left + object_rect.width;
-			float b_bound = bound.top + bound.height;
-			float b_obj = object_rect.top + object_rect.height;
-			bound.left = std::min(bound.left, object_rect.left);
-			bound.top = std::min(bound.top, object_rect.top);
-			bound.width = std::max(r_bound, r_obj) - bound.left;
-			bound.height = std::max(b_bound, b_obj) - bound.top;
+			bound = util::merge_bounds(bound, object_rect);
 		}
 		else
 		{
