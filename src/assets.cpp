@@ -335,3 +335,37 @@ void Assets::load_assets()
 	//Sounds and music
 	load_sounds();
 }
+
+void Assets::parse_additional_textures(string path)
+{
+	std::ifstream file;
+	string p, name;
+	int repeat;
+
+	file.open(path);
+	if (file.good())
+	{
+		while (!file.eof())
+		{
+			file >> p >> name >> repeat;
+			load_additional_texture(p, name, repeat);
+		}
+	}
+}
+
+void Assets::parse_additional_animations(string path)
+{
+	std::ifstream file;
+	string p, name;
+	int x, y, sx, sy;
+
+	file.open(path);
+	if (file.good())
+	{
+		while (!file.eof())
+		{
+			file >> p >> name >> x >> y >> sx >> sy;
+			load_additional_animation(p, name, Vectori(x, y), Vectori(sx, sy));
+		}
+	}
+}

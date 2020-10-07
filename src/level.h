@@ -62,6 +62,8 @@ class Level
 	bool draw_border = false;//Currently unused
 	bool draw_chunks_borders = false;
 
+	static void update_chunk(int id, Map_chunk& chunk, float dt);
+
 public:
 	Level() = default;
 	Level(std::vector<Map_chunk>&& chunks_,

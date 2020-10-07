@@ -188,6 +188,15 @@ Level Parser::parse_level(tinyxml2::XMLElement* root, Vectori global_pos)
 	return Level(std::move(chunks), std::move(moving), global_pos);
 }
 
+Level Parser::open_and_parse_level(std::pair<Vectori, string> data)
+{
+	Vectori pos = data.first;
+	string filepath = data.second;
+	tinyxml2::XMLDocument lvl_root;
+	lvl_root.LoadFile(filepath.c_str());
+	return parse_level(lvl_root.FirstChildElement(), pos);
+}
+
 Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root, Vectori level_pos)
 {
 	std::vector<std::shared_ptr<Updatable>> updatables;
@@ -389,7 +398,7 @@ Parser::parse_animated_object(tinyxml2::XMLElement* element, Vectori level_pos)
 			level_pos.y * context.level_size.y);
 		pos *= context.global_scale;
 		string val = get_attribute_by_name("texture", element);
-		std::vector<sf::Texture>* tex = &assets->animations.at(val);
+		const std::vector<sf::Texture>* tex = &assets->animations.at(val);
 		float height = get_and_parse_var < float>("height", element);
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		float frame_time = get_and_parse_var<float>("frame_time", element, 1.f);
@@ -446,19 +455,14 @@ Map Parser::parse_map(tinyxml2::XMLElement* root)
 	Vectori player_pos = map_data.second;
 	tinyxml2::XMLElement* element = root->FirstChildElement();
 	Map map(map_size, player_pos, assets->bg);
+	std::vector<std::future<Level>> futures;
 	while (element != NULL)
 	{
 		string name = element->Name();
 		if (name == "level")
 		{
 			auto level_data = parse_level_element(element, map_size);
-			Vectori pos = level_data.first;
-			string filepath = level_data.second;
-			{
-				tinyxml2::XMLDocument lvl_root;
-				lvl_root.LoadFile(filepath.c_str());
-				map.add_level(parse_level(lvl_root.FirstChildElement(), pos));
-			}
+			futures.push_back(std::async(std::launch::async, &Parser::open_and_parse_level, this, level_data));
 		}
 		else
 		{
@@ -466,42 +470,11 @@ Map Parser::parse_map(tinyxml2::XMLElement* root)
 		}
 		element = element->NextSiblingElement();
 	}
+	for (auto& it : futures)
+	{
+		map.add_level(it.get());
+	}
 	return map;
-}
-
-void Parser::parse_additional_textures(string path)
-{
-	std::ifstream file;
-	string p, name;
-	int repeat;
-
-	file.open(path);
-	if (file.good())
-	{
-		while (!file.eof())
-		{
-			file >> p >> name >> repeat;
-			assets->load_additional_texture(p, name, repeat);
-		}
-	}
-}
-
-void Parser::parse_additional_animations(string path)
-{
-	std::ifstream file;
-	string p, name;
-	int x, y, sx, sy;
-
-	file.open(path);
-	if (file.good())
-	{
-		while (!file.eof())
-		{
-			file >> p >> name >> x >> y >> sx >> sy;
-			assets->load_additional_animation(p, name, Vectori(x, y),
-				Vectori(sx, sy));
-		}
-	}
 }
 
 Entity_config Parser::parse_entity_config(string path)

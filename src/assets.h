@@ -42,6 +42,8 @@ public:
 		Vectori size);
 	std::vector<const Dynamic_animation_struct*>* load_dynamic_animations(std::vector<string> paths);
 	const Animation_tree load_animation_tree(std::string path);
+	void parse_additional_textures(std::string path);
+	void parse_additional_animations(std::string path);
 
 private:
 	std::vector<const Dynamic_animation_struct*> dynamic_animations;

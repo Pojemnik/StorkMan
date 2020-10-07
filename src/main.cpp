@@ -111,14 +111,16 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	//Assets
 	Assets assets;
 	assets.load_assets();
+	assets.parse_additional_textures("img/textures.txt");
+	assets.parse_additional_animations("img/animations.txt");
+
+	//Console
 	context.console = std::unique_ptr<Console>(
 		new Console(assets.console_bg, &assets.consola, context.resolution));
 	context.console->out << "Stork'man version " + VERSION << '\n';
 
 	//Parsing
 	Parser parser(&assets);
-	parser.parse_additional_textures("img/textures.txt");
-	parser.parse_additional_animations("img/animations.txt");
 
 	//Window setup
 	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();

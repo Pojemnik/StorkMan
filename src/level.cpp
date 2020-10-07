@@ -167,12 +167,14 @@ Level::Level(std::vector<Map_chunk>&& chunks_,
 
 void Level::update(float dt, sf::FloatRect screen_rect)
 {
+	std::vector<std::future<void>> futures;
 	for (auto& it : chunks)
 	{
 		if (it.get_bounding_rect().intersects(screen_rect))
 		{
 			it.on_screen = true;
-			it.update(dt);
+			futures.push_back(context.thread_pool->push(Level::update_chunk, it, dt));
+			//Maybe check if there is something to update in chunk
 		}
 		else
 		{
@@ -191,6 +193,15 @@ void Level::update(float dt, sf::FloatRect screen_rect)
 			it.on_screen = false;
 		}
 	}
+	for (auto& it : futures)
+	{
+		it.get();
+	}
+}
+
+void Level::update_chunk(int id, Map_chunk& chunk, float dt)
+{
+		chunk.update(dt);
 }
 
 void Level::draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const

@@ -2,6 +2,7 @@
 #include <iostream>
 #include <sstream>
 #include <assert.h>
+#include <future>
 #include "map.h"
 #include "assets.h"
 #include "tinyxml2.h"
@@ -12,7 +13,7 @@ class Parser
 	const int DEFAULT_PLATFORM_LAYER = 5;
 	const int DEFAULT_OBJECT_LAYER = 3;
 	const Vectorf fliptab[4] = { {1,1},{-1,1},{1,-1},{-1,-1} };
-	Assets* assets;
+	const Assets* assets;
 
 	template <typename T>
 	T get_and_parse_var(string name, tinyxml2::XMLElement* element);
@@ -59,6 +60,7 @@ class Parser
 	std::pair<Vectorf, float> parse_path_node(string content);
 	std::vector<sf::Vertex> parse_vertices(tinyxml2::XMLElement* element, std::pair<int, float> fliprot);
 	Level parse_level(tinyxml2::XMLElement* root, Vectori global_pos);
+	Level open_and_parse_level(std::pair<Vectori, string> data);
 	Map_chunk parse_chunk(tinyxml2::XMLElement* root, Vectori level_pos);
 	std::pair<int, std::shared_ptr<Platform>> parse_platform(tinyxml2::XMLElement* element, Vectori level_pos);
 	std::pair<int, std::shared_ptr<Textured_polygon>> parse_wall(tinyxml2::XMLElement* element, Vectori level_pos);
@@ -77,8 +79,6 @@ class Parser
 
 public:
 	Map parse_map(tinyxml2::XMLElement* root);
-	void parse_additional_textures(std::string path);
-	void parse_additional_animations(std::string path);
 	Entity_config parse_entity_config(string path);
 	Parser(Assets* _assets);
 };
