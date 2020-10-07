@@ -1,15 +1,19 @@
 ﻿<level name="Podziemna Świątynia - poziom testowy 04">
 	<chunk right="3">
-		<animated_moving_platform position="10, 10" texture="rain45" frame_time="3">
-			<v>0,0</v>
-			<v>4,0</v>
-			<v>4,2</v>
-			<v>0,2</v>
-			<linear_move>
-				<p>0,0,60</p>
-				<p>3,0,60</p>
-			</linear_move>
-		</animated_moving_platform>
+		<moving_damage_zone position="15,10">
+		<v>0,0</v>
+		<v>2,0</v>
+		<v>2,2</v>
+		<v>0,2</v>
+		
+		<d>10,10</d>
+		<d>0,10</d>
+		
+		<linear_move>
+			<p>0,0,60</p>
+			<p>3,0,60</p>
+		</linear_move>
+		</moving_damage_zone>
 	</chunk>
 	/---------------------------------------------------------------------PODZIEMIE
 	<chunk>

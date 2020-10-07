@@ -1,11 +1,8 @@
 #pragma once
-#include <unordered_set>
-
 #include "collisions.h"
 #include "logic.h"
 #include "animations.h"
 #include "interfaces.h"
-#include "entities.h"
 
 struct Object : public Renderable, public Map_object
 {
@@ -57,36 +54,4 @@ public:
 		float angle_ = 0);
 	void update(float dt);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-};
-
-class Zone : public Map_object
-{
-protected:
-	std::unordered_set<Entity*, std::hash<Entity*>, Compare_entities> contained;
-	Vectorf pos;
-	sf::VertexBuffer buffer;
-
-public:
-	Collision collision;
-
-	Zone(const std::vector<Vectorf>& vert, Vectorf p);
-	virtual void interact(Entity& entity) = 0;
-	virtual sf::FloatRect get_bounding_rect() const;
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-};
-
-class Damage_zone : public Zone, public Updatable
-{
-	std::vector<std::pair<int, float>> damage;
-	float time = 0;
-	bool changed_damage = false;
-	std::vector<std::pair<int, float>>::iterator current_damage;
-
-public:
-
-	Damage_zone(std::vector<Vectorf>& vert, Vectorf p,
-		std::vector<std::pair<int, float>>& dmg);
-	void update(float dt);
-	virtual void interact(Entity& entity);
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

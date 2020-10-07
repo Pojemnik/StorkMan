@@ -1,6 +1,6 @@
 #pragma once
 #include "compound_map_objects.h"
-#include "entities.h"
+#include "zones.h"
 
 class Moving_element : public Updatable, public Renderable, public Map_object
 {

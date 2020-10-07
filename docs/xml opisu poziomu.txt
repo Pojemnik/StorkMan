@@ -167,6 +167,15 @@ barrier:
 		
 	zawartość:
 		znaczniki <v> opisujące kolejne wierzchołki
+		
+moving_damage_zone:
+	atrybuty:
+		position
+		
+	zawartość:
+		znaczniki <v> opisujące kolejne wierzchołki
+		znaczniki <d> opisujące sekwencję zadawania obrażeń przez strefę
+		<linear_move> opisujący ruch
 	
 
 Znaczniki pomocnicze (nie występują samodzielnie):

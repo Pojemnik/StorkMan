@@ -313,6 +313,13 @@ Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root, Vectori level_pos)
 			collidables.push_back(std::static_pointer_cast<Collidable>(ptr));
 			map_objects.push_back(std::static_pointer_cast<Map_object>(ptr));
 		}
+		else if (name == "moving_damage_zone")
+		{
+			auto ptr = parse_moving_damage_zone(element, level_pos);
+			updatables.push_back(std::static_pointer_cast<Updatable>(ptr));
+			map_objects.push_back(std::static_pointer_cast<Map_object>(ptr));
+			zones.push_back(std::static_pointer_cast<Zone>(ptr));
+		}
 		element = element->NextSiblingElement();
 	}
 	sf::FloatRect bound = calculate_chunk_bounds(root, map_objects);
@@ -340,7 +347,7 @@ Parser::parse_platform(tinyxml2::XMLElement* element, Vectori level_pos)
 		std::vector<sf::Vertex> points =
 			parse_vertices(element->FirstChildElement(), fliprot);
 		int layer = parse_layer(element, DEFAULT_PLATFORM_LAYER);
-		return std::make_pair(layer, std::make_shared<Platform>(pos, tex, points,surface));
+		return std::make_pair(layer, std::make_shared<Platform>(pos, tex, points, surface));
 	}
 	catch (const std::invalid_argument& e)
 	{
@@ -656,7 +663,7 @@ Parser::parse_moving_platform(tinyxml2::XMLElement* element, Vectori level_pos)
 			e = e->NextSiblingElement();
 		}
 		int layer = parse_layer(element, DEFAULT_PLATFORM_LAYER);
-		return std::make_pair(layer, std::make_shared<Moving_platform>(pos, tex, std::move(vert), std::move(ai),surface));
+		return std::make_pair(layer, std::make_shared<Moving_platform>(pos, tex, std::move(vert), std::move(ai), surface));
 	}
 	catch (const std::invalid_argument& e)
 	{
@@ -758,7 +765,7 @@ Parser::parse_pendulum(tinyxml2::XMLElement* element, Vectori level_pos)
 		}
 		int layer = parse_layer(element, DEFAULT_PLATFORM_LAYER);
 		return std::make_pair(layer, std::make_shared<Pendulum>(pos, tex, std::move(vert),
-			attach_points, angle, line_len, line_tex, line_offset,surface));
+			attach_points, angle, line_len, line_tex, line_offset, surface));
 	}
 	catch (const std::invalid_argument& e)
 	{
@@ -848,7 +855,7 @@ std::pair<int, std::shared_ptr<Animated_moving_platform>> Parser::parse_animated
 			e = e->NextSiblingElement();
 		}
 		return std::make_pair(layer, std::make_shared<Animated_moving_platform>(pos,
-			std::move(animation), points, std::move(ai),surface));
+			std::move(animation), points, std::move(ai), surface));
 	}
 	catch (const std::invalid_argument& e)
 	{
@@ -900,7 +907,50 @@ std::shared_ptr <Damage_zone> Parser::parse_damage_zone(tinyxml2::XMLElement* el
 		std::cout << "Element: " << "damage zone" << '\n';
 		std::cout << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz strefy" << '\n';
 	}
-	throw std::runtime_error("Textured_polygon error");
+	throw std::runtime_error("damage zone error");
+}
+
+std::shared_ptr<Moving_damage_zone> Parser::parse_moving_damage_zone(tinyxml2::XMLElement* element, Vectori level_pos)
+{
+	try
+	{
+		std::vector<Vectorf> vert;
+		Vectorf pos = get_and_parse_var<Vectorf>("position", element);
+		pos += Vectorf(level_pos.x * context.level_size.x,
+			level_pos.y * context.level_size.y);
+		pos *= context.global_scale;
+		tinyxml2::XMLElement* e = element->FirstChildElement();
+		std::vector<std::pair<int, float>> dmg;
+		std::unique_ptr<Simple_AI> ai;
+		while (e != NULL)
+		{
+			string n = e->Name();
+			if (n == "v")
+			{
+				Vectorf v = parse_var<Vectorf>(e->GetText());
+				v *= context.global_scale;
+				vert.push_back(v);
+			}
+			else if (n == "d")
+			{
+				Vectorf d = parse_var<Vectorf>(e->GetText());
+				dmg.push_back({ static_cast<int>(d.x), d.y });
+			}
+			else if (n == "linear_move")
+			{
+				ai = parse_Simple_AI<Linear_AI>(e);
+			}
+			e = e->NextSiblingElement();
+		}
+		return std::make_shared<Moving_damage_zone>(vert, pos, dmg, std::move(ai));
+	}
+	catch (const std::invalid_argument& e)
+	{
+		std::cout << "Wyjatek: " << e.what() << '\n';
+		std::cout << "Element: " << "damage zone" << '\n';
+		std::cout << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz strefy" << '\n';
+	}
+	throw std::runtime_error("moving damage zone error");
 }
 
 std::shared_ptr<Barrier> Parser::parse_barrier(tinyxml2::XMLElement* element, Vectori level_pos)
@@ -915,7 +965,7 @@ std::shared_ptr<Barrier> Parser::parse_barrier(tinyxml2::XMLElement* element, Ve
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		std::vector<sf::Vertex> points =
 			parse_vertices(element->FirstChildElement(), fliprot);
-		return std::make_shared<Barrier>(std::move(points), pos,surface);
+		return std::make_shared<Barrier>(std::move(points), pos, surface);
 	}
 	catch (const std::exception e)
 	{
