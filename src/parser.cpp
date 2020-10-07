@@ -288,6 +288,13 @@ Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root, Vectori level_pos)
 			map_objects.push_back(std::static_pointer_cast<Map_object>(ptr));
 			add_vertices(collision_vertices, collidables.back()->get_collision());
 		}
+		else if (name == "animated_wall")
+		{
+			auto [layer, ptr] = parse_animated_wall(element, level_pos);
+			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
+			updatables.push_back(std::static_pointer_cast<Updatable>(ptr));
+			map_objects.push_back(std::static_pointer_cast<Map_object>(ptr));
+		}
 		element = element->NextSiblingElement();
 	}
 	sf::FloatRect bound = calculate_chunk_bounds(root, map_objects);
@@ -399,7 +406,7 @@ Parser::parse_animated_object(tinyxml2::XMLElement* element, Vectori level_pos)
 		pos *= context.global_scale;
 		string val = get_attribute_by_name("texture", element);
 		const std::vector<sf::Texture>* tex = &assets->animations.at(val);
-		float height = get_and_parse_var < float>("height", element);
+		float height = get_and_parse_var <float>("height", element);
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		float frame_time = get_and_parse_var<float>("frame_time", element, 1.f);
 		float frame_offset = get_and_parse_var<float>("offset", element, 0.f);
@@ -743,6 +750,41 @@ Parser::parse_pendulum(tinyxml2::XMLElement* element, Vectori level_pos)
 		std::cout << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
 	}
 	throw std::runtime_error("Pendulum error");
+}
+
+std::pair<int, std::shared_ptr<Animated_polygon>> Parser::parse_animated_wall(tinyxml2::XMLElement* element, Vectori level_pos)
+{
+	try
+	{
+		Vectorf pos = get_and_parse_var<Vectorf>("position", element);
+		pos += Vectorf(level_pos.x * context.level_size.x,
+			level_pos.y * context.level_size.y);
+		pos *= context.global_scale;
+		std::pair<int, float> fliprot = parse_flip_rotation(element);
+		std::vector<sf::Vertex> points =
+			parse_vertices(element->FirstChildElement(), fliprot);
+		string val = get_attribute_by_name("texture", element);
+		const std::vector<sf::Texture>* tex = &assets->animations.at(val);
+		float frame_time = get_and_parse_var<float>("frame_time", element, 1.f);
+		float frame_offset = get_and_parse_var<float>("offset", element, 0.f);
+		int layer = parse_layer(element, DEFAULT_OBJECT_LAYER);
+		Static_animation_struct sas(tex, frame_time);
+		std::unique_ptr<Animation> animation = std::make_unique<Static_animation>(sas, frame_offset);
+		return std::make_pair(layer, std::make_shared<Animated_polygon>(pos, std::move(animation), points));
+	}
+	catch (const std::invalid_argument& e)
+	{
+		std::cout << "Wyjatek: " << e.what() << '\n';
+		std::cout << "Element: " << "animated_wall" << '\n';
+		std::cout << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz œciany" << '\n';
+	}
+	catch (const std::out_of_range& e)
+	{
+		std::cout << "Wyjatek: " << e.what() << '\n';
+		std::cout << "Element: " << "animated_wall" << '\n';
+		std::cout << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
+	}
+	throw std::runtime_error("Textured_polygon error");
 }
 
 std::shared_ptr <Damage_zone> Parser::parse_damage_zone(tinyxml2::XMLElement* element, Vectori level_pos)

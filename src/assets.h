@@ -39,7 +39,7 @@ public:
 	void load_assets();
 	void load_additional_texture(std::string path, std::string name, int repeat);
 	void load_additional_animation(string path, string name, Vectori n,
-		Vectori size);
+		Vectori size, bool repeat);
 	std::vector<const Dynamic_animation_struct*>* load_dynamic_animations(std::vector<string> paths);
 	const Animation_tree load_animation_tree(std::string path);
 	void parse_additional_textures(std::string path);
@@ -53,7 +53,7 @@ private:
 	void load_texture(sf::Texture& t, string path, bool rep);
 	void load_textures(std::vector<sf::Texture>& v, std::string path, bool rep);
 	void load_animation(std::vector<sf::Texture>& a, sf::Image& img, int x, int y,
-		int sx, int sy);//a musi byæ zaalokowane wczeœniej
+		int sx, int sy, bool repeated);//a musi byæ zaalokowane wczeœniej
 	Dynamic_animation_struct* load_dynamic_animation(std::string path);
 	void load_sound(sf::SoundBuffer& buf, string path);
 	void load_sounds();

@@ -94,3 +94,37 @@ sf::FloatRect Barrier::get_bounding_rect() const
 {
 	return collision.rect;
 }
+
+Animated_polygon::Animated_polygon(Vectorf pos, std::unique_ptr<Animation>&& animation_,
+	std::vector<sf::Vertex> points) : animation(std::move(animation_)),
+	Textured_polygon(pos, nullptr, points)
+{
+	update(.0f);
+}
+
+void Animated_polygon::update_frame()
+{
+	texture = animation->get_texture();
+}
+
+void Animated_polygon::next_frame(float dt)
+{
+	animation->next_frame(dt);
+}
+
+void Animated_polygon::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	states.texture = texture;
+	target.draw(polygon, states);
+}
+
+sf::FloatRect Animated_polygon::get_bounding_rect() const
+{
+	return bound;
+}
+
+void Animated_polygon::update(float dt)
+{
+	next_frame(dt);
+	update_frame();
+}

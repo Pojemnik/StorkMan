@@ -1,21 +1,11 @@
 ﻿<level name="Podziemna Świątynia - poziom testowy 04">
-<chunk>
-	<damage_zone position="10,13.5">
-		<d>10,60</d>
-		
-		<v>0,2</v>
-        <v>1,2</v>
-        <v>1,0</v>
-        <v>0,0</v>
-	</damage_zone>
-		<damage_zone position="11,13.5">
-		<d>10,60</d>
-		
-		<v>0,2</v>
-        <v>1,2</v>
-        <v>1,0</v>
-        <v>0,0</v>
-	</damage_zone>
+	<chunk>
+		<animated_wall position="8, 6" texture="rain45" frame_time="3">
+			<v>0,0</v>
+			<v>8,0</v>
+			<v>8,8</v>
+			<v>0,8</v>
+		</animated_wall>
 	</chunk>
 	/---------------------------------------------------------------------PODZIEMIE
 	<chunk>

@@ -33,7 +33,7 @@ void Assets::load_texture(sf::Texture& t, string path, bool rep)
 }
 
 void Assets::load_animation(std::vector<sf::Texture>& a, sf::Image& img, int x,
-	int y, int sx, int sy)
+	int y, int sx, int sy, bool repeat)
 {
 	for (int j = 0; j < y; j++)
 	{
@@ -44,6 +44,7 @@ void Assets::load_animation(std::vector<sf::Texture>& a, sf::Image& img, int x,
 				context.console->err << "animation loading error" << "\n";
 				return;
 			}
+			a[j * x + i].setRepeated(repeat);
 		}
 	}
 }
@@ -229,12 +230,12 @@ void Assets::load_additional_texture(std::string path, std::string name,
 }
 
 void Assets::load_additional_animation(string path, string name, Vectori n,
-	Vectori size)
+	Vectori size, bool repeat)
 {
 	sf::Image im;
 	im.loadFromFile(path);
 	animations[name] = std::vector<sf::Texture>(n.x * n.y);
-	load_animation(animations[name], im, n.x, n.y, size.x, size.y);
+	load_animation(animations[name], im, n.x, n.y, size.x, size.y, repeat);
 }
 
 std::vector<const Dynamic_animation_struct*>* Assets::load_dynamic_animations(std::vector<string> paths)
@@ -358,14 +359,14 @@ void Assets::parse_additional_animations(string path)
 	std::ifstream file;
 	string p, name;
 	int x, y, sx, sy;
-
+	bool repeat;
 	file.open(path);
 	if (file.good())
 	{
 		while (!file.eof())
 		{
-			file >> p >> name >> x >> y >> sx >> sy;
-			load_additional_animation(p, name, Vectori(x, y), Vectori(sx, sy));
+			file >> p >> name >> x >> y >> sx >> sy >> repeat;
+			load_additional_animation(p, name, Vectori(x, y), Vectori(sx, sy), repeat);
 		}
 	}
 }

@@ -2,6 +2,7 @@
 #include "collisions.h"
 #include "logic.h"
 #include "interfaces.h"
+#include "animations.h"
 
 class Barrier : public Collidable, public Map_object
 {
@@ -54,4 +55,19 @@ public:
 	void update(float dt);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual void draw_dynamic_collision(sf::RenderTarget& target, sf::RenderStates states) const;
+};
+
+class Animated_polygon : public Textured_polygon, public Animatable, public Updatable
+{
+protected:
+	std::unique_ptr<Animation> animation;
+
+public:
+	Animated_polygon(Vectorf pos, std::unique_ptr<Animation>&& animation_,
+		std::vector<sf::Vertex> points);
+	virtual void update_frame();
+	virtual void next_frame(float dt);
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	virtual sf::FloatRect get_bounding_rect() const;
+	virtual void update(float dt);
 };
