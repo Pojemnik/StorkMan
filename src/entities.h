@@ -28,7 +28,7 @@ public:
 class Entity : public Updatable, public Collidable, public Message_sender, public Renderable
 {
 protected:
-	float move_speed = 4.6f;
+	float move_speed = 0.46f;
 	float jump_force = 0.8f;
 	int last_direction = 1;
 	Physical physical;

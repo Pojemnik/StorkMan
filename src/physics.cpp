@@ -21,8 +21,17 @@ Vectorf Physical::get_pos()
 
 void Physical::update(float dt)
 {
-	speed += acceleration * dt;
 	temp_delta = -temp_delta;
+	delta_pos += move_delta * dt;
+	static float acc(0);
+	acc += dt;
+	int i = 0;
+	while (acc > 1.f)
+	{
+		i++;
+		speed += acceleration;
+		acc -= 1.f;
+	}
 	if (temp_delta != Vectorf(0, 0))
 	{
 		float k = util::vector_dot_product(speed, temp_delta) /
@@ -48,7 +57,10 @@ void Physical::update(float dt)
 		}
 		delta_pos += temp_delta - util::normalize(temp_delta, 2.0f);
 	}
-	delta_pos += speed * dt;
+	while (i--)
+	{
+		delta_pos += speed;
+	}
 	pos += delta_pos;
 	collision.rect.left += delta_pos.x;
 	collision.rect.top += delta_pos.y;
@@ -57,7 +69,7 @@ void Physical::update(float dt)
 		it += delta_pos;
 	}
 	last_on_ground = on_ground;
-	if(max_up < 0)
+	if (max_up < 0)
 	{
 		on_ground = true;
 	}
@@ -69,6 +81,7 @@ void Physical::update(float dt)
 	acceleration = { 0,0 };
 	temp_delta = Vectorf(0, 0);
 	delta_pos = Vectorf(0, 0);
+	move_delta = { 0,0 };
 	surface = Surface_type::NONE;
 	max_up = 1.f;
 }
@@ -123,7 +136,7 @@ void Physical::resolve_collision(const Collidable& other)
 
 void Physical::move(Vectorf delta)
 {
-	delta_pos += delta;
+	move_delta += delta;
 }
 
 void Physical::set_position(Vectorf new_pos)

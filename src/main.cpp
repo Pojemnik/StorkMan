@@ -7,27 +7,6 @@
 
 const std::string VERSION = "pre-alpha 0.4.???";
 
-bool update(float dt, Map& map, Entity& player, sf::FloatRect screen)
-{
-	static float acc(0);
-	acc += dt;
-	bool updated = false;
-	if (acc >= 1000.0f / context.fps)
-		updated = true;
-	while (acc >= 1000.0f / context.fps)
-	{
-		map.update(1, player.get_position(), screen);
-		player.update(1);
-		acc -= 1000.0f / context.fps;
-	}
-	return updated;
-}
-
-void resize_window(sf::RenderWindow& window, Assets& assets)
-{
-	window.setSize(sf::Vector2u(context.resolution.x, context.resolution.y));
-}
-
 bool process_event(sf::Event& event)
 {
 	switch (event.type)
@@ -186,7 +165,6 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 	//Other
 	context.thread_pool = std::unique_ptr<ctpl::thread_pool>(new ctpl::thread_pool(4));
 	sf::Clock clock;
-	float acc = 0;
 
 	while (window.isOpen())
 	{
@@ -214,7 +192,7 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 				switch (code.first)
 				{
 				case Command_code::CHANGE_RESOLUTION:
-					resize_window(window, assets);
+					window.setSize(sf::Vector2u(context.resolution.x, context.resolution.y));
 					break;
 				case Command_code::MOVE_PLAYER:
 					player.set_position(code.second * context.global_scale);
@@ -263,60 +241,56 @@ int main(int argc, char** argv)	//Second argument is a map file for editor
 			context.console->update_content();
 		}
 		float time = (float)clock.getElapsedTime().asMicroseconds();
-		time /= 1000.0f;
-		if (time > 2500.0f / context.fps)
-		{
-			time = 2500.0f / context.fps;
-		}
-		acc += time;
+		time /= 1000000.0f;
+		time *= context.fps;
 		clock.restart();
 		Vectorf camera_pos = player.get_position();
 		camera_pos -= Vectorf((float)context.default_resolution.x / 2,
 			(float)context.default_resolution.y / 2);
 		sf::FloatRect screen_rect(camera_pos.x, camera_pos.y,
 			context.default_resolution.x, context.default_resolution.y);
-		if (context.console->is_active() || update(time, map, player, screen_rect))
+		if (!context.console->is_active())
 		{
-			if (context.draw_fps_counter)
-			{
-				fps_counter.setString(std::to_string(int(1000.f / acc)));
-			}
-			acc = 0;
-			window.clear();
-			camera_pos = player.get_position();
-			camera_pos -= sf::Vector2f((float)context.default_resolution.x / 2,
-				(float)context.default_resolution.y / 2);
-			sf::RenderStates rs = sf::RenderStates::Default;
-			rs.transform = sf::Transform().translate(-camera_pos);
-			map.draw_bottom_layers(window, rs);
-			window.draw(player, rs);
-			map.draw_middle_layers(window, rs);
-			map.draw_top_layers(window, rs);
-			if (context.draw_damage_zones)
-			{
-				map.draw_zones(window, rs);
-			}
-			if (context.draw_map_vertices)
-			{
-				map.draw_vertices(window, rs);
-			}
-			if (context.draw_hp)
-			{
-				hp.setString(std::to_string(player.health));
-				window.draw(hp);
-			}
-			hp_bar.pre_draw(player.health);
-			window.draw(hp_bar);	
-			if (context.draw_fps_counter)
-			{
-				window.draw(fps_counter);
-			}
-			if (context.console->is_active())
-			{
-				window.draw(*context.console);
-			}
-			window.display();
+			map.update(time, player.get_position(), screen_rect);
+			player.update(time);
 		}
+		if (context.draw_fps_counter)
+		{
+			fps_counter.setString(std::to_string(int(context.fps/time)));
+		}
+		window.clear();
+		camera_pos = player.get_position();
+		camera_pos -= sf::Vector2f(context.default_resolution) / 2.0f;
+		sf::RenderStates rs = sf::RenderStates::Default;
+		rs.transform = sf::Transform().translate(-camera_pos);
+		map.draw_bottom_layers(window, rs);
+		window.draw(player, rs);
+		map.draw_middle_layers(window, rs);
+		map.draw_top_layers(window, rs);
+		if (context.draw_damage_zones)
+		{
+			map.draw_zones(window, rs);
+		}
+		if (context.draw_map_vertices)
+		{
+			map.draw_vertices(window, rs);
+		}
+		if (context.draw_hp)
+		{
+			hp.setString(std::to_string(player.health));
+			window.draw(hp);
+		}
+		hp_bar.pre_draw(player.health);
+		window.draw(hp_bar);
+		if (context.draw_fps_counter)
+		{
+			window.draw(fps_counter);
+		}
+		if (context.console->is_active())
+		{
+			window.draw(*context.console);
+		}
+		window.display();
 	}
 	return 0;
 }

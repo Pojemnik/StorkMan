@@ -11,6 +11,7 @@ class Physical : public Updatable, public Collidable
 	Vectorf speed;
 	Vectorf pos;
 	Vectorf delta_pos;
+	Vectorf move_delta;
 	Vectorf collision_vector;
 	Surface_type surface;
 	bool on_ground = false;
