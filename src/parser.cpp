@@ -295,6 +295,14 @@ Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root, Vectori level_pos)
 			updatables.push_back(std::static_pointer_cast<Updatable>(ptr));
 			map_objects.push_back(std::static_pointer_cast<Map_object>(ptr));
 		}
+		else if (name == "animated_moving_platform")
+		{
+			auto [layer, ptr] = parse_animated_moving_platform(element, level_pos);
+			drawables.emplace_back(layer, std::static_pointer_cast<Renderable>(ptr));
+			updatables.push_back(std::static_pointer_cast<Updatable>(ptr));
+			collidables.push_back(std::static_pointer_cast<Collidable>(ptr));
+			map_objects.push_back(std::static_pointer_cast<Map_object>(ptr));
+		}
 		element = element->NextSiblingElement();
 	}
 	sf::FloatRect bound = calculate_chunk_bounds(root, map_objects);
@@ -771,6 +779,60 @@ std::pair<int, std::shared_ptr<Animated_polygon>> Parser::parse_animated_wall(ti
 		Static_animation_struct sas(tex, frame_time);
 		std::unique_ptr<Animation> animation = std::make_unique<Static_animation>(sas, frame_offset);
 		return std::make_pair(layer, std::make_shared<Animated_polygon>(pos, std::move(animation), points));
+	}
+	catch (const std::invalid_argument& e)
+	{
+		std::cout << "Wyjatek: " << e.what() << '\n';
+		std::cout << "Element: " << "animated_wall" << '\n';
+		std::cout << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz œciany" << '\n';
+	}
+	catch (const std::out_of_range& e)
+	{
+		std::cout << "Wyjatek: " << e.what() << '\n';
+		std::cout << "Element: " << "animated_wall" << '\n';
+		std::cout << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
+	}
+	throw std::runtime_error("Textured_polygon error");
+}
+
+std::pair<int, std::shared_ptr<Animated_moving_platform>> Parser::parse_animated_moving_platform(tinyxml2::XMLElement* element, Vectori level_pos)
+{
+	try
+	{
+		Vectorf pos = get_and_parse_var<Vectorf>("position", element);
+		pos += Vectorf(level_pos.x * context.level_size.x,
+			level_pos.y * context.level_size.y);
+		pos *= context.global_scale;
+		std::pair<int, float> fliprot = parse_flip_rotation(element);
+		string val = get_attribute_by_name("texture", element);
+		const std::vector<sf::Texture>* tex = &assets->animations.at(val);
+		float frame_time = get_and_parse_var<float>("frame_time", element, 1.f);
+		float frame_offset = get_and_parse_var<float>("offset", element, 0.f);
+		int layer = parse_layer(element, DEFAULT_OBJECT_LAYER);
+		Static_animation_struct sas(tex, frame_time);
+		std::unique_ptr<Animation> animation = std::make_unique<Static_animation>(sas, frame_offset);
+		std::unique_ptr<Simple_AI> ai;
+		std::vector<sf::Vertex> points;
+		tinyxml2::XMLElement* e = element->FirstChildElement();
+		while (e != NULL)
+		{
+			string n = e->Name();
+			if (n == "v")
+			{
+				points.push_back(parse_vertex(e->GetText(), fliprot));
+			}
+			else if (n == "vt")
+			{
+				points.push_back(parse_textured_vertex(e->GetText()));
+			}
+			else if (n == "linear_move")
+			{
+				ai = parse_Simple_AI<Linear_AI>(e);
+			}
+			e = e->NextSiblingElement();
+		}
+		return std::make_pair(layer, std::make_shared<Animated_moving_platform>(pos,
+			std::move(animation), points, std::move(ai)));
 	}
 	catch (const std::invalid_argument& e)
 	{

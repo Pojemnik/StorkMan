@@ -133,6 +133,20 @@ animated_wall:
 	
 	zawartość:
 		znaczniki <v> opisujące kolejne wierzchołki
+
+moving_platform:
+	atrybuty:
+		position
+		texture
+		layer* (domyślne 5)
+		rotation* (domyślnie 0)
+		flip* (domyślnie 1,1)
+		offset* (domyślne 0) - uwaga to jest offset jednocześnie dla animacji i ruchu
+		frame_time* (domyślnie 1)
+		
+	zawartość:
+		znaczniki <v> lub <vt> opsujące kolejne wierzchołki
+		<linear_move> opisujący ruch
 		
 damage_zone:
 	atrybuty:

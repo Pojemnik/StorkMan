@@ -128,3 +128,41 @@ void Animated_polygon::update(float dt)
 	next_frame(dt);
 	update_frame();
 }
+
+Animated_moving_platform::Animated_moving_platform(Vectorf pos_,
+	std::unique_ptr<Animation>&& animation_, std::vector<sf::Vertex> points_,
+	std::unique_ptr<Simple_AI> ai_) : Moving_platform(pos_, nullptr, points_, std::move(ai_)),
+	animation(std::move(animation_))
+{
+	update(.0f);
+}
+
+void Animated_moving_platform::update(float dt)
+{
+	Moving_platform::update(dt);
+	next_frame(dt);
+	update_frame();
+}
+
+void Animated_moving_platform::update_frame()
+{
+	texture = animation->get_texture();
+}
+
+void Animated_moving_platform::next_frame(float dt)
+{
+	animation->next_frame(dt);
+}
+
+void Animated_moving_platform::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	states.texture = texture;
+	states.transform *= ai->get_pos();
+	target.draw(polygon, states);
+}
+
+void Animated_moving_platform::draw_dynamic_collision(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	states.transform *= ai->get_pos();
+	target.draw(vertex, states);
+}

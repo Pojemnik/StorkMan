@@ -43,6 +43,7 @@ public:
 
 class Moving_platform : public Platform, public Updatable
 {
+protected:
 	std::unique_ptr<Simple_AI> ai;
 	std::vector<Vectorf> base_mesh;
 	sf::FloatRect base_rect;
@@ -70,4 +71,19 @@ public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual sf::FloatRect get_bounding_rect() const;
 	virtual void update(float dt);
+};
+
+class Animated_moving_platform : public Moving_platform, public Animatable
+{
+protected:
+	std::unique_ptr<Animation> animation;
+
+public:
+	Animated_moving_platform(Vectorf pos_, std::unique_ptr<Animation>&& animation_,
+		std::vector<sf::Vertex> points_, std::unique_ptr<Simple_AI> ai_);
+	void update(float dt);
+	virtual void update_frame();
+	virtual void next_frame(float dt);
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	virtual void draw_dynamic_collision(sf::RenderTarget& target, sf::RenderStates states) const;
 };
