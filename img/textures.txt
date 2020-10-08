@@ -75,5 +75,5 @@ img/tex/textures/wood/DESKI01.png lumber1 0
 img/tex/textures/wood/DESKI01.png lumbers1 0
 img/tex/textures/wood/DESKI03.png lumber3 0
 img/tex/textures/wood/DESKI03.png lumbers3 0
-img/tex/textures_filling/damage/PEKNIECIE00.png break0 0
-img/tex/textures_filling/filling/ZIEMIA_UZUPELNIENIE00.png ground_fill0 1
+img/tex/texture_filling/damage/PEKNIECIE00.png break0 0
+img/tex/texture_filling/filling/ZIEMIA_UZUPELNIENIE00.png ground_fill0 1
