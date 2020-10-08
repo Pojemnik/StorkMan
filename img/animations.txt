@@ -6,5 +6,5 @@ img/tex/animated_objects/plants/TRAWA06.png grass6 4 8 128 64 0
 img/tex/animated_objects/plants/TRAWA07.png grass7 4 8 128 64 0
 img/tex/animated_objects/plants/TRAWA08.png grass8 4 8 128 64 0
 img/tex/animated_objects/weather/WIATR00.png wind0 4 4 256 128 0
-img/tex/animated_textures/DESZCZ45.png rain45 4 4 256 256 1
-img/tex/animated_textures/SNIEG45.png snow45 4 4 256 256 1
+img/tex/animated_textures/weather/DESZCZ45.png rain45 4 4 256 256 1
+img/tex/animated_textures/weather/SNIEG45.png snow45 4 4 256 256 1
