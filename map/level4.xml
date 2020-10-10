@@ -1,42 +1,38 @@
 ﻿<level name="Podziemna Świątynia - poziom testowy 04">
-	<chunk>
-		<moving_platform position="1,1" texture="rivets,0">
-			<linear_move>
-				<p>0,0,60</p>
-				<p>0,5,120</p>
-				<p>0,5,0</p>
-				<p>0,0,60</p>
-			</linear_move>
-			<v>0,1</v>
-			<v>1,1</v>
-			<v>1,0</v>
-			<v>0,0</v>
-		</moving_platform>
 	/---------------------------------------------------------------------PODZIEMIE
+	<chunk>
 		<wall position="79,36.5" texture="ground0">
 			<v>0,0</v>
 			<v>21,0</v>
 			<v>21,63.5</v>
 			<v>0,63.5</v>
 		</wall>
+	</chunk>
+	<chunk>
 		<wall position="7.5,7.5" texture="ground0">
 			<v>0,0</v>
 			<v>3,0</v>
 			<v>3,9</v>
 			<v>0,9</v>
 		</wall>
+	</chunk>
+	<chunk>
 		<wall position="0,27.5" texture="ground0">
 			<v>0,0</v>
 			<v>31,0</v>
 			<v>31,32.5</v>
 			<v>0,32.5</v>
 		</wall>
+	</chunk>
+	<chunk>
 		<wall position="0,16.5" texture="ground0">
 			<v>0,0</v>
 			<v>14,0</v>
 			<v>14,11</v>
 			<v>0,11</v>
 		</wall>
+	</chunk>
+	<chunk>
 		<wall position="33.5,55.5" texture="rock0">
 			<v>37.5,-7</v>
 			<v>37.5,4.5</v>
@@ -49,25 +45,33 @@
 			<v>45.5,-19</v>
 			<v>45.5,-7</v>
 		</wall>
+	</chunk>
+	<chunk>
 		<wall position="33.5,55.5" texture="rock0">
 			<v>33,-32</v>
 			<v>33,-28</v>
 			<v>35,-28</v>
 			<v>35,-32</v>
 		</wall>
+	</chunk>
+	<chunk>
 		<wall position="0,60" texture="wall0">
 			<v>0,0</v>
 			<v>79,0</v>
 			<v>79,40</v>
 			<v>0,40</v>
 		</wall>
+	</chunk>
+	<chunk>
 		<wall position="71,48.5" texture="wall0">
 			<v>0,0</v>
 			<v>8,0</v>
 			<v>8,11.5</v>
 			<v>0,11.5</v>
 		</wall>
+	</chunk>
 	/---------------------------------------------------------------------WIEŚ
+	<chunk>
 		<platform position="33.5,19.5" texture="grass,0">
 			<v>0,0</v>
 			<v>0,-4</v>
@@ -78,22 +82,6 @@
 			<v>16,-1</v>
 			<v>16,0</v>
 		</platform>
-		<damage_zone position="10,13.5">
-			<d>10,60</d>
-
-			<v>0,2</v>
-			<v>1,2</v>
-			<v>1,0</v>
-			<v>0,0</v>
-		</damage_zone>
-		<damage_zone position="11,13.5">
-			<d>10,60</d>
-
-			<v>0,2</v>
-			<v>1,2</v>
-			<v>1,0</v>
-			<v>0,0</v>
-		</damage_zone>
 		<platform position="9,15.5" texture="grass,0">
 			<v>0,0</v>
 			<v>0,1</v>
@@ -143,19 +131,19 @@
 			<v>1.5,0.5</v>
 			<v>1.5,0</v>
 		</platform>
-		<platform position="30.5,6" texture="wood,2">
+		<platform position="30.5,6" texture="wood,2" surface="grass">
 			<v>0,0</v>
 			<v>0,0.5</v>
 			<v>3,0.5</v>
 			<v>3,0</v>
 		</platform>
-		<platform position="23,6" texture="wood,2">
+		<platform position="23,6" texture="wood,2" surface="grass">
 			<v>0,0</v>
 			<v>0,0.5</v>
 			<v>3,0.5</v>
 			<v>3,0</v>
 		</platform>
-		<platform position="14,6" texture="wood,2">
+		<platform position="14,6" texture="wood,2" surface="grass">
 			<v>0,0</v>
 			<v>0,0.5</v>
 			<v>3,0.5</v>
@@ -199,15 +187,19 @@
 		<object position="24, 7.5" texture="house0" height="8" layer="2"/>
 		<object position="31.5, 3.5" texture="house1" height="12" layer="3"/>
 		<object position="3.5, 15" texture="rocks1" height="3.5" layer="8"/>
+		<object position="16, 12.5" texture="street0" height="3" layer="8"/>
+		<object position="23.5, 12.5" texture="street0" height="3" layer="8"/>
+		<object position="30.5, 12.5" texture="street0" height="3" layer="8"/>
+		<object position="33, 12.5" texture="street0" height="3" layer="8"/>
+		<object position="1, 16.5" texture="crystal3" height="2"/>
+	</chunk>
+	<chunk>
 		<animated_object position="2, 7.4" texture="grass7" height="1.5" layer="8" frame_time="6" rotation="39"/>
+	</chunk>
+	<chunk>
 		<animated_object position="8.25, 4.55" texture="grass8" height="1" layer="8" frame_time="6" rotation="-14" offset="3"/>
-		<animated_object position="33.5, 14.55" texture="grass6" height="1" layer="8" frame_time="6" rotation="-9" offset="11"/>
-		<animated_object position="34.9, 14.35" texture="grass8" height="1" layer="8" frame_time="6" rotation="-9" offset="16"/>
-		<animated_object position="37.25, 13.57" texture="grass7" height="1.5" layer="8" frame_time="6" rotation="8" offset="25"/>
-		<animated_object position="40.3, 13.96" texture="grass6" height="1.5" layer="8" frame_time="6" rotation="12" offset="34"/>
-		<animated_object position="43.2, 14.65" texture="grass7" height="1.5" layer="8" frame_time="6" rotation="12" offset="40"/>
-		<animated_object position="45.5, 15.65" texture="grass8" height="1" layer="8" frame_time="6" rotation="20" offset="46"/>
-		<animated_object position="47.4, 15.9" texture="grass6" height="1.5" layer="8" frame_time="6" rotation="25" offset="53"/>
+	</chunk>
+	<chunk>
 		<animated_object position="15.5, 14.5" texture="grass7" height="1" layer="8" frame_time="6" offset="61"/>
 		<animated_object position="17.5, 14.5" texture="grass6" height="1" layer="8" frame_time="6" offset="69"/>
 		<animated_object position="19.5, 14.5" texture="grass7" height="1" layer="8" frame_time="6" offset="74"/>
@@ -217,15 +209,21 @@
 		<animated_object position="27.5, 14.5" texture="grass7" height="1" layer="8" frame_time="6" offset="105"/>
 		<animated_object position="29.5, 14.5" texture="grass6" height="1" layer="8" frame_time="6"/>
 		<animated_object position="31.5, 14.5" texture="grass8" height="1" layer="8" frame_time="6"/>
-		<object position="16, 12.5" texture="street0" height="3" layer="8"/>
-		<object position="23.5, 12.5" texture="street0" height="3" layer="8"/>
-		<object position="30.5, 12.5" texture="street0" height="3" layer="8"/>
-		<object position="33, 12.5" texture="street0" height="3" layer="8"/>
-		<object position="1, 16.5" texture="crystal3" height="2"/>
 		<animated_object position="21, 10.5" texture="wind0" height="5" frame_time="5" flip="-1,1"/>
 		<animated_object position="34, 9.5" texture="wind0" height="6" frame_time="6" offset="15" flip="-1,1"/>
+	</chunk>
+	<chunk>
+		<animated_object position="33.5, 14.55" texture="grass6" height="1" layer="8" frame_time="6" rotation="-9" offset="11"/>
+		<animated_object position="34.9, 14.35" texture="grass8" height="1" layer="8" frame_time="6" rotation="-9" offset="16"/>
+		<animated_object position="37.25, 13.57" texture="grass7" height="1.5" layer="8" frame_time="6" rotation="8" offset="25"/>
+		<animated_object position="40.3, 13.96" texture="grass6" height="1.5" layer="8" frame_time="6" rotation="12" offset="34"/>
+		<animated_object position="43.2, 14.65" texture="grass7" height="1.5" layer="8" frame_time="6" rotation="12" offset="40"/>
+		<animated_object position="45.5, 15.65" texture="grass8" height="1" layer="8" frame_time="6" rotation="20" offset="46"/>
+		<animated_object position="47.4, 15.9" texture="grass6" height="1.5" layer="8" frame_time="6" rotation="25" offset="53"/>
 		<animated_object position="50, 13" texture="wind0" height="5.5" frame_time="5" flip="-1,1" offset="19" rotation="30"/>
+	</chunk>
 	/---------------------------------------------------------------------BUDYNEK ZARZĄDU
+	<chunk>
 		<wall position="50,0.5" texture="lumber0">
 			<v>0,0</v>
 			<v>18,0</v>
@@ -542,16 +540,9 @@
 		<object position="65, 6" texture="crate0" height="2"/>
 		<object position="59.5, 15.5" texture="column0" height="3" layer="8"/>
 		<object position="58, 15.5" texture="column0" height="3" layer="8"/>
-		<object position="63.5, 2" texture="table0" height="2" layer="8"/>
 		<object position="60, 5" texture="chest0" height="2.5" flip="-1,1"/>
 		<object position="57.5, 11.5" texture="chest0" height="2.5"/>
-		<object position="67, 16.5" texture="door0" height="2"/>
-		<object position="67, 16.5" texture="door1" height="2" layer="8"/>
-		<object position="51, 16.5" texture="door0" height="2" flip="-1,1"/>
-		<object position="51, 16.5" texture="door1" height="2" layer="8" flip="-1,1"/>
 		<object position="65.5, 15" texture="lamp1" height="1"/>
-		<animated_object position="66, 3" texture="dymek3" height="8" layer="11" frame_time="600"/>
-		<animated_object position="65, 2" texture="explorer_idle0" height="2" layer="3" frame_time="12"/>
 		<object position="63, 11" texture="lamp1" height="1"/>
 		<object position="64, 5" texture="lamp1" height="1"/>
 		<object position="64.5, 1" texture="lamp1" height="1"/>
@@ -560,7 +551,22 @@
 		<object position="51.5, 8.5" texture="lamp1" height="1"/>
 		<object position="54, 11.5" texture="lamp1" height="1"/>
 		<object position="51, 15" texture="lamp1" height="1"/>
+	</chunk>
+	<chunk>
+		<object position="67, 16.5" texture="door0" height="2"/>
+		<object position="67, 16.5" texture="door1" height="2" layer="8"/>
+	</chunk>
+	<chunk>
+		<object position="51, 16.5" texture="door0" height="2" flip="-1,1"/>
+		<object position="51, 16.5" texture="door1" height="2" layer="8" flip="-1,1"/>
+	</chunk>
+	<chunk>
+		<object position="63.5, 2" texture="table0" height="2" layer="8"/>
+		<animated_object position="66, 3" texture="dymek3" height="8" layer="11" frame_time="600"/>
+		<animated_object position="65, 2" texture="explorer_idle0" height="2" layer="3" frame_time="12"/>
+	</chunk>
 	/---------------------------------------------------------------------PIWNICA
+	<chunk>
 		<wall position="33,19.5" texture="lumber0">
 			<v>0.5,0</v>
 			<v>35.5,0</v>
@@ -655,6 +661,9 @@
 			<v>35.5,2</v>
 			<v>35.5,1</v>
 		</platform>
+		<object position="65.5, 20.5" texture="chest0" height="2"/>
+	</chunk>
+	<chunk>
 		<object position="37.5, 23.5" texture="column0" height="3" layer="8"/>
 		<object position="41.5, 23.5" texture="column0" height="3" layer="8"/>
 		<object position="45.5, 23.5" texture="column0" height="3" layer="8"/>
@@ -663,6 +672,9 @@
 		<object position="57.5, 23.5" texture="column0" height="3" layer="8"/>
 		<object position="61.5, 23.5" texture="column0" height="3" layer="8"/>
 		<object position="65.5, 23.5" texture="column0" height="3" layer="8"/>
+		<object position="34, 24.5" texture="crystal0" height="2"/>
+	</chunk>
+	<chunk>
 		<object position="20, 16.5" texture="column0" height="3" layer="8"/>
 		<object position="24.5, 16.5" texture="column0" height="3" layer="8"/>
 		<object position="29, 16.5" texture="column0" height="3" layer="8"/>
@@ -670,10 +682,10 @@
 		<object position="20, 23.5" texture="column0" height="3" layer="8"/>
 		<object position="24.5, 23.5" texture="column0" height="3" layer="8"/>
 		<object position="29, 23.5" texture="column0" height="3" layer="8"/>
-		<object position="65.5, 20.5" texture="chest0" height="2"/>
 		<object position="15, 17.5" texture="crystal1" height="2"/>
-		<object position="34, 24.5" texture="crystal0" height="2"/>
+	</chunk>
 	/---------------------------------------------------------------------WYKOPALISKA
+	<chunk>
 		<platform position="98.5,0" texture="wood,2">
 			<v>0,0</v>
 			<v>0,0.5</v>
@@ -897,91 +909,105 @@
 			<v>0.5,0.5</v>
 			<v>0.5,0</v>
 		</platform>
-		<old_moving_platform position="88,21" texture="construction,0" layer="2">
-			<p>0,-15.5,60</p>
-			<p>0,-15.5,280</p>
-			<p>-14,-15.5,90</p>
-			<p>-14,-15.5,280</p>
-			<p>0,-15.5,60</p>
-			<p>0,-15.5,310</p>
-			<p>0,0,60</p>
-			<p>0,0,310</p>
+	</chunk>
+	<chunk right="2">
+		<moving_platform position="88,21" texture="construction,0" layer="2">
+			<linear_move>
+				<p>0,-15.5,60</p>
+				<p>0,-15.5,280</p>
+				<p>-14,-15.5,90</p>
+				<p>-14,-15.5,280</p>
+				<p>0,-15.5,60</p>
+				<p>0,-15.5,310</p>
+				<p>0,0,60</p>
+				<p>0,0,310</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,4</v>
 			<v>0.5,4</v>
 			<v>0.5,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="92.5,21" texture="construction,0" layer="2">
-			<p>0,-15.5,60</p>
-			<p>0,-15.5,280</p>
-			<p>-14,-15.5,90</p>
-			<p>-14,-15.5,280</p>
-			<p>0,-15.5,60</p>
-			<p>0,-15.5,310</p>
-			<p>0,0,60</p>
-			<p>0,0,310</p>
+		</moving_platform>
+		<moving_platform position="92.5,21" texture="construction,0" layer="2">
+			<linear_move>
+				<p>0,-15.5,60</p>
+				<p>0,-15.5,280</p>
+				<p>-14,-15.5,90</p>
+				<p>-14,-15.5,280</p>
+				<p>0,-15.5,60</p>
+				<p>0,-15.5,310</p>
+				<p>0,0,60</p>
+				<p>0,0,310</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,4</v>
 			<v>0.5,4</v>
 			<v>0.5,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="88,25" texture="panels,2" layer="2">
-			<p>0,-15.5,60</p>
-			<p>0,-15.5,280</p>
-			<p>-14,-15.5,60</p>
-			<p>-16,-15.5,30</p>
-			<p>-16,-15.5,280</p>
-			<p>-2,-15.5,60</p>
-			<p>-2,-15.5,310</p>
-			<p>-2,0,60</p>
-			<p>0,0,310</p>
+		</moving_platform>
+		<moving_platform position="88,25" texture="panels,2" layer="2">
+			<linear_move>
+				<p>0,-15.5,60</p>
+				<p>0,-15.5,280</p>
+				<p>-14,-15.5,60</p>
+				<p>-16,-15.5,30</p>
+				<p>-16,-15.5,280</p>
+				<p>-2,-15.5,60</p>
+				<p>-2,-15.5,310</p>
+				<p>-2,0,60</p>
+				<p>0,0,310</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,0.5</v>
 			<v>2.5,0.5</v>
 			<v>2.5,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="90.5,25" texture="panels,0" layer="2">
-			<p>0,-15.5,60</p>
-			<p>0,-15.5,280</p>
-			<p>-14,-15.5,60</p>
-			<p>-12,-15.5,30</p>
-			<p>-12,-15.5,280</p>
-			<p>2,-15.5,60</p>
-			<p>2,-15.5,310</p>
-			<p>2,0,60</p>
-			<p>0,0,310</p>
+		</moving_platform>
+		<moving_platform position="90.5,25" texture="panels,0" layer="2">
+			<linear_move>
+				<p>0,-15.5,60</p>
+				<p>0,-15.5,280</p>
+				<p>-14,-15.5,60</p>
+				<p>-12,-15.5,30</p>
+				<p>-12,-15.5,280</p>
+				<p>2,-15.5,60</p>
+				<p>2,-15.5,310</p>
+				<p>2,0,60</p>
+				<p>0,0,310</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,0.5</v>
 			<v>2.5,0.5</v>
 			<v>2.5,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="88,20.5" texture="rivets,0" layer="2">
-			<p>0,-15.5,60</p>
-			<p>0,-15.5,280</p>
-			<p>-14,-15.5,90</p>
-			<p>-14,-15.5,280</p>
-			<p>0,-15.5,60</p>
-			<p>0,-15.5,310</p>
-			<p>0,0,60</p>
-			<p>0,0,310</p>
+		</moving_platform>
+		<moving_platform position="88,20.5" texture="rivets,0" layer="2">
+			<linear_move>
+				<p>0,-15.5,60</p>
+				<p>0,-15.5,280</p>
+				<p>-14,-15.5,90</p>
+				<p>-14,-15.5,280</p>
+				<p>0,-15.5,60</p>
+				<p>0,-15.5,310</p>
+				<p>0,0,60</p>
+				<p>0,0,310</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,0.5</v>
 			<v>5,0.5</v>
 			<v>5,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="88,24" texture="bricks,3" layer="2">
-			<p>0,-15.5,60</p>
-			<p>0,-15.5,280</p>
-			<p>-14,-15.5,60</p>
-			<p>-14,-15.5,60</p>
-			<p>-14,-1,0</p>
-			<p>0,0,680</p>
-			<p>0,0,310</p>
+		</moving_platform>
+		<moving_platform position="88,24" texture="bricks,3" layer="2">
+			<linear_move>
+				<p>0,-15.5,60</p>
+				<p>0,-15.5,280</p>
+				<p>-14,-15.5,60</p>
+				<p>-14,-15.5,60</p>
+				<p>-14,-1,0</p>
+				<p>0,0,680</p>
+				<p>0,0,310</p>
+			</linear_move>
 
 			<v>0.7,0</v>
 			<v>0.5,0.2</v>
@@ -991,15 +1017,17 @@
 			<v>1.5,0.8</v>
 			<v>1.5,0.2</v>
 			<v>1.3,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="91.5,23" texture="bricks,3" layer="2">
-			<p>0,-15.5,60</p>
-			<p>0,-15.5,280</p>
-			<p>-14,-15.5,60</p>
-			<p>-14,-15.5,50</p>
-			<p>-14,-1,0</p>
-			<p>0,0,690</p>
-			<p>0,0,310</p>
+		</moving_platform>
+		<moving_platform position="91.5,23" texture="bricks,3" layer="2">
+			<linear_move>
+				<p>0,-15.5,60</p>
+				<p>0,-15.5,280</p>
+				<p>-14,-15.5,60</p>
+				<p>-14,-15.5,50</p>
+				<p>-14,-1,0</p>
+				<p>0,0,690</p>
+				<p>0,0,310</p>
+			</linear_move>
 
 			<v>0.2,1</v>
 			<v>0,1.2</v>
@@ -1009,15 +1037,17 @@
 			<v>1,1.8</v>
 			<v>1,1.2</v>
 			<v>0.8,1</v>
-		</old_moving_platform>
-		<old_moving_platform position="89.5,23" texture="bricks,3" layer="2">
-			<p>0,-15.5,60</p>
-			<p>0,-15.5,280</p>
-			<p>-14,-15.5,30</p>
-			<p>-14,-15.5,65</p>
-			<p>-14,-1,0</p>
-			<p>0,0,705</p>
-			<p>0,0,310</p>
+		</moving_platform>
+		<moving_platform position="89.5,23" texture="bricks,3" layer="2">
+			<linear_move>
+				<p>0,-15.5,60</p>
+				<p>0,-15.5,280</p>
+				<p>-14,-15.5,30</p>
+				<p>-14,-15.5,65</p>
+				<p>-14,-1,0</p>
+				<p>0,0,705</p>
+				<p>0,0,310</p>
+			</linear_move>
 
 			<v>0.2,1</v>
 			<v>0,1.2</v>
@@ -1027,98 +1057,118 @@
 			<v>1,1.8</v>
 			<v>1,1.2</v>
 			<v>0.8,1</v>
-		</old_moving_platform>
-		<old_moving_object position="90,21" texture="line2" height="2" layer="1">
-			<p>0,-15.5,60</p>
-			<p>0,-15.5,280</p>
-			<p>-14,-15.5,90</p>
-			<p>-14,-15.5,280</p>
-			<p>0,-15.5,60</p>
-			<p>0,-15.5,310</p>
-			<p>0,0,60</p>
-			<p>0,0,310</p>
-		</old_moving_object>
-		<old_moving_object position="90,19" texture="line0" height="2" layer="0">
-			<p>0,-14,60</p>
-			<p>0,-14,280</p>
-			<p>-14,-14,90</p>
-			<p>-14,-14,280</p>
-			<p>0,-14,60</p>
-			<p>0,-14,310</p>
-			<p>0,0,60</p>
-			<p>0,0,310</p>
-		</old_moving_object>
-		<old_moving_object position="90,17" texture="line0" height="2" layer="0">
-			<p>0,-12,60</p>
-			<p>0,-12,280</p>
-			<p>-14,-12,90</p>
-			<p>-14,-12,280</p>
-			<p>0,-12,60</p>
-			<p>0,-12,310</p>
-			<p>0,0,60</p>
-			<p>0,0,310</p>
-		</old_moving_object>
-		<old_moving_object position="90,15" texture="line0" height="2" layer="0">
-			<p>0,-10,60</p>
-			<p>0,-10,280</p>
-			<p>-14,-10,90</p>
-			<p>-14,-10,280</p>
-			<p>0,-10,60</p>
-			<p>0,-10,310</p>
-			<p>0,0,60</p>
-			<p>0,0,310</p>
-		</old_moving_object>
-		<old_moving_object position="90,13" texture="line0" height="2" layer="0">
-			<p>0,-8,60</p>
-			<p>0,-8,280</p>
-			<p>-14,-8,90</p>
-			<p>-14,-8,280</p>
-			<p>0,-8,60</p>
-			<p>0,-8,310</p>
-			<p>0,0,60</p>
-			<p>0,0,310</p>
-		</old_moving_object>
-		<old_moving_object position="90,11" texture="line0" height="2" layer="0">
-			<p>0,-6,60</p>
-			<p>0,-6,280</p>
-			<p>-14,-6,90</p>
-			<p>-14,-6,280</p>
-			<p>0,-6,60</p>
-			<p>0,-6,310</p>
-			<p>0,0,60</p>
-			<p>0,0,310</p>
-		</old_moving_object>
-		<old_moving_object position="90,9" texture="line0" height="2" layer="0">
-			<p>0,-4,60</p>
-			<p>0,-4,280</p>
-			<p>-14,-4,90</p>
-			<p>-14,-4,280</p>
-			<p>0,-4,60</p>
-			<p>0,-4,310</p>
-			<p>0,0,60</p>
-			<p>0,0,310</p>
-		</old_moving_object>
-		<old_moving_object position="90,7" texture="line0" height="2" layer="0">
-			<p>0,-2,60</p>
-			<p>0,-2,280</p>
-			<p>-14,-2,90</p>
-			<p>-14,-2,280</p>
-			<p>0,-2,60</p>
-			<p>0,-2,310</p>
-			<p>0,0,60</p>
-			<p>0,0,310</p>
-		</old_moving_object>
-		<old_moving_object position="90,5" texture="line0" height="2" layer="0">
-			<p>0,0,60</p>
-			<p>0,0,280</p>
-			<p>-14,0,90</p>
-			<p>-14,0,280</p>
-			<p>0,0,60</p>
-			<p>0,0,310</p>
-			<p>0,0,60</p>
-			<p>0,0,310</p>
-		</old_moving_object>
+		</moving_platform>
+		<moving_object position="90,21" texture="line2" height="2" layer="1">
+			<linear_move>
+				<p>0,-15.5,60</p>
+				<p>0,-15.5,280</p>
+				<p>-14,-15.5,90</p>
+				<p>-14,-15.5,280</p>
+				<p>0,-15.5,60</p>
+				<p>0,-15.5,310</p>
+				<p>0,0,60</p>
+				<p>0,0,310</p>
+			</linear_move>
+		</moving_object>
+		<moving_object position="90,19" texture="line0" height="2" layer="0">
+			<linear_move>
+				<p>0,-14,60</p>
+				<p>0,-14,280</p>
+				<p>-14,-14,90</p>
+				<p>-14,-14,280</p>
+				<p>0,-14,60</p>
+				<p>0,-14,310</p>
+				<p>0,0,60</p>
+				<p>0,0,310</p>
+			</linear_move>
+		</moving_object>
+		<moving_object position="90,17" texture="line0" height="2" layer="0">
+			<linear_move>
+				<p>0,-12,60</p>
+				<p>0,-12,280</p>
+				<p>-14,-12,90</p>
+				<p>-14,-12,280</p>
+				<p>0,-12,60</p>
+				<p>0,-12,310</p>
+				<p>0,0,60</p>
+				<p>0,0,310</p>
+			</linear_move>
+		</moving_object>
+		<moving_object position="90,15" texture="line0" height="2" layer="0">
+			<linear_move>
+				<p>0,-10,60</p>
+				<p>0,-10,280</p>
+				<p>-14,-10,90</p>
+				<p>-14,-10,280</p>
+				<p>0,-10,60</p>
+				<p>0,-10,310</p>
+				<p>0,0,60</p>
+				<p>0,0,310</p>
+			</linear_move>
+		</moving_object>
+		<moving_object position="90,13" texture="line0" height="2" layer="0">
+			<linear_move>
+				<p>0,-8,60</p>
+				<p>0,-8,280</p>
+				<p>-14,-8,90</p>
+				<p>-14,-8,280</p>
+				<p>0,-8,60</p>
+				<p>0,-8,310</p>
+				<p>0,0,60</p>
+				<p>0,0,310</p>
+			</linear_move>
+		</moving_object>
+		<moving_object position="90,11" texture="line0" height="2" layer="0">
+			<linear_move>
+				<p>0,-6,60</p>
+				<p>0,-6,280</p>
+				<p>-14,-6,90</p>
+				<p>-14,-6,280</p>
+				<p>0,-6,60</p>
+				<p>0,-6,310</p>
+				<p>0,0,60</p>
+				<p>0,0,310</p>
+			</linear_move>
+		</moving_object>
+		<moving_object position="90,9" texture="line0" height="2" layer="0">
+			<linear_move>
+				<p>0,-4,60</p>
+				<p>0,-4,280</p>
+				<p>-14,-4,90</p>
+				<p>-14,-4,280</p>
+				<p>0,-4,60</p>
+				<p>0,-4,310</p>
+				<p>0,0,60</p>
+				<p>0,0,310</p>
+			</linear_move>
+		</moving_object>
+		<moving_object position="90,7" texture="line0" height="2" layer="0">
+			<linear_move>
+				<p>0,-2,60</p>
+				<p>0,-2,280</p>
+				<p>-14,-2,90</p>
+				<p>-14,-2,280</p>
+				<p>0,-2,60</p>
+				<p>0,-2,310</p>
+				<p>0,0,60</p>
+				<p>0,0,310</p>
+			</linear_move>
+		</moving_object>
+		<moving_object position="90,5" texture="line0" height="2" layer="0">
+			<linear_move>
+				<p>0,0,60</p>
+				<p>0,0,280</p>
+				<p>-14,0,90</p>
+				<p>-14,0,280</p>
+				<p>0,0,60</p>
+				<p>0,0,310</p>
+				<p>0,0,60</p>
+				<p>0,0,310</p>
+			</linear_move>
+		</moving_object>
 		<object position="91, 0" texture="crane0" height="25" layer="0" flip="-1,1"/>
+	</chunk>
+	<chunk>
 		<object position="85, 33" texture="column0" height="3" layer="8"/>
 		<object position="91, 33" texture="column0" height="3" layer="8"/>
 		<object position="85, 29.5" texture="column0" height="3" layer="8"/>
@@ -1128,6 +1178,8 @@
 		<object position="87, 34.5" texture="chest0" height="1.5"/>
 		<object position="90, 34" texture="chest0" height="2" flip="-1,1" layer="5"/>
 		<object position="88, 29.5" texture="chest0" height="3" layer="8"/>
+	</chunk>
+	<chunk>
 		<object position="91, 23.5" texture="rocks2" height="2" layer="8"/>
 		<object position="85, 22" texture="rocks1" height="3.5" layer="8"/>
 		<object position="91, 22.5" texture="rocks0" height="2.5" layer="8" flip="-1,1"/>
@@ -1139,7 +1191,9 @@
 		<object position="79, 22.5" texture="rocks2" height="2.5" layer="7" flip="-1,1"/>
 		<object position="78, 20.5" texture="rocks0" height="3.5" rotation="20" flip="-1,1"/>
 		<object position="70, 20.5" texture="rocks1" height="4" layer="9"/>
+	</chunk>
 	/---------------------------------------------------------------------GÓRNY SZYB
+	<chunk>
 		<platform position="99,36" texture="dirt,0">
 			<v>0,0</v>
 			<v>0,30</v>
@@ -1308,34 +1362,42 @@
 			<v>0.5,0.5</v>
 			<v>0.5,0</v>
 		</platform>
-		<old_moving_platform position="87,46.25" texture="panels,1" layer="3">
-			<p>1.5,0,30</p>
-			<p>0,0,120</p>
-			<p>0,0,60</p>
-			<p>1.5,0,60</p>
+	</chunk>
+	<chunk bottom="27">
+		<moving_platform position="87,46.25" texture="panels,1" layer="3">
+			<linear_move>
+				<p>1.5,0,30</p>
+				<p>0,0,120</p>
+				<p>0,0,60</p>
+				<p>1.5,0,60</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,0.5</v>
 			<v>1.5,0.5</v>
 			<v>1.5,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="91.5,46.25" texture="panels,1" layer="3">
-			<p>-1.5,0,30</p>
-			<p>0,0,120</p>
-			<p>0,0,60</p>
-			<p>-1.5,0,60</p>
+		</moving_platform>
+		<moving_platform position="91.5,46.25" texture="panels,1" layer="3">
+			<linear_move>
+				<p>-1.5,0,30</p>
+				<p>0,0,120</p>
+				<p>0,0,60</p>
+				<p>-1.5,0,60</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,0.5</v>
 			<v>1.5,0.5</v>
 			<v>1.5,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="88.5,39" texture="bricks,3" layer="3">
-			<p>0,0,30</p>
-			<p>0,0,60</p>
-			<p>0,13,60</p>
-			<p>0,27,0</p>
-			<p>0,0,120</p>
+		</moving_platform>
+		<moving_platform position="88.5,39" texture="bricks,3" layer="3">
+			<linear_move>
+				<p>0,0,30</p>
+				<p>0,0,60</p>
+				<p>0,13,60</p>
+				<p>0,27,0</p>
+				<p>0,0,120</p>
+			</linear_move>
 
 			<v>0.8,0.1</v>
 			<v>0.6,0.3</v>
@@ -1345,13 +1407,15 @@
 			<v>1.4,0.7</v>
 			<v>1.4,0.3</v>
 			<v>1.2,0.1</v>
-		</old_moving_platform>
-		<old_moving_platform position="90.5,38" texture="bricks,3" layer="3">
-			<p>0,0,60</p>
-			<p>0,0,60</p>
-			<p>0,13,60</p>
-			<p>0,27,0</p>
-			<p>0,0,90</p>
+		</moving_platform>
+		<moving_platform position="90.5,38" texture="bricks,3" layer="3">
+			<linear_move>
+				<p>0,0,60</p>
+				<p>0,0,60</p>
+				<p>0,13,60</p>
+				<p>0,27,0</p>
+				<p>0,0,90</p>
+			</linear_move>
 
 			<v>0.3,1.1</v>
 			<v>0.1,1.3</v>
@@ -1361,38 +1425,50 @@
 			<v>0.9,1.7</v>
 			<v>0.9,1.3</v>
 			<v>0.7,1.1</v>
-		</old_moving_platform>
+		</moving_platform>
+	</chunk>
+	<chunk>
+		<object position="80, 37" texture="mine2" height="4" layer="8"/>
+		<object position="94, 36" texture="mine0" height="2" layer="8"/>
+	</chunk>
+	<chunk>
 		<object position="83, 40.5" texture="ground_fill0" height="4" layer="2" rotation="40"/>
 		<object position="92, 46" texture="ground_fill0" height="6" layer="2" rotation="10" flip="-1,1"/>
 		<object position="96, 41" texture="ground_fill0" height="5" layer="2" rotation="280" flip="-1,-1"/>
-		<object position="85, 56" texture="ground_fill0" height="5.5" layer="2" rotation="30" flip="1,-1"/>
-		<object position="84, 54.5" texture="ground_fill0" height="4.5" layer="2" rotation="0" flip="-1,-1"/>
 		<object position="99, 47" texture="ground_fill0" height="6" layer="2" rotation="90" flip="1,1"/>
-		<object position="99, 58" texture="ground_fill0" height="8" layer="2" rotation="10" flip="-1,1"/>
-		<object position="87, 56.5" texture="ground_fill0" height="6" layer="2" rotation="350" flip="-1,1"/>
 		<object position="93, 47" texture="web1" height="3" layer="8"/>
 		<object position="94, 44" texture="chest0" height="2" layer="8"/>
-		<object position="84, 63.5" texture="chest0" height="2.5" layer="8"/>
 		<object position="93, 43" texture="column0" height="3" layer="9"/>
 		<object position="83, 43" texture="column0" height="3" layer="9"/>
 		<object position="86.5, 44" texture="arrow6" height="2"/>
 		<object position="89.5, 43" texture="chain0" height="4" layer="9"/>
 		<object position="89.5, 47" texture="mine2" height="4" layer="9"/>
 		<object position="88.5, 43" texture="mine2" height="4" layer="8"/>
-		<object position="80, 37" texture="mine2" height="4" layer="8"/>
-		<object position="80, 63" texture="mine0" height="2" layer="8"/>
-		<object position="87, 62" texture="mine0" height="2" layer="8" flip="-1,1"/>
-		<object position="80, 57.5" texture="mine0" height="2" layer="8"/>
-		<object position="80, 50.5" texture="mine0" height="2" layer="8"/>
 		<object position="87.5, 47" texture="mine0" height="2" layer="8" flip="-1,1"/>
 		<object position="80, 43" texture="mine0" height="2" layer="8"/>
-		<object position="93, 60.5" texture="mine0" height="2" layer="8" flip="-1,1"/>
 		<object position="94, 42.5" texture="mine0" height="2" layer="8"/>
-		<object position="94, 36" texture="mine0" height="2" layer="8"/>
+	</chunk>
+	<chunk>
+		<object position="85, 56" texture="ground_fill0" height="5.5" layer="2" rotation="30" flip="1,-1"/>
+		<object position="84, 54.5" texture="ground_fill0" height="4.5" layer="2" rotation="0" flip="-1,-1"/>
+		<object position="87, 56.5" texture="ground_fill0" height="6" layer="2" rotation="350" flip="-1,1"/>
+		<object position="99, 58" texture="ground_fill0" height="8" layer="2" rotation="10" flip="-1,1"/>
+		<object position="80, 57.5" texture="mine0" height="2" layer="8"/>
+		<object position="80, 50.5" texture="mine0" height="2" layer="8"/>
 		<object position="84, 54" texture="crystal0" height="2"/>
 		<object position="96, 50" texture="crystal2" height="2" flip="-1,1"/>
+	</chunk>
+	<chunk>
+		<object position="84, 63.5" texture="chest0" height="2.5" layer="8"/>
+		<object position="80, 63" texture="mine0" height="2" layer="8"/>
+		<object position="87, 62" texture="mine0" height="2" layer="8" flip="-1,1"/>
+		<object position="93, 60.5" texture="mine0" height="2" layer="8" flip="-1,1"/>
+	</chunk>
+	<chunk>
 		<object position="83, 97" texture="crystal2" height="2"/>
+	</chunk>
 	/---------------------------------------------------------------------DOLNY SZYB
+	<chunk>
 		<platform position="79,99" texture="dirt,0">
 			<v>0,0</v>
 			<v>0,1</v>
@@ -1591,56 +1667,68 @@
 			<v>3,1</v>
 			<v>3,0</v>
 		</platform>
-		<old_moving_platform position="90,70.5" texture="panels,1" layer="3">
-			<p>0,0,30</p>
-			<p>-5,0,120</p>
-			<p>-5,0,60</p>
-			<p>0,0,60</p>
+	</chunk>
+	<chunk bottom="33" left="1.5">
+		<moving_platform position="90,70.5" texture="panels,1" layer="3">
+			<linear_move>
+				<p>0,0,30</p>
+				<p>-5,0,120</p>
+				<p>-5,0,60</p>
+				<p>0,0,60</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,0.5</v>
 			<v>5,0.5</v>
 			<v>5,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="96,74.5" texture="panels,2" layer="3">
-			<p>-3,0,30</p>
-			<p>0,0,120</p>
-			<p>0,0,60</p>
-			<p>-3,0,60</p>
+		</moving_platform>
+		<moving_platform position="96,74.5" texture="panels,2" layer="3">
+			<linear_move>
+				<p>-3,0,30</p>
+				<p>0,0,120</p>
+				<p>0,0,60</p>
+				<p>-3,0,60</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,0.5</v>
 			<v>3,0.5</v>
 			<v>3,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="86.5,74.5" texture="panels,0" layer="3">
-			<p>3.5,0,30</p>
-			<p>0,0,120</p>
-			<p>0,0,60</p>
-			<p>3.5,0,60</p>
+		</moving_platform>
+		<moving_platform position="86.5,74.5" texture="panels,0" layer="3">
+			<linear_move>
+				<p>3.5,0,30</p>
+				<p>0,0,120</p>
+				<p>0,0,60</p>
+				<p>3.5,0,60</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,0.5</v>
 			<v>3.5,0.5</v>
 			<v>3.5,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="89.5,71" texture="panels,1" layer="3">
-			<p>0,3,30</p>
-			<p>0,0,120</p>
-			<p>0,0,60</p>
-			<p>0,3,60</p>
+		</moving_platform>
+		<moving_platform position="89.5,71" texture="panels,1" layer="3">
+			<linear_move>
+				<p>0,3,30</p>
+				<p>0,0,120</p>
+				<p>0,0,60</p>
+				<p>0,3,60</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,3</v>
 			<v>0.5,3</v>
 			<v>0.5,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="90,66" texture="bricks,3" layer="3">
-			<p>0,0,30</p>
-			<p>0,0,60</p>
-			<p>0,14,60</p>
-			<p>0,33,0</p>
-			<p>0,0,120</p>
+		</moving_platform>
+		<moving_platform position="90,66" texture="bricks,3" layer="3">
+			<linear_move>
+				<p>0,0,30</p>
+				<p>0,0,60</p>
+				<p>0,14,60</p>
+				<p>0,33,0</p>
+				<p>0,0,120</p>
+			</linear_move>
 
 			<v>0.8,0.1</v>
 			<v>0.6,0.3</v>
@@ -1650,13 +1738,15 @@
 			<v>1.4,0.7</v>
 			<v>1.4,0.3</v>
 			<v>1.2,0.1</v>
-		</old_moving_platform>
-		<old_moving_platform position="92,65" texture="bricks,3" layer="3">
-			<p>0,0,60</p>
-			<p>0,0,60</p>
-			<p>0,14,60</p>
-			<p>0,33,0</p>
-			<p>0,0,90</p>
+		</moving_platform>
+		<moving_platform position="92,65" texture="bricks,3" layer="3">
+			<linear_move>
+				<p>0,0,60</p>
+				<p>0,0,60</p>
+				<p>0,14,60</p>
+				<p>0,33,0</p>
+				<p>0,0,90</p>
+			</linear_move>
 
 			<v>0.3,1.1</v>
 			<v>0.1,1.3</v>
@@ -1666,12 +1756,14 @@
 			<v>0.9,1.7</v>
 			<v>0.9,1.3</v>
 			<v>0.7,1.1</v>
-		</old_moving_platform>
-		<old_moving_platform position="93,66" texture="bricks,3" layer="3">
-			<p>0,0,45</p>
-			<p>0,0,60</p>
-			<p>0,16.5,0</p>
-			<p>0,0,165</p>
+		</moving_platform>
+		<moving_platform position="93,66" texture="bricks,3" layer="3">
+			<linear_move>
+				<p>0,0,45</p>
+				<p>0,0,60</p>
+				<p>0,16.5,0</p>
+				<p>0,0,165</p>
+			</linear_move>
 
 			<v>0.8,0.1</v>
 			<v>0.6,0.3</v>
@@ -1681,56 +1773,68 @@
 			<v>1.4,0.7</v>
 			<v>1.4,0.3</v>
 			<v>1.2,0.1</v>
-		</old_moving_platform>
+		</moving_platform>
+	</chunk>
+	<chunk>
+		<object position="97, 67" texture="mine0" height="2" flip="-1,1" layer="8"/>
+		<object position="90, 68" texture="arrow6" height="2" flip="-1,1"/>
+		<object position="90, 67" texture="mine2" height="4" layer="9"/>
+	</chunk>
+	<chunk>
 		<object position="83.5, 71" texture="ground_fill0" height="7" layer="2" rotation="40" flip="-1,-1"/>
 		<object position="89.5, 75.5" texture="ground_fill0" height="7" layer="2" rotation="270" flip="1,1"/>
-		<object position="87, 82" texture="ground_fill0" height="7" layer="2" rotation="30" flip="-1,-1"/>
 		<object position="79.5, 71" texture="ground_fill0" height="7" layer="2" rotation="10" flip="1,1"/>
-		<object position="79, 82" texture="ground_fill0" height="6.5" layer="2" rotation="350" flip="1,1"/>
-		<object position="96, 80" texture="ground_fill0" height="7.5" layer="2" rotation="25" flip="-1,1"/>
 		<object position="100, 78" texture="ground_fill0" height="5" layer="2" rotation="225" flip="1,-1"/>
-		<object position="98.5, 98.5" texture="ground_fill0" height="7" layer="2" rotation="5" flip="-1,-1"/>
-		<object position="99, 90" texture="ground_fill0" height="7.5" layer="2" rotation="75" flip="-1,1"/>
-		<object position="93, 94.5" texture="ground_fill0" height="6.5" layer="2" rotation="235" flip="1,-1"/>
-		<object position="84.5, 97" texture="ground_fill0" height="6.5" layer="2" rotation="15" flip="-1,-1"/>
-		<object position="87.5, 87" texture="ground_fill0" height="4.5" layer="2" rotation="20" flip="-1,1"/>
-		<object position="79, 91" texture="web0" height="3" layer="8"/>
-		<object position="89, 87.5" texture="web0" height="4" layer="8" flip="-1,1"/>
 		<object position="83.5, 75" texture="web0" height="2.5" layer="8" flip="-1,1"/>
-		<object position="89, 94" texture="web1" height="2" layer="8" flip="-1,1"/>
 		<object position="82, 75" texture="web1" height="2.5" layer="8" flip="-1,1"/>
-		<object position="83.5, 96.5" texture="rocks2" height="2.5" layer="8" flip="-1,1"/>
-		<object position="84.5, 96.5" texture="rocks0" height="2.5" layer="8"/>
-		<object position="86, 96" texture="rocks1" height="3" layer="8"/>
-		<object position="81.5, 84" texture="rocks1" height="2.5" layer="8" flip="-1,1"/>
 		<object position="96, 75" texture="column0" height="3" layer="8"/>
 		<object position="88, 71" texture="column0" height="3" layer="8"/>
+		<object position="82.5, 72" texture="arrow6" height="2"/>
+		<object position="84.5, 71" texture="mine2" height="4" layer="8"/>
+		<object position="99, 79" texture="mine0" height="2" flip="-1,1" layer="8"/>
+		<object position="89.5, 75" texture="mine0" height="2" flip="-1,1" layer="8"/>
+		<object position="84.5, 79" texture="mine0" height="2" layer="8"/>
+		<object position="96, 74.5" texture="mine0" height="2" flip="-1,1" layer="8"/>
+		<object position="89, 70.5" texture="mine0" height="2" layer="8"/>
+	</chunk>
+	<chunk>
+		<object position="87, 82" texture="ground_fill0" height="7" layer="2" rotation="30" flip="-1,-1"/>
+		<object position="79, 82" texture="ground_fill0" height="6.5" layer="2" rotation="350" flip="1,1"/>
+		<object position="96, 80" texture="ground_fill0" height="7.5" layer="2" rotation="25" flip="-1,1"/>
+		<object position="87.5, 87" texture="ground_fill0" height="4.5" layer="2" rotation="20" flip="-1,1"/>
+		<object position="89, 87.5" texture="web0" height="4" layer="8" flip="-1,1"/>
+		<object position="81.5, 84" texture="rocks1" height="2.5" layer="8" flip="-1,1"/>
 		<object position="89, 83.5" texture="column0" height="3" layer="8"/>
 		<object position="93.5, 83.5" texture="column0" height="3" layer="8"/>
 		<object position="87.5, 84" texture="chest0" height="2.5" flip="-1,1" layer="8"/>
 		<object position="96, 80.5" texture="chest0" height="2" flip="-1,1" layer="8"/>
+		<object position="99, 88" texture="mine0" height="2" flip="-1,1" layer="8"/>
+		<object position="94.5, 83.5" texture="mine0" height="2" layer="8"/>
+		<object position="89, 83.5" texture="mine0" height="2" flip="-1,1" layer="8"/>
+	</chunk>
+	<chunk>
+		<object position="98.5, 98.5" texture="ground_fill0" height="7" layer="2" rotation="5" flip="-1,-1"/>
+		<object position="99, 90" texture="ground_fill0" height="7.5" layer="2" rotation="75" flip="-1,1"/>
+		<object position="93, 94.5" texture="ground_fill0" height="6.5" layer="2" rotation="235" flip="1,-1"/>
+		<object position="84.5, 97" texture="ground_fill0" height="6.5" layer="2" rotation="15" flip="-1,-1"/>
+		<object position="79, 91" texture="web0" height="3" layer="8"/>
+		<object position="89, 94" texture="web1" height="2" layer="8" flip="-1,1"/>
+		<object position="83.5, 96.5" texture="rocks2" height="2.5" layer="8" flip="-1,1"/>
+		<object position="84.5, 96.5" texture="rocks0" height="2.5" layer="8"/>
+		<object position="86, 96" texture="rocks1" height="3" layer="8"/>
 		<object position="90, 97" texture="chest0" height="2" layer="8"/>
-		<object position="82.5, 72" texture="arrow6" height="2"/>
-		<object position="90, 68" texture="arrow6" height="2" flip="-1,1"/>
+		<object position="94.5, 91" texture="mine0" height="2" layer="8"/>
+		<object position="99, 94" texture="mine0" height="2" flip="-1,1" layer="8"/>
+		<object position="90, 95.5" texture="mine0" height="2" layer="8"/>
+	</chunk>
+	<chunk>
 		<object position="91.5, 67" texture="chain0" height="4" layer="8"/>
 		<object position="91.5, 71" texture="chain0" height="4" layer="8"/>
 		<object position="91.5, 75" texture="chain0" height="4" layer="8"/>
 		<object position="91.5, 79" texture="mine2" height="4" layer="8"/>
-		<object position="90, 67" texture="mine2" height="4" layer="9"/>
-		<object position="84.5, 71" texture="mine2" height="4" layer="8"/>
-		<object position="94.5, 91" texture="mine0" height="2" layer="8"/>
-		<object position="99, 88" texture="mine0" height="2" flip="-1,1" layer="8"/>
-		<object position="99, 94" texture="mine0" height="2" flip="-1,1" layer="8"/>
-		<object position="90, 95.5" texture="mine0" height="2" layer="8"/>
-		<object position="94.5, 83.5" texture="mine0" height="2" layer="8"/>
-		<object position="99, 79" texture="mine0" height="2" flip="-1,1" layer="8"/>
-		<object position="89.5, 75" texture="mine0" height="2" flip="-1,1" layer="8"/>
-		<object position="84.5, 79" texture="mine0" height="2" layer="8"/>
-		<object position="89, 83.5" texture="mine0" height="2" flip="-1,1" layer="8"/>
-		<object position="96, 74.5" texture="mine0" height="2" flip="-1,1" layer="8"/>
-		<object position="97, 67" texture="mine0" height="2" flip="-1,1" layer="8"/>
-		<object position="89, 70.5" texture="mine0" height="2" layer="8"/>
+	</chunk>
 	/---------------------------------------------------------------------WEJŚCIE DO ŚWIĄTYNI
+	<chunk>
 		<platform position="76,74" texture="bricks,1">
 			<v>0,0</v>
 			<v>0,1</v>
@@ -2090,261 +2194,349 @@
 			<v>9.5,1</v>
 			<v>9.5,0</v>
 		</platform>
-		<old_moving_platform position="58,69.5" texture="bricks,1">
-			<p>4,13,60</p>
-			<p>4,13,80</p>
-			<p>0,13,60</p>
-			<p>0,13,260</p>
-			<p>0,0,60</p>
-			<p>0,0,80</p>
-			<p>4,0,60</p>
-			<p>4,0,260</p>
+	</chunk>
+	<chunk right="4" bottom="13">
+		<moving_platform position="58,69.5" texture="bricks,1">
+			<linear_move>
+				<p>4,13,60</p>
+				<p>4,13,80</p>
+				<p>0,13,60</p>
+				<p>0,13,260</p>
+				<p>0,0,60</p>
+				<p>0,0,80</p>
+				<p>4,0,60</p>
+				<p>4,0,260</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,0.5</v>
 			<v>3,0.5</v>
 			<v>3,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="71,60" texture="bricks,1">
-			<p>0,0,60</p>
-			<p>0,-4.5,30</p>
-
-			<v>0,0</v>
-			<v>0,5.5</v>
-			<v>2,5.5</v>
-			<v>2,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="75,60" texture="bricks,1">
-			<p>0,0,60</p>
-			<p>0,-4.5,30</p>
-
-			<v>0,0</v>
-			<v>0,5.5</v>
-			<v>2,5.5</v>
-			<v>2,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="51.5,88.5" texture="bricks,1">
-			<p>0,0,30</p>
-			<p>6,0,30</p>
+		</moving_platform>
+		<moving_platform position="57,75" texture="bricks,1">
+			<linear_move>
+				<p>4,0,300</p>
+				<p>4,0,20</p>
+				<p>0,0,200</p>
+				<p>0,0,400</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,2</v>
 			<v>1,2</v>
 			<v>1,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="47.5,91.5" texture="bricks,1">
-			<p>10,0,0</p>
-			<p>10,0,0</p>
-			<p>0,0,90</p>
-			<p>10,0,60</p>
+		</moving_platform>
+		<moving_platform position="57,73" texture="bricks,1">
+			<linear_move>
+				<p>4,0,340</p>
+				<p>4,0,20</p>
+				<p>0,0,160</p>
+				<p>0,0,400</p>
+			</linear_move>
+
+			<v>0,0</v>
+			<v>0,2</v>
+			<v>1,2</v>
+			<v>1,0</v>
+		</moving_platform>
+		<moving_platform position="57,71" texture="bricks,1">
+			<linear_move>
+				<p>4,0,380</p>
+				<p>4,0,20</p>
+				<p>0,0,120</p>
+				<p>0,0,400</p>
+			</linear_move>
+
+			<v>0,0</v>
+			<v>0,2</v>
+			<v>1,2</v>
+			<v>1,0</v>
+		</moving_platform>
+	</chunk>
+	<chunk>
+		<moving_platform position="71,60" texture="bricks,1">
+			<linear_move>
+				<p>0,0,60</p>
+				<p>0,-4.5,30</p>
+			</linear_move>
+
+			<v>0,0</v>
+			<v>0,5.5</v>
+			<v>2,5.5</v>
+			<v>2,0</v>
+		</moving_platform>
+		<moving_platform position="75,60" texture="bricks,1">
+			<linear_move>
+				<p>0,0,60</p>
+				<p>0,-4.5,30</p>
+			</linear_move>
+
+			<v>0,0</v>
+			<v>0,5.5</v>
+			<v>2,5.5</v>
+			<v>2,0</v>
+		</moving_platform>
+		<moving_platform position="73,55.5" texture="bricks,1">
+			<linear_move>
+				<p>-2,0,10</p>
+				<p>0,0,20</p>
+				<p>0,0,10</p>
+				<p>-2,0,50</p>
+			</linear_move>
+
+			<v>0,0</v>
+			<v>0,0.5</v>
+			<v>2,0.5</v>
+			<v>2,0</v>
+		</moving_platform>
+		<moving_platform position="77,55.5" texture="bricks,1">
+			<linear_move>
+				<p>-2,0,10</p>
+				<p>0,0,20</p>
+				<p>0,0,10</p>
+				<p>-2,0,50</p>
+			</linear_move>
+
+			<v>0,0</v>
+			<v>0,0.5</v>
+			<v>2,0.5</v>
+			<v>2,0</v>
+		</moving_platform>
+	</chunk>
+	<chunk right="6">
+		<moving_platform position="51.5,88.5" texture="bricks,1">
+			<linear_move>
+				<p>0,0,30</p>
+				<p>6,0,30</p>
+			</linear_move>
+
+			<v>0,0</v>
+			<v>0,2</v>
+			<v>1,2</v>
+			<v>1,0</v>
+		</moving_platform>
+		<moving_platform position="47.5,91.5" texture="bricks,1">
+			<linear_move>
+				<p>10,0,0</p>
+				<p>10,0,0</p>
+				<p>0,0,90</p>
+				<p>10,0,60</p>
+			</linear_move>
 
 			<v>0.1,0</v>
 			<v>0.1,2</v>
 			<v>0.9,2</v>
 			<v>0.9,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="52.5,93.5" texture="bricks,1">
-			<p>0,0,65</p>
-			<p>0,0,30</p>
-			<p>5,0,55</p>
+		</moving_platform>
+		<moving_platform position="52.5,93.5" texture="bricks,1">
+			<linear_move>
+				<p>0,0,65</p>
+				<p>0,0,30</p>
+				<p>5,0,55</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,2.5</v>
 			<v>1,2.5</v>
 			<v>1,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="57,75" texture="bricks,1">
-			<p>4,0,300</p>
-			<p>4,0,20</p>
-			<p>0,0,200</p>
-			<p>0,0,400</p>
-
-			<v>0,0</v>
-			<v>0,2</v>
-			<v>1,2</v>
-			<v>1,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="57,73" texture="bricks,1">
-			<p>4,0,340</p>
-			<p>4,0,20</p>
-			<p>0,0,160</p>
-			<p>0,0,400</p>
-
-			<v>0,0</v>
-			<v>0,2</v>
-			<v>1,2</v>
-			<v>1,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="57,71" texture="bricks,1">
-			<p>4,0,380</p>
-			<p>4,0,20</p>
-			<p>0,0,120</p>
-			<p>0,0,400</p>
-
-			<v>0,0</v>
-			<v>0,2</v>
-			<v>1,2</v>
-			<v>1,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="56.5,60" texture="bricks,1" layer="3">
-			<p>0,0,64</p>
-			<p>0,0,28</p>
-			<p>0,3.5,0</p>
-			<p>0,0,116</p>
+		</moving_platform>
+	</chunk>
+	<chunk bottom="3,5">
+		<moving_platform position="56.5,60" texture="bricks,1" layer="3">
+			<linear_move>
+				<p>0,0,64</p>
+				<p>0,0,28</p>
+				<p>0,3.5,0</p>
+				<p>0,0,116</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>1,0</v>
 			<v>0,1</v>
-		</old_moving_platform>
-		<old_moving_platform position="55.5,60" texture="bricks,1" layer="3">
-			<p>0,0,56</p>
-			<p>0,0,28</p>
-			<p>0,3.5,0</p>
-			<p>0,0,124</p>
+		</moving_platform>
+		<moving_platform position="55.5,60" texture="bricks,1" layer="3">
+			<linear_move>
+				<p>0,0,56</p>
+				<p>0,0,28</p>
+				<p>0,3.5,0</p>
+				<p>0,0,124</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>1,0</v>
 			<v>0,1</v>
-		</old_moving_platform>
-		<old_moving_platform position="54.5,60" texture="bricks,1" layer="3">
-			<p>0,0,48</p>
-			<p>0,0,28</p>
-			<p>0,3.5,0</p>
-			<p>0,0,132</p>
+		</moving_platform>
+		<moving_platform position="54.5,60" texture="bricks,1" layer="3">
+			<linear_move>
+				<p>0,0,48</p>
+				<p>0,0,28</p>
+				<p>0,3.5,0</p>
+				<p>0,0,132</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>1,0</v>
 			<v>0,1</v>
-		</old_moving_platform>
-		<old_moving_platform position="53.5,60" texture="bricks,1" layer="3">
-			<p>0,0,40</p>
-			<p>0,0,28</p>
-			<p>0,3.5,0</p>
-			<p>0,0,140</p>
+		</moving_platform>
+		<moving_platform position="53.5,60" texture="bricks,1" layer="3">
+			<linear_move>
+				<p>0,0,40</p>
+				<p>0,0,28</p>
+				<p>0,3.5,0</p>
+				<p>0,0,140</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>1,0</v>
 			<v>0,1</v>
-		</old_moving_platform>
-		<old_moving_platform position="52.5,60" texture="bricks,1" layer="3">
-			<p>0,0,32</p>
-			<p>0,0,28</p>
-			<p>0,3.5,0</p>
-			<p>0,0,148</p>
+		</moving_platform>
+		<moving_platform position="52.5,60" texture="bricks,1" layer="3">
+			<linear_move>
+				<p>0,0,32</p>
+				<p>0,0,28</p>
+				<p>0,3.5,0</p>
+				<p>0,0,148</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>1,0</v>
 			<v>0,1</v>
-		</old_moving_platform>
-		<old_moving_platform position="51.5,60" texture="bricks,1" layer="3">
-			<p>0,0,24</p>
-			<p>0,0,28</p>
-			<p>0,3.5,0</p>
-			<p>0,0,156</p>
+		</moving_platform>
+		<moving_platform position="51.5,60" texture="bricks,1" layer="3">
+			<linear_move>
+				<p>0,0,24</p>
+				<p>0,0,28</p>
+				<p>0,3.5,0</p>
+				<p>0,0,156</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>1,0</v>
 			<v>0,1</v>
-		</old_moving_platform>
-		<old_moving_platform position="50.5,60" texture="bricks,1" layer="3">
-			<p>0,0,16</p>
-			<p>0,0,28</p>
-			<p>0,3.5,0</p>
-			<p>0,0,164</p>
+		</moving_platform>
+		<moving_platform position="50.5,60" texture="bricks,1" layer="3">
+			<linear_move>
+				<p>0,0,16</p>
+				<p>0,0,28</p>
+				<p>0,3.5,0</p>
+				<p>0,0,164</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>1,0</v>
 			<v>0,1</v>
-		</old_moving_platform>
-		<old_moving_platform position="49.5,60" texture="bricks,1" layer="3">
-			<p>0,0,8</p>
-			<p>0,0,28</p>
-			<p>0,3.5,0</p>
-			<p>0,0,172</p>
+		</moving_platform>
+		<moving_platform position="49.5,60" texture="bricks,1" layer="3">
+			<linear_move>
+				<p>0,0,8</p>
+				<p>0,0,28</p>
+				<p>0,3.5,0</p>
+				<p>0,0,172</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>1,0</v>
 			<v>0,1</v>
-		</old_moving_platform>
-		<old_moving_platform position="48.5,60" texture="bricks,1" layer="3">
-			<p>0,0,0</p>
-			<p>0,0,28</p>
-			<p>0,3.5,0</p>
-			<p>0,0,180</p>
+		</moving_platform>
+		<moving_platform position="48.5,60" texture="bricks,1" layer="3">
+			<linear_move>
+				<p>0,0,0</p>
+				<p>0,0,28</p>
+				<p>0,3.5,0</p>
+				<p>0,0,180</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>1,0</v>
 			<v>0,1</v>
-		</old_moving_platform>
-		<object position="73, 71" texture="web1" height="2.5" layer="8"/>
-		<object position="69, 71" texture="web1" height="1" layer="8" flip="-1,1"/>
-		<object position="74.5, 84" texture="web1" height="2.5" layer="8" flip="-1,1"/>
-		<object position="69, 91.5" texture="web1" height="2.5" layer="8"/>
-		<object position="77, 87.5" texture="web1" height="3" layer="8" flip="-1,1"/>
+		</moving_platform>
+	</chunk>
+	<chunk>
 		<object position="77, 65.5" texture="web1" height="2" layer="8"/>
 		<object position="71, 61" texture="web1" height="2.5" layer="8" flip="-1,1"/>
-		<object position="67, 87.5" texture="web1" height="1" layer="8" flip="-1,1"/>
-		<object position="60, 84" texture="web1" height="3" layer="8" flip="-1,1"/>
+		<object position="79, 61" texture="web0" height="2" layer="8" flip="-1,1"/>
+		<object position="62, 61" texture="web0" height="2.5" layer="8"/>
+		<object position="48.5, 64.5" texture="web0" height="3" layer="8"/>
+		<object position="61, 61" texture="web0" height="2.5" layer="8" flip="-1,1"/>
+		<object position="64, 67" texture="break0" height="3" rotation="270"/>
+		<object position="70.5, 64" texture="break0" height="4" flip="-1,1"/>
+		<object position="57.5, 68.5" texture="break0" height="6" flip="-1,1" rotation="25"/>
+		<object position="76, 67" texture="ruin0" height="3" layer="8" flip="-1,1"/>
+		<object position="51.5, 67" texture="ruin0" height="3" layer="8" flip="-1,1"/>
+		<object position="79, 62.5" texture="crystal3" height="2" flip="-1,1"/>
+	</chunk>
+	<chunk>
+		<object position="73, 71" texture="web1" height="2.5" layer="8"/>
+		<object position="69, 71" texture="web1" height="1" layer="8" flip="-1,1"/>
 		<object position="57.5, 71" texture="web1" height="4" layer="8" flip="-1,1"/>
-		<object position="78, 87.5" texture="web0" height="3" layer="8" flip="-1,1"/>
 		<object position="71.25, 78" texture="web0" height="2" layer="7"/>
 		<object position="73, 77" texture="web0" height="0.7" layer="8" rotation="270"/>
 		<object position="66, 75" texture="web0" height="3" layer="8"/>
 		<object position="70, 75" texture="web0" height="2.5" layer="7" flip="-1,1"/>
-		<object position="79, 61" texture="web0" height="2" layer="8" flip="-1,1"/>
-		<object position="62, 61" texture="web0" height="2.5" layer="8"/>
-		<object position="70, 90.5" texture="web0" height="1.3" layer="8" flip="-1,-1"/>
-		<object position="61, 84" texture="web0" height="0.8" layer="8" flip="-1,1"/>
-		<object position="48.5, 88.5" texture="web0" height="1.5" layer="8"/>
 		<object position="48.5, 74.5" texture="web0" height="4" layer="8"/>
-		<object position="48.5, 99" texture="web0" height="2.5" layer="8" flip="1,-1"/>
-		<object position="48.5, 64.5" texture="web0" height="3" layer="8"/>
-		<object position="61, 61" texture="web0" height="2.5" layer="8" flip="-1,1"/>
-		<object position="78, 99" texture="web0" height="1.7" layer="8" flip="-1,-1"/>
 		<object position="73, 75" texture="break0" height="4" rotation="30"/>
 		<object position="70.5, 71" texture="break0" height="2"/>
-		<object position="78.75, 86" texture="break0" height="3" rotation="200"/>
-		<object position="74, 90.5" texture="break0" height="4.5" rotation="115"/>
-		<object position="64, 67" texture="break0" height="3" rotation="270"/>
-		<object position="71.5, 88.5" texture="break0" height="4.5" rotation="160"/>
-		<object position="70.5, 64" texture="break0" height="4" flip="-1,1"/>
-		<object position="56.5, 95" texture="break0" height="3.5" flip="-1,-1"/>
-		<object position="50, 82" texture="break0" height="5.5" flip="1,-1" rotation="35"/>
-		<object position="57.5, 68.5" texture="break0" height="6" flip="-1,1" rotation="25"/>
 		<object position="48, 72" texture="break0" height="2.5"/>
 		<object position="79.5, 75" texture="column1" height="5" layer="8" flip="-1,1"/>
 		<object position="70, 78" texture="column1" height="5" layer="8"/>
-		<object position="70, 84" texture="column1" height="5" layer="8"/>
 		<object position="68, 71.5" texture="ruin0" height="2.5" layer="8"/>
+		<object position="53, 79" texture="ruin0" height="3" layer="8"/>
+	</chunk>
+	<chunk>
+		<object position="74.5, 84" texture="web1" height="2.5" layer="8" flip="-1,1"/>
+		<object position="77, 87.5" texture="web1" height="3" layer="8" flip="-1,1"/>
+		<object position="67, 87.5" texture="web1" height="1" layer="8" flip="-1,1"/>
+		<object position="60, 84" texture="web1" height="3" layer="8" flip="-1,1"/>
+		<object position="78, 87.5" texture="web0" height="3" layer="8" flip="-1,1"/>
+		<object position="61, 84" texture="web0" height="0.8" layer="8" flip="-1,1"/>
+		<object position="48.5, 88.5" texture="web0" height="1.5" layer="8"/>
+		<object position="78.75, 86" texture="break0" height="3" rotation="200"/>
+		<object position="71.5, 88.5" texture="break0" height="4.5" rotation="160"/>
+		<object position="50, 82" texture="break0" height="5.5" flip="1,-1" rotation="35"/>
+		<object position="70, 84" texture="column1" height="5" layer="8"/>
 		<object position="75, 80" texture="ruin0" height="3" layer="8" flip="-1,1"/>
 		<object position="75.5, 84.5" texture="ruin0" height="2" layer="8"/>
+	</chunk>
+	<chunk>
+		<object position="69, 91.5" texture="web1" height="2.5" layer="8"/>
+		<object position="70, 90.5" texture="web0" height="1.3" layer="8" flip="-1,-1"/>
+		<object position="48.5, 99" texture="web0" height="2.5" layer="8" flip="1,-1"/>
+		<object position="78, 99" texture="web0" height="1.7" layer="8" flip="-1,-1"/>
+		<object position="74, 90.5" texture="break0" height="4.5" rotation="115"/>
+		<object position="56.5, 95" texture="break0" height="3.5" flip="-1,-1"/>
 		<object position="72, 93" texture="ruin0" height="3"/>
 		<object position="72, 93.5" texture="ruin0" height="2.5" layer="8" flip="-1,1"/>
-		<object position="76, 67" texture="ruin0" height="3" layer="8" flip="-1,1"/>
-		<object position="53, 79" texture="ruin0" height="3" layer="8"/>
-		<object position="51.5, 67" texture="ruin0" height="3" layer="8" flip="-1,1"/>
-		<animated_object position="76, 71.5" texture="torch0" height="2" frame_time="4" offset="1"/>
-		<animated_object position="72.5, 79" texture="torch0" height="2" frame_time="4" offset="39"/>
-		<animated_object position="68.5, 71.5" texture="torch0" height="2" frame_time="4" offset="55"/>
-		<animated_object position="71.5, 85.5" texture="torch0" height="2" frame_time="4" offset="22"/>
-		<animated_object position="68, 92.5" texture="torch0" height="2" frame_time="4" offset="18"/>
-		<animated_object position="73, 89.5" texture="torch0" height="2" frame_time="4" offset="27"/>
-		<animated_object position="67, 78" texture="torch0" height="2" frame_time="4" offset="7"/>
+		<object position="78, 97" texture="crystal1" height="2" flip="-1,1"/>
+	</chunk>
+	<chunk>
 		<animated_object position="62.5, 65.5" texture="torch0" height="2" frame_time="4" offset="43"/>
 		<animated_object position="76.5, 67" texture="torch0" height="2" frame_time="4" offset="50"/>
 		<animated_object position="69.5, 67" texture="torch0" height="2" frame_time="4" offset="23"/>
+		<animated_object position="49, 66" texture="torch0" height="2" frame_time="4" offset="57"/>
+		<animated_object position="58.5, 63" texture="torch0" height="2" frame_time="4" offset="22"/>
+	</chunk>
+	<chunk>
+		<animated_object position="76, 71.5" texture="torch0" height="2" frame_time="4" offset="1"/>
+		<animated_object position="72.5, 79" texture="torch0" height="2" frame_time="4" offset="39"/>
+		<animated_object position="68.5, 71.5" texture="torch0" height="2" frame_time="4" offset="55"/>
+		<animated_object position="67, 78" texture="torch0" height="2" frame_time="4" offset="7"/>
 		<animated_object position="62.5, 78" texture="torch0" height="2" frame_time="4" offset="17"/>
+		<animated_object position="52, 78.5" texture="torch0" height="2" frame_time="4" offset="13"/>
+		<animated_object position="58.5, 73" texture="torch0" height="2" frame_time="4" offset="61"/>
+	</chunk>
+	<chunk>
+		<animated_object position="71.5, 85.5" texture="torch0" height="2" frame_time="4" offset="22"/>
+		<animated_object position="73, 89.5" texture="torch0" height="2" frame_time="4" offset="27"/>
 		<animated_object position="67.5, 88" texture="torch0" height="2" frame_time="4" offset="42"/>
 		<animated_object position="62.5, 88" texture="torch0" height="2" frame_time="4" offset="11"/>
 		<animated_object position="54, 84" texture="torch0" height="2" frame_time="4" offset="3"/>
+	</chunk>
+	<chunk>
+		<animated_object position="68, 92.5" texture="torch0" height="2" frame_time="4" offset="18"/>
 		<animated_object position="54, 92.5" texture="torch0" height="2" frame_time="4" offset="38"/>
-		<animated_object position="52, 78.5" texture="torch0" height="2" frame_time="4" offset="13"/>
-		<animated_object position="58.5, 73" texture="torch0" height="2" frame_time="4" offset="61"/>
-		<animated_object position="49, 66" texture="torch0" height="2" frame_time="4" offset="57"/>
-		<animated_object position="58.5, 63" texture="torch0" height="2" frame_time="4" offset="22"/>
-		<object position="78, 97" texture="crystal1" height="2" flip="-1,1"/>
-		<object position="79, 62.5" texture="crystal3" height="2" flip="-1,1"/>
+	</chunk>
 	/---------------------------------------------------------------------JASKINIE
+	<chunk>
 		<platform position="31,33" texture="dirt,0">
 			<v>0,0</v>
 			<v>0,24</v>
@@ -2490,28 +2682,8 @@
 			<v>2,1.5</v>
 			<v>2,0</v>
 		</platform>
-		<old_moving_platform position="73,55.5" texture="bricks,1">
-			<p>-2,0,10</p>
-			<p>0,0,20</p>
-			<p>0,0,10</p>
-			<p>-2,0,50</p>
-
-			<v>0,0</v>
-			<v>0,0.5</v>
-			<v>2,0.5</v>
-			<v>2,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="77,55.5" texture="bricks,1">
-			<p>-2,0,10</p>
-			<p>0,0,20</p>
-			<p>0,0,10</p>
-			<p>-2,0,50</p>
-
-			<v>0,0</v>
-			<v>0,0.5</v>
-			<v>2,0.5</v>
-			<v>2,0</v>
-		</old_moving_platform>
+	</chunk>
+	<chunk>
 		<object position="75, 26" texture="rocks2" height="2.5" layer="7" flip="-1,1"/>
 		<object position="66.5, 26" texture="rocks2" height="2.5" layer="7"/>
 		<object position="70, 26" texture="rocks1" height="2.5" layer="7"/>
@@ -2520,10 +2692,14 @@
 		<object position="44, 59" texture="rocks0" height="4" layer="7" flip="-1,1"/>
 		<object position="36, 60.5" texture="rocks2" height="3" layer="7"/>
 		<object position="45, 60" texture="rocks1" height="3.5" layer="7" flip="-1,1"/>
+	</chunk>
+	<chunk>
 		<object position="47, 56" texture="stalagmit0" height="4" layer="8" flip="1,1"/>
 		<object position="63, 56" texture="stalagmit1" height="4" layer="8" flip="-1,1"/>
 		<object position="49, 58" texture="stalagmit6" height="4" layer="8" flip="-1,-1"/>
 		<object position="49, 58" texture="stalagmit0" height="4" layer="8" flip="1,-1"/>
+	</chunk>
+	<chunk>
 		<object position="51, 57.5" texture="stalagmit1" height="2" flip="-1,1"/>
 		<object position="55, 57.5" texture="stalagmit0" height="2" flip="-1,1"/>
 		<object position="55, 57.5" texture="stalagmit0" height="2" flip="1,1"/>
@@ -2531,20 +2707,36 @@
 		<object position="45, 56.5" texture="stalagmit1" height="2" flip="1,-1"/>
 		<object position="53, 56.5" texture="stalagmit0" height="2" flip="-1,-1"/>
 		<object position="57, 56.5" texture="stalagmit1" height="2" flip="-1,-1"/>
+	</chunk>
+	<chunk>
 		<object position="49, 50" texture="stalagmit6" height="4" layer="8" flip="-1,1"/>
 		<object position="49, 50" texture="stalagmit1" height="4" layer="8" flip="1,1"/>
+	</chunk>
+	<chunk>
 		<object position="49, 51.5" texture="stalagmit0" height="2" flip="-1,1"/>
 		<object position="49, 51.5" texture="stalagmit0" height="2" flip="1,1"/>
 		<object position="53, 51.5" texture="stalagmit1" height="2" flip="1,1"/>
+	</chunk>
+	<chunk>
 		<object position="63, 56" texture="stalagmit6" height="4" layer="8" flip="1,1"/>
+	</chunk>
+	<chunk>
 		<object position="63, 57.5" texture="stalagmit1" height="2" flip="1,1"/>
+	</chunk>
+	<chunk>
 		<object position="71, 52" texture="stalagmit4" height="4" layer="8" flip="-1,1"/>
 		<object position="57, 50" texture="stalagmit2" height="4" layer="8" flip="1,1"/>
 		<object position="57, 58" texture="stalagmit5" height="4" layer="8" flip="1,-1"/>
+	</chunk>
+	<chunk>
 		<object position="59, 51.5" texture="stalagmit3" height="2" flip="1,1"/>
 		<object position="59, 56.5" texture="stalagmit4" height="2" flip="1,-1"/>
 		<object position="71, 53.5" texture="stalagmit5" height="2" flip="-1,1"/>
+	</chunk>
+	<chunk>
 		<object position="41, 62" texture="stalagmit2" height="4" layer="8" flip="1,-1"/>
+	</chunk>
+	<chunk>
 		<object position="79, 52.5" texture="stalagmit0" height="4" layer="8" flip="-1,-1"/>
 		<object position="63, 52.5" texture="stalagmit0" height="4" layer="8" flip="1,-1"/>
 		<object position="55, 52.5" texture="stalagmit1" height="4" layer="8" flip="1,-1"/>
@@ -2553,6 +2745,8 @@
 		<object position="63, 44.5" texture="stalagmit6" height="4" layer="8" flip="-1,1"/>
 		<object position="55, 40.5" texture="stalagmit3" height="4" layer="8" flip="1,1"/>
 		<object position="55, 40.5" texture="stalagmit4" height="4" layer="8" flip="-1,1"/>
+	</chunk>
+	<chunk>
 		<object position="41, 62" texture="stalagmit5" height="4" layer="8" flip="-1,-1"/>
 		<object position="33, 54" texture="stalagmit7" height="4" layer="8" flip="1,1"/>
 		<object position="33, 54" texture="stalagmit7" height="4" layer="8" flip="1,-1"/>
@@ -2562,14 +2756,20 @@
 		<object position="49, 46" texture="stalagmit7" height="4" layer="8" flip="-1,1"/>
 		<object position="49, 46" texture="stalagmit7" height="4" layer="8" flip="-1,-1"/>
 		<object position="49, 42" texture="stalagmit6" height="4" layer="8" flip="-1,-1"/>
+	</chunk>
+	<chunk>
 		<object position="41, 60.5" texture="stalagmit2" height="2" flip="1,-1"/>
 		<object position="41, 60.5" texture="stalagmit3" height="2" flip="-1,-1"/>
+	</chunk>
+	<chunk>
 		<object position="63, 44.5" texture="stalagmit1" height="4" layer="8" flip="1,1"/>
 		<object position="71, 44.5" texture="stalagmit6" height="4" layer="8" flip="1,1"/>
 		<object position="71, 44.5" texture="stalagmit7" height="4" layer="8" flip="1,-1"/>
 		<object position="71, 40.5" texture="stalagmit7" height="4" layer="8" flip="1,-1"/>
 		<object position="71, 36.5" texture="stalagmit6" height="4" layer="8" flip="1,-1"/>
 		<object position="71, 36.5" texture="stalagmit4" height="4" layer="8" flip="-1,-1"/>
+	</chunk>
+	<chunk>
 		<object position="69, 34" texture="stalagmit6" height="4" layer="7" flip="-1,1"/>
 		<object position="69, 34" texture="stalagmit5" height="4" layer="7" flip="1,1"/>
 		<object position="69, 42" texture="stalagmit3" height="4" layer="7" flip="1,-1"/>
@@ -2582,6 +2782,8 @@
 		<object position="61, 30" texture="stalagmit4" height="4" layer="8" flip="1,1"/>
 		<object position="61, 30" texture="stalagmit0" height="4" layer="8" flip="-1,1"/>
 		<object position="45, 30" texture="stalagmit1" height="4" layer="8" flip="1,1"/>
+	</chunk>
+	<chunk>
 		<object position="63, 32.5" texture="stalagmit6" height="4" layer="8" flip="1,-1"/>
 		<object position="79, 28.5" texture="stalagmit6" height="4" layer="8" flip="-1,1"/>
 		<object position="63, 32.5" texture="stalagmit1" height="4" layer="8" flip="-1,-1"/>
@@ -2595,6 +2797,8 @@
 		<object position="39, 52.5" texture="stalagmit7" height="4" layer="8" flip="-1,-1"/>
 		<object position="39, 56.5" texture="stalagmit7" height="4" layer="8" flip="-1,-1"/>
 		<object position="31, 60.5" texture="stalagmit3" height="4" layer="8" flip="1,-1"/>
+	</chunk>
+	<chunk>
 		<object position="79, 51" texture="stalagmit1" height="2" flip="-1,-1"/>
 		<object position="75, 51" texture="stalagmit0" height="2" flip="-1,-1"/>
 		<object position="67, 51" texture="stalagmit1" height="2" flip="1,-1"/>
@@ -2604,19 +2808,27 @@
 		<object position="55, 51" texture="stalagmit5" height="2" flip="-1,-1"/>
 		<object position="55, 42" texture="stalagmit3" height="2" flip="-1,1"/>
 		<object position="55, 42" texture="stalagmit2" height="2" flip="1,1"/>
+	</chunk>
+	<chunk>
 		<object position="45, 40.5" texture="stalagmit4" height="2" flip="1,-1"/>
 		<object position="57, 36.5" texture="stalagmit0" height="2" flip="-1,-1"/>
 		<object position="49, 36.5" texture="stalagmit1" height="2" flip="1,-1"/>
+	</chunk>
+	<chunk>
 		<object position="59, 46" texture="stalagmit0" height="2" flip="1,1"/>
 		<object position="67, 46" texture="stalagmit1" height="2" flip="-1,1"/>
 		<object position="67, 46" texture="stalagmit1" height="2" flip="1,1"/>
 		<object position="71, 46" texture="stalagmit1" height="2" flip="1,1"/>
+	</chunk>
+	<chunk>
 		<object position="61, 40.5" texture="stalagmit4" height="2" flip="-1,-1"/>
 		<object position="65, 40.5" texture="stalagmit1" height="2" flip="-1,-1"/>
 		<object position="65, 40.5" texture="stalagmit0" height="2" flip="1,-1"/>
 		<object position="69, 40.5" texture="stalagmit2" height="2" flip="1,-1"/>
 		<object position="65, 35.5" texture="stalagmit1" height="2" flip="1,1"/>
 		<object position="69, 35.5" texture="stalagmit5" height="2" flip="1,1"/>
+	</chunk>
+	<chunk>
 		<object position="75, 35" texture="stalagmit0" height="2" flip="-1,-1"/>
 		<object position="71, 35" texture="stalagmit2" height="2" flip="-1,-1"/>
 		<object position="63, 31" texture="stalagmit0" height="2" flip="1,-1"/>
@@ -2627,6 +2839,8 @@
 		<object position="43, 31" texture="stalagmit1" height="2" flip="1,-1"/>
 		<object position="39, 31" texture="stalagmit1" height="2" flip="1,-1"/>
 		<object position="39, 31" texture="stalagmit1" height="2" flip="-1,-1"/>
+	</chunk>
+	<chunk>
 		<object position="45, 31.5" texture="stalagmit5" height="2" flip="-1,1"/>
 		<object position="49, 31.5" texture="stalagmit0" height="2" flip="-1,1"/>
 		<object position="49, 31.5" texture="stalagmit1" height="2" flip="1,1"/>
@@ -2634,11 +2848,17 @@
 		<object position="61, 31.5" texture="stalagmit0" height="2" flip="-1,1"/>
 		<object position="61, 31.5" texture="stalagmit3" height="2" flip="1,1"/>
 		<object position="41, 35.5" texture="stalagmit4" height="2" flip="-1,1"/>
+	</chunk>
+	<chunk>
 		<object position="75, 30" texture="stalagmit1" height="2" flip="1,1"/>
 		<object position="31, 59" texture="stalagmit4" height="2" flip="1,-1"/>
+	</chunk>
+	<chunk>
 		<animated_object position="74, 51.5" texture="torch0" height="2" frame_time="4" offset="11"/>
 		<object position="79, 58" texture="crystal1" height="2" flip="-1,1"/>
+	</chunk>
 	/---------------------------------------------------------------------ŚWIĄTYNIA
+	<chunk>
 		<platform position="0,60" texture="bricks,1">
 			<v>0,0</v>
 			<v>0,40</v>
@@ -2767,334 +2987,394 @@
 			<v>1,12</v>
 			<v>1,0</v>
 		</platform>
-		<old_moving_platform position="43.5,72.5" texture="bricks,1">
-			<p>2,0,60</p>
-			<p>2,0,60</p>
-			<p>2,-2,60</p>
-			<p>2,-2,60</p>
-			<p>0,-2,60</p>
-			<p>0,-2,60</p>
-			<p>0,0,60</p>
-			<p>0,0,60</p>
+	</chunk>
+	<chunk>
+		<moving_platform position="43.5,72.5" texture="bricks,1">
+			<linear_move>
+				<p>2,0,60</p>
+				<p>2,0,60</p>
+				<p>2,-2,60</p>
+				<p>2,-2,60</p>
+				<p>0,-2,60</p>
+				<p>0,-2,60</p>
+				<p>0,0,60</p>
+				<p>0,0,60</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,2</v>
 			<v>2,2</v>
 			<v>2,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="43.5,70.5" texture="bricks,1">
-			<p>-2,0,60</p>
-			<p>-2,0,60</p>
-			<p>-2,-2,60</p>
-			<p>-2,-2,60</p>
-			<p>0,-2,60</p>
-			<p>0,-2,60</p>
-			<p>0,0,60</p>
-			<p>0,0,60</p>
+		</moving_platform>
+		<moving_platform position="43.5,70.5" texture="bricks,1">
+			<linear_move>
+				<p>-2,0,60</p>
+				<p>-2,0,60</p>
+				<p>-2,-2,60</p>
+				<p>-2,-2,60</p>
+				<p>0,-2,60</p>
+				<p>0,-2,60</p>
+				<p>0,0,60</p>
+				<p>0,0,60</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,2</v>
 			<v>2,2</v>
 			<v>2,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="45.5,68.5" texture="bricks,1">
-			<p>-2,0,60</p>
-			<p>-2,0,60</p>
-			<p>-2,-2,60</p>
-			<p>-2,-2,60</p>
-			<p>0,-2,60</p>
-			<p>0,-2,60</p>
-			<p>0,0,60</p>
-			<p>0,0,60</p>
+		</moving_platform>
+		<moving_platform position="45.5,68.5" texture="bricks,1">
+			<linear_move>
+				<p>-2,0,60</p>
+				<p>-2,0,60</p>
+				<p>-2,-2,60</p>
+				<p>-2,-2,60</p>
+				<p>0,-2,60</p>
+				<p>0,-2,60</p>
+				<p>0,0,60</p>
+				<p>0,0,60</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,2</v>
 			<v>2,2</v>
 			<v>2,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="43.5,64.5" texture="bricks,1">
-			<p>-2,0,60</p>
-			<p>-2,0,60</p>
-			<p>-2,2,60</p>
-			<p>-2,2,60</p>
-			<p>0,2,60</p>
-			<p>0,2,60</p>
-			<p>0,0,60</p>
-			<p>0,0,60</p>
+		</moving_platform>
+		<moving_platform position="43.5,64.5" texture="bricks,1">
+			<linear_move>
+				<p>-2,0,60</p>
+				<p>-2,0,60</p>
+				<p>-2,2,60</p>
+				<p>-2,2,60</p>
+				<p>0,2,60</p>
+				<p>0,2,60</p>
+				<p>0,0,60</p>
+				<p>0,0,60</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,2</v>
 			<v>2,2</v>
 			<v>2,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="39.5,66.5" texture="bricks,1">
-			<p>0,-2,60</p>
-			<p>0,-2,60</p>
-			<p>2,-2,60</p>
-			<p>2,-2,60</p>
-			<p>2,0,60</p>
-			<p>2,0,60</p>
-			<p>0,0,60</p>
-			<p>0,0,60</p>
+		</moving_platform>
+		<moving_platform position="39.5,66.5" texture="bricks,1">
+			<linear_move>
+				<p>0,-2,60</p>
+				<p>0,-2,60</p>
+				<p>2,-2,60</p>
+				<p>2,-2,60</p>
+				<p>2,0,60</p>
+				<p>2,0,60</p>
+				<p>0,0,60</p>
+				<p>0,0,60</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,2</v>
 			<v>2,2</v>
 			<v>2,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="39.5,68.5" texture="bricks,1">
-			<p>0,2,60</p>
-			<p>0,2,60</p>
-			<p>2,2,60</p>
-			<p>2,2,60</p>
-			<p>2,0,60</p>
-			<p>2,0,60</p>
-			<p>0,0,60</p>
-			<p>0,0,60</p>
+		</moving_platform>
+		<moving_platform position="39.5,68.5" texture="bricks,1">
+			<linear_move>
+				<p>0,2,60</p>
+				<p>0,2,60</p>
+				<p>2,2,60</p>
+				<p>2,2,60</p>
+				<p>2,0,60</p>
+				<p>2,0,60</p>
+				<p>0,0,60</p>
+				<p>0,0,60</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,2</v>
 			<v>2,2</v>
 			<v>2,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="41.5,72.5" texture="bricks,1">
-			<p>2,0,60</p>
-			<p>2,0,60</p>
-			<p>0,0,60</p>
-			<p>0,0,60</p>
-			<p>2,0,60</p>
-			<p>2,0,60</p>
-			<p>0,0,60</p>
-			<p>0,0,60</p>
+		</moving_platform>
+		<moving_platform position="41.5,72.5" texture="bricks,1">
+			<linear_move>
+				<p>2,0,60</p>
+				<p>2,0,60</p>
+				<p>0,0,60</p>
+				<p>0,0,60</p>
+				<p>2,0,60</p>
+				<p>2,0,60</p>
+				<p>0,0,60</p>
+				<p>0,0,60</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,2</v>
 			<v>2,2</v>
 			<v>2,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="37.5,68.5" texture="bricks,1">
-			<p>0,-2,60</p>
-			<p>0,-2,60</p>
-			<p>2,-2,60</p>
-			<p>2,-2,60</p>
-			<p>2,0,60</p>
-			<p>2,0,60</p>
-			<p>0,0,60</p>
-			<p>0,0,60</p>
+		</moving_platform>
+		<moving_platform position="37.5,68.5" texture="bricks,1">
+			<linear_move>
+				<p>0,-2,60</p>
+				<p>0,-2,60</p>
+				<p>2,-2,60</p>
+				<p>2,-2,60</p>
+				<p>2,0,60</p>
+				<p>2,0,60</p>
+				<p>0,0,60</p>
+				<p>0,0,60</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,2</v>
 			<v>2,2</v>
 			<v>2,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="37.5,70.5" texture="bricks,1">
-			<p>0,-2,60</p>
-			<p>0,-2,60</p>
-			<p>-2,-2,60</p>
-			<p>-2,-2,60</p>
-			<p>-2,0,60</p>
-			<p>-2,0,60</p>
-			<p>0,0,60</p>
-			<p>0,0,60</p>
+		</moving_platform>
+		<moving_platform position="37.5,70.5" texture="bricks,1">
+			<linear_move>
+				<p>0,-2,60</p>
+				<p>0,-2,60</p>
+				<p>-2,-2,60</p>
+				<p>-2,-2,60</p>
+				<p>-2,0,60</p>
+				<p>-2,0,60</p>
+				<p>0,0,60</p>
+				<p>0,0,60</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,2</v>
 			<v>2,2</v>
 			<v>2,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="39.5,70.5" texture="bricks,1">
-			<p>0,2,60</p>
-			<p>0,2,60</p>
-			<p>0,0,60</p>
-			<p>0,0,60</p>
-			<p>0,2,60</p>
-			<p>0,2,60</p>
-			<p>0,0,60</p>
-			<p>0,0,60</p>
+		</moving_platform>
+		<moving_platform position="39.5,70.5" texture="bricks,1">
+			<linear_move>
+				<p>0,2,60</p>
+				<p>0,2,60</p>
+				<p>0,0,60</p>
+				<p>0,0,60</p>
+				<p>0,2,60</p>
+				<p>0,2,60</p>
+				<p>0,0,60</p>
+				<p>0,0,60</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,2</v>
 			<v>2,2</v>
 			<v>2,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="39.5,64.5" texture="bricks,1">
-			<p>-2,0,60</p>
-			<p>-2,0,60</p>
-			<p>0,0,60</p>
-			<p>0,0,60</p>
-			<p>-2,0,60</p>
-			<p>-2,0,60</p>
-			<p>0,0,60</p>
-			<p>0,0,60</p>
+		</moving_platform>
+		<moving_platform position="39.5,64.5" texture="bricks,1">
+			<linear_move>
+				<p>-2,0,60</p>
+				<p>-2,0,60</p>
+				<p>0,0,60</p>
+				<p>0,0,60</p>
+				<p>-2,0,60</p>
+				<p>-2,0,60</p>
+				<p>0,0,60</p>
+				<p>0,0,60</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,2</v>
 			<v>2,2</v>
 			<v>2,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="35.5,66.5" texture="bricks,1">
-			<p>0,-2,60</p>
-			<p>0,-2,60</p>
-			<p>2,-2,60</p>
-			<p>2,-2,60</p>
-			<p>2,0,60</p>
-			<p>2,0,60</p>
-			<p>0,0,60</p>
-			<p>0,0,60</p>
+		</moving_platform>
+		<moving_platform position="35.5,66.5" texture="bricks,1">
+			<linear_move>
+				<p>0,-2,60</p>
+				<p>0,-2,60</p>
+				<p>2,-2,60</p>
+				<p>2,-2,60</p>
+				<p>2,0,60</p>
+				<p>2,0,60</p>
+				<p>0,0,60</p>
+				<p>0,0,60</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,2</v>
 			<v>2,2</v>
 			<v>2,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="35.5,64.5" texture="bricks,1">
-			<p>-2,0,60</p>
-			<p>-2,0,60</p>
-			<p>-2,2,60</p>
-			<p>-2,2,60</p>
-			<p>0,2,60</p>
-			<p>0,2,60</p>
-			<p>0,0,60</p>
-			<p>0,0,60</p>
+		</moving_platform>
+		<moving_platform position="35.5,64.5" texture="bricks,1">
+			<linear_move>
+				<p>-2,0,60</p>
+				<p>-2,0,60</p>
+				<p>-2,2,60</p>
+				<p>-2,2,60</p>
+				<p>0,2,60</p>
+				<p>0,2,60</p>
+				<p>0,0,60</p>
+				<p>0,0,60</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,2</v>
 			<v>2,2</v>
 			<v>2,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="33.5,72.5" texture="bricks,1">
-			<p>0,-2,60</p>
-			<p>0,-2,60</p>
-			<p>2,-2,60</p>
-			<p>2,-2,60</p>
-			<p>2,0,60</p>
-			<p>2,0,60</p>
-			<p>0,0,60</p>
-			<p>0,0,60</p>
+		</moving_platform>
+		<moving_platform position="33.5,72.5" texture="bricks,1">
+			<linear_move>
+				<p>0,-2,60</p>
+				<p>0,-2,60</p>
+				<p>2,-2,60</p>
+				<p>2,-2,60</p>
+				<p>2,0,60</p>
+				<p>2,0,60</p>
+				<p>0,0,60</p>
+				<p>0,0,60</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,2</v>
 			<v>2,2</v>
 			<v>2,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="33.5,68.5" texture="bricks,1">
-			<p>2,0,60</p>
-			<p>2,0,60</p>
-			<p>0,0,60</p>
-			<p>0,0,60</p>
-			<p>2,0,60</p>
-			<p>2,0,60</p>
-			<p>0,0,60</p>
-			<p>0,0,60</p>
+		</moving_platform>
+		<moving_platform position="33.5,68.5" texture="bricks,1">
+			<linear_move>
+				<p>2,0,60</p>
+				<p>2,0,60</p>
+				<p>0,0,60</p>
+				<p>0,0,60</p>
+				<p>2,0,60</p>
+				<p>2,0,60</p>
+				<p>0,0,60</p>
+				<p>0,0,60</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,2</v>
 			<v>2,2</v>
 			<v>2,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="2,92.5" texture="bricks,1" layer="2">
-			<p>-2,0,30</p>
-			<p>0,0,1200</p>
+		</moving_platform>
+	</chunk>
+	<chunk>
+		<moving_platform position="2,92.5" texture="bricks,1" layer="2">
+			<linear_move>
+				<p>-2,0,30</p>
+				<p>0,0,1200</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,0.5</v>
 			<v>1.5,0.5</v>
 			<v>1.5,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="7.5,89.5" texture="bricks,1" layer="2">
-			<p>2,0,30</p>
-			<p>0,0,1200</p>
+		</moving_platform>
+		<moving_platform position="7.5,89.5" texture="bricks,1" layer="2">
+			<linear_move>
+				<p>2,0,30</p>
+				<p>0,0,1200</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,0.5</v>
 			<v>1.5,0.5</v>
 			<v>1.5,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="2,86.5" texture="bricks,1" layer="2">
-			<p>-2,0,30</p>
-			<p>0,0,1200</p>
+		</moving_platform>
+		<moving_platform position="2,86.5" texture="bricks,1" layer="2">
+			<linear_move>
+				<p>-2,0,30</p>
+				<p>0,0,1200</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,0.5</v>
 			<v>1.5,0.5</v>
 			<v>1.5,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="7.5,83.5" texture="bricks,1" layer="2">
-			<p>2,0,30</p>
-			<p>0,0,1200</p>
+		</moving_platform>
+		<moving_platform position="7.5,83.5" texture="bricks,1" layer="2">
+			<linear_move>
+				<p>2,0,30</p>
+				<p>0,0,1200</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,0.5</v>
 			<v>1.5,0.5</v>
 			<v>1.5,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="2,80.5" texture="bricks,1" layer="2">
-			<p>-2,0,30</p>
-			<p>0,0,1200</p>
+		</moving_platform>
+		<moving_platform position="2,80.5" texture="bricks,1" layer="2">
+			<linear_move>
+				<p>-2,0,30</p>
+				<p>0,0,1200</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,0.5</v>
 			<v>1.5,0.5</v>
 			<v>1.5,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="7.5,77.5" texture="bricks,1" layer="2">
-			<p>2,0,30</p>
-			<p>0,0,1200</p>
+		</moving_platform>
+		<moving_platform position="7.5,77.5" texture="bricks,1" layer="2">
+			<linear_move>
+				<p>2,0,30</p>
+				<p>0,0,1200</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,0.5</v>
 			<v>1.5,0.5</v>
 			<v>1.5,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="2,74.5" texture="bricks,1" layer="2">
-			<p>-2,0,30</p>
-			<p>0,0,1200</p>
+		</moving_platform>
+		<moving_platform position="2,74.5" texture="bricks,1" layer="2">
+			<linear_move>
+				<p>-2,0,30</p>
+				<p>0,0,1200</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,0.5</v>
 			<v>1.5,0.5</v>
 			<v>1.5,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="7.5,71.5" texture="bricks,1" layer="2">
-			<p>2,0,30</p>
-			<p>0,0,1200</p>
+		</moving_platform>
+		<moving_platform position="7.5,71.5" texture="bricks,1" layer="2">
+			<linear_move>
+				<p>2,0,30</p>
+				<p>0,0,1200</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,0.5</v>
 			<v>1.5,0.5</v>
 			<v>1.5,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="2,68.5" texture="bricks,1" layer="2">
-			<p>-2,0,30</p>
-			<p>0,0,1200</p>
+		</moving_platform>
+		<moving_platform position="2,68.5" texture="bricks,1" layer="2">
+			<linear_move>
+				<p>-2,0,30</p>
+				<p>0,0,1200</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,0.5</v>
 			<v>1.5,0.5</v>
 			<v>1.5,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="7.5,65.5" texture="bricks,1" layer="2">
-			<p>2,0,30</p>
-			<p>0,0,1200</p>
+		</moving_platform>
+		<moving_platform position="7.5,65.5" texture="bricks,1" layer="2">
+			<linear_move>
+				<p>2,0,30</p>
+				<p>0,0,1200</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,0.5</v>
 			<v>1.5,0.5</v>
 			<v>1.5,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="2,62.5" texture="bricks,1" layer="2">
-			<p>-2,0,30</p>
-			<p>0,0,1200</p>
+		</moving_platform>
+		<moving_platform position="2,62.5" texture="bricks,1" layer="2">
+			<linear_move>
+				<p>-2,0,30</p>
+				<p>0,0,1200</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>0,0.5</v>
 			<v>1.5,0.5</v>
 			<v>1.5,0</v>
-		</old_moving_platform>
-		<old_moving_platform position="15,77" texture="bricks,1" layer="2">
-			<p>0,0,105</p>
-			<p>0,21,62</p>
-			<p>0,21,0</p>
+		</moving_platform>
+	</chunk>
+	<chunk bottom="21">
+		<moving_platform position="15,77" texture="bricks,1" layer="2">
+			<linear_move>
+				<p>0,0,105</p>
+				<p>0,21,62</p>
+				<p>0,21,0</p>
+			</linear_move>
 
 			<v>0.3,1.1</v>
 			<v>0.1,1.3</v>
@@ -3104,11 +3384,15 @@
 			<v>0.9,1.7</v>
 			<v>0.9,1.3</v>
 			<v>0.7,1.1</v>
-		</old_moving_platform>
-		<old_moving_platform position="19,77" texture="bricks,1" layer="2">
-			<p>0,0,105</p>
-			<p>0,21,43</p>
-			<p>0,21,0</p>
+		</moving_platform>
+	</chunk>
+	<chunk bottom="21">
+		<moving_platform position="19,77" texture="bricks,1" layer="2">
+			<linear_move>
+				<p>0,0,105</p>
+				<p>0,21,43</p>
+				<p>0,21,0</p>
+			</linear_move>
 
 			<v>0.3,1.1</v>
 			<v>0.1,1.3</v>
@@ -3118,11 +3402,15 @@
 			<v>0.9,1.7</v>
 			<v>0.9,1.3</v>
 			<v>0.7,1.1</v>
-		</old_moving_platform>
-		<old_moving_platform position="22,77" texture="bricks,1" layer="2">
-			<p>0,0,105</p>
-			<p>0,21,71</p>
-			<p>0,21,0</p>
+		</moving_platform>
+	</chunk>
+	<chunk bottom="21">
+		<moving_platform position="22,77" texture="bricks,1" layer="2">
+			<linear_move>
+				<p>0,0,105</p>
+				<p>0,21,71</p>
+				<p>0,21,0</p>
+			</linear_move>
 
 			<v>0.3,1.1</v>
 			<v>0.1,1.3</v>
@@ -3132,11 +3420,15 @@
 			<v>0.9,1.7</v>
 			<v>0.9,1.3</v>
 			<v>0.7,1.1</v>
-		</old_moving_platform>
-		<old_moving_platform position="25,77" texture="bricks,1" layer="2">
-			<p>0,0,105</p>
-			<p>0,21,59</p>
-			<p>0,21,0</p>
+		</moving_platform>
+	</chunk>
+	<chunk bottom="21">
+		<moving_platform position="25,77" texture="bricks,1" layer="2">
+			<linear_move>
+				<p>0,0,105</p>
+				<p>0,21,59</p>
+				<p>0,21,0</p>
+			</linear_move>
 
 			<v>0.3,1.1</v>
 			<v>0.1,1.3</v>
@@ -3146,11 +3438,15 @@
 			<v>0.9,1.7</v>
 			<v>0.9,1.3</v>
 			<v>0.7,1.1</v>
-		</old_moving_platform>
-		<old_moving_platform position="28,77" texture="bricks,1" layer="2">
-			<p>0,0,105</p>
-			<p>0,21,27</p>
-			<p>0,21,0</p>
+		</moving_platform>
+	</chunk>
+	<chunk bottom="21">
+		<moving_platform position="28,77" texture="bricks,1" layer="2">
+			<linear_move>
+				<p>0,0,105</p>
+				<p>0,21,27</p>
+				<p>0,21,0</p>
+			</linear_move>
 
 			<v>0.3,1.1</v>
 			<v>0.1,1.3</v>
@@ -3160,11 +3456,15 @@
 			<v>0.9,1.7</v>
 			<v>0.9,1.3</v>
 			<v>0.7,1.1</v>
-		</old_moving_platform>
-		<old_moving_platform position="31,77" texture="bricks,1" layer="2">
-			<p>0,0,105</p>
-			<p>0,21,48</p>
-			<p>0,21,0</p>
+		</moving_platform>
+	</chunk>
+	<chunk bottom="21">
+		<moving_platform position="31,77" texture="bricks,1" layer="2">
+			<linear_move>
+				<p>0,0,105</p>
+				<p>0,21,48</p>
+				<p>0,21,0</p>
+			</linear_move>
 
 			<v>0.3,1.1</v>
 			<v>0.1,1.3</v>
@@ -3174,11 +3474,15 @@
 			<v>0.9,1.7</v>
 			<v>0.9,1.3</v>
 			<v>0.7,1.1</v>
-		</old_moving_platform>
-		<old_moving_platform position="34,77" texture="bricks,1" layer="2">
-			<p>0,0,105</p>
-			<p>0,21,65</p>
-			<p>0,21,0</p>
+		</moving_platform>
+	</chunk>
+	<chunk bottom="21">
+		<moving_platform position="34,77" texture="bricks,1" layer="2">
+			<linear_move>
+				<p>0,0,105</p>
+				<p>0,21,65</p>
+				<p>0,21,0</p>
+			</linear_move>
 
 			<v>0.3,1.1</v>
 			<v>0.1,1.3</v>
@@ -3188,11 +3492,15 @@
 			<v>0.9,1.7</v>
 			<v>0.9,1.3</v>
 			<v>0.7,1.1</v>
-		</old_moving_platform>
-		<old_moving_platform position="37,77" texture="bricks,1" layer="2">
-			<p>0,0,105</p>
-			<p>0,21,80</p>
-			<p>0,21,0</p>
+		</moving_platform>
+	</chunk>
+	<chunk bottom="21">
+		<moving_platform position="37,77" texture="bricks,1" layer="2">
+			<linear_move>
+				<p>0,0,105</p>
+				<p>0,21,80</p>
+				<p>0,21,0</p>
+			</linear_move>
 
 			<v>0.3,1.1</v>
 			<v>0.1,1.3</v>
@@ -3202,11 +3510,15 @@
 			<v>0.9,1.7</v>
 			<v>0.9,1.3</v>
 			<v>0.7,1.1</v>
-		</old_moving_platform>
-		<old_moving_platform position="40,77" texture="bricks,1" layer="2">
-			<p>0,0,105</p>
-			<p>0,21,33</p>
-			<p>0,21,0</p>
+		</moving_platform>
+	</chunk>
+	<chunk bottom="21">
+		<moving_platform position="40,77" texture="bricks,1" layer="2">
+			<linear_move>
+				<p>0,0,105</p>
+				<p>0,21,33</p>
+				<p>0,21,0</p>
+			</linear_move>
 
 			<v>0.3,1.1</v>
 			<v>0.1,1.3</v>
@@ -3216,11 +3528,15 @@
 			<v>0.9,1.7</v>
 			<v>0.9,1.3</v>
 			<v>0.7,1.1</v>
-		</old_moving_platform>
-		<old_moving_platform position="43,77" texture="bricks,1" layer="2">
-			<p>0,0,105</p>
-			<p>0,21,54</p>
-			<p>0,21,0</p>
+		</moving_platform>
+	</chunk>
+	<chunk bottom="21">
+		<moving_platform position="43,77" texture="bricks,1" layer="2">
+			<linear_move>
+				<p>0,0,105</p>
+				<p>0,21,54</p>
+				<p>0,21,0</p>
+			</linear_move>
 
 			<v>0.3,1.1</v>
 			<v>0.1,1.3</v>
@@ -3230,40 +3546,50 @@
 			<v>0.9,1.7</v>
 			<v>0.9,1.3</v>
 			<v>0.7,1.1</v>
-		</old_moving_platform>
-		<old_moving_platform position="11,63.5" texture="bricks,1" layer="2">
-			<p>0,0,120</p>
-			<p>0,-3,0</p>
-			<p>0,15,600</p>
+		</moving_platform>
+	</chunk>
+	<chunk top="3" bottom="3">
+		<moving_platform position="11,63.5" texture="bricks,1" layer="2">
+			<linear_move>
+				<p>0,0,120</p>
+				<p>0,-3,0</p>
+				<p>0,15,600</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>2,0</v>
 			<v>2,0.5</v>
 			<v>0,0.5</v>
-		</old_moving_platform>
-		<old_moving_platform position="11,69.5" texture="bricks,1" layer="2">
-			<p>0,0,360</p>
-			<p>0,-9,0</p>
-			<p>0,9,360</p>
+		</moving_platform>
+		<moving_platform position="11,69.5" texture="bricks,1" layer="2">
+			<linear_move>
+				<p>0,0,360</p>
+				<p>0,-9,0</p>
+				<p>0,9,360</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>2,0</v>
 			<v>2,0.5</v>
 			<v>0,0.5</v>
-		</old_moving_platform>
-		<old_moving_platform position="11,75.5" texture="bricks,1" layer="2">
-			<p>0,0,600</p>
-			<p>0,-15,0</p>
-			<p>0,3,120</p>
+		</moving_platform>
+		<moving_platform position="11,75.5" texture="bricks,1" layer="2">
+			<linear_move>
+				<p>0,0,600</p>
+				<p>0,-15,0</p>
+				<p>0,3,120</p>
+			</linear_move>
 
 			<v>0,0</v>
 			<v>2,0</v>
 			<v>2,0.5</v>
 			<v>0,0.5</v>
-		</old_moving_platform>
+		</moving_platform>
+	</chunk>
+	<chunk>
 		<pendulum position="29,85" texture="bricks,1" line="rope2" length="6" angle="40" layer="7" line_offset="250,0">
-			<a>30,79</a>
-			<a>32,79</a>
+			<a>30,78.5</a>
+			<a>32,78.5</a>
 
 			<v>0,0</v>
 			<v>4,0</v>
@@ -3271,8 +3597,8 @@
 			<v>0,2</v>
 		</pendulum>
 		<pendulum position="18,84" texture="bricks,1" line="rope2" length="5" angle="40" layer="7" line_offset="250,0">
-			<a>19,79</a>
-			<a>21,79</a>
+			<a>19,78.5</a>
+			<a>21,78.5</a>
 
 			<v>0,0</v>
 			<v>4,0</v>
@@ -3280,8 +3606,8 @@
 			<v>0,2</v>
 		</pendulum>
 		<pendulum position="22,94" texture="bricks,1" line="rope2" length="15" angle="30" layer="7" line_offset="250,0">
-			<a>23,79</a>
-			<a>25,79</a>
+			<a>23,77.75</a>
+			<a>25,77.75</a>
 
 			<v>0,0</v>
 			<v>4,0</v>
@@ -3289,8 +3615,8 @@
 			<v>0,2</v>
 		</pendulum>
 		<pendulum position="35,89" texture="bricks,1" line="rope2" length="10" angle="35" layer="7" line_offset="250,0">
-			<a>36,79</a>
-			<a>38,79</a>
+			<a>36,78.25</a>
+			<a>38,78.25</a>
 
 			<v>0,0</v>
 			<v>4,0</v>
@@ -3298,17 +3624,19 @@
 			<v>0,2</v>
 		</pendulum>
 		<pendulum position="28,97" texture="bricks,1" line="rope2" length="18" angle="25" layer="7" line_offset="250,0">
-			<a>29,79</a>
-			<a>31,79</a>
+			<a>29,77.5</a>
+			<a>31,77.5</a>
 
 			<v>0,0</v>
 			<v>4,0</v>
 			<v>4,2</v>
 			<v>0,2</v>
 		</pendulum>
+	</chunk>
+	<chunk>
 		<pendulum position="20,69" texture="bricks,1" line="rope2" length="5" angle="66" layer="7" line_offset="250,0">
-			<a>21,64</a>
-			<a>23,64</a>
+			<a>21,63.5</a>
+			<a>23,63.5</a>
 
 			<v>0,0</v>
 			<v>4,0</v>
@@ -3316,8 +3644,8 @@
 			<v>0,2</v>
 		</pendulum>
 		<pendulum position="20,72" texture="bricks,1" line="rope2" length="8" angle="38" layer="7" line_offset="250,0">
-			<a>21,64</a>
-			<a>23,64</a>
+			<a>21,63.5</a>
+			<a>23,63.5</a>
 
 			<v>0,0</v>
 			<v>4,0</v>
@@ -3325,60 +3653,72 @@
 			<v>0,2</v>
 		</pendulum>
 		<pendulum position="20,75" texture="bricks,1" line="rope2" length="11" angle="27" layer="7" line_offset="250,0">
-			<a>21,64</a>
-			<a>23,64</a>
+			<a>21,63.5</a>
+			<a>23,63.5</a>
 
 			<v>0,0</v>
 			<v>4,0</v>
 			<v>4,2</v>
 			<v>0,2</v>
 		</pendulum>
-		<object position="47.5, 99" texture="web0" height="3" layer="8" flip="-1,-1"/>
-		<object position="47.5, 75.5" texture="web0" height="2.5" layer="8" flip="-1,1"/>
+	</chunk>
+	<chunk>
 		<object position="32.5, 64" texture="web0" height="2.5" layer="8" flip="-1,1"/>
-		<object position="11, 79" texture="web0" height="3" layer="8"/>
-		<object position="44.5, 96" texture="web1" height="1" layer="8"/>
-		<object position="37, 75.5" texture="web1" height="2.5" layer="8" flip="-1,1"/>
-		<object position="11, 96" texture="web1" height="2" layer="8" flip="-1,1"/>
 		<object position="15, 61" texture="web1" height="2" layer="8"/>
-		<object position="45, 75.5" texture="ruin0" height="2.5" layer="8" flip="-1,1"/>
 		<object position="32.4, 61" texture="ruin0" height="2" flip="-1,1"/>
 		<animated_object position="32, 61" texture="torch0" height="2" frame_time="4" offset="29"/>
 		<animated_object position="43.5, 66.5" texture="torch0" height="2" frame_time="4" offset="0"/>
-		<animated_object position="43.5, 70.5" texture="torch0" height="2" frame_time="4" offset="16"/>
 		<animated_object position="37.5, 66.5" texture="torch0" height="2" frame_time="4" offset="55"/>
+		<animated_object position="4.5, 64.5" texture="torch0" height="2" frame_time="4" offset="12"/>
+		<animated_object position="12.5, 64" texture="torch0" height="2" frame_time="4" offset="5"/>
+		<animated_object position="12.5, 67" texture="torch0" height="2" frame_time="4" offset="35"/>
+		<animated_object position="13.5, 61" texture="torch0" height="2" frame_time="4" offset="62"/>
+		<animated_object position="29, 64" texture="torch0" height="2" frame_time="4" offset="38"/>
+		<animated_object position="16, 65" texture="torch0" height="2" frame_time="4" offset="38"/>
+		<animated_object position="21, 69.5" texture="torch0" height="2" frame_time="4" offset="38"/>
+		<object position="35.5, 64.5" texture="crystal0" height="2" rotation="90"/>
+	</chunk>
+	<chunk>
+		<object position="47.5, 75.5" texture="web0" height="2.5" layer="8" flip="-1,1"/>
+		<object position="11, 79" texture="web0" height="3" layer="8"/>
+		<object position="37, 75.5" texture="web1" height="2.5" layer="8" flip="-1,1"/>
+		<object position="45, 75.5" texture="ruin0" height="2.5" layer="8" flip="-1,1"/>
+		<animated_object position="43.5, 70.5" texture="torch0" height="2" frame_time="4" offset="16"/>
 		<animated_object position="37.5, 70.5" texture="torch0" height="2" frame_time="4" offset="34"/>
+		<animated_object position="4.5, 72.5" texture="torch0" height="2" frame_time="4" offset="55"/>
+		<animated_object position="12.5, 79.5" texture="torch0" height="2" frame_time="4" offset="12"/>
+		<animated_object position="33, 75.5" texture="torch0" height="2" frame_time="4" offset="23"/>
+		<animated_object position="43, 75.5" texture="torch0" height="2" frame_time="4" offset="23"/>
+		<animated_object position="12.5, 70" texture="torch0" height="2" frame_time="4" offset="14"/>
+		<animated_object position="12.5, 73" texture="torch0" height="2" frame_time="4" offset="58"/>
+		<animated_object position="13.5, 76" texture="torch0" height="2" frame_time="4" offset="25"/>
+		<animated_object position="26, 74" texture="torch0" height="2" frame_time="4" offset="38"/>
+	</chunk>
+	<chunk>
 		<animated_object position="4.5, 88.5" texture="torch0" height="2" frame_time="4" offset="2"/>
 		<animated_object position="4.5, 80.5" texture="torch0" height="2" frame_time="4" offset="40"/>
-		<animated_object position="4.5, 72.5" texture="torch0" height="2" frame_time="4" offset="55"/>
-		<animated_object position="4.5, 64.5" texture="torch0" height="2" frame_time="4" offset="12"/>
-		<animated_object position="12.5, 79.5" texture="torch0" height="2" frame_time="4" offset="12"/>
-		<animated_object position="45, 96.5" texture="torch0" height="2" frame_time="4" offset="12"/>
 		<animated_object position="36.5, 80" texture="torch0" height="2" frame_time="4" offset="15"/>
 		<animated_object position="21.5, 80" texture="torch0" height="2" frame_time="4" offset="55"/>
 		<animated_object position="29, 80" texture="torch0" height="2" frame_time="4" offset="44"/>
 		<animated_object position="36.5, 87" texture="torch0" height="2" frame_time="4" offset="51"/>
 		<animated_object position="21.5, 87" texture="torch0" height="2" frame_time="4" offset="8"/>
 		<animated_object position="29, 87" texture="torch0" height="2" frame_time="4" offset="62"/>
+	</chunk>
+	<chunk>
+		<object position="47.5, 99" texture="web0" height="3" layer="8" flip="-1,-1"/>
+		<object position="44.5, 96" texture="web1" height="1" layer="8"/>
+		<object position="11, 96" texture="web1" height="2" layer="8" flip="-1,1"/>
+		<animated_object position="45, 96.5" texture="torch0" height="2" frame_time="4" offset="12"/>
 		<animated_object position="36.5, 94" texture="torch0" height="2" frame_time="4" offset="33"/>
 		<animated_object position="21.5, 94" texture="torch0" height="2" frame_time="4" offset="41"/>
 		<animated_object position="29, 94" texture="torch0" height="2" frame_time="4" offset="23"/>
-		<animated_object position="33, 75.5" texture="torch0" height="2" frame_time="4" offset="23"/>
-		<animated_object position="43, 75.5" texture="torch0" height="2" frame_time="4" offset="23"/>
-		<animated_object position="12.5, 64" texture="torch0" height="2" frame_time="4" offset="5"/>
-		<animated_object position="12.5, 67" texture="torch0" height="2" frame_time="4" offset="35"/>
-		<animated_object position="12.5, 70" texture="torch0" height="2" frame_time="4" offset="14"/>
-		<animated_object position="12.5, 73" texture="torch0" height="2" frame_time="4" offset="58"/>
-		<animated_object position="13.5, 61" texture="torch0" height="2" frame_time="4" offset="62"/>
-		<animated_object position="13.5, 76" texture="torch0" height="2" frame_time="4" offset="25"/>
-		<animated_object position="29, 64" texture="torch0" height="2" frame_time="4" offset="38"/>
-		<animated_object position="16, 65" texture="torch0" height="2" frame_time="4" offset="38"/>
-		<animated_object position="21, 69.5" texture="torch0" height="2" frame_time="4" offset="38"/>
-		<animated_object position="26, 74" texture="torch0" height="2" frame_time="4" offset="38"/>
-		<object position="35.5, 64.5" texture="crystal0" height="2" rotation="90"/>
+	</chunk>
+	<chunk>
 		<object position="4.5, 95" texture="grail0" height="2" layer="5"/>
 		<object position="2, 92" texture="glow0" height="7" layer="4"/>
+	</chunk>
 	/---------------------------------------------------------------------WYJŚCIE Z PODZIEMI
+	<chunk>
 		<platform position="30,33" texture="dirt,0">
 			<v>0,0</v>
 			<v>0,27</v>
@@ -3541,67 +3881,61 @@
 			<v>2,3</v>
 			<v>2,0</v>
 		</platform>
-		<object position="13.5, 44" texture="column0" height="3" layer="8"/>
-		<object position="13.5, 47" texture="column0" height="3" layer="8"/>
-		<object position="13.5, 50" texture="column0" height="3" layer="8"/>
-		<object position="13.5, 53" texture="column0" height="3" layer="8"/>
-		<object position="23, 44" texture="column0" height="3" layer="8"/>
-		<object position="16, 44" texture="column0" height="3" layer="8"/>
-		<object position="11, 44" texture="column0" height="3" layer="8"/>
-		<object position="3, 50" texture="column0" height="3" layer="8"/>
-		<object position="16, 50" texture="column0" height="3" layer="8"/>
-		<object position="11, 50" texture="column0" height="3" layer="8"/>
+	</chunk>
+	<chunk>
 		<object position="22.5, 28.5" texture="rocks0" height="2" layer="8"/>
+		<object position="11, 22" texture="web0" height="2" layer="7" flip="-1,1"/>
+		<object position="29.5, 27.5" texture="web1" height="4" layer="8" flip="-1,1"/>
+		<object position="9, 22" texture="web1" height="3" layer="8" flip="-1,1"/>
+		<object position="4, 28" texture="column0" height="3" layer="8"/>
+		<object position="5, 28" texture="column0" height="3" layer="8"/>
+		<animated_object position="4, 28.5" texture="torch1" height="2" layer="9" frame_time="4" offset="47"/>
+		<object position="4, 22" texture="column0" height="3" layer="8"/>
+		<object position="5, 22" texture="column0" height="3" layer="8"/>
+		<animated_object position="4, 22.5" texture="torch1" height="2" layer="9" frame_time="4" offset="20"/>
+		<object position="11, 25" texture="column0" height="3" layer="8"/>
+		<object position="12, 25" texture="column0" height="3" layer="8"/>
+		<animated_object position="11, 25.5" texture="torch1" height="2" layer="9" frame_time="4" offset="20"/>
+		<object position="15, 28.5" texture="crystal2" height="2"/>
+	</chunk>
+	<chunk>
 		<object position="30, 33" texture="rocks0" height="3" layer="8" flip="-1,1"/>
 		<object position="17.5, 34" texture="rocks2" height="2" layer="8"/>
 		<object position="15, 32.5" texture="rocks1" height="3.5" layer="8"/>
-		<object position="15.5, 57.5" texture="rocks2" height="2.5" layer="8" flip="-1,1"/>
-		<object position="9, 57.5" texture="rocks0" height="2.5"/>
 		<object position="15, 31.5" texture="web0" height="1.5" layer="8"/>
-		<object position="1, 57" texture="web0" height="2.5" layer="8"/>
+		<object position="21, 31.5" texture="web1" height="3" layer="8"/>
+		<object position="4, 34" texture="column0" height="3" layer="8"/>
+		<object position="5, 34" texture="column0" height="3" layer="8"/>
+		<animated_object position="4, 34.5" texture="torch1" height="2" layer="9" frame_time="4" offset="59"/>
+		<object position="11, 31" texture="column0" height="3" layer="8"/>
+		<object position="12, 31" texture="column0" height="3" layer="8"/>
+		<animated_object position="11, 31.5" texture="torch1" height="2" layer="9" frame_time="4" offset="20"/>
+		<object position="11, 37" texture="column0" height="3" layer="8"/>
+		<object position="12, 37" texture="column0" height="3" layer="8"/>
+		<animated_object position="11, 37.5" texture="torch1" height="2" layer="9" frame_time="4" offset="20"/>
+		<object position="15, 38" texture="crystal3" height="2"/>
+	</chunk>
+	<chunk>
+		<object position="13.5, 44" texture="column0" height="3" layer="8"/>
+		<object position="13.5, 47" texture="column0" height="3" layer="8"/>
+		<object position="23, 44" texture="column0" height="3" layer="8"/>
+		<object position="16, 44" texture="column0" height="3" layer="8"/>
+		<object position="11, 44" texture="column0" height="3" layer="8"/>
 		<object position="1, 47" texture="web0" height="2" layer="8"/>
 		<object position="17.5, 47" texture="web0" height="2" layer="7"/>
 		<object position="10.5, 41" texture="web0" height="2.5" layer="7" flip="-1,1"/>
 		<object position="28, 41" texture="web0" height="3.5" layer="7" flip="-1,1"/>
-		<object position="10.5, 53" texture="web0" height="1.5" layer="7" flip="-1,1"/>
-		<object position="23.5, 53" texture="web0" height="2.5" layer="7"/>
 		<object position="4.5, 47" texture="web0" height="1.5" layer="7"/>
-		<object position="22.5, 57" texture="web0" height="2" layer="7" flip="-1,1"/>
-		<object position="30, 60" texture="web0" height="3" layer="7" flip="-1,-1"/>
-		<object position="11, 22" texture="web0" height="2" layer="7" flip="-1,1"/>
 		<object position="6, 40" texture="web0" height="2.5" layer="7" flip="1,-1"/>
-		<object position="21, 31.5" texture="web1" height="3" layer="8"/>
-		<object position="29.5, 27.5" texture="web1" height="4" layer="8" flip="-1,1"/>
-		<object position="7.5, 57" texture="web1" height="2.5" layer="8" flip="-1,1"/>
 		<object position="11.5, 41" texture="web1" height="5" layer="9" flip="1,1"/>
 		<object position="28, 47" texture="web1" height="2" layer="8" flip="-1,1"/>
 		<object position="6, 47" texture="web1" height="2.5" layer="8"/>
-		<object position="22, 53" texture="web1" height="3" layer="8" flip="-1,1"/>
-		<object position="9, 22" texture="web1" height="3" layer="8" flip="-1,1"/>
-		<object position="16, 57" texture="column0" height="3" layer="8"/>
-		<object position="17, 57" texture="column0" height="3" layer="8"/>
-		<animated_object position="16, 57.5" texture="torch1" height="2" layer="9" frame_time="4" offset="56"/>
-		<object position="22, 57" texture="column0" height="3" layer="8"/>
-		<object position="23, 57" texture="column0" height="3" layer="8"/>
-		<animated_object position="22, 57.5" texture="torch1" height="2" layer="9" frame_time="4" offset="39"/>
-		<object position="22, 53" texture="column0" height="3" layer="8"/>
-		<object position="23, 53" texture="column0" height="3" layer="8"/>
-		<animated_object position="22, 53.5" texture="torch1" height="2" layer="9" frame_time="4" offset="60"/>
-		<object position="16, 53" texture="column0" height="3" layer="8"/>
-		<object position="17, 53" texture="column0" height="3" layer="8"/>
-		<animated_object position="16, 53.5" texture="torch1" height="2" layer="9" frame_time="4" offset="10"/>
 		<object position="16, 47" texture="column0" height="3" layer="8"/>
 		<object position="17, 47" texture="column0" height="3" layer="8"/>
 		<animated_object position="16, 47.5" texture="torch1" height="2" layer="9" frame_time="4" offset="23"/>
 		<object position="10, 47" texture="column0" height="3" layer="8"/>
 		<object position="11, 47" texture="column0" height="3" layer="8"/>
 		<animated_object position="10, 47.5" texture="torch1" height="2" layer="9" frame_time="4" offset="39"/>
-		<object position="10, 53" texture="column0" height="3" layer="8"/>
-		<object position="11, 53" texture="column0" height="3" layer="8"/>
-		<animated_object position="10, 53.5" texture="torch1" height="2" layer="9" frame_time="4" offset="50"/>
-		<object position="3, 53" texture="column0" height="3" layer="8"/>
-		<object position="4, 53" texture="column0" height="3" layer="8"/>
-		<animated_object position="3, 53.5" texture="torch1" height="2" layer="9" frame_time="4" offset="4"/>
 		<object position="3, 47" texture="column0" height="3" layer="8"/>
 		<object position="4, 47" texture="column0" height="3" layer="8"/>
 		<animated_object position="3, 47.5" texture="torch1" height="2" layer="9" frame_time="4" offset="9"/>
@@ -3620,25 +3954,41 @@
 		<object position="22, 41" texture="column0" height="3" layer="8"/>
 		<object position="23, 41" texture="column0" height="3" layer="8"/>
 		<animated_object position="22, 41.5" texture="torch1" height="2" layer="9" frame_time="4" offset="47"/>
-		<object position="4, 34" texture="column0" height="3" layer="8"/>
-		<object position="5, 34" texture="column0" height="3" layer="8"/>
-		<animated_object position="4, 34.5" texture="torch1" height="2" layer="9" frame_time="4" offset="59"/>
-		<object position="4, 28" texture="column0" height="3" layer="8"/>
-		<object position="5, 28" texture="column0" height="3" layer="8"/>
-		<animated_object position="4, 28.5" texture="torch1" height="2" layer="9" frame_time="4" offset="47"/>
-		<object position="4, 22" texture="column0" height="3" layer="8"/>
-		<object position="5, 22" texture="column0" height="3" layer="8"/>
-		<animated_object position="4, 22.5" texture="torch1" height="2" layer="9" frame_time="4" offset="20"/>
-		<object position="11, 25" texture="column0" height="3" layer="8"/>
-		<object position="12, 25" texture="column0" height="3" layer="8"/>
-		<animated_object position="11, 25.5" texture="torch1" height="2" layer="9" frame_time="4" offset="20"/>
-		<object position="11, 31" texture="column0" height="3" layer="8"/>
-		<object position="12, 31" texture="column0" height="3" layer="8"/>
-		<animated_object position="11, 31.5" texture="torch1" height="2" layer="9" frame_time="4" offset="20"/>
-		<object position="11, 37" texture="column0" height="3" layer="8"/>
-		<object position="12, 37" texture="column0" height="3" layer="8"/>
-		<animated_object position="11, 37.5" texture="torch1" height="2" layer="9" frame_time="4" offset="20"/>
-		<object position="15, 28.5" texture="crystal2" height="2"/>
-		<object position="15, 38" texture="crystal3" height="2"/>
+	</chunk>
+	<chunk>
+		<object position="13.5, 50" texture="column0" height="3" layer="8"/>
+		<object position="13.5, 53" texture="column0" height="3" layer="8"/>
+		<object position="3, 50" texture="column0" height="3" layer="8"/>
+		<object position="16, 50" texture="column0" height="3" layer="8"/>
+		<object position="11, 50" texture="column0" height="3" layer="8"/>
+		<object position="15.5, 57.5" texture="rocks2" height="2.5" layer="8" flip="-1,1"/>
+		<object position="9, 57.5" texture="rocks0" height="2.5"/>
+		<object position="1, 57" texture="web0" height="2.5" layer="8"/>
+		<object position="10.5, 53" texture="web0" height="1.5" layer="7" flip="-1,1"/>
+		<object position="23.5, 53" texture="web0" height="2.5" layer="7"/>
+		<object position="22.5, 57" texture="web0" height="2" layer="7" flip="-1,1"/>
+		<object position="7.5, 57" texture="web1" height="2.5" layer="8" flip="-1,1"/>
+		<object position="22, 53" texture="web1" height="3" layer="8" flip="-1,1"/>
+		<object position="16, 57" texture="column0" height="3" layer="8"/>
+		<object position="17, 57" texture="column0" height="3" layer="8"/>
+		<animated_object position="16, 57.5" texture="torch1" height="2" layer="9" frame_time="4" offset="56"/>
+		<object position="22, 57" texture="column0" height="3" layer="8"/>
+		<object position="23, 57" texture="column0" height="3" layer="8"/>
+		<animated_object position="22, 57.5" texture="torch1" height="2" layer="9" frame_time="4" offset="39"/>
+		<object position="22, 53" texture="column0" height="3" layer="8"/>
+		<object position="23, 53" texture="column0" height="3" layer="8"/>
+		<animated_object position="22, 53.5" texture="torch1" height="2" layer="9" frame_time="4" offset="60"/>
+		<object position="16, 53" texture="column0" height="3" layer="8"/>
+		<object position="17, 53" texture="column0" height="3" layer="8"/>
+		<animated_object position="16, 53.5" texture="torch1" height="2" layer="9" frame_time="4" offset="10"/>
+		<object position="10, 53" texture="column0" height="3" layer="8"/>
+		<object position="11, 53" texture="column0" height="3" layer="8"/>
+		<animated_object position="10, 53.5" texture="torch1" height="2" layer="9" frame_time="4" offset="50"/>
+		<object position="3, 53" texture="column0" height="3" layer="8"/>
+		<object position="4, 53" texture="column0" height="3" layer="8"/>
+		<animated_object position="3, 53.5" texture="torch1" height="2" layer="9" frame_time="4" offset="4"/>
+	</chunk>
+	<chunk>
+		<object position="30, 60" texture="web0" height="3" layer="7" flip="-1,-1"/>
 	</chunk>
 </level>
