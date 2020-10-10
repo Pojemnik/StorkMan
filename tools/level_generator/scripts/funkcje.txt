@@ -1,0 +1,116 @@
+Tworzenie poziomów w Pythonie z użyciem gotowych bibliotek
+  1. niezbędne zapisy:
+    from level_base import level
+    lvl = level('nazwa')          ///nazwa poziomu ('nazwa') może być dowolna, natomiast zmienna musi mieć nazwę lvl
+  2. pobieranie bibliotek:
+  każda biblioteka, którą chce się wykorzystać, musi zostać pobrana na początku pliku (zaraz po punkcie 1.) dwiema linijkami kodu:
+    import biblioteka
+    biblioteka.lvl = lvl          ///nie do końca ogarniam, jak to działa, ale w jakiś sposób łączy globalną zmienną lvl w bibliotece ze zmienną lvl w level - działa, nie ruszam
+  3. tworzenie poziomu:
+  każdy element z biblioteki może zostać wywołany w następujący sposób:
+    biblioteka.element(argumenty) ///nie jest konieczne podstawianie do zmniennej lvl, procedura robi to sama
+  4. zapis poziomu:
+  każdy poziom należy zakończyć linijką:
+    lvl.save('nazwa.xml')         ///nazwa może być dowolna (w granicach rozsądku)
+
+ELEMENTY W BIBLIOTEKACH:
+w wyjaśnieniu będą podane kolejno nazwa parametru, wartość domyślna (każdy parametr ma przypisaną wartość domyślną) i działanie
+  struktury:
+    schody - złożone z wielu platform schody
+      x             = 0 = współrzędna x narożnika schodów (jeśli schody uprościć do trójkąta prostokątnego, to narożnik jest przy kącie prostym)
+      y             = 0 = współrzędna y narożnika schodów (jeśli schody uprościć do trójkąta prostokątnego, to narożnik jest przy kącie prostym)
+      obrót         = 1 = 1 oznacza schody wznoszące się w lewo, -1 oznacza schody wznoszące się w prawo
+      długość       = 2 = długość podstawy schodów
+      wysokość      = 2 = wysokość schodów licząc od podstawy do najwyższego stopnia
+      przesunięcie  = 0 = dodatkowe wydłużenie najwyższego stopnia
+      stopnie       = 4 = ilość stopni, każdy stopień ma jednakową wysokość oraz głębokość (przeliczoną z parametrów), ostatni może być dłuższy dzięki przesunięciu
+      tekstura      = "bricks,0" = tekstura, którą teksturowane są stopnie
+    drabina_jednostronna - umieszczone jedna nad drugą w równych odstępach platformy, mogące być przyczepione do pionowej podpórki
+      x                 = 0 = współrzędna x punktu podczepienia na szczycie drabiny
+      y                 = 0 = współrzędna y punktu podczepienia na szczycie drabiny
+      obrót             = 1 = 1 oznacza szczeble z prawej strony podpórki, -1 oznacza szczeble z lewej strony poprzeczki
+      podpórka          = 1 = 1 oznacza, że drabina będzie miała podpórkę, 0 oznacza, że nie będzie jej miała
+      grubość           = 0.5 = grubość podpórki drabiny (oś x)
+      długość           = 6 = długość podpórki drabiny (wysokość w osi y)
+      szczeble          = 3 = ilość szczebli, czyli platform odchodzących od podpórki w drabinie
+      górny_margines    = 0 = przesunięcie górnego szczebla w dół względem szczytu drabiny (0 oznacza szczebel na samym szczycie drabiny, przy współrzędnej y)
+      dolny_margines    = 0 = przesunięcie dolnego szczebla w górę względem końca drabiny (0 oznacza szczebel na samym końcu drabiny)
+      głębokość         = 0.5 = długość w osi x każdego szczebla
+      wysokość          = 0.5 = wysokość w osi y każdego szczebla
+      tekstura_podpórki = "wood,1" = tekstura, którą posiada platforma podpórki
+      tekstura          = "wood,2" = tekstura, którą posiada każdy szczebel drabiny
+    drabina_dwustronna - drabina złożona z dwóch poprzeczek, po prawej i po lewej, do których przyczepione są szczeble
+      x                         = 0 = współrzędna x lewego górnego rogu drabin
+      y                         = 0 = współrzędna y lewego górnego rogu drabin
+      naprzemienność            = 1 = 1 oznacza, że szczeble będą utworzone naprzemiennie, raz z prawej, raz z lewej strony, 0 oznacza, że będą tworzone po obu stronach tak samo
+      początek                  = 0 = 0 oznacza, że naprzemienne szczeble zaczną być tworzone od lewej strony, 1 że od prawej
+      lewe_przycięcie           = 0 = 0 oznacza, że lewa podpórka nie będzie przycięta. 1 oznacza, że lewa podpórka zakończy się w miejscu ostatniego lewego szczebla.
+      prawe_przycięcie          = 0 = 0 oznacza, że prawa podpórka nie będzie przycięta. 1 oznacza, że prawa podpórka zakończy się w miejscu ostatniego prawego szczebla.
+      lewa_podpórka             = 1 = 1 oznacza, że drabina będzie miała lewą podpórkę, 0 oznacza, że nie będzie jej miała
+      prawa_podpórka            = 1 = 1 oznacza, że drabina będzie miała prawą podpórkę, 0 oznacza, że nie będzie jej miała
+      grubość_lewej             = 0.5 = grubość lewej podpórki
+      grubość_prawej            = 0.5 = grubość prawej podpórki
+      długość                   = 6 = długość podpórek drabiny (wysokość w osi y), bez uwzglednienia przycięcia
+      szczeble                  = 3 = ilość szczebli, czyli platform odchodzących od podpórek w drabinie (w drabinie nienaprzemiennej będzie ich dwa razy więcej)
+      rozpiętość                = 2 = odległość między podpórkami
+      górny_margines            = 0 = przesunięcie górnego szczebla w dół względem szczytu drabiny (0 oznacza szczebel na samym szczycie drabiny, przy współrzędnej y)
+      dolny_margines            = 0 = przesunięcie dolnego szczebla w górę względem końca drabiny (0 oznacza szczebel na samym końcu drabiny)
+      głębokość                 = 0.5 = długość w osi x każdego szczebla
+      wysokość                  = 0.5 = wysokość w osi y każdego szczebla
+      tekstura_lewej_podpórki   = "wood,1" = tekstura, którą posiada platforma lewej podpórki
+      tekstura_prawej_podpórki  = "wood,1" = tekstura, którą posiada platforma prawej podpórki
+      tekstura                  = "wood,2" = tekstura, którą posiada każdy szczebel drabiny
+    komnata - prostokątny pokój mogący mieć otwory we wszystkich swoich ścianach
+      x               = 0 = współrzędna x lewego górnego narożnika komnaty
+      y               = 0 = współrzędna y lewego górnego narożnika komnaty
+      wysokość        = 10 = wysokość komnaty (oś y)
+      szerokość       = 10 = szerokość komnaty (oś x)
+      tekstura        = "bricks,0" = tekstura, którą posiadać będą wszystkie ściany komnaty
+      grubość_górnej  = 0.5 = grubość górnej ściany komnaty
+      grubość_dolnej  = 0.5 = grubość dolnej ściany komnaty
+      grubość_prawej  = 0.5 = grubość prawej ściany komnaty
+      grubość_lewej   = 0.5 = grubość lewej ściany komnaty
+      otwory_górne    = (0) = tablica zawierająca opis otworów górnej ściany, gdzie pierwsza wartość to ilość otworów, a każde kolejne dwie to odpowiednio odległość otworu od lewej ściany i rozmiar otworu; otwory powinny być podawane kolejno, od lewej do prawej
+      otwory_dolne    = (0) = tablica zawierająca opis otworów dolnej ściany, gdzie pierwsza wartość to ilość otworów, a każde kolejne dwie to odpowiednio odległość otworu od lewej ściany i rozmiar otworu; otwory powinny być podawane kolejno, od lewej do prawej
+      otwory_prawe    = (0) = tablica zawierająca opis otworów prawej ściany, gdzie pierwsza wartość to ilość otworów, a każde kolejne dwie to odpowiednio odległość otworu od górnej ściany i rozmiar otworu; otwory powinny być podawane kolejno, od góry do dołu
+      otwory_lewe     = (0) = tablica zawierająca opis otworów lewej ściany, gdzie pierwsza wartość to ilość otworów, a każde kolejne dwie to odpowiednio odległość otworu od górnej ściany i rozmiar otworu; otwory powinny być podawane kolejno, od góry do dołu
+  pułapki:
+    spadający_obiekt - obiekt, który przemieszcza się w dół z określoną prędkością i zadaje obrażenia rozłożone w czasie w momencie kontaktu z ziemią
+      x               = 0 = współrzędna x punktu uderzenia w ziemię
+      y               = 0 = współrzędna y punktu uderzenia w ziemię
+      prędkość        = 8 = prędkość (w metrach na 60 klatek) spadania obiektu
+      odstęp          = 180 = czas (w klatkach) pomiędzy uderzeniem obiektu w ziemię a jego ponownym spuszczeniem
+      spad            = 10 = wysokość, z której spada obiekt
+      wysokość        = 2 = odległość od punktu uderzenia, przy której aktywuje się strefa obrażeń a dezaktywuje kolider (niewidoczna platforma zczepiona z obiektem)
+      rozmiar         = 1 = skala grafiki spadającego obiektu
+      strefa          = "<v>0,0</v><v>1,0</v><v>1,-2</v><v>0,-2</v>" = opis wierzchołków strefy obrażeń (znajdującej się w punkcie uderzenia w ziemię)
+      czas_obrażeń    = 60 = czas (w klatkach), liczony od pojawienia się obiektu o <wysokość> od punktu uderzenia, przez który zadawane są obrażenia w strefie uderzenia
+      szczyt_obrażeń  = 15 = klatka, w której zadawane obrażenia będą najwieksze, pozostałe obrażenia będą liniowo maleć od tej wartości do zera
+      obrażenia       = 100 = maksymalna wartość zadanych obrażeń (występująca w <szczycie_obrażeń>)
+      rozdrobnienie   = 10 = ilość stanów strefy obrażeń w <czasie_obrażeń>, w których przyjmuje ona różne wartości zadawanych obrażeń
+      obiekt          = "<v>0,0</v><v>1,0</v><v>1,1</v><v>0,1</v>" = opis wierzchołków kolidera (niewidocznej platformy przyczepionej do spadającego obiektu)
+      tekstura        = "chest0" = tekstura nakładana na spadający obiekt (obecnie z braku lepszej grafiki jest to skrzynka)
+      animacja - na razie niewykorzystywane, czeka na <moving_animated_object> i możliwość czasowego nieistnienia ruchomych obiektów
+  mechanizmy:
+    taśmociąg_jednostronny - układ połączonych ruchomych platform, przemieszczających się w określonym kierunku
+      x                 = 0 = współrzędna x punktu przyczepienia
+      y                 = 0 = współrzędna y punktu przyczepienia
+      długość           = 10 = długość taśmociągu (w osi ruchu)
+      grubość           = 0.5 = grubość taśmociągu (w poprzek osi ruchu)
+      obrót             = 0 = obrót w stopniach względem punktu przyczepienia (0 oznacza, że taśmociąg porusza się w kierunku dodatnim osi x)
+      prędkość          = 2 = prędkość taśmociągu w metrach na 60 klatek
+      segmentowanie     = 10 = ilość odcinków na którą podzielony jest taśmociąg (według nich wyznaczane są ruchome platformy)
+      bariery           = 1 = 1 oznacza, że na końcach taśmociągu umieszczone zostaną nieruchome platformy, 0 oznacza, że nie zostaną umieszczone
+      widoczność_barier = 1 = 1 oznacza, że bariery będą widoczne, 0 oznacza że nie będą
+      tekstura          = "panels,0" = tekstura, która zostanie nałożona na segmenty i bariery taśmociągu
+      elementy - na razie niewykorzystywane
+  obiekty:
+    wielokąt_foremny - funkcja zwracająca opis kolejnych wierchołków wielokąta foremnego (nie jest to niezależny element rozgrywki)
+      n               = 6 = liczba kątów wielokąta foremnego
+      bok             = 1 = długość boku wielokąta
+      obrót           = 0 = obrót w stopniach względem obrotu domyślnego (przy obrocie domyślnym najniższy bok jest równoległy do osi x, a pierwszym wierzchołkiem jest lewy wierzchołek tego boku)
+      początek        = 0 = 0 oznacza, że punkt (0,0) będzie środkiem wielokąta, 1 oznacza, że będzie środkiem krawędzi między pierwszym i ostatnim wierzchołkiem, a 2 oznacza, że będzie pierwszym wierzchołkiem
+      przesunięcie_x  = 0 = przesuwa punkt (0,0) względem <początku> wielokąta na osi x
+      przesunięcie_y  = 0 = przesuwa punkt (0,0) względem <początku> wielokąta na osi y
+      pomijanie       = 0 = 0 oznacza, że żadne wierzchołki wielokąta nie zostaną pominięte, 1 oznacza, że pominięte zostaną te z tablicy <pominięte>
+      pominięte       = (0,1) = jeśli <pomijanie>=1, to ta tablica powinna mieć tyle wartości ile wierzchołków. 1 oznacza, że wierzchołek zostanie narysowany, 0 oznacza, że zostanie pominięty
