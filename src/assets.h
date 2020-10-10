@@ -1,5 +1,6 @@
 #pragma once
 #include "animations.h"
+#include <unordered_map>
 
 struct Entity_config
 {
@@ -22,24 +23,17 @@ public:
 		std::shared_ptr<std::vector<sf::Texture>> content_mid;
 		std::shared_ptr<std::vector<sf::Texture>> content_bot;
 	} hp_bar;
-	std::vector<sf::Texture> map_textures;
-	std::vector<sf::Texture> enemy_textures;
-	sf::Texture* pieces = nullptr;
+	const sf::Texture* pieces = nullptr;
 	std::vector<sf::IntRect> pieces_rect;
-	std::map<std::string, const sf::Texture*> textures;
-	std::map<std::string, std::vector<sf::Texture>> animations;
-	sf::Texture* bg = nullptr;
-	sf::Texture* layer2 = nullptr;
-	sf::Texture* light = nullptr;
-	sf::Texture* console_bg = nullptr;
+	std::unordered_map<std::string, const sf::Texture*> textures;
+	std::unordered_map<std::string, std::vector<const sf::Texture*>> animations;
+	std::unordered_map<std::string, const sf::Texture*> backgrounds;
+	const sf::Texture* console_bg = nullptr;
 	sf::Font storkfont, consola;
 	sf::Image icon;
 	std::vector<sf::SoundBuffer> sounds;
 
 	void load_assets();
-	void load_additional_texture(std::string path, std::string name, int repeat);
-	void load_additional_animation(string path, string name, Vectori n,
-		Vectori size, bool repeat);
 	std::vector<const Dynamic_animation_struct*>* load_dynamic_animations(std::vector<string> paths);
 	const Animation_tree load_animation_tree(std::string path);
 	void parse_additional_textures(std::string path);
@@ -47,15 +41,15 @@ public:
 
 private:
 	std::vector<const Dynamic_animation_struct*> dynamic_animations;
-
-	const int MAX_ADDITIONAL_TEXTURES = 200;
-	void load_texture(sf::Texture& t, sf::Image& img, int y, int x, int sx, int sy, bool rep);
-	void load_texture(sf::Texture& t, string path, bool rep);
-	void load_textures(std::vector<sf::Texture>& v, std::string path, bool rep);
-	void load_animation(std::vector<sf::Texture>& a, sf::Image& img, int x, int y,
-		int sx, int sy, bool repeated);//a musi byæ zaalokowane wczeœniej
+	const sf::Texture* load_texture(sf::Image& img, Vectori pos, Vectori size, bool repeat);
+	const sf::Texture* load_texture(string path, bool repeat);
+	std::vector<const sf::Texture*> load_textures(std::string path, Vectori n,
+		Vectori size, bool repeat);
+	std::vector<const sf::Texture*> load_textures(sf::Image& img, Vectori frames,
+		Vectori size, bool repeat);
 	Dynamic_animation_struct* load_dynamic_animation(std::string path);
 	void load_sound(sf::SoundBuffer& buf, string path);
 	void load_sounds();
 	void load_hp_bar();
+	std::tuple<Vectori, Vectori, std::vector<string>> load_texture_file_config(string path);
 };

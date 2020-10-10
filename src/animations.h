@@ -90,11 +90,11 @@ struct Dynamic_animation_struct
 
 struct Static_animation_struct
 {
-	const std::vector<sf::Texture>* animation;
-	std::vector<sf::Texture>::const_iterator it;
+	const std::vector<const sf::Texture*>* animation;
+	std::vector<const sf::Texture*>::const_iterator it;
 	float frame_time;
 
-	Static_animation_struct(const std::vector<sf::Texture>* animation_, float frame_time_);
+	Static_animation_struct(const std::vector<const sf::Texture*>* animation_, float frame_time_);
 	Static_animation_struct(Static_animation_struct& a);
 };
 
@@ -121,7 +121,7 @@ protected:
 	void pre_draw();
 
 public:
-	Dynamic_animation(sf::Texture* texture_, std::vector<sf::IntRect>& part_sizes,
+	Dynamic_animation(const sf::Texture* texture_, std::vector<sf::IntRect>& part_sizes,
 		std::vector<const Dynamic_animation_struct*> animations_, const Animation_tree& tree_);
 	void next_frame(float dt);
 	const sf::Texture* const get_texture();

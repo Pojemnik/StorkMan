@@ -85,13 +85,11 @@ bool execute_init_file(string path)
 	return init;
 }
 
-int main(int argc, char** argv)	//Second argument is a map file for editor
+int main(int argc, char** argv)
 {
 	//Assets
 	Assets assets;
 	assets.load_assets();
-	assets.parse_additional_textures("img/textures.txt");
-	assets.parse_additional_animations("img/animations.txt");
 
 	//Console
 	context.console = std::unique_ptr<Console>(

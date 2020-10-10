@@ -63,7 +63,7 @@ void Dynamic_animation::pre_draw()
 	tex.display();
 }
 
-Dynamic_animation::Dynamic_animation(sf::Texture* texture_,
+Dynamic_animation::Dynamic_animation(const sf::Texture* texture_,
 	std::vector<sf::IntRect>& part_sizes,
 	std::vector<const Dynamic_animation_struct*> animations_, const Animation_tree& tree_)
 	: animations(animations_), tree(tree_), key(0),
@@ -177,7 +177,7 @@ const sf::Texture* const Dynamic_animation::get_texture()
 Dynamic_animation_struct::Dynamic_animation_struct(std::vector<std::vector<float>>& kf, std::vector<int>& l, bool r)
 	: key_frames(kf), lengths(l), repeat(r) {}
 
-Static_animation_struct::Static_animation_struct(const std::vector<sf::Texture>* animation_, float frame_time_) :
+Static_animation_struct::Static_animation_struct(const std::vector<const sf::Texture*>* animation_, float frame_time_) :
 	animation(animation_), frame_time(frame_time_)
 {
 	it = animation->cbegin();
@@ -189,8 +189,8 @@ Static_animation_struct::Static_animation_struct(Static_animation_struct& a) : a
 }
 
 Static_animation::Static_animation(Static_animation_struct& animation_, float time_offset) :
-	animation(animation_), time(time_offset), frame_info(Vectori(animation.it->getSize()),
-		Vectori(animation.it->getSize()), { 0,0 })
+	animation(animation_), time(time_offset), frame_info(Vectori((*animation_.it)->getSize()),
+		Vectori((*animation_.it)->getSize()), { 0,0 })
 {
 	while (time >= animation.frame_time)
 	{
@@ -212,7 +212,7 @@ void Static_animation::next_frame(float dt)
 
 const sf::Texture* const Static_animation::get_texture()
 {
-	return &*animation.it;
+	return *animation.it;
 }
 
 void Static_animation::set_animation(Animation_index a)

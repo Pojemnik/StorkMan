@@ -1,52 +1,63 @@
 #include "assets.h"
 
-void Assets::load_texture(sf::Texture& t, sf::Image& img, int x, int y, int sx, int sy, bool rep)
+const sf::Texture* Assets::load_texture(sf::Image& img, Vectori pos, Vectori size, bool repeat)
 {
-	if (!t.loadFromImage(img, sf::IntRect(x, y, sx, sy)))
+	sf::Texture* tex = new sf::Texture();
+	if (!tex->loadFromImage(img, sf::IntRect(pos, size)))
 	{
 		context.console->err << "Texture loading error" << "\n";
-		return;
+		throw std::invalid_argument("Error while loading texture");
 	}
 	else
 	{
-		if (rep)
-		{
-			t.setRepeated(true);
-		}
+		tex->setRepeated(repeat);
 	}
+	return tex;
 }
 
-void Assets::load_texture(sf::Texture& t, string path, bool rep)
+const sf::Texture* Assets::load_texture(string path, bool repeat)
 {
-	if (!t.loadFromFile(path))
+	sf::Image image;
+	if (!image.loadFromFile(path))
 	{
-		context.console->err << "Texture loading error" << "\n";
-		return;
+		context.console->err << "Error while loading" + path << "\n";
+		throw std::invalid_argument("Error while loading texture");
 	}
-	else
-	{
-		if (rep)
-		{
-			t.setRepeated(true);
-		}
-	}
+	return load_texture(image, { 0,0 }, static_cast<Vectori>(image.getSize()), repeat);
 }
 
-void Assets::load_animation(std::vector<sf::Texture>& a, sf::Image& img, int x,
-	int y, int sx, int sy, bool repeat)
+std::vector<const sf::Texture*> Assets::load_textures(sf::Image& img, Vectori frames,
+	Vectori size, bool repeat)
 {
-	for (int j = 0; j < y; j++)
+	std::vector<const sf::Texture*> textures;
+	for (int j = 0; j < frames.y; j++)
 	{
-		for (int i = 0; i < x; i++)
+		for (int i = 0; i < frames.x; i++)
 		{
-			if (!a[j * x + i].loadFromImage(img, sf::IntRect(i * sx, j * sy, sx, sy)))
+			sf::Texture* tmp = new sf::Texture();
+			if (!tmp->loadFromImage(img, sf::IntRect(i * size.x, j * size.y, size.x, size.y)))
 			{
 				context.console->err << "animation loading error" << "\n";
-				return;
+				throw std::invalid_argument("Error while loading textures");
 			}
-			a[j * x + i].setRepeated(repeat);
+			tmp->setRepeated(repeat);
+			textures.push_back(tmp);
 		}
 	}
+	return textures;
+}
+
+std::vector<const sf::Texture*> Assets::load_textures(std::string path, Vectori n,
+	Vectori size, bool repeat)
+{
+	std::vector<const sf::Texture*> textures;
+	sf::Image image;
+	if (!image.loadFromFile(path))
+	{
+		context.console->err << "Error while loading" + path << "\n";
+		throw std::invalid_argument("Error while loading textures");
+	}
+	return load_textures(image, n, size, repeat);
 }
 
 Dynamic_animation_struct* Assets::load_dynamic_animation(std::string path)
@@ -177,67 +188,6 @@ void Assets::load_sounds()
 	load_sound(sounds[2], "sound/jump_run.wav");
 }
 
-void Assets::load_textures(std::vector<sf::Texture>& v, std::string path, bool rep)
-{
-	int a, b, c, d;
-	int l = (int)path.rfind("_ss_");
-	if (l == std::string::npos)
-	{
-		l = -1;
-	}
-	l++;
-	size_t r = path.find(".", l);
-	std::string tmp = path.substr(l, r - l);
-	for (auto& it : tmp)
-	{
-		if (it > '9' || it < '0')
-			it = ' ';
-
-	}
-	std::stringstream tmps(tmp);
-	if (!(tmps >> a >> b >> c >> d))
-	{
-		context.console->err << "error reading sizes " + path << "\n";
-		return;
-	}
-	v.reserve((uint64_t)c * d + MAX_ADDITIONAL_TEXTURES);
-	sf::Image image;
-	if (!image.loadFromFile(path))
-	{
-		context.console->err << "Error while loading" + path << "\n";
-		return;
-	}
-	for (int j = 0; j < d; j++)
-	{
-		for (int i = 0; i < c; i++)
-		{
-			v.push_back(sf::Texture());
-			load_texture(v.back(), image, i * a, j * b, a, b, rep);
-		}
-	}
-}
-
-void Assets::load_additional_texture(std::string path, std::string name,
-	int repeat)
-{
-	map_textures.push_back(sf::Texture());
-	map_textures.back().loadFromFile(path);
-	if (repeat == 1)
-	{
-		map_textures.back().setRepeated(true);
-	}
-	textures[name] = &map_textures.back();
-}
-
-void Assets::load_additional_animation(string path, string name, Vectori n,
-	Vectori size, bool repeat)
-{
-	sf::Image im;
-	im.loadFromFile(path);
-	animations[name] = std::vector<sf::Texture>(n.x * n.y);
-	load_animation(animations[name], im, n.x, n.y, size.x, size.y, repeat);
-}
-
 std::vector<const Dynamic_animation_struct*>* Assets::load_dynamic_animations(std::vector<string> paths)
 {
 	Dynamic_animation_struct* default_animation = load_dynamic_animation("animations/stork/idle.txt");
@@ -283,51 +233,47 @@ void Assets::load_hp_bar()
 	}
 }
 
+std::tuple<Vectori, Vectori, std::vector<string>> Assets::load_texture_file_config(string path)
+{
+	std::vector<string> names;
+	std::ifstream file_raw;
+	file_raw.open(path);
+	if (!file_raw.good())
+	{
+		throw std::runtime_error("Can't open file: " + path);
+	}
+	std::stringstream file = util::remove_comments(file_raw);
+	Vectori textures_n, size;
+	file >> textures_n.x >> textures_n.y >> size.x >> size.y;
+	string s;
+	while (file >> s)
+	{
+		names.push_back(s);
+	}
+	return std::make_tuple(textures_n, size, names);
+}
+
 void Assets::load_assets()
 {
 	//Storkman
-	pieces = new sf::Texture();
-	pieces->loadFromFile("img/stork/parts_ss_256_256_is_3_9.png");
+	pieces = load_texture("img/stork/parts_ss_256_256_is_3_9.png", false);
 	for (int i = 0; i < 27; i++)
 		pieces_rect.push_back({ 256 * (i % 3),256 * (i / 3),256,256 });
 	//Background
-	bg = new sf::Texture();
-	bg->loadFromFile("img/bg/bg.jpg");
-	layer2 = new sf::Texture();
-	layer2->loadFromFile("img/bg/LAS.png");
-	light = new sf::Texture();
-	light->loadFromFile("img/light.png");
+	backgrounds["main_bg"] = load_texture("img/bg/bg.jpg", false);
+	backgrounds["forest_bg"] = load_texture("img/bg/LAS.png", false);
 	//User interface
-	console_bg = new sf::Texture();
-	console_bg->loadFromFile("img/ui/console_bg.png");
+	console_bg = load_texture("img/ui/console_bg.png", false);
 	load_hp_bar();
 	//Textures
-	enemy_textures.reserve(20);
-	enemy_textures.push_back(sf::Texture());
-	load_texture(enemy_textures.back(), "img/enemy/KLODA_00.png", false);
-	enemy_textures.push_back(sf::Texture());
-	load_texture(enemy_textures.back(), "img/enemy/SZNUR_00.png", false);
-	load_textures(map_textures, "img/tex_ss_64_64_is_6_7.png", true);
+	auto [n, size, tex_names] = load_texture_file_config("img/world_textures_config.txt");
+	std::vector<const sf::Texture*> tmp = load_textures("img/tex/world_textures.png", n, size, true);
+	for (int i = 0; i < tex_names.size(); i++)
 	{
-		std::vector<string> tex_names = { "asphalt,0","concrete,0","construction,0",
-		"bricks,0","bricks,1","bricks,2", "bricks,3","tile,0","rivets,0",
-		"panels,0","panels,1","panels,2","grass,0","ribbing,0","ribbing,1",
-		"ribbing,2","dirt,0","paving,0","paving,1","wood,0","wood,1","wood,2",
-		"wood,3","wood,4","tile1","canal0","canal1","krata0","wall0","pipes0",
-		"pipes1","pipes2","pipes3","tapeta0","tapeta1","tapeta2","tapeta3",
-		"vent0","vent1" };
-		for (int i = 0; i < tex_names.size(); i++)
-		{
-			textures[tex_names[i]] = &map_textures[i];
-		}
+		textures[tex_names[i]] = tmp[i];
 	}
-	{
-		std::vector<string> tex_names = { "log,1","line,1" };
-		for (int i = 0; i < tex_names.size(); i++)
-		{
-			textures[tex_names[i]] = &enemy_textures[i];
-		}
-	}
+	parse_additional_textures("img/textures.txt");
+	parse_additional_animations("img/animations.txt");
 	//Icon
 	icon.loadFromFile("img/ikona.png");
 	//Fonts
@@ -339,34 +285,37 @@ void Assets::load_assets()
 
 void Assets::parse_additional_textures(string path)
 {
-	std::ifstream file;
 	string p, name;
 	int repeat;
-
-	file.open(path);
-	if (file.good())
+	std::ifstream file_raw;
+	file_raw.open(path);
+	if (!file_raw.good())
 	{
-		while (!file.eof())
-		{
-			file >> p >> name >> repeat;
-			load_additional_texture(p, name, repeat);
-		}
+		throw std::runtime_error("Can't open file: " + path);
+	}
+	std::stringstream file = util::remove_comments(file_raw);
+	while (!file.eof())
+	{
+		file >> p >> name >> repeat;
+		textures[name] = load_texture(p, repeat);
 	}
 }
 
 void Assets::parse_additional_animations(string path)
 {
-	std::ifstream file;
 	string p, name;
-	int x, y, sx, sy;
+	Vectori n, size;
 	bool repeat;
-	file.open(path);
-	if (file.good())
+	std::ifstream file_raw;
+	file_raw.open(path);
+	if (!file_raw.good())
 	{
-		while (!file.eof())
-		{
-			file >> p >> name >> x >> y >> sx >> sy >> repeat;
-			load_additional_animation(p, name, Vectori(x, y), Vectori(sx, sy), repeat);
-		}
+		throw std::runtime_error("Can't open file: " + path);
+	}
+	std::stringstream file = util::remove_comments(file_raw);
+	while (!file.eof())
+	{
+		file >> p >> name >> n.x >> n.y >> size.x >> size.y >> repeat;
+		animations[name] = load_textures(p, n, size, repeat);
 	}
 }

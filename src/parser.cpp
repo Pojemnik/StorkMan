@@ -334,7 +334,7 @@ Parser::parse_animated_object(tinyxml2::XMLElement* element, Vectori level_pos)
 			level_pos.y * context.level_size.y);
 		pos *= context.global_scale;
 		string val = get_attribute_by_name("texture", element);
-		const std::vector<sf::Texture>* tex = &assets->animations.at(val);
+		const std::vector<const sf::Texture*>* tex = &assets->animations.at(val);
 		float height = get_and_parse_var <float>("height", element);
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		float frame_time = get_and_parse_var<float>("frame_time", element, 1.f);
@@ -390,7 +390,7 @@ Map Parser::parse_map(tinyxml2::XMLElement* root)
 	Vectori map_size = map_data.first;
 	Vectori player_pos = map_data.second;
 	tinyxml2::XMLElement* element = root->FirstChildElement();
-	Map map(map_size, player_pos, assets->bg);
+	Map map(map_size, player_pos, assets->backgrounds.at("main_bg"));
 	std::vector<std::future<Level>> futures;
 	while (element != NULL)
 	{
@@ -695,7 +695,7 @@ std::pair<std::optional<int>, std::shared_ptr<Animated_polygon>> Parser::parse_a
 		std::vector<sf::Vertex> points =
 			parse_vertices(element->FirstChildElement(), fliprot);
 		string val = get_attribute_by_name("texture", element);
-		const std::vector<sf::Texture>* tex = &assets->animations.at(val);
+		const std::vector<const sf::Texture*>* tex = &assets->animations.at(val);
 		float frame_time = get_and_parse_var<float>("frame_time", element, 1.f);
 		float frame_offset = get_and_parse_var<float>("offset", element, 0.f);
 		int layer = parse_layer(element, DEFAULT_OBJECT_LAYER);
@@ -729,7 +729,7 @@ std::pair<std::optional<int>, std::shared_ptr<Animated_moving_platform>> Parser:
 		Surface_type surface = parse_surface(element);
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		string val = get_attribute_by_name("texture", element);
-		const std::vector<sf::Texture>* tex = &assets->animations.at(val);
+		const std::vector<const sf::Texture*>* tex = &assets->animations.at(val);
 		float frame_time = get_and_parse_var<float>("frame_time", element, 1.f);
 		float frame_offset = get_and_parse_var<float>("offset", element, 0.f);
 		int layer = parse_layer(element, DEFAULT_OBJECT_LAYER);
