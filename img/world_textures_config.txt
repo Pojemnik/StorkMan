@@ -1,0 +1,46 @@
+#Number of rows and collumns
+6 7
+
+#Size of one texture [px]
+64 64
+
+#Texture names
+asphalt,0
+concrete,0
+construction,0
+bricks,0
+bricks,1
+bricks,2
+bricks,3
+tile,0
+rivets,0
+panels,0
+panels,1
+panels,2
+grass,0
+ribbing,0
+ribbing,1
+ribbing,2
+dirt,0
+paving,0
+paving,1
+wood,0
+wood,1
+wood,2
+wood,3
+wood,4
+tile1
+canal0
+canal1
+krata0
+wall0
+pipes0
+pipes1
+pipes2
+pipes3
+tapeta0
+tapeta1
+tapeta2
+tapeta3
+vent0
+vent1

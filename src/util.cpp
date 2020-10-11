@@ -2,6 +2,25 @@
 
 struct Context context;
 
+std::stringstream util::remove_comments(std::ifstream& file)
+{
+	std::stringstream ss;
+	while (!file.eof())
+	{
+		string s;
+		std::getline(file, s);
+		const char* white_space = " \t\v\r\n";
+		std::size_t start = s.find_first_not_of(white_space);
+		if (start == string::npos)
+			continue;
+		s = s.substr(start);
+		if (s[0] != '#')
+		{
+			ss << s << '\n';
+		}
+	}
+	return ss;
+}
 
 std::string util::pass_or_default(std::string val, std::string default_val)
 {
@@ -10,14 +29,14 @@ std::string util::pass_or_default(std::string val, std::string default_val)
 
 sf::Vector2f util::normalize(sf::Vector2f x, float l)
 {
-	return x / float(sqrt(x.x * x.x + x.y * x.y) * l);
+	return x / std::hypot(x.x, x.y) * l;
 }
 
-sf::Vector2f util::get_axis_normal(const std::vector<sf::Vector2f>* a,
+sf::Vector2f util::get_axis_normal(const std::vector<sf::Vector2f>& a,
 	size_t i)
 {
-	Vectorf p1 = (*a)[i];
-	Vectorf p2 = (i >= a->size() - 1) ? (*a)[0] : (*a)[i + 1];
+	Vectorf p1 = a[i];
+	Vectorf p2 = (i >= a.size() - 1) ? a[0] : a[i + 1];
 	return util::normalize({ p1.y - p2.y,p2.x - p1.x }, 1);
 }
 
@@ -163,12 +182,31 @@ void util::save_texture(std::string path, sf::Texture* texture)
 	im.saveToFile(path);
 }
 
-sf::FloatRect util::mesh_to_rect(std::vector<sf::Vertex> vertices)
+sf::FloatRect util::mesh_to_rect(const std::vector<Vectorf>& vertices)
+{
+	float maxx, maxy, miny, minx;
+	maxx = minx = vertices[0].x;
+	maxy = miny = vertices[0].y;
+	for (const auto& it : vertices)
+	{
+		if (it.x < minx)
+			minx = it.x;
+		if (it.y < miny)
+			miny = it.y;
+		if (it.x > maxx)
+			maxx = it.x;
+		if (it.y > maxy)
+			maxy = it.y;
+	}
+	return sf::FloatRect(minx, miny, maxx - minx, maxy - miny);
+}
+
+sf::FloatRect util::mesh_to_rect(const std::vector<sf::Vertex>& vertices)
 {
 	float maxx, maxy, miny, minx;
 	maxx = minx = vertices[0].position.x;
 	maxy = miny = vertices[0].position.y;
-	for (auto it : vertices)
+	for (const auto& it : vertices)
 	{
 		if (it.position.x < minx)
 			minx = it.position.x;
@@ -180,6 +218,20 @@ sf::FloatRect util::mesh_to_rect(std::vector<sf::Vertex> vertices)
 			maxy = it.position.y;
 	}
 	return sf::FloatRect(minx, miny, maxx - minx, maxy - miny);
+}
+
+sf::FloatRect util::merge_bounds(const sf::FloatRect& first, const sf::FloatRect& second)
+{
+	sf::FloatRect bound = first;
+	float r_bound = bound.left + bound.width;
+	float r_obj = second.left + second.width;
+	float b_bound = bound.top + bound.height;
+	float b_obj = second.top + second.height;
+	bound.left = std::min(bound.left, second.left);
+	bound.top = std::min(bound.top, second.top);
+	bound.width = std::max(r_bound, r_obj) - bound.left;
+	bound.height = std::max(b_bound, b_obj) - bound.top;
+	return bound;
 }
 
 bool util::contained_in_polygon(Vectorf point, float max_x, const std::vector<Vectorf>& polygon)

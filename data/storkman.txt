@@ -1,0 +1,30 @@
+#Animation tree
+animations/stork/tree.txt
+
+#Animation files
+#On lines with - use default
+animations/stork/idle.txt
+-
+animations/stork/run.txt
+animations/stork/jump_idle.txt
+animations/stork/jump_run.txt
+animations/stork/punch1.txt
+animations/stork/punch2.txt
+animations/stork/death.txt
+-
+animations/stork/jump_run2.txt
+
+#Collision rectangle
+-20 -37
+-2 -37
+-2 23
+-20 23
+
+#Max health
+1000
+
+#Height [m]
+1.92
+
+#Height [px]
+700
