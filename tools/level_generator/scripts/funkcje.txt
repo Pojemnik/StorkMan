@@ -15,6 +15,12 @@ Tworzenie poziomów w Pythonie z użyciem gotowych bibliotek
 
 ELEMENTY W BIBLIOTEKACH:
 w wyjaśnieniu będą podane kolejno nazwa parametru, wartość domyślna (każdy parametr ma przypisaną wartość domyślną) i działanie
+  podstawy:
+    zawiera funkcje odzwierciedlające elementy z XML-a, stosowane w pozostałych bibliotekach, oraz stosowane tam stałe:
+    domyślna_tekstura = "bricks,0"
+    domyślna_animowana_tekstura = "rain45"
+    domyślny_obiekt = "chest0"
+    domyślny_animowany_obiekt = "wind0"
   struktury:
     schody - złożone z wielu platform schody
       x             = 0 = współrzędna x narożnika schodów (jeśli schody uprościć do trójkąta prostokątnego, to narożnik jest przy kącie prostym)
@@ -24,7 +30,7 @@ w wyjaśnieniu będą podane kolejno nazwa parametru, wartość domyślna (każd
       wysokość      = 2 = wysokość schodów licząc od podstawy do najwyższego stopnia
       przesunięcie  = 0 = dodatkowe wydłużenie najwyższego stopnia
       stopnie       = 4 = ilość stopni, każdy stopień ma jednakową wysokość oraz głębokość (przeliczoną z parametrów), ostatni może być dłuższy dzięki przesunięciu
-      tekstura      = "bricks,0" = tekstura, którą teksturowane są stopnie
+      tekstura      = domyślna_tekstura = tekstura, którą teksturowane są stopnie
     drabina_jednostronna - umieszczone jedna nad drugą w równych odstępach platformy, mogące być przyczepione do pionowej podpórki
       x                 = 0 = współrzędna x punktu podczepienia na szczycie drabiny
       y                 = 0 = współrzędna y punktu podczepienia na szczycie drabiny
@@ -37,8 +43,8 @@ w wyjaśnieniu będą podane kolejno nazwa parametru, wartość domyślna (każd
       dolny_margines    = 0 = przesunięcie dolnego szczebla w górę względem końca drabiny (0 oznacza szczebel na samym końcu drabiny)
       głębokość         = 0.5 = długość w osi x każdego szczebla
       wysokość          = 0.5 = wysokość w osi y każdego szczebla
-      tekstura_podpórki = "wood,1" = tekstura, którą posiada platforma podpórki
-      tekstura          = "wood,2" = tekstura, którą posiada każdy szczebel drabiny
+      tekstura_podpórki = domyślna_tekstura = tekstura, którą posiada platforma podpórki
+      tekstura          = domyślna_tekstura = tekstura, którą posiada każdy szczebel drabiny
     drabina_dwustronna - drabina złożona z dwóch poprzeczek, po prawej i po lewej, do których przyczepione są szczeble
       x                         = 0 = współrzędna x lewego górnego rogu drabin
       y                         = 0 = współrzędna y lewego górnego rogu drabin
@@ -57,15 +63,15 @@ w wyjaśnieniu będą podane kolejno nazwa parametru, wartość domyślna (każd
       dolny_margines            = 0 = przesunięcie dolnego szczebla w górę względem końca drabiny (0 oznacza szczebel na samym końcu drabiny)
       głębokość                 = 0.5 = długość w osi x każdego szczebla
       wysokość                  = 0.5 = wysokość w osi y każdego szczebla
-      tekstura_lewej_podpórki   = "wood,1" = tekstura, którą posiada platforma lewej podpórki
-      tekstura_prawej_podpórki  = "wood,1" = tekstura, którą posiada platforma prawej podpórki
-      tekstura                  = "wood,2" = tekstura, którą posiada każdy szczebel drabiny
+      tekstura_lewej_podpórki   = domyślna_tekstura = tekstura, którą posiada platforma lewej podpórki
+      tekstura_prawej_podpórki  = domyślna_tekstura = tekstura, którą posiada platforma prawej podpórki
+      tekstura                  = domyślna_tekstura = tekstura, którą posiada każdy szczebel drabiny
     komnata - prostokątny pokój mogący mieć otwory we wszystkich swoich ścianach
       x               = 0 = współrzędna x lewego górnego narożnika komnaty
       y               = 0 = współrzędna y lewego górnego narożnika komnaty
       wysokość        = 10 = wysokość komnaty (oś y)
       szerokość       = 10 = szerokość komnaty (oś x)
-      tekstura        = "bricks,0" = tekstura, którą posiadać będą wszystkie ściany komnaty
+      tekstura        = domyślna_tekstura = tekstura, którą posiadać będą wszystkie ściany komnaty
       grubość_górnej  = 0.5 = grubość górnej ściany komnaty
       grubość_dolnej  = 0.5 = grubość dolnej ściany komnaty
       grubość_prawej  = 0.5 = grubość prawej ściany komnaty
@@ -83,13 +89,13 @@ w wyjaśnieniu będą podane kolejno nazwa parametru, wartość domyślna (każd
       spad            = 10 = wysokość, z której spada obiekt
       wysokość        = 2 = odległość od punktu uderzenia, przy której aktywuje się strefa obrażeń a dezaktywuje kolider (niewidoczna platforma zczepiona z obiektem)
       rozmiar         = 1 = skala grafiki spadającego obiektu
-      strefa          = "<v>0,0</v><v>1,0</v><v>1,-2</v><v>0,-2</v>" = opis wierzchołków strefy obrażeń (znajdującej się w punkcie uderzenia w ziemię)
+      strefa          = (4,0,1,1,0,0,0,-2,-2) = opis wierzchołków strefy obrażeń (znajdującej się w punkcie uderzenia w ziemię): pierwszy element to ilość wierzchołków, pierwsza połowa reszty to wartości x, a druga połowa wartości y
       czas_obrażeń    = 60 = czas (w klatkach), liczony od pojawienia się obiektu o <wysokość> od punktu uderzenia, przez który zadawane są obrażenia w strefie uderzenia
       szczyt_obrażeń  = 15 = klatka, w której zadawane obrażenia będą najwieksze, pozostałe obrażenia będą liniowo maleć od tej wartości do zera
       obrażenia       = 100 = maksymalna wartość zadanych obrażeń (występująca w <szczycie_obrażeń>)
       rozdrobnienie   = 10 = ilość stanów strefy obrażeń w <czasie_obrażeń>, w których przyjmuje ona różne wartości zadawanych obrażeń
-      obiekt          = "<v>0,0</v><v>1,0</v><v>1,1</v><v>0,1</v>" = opis wierzchołków kolidera (niewidocznej platformy przyczepionej do spadającego obiektu)
-      tekstura        = "chest0" = tekstura nakładana na spadający obiekt (obecnie z braku lepszej grafiki jest to skrzynka)
+      obiekt          = (4,0,1,1,0,0,0,1,1) = opis wierzchołków kolidera (niewidocznej platformy przyczepionej do spadającego obiektu): pierwszy element to ilość wierzchołków, pierwsza połowa reszty to wartości x, a druga połowa wartości y
+      tekstura        = domyślny_obiekt = tekstura nakładana na spadający obiekt (obecnie z braku lepszej grafiki jest to skrzynka)
       animacja - na razie niewykorzystywane, czeka na <moving_animated_object> i możliwość czasowego nieistnienia ruchomych obiektów
   mechanizmy:
     taśmociąg_jednostronny - układ połączonych ruchomych platform, przemieszczających się w określonym kierunku
@@ -102,7 +108,7 @@ w wyjaśnieniu będą podane kolejno nazwa parametru, wartość domyślna (każd
       segmentowanie     = 10 = ilość odcinków na którą podzielony jest taśmociąg (według nich wyznaczane są ruchome platformy)
       bariery           = 1 = 1 oznacza, że na końcach taśmociągu umieszczone zostaną nieruchome platformy, 0 oznacza, że nie zostaną umieszczone
       widoczność_barier = 1 = 1 oznacza, że bariery będą widoczne, 0 oznacza że nie będą
-      tekstura          = "panels,0" = tekstura, która zostanie nałożona na segmenty i bariery taśmociągu
+      tekstura          = domyślna_tekstura = tekstura, która zostanie nałożona na segmenty i bariery taśmociągu
       elementy - na razie niewykorzystywane
   obiekty:
     wielokąt_foremny - funkcja zwracająca opis kolejnych wierchołków wielokąta foremnego (nie jest to niezależny element rozgrywki)
