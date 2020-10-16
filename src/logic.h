@@ -48,3 +48,18 @@ public:
 	sf::Transform get_pos();
 	Swing_rotation_AI(const float line_len_, float angle_, Vectorf pivot_);
 };
+
+class Accelerated_linear_AI : public Simple_AI
+{
+	sf::Vector2f pos;
+	float time;
+	std::vector<std::tuple<Vectorf, float, float>> points;
+	std::vector<std::tuple<Vectorf, float, float>>::const_iterator it;
+	float v0;
+	float s0;
+
+public:
+	void calc_pos(float dt);
+	sf::Transform get_pos();
+	Accelerated_linear_AI(std::vector<std::tuple<Vectorf, float, float>> points_, float time_offset);
+};

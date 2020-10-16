@@ -18,7 +18,7 @@ sf::Transform Linear_AI::get_pos()
 	return sf::Transform().translate(pos);
 }
 
-Linear_AI::Linear_AI(std::vector<std::pair<Vectorf, float>> points_, float time_offset): points(points_),time(time_offset)
+Linear_AI::Linear_AI(std::vector<std::pair<Vectorf, float>> points_, float time_offset) : points(points_), time(time_offset)
 {
 	it = points.cbegin();
 	calc_pos(0);
@@ -29,7 +29,7 @@ void Swing_AI::calc_pos(float dt)
 	const float angleAccel = (GRAVITY / line_len) * sin(rad_angle);
 	a_speed += angleAccel * dt;
 	rad_angle += a_speed * dt;
-	pos=sf::Vector2f(-sin(rad_angle),cos(rad_angle))*line_len*context.global_scale;
+	pos = sf::Vector2f(-sin(rad_angle), cos(rad_angle)) * line_len * context.global_scale;
 }
 
 sf::Transform Swing_AI::get_pos()
@@ -37,7 +37,7 @@ sf::Transform Swing_AI::get_pos()
 	return sf::Transform().translate(pos);
 }
 
-Swing_AI::Swing_AI(const float line_len_, float angle_): line_len(line_len_), rad_angle(angle_)
+Swing_AI::Swing_AI(const float line_len_, float angle_) : line_len(line_len_), rad_angle(angle_)
 {
 }
 
@@ -60,4 +60,44 @@ sf::Transform Swing_rotation_AI::get_pos()
 Swing_rotation_AI::Swing_rotation_AI(const float line_len_, float angle_, Vectorf pivot_)
 	: line_len(line_len_), rad_angle(angle_), pivot(pivot_)
 {
+}
+
+Accelerated_linear_AI::Accelerated_linear_AI(
+	std::vector<std::tuple<Vectorf, float, float>> points_, float time_offset) :
+	points(points_), time(time_offset)
+{
+	it = points.cbegin();
+	calc_pos(0);
+}
+
+sf::Transform Accelerated_linear_AI::get_pos()
+{
+	return sf::Transform().translate(pos);
+}
+
+void Accelerated_linear_AI::calc_pos(float dt)
+{
+	time += dt;
+	bool lag = false;
+	while (time > std::get<1>(*it))
+	{
+		time -= std::get<1>(*it);
+		it = util::increment_iterator(it, points);
+		lag = true;
+	}
+	if (lag)
+	{
+		auto [target_pos, t, acc] = *it;
+		auto next = util::increment_iterator(it, points);
+		Vectorf pos_next = std::get<0>(*next);
+		Vectorf diff = pos_next - target_pos;
+		s0 = std::hypotf(diff.x, diff.y);
+		v0 = s0 / t - acc * t / 2;
+	}
+	auto [target_pos, delta, acc] = *it;
+	auto next = util::increment_iterator(it, points);
+	Vectorf pos_next = std::get<0>(*next);
+	float s = (v0 + acc * time / 2) * time;
+	float a = s / s0;
+	pos = (1.0f - a) * target_pos + a * pos_next;
 }

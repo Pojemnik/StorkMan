@@ -52,98 +52,8 @@ std::pair<Vectori, string> Parser::parse_level_element(tinyxml2::XMLElement* ele
 		throw std::invalid_argument("Level outside of map size");
 	}
 	filepath = get_attribute_by_name("filename", element);
+	std::vector<string> s = split_string("a,b,c,d,e");
 	return std::make_pair(pos, filepath);
-}
-
-sf::Vertex Parser::parse_vertex(string content, std::pair<int, float> fliprot)
-{
-	Vectorf v = parse_var<Vectorf>(content);
-	v *= context.global_scale;
-	Vectorf v2 = util::rotate_vector(v, util::deg_to_rad(fliprot.second));
-	v2.x *= fliptab[fliprot.first].x;
-	v2.y *= fliptab[fliprot.first].y;
-	return sf::Vertex(v, v2);
-}
-
-sf::Vertex Parser::parse_textured_vertex(string content)
-{
-	size_t pos = content.find(",", content.find(",") + 1);
-	Vectorf v = parse_var<Vectorf>(content.substr(0, pos));
-	v *= context.global_scale;
-	Vectorf t = parse_var<Vectorf>(content.substr(pos + 1));
-	return sf::Vertex(v, t);
-}
-
-std::pair<Vectorf, float> Parser::parse_path_node(string content)
-{
-	size_t pos2 = content.find(",", content.find(",") + 1);
-	Vectorf v = parse_var<Vectorf>(content.substr(0, pos2));
-	v *= context.global_scale;
-	float time = std::stof(content.substr(pos2 + 1));
-	return { v, time };
-}
-
-std::vector<sf::Vertex> Parser::parse_vertices(tinyxml2::XMLElement* element, std::pair<int, float> fliprot)
-{
-	std::vector<sf::Vertex> points;
-	while (element != NULL)
-	{
-		string n = element->Name();
-		if (n == "v")
-		{
-			points.push_back(parse_vertex(element->GetText(), fliprot));
-		}
-		else if (n == "vt")
-		{
-			points.push_back(parse_textured_vertex(element->GetText()));
-		}
-		else
-		{
-			std::cout << "B³¹d w wierzcho³kach" << '\n';
-			throw std::invalid_argument("Error in vertices");
-		}
-		element = element->NextSiblingElement();
-	}
-	return points;
-}
-
-sf::Color Parser::parse_color(string val)
-{
-	size_t p1, p2;
-	p1 = val.find(',');
-	if (p1 == string::npos)
-	{
-		throw std::invalid_argument("No ',' found");
-	}
-	p2 = val.find(',', p1 + 1);
-	if (p2 == string::npos)
-	{
-		throw std::invalid_argument("Only one ',' found");
-	}
-	uint8_t r = (uint8_t)std::stoi(val.substr(0, p1));
-	uint8_t g = (uint8_t)std::stoi(val.substr(p1 + 1, p2));
-	uint8_t b = (uint8_t)std::stoi(val.substr(p2 + 1));
-	return sf::Color(r, g, b);
-}
-
-Surface_type Parser::parse_surface(tinyxml2::XMLElement* element)
-{
-	string surface_str = get_attribute_by_name("surface", element);
-	if (surface_str == "")
-	{
-		return Surface_type::NONE;
-	}
-	return name_to_surface.at(surface_str);
-}
-
-string Parser::get_attribute_by_name(string name, tinyxml2::XMLElement* element)
-{
-	tinyxml2::XMLAttribute* att =
-		(tinyxml2::XMLAttribute*)(element->FindAttribute(name.c_str()));
-	if (att != nullptr)
-		return string(att->Value());
-	else
-		return "";
 }
 
 Level Parser::parse_level(tinyxml2::XMLElement* root, Vectori global_pos)
@@ -231,6 +141,7 @@ Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root, Vectori level_pos)
 		std::move(collidables), std::move(zones), bound, std::move(collision_buffer));
 
 }
+
 
 std::pair<std::optional<int>, std::shared_ptr<Platform>>
 Parser::parse_platform(tinyxml2::XMLElement* element, Vectori level_pos)
@@ -352,36 +263,6 @@ Parser::parse_animated_object(tinyxml2::XMLElement* element, Vectori level_pos)
 		std::cout << "Prawdopodobnie nieprawid³owa animacja" << '\n';
 	}
 	throw std::runtime_error("Animated object error");
-}
-
-int Parser::parse_layer(tinyxml2::XMLElement* element, int default_value)
-{
-	int layer = get_and_parse_var<int>("layer", element, default_value);
-	if (layer < 0 || layer >= BOTTOM_LAYERS + MIDDLE_LAYERS + TOP_LAYERS)
-	{
-		throw std::invalid_argument("Invalid layer");
-	}
-	return layer;
-}
-
-std::pair<int, float> Parser::parse_flip_rotation(tinyxml2::XMLElement* element)
-{
-	float rotationang = get_and_parse_var<float>("rotation", element, 0.f);
-	string flip = get_attribute_by_name("flip", element);
-	int flipint = 0;
-	if (flip != "")
-	{
-		Vectori flipiv = parse_var<Vectori>(flip);
-		if (flipiv.x < 0)
-			flipint = 1;
-		if (flipiv.y < 0)
-			flipint += 2;
-	}
-	if (flipint < 0 || flipint >3)
-	{
-		throw std::invalid_argument("Invalid flip value");
-	}
-	return std::make_pair(flipint, rotationang);
 }
 
 Map Parser::parse_map(tinyxml2::XMLElement* root)
@@ -557,9 +438,9 @@ Parser::parse_moving_platform(tinyxml2::XMLElement* element, Vectori level_pos)
 			{
 				vert.push_back(parse_textured_vertex(e->GetText()));
 			}
-			else if (n == "linear_move")
+			else if (n == "move")
 			{
-				ai = parse_Simple_AI<Linear_AI>(e);
+				ai = parse_move(e);
 			}
 			e = e->NextSiblingElement();
 		}
@@ -570,7 +451,7 @@ Parser::parse_moving_platform(tinyxml2::XMLElement* element, Vectori level_pos)
 	{
 		std::cout << "Wyjatek: " << e.what() << '\n';
 		std::cout << "Element: " << "linear platform" << '\n';
-		std::cout << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz platformy wahad³a" << '\n';
+		std::cout << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz platformy" << '\n';
 	}
 	catch (const std::out_of_range& e)
 	{
@@ -601,9 +482,9 @@ Parser::parse_moving_object(tinyxml2::XMLElement* element, Vectori level_pos)
 		while (e != NULL)
 		{
 			string n = e->Name();
-			if (n == "linear_move")
+			if (n == "move")
 			{
-				ai = parse_Simple_AI<Linear_AI>(e);
+				ai = parse_move(e);
 			}
 			e = e->NextSiblingElement();
 		}
@@ -749,9 +630,9 @@ std::pair<std::optional<int>, std::shared_ptr<Animated_moving_platform>> Parser:
 			{
 				points.push_back(parse_textured_vertex(e->GetText()));
 			}
-			else if (n == "linear_move")
+			else if (n == "move")
 			{
-				ai = parse_Simple_AI<Linear_AI>(e);
+				ai = parse_move(e);
 			}
 			e = e->NextSiblingElement();
 		}
@@ -904,15 +785,4 @@ sf::FloatRect Parser::calculate_chunk_bounds(tinyxml2::XMLElement* root,
 	float bottom = get_and_parse_var<float>("bottom", root, 0) * context.global_scale;
 	bound.height += bottom + top;
 	return bound;
-}
-
-void Parser::add_vertices(std::vector<sf::Vertex>& vec, const Collision* col)
-{
-	for (int i = 1; i < col->mesh.size(); i++)
-	{
-		vec.emplace_back(col->mesh[i - 1], sf::Color::White);
-		vec.emplace_back(col->mesh[i], sf::Color::White);
-	}
-	vec.emplace_back(col->mesh.back(), sf::Color::White);
-	vec.emplace_back(col->mesh.front(), sf::Color::White);
 }
