@@ -9,8 +9,15 @@ void Linear_AI::calc_pos(float dt)
 		it = util::increment_iterator(it, points);
 	}
 	auto next = util::increment_iterator(it, points);
-	float a = time / it->second;
-	pos = (1.0f - a) * it->first + a * next->first;
+	if (std::isnan(next->first.x) || std::isnan(next->first.y))
+	{
+		pos = Vectorf(-INFINITY, -INFINITY);
+	}
+	else
+	{
+		float a = time / it->second;
+		pos = (1.0f - a) * it->first + a * next->first;
+	}
 }
 
 sf::Transform Linear_AI::get_pos()
@@ -96,8 +103,15 @@ void Accelerated_linear_AI::calc_pos(float dt)
 	}
 	auto [target_pos, delta, acc] = *it;
 	auto next = util::increment_iterator(it, points);
-	Vectorf pos_next = std::get<0>(*next);
-	float s = (v0 + acc * time / 2) * time;
-	float a = s / s0;
-	pos = (1.0f - a) * target_pos + a * pos_next;
+	if (std::isnan(std::get<0>(*next).x) || std::isnan(std::get<0>(*next).y))
+	{
+		pos = Vectorf(-INFINITY, -INFINITY);
+	}
+	else
+	{
+		Vectorf pos_next = std::get<0>(*next);
+		float s = (v0 + acc * time / 2) * time;
+		float a = s / s0;
+		pos = (1.0f - a) * target_pos + a * pos_next;
+	}
 }

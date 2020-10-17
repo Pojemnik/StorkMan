@@ -82,7 +82,7 @@ moving_object:
 		offset* (domyślnie 0)
 	
 	zawartość:
-		<linear_move> opisujący ruch
+		<move>
 		
 		
 pendulum:
@@ -151,7 +151,7 @@ animated_moving_platform:
 		
 	zawartość:
 		znaczniki <v> lub <vt> opsujące kolejne wierzchołki
-		<linear_move> opisujący ruch
+		<move>
 		
 damage_zone:
 	atrybuty:
@@ -175,19 +175,23 @@ moving_damage_zone:
 	zawartość:
 		znaczniki <v> opisujące kolejne wierzchołki
 		znaczniki <d> opisujące sekwencję zadawania obrażeń przez strefę
-		<linear_move> opisujący ruch
+		<move>
 	
 
 Znaczniki pomocnicze (nie występują samodzielnie):
 		
-linear_move:
-	zawartość: znaczniki <p> opsujące trasę ruchu platformy
+move:
+	artybuty: type (string) - typ ruchu. W tym momencie dostępne: linear, accelerated
+		
+	zawartość: znaczniki <p> opsujące trasę ruchu platformy (w zależności od atrybutu type)
 
 d:
 	zawartość: (int, float) - obrażenia zadawane przez strefę, długość okresu zadawanie tych obrażeń [1/60s]
 	
 p:
-	zawartość: (float, float) - pozycja punktu na trasie platformy, czas podróży to tego punktu w klatkach
+	zawartość:
+		Dla typu ruchu linear: (float, float, float) - pozycja punktu na trasie platformy, czas podróży to tego punktu w klatkach
+		Dla typu ruchu accelerated: (float, float, float, float) - pozycja punktu na trasie platformy, czas podróży to tego punktu w klatkach, przyspieszenie (prędkość początkowa zostanie wyliczona na podstawie danych)
 	
 a:
 	zawartość: (float, float) - pozycja punktu [m]

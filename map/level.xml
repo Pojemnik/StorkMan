@@ -9,9 +9,10 @@
 			<d>10,10</d>
 			<d>0,10</d>
 
-			<move type="accelerated">
-				<p>0,0,60,0.007</p>
-				<p>10,0,60,0.007</p>
+			<move type="linear">
+				<p>0,0,60</p>
+				<p>-</p>
+				<p>10,0,60</p>
 			</move>
 		</moving_platform>
 	</chunk>

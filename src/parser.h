@@ -71,5 +71,3 @@ public:
 	Entity_config parse_entity_config(string path);
 	Parser(Assets* _assets);
 };
-
-

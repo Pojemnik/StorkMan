@@ -27,6 +27,10 @@ string parse::get_attribute_by_name(string name, tinyxml2::XMLElement* element)
 std::pair<Vectorf, float> parse::parse_path_node(string content)
 {
 	auto vect = split_string(content);
+	if (vect[0] == "-")
+	{
+		return { Vectorf(NAN,NAN), 0.f};
+	}
 	Vectorf v = parse_var<Vectorf>(vect[0], vect[1]);
 	v *= context.global_scale;
 	float time = std::stof(vect[2]);
@@ -36,6 +40,10 @@ std::pair<Vectorf, float> parse::parse_path_node(string content)
 std::tuple<Vectorf, float, float> parse::parse_acc_path_node(string content)
 {
 	auto vect = split_string(content);
+	if (vect[0] == "-")
+	{
+		return { Vectorf(NAN,NAN), 0.f, 0.f };
+	}
 	Vectorf v = parse_var<Vectorf>(vect[0], vect[1]);
 	v *= context.global_scale;
 	float time = std::stof(vect[2]);
