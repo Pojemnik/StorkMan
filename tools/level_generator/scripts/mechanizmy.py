@@ -1,5 +1,4 @@
 import math
-import operacje
 import podstawy
 global lvl
 def taśmociąg_jednostronny(x=0, y=0, długość=10, grubość=0.5, obrót=0, prędkość=2, segmentowanie=10, bariery=1, widoczność_barier=1, tekstura=podstawy.domyślna_tekstura, elementy=(0,0), zwróć_tekst=False):
