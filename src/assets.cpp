@@ -256,9 +256,10 @@ std::tuple<Vectori, Vectori, std::vector<string>> Assets::load_texture_file_conf
 void Assets::load_assets()
 {
 	//Storkman
-	pieces = load_texture("img/stork/parts_ss_256_256_is_3_9.png", false);
-	for (int i = 0; i < 27; i++)
-		pieces_rect.push_back({ 256 * (i % 3),256 * (i / 3),256,256 });
+	pieces.push_back(load_textures("img/stork/parts_ss_256_256_is_3_9_dmg_0.png", Vectori(3,9), Vectori(256, 256), false));
+	pieces.push_back(load_textures("img/stork/parts_ss_256_256_is_3_9_dmg_1.png", Vectori(3,9), Vectori(256, 256), false));
+	pieces.push_back(load_textures("img/stork/parts_ss_256_256_is_3_9_dmg_2.png", Vectori(3,9), Vectori(256, 256), false));
+	pieces.push_back(load_textures("img/stork/parts_ss_256_256_is_3_9_dmg_3.png", Vectori(3,9), Vectori(256, 256), false));
 	//Background
 	backgrounds["main_bg"] = load_texture("img/bg/bg.jpg", false);
 	backgrounds["forest_bg"] = load_texture("img/bg/LAS.png", false);

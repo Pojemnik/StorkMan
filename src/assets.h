@@ -23,8 +23,7 @@ public:
 		std::shared_ptr<std::vector<sf::Texture>> content_mid;
 		std::shared_ptr<std::vector<sf::Texture>> content_bot;
 	} hp_bar;
-	const sf::Texture* pieces = nullptr;
-	std::vector<sf::IntRect> pieces_rect;
+	std::vector<std::vector<const sf::Texture*>> pieces;
 	std::unordered_map<std::string, const sf::Texture*> textures;
 	std::unordered_map<std::string, std::vector<const sf::Texture*>> animations;
 	std::unordered_map<std::string, const sf::Texture*> backgrounds;

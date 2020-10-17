@@ -1,6 +1,8 @@
 #Animation tree
 animations/stork/tree.txt
 
+#Animation part type - triggered
+
 #Animation files
 #On lines with - use default
 animations/stork/idle.txt
