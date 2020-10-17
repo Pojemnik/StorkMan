@@ -31,7 +31,7 @@ level:
 		
 chunk:
 	atrybuty:
-		top, bottom, left, right (float) - powiększenie chunka w wybranym kierunku [m]
+		top, bottom, left, right (float) - powiększenie chunka w wybranym kierunku [m], wartości bowinny być > 0, w przeciwnym razie nie ma sensu
 		
 	zawartość:
 		znaczniki elementów mapy
@@ -192,6 +192,7 @@ p:
 	zawartość:
 		Dla typu ruchu linear: (float, float, float) - pozycja punktu na trasie platformy, czas podróży to tego punktu w klatkach
 		Dla typu ruchu accelerated: (float, float, float, float) - pozycja punktu na trasie platformy, czas podróży to tego punktu w klatkach, przyspieszenie (prędkość początkowa zostanie wyliczona na podstawie danych)
+		Specjalna wersja: <p>-</p> - Element znika na czas ruchu do tego "punktu"
 	
 a:
 	zawartość: (float, float) - pozycja punktu [m]

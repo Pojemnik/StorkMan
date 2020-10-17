@@ -1,7 +1,7 @@
 #include "animations.h"
 
-Animation_tree::Animation_tree(int _count, int i_count, Frame_info info) :
-	count(_count), independent_count(i_count), frame_info(info)
+Animation_tree::Animation_tree(int count_, int i_count, Frame_info info) :
+	count(count_), independent_count(i_count), frame_info(info)
 {
 	root = 0;
 	tree.resize(count);
@@ -9,7 +9,7 @@ Animation_tree::Animation_tree(int _count, int i_count, Frame_info info) :
 	nodes.resize(count);
 }
 
-Vectorf Dynamic_animation::count_pos(Vectorf start, Vectori translation1,
+Vectorf Key_frame_animation::count_pos(Vectorf start, Vectori translation1,
 	float a1, Vectori translation2, float a2)
 {
 	const float size1 = tree.frame_info.part_size.x;
@@ -24,14 +24,14 @@ Vectorf Dynamic_animation::count_pos(Vectorf start, Vectori translation1,
 		start.y + l1.y - l2.y + size1 / 2 - size2 / 2);
 }
 
-void Dynamic_animation::animate(std::vector<float> frame)
+void Key_frame_animation::animate(std::vector<float> frame)
 {
 	std::vector<util::xyr> vec(tree.count);
 	vec[tree.root].pos.x = frame[0];
 	vec[tree.root].pos.y = frame[1];
 	vec[tree.root].r = util::ang_reduce(frame[2]);
-	parts[tree.root].setRotation(vec[tree.root].r);
-	parts[tree.root].setPosition(vec[tree.root].pos);
+	parts_sprites[tree.root].setRotation(vec[tree.root].r);
+	parts_sprites[tree.root].setPosition(vec[tree.root].pos);
 	std::queue<int> q;
 	q.push(tree.root);
 	while (!q.empty())
@@ -47,26 +47,26 @@ void Dynamic_animation::animate(std::vector<float> frame)
 			vec[next].pos = count_pos(vec[current].pos,
 				tree.nodes[next].delta_pos[0], vec[current].r,
 				tree.nodes[next].delta_pos[1], vec[next].r);
-			parts[next].setRotation(vec[next].r);
-			parts[next].setPosition(vec[next].pos);
+			parts_sprites[next].setRotation(vec[next].r);
+			parts_sprites[next].setPosition(vec[next].pos);
 		}
 	}
 }
 
-void Dynamic_animation::pre_draw()
+void Key_frame_animation::pre_draw()
 {
 	tex.clear(sf::Color(0, 0, 0, 0));
 	for (int i = 0; i < tree.nodes.size(); i++)
 	{
-		tex.draw(parts[i]);
+		parts_sprites[i].setTexture(*parts[i]->get_texture());
+		tex.draw(parts_sprites[i]);
 	}
 	tex.display();
 }
 
-Dynamic_animation::Dynamic_animation(const sf::Texture* texture_,
-	std::vector<sf::IntRect>& part_sizes,
+Key_frame_animation::Key_frame_animation(std::vector<std::unique_ptr<Animation_part>>&& parts_,
 	std::vector<const Dynamic_animation_struct*> animations_, const Animation_tree& tree_)
-	: animations(animations_), tree(tree_), key(0),
+	: animations(animations_), tree(tree_), key(0), parts(std::move(parts_)),
 	animation(Animation_index::DEFAULT)
 {
 	last_key = &animations[static_cast<int>(animation)]->key_frames[key];
@@ -74,17 +74,18 @@ Dynamic_animation::Dynamic_animation(const sf::Texture* texture_,
 	key++;
 	next_key = &animations[static_cast<int>(animation)]->key_frames[key];
 	actual_frame = *last_key;
-	for (int i = 0; i < part_sizes.size(); i++)
+	for (int i = 0; i < parts.size(); i++)
 	{
-		parts.push_back(sf::Sprite(*texture_, part_sizes[i]));
-		parts[i].setOrigin((float)part_sizes[i].width / 2, (float)part_sizes[i].height / 2);
+		Vectori tex_size=parts[i]->get_texture_size();
+		parts_sprites.push_back(sf::Sprite(*parts[i]->get_texture()));
+		parts_sprites[i].setOrigin((float)tex_size.x / 2, (float)tex_size.y / 2);
 	}
 	if (!tex.create(tree.frame_info.frame_size.x, tree.frame_info.frame_size.y))
 		return;
 	next_frame(.0f);
 }
 
-void Dynamic_animation::set_animation(Animation_index a)
+void Key_frame_animation::set_animation(Animation_index a)
 {
 	Animation_index alternative = Animation_index::DEFAULT;
 	std::pair<int, int> transition = std::make_pair(key, static_cast<int>(a));
@@ -118,19 +119,19 @@ void Dynamic_animation::set_animation(Animation_index a)
 	next_key = &animations[static_cast<int>(animation)]->key_frames[0];
 }
 
-Animation_index Dynamic_animation::get_current_animation() const
+Animation_index Key_frame_animation::get_current_animation() const
 {
 	return animation;
 }
 
-Frame_info Dynamic_animation::get_frame_info() const
+Frame_info Key_frame_animation::get_frame_info() const
 {
 	Frame_info info = tree.frame_info;
 	info.character_position = { actual_frame[0], actual_frame[1] };
 	return info;
 }
 
-void Dynamic_animation::increment_key()
+void Key_frame_animation::increment_key()
 {
 	last_key = next_key;
 	actual_frame = *last_key;
@@ -153,7 +154,7 @@ void Dynamic_animation::increment_key()
 	next_key = &animations[static_cast<int>(animation)]->key_frames[key];
 }
 
-void Dynamic_animation::next_frame(float dt)
+void Key_frame_animation::next_frame(float dt)
 {
 	time_to_next_frame -= dt;
 	while (time_to_next_frame <= 0)
@@ -165,54 +166,35 @@ void Dynamic_animation::next_frame(float dt)
 	{
 		actual_frame[i] = (*last_key)[i] * alfa + (*next_key)[i] * (1.f - alfa);
 	}
+	for(auto& it : parts)
+	{
+		it->advance(dt);
+	}
 	animate(actual_frame);
 	pre_draw();
 }
 
-const sf::Texture* const Dynamic_animation::get_texture()
+const sf::Texture* const Key_frame_animation::get_texture()
 {
 	return &tex.getTexture();
 }
 
-Dynamic_animation_struct::Dynamic_animation_struct(std::vector<std::vector<float>>& kf, std::vector<int>& l, bool r)
-	: key_frames(kf), lengths(l), repeat(r) {}
-
-Static_animation_struct::Static_animation_struct(const std::vector<const sf::Texture*>* animation_, float frame_time_) :
-	animation(animation_), frame_time(frame_time_)
-{
-	it = animation->cbegin();
-}
-
-Static_animation_struct::Static_animation_struct(Static_animation_struct& a) : animation(a.animation), frame_time(a.frame_time)
-{
-	it = animation->cbegin();
-}
-
 Static_animation::Static_animation(Static_animation_struct& animation_, float time_offset) :
-	animation(animation_), time(time_offset), frame_info(Vectori((*animation_.it)->getSize()),
-		Vectori((*animation_.it)->getSize()), { 0,0 })
+	part(animation_, time_offset) {}
+
+Frame_info Static_animation::get_frame_info() const
 {
-	while (time >= animation.frame_time)
-	{
-		time -= animation.frame_time;
-		animation.it = util::increment_iterator(animation.it, *animation.animation);
-	}
-	next_frame(.0f);
+	return part.frame_info;
 }
 
 void Static_animation::next_frame(float dt)
 {
-	time += dt;
-	while (time >= animation.frame_time)
-	{
-		time -= animation.frame_time;
-		animation.it = util::increment_iterator(animation.it, *animation.animation);
-	}
+	part.advance(dt);
 }
 
 const sf::Texture* const Static_animation::get_texture()
 {
-	return *animation.it;
+	return part.get_texture();
 }
 
 void Static_animation::set_animation(Animation_index a)
@@ -229,11 +211,26 @@ Animation_index Static_animation::get_current_animation() const
 	return Animation_index::DEFAULT;
 }
 
-Frame_info Static_animation::get_frame_info() const
+One_frame_animation::One_frame_animation(const sf::Texture* _tex) : tex(_tex) {}
+
+void One_frame_animation::next_frame(float dt){}
+
+const sf::Texture* const One_frame_animation::get_texture()
 {
-	return frame_info;
+	return tex;
 }
 
-Frame_info::Frame_info(Vectori part_size_, Vectori frame_size_, Vectori offset_) :
-	part_size(part_size_), frame_size(frame_size_), offset(offset_), 
-	character_position(offset_) {}
+void One_frame_animation::set_animation(Animation_index a)
+{
+	throw std::logic_error("Not implemented");
+}
+
+Animation_index One_frame_animation::get_current_animation() const
+{
+	return Animation_index::DEFAULT;
+}
+
+Frame_info One_frame_animation::get_frame_info() const
+{
+	return Frame_info(Vectori(0, 0), static_cast<Vectori>(tex->getSize()), Vectori(0, 0));
+}
