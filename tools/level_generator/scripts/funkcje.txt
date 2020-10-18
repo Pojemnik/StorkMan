@@ -13,6 +13,17 @@ Tworzenie poziomów w Pythonie z użyciem gotowych bibliotek
   każdy poziom należy zakończyć linijką:
     lvl.save('nazwa.xml')         ///nazwa może być dowolna (w granicach rozsądku)
 
+Uwaga!
+Obecna wersja Level Generatora jest niekompletna, ponieważ nie obsługuje niżej wymienionych elementów gry:
+znaczników pomocniczych vt
+ruchu accelerated
+wariantu znikania w znacznikach pomocniczych p
+
+Znane błędy:
+generowane chunki mogą być za duże
+błędy w obsłudze ruchu z tylko jednym znacznikiem pomocniczym p
+dodawanie ruchu do elementów nieobsługujących wariantu ruchomego (np. barrier)
+
 ELEMENTY W BIBLIOTEKACH:
 w wyjaśnieniu będą podane kolejno nazwa parametru, wartość domyślna (każdy parametr ma przypisaną wartość domyślną) i działanie
   podstawy:
@@ -21,6 +32,23 @@ w wyjaśnieniu będą podane kolejno nazwa parametru, wartość domyślna (każd
     domyślna_animowana_tekstura = "rain45"
     domyślny_obiekt = "chest0"
     domyślny_animowany_obiekt = "wind0"
+    dodatkowe funkcje podstaw:
+    podział na elementy - dzieli blok tekstu na pojedyńcze elementy i zwraca je w postaci tablicy (n,e1,e2,...), gdzie n to ilość elemntów, a e to poszczególne elementy (w postaci tekstowej)
+      s = blok tekstu zawierający jeden lub więcej elementów w postaci tekstu wpisywalnego do XML-a
+    odczyt_elementu - zwraca tablicę elementu odzwierciedlającą kolejne części podanego elementu
+      s = element w postaci wypisywalnej do XML-a
+    indeks_ruchu_elementu - zwraca indeks komórki tablicy elementu, który przechowuje informacje o ilości stadiów ruchu
+      e = tablica elementu
+    zapis - oblicza i dodaje chunk do bloku tekstu wypisywalnego do XML-a i zapisuje go w poziomie
+      s = blok tekstu do zapisania w poziomie
+    zapis_elementu - przekształca tablicę elementu w element wypisywalny do XML-a
+      e           = tablica_elementu
+      zwróć_tekst = False = jeśli ta wartość ustawiona jest na True, funkcja zwróci tekst, jeśli na false, wypisze go do poziomu (wywoła funkcję podstawy.zapis)
+  operacje:
+    dodanie_ruchu - dodaje ruch nieruchomemu elementowi bądź sumuje go z ruchem elementu ruchomego
+      obiekt        = element bądź grupa elementów do której ma zostać dodany ruch (w postaci tekstu wypisywalnego do XML-a)
+      ścieżka_ruchu = ruch, który zostanie dodany (w postaci: [n,p1x,p1y,p1t,p2x,p2y,p2t,p3x,...], gdzie n=ilość stanów ruchu p, a dla każdego p x,y=punkt i t=czas podróży do następnego punktu)
+      zwróć_tekst   = False = jeśli ta wartość ustawiona jest na True, funkcja zwróci tekst, jeśli na false, wypisze go do poziomu (wywoła funkcję podstawy.zapis)
   struktury:
     schody - złożone z wielu platform schody
       x             = 0 = współrzędna x narożnika schodów (jeśli schody uprościć do trójkąta prostokątnego, to narożnik jest przy kącie prostym)
@@ -31,6 +59,7 @@ w wyjaśnieniu będą podane kolejno nazwa parametru, wartość domyślna (każd
       przesunięcie  = 0 = dodatkowe wydłużenie najwyższego stopnia
       stopnie       = 4 = ilość stopni, każdy stopień ma jednakową wysokość oraz głębokość (przeliczoną z parametrów), ostatni może być dłuższy dzięki przesunięciu
       tekstura      = domyślna_tekstura = tekstura, którą teksturowane są stopnie
+      zwróć_tekst   = False = jeśli ta wartość ustawiona jest na True, funkcja zwróci tekst, jeśli na false, wypisze go do poziomu (wywoła funkcję podstawy.zapis)
     drabina_jednostronna - umieszczone jedna nad drugą w równych odstępach platformy, mogące być przyczepione do pionowej podpórki
       x                 = 0 = współrzędna x punktu podczepienia na szczycie drabiny
       y                 = 0 = współrzędna y punktu podczepienia na szczycie drabiny
@@ -45,6 +74,7 @@ w wyjaśnieniu będą podane kolejno nazwa parametru, wartość domyślna (każd
       wysokość          = 0.5 = wysokość w osi y każdego szczebla
       tekstura_podpórki = domyślna_tekstura = tekstura, którą posiada platforma podpórki
       tekstura          = domyślna_tekstura = tekstura, którą posiada każdy szczebel drabiny
+      zwróć_tekst       = False = jeśli ta wartość ustawiona jest na True, funkcja zwróci tekst, jeśli na false, wypisze go do poziomu (wywoła funkcję podstawy.zapis)
     drabina_dwustronna - drabina złożona z dwóch poprzeczek, po prawej i po lewej, do których przyczepione są szczeble
       x                         = 0 = współrzędna x lewego górnego rogu drabin
       y                         = 0 = współrzędna y lewego górnego rogu drabin
@@ -66,6 +96,7 @@ w wyjaśnieniu będą podane kolejno nazwa parametru, wartość domyślna (każd
       tekstura_lewej_podpórki   = domyślna_tekstura = tekstura, którą posiada platforma lewej podpórki
       tekstura_prawej_podpórki  = domyślna_tekstura = tekstura, którą posiada platforma prawej podpórki
       tekstura                  = domyślna_tekstura = tekstura, którą posiada każdy szczebel drabiny
+      zwróć_tekst               = False = jeśli ta wartość ustawiona jest na True, funkcja zwróci tekst, jeśli na false, wypisze go do poziomu (wywoła funkcję podstawy.zapis)
     komnata - prostokątny pokój mogący mieć otwory we wszystkich swoich ścianach
       x               = 0 = współrzędna x lewego górnego narożnika komnaty
       y               = 0 = współrzędna y lewego górnego narożnika komnaty
@@ -80,6 +111,7 @@ w wyjaśnieniu będą podane kolejno nazwa parametru, wartość domyślna (każd
       otwory_dolne    = (0) = tablica zawierająca opis otworów dolnej ściany, gdzie pierwsza wartość to ilość otworów, a każde kolejne dwie to odpowiednio odległość otworu od lewej ściany i rozmiar otworu; otwory powinny być podawane kolejno, od lewej do prawej
       otwory_prawe    = (0) = tablica zawierająca opis otworów prawej ściany, gdzie pierwsza wartość to ilość otworów, a każde kolejne dwie to odpowiednio odległość otworu od górnej ściany i rozmiar otworu; otwory powinny być podawane kolejno, od góry do dołu
       otwory_lewe     = (0) = tablica zawierająca opis otworów lewej ściany, gdzie pierwsza wartość to ilość otworów, a każde kolejne dwie to odpowiednio odległość otworu od górnej ściany i rozmiar otworu; otwory powinny być podawane kolejno, od góry do dołu
+      zwróć_tekst     = False = jeśli ta wartość ustawiona jest na True, funkcja zwróci tekst, jeśli na false, wypisze go do poziomu (wywoła funkcję podstawy.zapis)
   pułapki:
     spadający_obiekt - obiekt, który przemieszcza się w dół z określoną prędkością i zadaje obrażenia rozłożone w czasie w momencie kontaktu z ziemią
       x               = 0 = współrzędna x punktu uderzenia w ziemię
@@ -97,6 +129,7 @@ w wyjaśnieniu będą podane kolejno nazwa parametru, wartość domyślna (każd
       obiekt          = (4,0,1,1,0,0,0,1,1) = opis wierzchołków kolidera (niewidocznej platformy przyczepionej do spadającego obiektu): pierwszy element to ilość wierzchołków, pierwsza połowa reszty to wartości x, a druga połowa wartości y
       tekstura        = domyślny_obiekt = tekstura nakładana na spadający obiekt (obecnie z braku lepszej grafiki jest to skrzynka)
       animacja - na razie niewykorzystywane, czeka na <moving_animated_object> i możliwość czasowego nieistnienia ruchomych obiektów
+      zwróć_tekst     = False = jeśli ta wartość ustawiona jest na True, funkcja zwróci tekst, jeśli na false, wypisze go do poziomu (wywoła funkcję podstawy.zapis)
   mechanizmy:
     taśmociąg_jednostronny - układ połączonych ruchomych platform, przemieszczających się w określonym kierunku
       x                 = 0 = współrzędna x punktu przyczepienia
@@ -110,7 +143,8 @@ w wyjaśnieniu będą podane kolejno nazwa parametru, wartość domyślna (każd
       widoczność_barier = 1 = 1 oznacza, że bariery będą widoczne, 0 oznacza że nie będą
       tekstura          = domyślna_tekstura = tekstura, która zostanie nałożona na segmenty i bariery taśmociągu
       elementy - na razie niewykorzystywane
-  obiekty:
+      zwróć_tekst       = False = jeśli ta wartość ustawiona jest na True, funkcja zwróci tekst, jeśli na false, wypisze go do poziomu (wywoła funkcję podstawy.zapis)
+  obiekty: -biblioteka wymagająca zaktualizowania-
     wielokąt_foremny - funkcja zwracająca opis kolejnych wierchołków wielokąta foremnego (nie jest to niezależny element rozgrywki)
       n               = 6 = liczba kątów wielokąta foremnego
       bok             = 1 = długość boku wielokąta
