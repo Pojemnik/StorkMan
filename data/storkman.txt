@@ -1,7 +1,14 @@
 #Animation tree
 animations/stork/tree.txt
 
-#Animation part type - triggered
+#Textures
+3 9
+256 256
+4
+img/stork/parts_ss_256_256_is_3_9_dmg_0.png
+img/stork/parts_ss_256_256_is_3_9_dmg_1.png
+img/stork/parts_ss_256_256_is_3_9_dmg_2.png
+img/stork/parts_ss_256_256_is_3_9_dmg_3.png
 
 #Animation files
 #On lines with - use default

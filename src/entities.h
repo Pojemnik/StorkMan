@@ -70,6 +70,7 @@ public:
 	Vectorf get_position();
 	void set_position(Vectorf new_position);
 	void update(float dt);
+	void set_textures_set(int set);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	Entity(std::unique_ptr<Animation>&& animation_, Physical& physical_,
 		std::unique_ptr<Entity_state_machine>&& state_,

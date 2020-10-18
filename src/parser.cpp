@@ -304,6 +304,16 @@ Entity_config Parser::parse_entity_config(string path)
 	std::stringstream file = util::remove_comments(raw_file);
 	Entity_config config;
 	file >> config.tree_file;
+	file >> config.textures_n.x >> config.textures_n.y;
+	file >> config.texture_size.x >> config.texture_size.y;
+	int textures_n;
+	file >> textures_n;
+	for(int i = 0; i < textures_n; i++)
+	{
+		string tmp;	
+		file >> tmp;
+		config.texture_paths.push_back(tmp);
+	}
 	for (int i = 0; i < ANIMATIONS_N; i++)
 	{
 		string s;

@@ -42,24 +42,24 @@ Vectori Const_animation_part::get_texture_size()
 	return static_cast<Vectori>(tex->getSize());
 }
 
-Triggered_animtion_part::Triggered_animtion_part(
+Multi_texture_animtion_part::Multi_texture_animtion_part(
 	const std::vector<const sf::Texture*> textures_, int start) : 
 	textures(textures_)
 {
 	current_tex = textures.at(start);
 }
 
-const sf::Texture* const Triggered_animtion_part::get_texture()
+const sf::Texture* const Multi_texture_animtion_part::get_texture()
 {
 	return current_tex;
 }
 
-void Triggered_animtion_part::set_image(int image)
+void Multi_texture_animtion_part::set_image(int image)
 {
 	current_tex = textures.at(image);
 }
 
-Vectori Triggered_animtion_part::get_texture_size()
+Vectori Multi_texture_animtion_part::get_texture_size()
 {
 	return static_cast<Vectori>(current_tex->getSize());
 }

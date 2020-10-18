@@ -179,6 +179,14 @@ const sf::Texture* const Key_frame_animation::get_texture()
 	return &tex.getTexture();
 }
 
+void Key_frame_animation::change_textures_set(int set)
+{
+	for(auto& it: parts)
+	{
+		it->set_image(set);
+	}
+}
+
 Static_animation::Static_animation(Static_animation_struct& animation_, float time_offset) :
 	part(animation_, time_offset) {}
 
@@ -211,6 +219,11 @@ Animation_index Static_animation::get_current_animation() const
 	return Animation_index::DEFAULT;
 }
 
+void Static_animation::change_textures_set(int set)
+{
+	part.set_image(set);
+}
+
 One_frame_animation::One_frame_animation(const sf::Texture* _tex) : tex(_tex) {}
 
 void One_frame_animation::next_frame(float dt){}
@@ -233,4 +246,7 @@ Animation_index One_frame_animation::get_current_animation() const
 Frame_info One_frame_animation::get_frame_info() const
 {
 	return Frame_info(Vectori(0, 0), static_cast<Vectori>(tex->getSize()), Vectori(0, 0));
+}
+void One_frame_animation::change_textures_set(int set)
+{
 }

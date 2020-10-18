@@ -213,3 +213,8 @@ int Entity_id::get_id() const
 {
 	return id;
 }
+
+void Entity::set_textures_set(int set)
+{
+	animation->change_textures_set(set);
+}

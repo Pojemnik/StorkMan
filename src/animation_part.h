@@ -20,12 +20,13 @@ public:
 	virtual Vectori get_texture_size();
 };
 
-class Triggered_animtion_part : public Animation_part
+class Multi_texture_animtion_part : public Animation_part
 {
 	const std::vector<const sf::Texture*> textures;
 	const sf::Texture* current_tex;
+
 public:
-	Triggered_animtion_part(const std::vector<const sf::Texture*> textures_, int start = 0);
+	Multi_texture_animtion_part(const std::vector<const sf::Texture*> textures_, int start = 0);
 	const sf::Texture* const get_texture();
 	void set_image(int image);
 	virtual Vectori get_texture_size();
@@ -34,8 +35,8 @@ public:
 class Static_animation_part : public Animation_part
 {
 	Static_animation_struct animation;
-	float time = 0;
 	Frame_info frame_info;
+	float time = 0;
 
 public:
 	Static_animation_part(Static_animation_struct& animation_, float time_offset);

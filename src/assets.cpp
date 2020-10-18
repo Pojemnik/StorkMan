@@ -256,10 +256,7 @@ std::tuple<Vectori, Vectori, std::vector<string>> Assets::load_texture_file_conf
 void Assets::load_assets()
 {
 	//Storkman
-	pieces.push_back(load_textures("img/stork/parts_ss_256_256_is_3_9_dmg_0.png", Vectori(3,9), Vectori(256, 256), false));
-	pieces.push_back(load_textures("img/stork/parts_ss_256_256_is_3_9_dmg_1.png", Vectori(3,9), Vectori(256, 256), false));
-	pieces.push_back(load_textures("img/stork/parts_ss_256_256_is_3_9_dmg_2.png", Vectori(3,9), Vectori(256, 256), false));
-	pieces.push_back(load_textures("img/stork/parts_ss_256_256_is_3_9_dmg_3.png", Vectori(3,9), Vectori(256, 256), false));
+
 	//Background
 	backgrounds["main_bg"] = load_texture("img/bg/bg.jpg", false);
 	backgrounds["forest_bg"] = load_texture("img/bg/LAS.png", false);
@@ -319,4 +316,15 @@ void Assets::parse_additional_animations(string path)
 		file >> p >> name >> n.x >> n.y >> size.x >> size.y >> repeat;
 		animations[name] = load_textures(p, n, size, repeat);
 	}
+}
+
+std::vector<std::vector<const sf::Texture*>> Assets::load_entity_textures(
+	std::vector<string> paths, Vectori textures_n, Vectori texture_size)
+{
+	std::vector<std::vector<const sf::Texture*>> pieces;
+	for (const auto& it : paths)
+	{
+		pieces.push_back(load_textures(it, textures_n, texture_size, false));
+	}
+	return pieces;
 }

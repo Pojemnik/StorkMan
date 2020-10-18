@@ -5,7 +5,7 @@
 #include "control.h"
 #include "entity_states.h"
 
-const std::string VERSION = "pre-alpha 0.4.7.0";
+const std::string VERSION = "pre-alpha 0.4.8.0";
 
 bool process_event(sf::Event& event)
 {
@@ -125,12 +125,19 @@ int main(int argc, char** argv)
 	Entity_config storkman_config = parser.parse_entity_config("data/storkman.txt");
 	auto animations = assets.load_dynamic_animations(storkman_config.animation_files);
 	const auto stork_tree = assets.load_animation_tree(storkman_config.tree_file);
+	assets.pieces = assets.load_entity_textures(storkman_config.texture_paths,
+		storkman_config.textures_n, storkman_config.texture_size);
 	std::vector<std::unique_ptr<Animation_part>> stork_parts;
 	for (int i = 0; i < assets.pieces[0].size(); i++)
 	{
-		std::vector<const sf::Texture*> temp = { assets.pieces[0][i],
-		assets.pieces[1][i], assets.pieces[2][i], assets.pieces[3][i] };
-		stork_parts.push_back(std::make_unique<Triggered_animtion_part>(temp));
+
+		std::vector<const sf::Texture*> temp;
+		temp.reserve(assets.pieces.size());
+		for (int j = 0; j < assets.pieces.size(); j++)
+		{
+			temp.push_back(assets.pieces[j][i]);
+		}
+		stork_parts.push_back(std::make_unique<Multi_texture_animtion_part>(temp));
 	}
 	auto animation = std::make_unique<Key_frame_animation>(std::move(stork_parts),
 		*animations, stork_tree);
@@ -235,6 +242,9 @@ int main(int argc, char** argv)
 					break;
 				case Command_code::DRAW_CHUNKS_BORDERS:
 					map.set_draw_chunks_borders(static_cast<bool>(code.second.x));
+					break;
+				case Command_code::SET_PLAYER_TEXTURE:
+					player.set_textures_set(static_cast<int>(code.second.x));
 					break;
 				default:
 					break;

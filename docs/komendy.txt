@@ -27,6 +27,7 @@ getpos					brak			-					Wypisuje aktualną pozycję gracza
 clear 					brak			-					Czyści konsolę
 heal					brak			-					Uzdrawia gracza
 dealdamage				int				-					Zadaje graczowi obrażenia
+playertexture			int				0					Ustawia wygląd gracza
 
 Komendy podajesz wraz z argumentami w jednej linii.
 Przykład:

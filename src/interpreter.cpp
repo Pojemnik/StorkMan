@@ -266,6 +266,15 @@ std::pair<Command_code, Vectorf> Commands_interpreter::execute_command_raw(Comma
 		}
 		return std::make_pair(Command_code::SCALE_HP_BAR, Vectorf(val, 0));
 	}
+	else if (cmd.name == "playertexture")
+	{
+	float val = get_int(cmd, "Player textures set");
+	if (val < 0)
+	{
+		throw std::invalid_argument("Incorrect argument");
+	}
+	return std::make_pair(Command_code::SET_PLAYER_TEXTURE, Vectorf(val, 0));
+	}
 	else if (cmd.name == "chunksborders")
 	{
 		bool draw = get_bool(cmd, "Chunks' borders", { "drawn", "hidden" });

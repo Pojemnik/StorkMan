@@ -8,7 +8,7 @@ class Message_sender;
 
 struct Message
 {
-	enum class Message_type { DIED, DAMAGED, MOVED, JUMPED } type;
+	enum class Message_type { DIED, DAMAGED, MOVED, JUMPED, SET_TEX } type;
 	std::variant<int> args;
 	const Message_sender* sender;
 
