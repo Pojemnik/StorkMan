@@ -9,6 +9,7 @@ class Physical : public Updatable, public Collidable
 	Collision collision;
 	Vectorf acceleration;
 	Vectorf speed;
+	Vectorf external_speed;
 	Vectorf pos;
 	Vectorf delta_pos;
 	Vectorf move_delta;
@@ -26,6 +27,7 @@ public:
 	const Collision* const get_collision() const;
 	Vectorf get_pos();
 	void update(float dt);
+	void set_defaults();
 	void apply_force(Vectorf force_);
 	void resolve_collision(const std::vector<std::shared_ptr<const Collidable>>& others);
 	void resolve_collision(const Collidable& other);

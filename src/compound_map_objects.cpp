@@ -49,3 +49,8 @@ void Pendulum::update(float dt)
 	}
 	platform.update(dt);
 }
+
+Vectorf Pendulum::get_speed() const
+{
+	return platform.get_speed();
+}

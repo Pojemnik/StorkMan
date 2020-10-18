@@ -6,6 +6,7 @@ class Pendulum : public Updatable, public Renderable, public Collidable, public 
 {
 	std::vector<Moving_object> lines;
 	Moving_platform platform;
+
 public:
 	const Collision* const get_collision() const;
 	Pendulum(Vectorf pos_, const sf::Texture* texture_,
@@ -15,4 +16,5 @@ public:
 	void update(float dt);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual sf::FloatRect get_bounding_rect() const;
+	virtual Vectorf get_speed() const;
 };

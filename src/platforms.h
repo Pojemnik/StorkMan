@@ -49,6 +49,7 @@ protected:
 	std::vector<Vectorf> base_mesh;
 	sf::FloatRect base_rect;
 	sf::VertexBuffer vertex;
+	Vectorf speed;
 
 public:
 	const Collision* const get_collision() const;
@@ -58,6 +59,7 @@ public:
 	void update(float dt);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual void draw_dynamic_collision(sf::RenderTarget& target, sf::RenderStates states) const;
+	virtual Vectorf get_speed() const;
 };
 
 class Animated_polygon : public Textured_polygon, public Animatable, public Updatable

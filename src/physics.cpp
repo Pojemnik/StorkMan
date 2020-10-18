@@ -6,8 +6,11 @@ void Physical::reset_physics()
 	speed = { 0,0 };
 }
 
-Physical::Physical(std::vector<Vectorf>&& mesh, Vectorf pos_) : collision(std::move(mesh), pos_),
-pos(pos_), acceleration(0, 0), speed(0, 0), surface(Surface_type::NONE) {}
+Physical::Physical(std::vector<Vectorf>&& mesh, Vectorf pos_) :
+	collision(std::move(mesh), pos_), pos(pos_)
+{
+	set_defaults();
+}
 
 const Collision* const Physical::get_collision() const
 {
@@ -60,6 +63,7 @@ void Physical::update(float dt)
 	while (i--)
 	{
 		delta_pos += speed;
+		delta_pos += external_speed;
 	}
 	pos += delta_pos;
 	collision.rect.left += delta_pos.x;
@@ -69,19 +73,18 @@ void Physical::update(float dt)
 		it += delta_pos;
 	}
 	last_on_ground = on_ground;
-	if (max_up < 0)
-	{
-		on_ground = true;
-	}
-	else
-	{
-		on_ground = false;
-	}
+	on_ground = (max_up < 0);
 	collision.calculate_min_max_arr();
-	acceleration = { 0,0 };
+	set_defaults();
+}
+
+void Physical::set_defaults()
+{
+	acceleration = Vectorf(0, 0);
 	temp_delta = Vectorf(0, 0);
 	delta_pos = Vectorf(0, 0);
-	move_delta = { 0,0 };
+	move_delta = Vectorf(0, 0);
+	external_speed = Vectorf(0, 0);
 	surface = Surface_type::NONE;
 	max_up = 1.f;
 }
@@ -109,6 +112,7 @@ void Physical::resolve_collision(const std::vector<std::shared_ptr<const Collida
 			{
 				max_up = up;
 				surface = it->get_collision()->surface;
+				external_speed = it->get_speed();
 			}
 		}
 	}
@@ -130,6 +134,7 @@ void Physical::resolve_collision(const Collidable& other)
 		{
 			max_up = up;
 			surface = other.get_collision()->surface;
+			external_speed = other.get_speed();
 		}
 	}
 }

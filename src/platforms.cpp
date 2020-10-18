@@ -62,14 +62,17 @@ Moving_platform::Moving_platform(Vectorf pos_, const sf::Texture* texture_,
 
 void Moving_platform::update(float dt)
 {
+
 	ai->calc_pos(dt);
 	sf::Transform new_pos = ai->get_pos();
+	Vectorf old_pos = { collision.rect.left, collision.rect.top };
 	for (int i = 0; i < base_mesh.size(); i++)
 	{
 		collision.mesh[i] = new_pos * base_mesh[i];
 	}
 	collision.rect = new_pos.transformRect(base_rect);
 	collision.calculate_min_max_arr();
+	speed = (Vectorf(collision.rect.left, collision.rect.top ) - old_pos)/dt;
 }
 
 void Moving_platform::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -82,6 +85,11 @@ void Moving_platform::draw_dynamic_collision(sf::RenderTarget& target, sf::Rende
 {
 	states.transform *= ai->get_pos();
 	target.draw(vertex, states);
+}
+
+Vectorf Moving_platform::get_speed() const
+{
+	return speed;
 }
 
 Barrier::Barrier(std::vector<sf::Vertex>&& vertices_, Vectorf pos_, Surface_type surface_)
