@@ -5,13 +5,11 @@ komenda					argumenty		wart. domyślna		opis
 Wyświetlanie/debug:
 
 mapvertices				bool			false				Rysowanie krawędzi platform
-mapvertices				bool			false				Rysowanie krawędzi platform
 drawhp					bool			false				Rysowanie poziomu zdrowia bohatera
 damagezones				bool			false				Rysuje strefy obrażeń
 chunksborders			bool			false				Rysuje granice chunków
 
 Zmiana ustawień:
-fps						float			60					Docelowa lość klatek na sekundę
 gravity					float			0.3					Przyspieszenie grawitacyjne
 jumpforce				float			0.8					Siła skoku
 godmode					bool			false				Ustawione na true uniemożliwia śmierć
@@ -28,6 +26,7 @@ clear 					brak			-					Czyści konsolę
 heal					brak			-					Uzdrawia gracza
 dealdamage				int				-					Zadaje graczowi obrażenia
 playertexture			int				0					Ustawia wygląd gracza
+help lub ?				brak			-					Wyświetla pomoc
 
 Komendy podajesz wraz z argumentami w jednej linii.
 Przykład:

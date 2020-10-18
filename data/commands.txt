@@ -1,0 +1,28 @@
+Console commads:
+
+command (argument, argument, ...) (default value, default value, ...) description
+
+Drawing/debug info:
+mapvertices (bool) (false) Drawing platforms' edges
+drawhp (bool) (false) Drawing player's health as number in upper left corner of the screen
+damagezones (bool) (false) Draws damage zones
+chunksborders (bool) (false) Draws chunks' borders
+
+Settings:
+gravity (float) (0.3) Gravity
+jumpforce (float) (0.8) Player's jump force
+godmode (bool) (false) When true, player can't die
+musicvolume (float) (50) Sets music volume in %
+soundvolume (float) (50) Sets sounds volume in %
+maxhealth (int) (1000) Sets maxium player's health
+scalebar (float) (0.5) Changes health bar's width
+storkmovespeed (float) (4.6) Sets player's speed
+
+Misc:
+tp (float, float) (-) Moves player to a position
+getpos (none) (-) Prints player's position
+clear (none) (-) Clears console
+heal (none) (-) Heals player
+dealdamage (int) (-) Deals damage to player
+playertexture (int) (0) Sets player's texture
+help (none) (-) Displays help | alias: ?

@@ -5,7 +5,7 @@
 #include "control.h"
 #include "entity_states.h"
 
-const std::string VERSION = "pre-alpha 0.4.8.0";
+const std::string VERSION = "pre-alpha 0.4.9.1";
 
 bool process_event(sf::Event& event)
 {
@@ -95,7 +95,6 @@ int main(int argc, char** argv)
 	context.console = std::unique_ptr<Console>(
 		new Console(assets.console_bg, &assets.consola, context.resolution));
 	context.console->out << "Stork'man version " + VERSION << '\n';
-
 	//Parsing
 	Parser parser(&assets);
 
@@ -198,52 +197,52 @@ int main(int argc, char** argv)
 			}
 			while (context.console->user_input_data_available())
 			{
-				std::pair<Command_code, Vectorf> code =
+				std::pair<Commands_interpreter::Command_code, Vectorf> code =
 					Commands_interpreter::get_and_execute_command(
 						context.console->get_user_input_line());
 				switch (code.first)
 				{
-				case Command_code::CHANGE_RESOLUTION:
+				case Commands_interpreter::Command_code::CHANGE_RESOLUTION:
 					window.setSize(sf::Vector2u(context.resolution.x, context.resolution.y));
 					break;
-				case Command_code::MOVE_PLAYER:
+				case Commands_interpreter::Command_code::MOVE_PLAYER:
 					player.set_position(code.second * context.global_scale);
 					break;
-				case Command_code::GET_POSITION:
+				case Commands_interpreter::Command_code::GET_POSITION:
 					context.console->out <<
 						player.get_position() / context.global_scale << '\n';
 					break;
-				case Command_code::SET_MUSIC_VOLUME:
+				case Commands_interpreter::Command_code::SET_MUSIC_VOLUME:
 					music.setVolume(code.second.x);
 					break;
-				case Command_code::SET_SOUND_VOLUME:
+				case Commands_interpreter::Command_code::SET_SOUND_VOLUME:
 					break;
-				case Command_code::SET_PLAYER_MAX_HP:
+				case Commands_interpreter::Command_code::SET_PLAYER_MAX_HP:
 					player.set_max_health(code.second.x);
 					hp_bar.set_max_hp(code.second.x);
 					break;
-				case Command_code::HEAL_PLAYER:
+				case Commands_interpreter::Command_code::HEAL_PLAYER:
 					player.heal(player.get_max_health());
 					break;
-				case Command_code::DEAL_DAMAGE:
+				case Commands_interpreter::Command_code::DEAL_DAMAGE:
 					player.deal_damage(code.second.x);
 					break;
-				case Command_code::SCALE_HP_BAR:
+				case Commands_interpreter::Command_code::SCALE_HP_BAR:
 					hp_bar.scale_x(code.second.x);
 					break;
-				case Command_code::SET_PLAYER_MOVE_SPEED:
+				case Commands_interpreter::Command_code::SET_PLAYER_MOVE_SPEED:
 					player.set_move_speed(code.second.x);
 					break;
-				case Command_code::SET_PLAYER_JUMP_FORCE:
+				case Commands_interpreter::Command_code::SET_PLAYER_JUMP_FORCE:
 					player.set_jump_force(code.second.x);
 					break;
-				case Command_code::DRAW_PLAYERS_COLLISION:
+				case Commands_interpreter::Command_code::DRAW_PLAYERS_COLLISION:
 					player.set_draw_collision(static_cast<bool>(code.second.x));
 					break;
-				case Command_code::DRAW_CHUNKS_BORDERS:
+				case Commands_interpreter::Command_code::DRAW_CHUNKS_BORDERS:
 					map.set_draw_chunks_borders(static_cast<bool>(code.second.x));
 					break;
-				case Command_code::SET_PLAYER_TEXTURE:
+				case Commands_interpreter::Command_code::SET_PLAYER_TEXTURE:
 					player.set_textures_set(static_cast<int>(code.second.x));
 					break;
 				default:

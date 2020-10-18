@@ -1,9 +1,20 @@
 #include "interpreter.h"
 
-std::pair<Command_code, Vectorf>
-Commands_interpreter::get_and_execute_command(string s)
+std::string Commands_interpreter::help_page;
+
+std::pair<Commands_interpreter::Command_code, Vectorf> Commands_interpreter::get_and_execute_command(string s)
 {
 	return execute_command(get_command(s));
+}
+
+void Commands_interpreter::load_help_page()
+{
+	std::string tmp;
+	std::ifstream tmpfs("data/commands.txt");
+	while(std::getline(tmpfs,tmp))
+	{
+		help_page += tmp + "\n";
+	}	
 }
 
 Vectorf Commands_interpreter::get_vectorf(const Command& cmd, std::string var_name)
@@ -146,13 +157,13 @@ int Commands_interpreter::get_int(const Command& cmd, std::string var_name)
 	return var;
 }
 
-std::pair<Command_code, Vectorf> Commands_interpreter::execute_command_raw(Command cmd)
+std::pair<Commands_interpreter::Command_code, Vectorf> Commands_interpreter::execute_command_raw(Command cmd)
 {
 	if (cmd.name == "col")
 	{
 		bool col = get_bool(cmd, "Player collision mesh", { "drawn", "hidden" });
 		return std::make_pair(Command_code::DRAW_PLAYERS_COLLISION,
-			Vectorf(static_cast<int>(col), 0));
+			Vectorf(float(static_cast<int>(col)), 0));
 	}
 	else if (cmd.name == "mapvertices")
 	{
@@ -241,7 +252,7 @@ std::pair<Command_code, Vectorf> Commands_interpreter::execute_command_raw(Comma
 		{
 			throw std::invalid_argument("Incorrect argument");
 		}
-		return std::make_pair(Command_code::SET_PLAYER_MAX_HP, Vectorf(hp, 0));
+		return std::make_pair(Command_code::SET_PLAYER_MAX_HP, Vectorf(float(hp), 0));
 	}
 	else if (cmd.name == "heal")
 	{
@@ -255,7 +266,7 @@ std::pair<Command_code, Vectorf> Commands_interpreter::execute_command_raw(Comma
 		{
 			throw std::invalid_argument("Incorrect argument");
 		}
-		return std::make_pair(Command_code::DEAL_DAMAGE, Vectorf(dmg, 0));
+		return std::make_pair(Command_code::DEAL_DAMAGE, Vectorf(float(dmg), 0));
 	}
 	else if (cmd.name == "scalebar")
 	{
@@ -268,18 +279,25 @@ std::pair<Command_code, Vectorf> Commands_interpreter::execute_command_raw(Comma
 	}
 	else if (cmd.name == "playertexture")
 	{
-	float val = get_int(cmd, "Player textures set");
-	if (val < 0)
-	{
-		throw std::invalid_argument("Incorrect argument");
-	}
-	return std::make_pair(Command_code::SET_PLAYER_TEXTURE, Vectorf(val, 0));
+		float val = get_int(cmd, "Player textures set");
+		if (val < 0)
+		{
+			throw std::invalid_argument("Incorrect argument");
+		}
+		return std::make_pair(Command_code::SET_PLAYER_TEXTURE, Vectorf(val, 0));
 	}
 	else if (cmd.name == "chunksborders")
 	{
 		bool draw = get_bool(cmd, "Chunks' borders", { "drawn", "hidden" });
 		return std::make_pair(Command_code::DRAW_CHUNKS_BORDERS,
 			Vectorf(static_cast<bool>(draw), 0));
+	}
+	else if (cmd.name == "help" || cmd.name =="?")
+	{
+		if (help_page == "")
+			load_help_page();
+		context.console->out << static_cast<const std::string>(help_page);
+		return std::make_pair<Command_code, Vectorf>(Command_code::NOTHING, Vectorf());
 	}
 	else
 		context.console->err << "Unknown command: " + cmd.name << '\n';
@@ -299,7 +317,7 @@ Commands_interpreter::Command Commands_interpreter::get_command(string s)
 	return cmd;
 }
 
-std::pair<Command_code, Vectorf> Commands_interpreter::execute_command(Command cmd)
+std::pair<Commands_interpreter::Command_code, Vectorf> Commands_interpreter::execute_command(Command cmd)
 {
 	try
 	{
