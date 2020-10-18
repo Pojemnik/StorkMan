@@ -68,6 +68,7 @@ img/tex/objects/worldbuilders/STALAGMITY06.png stalagmit6 0
 img/tex/objects/worldbuilders/STALAGMITY07.png stalagmit7 0
 img/tex/textures/ground/SKALA00.png rock0 1
 img/tex/textures/ground/ZIEMIA00.png ground0 1
+img/tex/textures/instalations/Steel_stick.png TEXSteel_stick 1
 img/tex/textures/wall/MUR00.png wall0 1
 img/tex/textures/wood/DESKI00.png lumber0 1
 img/tex/textures/wood/DESKI00.png lumbers0 0
