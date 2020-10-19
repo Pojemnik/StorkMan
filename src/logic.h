@@ -28,6 +28,7 @@ class Swing_AI : public Simple_AI
 	const float line_len;
 	float a_speed = 0;
 	float rad_angle = 0;
+	float time=0;
 public:
 	void calc_pos(float dt);
 	sf::Transform get_pos();
@@ -42,6 +43,7 @@ class Swing_rotation_AI : public Simple_AI
 	float a_speed = 0;
 	float rad_angle = 0;
 	Vectorf pivot;
+	float time=0;
 
 public:
 	void calc_pos(float dt);

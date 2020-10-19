@@ -33,9 +33,15 @@ Linear_AI::Linear_AI(std::vector<std::pair<Vectorf, float>> points_, float time_
 
 void Swing_AI::calc_pos(float dt)
 {
-	const float angleAccel = (GRAVITY / line_len) * sin(rad_angle);
-	a_speed += angleAccel * dt;
-	rad_angle += a_speed * dt;
+	time += dt;
+	while (time > 1.0f)
+	{
+		const float angleAccel = (GRAVITY / line_len) * sin(rad_angle);
+		a_speed += angleAccel;
+		rad_angle += a_speed;
+		time -= 1.0f;
+
+	}
 	pos = sf::Vector2f(-sin(rad_angle), cos(rad_angle)) * line_len * context.global_scale;
 }
 
@@ -50,9 +56,15 @@ Swing_AI::Swing_AI(const float line_len_, float angle_) : line_len(line_len_), r
 
 void Swing_rotation_AI::calc_pos(float dt)
 {
-	const float angleAccel = (GRAVITY / line_len) * sin(rad_angle);
-	a_speed += angleAccel * dt;
-	rad_angle += a_speed * dt;
+	time += dt;
+	while (time > 1.0f)
+	{
+		const float angleAccel = (GRAVITY / line_len) * sin(rad_angle);
+		a_speed += angleAccel;
+		rad_angle += a_speed;
+		time -= 1.0f;
+
+	}
 	pos = sf::Vector2f(cos(rad_angle), sin(rad_angle));
 }
 
