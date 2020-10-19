@@ -171,8 +171,8 @@ void Map::draw_zones(sf::RenderTarget& target, sf::RenderStates states) const
 void Map::update(float dt, Vectorf player_pos, sf::FloatRect screen_rect)
 {
 	Vectori player_pos_on_map = Vectori(
-		player_pos.x / context.global_scale / context.level_size.x,
-		player_pos.y / context.global_scale / context.level_size.y);
+		int(player_pos.x / context.global_scale / context.level_size.x),
+		int(player_pos.y / context.global_scale / context.level_size.y));
 	if (player_pos_on_map != current_pos)
 	{
 		current_pos = player_pos_on_map;

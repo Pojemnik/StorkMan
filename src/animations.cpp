@@ -12,8 +12,8 @@ Animation_tree::Animation_tree(int count_, int i_count, Frame_info info) :
 Vectorf Key_frame_animation::count_pos(Vectorf start, Vectori translation1,
 	float a1, Vectori translation2, float a2)
 {
-	const float size1 = tree.frame_info.part_size.x;
-	const float size2 = tree.frame_info.part_size.y;
+	const float size1 = float(tree.frame_info.part_size.x);
+	const float size2 = float(tree.frame_info.part_size.y);
 	float angle1 = util::deg_to_rad(a1);
 	float angle2 = util::deg_to_rad(a2);
 	Vectorf l1 = { translation1.x - size1 / 2, translation1.y - size1 / 2 };

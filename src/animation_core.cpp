@@ -1,6 +1,6 @@
 #include "animation_core.h"
 
-Dynamic_animation_struct::Dynamic_animation_struct(std::vector<std::vector<float>>& kf, std::vector<int>& l, bool r)
+Dynamic_animation_struct::Dynamic_animation_struct(std::vector<std::vector<float>>& kf, std::vector<float>& l, bool r)
 	: key_frames(kf), lengths(l), repeat(r) {}
 
 Static_animation_struct::Static_animation_struct(const std::vector<const sf::Texture*>* animation_, float frame_time_) :

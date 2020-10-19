@@ -118,13 +118,13 @@ void Entity::flip(int dir)
 	Frame_info info = animation->get_frame_info();
 	if (dir == -1)
 	{
-		sprite.setOrigin(Vectorf(info.character_position.x - info.part_size.x / 2,
-			info.offset.y + info.part_size.y / 2));
+		sprite.setOrigin(Vectorf(float(info.character_position.x) - float(info.part_size.x )/ 2,
+			float(info.offset.y) + float(info.part_size.y) / 2));
 	}
 	else
 	{
-		sprite.setOrigin(Vectorf(info.character_position.x + info.part_size.x / 2,
-			info.offset.y + info.part_size.y / 2));
+		sprite.setOrigin(Vectorf(float(info.character_position.x) + float(info.part_size.x) / 2,
+			float(info.offset.y) + float(info.part_size.y) / 2));
 	}
 	sprite.scale(-1, 1);
 }

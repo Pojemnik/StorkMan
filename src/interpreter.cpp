@@ -279,12 +279,12 @@ std::pair<Commands_interpreter::Command_code, Vectorf> Commands_interpreter::exe
 	}
 	else if (cmd.name == "playertexture")
 	{
-		float val = get_int(cmd, "Player textures set");
+		int val = get_int(cmd, "Player textures set");
 		if (val < 0)
 		{
 			throw std::invalid_argument("Incorrect argument");
 		}
-		return std::make_pair(Command_code::SET_PLAYER_TEXTURE, Vectorf(val, 0));
+		return std::make_pair(Command_code::SET_PLAYER_TEXTURE, Vectorf(float(val), 0));
 	}
 	else if (cmd.name == "chunksborders")
 	{

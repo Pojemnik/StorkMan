@@ -164,3 +164,12 @@ void parse::add_vertices(std::vector<sf::Vertex>& vec, const Collision* col)
 	vec.emplace_back(col->mesh.back(), sf::Color::White);
 	vec.emplace_back(col->mesh.front(), sf::Color::White);
 }
+
+Vectorf parse::get_position(tinyxml2::XMLElement* element, const Vectori& level_pos)
+{
+	Vectorf pos = get_and_parse_var<Vectorf>("position", element);
+	pos += Vectorf(float(level_pos.x * context.level_size.x),
+		float(level_pos.y * context.level_size.y));
+	pos *= context.global_scale;
+	return pos;
+}

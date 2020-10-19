@@ -66,7 +66,7 @@ Dynamic_animation_struct* Assets::load_dynamic_animation(std::string path)
 	int frames, parts;
 	f >> parts >> frames;
 	std::vector<std::vector<float>> kf(frames, std::vector<float>((size_t)parts + 3));
-	std::vector<int> l(frames);
+	std::vector<float> l(frames);
 	for (int i = 0; i < frames; i++)
 	{
 		for (int j = 0; j < parts + 3; j++)

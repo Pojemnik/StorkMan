@@ -218,14 +218,14 @@ int main(int argc, char** argv)
 				case Commands_interpreter::Command_code::SET_SOUND_VOLUME:
 					break;
 				case Commands_interpreter::Command_code::SET_PLAYER_MAX_HP:
-					player.set_max_health(code.second.x);
-					hp_bar.set_max_hp(code.second.x);
+					player.set_max_health(int(code.second.x));
+					hp_bar.set_max_hp(int(code.second.x));
 					break;
 				case Commands_interpreter::Command_code::HEAL_PLAYER:
 					player.heal(player.get_max_health());
 					break;
 				case Commands_interpreter::Command_code::DEAL_DAMAGE:
-					player.deal_damage(code.second.x);
+					player.deal_damage(int(code.second.x));
 					break;
 				case Commands_interpreter::Command_code::SCALE_HP_BAR:
 					hp_bar.scale_x(code.second.x);
@@ -262,7 +262,7 @@ int main(int argc, char** argv)
 		camera_pos -= Vectorf((float)context.default_resolution.x / 2,
 			(float)context.default_resolution.y / 2);
 		sf::FloatRect screen_rect(camera_pos.x, camera_pos.y,
-			context.default_resolution.x, context.default_resolution.y);
+			float(context.default_resolution.x), float(context.default_resolution.y));
 		if (!context.console->is_active())
 		{
 			map.update(time, player.get_position(), screen_rect);

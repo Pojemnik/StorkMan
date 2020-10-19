@@ -43,10 +43,10 @@ struct pair_hash
 struct Dynamic_animation_struct
 {
 	const std::vector<std::vector<float>> key_frames;
-	const std::vector<int> lengths;
+	const std::vector<float> lengths;
 	const bool repeat = false;
 
-	Dynamic_animation_struct(std::vector<std::vector<float>>& kf, std::vector<int>& l, bool r);
+	Dynamic_animation_struct(std::vector<std::vector<float>>& kf, std::vector<float>& l, bool r);
 };
 
 struct Static_animation_struct

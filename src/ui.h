@@ -21,7 +21,7 @@ private:
 	int frame_counter = 0;
 	int max_hp;
 	float mid_ratio;
-	float scale_factor_x = 0.35;
+	float scale_factor_x = 0.35f;
 	const float top_bot_tex_height = 47;
 	const float mid_tex_height = 34;
 	const float top_bot_space = 17;

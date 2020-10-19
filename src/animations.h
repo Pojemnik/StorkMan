@@ -58,7 +58,7 @@ protected:
 	const std::vector<float>* next_key;
 	std::vector<float> actual_frame;
 	Animation_index animation;
-	const int ANIMATION_CHANGE_DELTA = 5;
+	const float ANIMATION_CHANGE_DELTA = 5.0f;
 
 	Vectorf count_pos(Vectorf start,
 		Vectori translation1, float a1,
