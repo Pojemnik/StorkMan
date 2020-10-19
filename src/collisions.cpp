@@ -60,11 +60,11 @@ Collision::Collision(sf::FloatRect rect_, float scale, Vectorf pos)
 Collision::Collision(std::vector<Vectorf>&& mesh_, Vectorf pos, Surface_type surface_) :
  surface(surface_)
 {
-	for (auto& it : mesh)
+	for (auto& it : mesh_)
 	{
 		it += pos;
 	}
-	rect = util::mesh_to_rect(mesh);
+	rect = util::mesh_to_rect(mesh_);
 	calculate_min_max_arr();
 }
 

@@ -209,6 +209,7 @@ void Static_animation::set_animation(Animation_index a)
 {
 	//This should never happen
 	//If changed, change also get_current_animation
+	(void)a;
 	throw std::logic_error("Not implemented");
 }
 
@@ -216,7 +217,6 @@ Animation_index Static_animation::get_current_animation() const
 {
 	//This should never happen
 	throw std::logic_error("Not implemented");
-	return Animation_index::DEFAULT;
 }
 
 void Static_animation::change_textures_set(int set)
@@ -226,7 +226,7 @@ void Static_animation::change_textures_set(int set)
 
 One_frame_animation::One_frame_animation(const sf::Texture* _tex) : tex(_tex) {}
 
-void One_frame_animation::next_frame(float dt){}
+void One_frame_animation::next_frame(float dt){ (void)dt; }
 
 const sf::Texture* const One_frame_animation::get_texture()
 {
@@ -235,6 +235,7 @@ const sf::Texture* const One_frame_animation::get_texture()
 
 void One_frame_animation::set_animation(Animation_index a)
 {
+	(void)a;
 	throw std::logic_error("Not implemented");
 }
 
@@ -249,4 +250,5 @@ Frame_info One_frame_animation::get_frame_info() const
 }
 void One_frame_animation::change_textures_set(int set)
 {
+	(void)set;
 }

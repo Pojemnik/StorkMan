@@ -10,6 +10,7 @@ void Run_state::enter(Entity& entity)
 
 std::pair<Entity_state*, Entity_state_info> Run_state::update(Entity& entity, float dt)
 {
+	(void)dt;
 	if (entity.health <= 0)
 	{
 		//This should be other animation
@@ -110,6 +111,7 @@ void Idle_state::enter(Entity& entity)
 
 std::pair<Entity_state*, Entity_state_info> Idle_state::update(Entity& entity, float dt)
 {
+	(void)dt;
 	if (entity.health <= 0)
 	{
 		return std::make_pair(new Die_state(), Entity_state_info::REPLACE);
@@ -151,6 +153,7 @@ void Die_state::exit(Entity& entity)
 
 std::pair<Entity_state*, Entity_state_info> Die_state::update(Entity& entity, float dt)
 {
+	(void)dt;
 	while (entity.controller->command_available())
 	{
 		//Command being discarded
@@ -175,6 +178,7 @@ void In_air_state::enter(Entity& entity)
 
 std::pair<Entity_state*, Entity_state_info> In_air_state::update(Entity& entity, float dt)
 {
+	(void)dt;
 	if (entity.health <= 0)
 	{
 		//This should be other animation

@@ -6,9 +6,10 @@ class Animation_part
 {
 public:
 	virtual const sf::Texture* const get_texture() = 0;
-	virtual void set_image(int) {};
-	virtual void advance(float dt) {};
+	virtual void set_image(int image) { (void)image; };
+	virtual void advance(float dt) { (void)dt; };
 	virtual Vectori get_texture_size() = 0;
+	virtual ~Animation_part() {}
 };
 
 class Const_animation_part : public Animation_part

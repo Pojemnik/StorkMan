@@ -210,7 +210,8 @@ void Level::update(float dt, sf::FloatRect screen_rect)
 
 void Level::update_chunk(int id, Map_chunk& chunk, float dt)
 {
-		chunk.update(dt);
+	(void)id;
+	chunk.update(dt);
 }
 
 void Level::draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const
@@ -331,11 +332,11 @@ void Level::draw_zones(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		it.draw_zones(target, states);
 	}
-	for (const auto& it : moving)
-	{
-		//Add, when moving damage zones are added
-		//it.draw_zones(target, states);
-	}
+	//Add, when moving damage zones are added
+	//for (const auto& it : moving)
+	//{
+	//	it.draw_zones(target, states);
+	//}
 }
 
 Vectori Level::get_global_pos() const

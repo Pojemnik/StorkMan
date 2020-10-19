@@ -29,7 +29,7 @@ const sf::Texture* Assets::load_texture(string path, bool repeat)
 std::vector<const sf::Texture*> Assets::load_textures(sf::Image& img, Vectori frames,
 	Vectori size, bool repeat)
 {
-	std::vector<const sf::Texture*> textures;
+	std::vector<const sf::Texture*> temp_textures;
 	for (int j = 0; j < frames.y; j++)
 	{
 		for (int i = 0; i < frames.x; i++)
@@ -41,16 +41,15 @@ std::vector<const sf::Texture*> Assets::load_textures(sf::Image& img, Vectori fr
 				throw std::invalid_argument("Error while loading textures");
 			}
 			tmp->setRepeated(repeat);
-			textures.push_back(tmp);
+			temp_textures.push_back(tmp);
 		}
 	}
-	return textures;
+	return temp_textures;
 }
 
 std::vector<const sf::Texture*> Assets::load_textures(std::string path, Vectori n,
 	Vectori size, bool repeat)
 {
-	std::vector<const sf::Texture*> textures;
 	sf::Image image;
 	if (!image.loadFromFile(path))
 	{
@@ -321,10 +320,10 @@ void Assets::parse_additional_animations(string path)
 std::vector<std::vector<const sf::Texture*>> Assets::load_entity_textures(
 	std::vector<string> paths, Vectori textures_n, Vectori texture_size)
 {
-	std::vector<std::vector<const sf::Texture*>> pieces;
+	std::vector<std::vector<const sf::Texture*>> temp;
 	for (const auto& it : paths)
 	{
-		pieces.push_back(load_textures(it, textures_n, texture_size, false));
+		temp.push_back(load_textures(it, textures_n, texture_size, false));
 	}
-	return pieces;
+	return temp;
 }
