@@ -36,10 +36,10 @@ Entity_state_machine::Entity_state_machine(Entity_state* state)
 Entity::Entity(std::unique_ptr<Animation>&& animation_, Physical& physical_,
 	std::unique_ptr<Entity_state_machine>&& state_,
 	std::unique_ptr<Controller>&& controller_, std::pair<float, int> height_,
-	int health_, Entity_type type)
+	int health_, Message_sender_type type)
 	: animation(std::move(animation_)), physical(physical_),
 	state(std::move(state_)), controller(std::move(controller_)),
-	health(health_), height(height_), id(type)
+	health(health_), height(height_), Message_sender(type)
 {
 	set_max_health(health);
 	Frame_info info = animation->get_frame_info();
@@ -196,22 +196,6 @@ void Entity::heal(int amount)
 	health += amount;
 	if (health > max_health)
 		health = max_health;
-}
-
-Entity_id::Entity_id(Entity_type type_) : type(type_)
-{
-	static int next_id(0);
-	id = next_id++;
-}
-
-Entity_type Entity_id::get_type() const
-{
-	return type;
-}
-
-int Entity_id::get_id() const
-{
-	return id;
 }
 
 void Entity::set_textures_set(int set)

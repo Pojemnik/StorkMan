@@ -9,15 +9,15 @@ Przykład:
 
 Często używane atrybuty:
 
-- position (float, float) - pozycja [m]
+- position (float [m], float [m]) - pozycja
 - texture (string) - tekstura, patrz dokumentacja/grafiki.txt
 - layer (int) - warstwa, na której znajduje się platforma (liczone "od dołu"), liczba od 0 do 11, pierwsze 7 jest pod graczem, 3 kolejne pomiędzy nim, a światłem, 2 ostatnie nad światłem
-- rotation (float) - obrót tekstury, zgodnie z ruchem wskazówek zegara [stopnie]
-- flip (int,int) - odbicie tekstury w osi x i w osi y (-1 - odbicie, 1 - brak odbicia) (przykład: flip="-1,1" - odbicie w osi x, baz odbicia w osi y)
-- height (float) - wysokość [m], używana do obliczania skali
-- frame_time (float) - co ile czasu ma się zmieniać klatka animacji obiekty [1/60s]
-- offset (float) - od którego momentu zacząć animację [1/60s]
-- surface (string) - typ powierzchni. Należy wybrać z dotępnych. Lista dostępnych typów zostanie udostępniona na żądanie
+- rotation (float [stopnie]) - obrót tekstury, zgodnie z ruchem wskazówek zegara
+- flip (int, int) - odbicie tekstury w osi x i w osi y (-1 - odbicie, 1 - brak odbicia) (przykład: flip="-1,1" - odbicie w osi x, baz odbicia w osi y)
+- height (float [m]) - wysokość, używana do obliczania skali
+- frame_time (float [1/60s]) - co ile czasu ma się zmieniać klatka animacji obiekty
+- offset (float [1/60s]) - od którego momentu zacząć animację 
+- surface (string {none, grass, concrete, ice}) - typ powierzchni. Należy wybrać z dotępnych. Lista dostępnych typów zostanie udostępniona na żądanie
 
 Znaczniki główne:
 
@@ -31,7 +31,7 @@ level:
 		
 chunk:
 	atrybuty:
-		top, bottom, left, right (float) - powiększenie chunka w wybranym kierunku [m], wartości bowinny być > 0, w przeciwnym razie nie ma sensu
+		top, bottom, left, right (float [m]) - powiększenie chunka w wybranym kierunku, wartości bowinny być > 0, w przeciwnym razie nie ma sensu
 		
 	zawartość:
 		znaczniki elementów mapy
@@ -84,18 +84,17 @@ moving_object:
 	zawartość:
 		<move>
 		
-		
 pendulum:
 	atrybuty:
 		position
 		texture
 		line (string) - tekstura liny, na której rusza się wahadło
-		length (float) - długość liny [m]
-		angle (float) - początkowy kąt wychylenia wahadła [stopnie]
+		length (float [m]) - długość liny
+		angle (float [stopnie]) - początkowy kąt wychylenia wahadła 
 		layer* (domyślne 5)
 		rotation* (domyślnie 0)
 		flip* (domyślnie 1,1)
-		line_offset (int, int) - miejsce, gdzie zaczyna się tekstura liny na grafice - współrzędne lewego górnego rogu w pikselach
+		line_offset (int [px], int [px]) - miejsce, gdzie zaczyna się tekstura liny na grafice - współrzędne lewego górnego rogu
 		surface* (domyślnie none)
 		
 	zawartość:
@@ -181,24 +180,24 @@ moving_damage_zone:
 Znaczniki pomocnicze (nie występują samodzielnie):
 		
 move:
-	artybuty: type (string) - typ ruchu. W tym momencie dostępne: linear, accelerated
+	artybuty: type (string {linear, accelerated}) - typ ruchu. W tym momencie dostępne
 		
 	zawartość: znaczniki <p> opsujące trasę ruchu platformy (w zależności od atrybutu type)
 
 d:
-	zawartość: (int, float) - obrażenia zadawane przez strefę, długość okresu zadawanie tych obrażeń [1/60s]
+	zawartość: (int, float [1/60s]) - obrażenia zadawane przez strefę, długość okresu zadawanie tych obrażeń 
 	
 p:
 	zawartość:
-		Dla typu ruchu linear: (float, float, float) - pozycja punktu na trasie platformy, czas podróży to tego punktu w klatkach
-		Dla typu ruchu accelerated: (float, float, float, float) - pozycja punktu na trasie platformy, czas podróży to tego punktu w klatkach, przyspieszenie (prędkość początkowa zostanie wyliczona na podstawie danych)
+		Dla typu ruchu linear: (float [m], float [m], float [1/60s]) - pozycja punktu na trasie platformy, czas podróży to tego punktu
+		Dla typu ruchu accelerated: (float [m], float [m], float [m], float [m]) - pozycja punktu na trasie platformy, czas podróży to tego punktu, przyspieszenie (prędkość początkowa zostanie wyliczona na podstawie danych)
 		Specjalna wersja: <p>-</p> - Element znika na czas ruchu do tego "punktu"
 	
 a:
-	zawartość: (float, float) - pozycja punktu [m]
+	zawartość: (float [m], float [m]) - pozycja punktu
 	
 v:
-	zawartość: (float, float) - pozycja wierzchołka [m]
+	zawartość: (float [m], float [m]) - pozycja wierzchołka
 	
 vt:
-	zawartość: (float, int) - pozycja wierzchołka [m], pozycja danego wierzchołka na teksturze w pikselach - przydatne w przypadku pojedyńczych tekstur
+	zawartość: (float [m], float [m], int [px], int[px]) - pozycja wierzchołka, pozycja danego wierzchołka na teksturze w pikselach - przydatne w przypadku nie powtarzanych tekstur

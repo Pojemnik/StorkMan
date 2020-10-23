@@ -6,6 +6,7 @@
 #include <cctype>
 #include <array>
 #include <queue>
+#include "messaging.h"
 
 enum class Stream_color { WHITE, GREY, RED };
 
@@ -46,12 +47,13 @@ private:
 	friend Console_stream& operator<<(Console_stream& stream, int i);
 };
 
-class Console : public sf::Drawable
+class Console : public sf::Drawable, public Message_receiver
 {
 public:
 	Console_stream out;
 	Console_stream log;
 	Console_stream err;
+	void push_message(Message& msg);
 
 	Console(const sf::Texture* tex, sf::Font* f, Vectori res);
 

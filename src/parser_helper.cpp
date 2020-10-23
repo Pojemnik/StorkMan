@@ -105,7 +105,7 @@ sf::Vertex parse::parse_textured_vertex(string content)
 	auto vect = split_string(content);
 	Vectorf v = parse_var<Vectorf>(vect[0], vect[1]);
 	v *= context.global_scale;
-	Vectorf t = parse_var<Vectorf>(vect[2]);
+	Vectorf t = parse_var<Vectorf>(vect[2], vect[3]);
 	return sf::Vertex(v, t);
 }
 

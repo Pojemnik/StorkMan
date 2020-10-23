@@ -5,7 +5,7 @@
 #include "control.h"
 #include "entity_states.h"
 
-const std::string VERSION = "pre-alpha 0.4.9.1";
+const std::string VERSION = "pre-alpha 0.5.0.0";
 
 bool process_event(sf::Event& event)
 {
@@ -146,7 +146,8 @@ int main(int argc, char** argv)
 	auto controller = std::make_unique<Player_controller>();
 	Entity player(std::move(animation), physical, std::move(machine),
 		std::move(controller), storkman_config.height, storkman_config.max_hp,
-		Entity_type::PLAYER);
+		Message_sender_type::PLAYER);
+	player.add_receiver(context.console.get());
 	map.add_entity(&player);
 
 	//Config file

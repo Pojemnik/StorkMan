@@ -118,6 +118,14 @@ void Console_stream::clear()
 	}
 }
 
+void Console::push_message(Message& msg)
+{
+	if (msg.type == Message::Message_type::OUT)
+	{
+		out << static_cast<const string>(std::get<string>(msg.args));
+	}
+}
+
 Console::Console(const sf::Texture* tex, sf::Font* f, Vectori res) : font(f),
 out(Stream_color::WHITE), log(Stream_color::GREY), err(Stream_color::RED),
 screen_resolution(res), default_resolution(res)

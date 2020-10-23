@@ -10,20 +10,8 @@
 #include "control.h"
 
 enum class Entity_state_info {PUSH, POP, REPLACE, NONE};
-enum class Entity_type { PLAYER };
 
 class Entity_state_machine;
-
-class Entity_id
-{	
-	Entity_type type;
-	int id;
-
-public:
-	Entity_id(Entity_type type_);
-	Entity_type get_type() const;
-	int get_id() const;
-};
 
 class Entity : public Updatable, public Collidable, public Message_sender, public Renderable
 {
@@ -50,7 +38,6 @@ public:
 	Vectorf collision_vector;
 	Surface_type surface;
 	bool on_ground;
-	Entity_id id;
 
 	void set_draw_collision(bool draw);
 	void set_jump_force(float new_force);
@@ -75,7 +62,7 @@ public:
 	Entity(std::unique_ptr<Animation>&& animation_, Physical& physical_,
 		std::unique_ptr<Entity_state_machine>&& state_,
 		std::unique_ptr<Controller>&& controller_, std::pair<float, int> height_,
-		int health_, Entity_type type);
+		int health_, Message_sender_type type);
 };
 
 struct Compare_entities
