@@ -4,18 +4,6 @@
 #include "interfaces.h"
 #include "animations.h"
 
-class Barrier : public Collidable, public Map_object
-{
-private:
-	std::vector<Vectorf> vertices;
-	Collision collision;
-
-public:
-	Barrier(std::vector<sf::Vertex>&& vertices_, Vectorf pos_, Surface_type surface_);
-	const Collision* const get_collision() const;
-	virtual sf::FloatRect get_bounding_rect() const;
-};
-
 class Textured_polygon : public Renderable, public Map_object
 {
 protected:

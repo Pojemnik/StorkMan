@@ -1,4 +1,5 @@
 #include "level.h"
+#include "zones.h"
 
 void Map_chunk::draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const
 {

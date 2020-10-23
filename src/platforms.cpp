@@ -91,19 +91,6 @@ Vectorf Moving_platform::get_speed() const
 	return speed;
 }
 
-Barrier::Barrier(std::vector<sf::Vertex>&& vertices_, Vectorf pos_, Surface_type surface_)
-	: collision(std::move(vertices_), pos_, surface_) {}
-
-const Collision* const Barrier::get_collision() const
-{
-	return &collision;
-}
-
-sf::FloatRect Barrier::get_bounding_rect() const
-{
-	return collision.rect;
-}
-
 Animated_polygon::Animated_polygon(Vectorf pos, std::unique_ptr<Animation>&& animation_,
 	std::vector<sf::Vertex> points) : animation(std::move(animation_)),
 	Textured_polygon(pos, nullptr, points)

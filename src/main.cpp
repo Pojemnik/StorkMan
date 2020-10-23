@@ -5,7 +5,7 @@
 #include "control.h"
 #include "entity_states.h"
 
-const std::string VERSION = "pre-alpha 0.5.0.0";
+const std::string VERSION = "pre-alpha 0.5.0.1";
 
 bool process_event(sf::Event& event)
 {

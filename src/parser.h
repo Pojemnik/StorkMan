@@ -8,6 +8,9 @@
 #include "assets.h"
 #include "tinyxml2.h"
 #include "parser_helper.h"
+#include "barriers.h"
+#include "zones.h"
+
 
 using namespace parse;
 
@@ -27,6 +30,8 @@ class Parser
 		parse_object(tinyxml2::XMLElement* element, Vectori level_pos);
 	std::pair<std::optional<int>, std::shared_ptr<Animated_object>>
 		parse_animated_object(tinyxml2::XMLElement* element, Vectori level_pos);
+	std::pair<std::optional<int>, std::shared_ptr<Moving_animated_object>>
+		parse_animated_moving_object(tinyxml2::XMLElement* element, Vectori level_pos);
 	std::pair<std::optional<int>, std::shared_ptr<Moving_platform>>
 		parse_old_moving_platform(tinyxml2::XMLElement* element, Vectori level_pos);
 	std::pair<std::optional<int>, std::shared_ptr<Moving_object>>
@@ -44,6 +49,7 @@ class Parser
 	std::pair<std::optional<int>, std::shared_ptr<Damage_zone>> parse_damage_zone(tinyxml2::XMLElement* element, Vectori level_pos);
 	std::pair<std::optional<int>, std::shared_ptr<Moving_damage_zone>> parse_moving_damage_zone(tinyxml2::XMLElement* element, Vectori level_pos);
 	std::pair<std::optional<int>, std::shared_ptr<Barrier>> parse_barrier(tinyxml2::XMLElement* element, Vectori level_pos);
+	std::pair<std::optional<int>, std::shared_ptr<Moving_barrier>> parse_moving_barrier(tinyxml2::XMLElement* element, Vectori level_pos);
 	sf::FloatRect calculate_chunk_bounds(tinyxml2::XMLElement* root,
 		std::vector<std::shared_ptr<Map_object>>& objects);
 	const std::unordered_map<
@@ -54,6 +60,7 @@ class Parser
 		{"wall", std::bind(&Parser::parse_wall, this, std::placeholders::_1, std::placeholders::_2)},
 		{"object", std::bind(&Parser::parse_object, this, std::placeholders::_1, std::placeholders::_2)},
 		{"animated_object", std::bind(&Parser::parse_animated_object, this, std::placeholders::_1, std::placeholders::_2)},
+		{"animated_moving_object", std::bind(&Parser::parse_animated_moving_object, this, std::placeholders::_1, std::placeholders::_2)},
 		{"old_moving_platform", std::bind(&Parser::parse_old_moving_platform, this, std::placeholders::_1, std::placeholders::_2)},
 		{"old_moving_object", std::bind(&Parser::parse_old_moving_object, this, std::placeholders::_1, std::placeholders::_2)},
 		{"moving_platform", std::bind(&Parser::parse_moving_platform, this, std::placeholders::_1, std::placeholders::_2)},
@@ -63,7 +70,8 @@ class Parser
 		{"animated_moving_platform", std::bind(&Parser::parse_animated_moving_platform, this, std::placeholders::_1, std::placeholders::_2)},
 		{"damage_zone", std::bind(&Parser::parse_damage_zone, this, std::placeholders::_1, std::placeholders::_2)},
 		{"moving_damage_zone", std::bind(&Parser::parse_moving_damage_zone, this, std::placeholders::_1, std::placeholders::_2)},
-		{"barrier", std::bind(&Parser::parse_barrier, this, std::placeholders::_1, std::placeholders::_2)}
+		{"barrier", std::bind(&Parser::parse_barrier, this, std::placeholders::_1, std::placeholders::_2)},
+		{"moving_barrier", std::bind(&Parser::parse_moving_barrier, this, std::placeholders::_1, std::placeholders::_2)}
 	};
 
 public:

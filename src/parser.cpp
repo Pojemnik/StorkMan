@@ -1,5 +1,7 @@
 #include "parser.h"
 
+
+
 Parser::Parser(Assets* _assets) : assets(_assets)
 {};
 
@@ -253,6 +255,43 @@ Parser::parse_animated_object(tinyxml2::XMLElement* element, Vectori level_pos)
 	throw std::runtime_error("Animated object error");
 }
 
+std::pair<std::optional<int>, std::shared_ptr<Moving_animated_object>> Parser::parse_animated_moving_object(tinyxml2::XMLElement* element, Vectori level_pos)
+{
+	try
+	{
+		Vectorf pos = get_position(element, level_pos);
+		string val = get_attribute_by_name("texture", element);
+		const std::vector<const sf::Texture*>* tex = &assets->animations.at(val);
+		float height = get_and_parse_var <float>("height", element);
+		std::pair<int, float> fliprot = parse_flip_rotation(element);
+		float frame_time = get_and_parse_var<float>("frame_time", element, 1.f);
+		float frame_offset = get_and_parse_var<float>("offset", element, 0.f);
+		std::unique_ptr<Simple_AI> ai;
+		tinyxml2::XMLElement* e = element->FirstChildElement();
+		while (e != NULL)
+		{
+			string n = e->Name();
+			if (n == "move")
+			{
+				ai = parse_move(e);
+			}
+			e = e->NextSiblingElement();
+		}
+		Static_animation_struct sas(tex, frame_time);
+		std::unique_ptr<Animation> animation = std::make_unique<Static_animation>(sas, frame_offset);
+		int layer = parse_layer(element, DEFAULT_OBJECT_LAYER);
+		return std::make_pair(layer, std::make_shared<Moving_animated_object>(pos, std::move(animation),
+			height, std::move(ai), fliprot.first, fliprot.second));
+	}
+	catch (const std::out_of_range& e)
+	{
+		std::cout << "Wyjatek: " << e.what() << '\n';
+		std::cout << "Element: " << "object" << '\n';
+		std::cout << "Prawdopodobnie nieprawid³owa animacja" << '\n';
+	}
+	throw std::runtime_error("Animated object error");
+}
+
 Map Parser::parse_map(tinyxml2::XMLElement* root)
 {
 	auto map_data = parse_map_element(root);
@@ -296,9 +335,9 @@ Entity_config Parser::parse_entity_config(string path)
 	file >> config.texture_size.x >> config.texture_size.y;
 	int textures_n;
 	file >> textures_n;
-	for(int i = 0; i < textures_n; i++)
+	for (int i = 0; i < textures_n; i++)
 	{
-		string tmp;	
+		string tmp;
 		file >> tmp;
 		config.texture_paths.push_back(tmp);
 	}
@@ -355,16 +394,16 @@ Parser::parse_old_moving_platform(tinyxml2::XMLElement* element, Vectori level_p
 	catch (const std::invalid_argument& e)
 	{
 		std::cout << "Wyjatek: " << e.what() << '\n';
-		std::cout << "Element: " << "linear platform" << '\n';
+		std::cout << "Element: " << "moving platform" << '\n';
 		std::cout << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz platformy wahad³a" << '\n';
 	}
 	catch (const std::out_of_range& e)
 	{
 		std::cout << "Wyjatek: " << e.what() << '\n';
-		std::cout << "Element: " << "linear platform" << '\n';
+		std::cout << "Element: " << "moving platform" << '\n';
 		std::cout << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
 	}
-	throw std::runtime_error("Linear platform error");
+	throw std::runtime_error("Moving platform error");
 }
 
 std::pair<std::optional<int>, std::shared_ptr<Moving_object>>
@@ -434,12 +473,14 @@ Parser::parse_moving_platform(tinyxml2::XMLElement* element, Vectori level_pos)
 			e = e->NextSiblingElement();
 		}
 		int layer = parse_layer(element, DEFAULT_PLATFORM_LAYER);
-		return std::make_pair(layer, std::make_shared<Moving_platform>(pos, tex, std::move(vert), std::move(ai), surface));
+		return std::make_pair(layer,
+			std::make_shared<Moving_platform>(pos, tex, std::move(vert),
+				std::move(ai), surface));
 	}
 	catch (const std::invalid_argument& e)
 	{
 		std::cout << "Wyjatek: " << e.what() << '\n';
-		std::cout << "Element: " << "linear platform" << '\n';
+		std::cout << "Element: " << "linmovingear platform" << '\n';
 		std::cout << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz platformy" << '\n';
 	}
 	catch (const std::out_of_range& e)
@@ -448,8 +489,7 @@ Parser::parse_moving_platform(tinyxml2::XMLElement* element, Vectori level_pos)
 		std::cout << "Element: " << "linear platform" << '\n';
 		std::cout << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
 	}
-	throw std::runtime_error("Linear platform error");
-
+	throw std::runtime_error("Moving platform error");
 }
 
 std::pair<std::optional<int>, std::shared_ptr<Moving_object>>
@@ -726,6 +766,46 @@ std::pair<std::optional<int>, std::shared_ptr<Barrier>> Parser::parse_barrier(ti
 		std::cout << "Element: " << "barrier" << '\n';
 	}
 	throw std::runtime_error("Barrier error");
+}
+
+std::pair<std::optional<int>, std::shared_ptr<Moving_barrier>> Parser::parse_moving_barrier(tinyxml2::XMLElement* element, Vectori level_pos)
+{
+	try
+	{
+		Vectorf pos = get_position(element, level_pos);
+		Surface_type surface = parse_surface(element);
+		std::pair<int, float> fliprot = parse_flip_rotation(element);
+		std::vector<sf::Vertex> vert;
+		std::unique_ptr<Simple_AI> ai;
+		tinyxml2::XMLElement* e = element->FirstChildElement();
+		while (e != NULL)
+		{
+			string n = e->Name();
+			if (n == "v")
+			{
+				vert.push_back(parse_vertex(e->GetText(), fliprot));
+			}
+			else if (n == "move")
+			{
+				ai = parse_move(e);
+			}
+			e = e->NextSiblingElement();
+		}
+		return std::make_pair(std::optional<int>(), std::make_shared<Moving_barrier>(std::move(vert), std::move(ai), pos, surface));
+	}
+	catch (const std::invalid_argument& e)
+	{
+		std::cout << "Wyjatek: " << e.what() << '\n';
+		std::cout << "Element: " << "moving barrier" << '\n';
+		std::cout << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz platformy" << '\n';
+	}
+	catch (const std::out_of_range& e)
+	{
+		std::cout << "Wyjatek: " << e.what() << '\n';
+		std::cout << "Element: " << "moving barrier" << '\n';
+		std::cout << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
+	}
+	throw std::runtime_error("Moving platform error");
 }
 
 sf::FloatRect Parser::calculate_chunk_bounds(tinyxml2::XMLElement* root,
