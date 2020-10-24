@@ -149,7 +149,8 @@ std::unique_ptr<Simple_AI> parse::parse_move(tinyxml2::XMLElement* element)
 		std::function<std::unique_ptr<Simple_AI>(tinyxml2::XMLElement*)>> move_type_map =
 	{
 		{"linear", parse_Simple_AI<Linear_AI>},
-		{"accelerated", parse_Simple_AI<Accelerated_linear_AI>}
+		{"accelerated", parse_Simple_AI<Accelerated_linear_AI>},
+		{"rotational", parse_Simple_AI<Rotation_AI>}
 	};
 	return move_type_map.at(get_attribute_by_name("type", element))(element);
 }

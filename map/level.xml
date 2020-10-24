@@ -1,11 +1,12 @@
 ﻿<level name="Podziemna Świątynia - poziom testowy 04">
-	<chunk bottom="5">
-		<animated_moving_object position="5.0,5.0" texture="grass6" surface="none" height="2" frame_time="4" offset="43">
-			<move type="linear">
-			<p>0,0,120</p>
-			<p>0,5,120</p>
-			</move>
-		</animated_moving_object>
+	<chunk>
+		<moving_barrier position="5.0,5.0">
+		<v>0,0</v>
+		<v>2,0</v>
+		<v>2,2</v>
+		<v>0,2</v>
+			<move type="rotational" angular_speed="0.5" pivot="1,1"/>
+		</moving_barrier>
 	</chunk>
 	/---------------------------------------------------------------------PODZIEMIE
 	<chunk>

@@ -15,7 +15,7 @@ Pendulum::Pendulum(Vectorf pos_, const sf::Texture* texture_,
 	float line_diff = line_len_ * context.global_scale / line_texture_->getSize().y;
 	for (const auto& it : attach_pts)
 	{
-		Swing_rotation_AI* ai = new Swing_rotation_AI(line_len_, angle_, it);
+		Swing_rotation_AI* ai = new Swing_rotation_AI(line_len_, angle_, static_cast<Vectorf>(line_size) * line_diff);
 		lines.emplace_back(Vectorf(it.x - line_size.x * line_diff, it.y), line_texture_, line_len_,
 			std::move(std::unique_ptr<Swing_rotation_AI>(ai)));
 	}

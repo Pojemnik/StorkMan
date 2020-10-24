@@ -38,5 +38,3 @@ Gra nie powinna się wywalać w przypadku nieprawidłowych argumentów.
 Argumenty typu bool oprócz 0 i 1 mogą też przyjąć true i false. Przykład:
 mapvertices 1
 mapvertices true
-
-Ruszanie zmiennej fps jest raczej złym pomysłem.

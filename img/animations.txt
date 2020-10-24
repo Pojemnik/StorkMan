@@ -11,3 +11,4 @@ img/tex/animated_objects/weather/WIATR00.png wind0 4 4 256 128 0
 img/tex/animated_textures/water/Water_Drops_Flowing.png ATXWater_Drops_Flowing 64 1 64 2048 1
 img/tex/animated_textures/weather/DESZCZ45.png rain45 4 4 256 256 1
 img/tex/animated_textures/weather/SNIEG45.png snow45 4 4 256 256 1
+animations/a1.png a1 2 2 64 64 0

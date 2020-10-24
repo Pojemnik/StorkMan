@@ -1,7 +1,5 @@
 #include "parser.h"
 
-
-
 Parser::Parser(Assets* _assets) : assets(_assets)
 {};
 
@@ -262,7 +260,7 @@ std::pair<std::optional<int>, std::shared_ptr<Moving_animated_object>> Parser::p
 		Vectorf pos = get_position(element, level_pos);
 		string val = get_attribute_by_name("texture", element);
 		const std::vector<const sf::Texture*>* tex = &assets->animations.at(val);
-		float height = get_and_parse_var <float>("height", element);
+		float height = get_and_parse_var<float>("height", element);
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		float frame_time = get_and_parse_var<float>("frame_time", element, 1.f);
 		float frame_offset = get_and_parse_var<float>("offset", element, 0.f);
@@ -291,7 +289,7 @@ std::pair<std::optional<int>, std::shared_ptr<Moving_animated_object>> Parser::p
 	}
 	throw std::runtime_error("Animated object error");
 }
-
+#define DEBUG_ASYNC__STORK__PARSE
 Map Parser::parse_map(tinyxml2::XMLElement* root)
 {
 	auto map_data = parse_map_element(root);
@@ -299,6 +297,8 @@ Map Parser::parse_map(tinyxml2::XMLElement* root)
 	Vectori player_pos = map_data.second;
 	tinyxml2::XMLElement* element = root->FirstChildElement();
 	Map map(map_size, player_pos, assets->backgrounds.at("main_bg"));
+
+#ifndef DEBUG_ASYNC__STORK__PARSE
 	std::vector<std::future<Level>> futures;
 	while (element != NULL)
 	{
@@ -318,6 +318,23 @@ Map Parser::parse_map(tinyxml2::XMLElement* root)
 	{
 		map.add_level(it.get());
 	}
+#else
+	while (element != NULL)
+	{
+		string name = element->Name();
+		if (name == "level")
+		{
+			auto level_data = parse_level_element(element, map_size);
+			map.add_level(open_and_parse_level(level_data));
+		}
+		else
+		{
+			throw std::invalid_argument("Incorrect element in map file");
+		}
+		element = element->NextSiblingElement();
+	}
+#endif
+
 	return map;
 }
 
@@ -774,7 +791,6 @@ std::pair<std::optional<int>, std::shared_ptr<Moving_barrier>> Parser::parse_mov
 	{
 		Vectorf pos = get_position(element, level_pos);
 		Surface_type surface = parse_surface(element);
-		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		std::vector<sf::Vertex> vert;
 		std::unique_ptr<Simple_AI> ai;
 		tinyxml2::XMLElement* e = element->FirstChildElement();
@@ -783,7 +799,7 @@ std::pair<std::optional<int>, std::shared_ptr<Moving_barrier>> Parser::parse_mov
 			string n = e->Name();
 			if (n == "v")
 			{
-				vert.push_back(parse_vertex(e->GetText(), fliprot));
+				vert.push_back(parse_vertex(e->GetText(), { 0,0 }));
 			}
 			else if (n == "move")
 			{

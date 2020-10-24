@@ -38,6 +38,7 @@ protected:
 	sf::FloatRect base_rect;
 	sf::VertexBuffer vertex;
 	Vectorf speed;
+	Vectorf pos;
 
 public:
 	const Collision* const get_collision() const;

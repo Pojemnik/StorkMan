@@ -29,6 +29,7 @@ public:
 		std::unique_ptr<Simple_AI> ai_, int flip_ = 0, float angle_ = 0);
 	void update(float dt);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	virtual sf::FloatRect get_bounding_rect() const;
 };
 
 class Animated_object : public Animatable, public Object, public Updatable
@@ -54,4 +55,5 @@ public:
 		float angle_ = 0);
 	void update(float dt);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	virtual sf::FloatRect get_bounding_rect() const;
 };

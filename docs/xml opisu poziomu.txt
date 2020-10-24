@@ -79,7 +79,6 @@ moving_object:
 		flip* (domyślnie 1,1)
 		layer* (domyślne 3)
 		frame_time* (domyślnie 1)
-		offset* (domyślnie 0)
 	
 	zawartość:
 		<move>
@@ -108,12 +107,11 @@ moving_platform:
 		layer* (domyślne 5)
 		rotation* (domyślnie 0)
 		flip* (domyślnie 1,1)
-		offset* (domyślne 0)
 		surface* (domyślnie none)
 		
 	zawartość:
 		znaczniki <v> lub <vt> opsujące kolejne wierzchołki
-		<linear_move> opisujący ruch
+		<move> opisujący ruch
 
 wall:
 	atrybuty:
@@ -144,7 +142,7 @@ animated_moving_platform:
 		layer* (domyślne 5)
 		rotation* (domyślnie 0)
 		flip* (domyślnie 1,1)
-		offset* (domyślne 0) - uwaga to jest offset jednocześnie dla animacji i ruchu
+		offset* (domyślne 0)
 		frame_time* (domyślnie 1)
 		surface* (domyślnie none)
 		
@@ -175,12 +173,39 @@ moving_damage_zone:
 		znaczniki <v> opisujące kolejne wierzchołki
 		znaczniki <d> opisujące sekwencję zadawania obrażeń przez strefę
 		<move>
+		
+moving_barrier:
+	atrybuty:
+		position
+		surface* (domyślnie none)
 	
+	zawartość:
+		znaczniki <v> opisujące kolejne wierzchołki
+		<move>
+		
+animated_moving_object:
+	atrybuty:
+		position
+		texture
+		height
+		rotation* (domyślnie 0)
+		flip* - (domyślnie 1,1)
+		layer* (domyślne 3)
+		frame_time* (domyślnie 1)
+		offset* (domyślnie 0)
+		
+	znaczniki:
+		<move>
 
 Znaczniki pomocnicze (nie występują samodzielnie):
 		
 move:
-	artybuty: type (string {linear, accelerated}) - typ ruchu. W tym momencie dostępne
+	artybuty:
+		type (string {linear, accelerated, rotational}) - typ ruchu
+		Dla typu ruchu rotational:
+		pivot (float, float [m]) - położenie osi obrotu
+		angular_speed (float [stopnie/s]) - prędkość obrotu
+		offset (float [stopnie]) - początkowy kąt
 		
 	zawartość: znaczniki <p> opsujące trasę ruchu platformy (w zależności od atrybutu type)
 

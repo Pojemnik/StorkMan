@@ -22,6 +22,7 @@ class Moving_barrier : public Barrier, public Updatable
 	sf::FloatRect base_rect;
 	sf::VertexBuffer vertex;
 	Vectorf speed;
+	Vectorf pos;
 
 public:
 

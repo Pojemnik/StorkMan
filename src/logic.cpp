@@ -127,3 +127,24 @@ void Accelerated_linear_AI::calc_pos(float dt)
 		pos = (1.0f - a) * target_pos + a * pos_next;
 	}
 }
+
+void Rotation_AI::calc_pos(float dt)
+{
+	angle += angular_speed * dt;
+	angle = fmod(angle, 2 * PI);
+	pos = { cos(angle),sin(angle) };
+}
+
+sf::Transform Rotation_AI::get_pos()
+{
+	return 	sf::Transform(
+		pos.x, -pos.y, pivot.x * (1 - pos.x) + pivot.y * pos.y,
+		pos.y, pos.x, pivot.y * (1 - pos.x) - pivot.x * pos.y,
+		0, 0, 1);
+}
+
+Rotation_AI::Rotation_AI(Vectorf pivot_, float speed_, float angle_) : angle(angle_),
+angular_speed(speed_), pivot(pivot_)
+{
+
+}

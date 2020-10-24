@@ -38,6 +38,7 @@ sf::FloatRect Platform::get_bounding_rect() const
 {
 	return collision.rect;
 }
+
 const Collision* const Moving_platform::get_collision() const
 {
 	return &collision;
@@ -45,15 +46,18 @@ const Collision* const Moving_platform::get_collision() const
 
 Moving_platform::Moving_platform(Vectorf pos_, const sf::Texture* texture_,
 	std::vector<sf::Vertex> points_, std::unique_ptr<Simple_AI> ai_,
-	Surface_type surface_) : Platform(pos_, texture_, points_, surface_), ai(std::move(ai_)),
-	vertex(sf::LineStrip, sf::VertexBuffer::Static)
+	Surface_type surface_) : Platform({ 0,0 }, texture_, points_, surface_), ai(std::move(ai_)),
+	vertex(sf::LineStrip, sf::VertexBuffer::Static), pos(pos_)
 {
 	base_rect = collision.rect;
 	base_mesh = collision.mesh;
-	vertex.create(base_mesh.size() + 1);
-	sf::Vertex* tmp = new sf::Vertex[base_mesh.size() + 1];
-	for (int i = 0; i < base_mesh.size(); i++)
+	collision.rect.left += pos.x;
+	collision.rect.top += pos.y;
+	vertex.create(collision.mesh.size() + 1);
+	sf::Vertex* tmp = new sf::Vertex[collision.mesh.size() + 1];
+	for (int i = 0; i < collision.mesh.size(); i++)
 	{
+		collision.mesh[i] += pos;
 		tmp[i] = sf::Vertex(base_mesh[i], sf::Color::White);
 	}
 	tmp[base_mesh.size()] = sf::Vertex(base_mesh[0], sf::Color::White);
@@ -63,7 +67,7 @@ Moving_platform::Moving_platform(Vectorf pos_, const sf::Texture* texture_,
 void Moving_platform::update(float dt)
 {
 	ai->calc_pos(dt);
-	sf::Transform new_pos = ai->get_pos();
+	sf::Transform new_pos = sf::Transform().translate(pos)*ai->get_pos();
 	Vectorf old_pos = { collision.rect.left, collision.rect.top };
 	for (int i = 0; i < base_mesh.size(); i++)
 	{
@@ -76,12 +80,14 @@ void Moving_platform::update(float dt)
 
 void Moving_platform::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
+	states.transform.translate(pos);
 	states.transform *= ai->get_pos();
 	Platform::draw(target, states);
 }
 
 void Moving_platform::draw_dynamic_collision(sf::RenderTarget& target, sf::RenderStates states) const
 {
+	states.transform.translate(pos);
 	states.transform *= ai->get_pos();
 	target.draw(vertex, states);
 }

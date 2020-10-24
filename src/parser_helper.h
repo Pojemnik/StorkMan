@@ -69,6 +69,8 @@ namespace parse
 	std::unique_ptr<Simple_AI> parse_Simple_AI<Swing_rotation_AI>(tinyxml2::XMLElement* element);
 	template <>
 	std::unique_ptr<Simple_AI> parse_Simple_AI<Accelerated_linear_AI>(tinyxml2::XMLElement* element);
+	template <>
+	std::unique_ptr<Simple_AI> parse_Simple_AI<Rotation_AI>(tinyxml2::XMLElement* element);
 
 	std::pair<Vectorf, float> parse_path_node(string content);
 	std::tuple<Vectorf, float, float> parse_acc_path_node(string content);
@@ -80,6 +82,7 @@ namespace parse
 		string s = get_attribute_by_name(name, element);
 		if (s == "")
 		{
+			std::cout << "Critical error: Attribute " << name << " not found!" << std::endl;
 			throw std::invalid_argument("Attribute not found!");
 		}
 		return parse_var<T>(s);
@@ -189,4 +192,12 @@ namespace parse
 		return std::unique_ptr<Simple_AI>(new Accelerated_linear_AI(path, time_offset));
 	}
 
+	template<>
+	inline std::unique_ptr<Simple_AI> parse_Simple_AI<Rotation_AI>(tinyxml2::XMLElement* element)
+	{
+		Vectorf pivot = get_and_parse_var<Vectorf>("pivot", element, { 0.f,0.f }) * context.global_scale;
+		float speed = util::deg_to_rad(get_and_parse_var<float>("angular_speed", element, 0.f)) / context.fps;
+		float angle_offset = util::deg_to_rad(get_and_parse_var<float>("offset", element, 0.f));
+		return std::unique_ptr<Simple_AI>(new Rotation_AI(pivot, speed, angle_offset));
+	}
 };
