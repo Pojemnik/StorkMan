@@ -148,3 +148,23 @@ angular_speed(speed_), pivot(pivot_)
 {
 
 }
+
+Container_AI::Container_AI(std::vector<std::unique_ptr<Simple_AI>>&& vec_) : ais(std::move(vec_))
+{
+
+}
+
+void Container_AI::calc_pos(float dt)
+{
+	transform = sf::Transform::Identity;
+	for (auto& it : ais)
+	{
+		it->calc_pos(dt);
+		transform = it->get_pos() * transform;
+	}
+}
+
+sf::Transform Container_AI::get_pos()
+{
+	return transform;
+}

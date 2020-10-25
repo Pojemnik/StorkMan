@@ -71,6 +71,9 @@ namespace parse
 	std::unique_ptr<Simple_AI> parse_Simple_AI<Accelerated_linear_AI>(tinyxml2::XMLElement* element);
 	template <>
 	std::unique_ptr<Simple_AI> parse_Simple_AI<Rotation_AI>(tinyxml2::XMLElement* element);
+	template <>
+	std::unique_ptr<Simple_AI> parse_Simple_AI<Container_AI>(tinyxml2::XMLElement* element);
+
 
 	std::pair<Vectorf, float> parse_path_node(string content);
 	std::tuple<Vectorf, float, float> parse_acc_path_node(string content);
@@ -199,5 +202,24 @@ namespace parse
 		float speed = util::deg_to_rad(get_and_parse_var<float>("angular_speed", element, 0.f)) / context.fps;
 		float angle_offset = util::deg_to_rad(get_and_parse_var<float>("offset", element, 0.f));
 		return std::unique_ptr<Simple_AI>(new Rotation_AI(pivot, speed, angle_offset));
+	}
+
+	template <>
+	inline std::unique_ptr<Simple_AI> parse_Simple_AI<Container_AI>(tinyxml2::XMLElement* element)
+	{
+		tinyxml2::XMLElement* e = element->FirstChildElement();
+		std::vector<std::unique_ptr<Simple_AI>> ais;
+		std::unique_ptr<Simple_AI> ai;
+		while (e != NULL)
+		{
+			string n = e->Name();
+			if (n == "move")
+			{
+				ai = parse_move(e);
+				ais.push_back(std::move(ai));
+			}
+			e = e->NextSiblingElement();
+		}
+		return std::unique_ptr<Simple_AI>(new Container_AI(std::move(ais)));
 	}
 };

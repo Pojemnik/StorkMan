@@ -78,3 +78,14 @@ public:
 	sf::Transform get_pos();
 	Rotation_AI(Vectorf pivot_, float speed_, float angle_);
 };
+
+class Container_AI : public Simple_AI
+{
+	std::vector<std::unique_ptr<Simple_AI>> ais;
+	sf::Transform transform;
+
+public:
+	void calc_pos(float dt);
+	sf::Transform get_pos();
+	Container_AI(std::vector<std::unique_ptr<Simple_AI>>&& vec_);
+};

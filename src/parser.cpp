@@ -747,9 +747,9 @@ std::pair<std::optional<int>, std::shared_ptr<Moving_damage_zone>> Parser::parse
 				Vectorf d = parse_var<Vectorf>(e->GetText());
 				dmg.push_back({ static_cast<int>(d.x), d.y });
 			}
-			else if (n == "linear_move")
+			else if (n == "move")
 			{
-				ai = parse_Simple_AI<Linear_AI>(e);
+				ai = parse_move(e);
 			}
 			e = e->NextSiblingElement();
 		}
