@@ -68,9 +68,11 @@ class Level
 	static void update_chunk(int id, Map_chunk& chunk, float dt);
 
 public:
+	const int code;
+
 	Level() = default;
 	Level(std::vector<Map_chunk>&& chunks_,
-		std::vector<Moving_element>&& moving_, Vectori pos);
+		std::vector<Moving_element>&& moving_, Vectori pos, int code_);
 	void update(float dt, sf::FloatRect screen_rect);
 	void draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) const;

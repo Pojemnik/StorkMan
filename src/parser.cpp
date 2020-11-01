@@ -38,7 +38,7 @@ std::pair<Vectori, Vectori> Parser::parse_map_element(tinyxml2::XMLElement* elem
 	return std::make_pair(map_size, map_player_pos);
 }
 
-std::pair<Vectori, string> Parser::parse_level_element(tinyxml2::XMLElement* element, Vectori map_size)
+std::tuple<Vectori, string, string> Parser::parse_level_element(tinyxml2::XMLElement* element, Vectori map_size)
 {
 	Vectori pos;
 	string filepath;
@@ -52,11 +52,12 @@ std::pair<Vectori, string> Parser::parse_level_element(tinyxml2::XMLElement* ele
 		throw std::invalid_argument("Level outside of map size");
 	}
 	filepath = get_attribute_by_name("filename", element);
+	string code = get_attribute_by_name("code", element);
 	std::vector<string> s = split_string("a,b,c,d,e");
-	return std::make_pair(pos, filepath);
+	return std::make_tuple(pos, filepath, code);
 }
 
-Level Parser::parse_level(tinyxml2::XMLElement* root, Vectori global_pos)
+Level Parser::parse_level(tinyxml2::XMLElement* root, Vectori global_pos, int code)
 {
 	if (root == nullptr)
 	{
@@ -81,16 +82,14 @@ Level Parser::parse_level(tinyxml2::XMLElement* root, Vectori global_pos)
 		}
 		element = element->NextSiblingElement();
 	}
-	return Level(std::move(chunks), std::move(moving), global_pos);
+	return Level(std::move(chunks), std::move(moving), global_pos, code);
 }
 
-Level Parser::open_and_parse_level(std::pair<Vectori, string> data)
+std::unique_ptr<Level> Parser::open_and_parse_level(Vectori pos, string filepath, int code)
 {
-	Vectori pos = data.first;
-	string filepath = data.second;
 	tinyxml2::XMLDocument lvl_root;
 	lvl_root.LoadFile(filepath.c_str());
-	return parse_level(lvl_root.FirstChildElement(), pos);
+	return std::make_unique<Level>(parse_level(lvl_root.FirstChildElement(), pos, code));
 }
 
 Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root, Vectori level_pos)
@@ -141,7 +140,6 @@ Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root, Vectori level_pos)
 		std::move(collidables), std::move(zones), bound, std::move(collision_buffer));
 
 }
-
 
 std::pair<std::optional<int>, std::shared_ptr<Platform>>
 Parser::parse_platform(tinyxml2::XMLElement* element, Vectori level_pos)
@@ -289,7 +287,7 @@ std::pair<std::optional<int>, std::shared_ptr<Moving_animated_object>> Parser::p
 	}
 	throw std::runtime_error("Animated object error");
 }
-#define DEBUG_ASYNC__STORK__PARSE
+
 Map Parser::parse_map(tinyxml2::XMLElement* root)
 {
 	auto map_data = parse_map_element(root);
@@ -299,14 +297,17 @@ Map Parser::parse_map(tinyxml2::XMLElement* root)
 	Map map(map_size, player_pos, assets->backgrounds.at("main_bg"));
 
 #ifndef DEBUG_ASYNC__STORK__PARSE
-	std::vector<std::future<Level>> futures;
+	std::vector<std::future<std::unique_ptr<Level>>> futures;
+	int lvl_n = 0;
 	while (element != NULL)
 	{
 		string name = element->Name();
 		if (name == "level")
 		{
-			auto level_data = parse_level_element(element, map_size);
-			futures.push_back(std::async(std::launch::async, &Parser::open_and_parse_level, this, level_data));
+			auto [pos, path, code] = parse_level_element(element, map_size);
+			level_names[code] = lvl_n;
+			futures.push_back(std::async(std::launch::async, &Parser::open_and_parse_level, this, pos, path, lvl_n));
+			lvl_n++;
 		}
 		else
 		{
@@ -316,7 +317,7 @@ Map Parser::parse_map(tinyxml2::XMLElement* root)
 	}
 	for (auto& it : futures)
 	{
-		map.add_level(it.get());
+		map.add_level(std::move(it.get()));
 	}
 #else
 	while (element != NULL)
@@ -324,8 +325,10 @@ Map Parser::parse_map(tinyxml2::XMLElement* root)
 		string name = element->Name();
 		if (name == "level")
 		{
-			auto level_data = parse_level_element(element, map_size);
-			map.add_level(open_and_parse_level(level_data));
+			auto [pos, path, code] = parse_level_element(element, map_size);
+			level_names[code] = lvl_n;
+			map.add_level(std::move(open_and_parse_level(pos, path, lvl_n)));
+			lvl_n++;
 		}
 		else
 		{

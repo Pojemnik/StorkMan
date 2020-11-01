@@ -4,6 +4,7 @@
 #include "ui.h"
 #include "control.h"
 #include "entity_states.h"
+#include "sound.h"
 
 const std::string VERSION = "pre-alpha 0.5.0.1";
 
@@ -119,6 +120,7 @@ int main(int argc, char** argv)
 	tinyxml2::XMLElement* root = doc.FirstChildElement();
 	Map map = parser.parse_map(root);
 	context.console->log << "done!" << '\n';
+	map.add_receiver(&*context.console);
 
 	//Player
 	Entity_config storkman_config = parser.parse_entity_config("data/storkman.txt");
@@ -154,11 +156,10 @@ int main(int argc, char** argv)
 	bool init = execute_init_file("config.cfg");
 
 	//Sound init
-	sf::Music music;
-	music.openFromFile("sound/theme.wav");
-	music.setLoop(true);
-	music.play();
-
+	Sound_system sound_system(&assets.sounds, { "sound/theme.wav", "sound/general.wav" });
+	map.add_receiver(&sound_system);
+	player.add_receiver(&sound_system);
+	sound_system.add_receiver(&*context.console);
 	//User interface
 	sf::Text fps_counter;
 	fps_counter.setFont(assets.consola);
@@ -177,7 +178,7 @@ int main(int argc, char** argv)
 	//Other
 	context.thread_pool = std::unique_ptr<ctpl::thread_pool>(new ctpl::thread_pool(4));
 	sf::Clock clock;
-
+	map.init();
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -214,7 +215,6 @@ int main(int argc, char** argv)
 						player.get_position() / context.global_scale << '\n';
 					break;
 				case Commands_interpreter::Command_code::SET_MUSIC_VOLUME:
-					music.setVolume(code.second.x);
 					break;
 				case Commands_interpreter::Command_code::SET_SOUND_VOLUME:
 					break;
@@ -273,11 +273,14 @@ int main(int argc, char** argv)
 		{
 			fps_counter.setString(std::to_string(int(context.fps / time)));
 		}
-		window.clear();
 		camera_pos = player.get_position();
 		camera_pos -= sf::Vector2f(context.default_resolution) / 2.0f;
 		sf::RenderStates rs = sf::RenderStates::Default;
 		rs.transform = sf::Transform().translate(-camera_pos);
+		sound_system.update(time);
+
+		//Drawing
+		window.clear();
 		map.draw_bottom_layers(window, rs);
 		window.draw(player, rs);
 		map.draw_middle_layers(window, rs);

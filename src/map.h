@@ -2,12 +2,13 @@
 #include <iostream>
 #include "entities.h"
 #include "level.h"
+#include "messaging.h"
 
-class Map
+class Map : public Message_sender
 {
 	Vectori size;
 	Vectori current_pos;
-	std::vector<std::vector<Level>> levels;
+	std::vector<std::vector<std::unique_ptr<Level>>> levels;
 	std::vector<Entity*> entities;
 	sf::Sprite background;
 
@@ -18,7 +19,8 @@ class Map
 
 public:
 	Map(Vectori size_, Vectori pos, const sf::Texture* bg_tex);
-	void add_level(Level&& lvl);
+	void init();
+	void add_level(std::unique_ptr<Level>&& lvl);
 	void draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) const;

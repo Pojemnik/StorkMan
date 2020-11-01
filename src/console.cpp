@@ -120,9 +120,16 @@ void Console_stream::clear()
 
 void Console::push_message(Message& msg)
 {
-	if (msg.type == Message::Message_type::OUT)
+	switch (msg.type)
 	{
+	case Message::Message_type::OUT:
 		out << static_cast<const string>(std::get<string>(msg.args));
+		break;
+	case Message::Message_type::ERROR:
+		out << static_cast<const string>(std::get<string>(msg.args));
+		break;
+	default:
+		break;
 	}
 }
 

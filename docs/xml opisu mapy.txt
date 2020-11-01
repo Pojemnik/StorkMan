@@ -1,0 +1,17 @@
+Uwaga: Gra intensywnie się rozwija i dokumentacja może być nieaktualna. W razie wątpliwości pytać
+
+Przykład:
+<Znacznik atrybut1="XXX" atrybut2="XXX" ...>
+	*zawartość*
+</Znacznik>
+
+map:
+	atrybuty:
+		size(int, int) - wymiary w mapy w poziomach
+		player_pos(int, int) - początkowa pozycja gracza na mapie w poziomach (nie używana przez grę (?), rozwiązanie tymczasowe)
+		
+level:
+	artybuty:
+		filename(string) - ścieżka do pliku opisującego poziom
+		position(int, int) - pozycja poziomu na mapie w poziomach
+		code(string) - nazwa kodowa poziomu używana przez grę m.in. do obsługi dźwięków UWAGA: MUSI BYĆ NIEPOWTARZALNA - w przeciwnym razie będzie powodować błędy, a być może niedziałanie całej gry
