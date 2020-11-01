@@ -201,13 +201,15 @@ Znaczniki pomocnicze (nie występują samodzielnie):
 		
 move:
 	artybuty:
-		type (string {linear, accelerated, rotational}) - typ ruchu
+		type (string {linear, accelerated, rotational, container}) - typ ruchu UWAGA: Typ ruchu container jest typem specjanym - wewnątrz niego można umieszczać inne typy ruchu
 		Dla typu ruchu rotational:
 		pivot (float, float [m]) - położenie osi obrotu
 		angular_speed (float [stopnie/s]) - prędkość obrotu
 		offset (float [stopnie]) - początkowy kąt
 		
-	zawartość: znaczniki <p> opsujące trasę ruchu platformy (w zależności od atrybutu type)
+	zawartość:
+		znaczniki <p> opsujące trasę ruchu platformy (w zależności od atrybutu type)
+		W przypadku typu ruchu container inne ruchy, które zostaną połączone w jeden (nie można umieścić wewnątrz drugiego ruchu typu container)
 
 d:
 	zawartość: (int, float [1/60s]) - obrażenia zadawane przez strefę, długość okresu zadawanie tych obrażeń 
