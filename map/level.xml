@@ -1,15 +1,19 @@
 ﻿<level name="Podziemna Świątynia - poziom testowy 04">
-  <chunk>
-    <moving_platform position="5.0,5.0" texture="ground0">
+  <chunk right="35" bottom="20" top="10">
+    <moving_platform position="0,0" texture="ground0">
       <v>0,0</v>
       <v>2,0</v>
       <v>2,2</v>
       <v>0,2</v>
       <move type="container">
-        <move type="rotational" angular_speed="36" pivot="1,1"/>
+        <move type="rotational" angular_speed="72" pivot="1,1"/>
         <move type="linear">
-          <p>0,0,60</p>
-          <p>0,3,60</p>
+          <p>0,0,150</p>
+          <p>35,0,0</p>
+        </move>
+        <move type="accelerated">
+          <p>0,0,150,0.003</p>
+          <p>0,20,0,0</p>
         </move>
       </move>
     </moving_platform>

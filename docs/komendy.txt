@@ -13,8 +13,8 @@ Zmiana ustawień:
 gravity					float			0.3					Przyspieszenie grawitacyjne
 jumpforce				float			0.8					Siła skoku
 godmode					bool			false				Ustawione na true uniemożliwia śmierć
-musicvolume				float			50					Ustawia głośność muzyki. Wartość w %
-soundvolume				float			50					Ustawia głośność dźwięków. Wartość w %
+musicvolume				float			100					Ustawia głośność muzyki. Wartość w %
+soundvolume				float			50					Ustawia głośność dźwięków. Wartość w % (aktualnie nie działa)
 maxhealth 				int				1000				Maksymalne zdrowie gracza
 scalebar				float			0.5					Zmienia szerokość paska zdrowia
 storkmovespeed			float			4.6					Prędkość ruchu Storkmana

@@ -6,7 +6,7 @@
 #include "entity_states.h"
 #include "sound.h"
 
-const std::string VERSION = "pre-alpha 0.5.0.1";
+const std::string VERSION = "pre-alpha 0.5.0.2";
 
 bool process_event(sf::Event& event)
 {
@@ -96,6 +96,10 @@ int main(int argc, char** argv)
 	context.console = std::unique_ptr<Console>(
 		new Console(assets.console_bg, &assets.consola, context.resolution));
 	context.console->out << "Stork'man version " + VERSION << '\n';
+
+	//Interpreter
+	Commands_interpreter interpreter;
+
 	//Parsing
 	Parser parser(&assets);
 
@@ -160,6 +164,8 @@ int main(int argc, char** argv)
 	map.add_receiver(&sound_system);
 	player.add_receiver(&sound_system);
 	sound_system.add_receiver(&*context.console);
+	interpreter.add_receiver(&sound_system);
+
 	//User interface
 	sf::Text fps_counter;
 	fps_counter.setFont(assets.consola);
@@ -200,7 +206,7 @@ int main(int argc, char** argv)
 			while (context.console->user_input_data_available())
 			{
 				std::pair<Commands_interpreter::Command_code, Vectorf> code =
-					Commands_interpreter::get_and_execute_command(
+					interpreter.get_and_execute_command(
 						context.console->get_user_input_line());
 				switch (code.first)
 				{
@@ -213,10 +219,6 @@ int main(int argc, char** argv)
 				case Commands_interpreter::Command_code::GET_POSITION:
 					context.console->out <<
 						player.get_position() / context.global_scale << '\n';
-					break;
-				case Commands_interpreter::Command_code::SET_MUSIC_VOLUME:
-					break;
-				case Commands_interpreter::Command_code::SET_SOUND_VOLUME:
 					break;
 				case Commands_interpreter::Command_code::SET_PLAYER_MAX_HP:
 					player.set_max_health(int(code.second.x));

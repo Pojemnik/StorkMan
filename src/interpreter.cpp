@@ -1,10 +1,12 @@
 #include "interpreter.h"
 
-std::string Commands_interpreter::help_page;
-
 std::pair<Commands_interpreter::Command_code, Vectorf> Commands_interpreter::get_and_execute_command(string s)
 {
 	return execute_command(get_command(s));
+}
+
+Commands_interpreter::Commands_interpreter() : Message_sender(Message_sender_type::INTERPRETER)
+{
 }
 
 void Commands_interpreter::load_help_page()
@@ -229,12 +231,13 @@ std::pair<Commands_interpreter::Command_code, Vectorf> Commands_interpreter::exe
 	}
 	else if (cmd.name == "musicvolume")
 	{
-		float vol = get_float(cmd, "Music volume");
+		int vol = get_int(cmd, "Music volume");
 		if (vol < 0 || vol > 100)
 		{
 			throw std::invalid_argument("Incorrect argument");
 		}
-		return std::make_pair(Command_code::SET_MUSIC_VOLUME, Vectorf(vol, 0));
+		send_message<int>(Message::Message_type::MUSIC_VOLUME, vol);
+		//return std::make_pair(Command_code::SET_MUSIC_VOLUME, Vectorf(vol, 0));
 	}
 	else if (cmd.name == "soundvolume")
 	{
@@ -243,7 +246,7 @@ std::pair<Commands_interpreter::Command_code, Vectorf> Commands_interpreter::exe
 		{
 			throw std::invalid_argument("Incorrect argument");
 		}
-		return std::make_pair(Command_code::SET_SOUND_VOLUME, Vectorf(vol, 0));
+		//return std::make_pair(Command_code::SET_SOUND_VOLUME, Vectorf(vol, 0));
 	}
 	else if (cmd.name == "maxhealth")
 	{

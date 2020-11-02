@@ -13,7 +13,9 @@ void Sound_system::update(float dt)
 		Message msg = pop_message();
 		try
 		{
-			if (msg.type == Message::Message_type::CHANGED_LEVEL)
+			switch (msg.type)
+			{
+			case Message::Message_type::CHANGED_LEVEL:
 			{
 				int id = std::get<int>(msg.args);
 				if (music_id == -1 || music_paths.at(id) != music_paths.at(music_id))
@@ -23,23 +25,36 @@ void Sound_system::update(float dt)
 					state = Music_state::QUIETER;
 				}
 			}
+			break;
+			case Message::Message_type::MUSIC_VOLUME:
+				music_volume = std::get<int>(msg.args);
+				music.setVolume(music_volume);
+				break;
+			default:
+				break;
+			}
 		}
 		catch (const std::out_of_range& e)
 		{
 			send_message(Message::Message_type::ERROR, "Error while playing sound! " + static_cast<string>(e.what()));
 		}
 	}
+	update_music_state(dt);
+}
+
+void Sound_system::update_music_state(float dt)
+{
 	if (state == Music_state::LOUDER)
 	{
 		timer -= dt;
 		if (timer <= 0)
 		{
 			state = Music_state::DEFAULT;
-			music.setVolume(100);
+			music.setVolume(music_volume);
 		}
 		else
 		{
-			music.setVolume(100.f - ((timer / CHANGE_DELTA) * 100.f));
+			music.setVolume(100.f - ((timer / CHANGE_DELTA) * music_volume));
 		}
 	}
 	if (state == Music_state::QUIETER)
@@ -62,7 +77,7 @@ void Sound_system::update(float dt)
 		}
 		else
 		{
-			music.setVolume((timer / CHANGE_DELTA) * 100.f);
+			music.setVolume((timer / CHANGE_DELTA) * music_volume);
 		}
 	}
 }

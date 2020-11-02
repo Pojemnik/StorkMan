@@ -15,6 +15,9 @@ class Sound_system : public Message_receiver, public Message_sender
 	const float CHANGE_DELTA = 180.f;
 	float timer;
 	enum class Music_state {LOUDER, QUIETER, DEFAULT} state = Music_state::DEFAULT;
+	int music_volume = 100;
+
+	void update_music_state(float dt);
 
 public:
 	Sound_system(const std::vector<sf::SoundBuffer>* buffers_, std::vector<string> music_paths_);

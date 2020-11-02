@@ -7,7 +7,7 @@
 
 class Message_sender;
 
-enum class Message_sender_type { PLAYER, MAP, SOUND_SYSTEM };
+enum class Message_sender_type { PLAYER, MAP, SOUND_SYSTEM, INTERPRETER };
 
 class Message_sender_id
 {	
@@ -22,7 +22,7 @@ public:
 
 struct Message
 {
-	enum class Message_type { DIED, DAMAGED, MOVED, JUMPED, ERROR, OUT, CHANGED_LEVEL } type;
+	enum class Message_type { DIED, DAMAGED, MOVED, JUMPED, ERROR, OUT, CHANGED_LEVEL, MUSIC_VOLUME } type;
 	std::variant<int, std::string, float> args;
 	const Message_sender* sender;
 
