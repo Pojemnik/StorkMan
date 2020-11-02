@@ -185,10 +185,16 @@ int main(int argc, char** argv)
 	context.thread_pool = std::unique_ptr<ctpl::thread_pool>(new ctpl::thread_pool(4));
 	sf::Clock clock;
 	map.init();
+	Message_sender engine_sender(Message_sender_type::ENGINE);
+	engine_sender.add_receiver(&sound_system);
 	while (window.isOpen())
 	{
 		sf::Event event;
-		context.window_focus = window.hasFocus();
+		if (context.window_focus != window.hasFocus())
+		{
+			context.window_focus = window.hasFocus();
+			engine_sender.send_message<bool>(Message::Message_type::WINDOW_FOCUS, context.window_focus);
+		}
 		while (window.pollEvent(event))
 		{
 			if (process_event(event))

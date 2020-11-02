@@ -30,6 +30,18 @@ void Sound_system::update(float dt)
 				music_volume = std::get<int>(msg.args);
 				music.setVolume(music_volume);
 				break;
+			case Message::Message_type::WINDOW_FOCUS:
+				if (std::get<bool>(msg.args))
+				{
+					muted = false;
+					music.setVolume(music_volume);
+				}
+				else
+				{
+					muted = true;
+					music.setVolume(0);
+				}
+				break;
 			default:
 				break;
 			}
@@ -39,7 +51,10 @@ void Sound_system::update(float dt)
 			send_message(Message::Message_type::ERROR, "Error while playing sound! " + static_cast<string>(e.what()));
 		}
 	}
-	update_music_state(dt);
+	if (!muted)
+	{
+		update_music_state(dt);
+	}
 }
 
 void Sound_system::update_music_state(float dt)

@@ -16,6 +16,7 @@ class Sound_system : public Message_receiver, public Message_sender
 	float timer;
 	enum class Music_state {LOUDER, QUIETER, DEFAULT} state = Music_state::DEFAULT;
 	int music_volume = 100;
+	bool muted = false;
 
 	void update_music_state(float dt);
 

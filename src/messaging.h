@@ -7,7 +7,7 @@
 
 class Message_sender;
 
-enum class Message_sender_type { PLAYER, MAP, SOUND_SYSTEM, INTERPRETER };
+enum class Message_sender_type { PLAYER, MAP, SOUND_SYSTEM, INTERPRETER, ENGINE };
 
 class Message_sender_id
 {	
@@ -22,13 +22,15 @@ public:
 
 struct Message
 {
-	enum class Message_type { DIED, DAMAGED, MOVED, JUMPED, ERROR, OUT, CHANGED_LEVEL, MUSIC_VOLUME } type;
-	std::variant<int, std::string, float> args;
+	enum class Message_type { DIED, DAMAGED, MOVED, JUMPED, ERROR, OUT, CHANGED_LEVEL,
+		WINDOW_FOCUS, MUSIC_VOLUME };
+	Message_type type;
+	std::variant<int, std::string, float, bool> args;
 	const Message_sender* sender;
 
 	Message(Message_type type_, const Message_sender* sender_);
 	Message(Message_type type_, const Message_sender* sender_,
-		std::variant<int, std::string, float> args_) :
+		std::variant<int, std::string, float, bool> args_) :
 		type(type_), sender(sender_), args(args_) {}
 };
 
@@ -60,7 +62,7 @@ public:
 template <typename T>
 void Message_sender::send_message(Message::Message_type type, T args) const
 {
-	std::variant<int, std::string, float> args_variant = args;
+	std::variant<int, std::string, float, bool> args_variant = args;
 	Message msg(type, this, args_variant);
 	for (const auto& it : receivers)
 	{
