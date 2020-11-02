@@ -16,6 +16,8 @@ using namespace parse;
 class Parser
 {
 	const Assets* assets;
+	std::unordered_map<string, string> level_music;
+
 	std::pair<Vectori, Vectori> parse_map_element(tinyxml2::XMLElement* element);
 	std::tuple<Vectori, string, string> parse_level_element(tinyxml2::XMLElement* element, Vectori map_size);
 	Level parse_level(tinyxml2::XMLElement* root, Vectori global_pos, int code);
@@ -75,7 +77,9 @@ class Parser
 
 public:
 	std::unordered_map<string, int> level_names;
+	std::vector<string> music_paths;
 	Map parse_map(tinyxml2::XMLElement* root);
 	Entity_config parse_entity_config(string path);
+	void load_music_config(string path);
 	Parser(Assets* _assets);
 };

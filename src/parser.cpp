@@ -306,6 +306,14 @@ Map Parser::parse_map(tinyxml2::XMLElement* root)
 		{
 			auto [pos, path, code] = parse_level_element(element, map_size);
 			level_names[code] = lvl_n;
+			if (level_music.contains(code))
+			{
+				music_paths.push_back(level_music[code]);
+			}
+			else
+			{
+				music_paths.push_back(level_music["default"]);
+			}
 			futures.push_back(std::async(std::launch::async, &Parser::open_and_parse_level, this, pos, path, lvl_n));
 			lvl_n++;
 		}
@@ -375,6 +383,27 @@ Entity_config Parser::parse_entity_config(string path)
 	}
 	file >> config.max_hp >> config.height.first >> config.height.second;
 	return config;
+}
+
+void Parser::load_music_config(string path)
+{
+	std::ifstream file_raw;
+	file_raw.open(path);
+	if (!file_raw.good())
+	{
+		throw std::invalid_argument("Music config file not found");
+	}
+	auto file = util::remove_comments(file_raw);
+	while (!file.eof())
+	{
+		string a, b;
+		file >> a >> b;
+		if (a == "" || b == "")
+		{
+			return;
+		}
+		level_music[a] = b;
+	}
 }
 
 std::pair<std::optional<int>, std::shared_ptr<Moving_platform>>

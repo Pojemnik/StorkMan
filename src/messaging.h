@@ -22,8 +22,8 @@ public:
 
 struct Message
 {
-	enum class Message_type { DIED, DAMAGED, MOVED, JUMPED, ERROR, OUT, CHANGED_LEVEL,
-		WINDOW_FOCUS, MUSIC_VOLUME };
+	enum class Message_type { DIED, DAMAGED, MOVED, JUMPED, ERROR, OUT,
+		CHANGED_LEVEL, WINDOW_FOCUS, MUSIC_VOLUME };
 	Message_type type;
 	std::variant<int, std::string, float, bool> args;
 	const Message_sender* sender;

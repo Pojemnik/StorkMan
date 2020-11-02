@@ -6,7 +6,7 @@
 #include "entity_states.h"
 #include "sound.h"
 
-const std::string VERSION = "pre-alpha 0.5.0.2";
+const std::string VERSION = "pre-alpha 0.5.1.0";
 
 bool process_event(sf::Event& event)
 {
@@ -102,6 +102,7 @@ int main(int argc, char** argv)
 
 	//Parsing
 	Parser parser(&assets);
+	parser.load_music_config("sound/music.cfg");
 
 	//Window setup
 	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
@@ -160,7 +161,7 @@ int main(int argc, char** argv)
 	bool init = execute_init_file("config.cfg");
 
 	//Sound init
-	Sound_system sound_system(&assets.sounds, { "sound/theme.wav", "sound/general.wav" });
+	Sound_system sound_system(&assets.sounds, parser.music_paths);
 	map.add_receiver(&sound_system);
 	player.add_receiver(&sound_system);
 	sound_system.add_receiver(&*context.console);
