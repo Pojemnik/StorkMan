@@ -53,11 +53,10 @@ public:
 	Console_stream out;
 	Console_stream log;
 	Console_stream err;
-	void push_message(Message& msg);
 
 	Console(const sf::Texture* tex, sf::Font* f, Vectori res);
 
-	void activate(Vectori res);
+	void activate();
 	void deactivate();
 	bool is_active();
 	void input_append(char c);
@@ -70,17 +69,18 @@ public:
 	void clear();
 	void get_next_history_line();
 	void get_previous_history_line();
+	void push_message(Message& msg);
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 private:
 	const char cursor = '_';
-	const Vectori default_resolution;
+	const string line_begin = ">";
+	Vectori resolution;
 	const sf::Font* font;
 	bool active = false;
 	int scroll_pos = 0;
 	int history_pos = 0;
-	Vectori screen_resolution;
 	std::vector<std::pair<string, Stream_color>> content;
 	std::queue<string> input_buffer;
 	std::vector<string> input_history;

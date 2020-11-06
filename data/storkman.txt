@@ -24,10 +24,10 @@ animations/stork/death.txt
 animations/stork/jump_run2.txt
 
 #Collision rectangle
--20 -37
--2 -37
--2 23
--20 23
+-40 -74
+-4 -74
+-4 46
+-40 46
 
 #Max health
 1000

@@ -25,11 +25,12 @@ private:
 	const float top_bot_tex_height = 47;
 	const float mid_tex_height = 34;
 	const float top_bot_space = 17;
-	const float bar_height;
-	const Vectori default_resolution;
+	float bar_height;
+	Vectori default_resolution;
 
 	void update(int current_hp);
 	void next_frame();
+	void calc_pos();
 
 public:
 	Hp_bar(std::shared_ptr<sf::Texture> _bot_bar, std::shared_ptr<sf::Texture> _mid_bar,

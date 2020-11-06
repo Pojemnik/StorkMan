@@ -126,7 +126,14 @@ void Console::push_message(Message& msg)
 		out << static_cast<const string>(std::get<string>(msg.args));
 		break;
 	case Message::Message_type::ERROR:
-		out << static_cast<const string>(std::get<string>(msg.args));
+		err << static_cast<const string>(std::get<string>(msg.args));
+		break;
+	case Message::Message_type::RESOLUTION_CHANGED:
+	{
+		resolution = std::get<Vectori>(msg.args);
+		deactivate();
+		activate();
+	}
 		break;
 	default:
 		break;
@@ -135,10 +142,8 @@ void Console::push_message(Message& msg)
 
 Console::Console(const sf::Texture* tex, sf::Font* f, Vectori res) : font(f),
 out(Stream_color::WHITE), log(Stream_color::GREY), err(Stream_color::RED),
-screen_resolution(res), default_resolution(res)
+ resolution(res)
 {
-	Vectorf scale = { (float)res.x / default_resolution.x,
-		(float)res.y / default_resolution.y };
 	background.setTexture(*tex);
 	for (auto& text : content_text)
 	{
@@ -147,19 +152,15 @@ screen_resolution(res), default_resolution(res)
 	}
 	buffer.setFont(*f);
 	buffer.setCharacterSize(15);
-	input_buffer.push(">");
+	input_buffer.push(line_begin);
 	buffer.setString(input_buffer.back() + cursor);
 }
 
-void Console::activate(Vectori res)
+void Console::activate()
 {
-	screen_resolution = res;
-	Vectorf scale = { (float)res.x / default_resolution.x,
-		(float)res.y / default_resolution.y };
-	background.setScale(scale);
-	background.setPosition(0, (float)default_resolution.y - 180.f);
+	background.setPosition(0, (float)resolution.y - 180.f);
 	active = true;
-	buffer.setPosition(0, (float)default_resolution.y - 20.f);
+	buffer.setPosition(0, (float)resolution.y - 20.f);
 	history_pos = 0;
 	update_content();
 }
@@ -200,7 +201,7 @@ void Console::update_content()
 		i >= 0 && lines < lines_n; i--, lines++)
 	{
 		content_text[lines].setPosition(0,
-			(float)default_resolution.y - (lines + 2) * 18);
+			(float)resolution.y - (lines + 2) * 18);
 		switch (content[i].second)
 		{
 		case Stream_color::RED:
@@ -225,7 +226,7 @@ void Console::clear()
 	{
 		input_buffer.pop();
 	}
-	input_buffer.push(">");
+	input_buffer.push(line_begin);
 	log.clear();
 	out.clear();
 	err.clear();
@@ -241,7 +242,7 @@ void Console::get_next_history_line()
 	{
 		history_pos++;
 		input_buffer.back() =
-			">" + input_history[input_history.size() - history_pos];
+			line_begin + input_history[input_history.size() - history_pos];
 		buffer.setString(input_buffer.back() + cursor);
 	}
 }
@@ -251,14 +252,14 @@ void Console::get_previous_history_line()
 	if (history_pos == 1)
 	{
 		history_pos = 0;
-		input_buffer.back() = ">";
+		input_buffer.back() = line_begin;
 		buffer.setString(input_buffer.back() + cursor);
 	}
 	if (history_pos > 1)
 	{
 		history_pos--;
 		input_buffer.back() =
-			">" + input_history[input_history.size() - history_pos];
+			line_begin + input_history[input_history.size() - history_pos];
 		buffer.setString(input_buffer.back() + cursor);
 	}
 }
@@ -298,7 +299,7 @@ void Console::input_append(char c)
 				std::make_pair(input_buffer.back(), Stream_color::WHITE));
 			input_history.push_back(input_buffer.back().substr(1));
 			input_buffer.back() = input_buffer.back().substr(1);
-			input_buffer.push(">");
+			input_buffer.push(line_begin);
 			buffer.setString(input_buffer.back() + cursor);
 			update_content();
 		}

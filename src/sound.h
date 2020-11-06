@@ -6,6 +6,8 @@ typedef std::string string;
 
 class Sound_system : public Message_receiver, public Message_sender
 {
+	enum class Music_state { LOUDER, QUIETER, DEFAULT, UNINITALIZED };
+
 	std::vector<std::unique_ptr<sf::Sound>> sounds;
 	const std::vector<sf::SoundBuffer>* buffers;
 	const std::vector<string> music_paths;
@@ -14,7 +16,7 @@ class Sound_system : public Message_receiver, public Message_sender
 	int next_music_id = -1;
 	const float CHANGE_DELTA = 180.f;
 	float timer;
-	enum class Music_state {LOUDER, QUIETER, DEFAULT} state = Music_state::DEFAULT;
+	Music_state state = Music_state::UNINITALIZED;
 	int music_volume = 100;
 	bool muted = false;
 

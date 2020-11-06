@@ -216,7 +216,12 @@ std::pair<Commands_interpreter::Command_code, Vectorf> Commands_interpreter::exe
 	}
 	else if (cmd.name == "resolution")
 	{
-		context.resolution = get_vectori(cmd, "Resolution");
+		Vectori res = get_vectori(cmd, "Resolution");
+		if (res.x < 300 || res.y < 300 || res.x > 4500 || res.y > 2500)
+		{
+			throw std::invalid_argument("Incorrect argument");
+		}
+		context.resolution = res;
 		return std::make_pair(Command_code::CHANGE_RESOLUTION,
 			(Vectorf)context.resolution);
 	}

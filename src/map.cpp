@@ -187,7 +187,7 @@ void Map::update(float dt, Vectorf player_pos, sf::FloatRect screen_rect)
 		}
 		catch (const std::out_of_range &e)
 		{
-			send_message(Message::Message_type::ERROR, "Level out of range");
+			send_message<string>(Message::Message_type::ERROR, "Level out of range");
 		}
 	}
 	update_levels(dt, screen_rect);

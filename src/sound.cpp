@@ -22,7 +22,17 @@ void Sound_system::update(float dt)
 				{
 					timer = CHANGE_DELTA;
 					next_music_id = id;
-					state = Music_state::QUIETER;
+					if (state == Music_state::UNINITALIZED)
+					{
+						state = Music_state::LOUDER;
+						music_id = id;
+						music.openFromFile(music_paths.at(music_id));
+						music.play();
+					}
+					else
+					{
+						state = Music_state::QUIETER;
+					}
 				}
 			}
 			break;
@@ -34,12 +44,12 @@ void Sound_system::update(float dt)
 				if (std::get<bool>(msg.args))
 				{
 					muted = false;
-					music.setVolume(music_volume);
+					music.play();
 				}
 				else
 				{
 					muted = true;
-					music.setVolume(0);
+					music.pause();
 				}
 				break;
 			default:
@@ -69,7 +79,8 @@ void Sound_system::update_music_state(float dt)
 		}
 		else
 		{
-			music.setVolume(100.f - ((timer / CHANGE_DELTA) * music_volume));
+			float vol = (1.f - (timer / CHANGE_DELTA)) * music_volume;
+			music.setVolume(vol);
 		}
 	}
 	if (state == Music_state::QUIETER)

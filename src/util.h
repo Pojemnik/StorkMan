@@ -30,9 +30,8 @@ struct Context
 	bool god_mode = false;
 	float fps = 60.f;
 	float gravity = 0.3f;
-	float global_scale = 32;	//[px/m]
-	Vectori resolution = { 1024, 576 };
-	const Vectori default_resolution = { 1024, 576 };
+	float global_scale = 64;	//[px/m]
+	Vectori resolution = { 1920, 1080 };
 	std::unique_ptr<Console> console;
 	std::unique_ptr<ctpl::thread_pool> thread_pool;
 	Vectori level_size = { 100, 100 };

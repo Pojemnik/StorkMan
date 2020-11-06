@@ -4,8 +4,7 @@
 ![Logo](/docs/logo.png)
 
 ## Main Informations
-Storkman is a 2D metroidvania game. Main goal of the project is to gain experience and learn new abilities.
-That's how it looks at the moment:
+Storkman is a 2D metroidvania game. Main goal of the project is to gain experience and learn new skills.
 
 ![Storkman trailer](docs/readme_film.gif)
 

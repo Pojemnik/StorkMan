@@ -16,22 +16,9 @@ Hp_bar::Hp_bar(std::shared_ptr<sf::Texture> _bot_bar,
 	std::shared_ptr<std::vector<sf::Texture>> _mid_content,
 	std::shared_ptr<std::vector<sf::Texture>> _top_content, int _max_hp) :
 	max_hp(_max_hp), bot(_bot_bar, _bot_content), mid(_mid_bar, _mid_content),
-	top(_top_bar, _top_content), bar_height(context.resolution.y - 2*top_bot_space),
-	default_resolution(context.resolution)
+	top(_top_bar, _top_content), default_resolution(context.resolution)
 {
-	top.bar.setPosition(pos);
-	mid.bar.setPosition(pos.x, pos.y + top_bot_tex_height);
-	bot.bar.setPosition(pos.x, default_resolution.y - top_bot_tex_height);
-	mid_ratio = (bar_height - 2 * top_bot_tex_height)
-		/ bar_height;
-	mid.bar.setScale(scale_factor_x,
-		((float)default_resolution.y - 2 * top_bot_tex_height) / mid_tex_height);
-	mid.content.setScale(scale_factor_x,
-		(bar_height - 2 * top_bot_tex_height) / mid_tex_height);
-	top.content.setPosition(pos.x, pos.y + top_bot_space);
-	mid.content.setPosition(pos.x, pos.y + top_bot_tex_height + top_bot_space);
-	bot.content.setPosition(pos.x, default_resolution.y - top_bot_tex_height - top_bot_space);
-	scale_x(scale_factor_x);
+	calc_pos();
 }
 
 void Hp_bar::next_frame()
@@ -48,8 +35,31 @@ void Hp_bar::next_frame()
 	}
 }
 
+void Hp_bar::calc_pos()
+{
+	bar_height = context.resolution.y - 2 * top_bot_space;
+	top.bar.setPosition(pos);
+	mid.bar.setPosition(pos.x, pos.y + top_bot_tex_height);
+	bot.bar.setPosition(pos.x, context.resolution.y - top_bot_tex_height);
+	mid_ratio = (bar_height - 2 * top_bot_tex_height)
+		/ bar_height;
+	mid.bar.setScale(scale_factor_x,
+		((float)context.resolution.y - 2 * top_bot_tex_height) / mid_tex_height);
+	mid.content.setScale(scale_factor_x,
+		(bar_height - 2 * top_bot_tex_height) / mid_tex_height);
+	top.content.setPosition(pos.x, pos.y + top_bot_space);
+	mid.content.setPosition(pos.x, pos.y + top_bot_tex_height + top_bot_space);
+	bot.content.setPosition(pos.x, context.resolution.y - top_bot_tex_height - top_bot_space);
+	scale_x(scale_factor_x);
+}
+
 void Hp_bar::update(int current_hp)
 {
+	if (context.resolution != default_resolution)
+	{
+		calc_pos();
+		default_resolution = context.resolution;
+	}
 	float hp_percent = (float)current_hp / max_hp;
 	float current_bar_height = bar_height * hp_percent;
 	float mid_height = current_bar_height * mid_ratio;
@@ -57,11 +67,11 @@ void Hp_bar::update(int current_hp)
 	mid.content.setScale(scale_factor_x, mid_height / mid_tex_height);
 	bot.content.setScale(scale_factor_x, hp_percent);
 	top.content.setScale(scale_factor_x, hp_percent);
-	bot.content.setPosition(pos.x, (float)default_resolution.y -
+	bot.content.setPosition(pos.x, (float)context.resolution.y -
 		top_bot_height - top_bot_space);
-	mid.content.setPosition(pos.x, (float)default_resolution.y -
+	mid.content.setPosition(pos.x, (float)context.resolution.y -
 		top_bot_height - mid_height - top_bot_space);
-	top.content.setPosition(pos.x, (float)default_resolution.y
+	top.content.setPosition(pos.x, (float)context.resolution.y
 		- top_bot_height * 2 - mid_height - top_bot_space);
 }
 

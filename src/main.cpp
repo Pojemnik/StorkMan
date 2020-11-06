@@ -25,7 +25,7 @@ bool process_event(sf::Event& event)
 				}
 				else
 				{
-					context.console->activate(context.resolution);
+					context.console->activate();
 				}
 			}
 			if (event.key.control && event.key.code == sf::Keyboard::V
@@ -188,6 +188,7 @@ int main(int argc, char** argv)
 	map.init();
 	Message_sender engine_sender(Message_sender_type::ENGINE);
 	engine_sender.add_receiver(&sound_system);
+	engine_sender.add_receiver(&*context.console);
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -218,7 +219,12 @@ int main(int argc, char** argv)
 				switch (code.first)
 				{
 				case Commands_interpreter::Command_code::CHANGE_RESOLUTION:
+				{
 					window.setSize(sf::Vector2u(context.resolution.x, context.resolution.y));
+					sf::FloatRect visibleArea(0.f, 0.f, context.resolution.x, context.resolution.y);
+					window.setView(sf::View(visibleArea));
+					engine_sender.send_message<Vectori>(Message::Message_type::RESOLUTION_CHANGED, context.resolution);
+				}
 					break;
 				case Commands_interpreter::Command_code::MOVE_PLAYER:
 					player.set_position(code.second * context.global_scale);
@@ -269,10 +275,10 @@ int main(int argc, char** argv)
 		time *= context.fps;
 		clock.restart();
 		Vectorf camera_pos = player.get_position();
-		camera_pos -= Vectorf((float)context.default_resolution.x / 2,
-			(float)context.default_resolution.y / 2);
+		camera_pos -= Vectorf((float)context.resolution.x / 2,
+			(float)context.resolution.y / 2);
 		sf::FloatRect screen_rect(camera_pos.x, camera_pos.y,
-			float(context.default_resolution.x), float(context.default_resolution.y));
+			float(context.resolution.x), float(context.resolution.y));
 		if (!context.console->is_active())
 		{
 			map.update(time, player.get_position(), screen_rect);
@@ -283,7 +289,7 @@ int main(int argc, char** argv)
 			fps_counter.setString(std::to_string(int(context.fps / time)));
 		}
 		camera_pos = player.get_position();
-		camera_pos -= sf::Vector2f(context.default_resolution) / 2.0f;
+		camera_pos -= sf::Vector2f(context.resolution) / 2.0f;
 		sf::RenderStates rs = sf::RenderStates::Default;
 		rs.transform = sf::Transform().translate(-camera_pos);
 		sound_system.update(time);
