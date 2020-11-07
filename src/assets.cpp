@@ -254,8 +254,6 @@ std::tuple<Vectori, Vectori, std::vector<string>> Assets::load_texture_file_conf
 
 void Assets::load_assets()
 {
-	//Storkman
-
 	//Background
 	backgrounds["main_bg"] = load_texture("img/bg/bg.jpg", false);
 	backgrounds["forest_bg"] = load_texture("img/bg/LAS.png", false);

@@ -1,51 +1,6 @@
 #include "level.h"
 #include "zones.h"
 
-void Map_chunk::draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const
-{
-	if (!on_screen)
-	{
-		return;
-	}
-	for (const auto& it : bottom_layers)
-	{
-		for (const auto& it2 : it)
-		{
-			target.draw(*it2, states);
-		}
-	}
-}
-
-void Map_chunk::draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) const
-{
-	if (!on_screen)
-	{
-		return;
-	}
-	for (const auto& it : middle_layers)
-	{
-		for (const auto& it2 : it)
-		{
-			target.draw(*it2, states);
-		}
-	}
-}
-
-void Map_chunk::draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) const
-{
-	if (!on_screen)
-	{
-		return;
-	}
-	for (const auto& it : top_layers)
-	{
-		for (const auto& it2 : it)
-		{
-			target.draw(*it2, states);
-		}
-	}
-}
-
 void Map_chunk::draw_border(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(border, states);
@@ -97,17 +52,7 @@ Map_chunk::Map_chunk(std::vector<std::shared_ptr<Updatable>>&& updatables_,
 {
 	for (auto& it : drawables_)
 	{
-		if (it.first < BOTTOM_LAYERS)
-		{
-			bottom_layers[it.first].push_back(it.second);
-			continue;
-		}
-		if (it.first < BOTTOM_LAYERS + MIDDLE_LAYERS)
-		{
-			middle_layers[it.first - BOTTOM_LAYERS].push_back(it.second);
-			continue;
-		}
-		top_layers[it.first - BOTTOM_LAYERS - MIDDLE_LAYERS].push_back(it.second);
+		layers[it.first].push_back(it.second);
 	}
 	border.setPosition(bound.left, bound.top);
 	border.setSize({ bound.width, bound.height });
@@ -121,6 +66,14 @@ void Map_chunk::update(float dt)
 	for (auto& it : updatables)
 	{
 		it->update(dt);
+	}
+}
+
+void Map_chunk::draw_layer(sf::RenderTarget& target, sf::RenderStates states, int layer) const
+{
+	for (const auto& it : layers[layer])
+	{
+		target.draw(*it, states);
 	}
 }
 
@@ -217,50 +170,63 @@ void Level::update_chunk(int id, Map_chunk& chunk, float dt)
 
 void Level::draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	for (const auto& it : chunks)
+	for (int i = 0; i < BOTTOM_LAYERS; i++)
 	{
-		it.draw_bottom_layers(target, states);
-	}
-	for (const auto& it : moving)
-	{
-		if (it.layer < BOTTOM_LAYERS)
+		for (const auto& it : chunks)
 		{
-			target.draw(it, states);
+			if (it.on_screen)
+			{
+				it.draw_layer(target, states, i);
+			}
+		}
+		for (const auto& it : moving)
+		{
+			if (it.layer == i)
+			{
+				target.draw(it, states);
+			}
 		}
 	}
 }
 
 void Level::draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	for (const auto& it : chunks)
+	for (int i = BOTTOM_LAYERS; i < BOTTOM_LAYERS + MIDDLE_LAYERS; i++)
 	{
-		it.draw_middle_layers(target, states);
-	}
-	for (const auto& it : moving)
-	{
-		if (it.layer < BOTTOM_LAYERS + MIDDLE_LAYERS && it.layer >= BOTTOM_LAYERS)
+		for (const auto& it : chunks)
 		{
-			target.draw(it, states);
+			if (it.on_screen)
+			{
+				it.draw_layer(target, states, i);
+			}
+		}
+		for (const auto& it : moving)
+		{
+			if (it.layer == i)
+			{
+				target.draw(it, states);
+			}
 		}
 	}
 }
 
 void Level::draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	for (const auto& it : chunks)
+	for (int i = BOTTOM_LAYERS + MIDDLE_LAYERS; i < TOTAL_LAYERS; i++)
 	{
-		it.draw_top_layers(target, states);
-		if (draw_chunks_borders)
+		for (const auto& it : chunks)
 		{
-			it.draw_border(target, states);
+			if (it.on_screen)
+			{
+				it.draw_layer(target, states, i);
+			}
 		}
-	}
-	for (const auto& it : moving)
-	{
-		if (it.layer < BOTTOM_LAYERS + MIDDLE_LAYERS + TOP_LAYERS &&
-			it.layer >= BOTTOM_LAYERS + MIDDLE_LAYERS)
+		for (const auto& it : moving)
 		{
-			target.draw(it, states);
+			if (it.layer == i)
+			{
+				target.draw(it, states);
+			}
 		}
 	}
 }
@@ -311,7 +277,10 @@ void Level::draw_moving_collisions(sf::RenderTarget& target, sf::RenderStates st
 {
 	for (const auto& it : chunks)
 	{
-		it.draw_moving_collisions(target, states);
+		if (it.on_screen)
+		{
+			it.draw_moving_collisions(target, states);
+		}
 	}
 	for (const auto& it : moving)
 	{
@@ -323,7 +292,10 @@ void Level::draw_static_collisions(sf::RenderTarget& target, sf::RenderStates st
 {
 	for (const auto& it : chunks)
 	{
-		it.draw_static_collisions(target, states);
+		if (it.on_screen)
+		{
+			it.draw_static_collisions(target, states);
+		}
 	}
 }
 
@@ -331,7 +303,10 @@ void Level::draw_zones(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	for (const auto& it : chunks)
 	{
-		it.draw_zones(target, states);
+		if (it.on_screen)
+		{
+			it.draw_zones(target, states);
+		}
 	}
 	//Add, when moving damage zones are added
 	//for (const auto& it : moving)

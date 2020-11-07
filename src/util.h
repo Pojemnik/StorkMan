@@ -20,6 +20,7 @@ const float eps = 0.0001f;
 const int BOTTOM_LAYERS = 7;
 const int MIDDLE_LAYERS = 3;
 const int TOP_LAYERS = 2;
+const int TOTAL_LAYERS = BOTTOM_LAYERS + MIDDLE_LAYERS + TOP_LAYERS;
 
 struct Context
 {
