@@ -6,7 +6,7 @@
 #include "entity_states.h"
 #include "sound.h"
 
-const std::string VERSION = "pre-alpha 0.5.1.2";
+const std::string VERSION = "pre-alpha 0.5.1.3";
 
 bool process_event(sf::Event& event)
 {

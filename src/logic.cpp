@@ -130,9 +130,16 @@ void Accelerated_linear_AI::calc_pos(float dt)
 
 void Rotation_AI::calc_pos(float dt)
 {
-	angle += angular_speed * dt;
-	angle = fmod(angle, 2 * PI);
-	pos = { cos(angle),sin(angle) };
+	time += dt;
+	while (time > it->second)
+	{
+		time -= it->second;
+		it = util::increment_iterator(it, angles);
+	}
+	auto next = util::increment_iterator(it, angles);
+	float a = time / it->second;
+	current_angle = (1.0f - a) * it->first + a * next->first;
+	pos = { cos(current_angle),sin(current_angle) };
 }
 
 sf::Transform Rotation_AI::get_pos()
@@ -143,10 +150,12 @@ sf::Transform Rotation_AI::get_pos()
 		0, 0, 1);
 }
 
-Rotation_AI::Rotation_AI(Vectorf pivot_, float speed_, float angle_) : angle(angle_),
-angular_speed(speed_), pivot(pivot_)
+Rotation_AI::Rotation_AI(Vectorf pivot_,
+	std::vector<std::pair<float, float>> angles_, float time_offset) :
+	time(time_offset), pivot(pivot_), angles(angles_)
 {
-
+	it = angles.cbegin();
+	calc_pos(0);
 }
 
 Container_AI::Container_AI(std::vector<std::unique_ptr<Simple_AI>>&& vec_) : ais(std::move(vec_))

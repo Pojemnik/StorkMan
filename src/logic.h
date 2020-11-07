@@ -70,13 +70,15 @@ class Rotation_AI : public Simple_AI
 {
 	sf::Vector2f pivot;
 	sf::Vector2f pos;
-	float angle;
-	float angular_speed;
+	float current_angle;
+	float time;
+	std::vector<std::pair<float, float>> angles;
+	std::vector<std::pair<float, float>>::const_iterator it;
 
 public:
 	void calc_pos(float dt);
 	sf::Transform get_pos();
-	Rotation_AI(Vectorf pivot_, float speed_, float angle_);
+	Rotation_AI(Vectorf pivot_, std::vector<std::pair<float, float>> angles_, float time_offset);
 };
 
 class Container_AI : public Simple_AI

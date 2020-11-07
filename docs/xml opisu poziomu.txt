@@ -65,7 +65,7 @@ animated_object:
 		texture
 		height
 		rotation* (domyślnie 0)
-		flip* - (domyślnie 1,1)
+		flip* (domyślnie 1,1)
 		layer* (domyślne 3)
 		frame_time* (domyślnie 1)
 		offset* (domyślnie 0)
@@ -127,7 +127,7 @@ animated_wall:
 	atrybuty:
 		position
 		texture
-		layer* - (domyślne 1)
+		layer* (domyślne 1)
 		frame_time* (domyślnie 1)
 		offset* (domyślnie 0)
 		flip* (domyślnie 1,1)
@@ -189,7 +189,7 @@ animated_moving_object:
 		texture
 		height
 		rotation* (domyślnie 0)
-		flip* - (domyślnie 1,1)
+		flip* (domyślnie 1,1)
 		layer* (domyślne 3)
 		frame_time* (domyślnie 1)
 		offset* (domyślnie 0)
@@ -203,12 +203,11 @@ move:
 	artybuty:
 		type (string {linear, accelerated, rotational, container}) - typ ruchu UWAGA: Typ ruchu container jest typem specjanym - wewnątrz niego można umieszczać inne typy ruchu
 		Dla typu ruchu rotational:
-		pivot (float, float [m]) - położenie osi obrotu
-		angular_speed (float [stopnie/s]) - prędkość obrotu
-		offset (float [stopnie]) - początkowy kąt
+		pivot (float [m], float [m]) - położenie osi obrotu
+		offset (float [1/60s]) - od którego momentu zacząć ruch
 		
 	zawartość:
-		znaczniki <p> opsujące trasę ruchu platformy (w zależności od atrybutu type)
+		znaczniki <p> opsujące ruch platformy (w zależności od atrybutu type)
 		W przypadku typu ruchu container inne ruchy, które zostaną połączone w jeden (nie można umieścić wewnątrz drugiego ruchu typu container)
 
 d:
@@ -218,7 +217,8 @@ p:
 	zawartość:
 		Dla typu ruchu linear: (float [m], float [m], float [1/60s]) - pozycja punktu na trasie platformy, czas podróży to tego punktu
 		Dla typu ruchu accelerated: (float [m], float [m], float [m], float [m]) - pozycja punktu na trasie platformy, czas podróży to tego punktu, przyspieszenie (prędkość początkowa zostanie wyliczona na podstawie danych)
-		Specjalna wersja: <p>-</p> - Element znika na czas ruchu do tego "punktu"
+		Dla typu ruchu rotational: (float [stopnie], float [1/60s]) - kąt docelowy, czas obrotu do tego kąta
+		Specjalna wersja: <p>-</p> - Element znika na czas ruchu do tego "punktu" (dotyczy linear i accelerated)
 	
 a:
 	zawartość: (float [m], float [m]) - pozycja punktu
@@ -227,4 +227,4 @@ v:
 	zawartość: (float [m], float [m]) - pozycja wierzchołka
 	
 vt:
-	zawartość: (float [m], float [m], int [px], int[px]) - pozycja wierzchołka, pozycja danego wierzchołka na teksturze w pikselach - przydatne w przypadku nie powtarzanych tekstur
+	zawartość: (float [m], float [m], int [px], int [px]) - pozycja wierzchołka, pozycja danego wierzchołka na teksturze w pikselach - przydatne w przypadku nie powtarzanych tekstur

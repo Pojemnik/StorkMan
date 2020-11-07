@@ -58,6 +58,8 @@ namespace parse
 	Vectorf parse_var<Vectorf>(string a, string b);
 	template <>
 	Vectori parse_var<Vectori>(string a, string b);
+	template <>
+	std::pair<float, float> parse_var<std::pair<float,float>>(string a, string b);
 
 	template <typename T>
 	std::unique_ptr<Simple_AI> parse_Simple_AI(tinyxml2::XMLElement* element);
@@ -123,6 +125,12 @@ namespace parse
 		return Vectorf(std::stof(a), std::stof(b));
 	}
 
+	template <>
+	inline std::pair<float, float> parse_var<std::pair<float, float>>(string a, string b)
+	{
+		return std::make_pair<float, float>(std::stof(a), std::stof(b));
+	}
+
 	template<>
 	inline Vectorf parse_var<Vectorf>(string val)
 	{
@@ -152,7 +160,6 @@ namespace parse
 	template<>
 	inline std::unique_ptr<Simple_AI> parse_Simple_AI<Linear_AI>(tinyxml2::XMLElement* element)
 	{
-
 		std::vector<std::pair<Vectorf, float>> path;
 		tinyxml2::XMLElement* e = element->FirstChildElement();
 		while (e != NULL)
@@ -198,10 +205,27 @@ namespace parse
 	template<>
 	inline std::unique_ptr<Simple_AI> parse_Simple_AI<Rotation_AI>(tinyxml2::XMLElement* element)
 	{
+		std::vector<std::pair<float, float>> angles;
+		tinyxml2::XMLElement* e = element->FirstChildElement();
+		while (e != NULL)
+		{
+			string n = e->Name();
+			if (n == "p")
+			{
+				auto vect = split_string(e->GetText());
+				auto p = parse_var<std::pair<float, float>>(vect[0], vect[1]);
+				p.first = util::deg_to_rad(p.first);
+				angles.push_back(p);
+			}
+			else
+			{
+				throw(std::invalid_argument(""));
+			}
+			e = e->NextSiblingElement();
+		}
 		Vectorf pivot = get_and_parse_var<Vectorf>("pivot", element, { 0.f,0.f }) * context.global_scale;
-		float speed = util::deg_to_rad(get_and_parse_var<float>("angular_speed", element, 0.f)) / context.fps;
-		float angle_offset = util::deg_to_rad(get_and_parse_var<float>("offset", element, 0.f));
-		return std::unique_ptr<Simple_AI>(new Rotation_AI(pivot, speed, angle_offset));
+		float time_offset = get_and_parse_var<float>("offset", element, 0.f);
+		return std::unique_ptr<Simple_AI>(new Rotation_AI(pivot, angles, time_offset));
 	}
 
 	template <>
