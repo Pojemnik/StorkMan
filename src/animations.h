@@ -48,7 +48,7 @@ class Key_frame_animation : public Animation
 {
 protected:
 	const Animation_tree tree;
-	std::vector<std::unique_ptr<Animation_part>> parts;
+	std::vector<std::shared_ptr<Animation_part>> parts;
 	std::vector<sf::Sprite> parts_sprites;
 	sf::RenderTexture tex;
 	std::vector<const Dynamic_animation_struct*> animations;
@@ -68,7 +68,9 @@ protected:
 	void pre_draw();
 
 public:
-	Key_frame_animation(std::vector<std::unique_ptr<Animation_part>>&& parts,
+	Key_frame_animation(std::vector<std::shared_ptr<Animation_part>>&& parts_,
+		std::vector<const Dynamic_animation_struct*> animations_, const Animation_tree& tree_);
+	Key_frame_animation(std::vector<std::shared_ptr<Animation_part>> parts_,
 		std::vector<const Dynamic_animation_struct*> animations_, const Animation_tree& tree_);
 	void next_frame(float dt);
 	const sf::Texture* const get_texture();

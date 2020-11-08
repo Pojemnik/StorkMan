@@ -65,3 +65,18 @@ void Player_controller::update(float dt)
 		}
 	}
 }
+
+Command Idle_cotroller::pop_command()
+{
+	return Command(Command::Command_type::NONE, 0);
+}
+
+bool Idle_cotroller::command_available()
+{
+	return false;
+}
+
+void Idle_cotroller::update(float dt)
+{
+	(void)(dt);
+}

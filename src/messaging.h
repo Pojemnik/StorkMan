@@ -11,10 +11,13 @@ typedef sf::Vector2i Vectori;
 
 class Message_sender;
 
-enum class Message_sender_type { PLAYER, MAP, SOUND_SYSTEM, INTERPRETER, ENGINE };
+enum class Message_sender_type {
+	PLAYER, MAP, SOUND_SYSTEM, INTERPRETER, ENGINE,
+	ENEMY
+};
 
 class Message_sender_id
-{	
+{
 	Message_sender_type type;
 	int id;
 
@@ -26,8 +29,10 @@ public:
 
 struct Message
 {
-	enum class Message_type { DIED, DAMAGED, MOVED, JUMPED, ERROR, OUT,
-		CHANGED_LEVEL, WINDOW_FOCUS, MUSIC_VOLUME, RESOLUTION_CHANGED };
+	enum class Message_type {
+		DIED, DAMAGED, MOVED, JUMPED, ERROR, OUT,
+		CHANGED_LEVEL, WINDOW_FOCUS, MUSIC_VOLUME, RESOLUTION_CHANGED
+	};
 	Message_type type;
 	std::variant<int, std::string, float, bool, Vectori, Vectorf> args;
 	const Message_sender* sender;

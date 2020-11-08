@@ -12,6 +12,12 @@ Physical::Physical(std::vector<Vectorf>&& mesh, Vectorf pos_) :
 	set_defaults();
 }
 
+Physical::Physical(std::vector<Vectorf> mesh, Vectorf pos_) :
+	collision(mesh, pos_), pos(pos_)
+{
+	set_defaults();
+}
+
 const Collision* const Physical::get_collision() const
 {
 	return &collision;

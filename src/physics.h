@@ -24,6 +24,7 @@ class Physical : public Updatable, public Collidable
 
 public:
 	Physical(std::vector<Vectorf>&& mesh, Vectorf pos_);
+	Physical(std::vector<Vectorf> mesh, Vectorf pos_);
 	const Collision* const get_collision() const;
 	Vectorf get_pos();
 	void update(float dt);

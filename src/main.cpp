@@ -133,29 +133,40 @@ int main(int argc, char** argv)
 	const auto stork_tree = assets.load_animation_tree(storkman_config.tree_file);
 	assets.pieces = assets.load_entity_textures(storkman_config.texture_paths,
 		storkman_config.textures_n, storkman_config.texture_size);
-	std::vector<std::unique_ptr<Animation_part>> stork_parts;
+	std::vector<std::shared_ptr<Animation_part>> stork_parts;
 	for (int i = 0; i < assets.pieces[0].size(); i++)
 	{
-
 		std::vector<const sf::Texture*> temp;
 		temp.reserve(assets.pieces.size());
 		for (int j = 0; j < assets.pieces.size(); j++)
 		{
 			temp.push_back(assets.pieces[j][i]);
 		}
-		stork_parts.push_back(std::make_unique<Multi_texture_animtion_part>(temp));
+		stork_parts.push_back(std::make_shared<Multi_texture_animtion_part>(temp));
 	}
-	auto animation = std::make_unique<Key_frame_animation>(std::move(stork_parts),
+	auto animation = std::make_unique<Key_frame_animation>(stork_parts,
 		*animations, stork_tree);
-	Physical physical(std::move(storkman_config.mesh), { 15 * context.global_scale,
+	Physical physical(storkman_config.mesh, { 15 * context.global_scale,
 		5 * context.global_scale });
 	auto machine = std::make_unique<Entity_state_machine>(new Idle_state());
-	auto controller = std::make_unique<Player_controller>();
+	std::unique_ptr<Controller> controller = std::make_unique<Player_controller>();
 	Entity player(std::move(animation), physical, std::move(machine),
 		std::move(controller), storkman_config.height, storkman_config.max_hp,
 		Message_sender_type::PLAYER);
 	player.add_receiver(context.console.get());
 	map.add_entity(&player);
+
+	//Test enemy
+	animation = std::make_unique<Key_frame_animation>(stork_parts,
+		*animations, stork_tree);
+	Physical enemy_physical(storkman_config.mesh, { 20 * context.global_scale,
+		5 * context.global_scale });
+	machine = std::make_unique<Entity_state_machine>(new Idle_state());
+	controller = std::make_unique<Idle_cotroller>();
+	Entity test_enemy(std::move(animation), enemy_physical, std::move(machine),
+		std::move(controller), storkman_config.height, storkman_config.max_hp,
+		Message_sender_type::ENEMY);
+	map.add_entity(&test_enemy);
 
 	//Config file
 	bool init = execute_init_file("config.cfg");
@@ -225,7 +236,7 @@ int main(int argc, char** argv)
 					window.setView(sf::View(visibleArea));
 					engine_sender.send_message<Vectori>(Message::Message_type::RESOLUTION_CHANGED, context.resolution);
 				}
-					break;
+				break;
 				case Commands_interpreter::Command_code::MOVE_PLAYER:
 					player.set_position(code.second * context.global_scale);
 					break;
@@ -282,6 +293,7 @@ int main(int argc, char** argv)
 		if (!context.console->is_active())
 		{
 			map.update(time, player.get_position(), screen_rect);
+			test_enemy.update(time);
 			player.update(time);
 		}
 		if (context.draw_fps_counter)
@@ -298,6 +310,7 @@ int main(int argc, char** argv)
 		window.clear();
 		map.draw_bottom_layers(window, rs);
 		window.draw(player, rs);
+		window.draw(test_enemy, rs);
 		map.draw_middle_layers(window, rs);
 		map.draw_top_layers(window, rs);
 		if (context.draw_damage_zones)
