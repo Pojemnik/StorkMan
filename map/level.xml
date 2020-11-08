@@ -1,16 +1,4 @@
 ﻿<level name="Podziemna Świątynia - poziom testowy 04">
-	<chunk right="35" bottom="20" top="10">
-		<moving_platform position="10,10" texture="ground0">
-			<v>0,0</v>
-			<v>2,0</v>
-			<v>2,2</v>
-			<v>0,2</v>
-			<move type="rotational" pivot="1,1">
-				<p>720,300</p>
-				<p>0,300</p>
-			</move>
-		</moving_platform>
-	</chunk>
 	/---------------------------------------------------------------------PODZIEMIE
 	<chunk>
 		<wall position="79,36.5" texture="ground0">

@@ -182,9 +182,9 @@ void Assets::load_sound(sf::SoundBuffer& buf, string path)
 void Assets::load_sounds()
 {
 	sounds.resize(3);
-	load_sound(sounds[0], "sound/aaa.wav");
-	load_sound(sounds[1], "sound/jump_idle.wav");
-	load_sound(sounds[2], "sound/jump_run.wav");
+	load_sound(sounds[0], "sound/sound/aaa.wav");
+	load_sound(sounds[1], "sound/sound/jump_idle.wav");
+	load_sound(sounds[2], "sound/sound/jump_run.wav");
 }
 
 std::vector<const Dynamic_animation_struct*>* Assets::load_dynamic_animations(std::vector<string> paths)

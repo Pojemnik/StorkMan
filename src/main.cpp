@@ -102,7 +102,7 @@ int main(int argc, char** argv)
 
 	//Parsing
 	Parser parser(&assets);
-	parser.load_music_config("sound/music.cfg");
+	parser.load_music_config("sound/music/music.cfg");
 
 	//Window setup
 	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
