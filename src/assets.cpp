@@ -179,14 +179,6 @@ void Assets::load_sound(sf::SoundBuffer& buf, string path)
 	}
 }
 
-void Assets::load_sounds()
-{
-	sounds.resize(3);
-	load_sound(sounds[0], "sound/sound/aaa.wav");
-	load_sound(sounds[1], "sound/sound/jump_idle.wav");
-	load_sound(sounds[2], "sound/sound/jump_run.wav");
-}
-
 std::vector<const Dynamic_animation_struct*>* Assets::load_dynamic_animations(std::vector<string> paths)
 {
 	Dynamic_animation_struct* default_animation = load_dynamic_animation("animations/stork/idle.txt");
@@ -274,8 +266,11 @@ void Assets::load_assets()
 	//Fonts
 	storkfont.loadFromFile("data/fonts/StorkFont.ttf");
 	consola.loadFromFile("data/fonts/consola.ttf");
-	//Sounds and music
-	load_sounds();
+}
+
+void Assets::add_entity_sounds(std::vector<string>& paths)
+{
+	entity_sounds.insert(entity_sounds.end(), paths.begin(), paths.end());
 }
 
 void Assets::parse_additional_textures(string path)

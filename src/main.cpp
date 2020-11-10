@@ -129,6 +129,7 @@ int main(int argc, char** argv)
 
 	//Player
 	Entity_config storkman_config = parser.parse_entity_config("data/storkman.txt");
+	assets.add_entity_sounds(storkman_config.sounds);
 	auto animations = assets.load_dynamic_animations(storkman_config.animation_files);
 	const auto stork_tree = assets.load_animation_tree(storkman_config.tree_file);
 	assets.pieces = assets.load_entity_textures(storkman_config.texture_paths,
@@ -172,7 +173,7 @@ int main(int argc, char** argv)
 	bool init = execute_init_file("config.cfg");
 
 	//Sound init
-	Sound_system sound_system(&assets.sounds, parser.music_paths);
+	Sound_system sound_system(assets.entity_sounds, parser.music_paths);
 	map.add_receiver(&sound_system);
 	player.add_receiver(&sound_system);
 	sound_system.add_receiver(&*context.console);

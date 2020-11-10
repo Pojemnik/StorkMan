@@ -382,6 +382,13 @@ Entity_config Parser::parse_entity_config(string path)
 		config.mesh.push_back(temp);
 	}
 	file >> config.max_hp >> config.height.first >> config.height.second;
+	string s;
+	file >> s;
+	config.sounds.push_back(s);
+	file >> s;
+	config.sounds.push_back(s);
+	file >> s;
+	config.sounds.push_back(s);
 	return config;
 }
 

@@ -66,7 +66,6 @@ void Run_jump_state::enter(Entity& entity)
 void Jump_state::enter(Entity& entity)
 {
 	entity.jump();
-	entity.send_message(Message::Message_type::JUMPED, 0);
 	entity.on_ground = false;
 }
 

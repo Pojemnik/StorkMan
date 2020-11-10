@@ -37,3 +37,11 @@ animations/stork/jump_run2.txt
 
 #Height [px]
 700
+
+#Sounds
+#Jump idle
+sound/sound/jump_idle.wav
+#Jump run
+sound/sound/jump_run.wav
+#Death
+sound/sound/aaa.wav

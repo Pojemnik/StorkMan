@@ -1,9 +1,16 @@
 #include "sound.h"
 
-Sound_system::Sound_system(const std::vector<sf::SoundBuffer>* buffers_, std::vector<string> music_paths_) :
-	buffers(buffers_), music_paths(music_paths_), Message_sender(Message_sender_type::SOUND_SYSTEM)
+Sound_system::Sound_system(std::vector<string> entity_sounds_paths_, std::vector<string> music_paths_) :
+	music_paths(music_paths_), Message_sender(Message_sender_type::SOUND_SYSTEM)
 {
 	music.setLoop(true);
+	for (const auto& it : entity_sounds_paths_)
+	{
+		sf::SoundBuffer sb;
+		if (!sb.loadFromFile(it))
+			throw std::invalid_argument("Incorrect sound path!");
+		entity_sounds.push_back(sb);
+	}
 }
 
 void Sound_system::update(float dt)
@@ -19,7 +26,7 @@ void Sound_system::update(float dt)
 			}
 			catch (const std::out_of_range& e)
 			{
-				send_message(Message::Message_type::ERROR, "Error while playing sound! " + static_cast<string>(e.what()));
+				send_message(Msgtype::ERROR, "Error while playing sound! " + static_cast<string>(e.what()) + "\n");
 			}
 		}
 	}
@@ -33,6 +40,23 @@ void Sound_system::on_music_volume_change(const Message& msg)
 {
 	music_volume = std::get<int>(msg.args);
 	music.setVolume(music_volume);
+}
+
+void Sound_system::on_entity_jump(const Message& msg)
+{
+	if (std::get<bool>(msg.args))
+	{
+		pool.play_sound(entity_sounds[1]);
+	}
+	else
+	{
+		pool.play_sound(entity_sounds[0]);
+	}
+}
+
+void Sound_system::on_entity_death(const Message& msg)
+{
+	pool.play_sound(entity_sounds[2]);
 }
 
 void Sound_system::on_window_focus_change(const Message& msg)
@@ -107,6 +131,19 @@ void Sound_system::update_music_state(float dt)
 		else
 		{
 			music.setVolume((timer / CHANGE_DELTA) * music_volume);
+		}
+	}
+}
+
+void Sound_pool::play_sound(const sf::SoundBuffer& sb)
+{
+	for (auto& it : pool)
+	{
+		if (it.getStatus() == sf::SoundSource::Status::Stopped)
+		{
+			it.setBuffer(sb);
+			it.play();
+			return;
 		}
 	}
 }
