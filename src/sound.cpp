@@ -11,59 +11,62 @@ void Sound_system::update(float dt)
 	while (message_available())
 	{
 		Message msg = pop_message();
-		try
+		if (message_function.contains(msg.type))
 		{
-			switch (msg.type)
+			try
 			{
-			case Message::Message_type::CHANGED_LEVEL:
+				message_function.at(msg.type)(msg);
+			}
+			catch (const std::out_of_range& e)
 			{
-				int id = std::get<int>(msg.args);
-				if (music_id == -1 || music_paths.at(id) != music_paths.at(music_id))
-				{
-					timer = CHANGE_DELTA;
-					next_music_id = id;
-					if (state == Music_state::UNINITALIZED)
-					{
-						state = Music_state::LOUDER;
-						music_id = id;
-						music.openFromFile(music_paths.at(music_id));
-						music.play();
-					}
-					else
-					{
-						state = Music_state::QUIETER;
-					}
-				}
+				send_message(Message::Message_type::ERROR, "Error while playing sound! " + static_cast<string>(e.what()));
 			}
-			break;
-			case Message::Message_type::MUSIC_VOLUME:
-				music_volume = std::get<int>(msg.args);
-				music.setVolume(music_volume);
-				break;
-			case Message::Message_type::WINDOW_FOCUS:
-				if (std::get<bool>(msg.args))
-				{
-					muted = false;
-					music.play();
-				}
-				else
-				{
-					muted = true;
-					music.pause();
-				}
-				break;
-			default:
-				break;
-			}
-		}
-		catch (const std::out_of_range& e)
-		{
-			send_message(Message::Message_type::ERROR, "Error while playing sound! " + static_cast<string>(e.what()));
 		}
 	}
 	if (!muted)
 	{
 		update_music_state(dt);
+	}
+}
+
+void Sound_system::on_music_volume_change(const Message& msg)
+{
+	music_volume = std::get<int>(msg.args);
+	music.setVolume(music_volume);
+}
+
+void Sound_system::on_window_focus_change(const Message& msg)
+{
+	if (std::get<bool>(msg.args))
+	{
+		muted = false;
+		music.play();
+	}
+	else
+	{
+		muted = true;
+		music.pause();
+	}
+}
+
+void Sound_system::on_level_change(const Message& msg)
+{
+	int id = std::get<int>(msg.args);
+	if (music_id == -1 || music_paths.at(id) != music_paths.at(music_id))
+	{
+		timer = CHANGE_DELTA;
+		next_music_id = id;
+		if (state == Music_state::UNINITALIZED)
+		{
+			state = Music_state::LOUDER;
+			music_id = id;
+			music.openFromFile(music_paths.at(music_id));
+			music.play();
+		}
+		else
+		{
+			state = Music_state::QUIETER;
+		}
 	}
 }
 

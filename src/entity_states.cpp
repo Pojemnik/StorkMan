@@ -51,6 +51,7 @@ void Idle_jump_state::enter(Entity& entity)
 {
 	entity.set_animation(Animation_index::JUMP_IDLE);
 	Jump_state::enter(entity);
+	entity.send_message<bool>(Message::Message_type::JUMPED, false);
 	std::cout << "Idle jump enter" << std::endl;
 }
 
@@ -58,6 +59,7 @@ void Run_jump_state::enter(Entity& entity)
 {
 	entity.set_animation(Animation_index::JUMP_RUN);
 	Jump_state::enter(entity);
+	entity.send_message<bool>(Message::Message_type::JUMPED, true);
 	std::cout << "Run jump enter" << std::endl;
 }
 
