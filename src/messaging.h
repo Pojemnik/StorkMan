@@ -12,7 +12,7 @@ typedef sf::Vector2i Vectori;
 class Message_sender;
 
 enum class Message_sender_type {
-	PLAYER, MAP, SOUND_SYSTEM, INTERPRETER, ENGINE,
+	PLAYER = 0, MAP, SOUND_SYSTEM, INTERPRETER, ENGINE,
 	ENEMY
 };
 
@@ -30,8 +30,8 @@ public:
 struct Message
 {
 	enum class Message_type {
-		DIED, DAMAGED, MOVED, JUMPED, ERROR, OUT,
-		CHANGED_LEVEL, WINDOW_FOCUS, MUSIC_VOLUME, RESOLUTION_CHANGED
+		DIED, DAMAGED, MOVED, JUMPED, ERROR, OUT, CHANGED_LEVEL, WINDOW_FOCUS,
+		MUSIC_VOLUME, RESOLUTION_CHANGED, SOUND_VOLUME
 	};
 	Message_type type;
 	std::variant<int, std::string, float, bool, Vectori, Vectorf> args;

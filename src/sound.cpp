@@ -1,15 +1,19 @@
 #include "sound.h"
 
-Sound_system::Sound_system(std::vector<string> entity_sounds_paths_, std::vector<string> music_paths_) :
+Sound_system::Sound_system(std::unordered_map<int, std::vector<string>> entity_sounds_paths_, std::vector<string> music_paths_) :
 	music_paths(music_paths_), Message_sender(Message_sender_type::SOUND_SYSTEM)
 {
 	music.setLoop(true);
 	for (const auto& it : entity_sounds_paths_)
 	{
-		sf::SoundBuffer sb;
-		if (!sb.loadFromFile(it))
-			throw std::invalid_argument("Incorrect sound path!");
-		entity_sounds.push_back(sb);
+		entity_sounds.insert({ it.first, {} });
+		for (const auto& it2 : it.second)
+		{
+			sf::SoundBuffer sb;
+			if (!sb.loadFromFile(it2))
+				throw std::invalid_argument("Incorrect sound path!");
+			entity_sounds.at(it.first).push_back(sb);
+		}
 	}
 }
 
@@ -46,17 +50,23 @@ void Sound_system::on_entity_jump(const Message& msg)
 {
 	if (std::get<bool>(msg.args))
 	{
-		pool.play_sound(entity_sounds[1]);
+		pool.play_sound(entity_sounds.at(static_cast<int>(msg.sender->id.get_type()))[1]);
 	}
 	else
 	{
-		pool.play_sound(entity_sounds[0]);
+		pool.play_sound(entity_sounds.at(static_cast<int>(msg.sender->id.get_type()))[0]);
 	}
 }
 
 void Sound_system::on_entity_death(const Message& msg)
 {
-	pool.play_sound(entity_sounds[2]);
+	pool.play_sound(entity_sounds.at(static_cast<int>(msg.sender->id.get_type()))[2]);
+}
+
+void Sound_system::on_sound_volume_change(const Message& msg)
+{
+	sound_volume = std::get<int>(msg.args);
+	pool.set_volume(sound_volume);
 }
 
 void Sound_system::on_window_focus_change(const Message& msg)
@@ -145,5 +155,13 @@ void Sound_pool::play_sound(const sf::SoundBuffer& sb)
 			it.play();
 			return;
 		}
+	}
+}
+
+void Sound_pool::set_volume(int volume)
+{
+	for (auto& it : pool)
+	{
+		it.setVolume(volume);
 	}
 }

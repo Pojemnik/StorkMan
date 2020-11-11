@@ -1,3 +1,7 @@
+#Entity type
+#0 - player
+0
+
 #Animation tree
 animations/stork/tree.txt
 

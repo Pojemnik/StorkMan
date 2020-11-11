@@ -242,7 +242,6 @@ std::pair<Commands_interpreter::Command_code, Vectorf> Commands_interpreter::exe
 			throw std::invalid_argument("Incorrect argument");
 		}
 		send_message<int>(Message::Message_type::MUSIC_VOLUME, vol);
-		//return std::make_pair(Command_code::SET_MUSIC_VOLUME, Vectorf(vol, 0));
 	}
 	else if (cmd.name == "soundvolume")
 	{
@@ -251,7 +250,7 @@ std::pair<Commands_interpreter::Command_code, Vectorf> Commands_interpreter::exe
 		{
 			throw std::invalid_argument("Incorrect argument");
 		}
-		//return std::make_pair(Command_code::SET_SOUND_VOLUME, Vectorf(vol, 0));
+		send_message<int>(Message::Message_type::SOUND_VOLUME, vol);
 	}
 	else if (cmd.name == "maxhealth")
 	{

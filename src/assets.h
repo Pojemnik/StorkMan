@@ -13,6 +13,7 @@ struct Entity_config
 	int max_hp;
 	std::pair<float, int> height;
 	std::vector<string> sounds;
+	int type;
 };
 
 class Assets
@@ -46,10 +47,10 @@ public:
 	const sf::Texture* console_bg = nullptr;
 	sf::Font storkfont, consola;
 	sf::Image icon;
-	std::vector<string> entity_sounds;
+	std::unordered_map<int, std::vector<string>> entity_sounds;
 
 	void load_assets();
-	void add_entity_sounds(std::vector<string>& paths);
+	void add_entity_sounds(int type, std::vector<string>& paths);
 	std::vector<const Dynamic_animation_struct*>* load_dynamic_animations(std::vector<string> paths);
 	const Animation_tree load_animation_tree(std::string path);
 	void parse_additional_textures(std::string path);

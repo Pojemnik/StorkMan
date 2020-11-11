@@ -129,7 +129,7 @@ int main(int argc, char** argv)
 
 	//Player
 	Entity_config storkman_config = parser.parse_entity_config("data/storkman.txt");
-	assets.add_entity_sounds(storkman_config.sounds);
+	assets.add_entity_sounds(storkman_config.type, storkman_config.sounds);
 	auto animations = assets.load_dynamic_animations(storkman_config.animation_files);
 	const auto stork_tree = assets.load_animation_tree(storkman_config.tree_file);
 	assets.pieces = assets.load_entity_textures(storkman_config.texture_paths,

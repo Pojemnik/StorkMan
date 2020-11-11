@@ -268,9 +268,9 @@ void Assets::load_assets()
 	consola.loadFromFile("data/fonts/consola.ttf");
 }
 
-void Assets::add_entity_sounds(std::vector<string>& paths)
+void Assets::add_entity_sounds(int type, std::vector<string>& paths)
 {
-	entity_sounds.insert(entity_sounds.end(), paths.begin(), paths.end());
+	entity_sounds.insert({ type, paths });
 }
 
 void Assets::parse_additional_textures(string path)
