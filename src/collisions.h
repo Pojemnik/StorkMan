@@ -5,8 +5,8 @@
 
 #include "util.h"
 
-//if updated update map string to surface_type in parser too
-enum class Surface_type : int {NONE = 0, GRASS, CONCRETE, ICE};
+//if updated update map string to surface_type in parser_helper too
+enum class Surface_type : int {NONE = 0, GRASS, CONCRETE, ICE, METAL};
 
 struct Collision
 {

@@ -24,7 +24,8 @@ namespace parse
 		{"none", Surface_type::NONE},
 		{"grass", Surface_type::GRASS},
 		{"concrete", Surface_type::CONCRETE},
-		{"ice", Surface_type::ICE}
+		{"ice", Surface_type::ICE},
+		{"metal", Surface_type::METAL}
 	};
 
 	std::vector<string> split_string(string s, string d = ",");

@@ -25,6 +25,7 @@ class Sound_system : public Message_receiver, public Message_sender
 
 	Sound_pool pool;
 	std::unordered_map<int, std::vector<sf::SoundBuffer>> entity_sounds;
+	std::unordered_map<int, sf::SoundBuffer> surface_sounds;
 	const std::vector<string> music_paths;
 	std::unordered_map<int, sf::Sound> steps;
 	sf::Music music;
@@ -37,14 +38,16 @@ class Sound_system : public Message_receiver, public Message_sender
 	int sound_volume = 100;
 	bool muted = false;
 	const std::unordered_map<Msgtype, std::function<void(const Message&)>>
-		message_function = 
+		message_function =
 	{
 		{Msgtype::CHANGED_LEVEL, std::bind(&Sound_system::on_level_change, this, std::placeholders::_1)},
 		{Msgtype::WINDOW_FOCUS, std::bind(&Sound_system::on_window_focus_change, this, std::placeholders::_1)},
 		{Msgtype::MUSIC_VOLUME, std::bind(&Sound_system::on_music_volume_change, this, std::placeholders::_1)},
 		{Msgtype::JUMPED, std::bind(&Sound_system::on_entity_jump, this, std::placeholders::_1)},
 		{Msgtype::DIED, std::bind(&Sound_system::on_entity_death, this, std::placeholders::_1)},
-		{Msgtype::SOUND_VOLUME, std::bind(&Sound_system::on_sound_volume_change, this, std::placeholders::_1)}
+		{Msgtype::SOUND_VOLUME, std::bind(&Sound_system::on_sound_volume_change, this, std::placeholders::_1)},
+		{Msgtype::MOVED, std::bind(&Sound_system::on_entity_move, this, std::placeholders::_1)},
+		{Msgtype::STOPPED, std::bind(&Sound_system::on_entity_stop, this, std::placeholders::_1)}
 	};
 
 	void update_music_state(float dt);
@@ -54,8 +57,12 @@ class Sound_system : public Message_receiver, public Message_sender
 	void on_entity_jump(const Message& msg);
 	void on_entity_death(const Message& msg);
 	void on_sound_volume_change(const Message& msg);
+	void on_entity_move(const Message& msg);
+	void on_entity_stop(const Message& msg);
 
 public:
-	Sound_system(std::unordered_map<int, std::vector<string>> entity_sounds_paths_, std::vector<string> music_paths_);
+	Sound_system(const std::unordered_map<int, std::vector<string>>& entity_sounds_paths_,
+		const std::vector<string>& music_paths_,
+		const std::unordered_map<int, string> steps_config);
 	void update(float dt);
 };

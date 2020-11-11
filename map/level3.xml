@@ -562,91 +562,91 @@
 		<v>1.75,6</v>
 		<v>0.25,6</v>
 	</wall>
-	<platform position="24.5,68.5" texture="panels,1">
+	<platform position="24.5,68.5" texture="panels,1" surface="metal">
 		<v>40.5,0.5</v>
 		<v>40.5,0</v>
 		<v>0,0</v>
 		<v>0,0.5</v>
 	</platform>
-	<platform position="22,68.5" texture="panels,2">
+	<platform position="22,68.5" texture="panels,2" surface="metal">
 		<v>1.5,0.5</v>
 		<v>1.5,0</v>
 		<v>0,0</v>
 		<v>0,0.5</v>
 	</platform>
-	<platform position="22,66" texture="panels,0">
+	<platform position="22,66" texture="panels,0" surface="metal">
 		<v>44.5,0.5</v>
 		<v>44.5,0</v>
 		<v>0,0</v>
 		<v>0,0.5</v>
 	</platform>
-	<platform position="66.5,66" texture="panels,1">
+	<platform position="66.5,66" texture="panels,1" surface="metal">
 		<v>0.5,3</v>
 		<v>0.5,0</v>
 		<v>0,0</v>
 		<v>0,3</v>
 	</platform>
-	<platform position="20,63" texture="panels,2">
+	<platform position="20,63" texture="panels,2" surface="metal">
 		<v>0.5,6</v>
 		<v>0.5,0</v>
 		<v>0,0</v>
 		<v>0,6</v>
 	</platform>
-	<platform position="22,64" texture="panels,0">
+	<platform position="22,64" texture="panels,0" surface="metal">
 		<v>0.5,2</v>
 		<v>0.5,0</v>
 		<v>0,0</v>
 		<v>0,2</v>
 	</platform>
-	<platform position="22,60" texture="panels,2">
+	<platform position="22,60" texture="panels,2" surface="metal">
 		<v>0,4</v>
 		<v>0.5,4</v>
 		<v>4,0.5</v>
 		<v>4,0</v>
 	</platform>
-	<platform position="20,57.5" texture="panels,1">
+	<platform position="20,57.5" texture="panels,1" surface="metal">
 		<v>0,5.5</v>
 		<v>0.5,5.5</v>
 		<v>5.5,0.5</v>
 		<v>5.5,0</v>
 	</platform>
-	<platform position="25.5,57.5" texture="panels,2">
+	<platform position="25.5,57.5" texture="panels,2" surface="metal">
 		<v>0,0.5</v>
 		<v>39.5,0.5</v>
 		<v>39.5,0</v>
 		<v>0,0</v>
 	</platform>
-	<platform position="26,60" texture="panels,0">
+	<platform position="26,60" texture="panels,0" surface="metal">
 		<v>0,0.5</v>
 		<v>6,0.5</v>
 		<v>6,0</v>
 		<v>0,0</v>
 	</platform>
-	<platform position="32,60" texture="panels,2">
+	<platform position="32,60" texture="panels,2" surface="metal">
 		<v>0,2</v>
 		<v>0.5,2</v>
 		<v>0.5,0</v>
 		<v>0,0</v>
 	</platform>
-	<platform position="33.5,60" texture="panels,1">
+	<platform position="33.5,60" texture="panels,1" surface="metal">
 		<v>0,2</v>
 		<v>0.5,2</v>
 		<v>0.5,0</v>
 		<v>0,0</v>
 	</platform>
-	<platform position="34,60" texture="panels,0">
+	<platform position="34,60" texture="panels,0" surface="metal">
 		<v>33,0.5</v>
 		<v>33,0</v>
 		<v>0,0</v>
 		<v>0,0.5</v>
 	</platform>
-	<platform position="64.5,52" texture="panels,1">
+	<platform position="64.5,52" texture="panels,1" surface="metal">
 		<v>0,5.5</v>
 		<v>0.5,5.5</v>
 		<v>0.5,0</v>
 		<v>0,0</v>
 	</platform>
-	<platform position="66.5,52" texture="panels,1">
+	<platform position="66.5,52" texture="panels,1" surface="metal">
 		<v>0,8</v>
 		<v>0.5,8</v>
 		<v>0.5,0</v>

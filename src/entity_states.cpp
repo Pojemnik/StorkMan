@@ -4,7 +4,7 @@ void Run_state::enter(Entity& entity)
 {
 	entity.set_animation(Animation_index::MOVE);
 	entity.move(entity.direction);
-	entity.send_message(Message::Message_type::MOVED, static_cast<int>(entity.surface));
+	entity.send_message<int>(Message::Message_type::MOVED, static_cast<int>(entity.surface));
 	std::cout << "Run enter" << std::endl;
 }
 
@@ -107,6 +107,7 @@ std::pair<Entity_state*, Entity_state_info> Jump_state::update(Entity& entity, f
 void Idle_state::enter(Entity& entity)
 {
 	entity.set_animation(Animation_index::IDLE);
+	entity.send_message(Message::Message_type::STOPPED);
 	std::cout << "Idle enter" << std::endl;
 }
 

@@ -24,6 +24,7 @@ class Message_sender_id
 public:
 	Message_sender_id(Message_sender_type type_);
 	Message_sender_type get_type() const;
+	int get_type_int() const;
 	int get_id() const;
 };
 
@@ -31,7 +32,7 @@ struct Message
 {
 	enum class Message_type {
 		DIED, DAMAGED, MOVED, JUMPED, ERROR, OUT, CHANGED_LEVEL, WINDOW_FOCUS,
-		MUSIC_VOLUME, RESOLUTION_CHANGED, SOUND_VOLUME
+		MUSIC_VOLUME, RESOLUTION_CHANGED, SOUND_VOLUME, STOPPED
 	};
 	Message_type type;
 	std::variant<int, std::string, float, bool, Vectori, Vectorf> args;
@@ -63,6 +64,7 @@ public:
 	Message_sender(Message_sender_type type);
 	template <typename T>
 	void send_message(Message::Message_type type, T args) const;
+	void send_message(Message::Message_type type) const;
 	void add_receiver(Message_receiver* receiver);
 	void remove_receiver(Message_receiver* receiver);
 	const Message_sender_id id;

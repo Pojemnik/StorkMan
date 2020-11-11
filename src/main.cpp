@@ -173,7 +173,8 @@ int main(int argc, char** argv)
 	bool init = execute_init_file("config.cfg");
 
 	//Sound init
-	Sound_system sound_system(assets.entity_sounds, parser.music_paths);
+	const auto steps_config = parser.load_steps_config("sound/sound/steps.cfg");
+	Sound_system sound_system(assets.entity_sounds, parser.music_paths, steps_config);
 	map.add_receiver(&sound_system);
 	player.add_receiver(&sound_system);
 	sound_system.add_receiver(&*context.console);

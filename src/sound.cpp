@@ -1,6 +1,8 @@
 #include "sound.h"
 
-Sound_system::Sound_system(std::unordered_map<int, std::vector<string>> entity_sounds_paths_, std::vector<string> music_paths_) :
+Sound_system::Sound_system(const std::unordered_map<int, std::vector<string>>& entity_sounds_paths_,
+	const std::vector<string>& music_paths_,
+	const std::unordered_map<int, string> steps_config) :
 	music_paths(music_paths_), Message_sender(Message_sender_type::SOUND_SYSTEM)
 {
 	music.setLoop(true);
@@ -14,6 +16,13 @@ Sound_system::Sound_system(std::unordered_map<int, std::vector<string>> entity_s
 				throw std::invalid_argument("Incorrect sound path!");
 			entity_sounds.at(it.first).push_back(sb);
 		}
+	}
+	for (const auto& it : steps_config)
+	{
+		sf::SoundBuffer sb;
+		if (!sb.loadFromFile(it.second))
+			throw std::invalid_argument("Incorrect step sound path!");
+		surface_sounds.insert({ it.first, sb });
 	}
 }
 
@@ -50,23 +59,52 @@ void Sound_system::on_entity_jump(const Message& msg)
 {
 	if (std::get<bool>(msg.args))
 	{
-		pool.play_sound(entity_sounds.at(static_cast<int>(msg.sender->id.get_type()))[1]);
+		pool.play_sound(entity_sounds.at(msg.sender->id.get_type_int())[1]);
 	}
 	else
 	{
-		pool.play_sound(entity_sounds.at(static_cast<int>(msg.sender->id.get_type()))[0]);
+		pool.play_sound(entity_sounds.at(msg.sender->id.get_type_int())[0]);
 	}
 }
 
 void Sound_system::on_entity_death(const Message& msg)
 {
-	pool.play_sound(entity_sounds.at(static_cast<int>(msg.sender->id.get_type()))[2]);
+	pool.play_sound(entity_sounds.at(msg.sender->id.get_type_int())[2]);
 }
 
 void Sound_system::on_sound_volume_change(const Message& msg)
 {
 	sound_volume = std::get<int>(msg.args);
 	pool.set_volume(sound_volume);
+	for (auto& it : steps)
+	{
+		it.second.setVolume(sound_volume);
+	}
+}
+
+void Sound_system::on_entity_move(const Message& msg)
+{
+	int sender_type = msg.sender->id.get_type_int();
+	if (!steps.contains(sender_type))
+	{
+		steps.insert({ sender_type, sf::Sound() });
+		steps.at(sender_type).setLoop(true);
+	}
+	int surface_type = std::get<int>(msg.args);
+	if (surface_sounds.contains(surface_type))
+	{
+		steps.at(sender_type).setBuffer(surface_sounds.at(surface_type));
+		steps.at(sender_type).play();
+	}
+}
+
+void Sound_system::on_entity_stop(const Message& msg)
+{
+	int sender_type = msg.sender->id.get_type_int();
+	if (steps.contains(sender_type))
+	{
+		steps.at(sender_type).stop();
+	}
 }
 
 void Sound_system::on_window_focus_change(const Message& msg)

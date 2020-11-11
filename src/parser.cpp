@@ -414,6 +414,29 @@ void Parser::load_music_config(string path)
 	}
 }
 
+std::unordered_map<int, string> Parser::load_steps_config(string path)
+{
+	std::ifstream file_raw;
+	file_raw.open(path);
+	if (!file_raw.good())
+	{
+		throw std::invalid_argument("Music config file not found");
+	}
+	std::unordered_map<int, string> steps_config;
+	auto file = util::remove_comments(file_raw);
+	while (!file.eof())
+	{
+		string a, b;
+		file >> a >> b;
+		if (a == "" || b == "")
+		{
+			return steps_config;
+		}
+		steps_config.insert({ static_cast<int>(name_to_surface.at(a)), b });
+	}
+	return steps_config;
+}
+
 std::pair<std::optional<int>, std::shared_ptr<Moving_platform>>
 Parser::parse_old_moving_platform(tinyxml2::XMLElement* element, Vectori level_pos)
 {

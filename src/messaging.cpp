@@ -11,6 +11,11 @@ Message_sender_type Message_sender_id::get_type() const
 	return type;
 }
 
+int Message_sender_id::get_type_int() const
+{
+	return static_cast<int>(type);
+}
+
 int Message_sender_id::get_id() const
 {
 	return id;
@@ -36,6 +41,11 @@ void Message_receiver::push_message(Message& msg)
 Message_sender::Message_sender(Message_sender_type type) : id(type)
 {
 
+}
+
+void Message_sender::send_message(Message::Message_type type) const
+{
+	send_message<int>(type, NULL);
 }
 
 void Message_sender::add_receiver(Message_receiver* receiver)
