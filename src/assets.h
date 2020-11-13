@@ -48,6 +48,7 @@ public:
 	sf::Font storkfont, consola;
 	sf::Image icon;
 	std::unordered_map<int, std::vector<string>> entity_sounds;
+	string color_path = "data/colors.txt";
 
 	void load_assets();
 	void add_entity_sounds(int type, std::vector<string>& paths);

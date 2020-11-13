@@ -43,6 +43,17 @@ extern struct Context context;
 
 namespace util
 {
+	class Color_generator
+	{
+	private:
+		std::vector<sf::Color> colors;
+		std::vector<sf::Color>::const_iterator it;
+
+	public:
+		Color_generator(string path);
+		sf::Color get_color();
+	};
+
 	struct xyr
 	{
 		Vectorf pos;

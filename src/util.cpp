@@ -254,3 +254,26 @@ bool util::contained_in_polygon(Vectorf point, float max_x, const std::vector<Ve
 		return true;
 	return false;
 }
+
+util::Color_generator::Color_generator(string path)
+{
+	std::ifstream color_file;
+	color_file.open(path);
+	if (!color_file.good())
+	{
+		throw std::runtime_error("Can't open file");
+	}
+	int r, g, b;
+	while (color_file >> r >> g >> b)
+	{
+		colors.push_back(sf::Color(r, g, b));
+	}
+	it = colors.cbegin();
+}
+
+sf::Color util::Color_generator::get_color()
+{
+	sf::Color val = *it;
+	it = increment_iterator(it, colors);
+	return val;
+}

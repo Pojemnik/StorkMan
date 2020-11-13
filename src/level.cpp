@@ -50,13 +50,14 @@ Map_chunk::Map_chunk(std::vector<std::shared_ptr<Updatable>>&& updatables_,
 	: updatables(std::move(updatables_)), collidables(std::move(collidables_)),
 	bound(bound_), zones(std::move(zones_)), static_collision_vertices(std::move(static_vertices))
 {
+	static util::Color_generator colors("data/colors.txt");
 	for (auto& it : drawables_)
 	{
 		layers[it.first].push_back(it.second);
 	}
 	border.setPosition(bound.left, bound.top);
 	border.setSize({ bound.width, bound.height });
-	border.setOutlineColor(sf::Color::Green);
+	border.setOutlineColor(colors.get_color());
 	border.setFillColor(sf::Color::Transparent);
 	border.setOutlineThickness(1);
 }
@@ -227,6 +228,13 @@ void Level::draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) c
 			{
 				target.draw(it, states);
 			}
+		}
+	}
+	for (const auto& it : chunks)
+	{
+		if (draw_chunks_borders)
+		{
+			it.draw_border(target, states);
 		}
 	}
 }
