@@ -1,7 +1,7 @@
 import math
-global lvl
 def wielokąt_foremny(n=6, bok=1, obrót=0, początek=0, przesunięcie_x=0, przesunięcie_y=0, pomijanie=0, pominięte=(0,1)):
-    s = ""
+    s = ["v"]
+    n = 0
     alfa = 180*(1-(n-2)/n)
     kierunek = obrót+180
     punkt_x = przesunięcie_x
@@ -14,9 +14,10 @@ def wielokąt_foremny(n=6, bok=1, obrót=0, początek=0, przesunięcie_x=0, prze
         punkt_y = przesunięcie_y + math.cos(math.radians(obrót))
     for i in range(n):
         if pomijanie==0 or (pomijanie==1 and pominięte[i]==1):
-            s = s + """
-                <v>{0},{1}</v>""".format(punkt_x, punkt_y)
+            s = [punkt_x,punkt_y]
+            n += 1
         kierunek = kierunek+alfa
         punkt_x = punkt_x+math.cos(math.radians(kierunek))*bok
         punkt_y = punkt_y+math.sin(math.radians(kierunek))*bok
+    s = [s[0],n] + s[1:]
     return s
