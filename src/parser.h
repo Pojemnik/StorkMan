@@ -10,6 +10,7 @@
 #include "parser_helper.h"
 #include "barriers.h"
 #include "zones.h"
+#include "map_sounds.h"
 
 using namespace parse;
 

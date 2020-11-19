@@ -7,16 +7,31 @@ void Map::init()
 
 void Map::update_levels(float dt, sf::FloatRect screen_rect)
 {
-	call_on_considered_levels(std::bind(&Level::update, std::placeholders::_1, dt, screen_rect));
+	for (auto& it : considered_levels)
+	{
+		it->update(dt, screen_rect);
+	}
 }
 
 void Map::resolve_collisions()
 {
-	call_on_considered_levels(std::bind(&Level::resolve_collisions, std::placeholders::_1, entities));
+	for (auto& it : considered_levels)
+	{
+		it->resolve_collisions(entities);
+	}
 }
 
-void Map::call_on_considered_levels(std::function<void(Level&)> foo)
+void Map::make_zones_interactions()
 {
+	for (auto& it : considered_levels)
+	{
+		it->make_zones_interactions(entities);
+	}
+}
+
+void Map::get_considered_levels()
+{
+	considered_levels.clear();
 	for (int i = -1; i < 2; i++)
 	{
 		int y = current_pos.y + i;
@@ -31,14 +46,9 @@ void Map::call_on_considered_levels(std::function<void(Level&)> foo)
 			{
 				continue;
 			}
-			foo(*levels[x][y]);
+			considered_levels.push_back(&*levels[x][y]);
 		}
 	}
-}
-
-void Map::make_zones_interactions()
-{
-	call_on_considered_levels(std::bind(&Level::make_zones_interactions, std::placeholders::_1, entities));
 }
 
 Map::Map(Vectori size_, Vectori pos, const sf::Texture* bg_tex) : size(size_),
@@ -69,107 +79,42 @@ void Map::add_level(std::unique_ptr<Level>&& lvl)
 void Map::draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(background);
-	for (int i = -1; i < 2; i++)
+	for (auto& it : considered_levels)
 	{
-		int y = current_pos.y + i;
-		if (y < 0 || y >= size.y)
-		{
-			continue;
-		}
-		for (int j = -1; j < 2; j++)
-		{
-			int x = current_pos.x + j;
-			if (x < 0 || x >= size.x)
-			{
-				continue;
-			}
-			levels[x][y]->draw_bottom_layers(target, states);
-		}
+		it->draw_bottom_layers(target, states);
 	}
 }
 
 void Map::draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	for (int i = -1; i < 2; i++)
+	for (auto& it : considered_levels)
 	{
-		int y = current_pos.y + i;
-		if (y < 0 || y >= size.y)
-		{
-			continue;
-		}
-		for (int j = -1; j < 2; j++)
-		{
-			int x = current_pos.x + j;
-			if (x < 0 || x >= size.x)
-			{
-				continue;
-			}
-			levels[x][y]->draw_middle_layers(target, states);
-		}
+		it->draw_middle_layers(target, states);
 	}
 }
 
 void Map::draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	for (int i = -1; i < 2; i++)
+	for (auto& it : considered_levels)
 	{
-		int y = current_pos.y + i;
-		if (y < 0 || y >= size.y)
-		{
-			continue;
-		}
-		for (int j = -1; j < 2; j++)
-		{
-			int x = current_pos.x + j;
-			if (x < 0 || x >= size.x)
-			{
-				continue;
-			}
-			levels[x][y]->draw_top_layers(target, states);
-		}
+		it->draw_top_layers(target, states);
 	}
 }
 
 void Map::draw_vertices(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	for (int i = -1; i < 2; i++)
+	for (auto& it : considered_levels)
 	{
-		int y = current_pos.y + i;
-		if (y < 0 || y >= size.y)
-		{
-			continue;
-		}
-		for (int j = -1; j < 2; j++)
-		{
-			int x = current_pos.x + j;
-			if (x < 0 || x >= size.x)
-			{
-				continue;
-			}
-			levels[x][y]->draw_moving_collisions(target, states);
-			levels[x][y]->draw_static_collisions(target, states);
-		}
+		it->draw_moving_collisions(target, states);
+		it->draw_static_collisions(target, states);
 	}
 }
 
 void Map::draw_zones(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	for (int i = -1; i < 2; i++)
+	for (auto& it : considered_levels)
 	{
-		int y = current_pos.y + i;
-		if (y < 0 || y >= size.y)
-		{
-			continue;
-		}
-		for (int j = -1; j < 2; j++)
-		{
-			int x = current_pos.x + j;
-			if (x < 0 || x >= size.x)
-			{
-				continue;
-			}
-			levels[x][y]->draw_zones(target, states);
-		}
+		it->draw_zones(target, states);
 	}
 }
 
@@ -185,11 +130,12 @@ void Map::update(float dt, Vectorf player_pos, sf::FloatRect screen_rect)
 		{
 			send_message<int>(Message::Message_type::CHANGED_LEVEL, levels.at(current_pos.x).at(current_pos.y)->code);
 		}
-		catch (const std::out_of_range &e)
+		catch (const std::out_of_range& e)
 		{
 			send_message<string>(Message::Message_type::ERROR, "Level out of range");
 		}
 	}
+	get_considered_levels();
 	update_levels(dt, screen_rect);
 	resolve_collisions();
 	make_zones_interactions();

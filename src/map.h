@@ -11,11 +11,12 @@ class Map : public Message_sender
 	std::vector<std::vector<std::unique_ptr<Level>>> levels;
 	std::vector<Entity*> entities;
 	sf::Sprite background;
+	std::vector<Level*> considered_levels;
 
 	void update_levels(float dt, sf::FloatRect screen_rect);
 	void resolve_collisions();
-	void call_on_considered_levels(std::function<void(Level&)> foo);
 	void make_zones_interactions();
+	void get_considered_levels();
 
 public:
 	Map(Vectori size_, Vectori pos, const sf::Texture* bg_tex);

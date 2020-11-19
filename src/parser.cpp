@@ -137,7 +137,8 @@ Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root, Vectori level_pos)
 	collision_buffer.create(collision_vertices.size());
 	collision_buffer.update(collision_vertices.data());
 	return Map_chunk(std::move(updatables), std::move(drawables),
-		std::move(collidables), std::move(zones), bound, std::move(collision_buffer));
+		std::move(collidables), std::move(zones),
+		std::move(std::vector<Map_sound>()), bound, std::move(collision_buffer));
 
 }
 
