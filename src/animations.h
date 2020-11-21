@@ -37,7 +37,7 @@ struct Animation_tree
 	std::vector<std::vector<int>> tree;
 	int root;
 	std::unordered_map<std::pair<int, int>, std::pair<Animation_index,
-		std::vector<int>>, pair_hash> alternative_animations;
+		std::vector<int>>, util::pair_hash> alternative_animations;
 	Frame_info frame_info;
 
 	Animation_tree() = default;

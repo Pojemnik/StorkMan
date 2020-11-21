@@ -33,6 +33,7 @@ struct Context
 	float gravity = 0.3f;
 	float global_scale = 64;	//[px/m]
 	Vectori resolution = { 1920, 1080 };
+	Vectorf player_pos;
 	std::unique_ptr<Console> console;
 	std::unique_ptr<ctpl::thread_pool> thread_pool;
 	Vectori level_size = { 100, 100 };
@@ -58,6 +59,25 @@ namespace util
 	{
 		Vectorf pos;
 		float r;
+	};
+
+	template<typename T>
+	inline void hash_combine(std::size_t& seed, const T& val)
+	{
+		std::hash<T> hasher;
+		seed ^= hasher(val) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+	}
+
+	struct pair_hash
+	{
+		template<typename S, typename T>
+		inline size_t operator()(const std::pair<S, T>& val) const
+		{
+			size_t seed = 0;
+			hash_combine(seed, val.first);
+			hash_combine(seed, val.second);
+			return seed;
+		}
 	};
 
 	//Vectors

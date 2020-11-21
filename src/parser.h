@@ -18,6 +18,7 @@ class Parser
 {
 	const Assets* assets;
 	std::unordered_map<string, string> level_music;
+	std::unordered_map<string, int> map_sounds;
 
 	std::pair<Vectori, Vectori> parse_map_element(tinyxml2::XMLElement* element);
 	std::tuple<Vectori, string, string> parse_level_element(tinyxml2::XMLElement* element, Vectori map_size);
@@ -83,5 +84,6 @@ public:
 	Entity_config parse_entity_config(string path);
 	void load_music_config(string path);
 	std::unordered_map<int, string> load_steps_config(string path);
+	std::vector<string> load_map_sound_config(string path);
 	Parser(Assets* _assets);
 };

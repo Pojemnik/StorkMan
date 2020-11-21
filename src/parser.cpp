@@ -82,7 +82,8 @@ Level Parser::parse_level(tinyxml2::XMLElement* root, Vectori global_pos, int co
 		}
 		element = element->NextSiblingElement();
 	}
-	return Level(std::move(chunks), std::move(moving), global_pos, code);
+	return Level(std::move(chunks), std::move(moving),
+		std::move(std::vector<Map_sound>()), global_pos, code);
 }
 
 std::unique_ptr<Level> Parser::open_and_parse_level(Vectori pos, string filepath, int code)
@@ -137,8 +138,8 @@ Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root, Vectori level_pos)
 	collision_buffer.create(collision_vertices.size());
 	collision_buffer.update(collision_vertices.data());
 	return Map_chunk(std::move(updatables), std::move(drawables),
-		std::move(collidables), std::move(zones),
-		std::move(std::vector<Map_sound>()), bound, std::move(collision_buffer));
+		std::move(collidables), std::move(zones), bound,
+		std::move(collision_buffer));
 
 }
 
@@ -436,6 +437,32 @@ std::unordered_map<int, string> Parser::load_steps_config(string path)
 		steps_config.insert({ static_cast<int>(name_to_surface.at(a)), b });
 	}
 	return steps_config;
+}
+
+std::vector<string> Parser::load_map_sound_config(string path)
+{
+	std::ifstream file_raw;
+	file_raw.open(path);
+	if (!file_raw.good())
+	{
+		throw std::invalid_argument("MAp sounds config file not found");
+	}
+	std::vector<string> paths;
+	auto file = util::remove_comments(file_raw);
+	int i = 0;
+	while (!file.eof())
+	{
+		string a, b;
+		file >> a >> b;
+		if (a == "" || b == "")
+		{
+			return paths;
+		}
+		paths.push_back(b);
+		map_sounds.insert({ a, i });
+		i++;
+	}
+	return paths;
 }
 
 std::pair<std::optional<int>, std::shared_ptr<Moving_platform>>

@@ -1,4 +1,5 @@
 #pragma once
+#include <unordered_set>
 #include "compound_map_objects.h"
 #include "map_sounds.h"
 #include "map_chunks.h"
@@ -43,7 +44,8 @@ public:
 
 	Level() = default;
 	Level(std::vector<Map_chunk>&& chunks_,
-		std::vector<Moving_element>&& moving_, Vectori pos, int code_);
+		std::vector<Moving_element>&& moving_, std::vector<Map_sound>&& sounds_,
+		Vectori pos, int code_);
 	void update(float dt, sf::FloatRect screen_rect);
 	void draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -55,5 +57,7 @@ public:
 	void draw_moving_collisions(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_static_collisions(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_zones(sf::RenderTarget& target, sf::RenderStates states) const;
+	std::unordered_set<const Map_sound*, std::hash<Map_sound*>, Map_sound_compare>
+		get_current_map_sounds(Vectorf player_pos) const;
 	Vectori get_global_pos() const;
 };

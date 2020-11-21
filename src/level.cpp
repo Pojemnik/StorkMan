@@ -43,8 +43,9 @@ Moving_element::Moving_element(std::shared_ptr<Updatable> updatable_, int layer_
 }
 
 Level::Level(std::vector<Map_chunk>&& chunks_,
-	std::vector<Moving_element>&& moving_, Vectori pos, int code_)
-	: chunks(chunks_), moving(moving_), global_pos(pos), code(code_){}
+	std::vector<Moving_element>&& moving_, std::vector<Map_sound>&& sounds_,
+	Vectori pos, int code_) : chunks(chunks_), sounds(sounds_), moving(moving_),
+	global_pos(pos), code(code_){}
 
 void Level::update(float dt, sf::FloatRect screen_rect)
 {
@@ -238,6 +239,21 @@ void Level::draw_zones(sf::RenderTarget& target, sf::RenderStates states) const
 	//{
 	//	it.draw_zones(target, states);
 	//}
+}
+
+std::vector<const Map_sound*> Level::get_current_map_sounds(Vectorf player_pos) const
+{
+	std::vector<const Map_sound*> current_sounds;
+	sf::FloatRect player_rect(player_pos, { 1.f,1.f });
+	for (const auto& it : sounds)
+	{
+		if (player_rect.intersects(it.get_collision().rect))
+		{
+			//Check mesh collision
+			current_sounds.push_back(&it);
+		}
+	}
+	return current_sounds;
 }
 
 Vectori Level::get_global_pos() const

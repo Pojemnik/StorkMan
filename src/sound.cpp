@@ -1,12 +1,13 @@
 #include "sound.h"
 
-Sound_system::Sound_system(const std::unordered_map<int, std::vector<string>>& entity_sounds_paths_,
+Sound_system::Sound_system(const std::unordered_map<int, std::vector<string>>& entity_sounds_paths,
 	const std::vector<string>& music_paths_,
+	const std::vector<string>& map_sounds_paths,
 	const std::unordered_map<int, string> steps_config) :
 	music_paths(music_paths_), Message_sender(Message_sender_type::SOUND_SYSTEM)
 {
 	music.setLoop(true);
-	for (const auto& it : entity_sounds_paths_)
+	for (const auto& it : entity_sounds_paths)
 	{
 		entity_sounds.insert({ it.first, {} });
 		for (const auto& it2 : it.second)
@@ -16,6 +17,13 @@ Sound_system::Sound_system(const std::unordered_map<int, std::vector<string>>& e
 				throw std::invalid_argument("Incorrect sound path!");
 			entity_sounds.at(it.first).push_back(sb);
 		}
+	}
+	for (const auto& it : map_sounds_paths)
+	{
+		sf::SoundBuffer sb;
+		if (!sb.loadFromFile(it))
+			throw std::invalid_argument("Incorrect sound path!");
+		map_sounds.push_back(sb);
 	}
 	for (const auto& it : steps_config)
 	{
@@ -28,6 +36,8 @@ Sound_system::Sound_system(const std::unordered_map<int, std::vector<string>>& e
 
 void Sound_system::update(float dt)
 {
+	sf::Listener::setPosition(context.player_pos.x / context.global_scale,
+		context.player_pos.y / context.global_scale, 0);
 	while (message_available())
 	{
 		Message msg = pop_message();
@@ -107,6 +117,13 @@ void Sound_system::on_entity_stop(const Message& msg)
 	}
 }
 
+void Sound_system::on_sound_enter(const Message& msg)
+{
+	auto args = std::get<std::tuple<int, int, Vectorf>>(msg.args);
+	pool.play_map_sound(map_sounds.at(std::get<0>(args)),
+		std::make_pair(lvl_id, std::get<1>(args)), std::get<2>(args));
+}
+
 void Sound_system::on_window_focus_change(const Message& msg)
 {
 	if (std::get<bool>(msg.args))
@@ -124,6 +141,7 @@ void Sound_system::on_window_focus_change(const Message& msg)
 void Sound_system::on_level_change(const Message& msg)
 {
 	int id = std::get<int>(msg.args);
+	lvl_id = id;
 	if (music_id == -1 || music_paths.at(id) != music_paths.at(music_id))
 	{
 		timer = CHANGE_DELTA;
@@ -183,17 +201,25 @@ void Sound_system::update_music_state(float dt)
 	}
 }
 
-void Sound_pool::play_sound(const sf::SoundBuffer& sb)
+int Sound_pool::play_sound(const sf::SoundBuffer& sb, bool relative, Vectorf pos, bool repeated)
 {
-	for (auto& it : pool)
+	for (int i = 0; i < POOL_SIZE; i++)
 	{
-		if (it.getStatus() == sf::SoundSource::Status::Stopped)
+		if (pool[i].getStatus() == sf::SoundSource::Status::Stopped)
 		{
-			it.setBuffer(sb);
-			it.play();
+			pool[i].setBuffer(sb);
+			pool[i].setRelativeToListener(relative);
+			pool[i].setPosition(pos.x, pos.y, 0);
+			pool[i].setLoop(repeated);
+			pool[i].play();
 			return;
 		}
 	}
+}
+
+void Sound_pool::play_map_sound(const sf::SoundBuffer& sb, std::pair<int, int> id, Vectorf pos)
+{
+	map_sounds.insert({ id, play_sound(sb, false, pos, true) });
 }
 
 void Sound_pool::set_volume(int volume)
@@ -202,4 +228,11 @@ void Sound_pool::set_volume(int volume)
 	{
 		it.setVolume(volume);
 	}
+}
+
+void Sound_pool::stop_sound(std::pair<int, int> id)
+{
+	int sound_i = map_sounds.at(id);
+	map_sounds.erase(id);
+	pool[sound_i].stop();
 }

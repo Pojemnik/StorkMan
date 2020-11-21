@@ -44,10 +44,10 @@ void Map_chunk::make_zones_interactions(Entity& entity) const
 Map_chunk::Map_chunk(std::vector<std::shared_ptr<Updatable>>&& updatables_,
 	std::vector<std::pair<int, std::shared_ptr<Renderable>>>&& drawables_,
 	std::vector<std::shared_ptr<const Collidable>>&& collidables_,
-	std::vector<std::shared_ptr<Zone>>&& zones_, std::vector<Map_sound>&& sounds_,
-	sf::FloatRect bound_, sf::VertexBuffer&& static_vertices)
+	std::vector<std::shared_ptr<Zone>>&& zones_, sf::FloatRect bound_,
+	sf::VertexBuffer&& static_vertices)
 	: updatables(updatables_), collidables(collidables_), bound(bound_),
-	zones(zones_), sounds(sounds_), static_collision_vertices(static_vertices)
+	zones(zones_), static_collision_vertices(static_vertices)
 {
 	static util::Color_generator colors("data/colors.txt");
 	for (auto& it : drawables_)

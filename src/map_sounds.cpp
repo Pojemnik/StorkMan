@@ -1,8 +1,9 @@
 #include "map_sounds.h"
 
-Map_sound::Map_sound(const sf::SoundBuffer* buffer_, Collision&& collision_, int volume_)
-	: buffer(buffer_), collision(collision_), volume(volume_)
+Map_sound::Map_sound(int sound_, Collision&& collision_, int volume_, int id_)
+	: sound(sound_), collision(collision_), volume(volume_), id(id_)
 {
+	pos = Vectorf(collision.rect.left, collision.rect.top);
 }
 
 Collision Map_sound::get_collision() const
@@ -10,7 +11,17 @@ Collision Map_sound::get_collision() const
 	return collision;
 }
 
-const sf::SoundBuffer* Map_sound::get_buffer() const
+int Map_sound::get_sound() const
 {
-	return buffer;
+	return sound;
+}
+
+int Map_sound::get_id() const
+{
+	return id;
+}
+
+Vectorf Map_sound::get_pos() const
+{
+	return pos;
 }

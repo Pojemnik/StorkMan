@@ -5,30 +5,6 @@ void Map::init()
 	send_message<int>(Message::Message_type::CHANGED_LEVEL, levels[current_pos.x][current_pos.y]->code);
 }
 
-void Map::update_levels(float dt, sf::FloatRect screen_rect)
-{
-	for (auto& it : considered_levels)
-	{
-		it->update(dt, screen_rect);
-	}
-}
-
-void Map::resolve_collisions()
-{
-	for (auto& it : considered_levels)
-	{
-		it->resolve_collisions(entities);
-	}
-}
-
-void Map::make_zones_interactions()
-{
-	for (auto& it : considered_levels)
-	{
-		it->make_zones_interactions(entities);
-	}
-}
-
 void Map::get_considered_levels()
 {
 	considered_levels.clear();
@@ -134,11 +110,32 @@ void Map::update(float dt, Vectorf player_pos, sf::FloatRect screen_rect)
 		{
 			send_message<string>(Message::Message_type::ERROR, "Level out of range");
 		}
+		last_map_sounds.clear();
 	}
 	get_considered_levels();
-	update_levels(dt, screen_rect);
-	resolve_collisions();
-	make_zones_interactions();
+	for (auto& it : considered_levels)
+	{
+		it->update(dt, screen_rect);
+		it->resolve_collisions(entities);
+		it->make_zones_interactions(entities);
+	}
+	auto current_map_sounds = levels.at(current_pos.x).at(current_pos.y)->get_current_map_sounds(player_pos);
+	for (const auto& it : current_map_sounds)
+	{
+		if (!last_map_sounds.contains(it))
+		{
+			send_message(Message::Message_type::ENTERED_SOUND,
+				std::make_tuple(it->get_sound(), it->get_id(), it->get_pos()));
+		}
+	}
+	for (const auto& it : last_map_sounds)
+	{
+		if (!current_map_sounds.contains(it))
+		{
+			send_message(Message::Message_type::LEFT_SOUND,
+				std::make_tuple(it->get_sound(), it->get_id(), it->get_pos()));
+		}
+	}
 }
 
 void Map::add_entity(Entity* entity)
