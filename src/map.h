@@ -28,6 +28,7 @@ public:
 	void update(float dt, Vectorf player_pos, sf::FloatRect screen_rect);
 	void add_entity(Entity* entity);
 	void set_draw_chunks_borders(bool draw);
+	void set_draw_sound_sources(bool draw);
 	void draw_vertices(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_zones(sf::RenderTarget& target, sf::RenderStates states) const;
 };

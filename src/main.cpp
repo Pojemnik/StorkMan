@@ -281,6 +281,9 @@ int main(int argc, char** argv)
 				case Commands_interpreter::Command_code::DRAW_CHUNKS_BORDERS:
 					map.set_draw_chunks_borders(static_cast<bool>(code.second.x));
 					break;
+				case Commands_interpreter::Command_code::DRAW_SOUND_SOURCES:
+					map.set_draw_sound_sources(static_cast<bool>(code.second.x));
+					break;
 				case Commands_interpreter::Command_code::SET_PLAYER_TEXTURE:
 					player.set_textures_set(static_cast<int>(code.second.x));
 					break;

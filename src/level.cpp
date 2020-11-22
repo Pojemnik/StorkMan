@@ -45,7 +45,29 @@ Moving_element::Moving_element(std::shared_ptr<Updatable> updatable_, int layer_
 Level::Level(std::vector<Map_chunk>&& chunks_,
 	std::vector<Moving_element>&& moving_, std::vector<Map_sound>&& sounds_,
 	Vectori pos, int code_) : chunks(chunks_), sounds(sounds_), moving(moving_),
-	global_pos(pos), code(code_){}
+	global_pos(pos), code(code_),
+	sound_borders(sf::PrimitiveType::Lines, sf::VertexBuffer::Usage::Static)
+{
+	static util::Color_generator colors("data/colors.txt");
+	for (const auto& it : sounds)
+	{
+		sf::Color color = colors.get_color();
+		std::vector<sf::Vertex> sound_borders_vect;
+		auto mesh = it.get_collision().mesh;
+		sound_borders.create(mesh.size() * 2);
+		sound_borders_vect.push_back(sf::Vertex(mesh[0], color));
+		for (int i = 1; i < mesh.size(); i++)
+		{
+			sound_borders_vect.push_back(sf::Vertex(mesh[i], color));
+			sound_borders_vect.push_back(sf::Vertex(mesh[i], color));
+		}
+		sound_borders_vect.push_back(sf::Vertex(mesh[0], color));
+		sound_borders.update(sound_borders_vect.data());
+		sound_sources.push_back(sf::CircleShape(5));
+		sound_sources.back().setFillColor(color);
+		sound_sources.back().setPosition(it.get_pos());
+	}
+}
 
 void Level::update(float dt, sf::FloatRect screen_rect)
 {
@@ -127,6 +149,14 @@ void Level::draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states
 			}
 		}
 	}
+	if (draw_sound_sources)
+	{
+		for (const auto& it : sound_sources)
+		{
+			target.draw(it, states);
+		}
+		target.draw(sound_borders, states);
+	}
 }
 
 void Level::draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) const
@@ -186,6 +216,11 @@ void Level::set_draw_border(bool draw)
 void Level::set_draw_chunks_borders(bool draw)
 {
 	draw_chunks_borders = draw;
+}
+
+void Level::set_draw_sound_sources(bool draw)
+{
+	draw_sound_sources = draw;
 }
 
 void Level::make_zones_interactions(std::vector<Entity*>& entities)

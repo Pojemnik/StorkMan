@@ -157,3 +157,14 @@ void Map::set_draw_chunks_borders(bool draw)
 		}
 	}
 }
+
+void Map::set_draw_sound_sources(bool draw)
+{
+	for (auto& it : levels)
+	{
+		for (auto& it2 : it)
+		{
+			it2->set_draw_sound_sources(draw);
+		}
+	}
+}

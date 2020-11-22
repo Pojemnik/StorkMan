@@ -299,6 +299,12 @@ std::pair<Commands_interpreter::Command_code, Vectorf> Commands_interpreter::exe
 		return std::make_pair(Command_code::DRAW_CHUNKS_BORDERS,
 			Vectorf(static_cast<bool>(draw), 0));
 	}
+	else if (cmd.name == "soundsources")
+	{
+	bool draw = get_bool(cmd, "Sounds' sources", { "drawn", "hidden" });
+	return std::make_pair(Command_code::DRAW_SOUND_SOURCES,
+		Vectorf(static_cast<bool>(draw), 0));
+	}
 	else if (cmd.name == "help" || cmd.name =="?")
 	{
 		if (help_page == "")
