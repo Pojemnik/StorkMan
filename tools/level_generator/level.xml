@@ -1,295 +1,1422 @@
 <level name="Poziom testowy python" background="bg1">
 <chunk>
-    <platform position="0,0" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
+    <platform position="0,95" texture="dirt,0" layer="5" rotation="0" flip="1,1" surface="none">
         <v>0,0</v>
-        <v>0.5,0</v>
-        <v>0.5,0.5</v>
-        <v>0,0.5</v>
-    </platform>
-    <platform position="9.5,0" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
-        <v>0,0</v>
-        <v>0.5,0</v>
-        <v>0.5,0.5</v>
-        <v>0,0.5</v>
-    </platform>
-    <platform position="9.5,9.5" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
-        <v>0,0</v>
-        <v>0.5,0</v>
-        <v>0.5,0.5</v>
-        <v>0,0.5</v>
-    </platform>
-    <platform position="0,9.5" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
-        <v>0,0</v>
-        <v>0.5,0</v>
-        <v>0.5,0.5</v>
-        <v>0,0.5</v>
-    </platform>
-    <platform position="0.5,0" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
-        <v>0,0</v>
-        <v>9.0,0</v>
-        <v>9.0,0.5</v>
-        <v>0,0.5</v>
-    </platform>
-    <platform position="0.5,9.5" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
-        <v>0,0</v>
-        <v>9.0,0</v>
-        <v>9.0,0.5</v>
-        <v>0,0.5</v>
-    </platform>
-    <platform position="0,0.5" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
-        <v>0,0</v>
-        <v>0.5,0</v>
-        <v>0.5,9.0</v>
-        <v>0,9.0</v>
-    </platform>
-    <platform position="9.5,0.5" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
-        <v>0,0</v>
-        <v>0.5,0</v>
-        <v>0.5,9.0</v>
-        <v>0,9.0</v>
+        <v>10,0</v>
+        <v>10,5</v>
+        <v>0,5</v>
     </platform>
 </chunk>
 <chunk>
-    <platform position="0.5,9.5" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
-        <v>0,-0.0</v>
-        <v>2.0,-0.0</v>
-        <v>2.0,-0.5</v>
-        <v>0,-0.5</v>
+    <platform position="10,80" texture="concrete,0" layer="5" rotation="0" flip="1,1" surface="none">
+        <v>0,0</v>
+        <v>1,0</v>
+        <v>1,1</v>
+        <v>0,1</v>
     </platform>
-    <platform position="0.5,9.5" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
-        <v>0,-0.5</v>
-        <v>1.5,-0.5</v>
-        <v>1.5,-1.0</v>
-        <v>0,-1.0</v>
+    <platform position="52,80" texture="concrete,0" layer="5" rotation="0" flip="1,1" surface="none">
+        <v>0,0</v>
+        <v>1,0</v>
+        <v>1,1</v>
+        <v>0,1</v>
     </platform>
-    <platform position="0.5,9.5" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
-        <v>0,-1.0</v>
-        <v>1.0,-1.0</v>
-        <v>1.0,-1.5</v>
-        <v>0,-1.5</v>
+    <platform position="52,99" texture="concrete,0" layer="5" rotation="0" flip="1,1" surface="none">
+        <v>0,0</v>
+        <v>1,0</v>
+        <v>1,1</v>
+        <v>0,1</v>
     </platform>
-    <platform position="0.5,9.5" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
-        <v>0,-1.5</v>
-        <v>0.5,-1.5</v>
-        <v>0.5,-2.0</v>
-        <v>0,-2.0</v>
+    <platform position="10,99" texture="concrete,0" layer="5" rotation="0" flip="1,1" surface="none">
+        <v>0,0</v>
+        <v>1,0</v>
+        <v>1,1</v>
+        <v>0,1</v>
+    </platform>
+    <platform position="11,80" texture="concrete,0" layer="5" rotation="0" flip="1,1" surface="none">
+        <v>0,0</v>
+        <v>1,0</v>
+        <v>1,1</v>
+        <v>0,1</v>
+    </platform>
+    <platform position="50,80" texture="concrete,0" layer="5" rotation="0" flip="1,1" surface="none">
+        <v>0,0</v>
+        <v>2,0</v>
+        <v>2,1</v>
+        <v>0,1</v>
+    </platform>
+    <platform position="11,99" texture="concrete,0" layer="5" rotation="0" flip="1,1" surface="none">
+        <v>0,0</v>
+        <v>41,0</v>
+        <v>41,1</v>
+        <v>0,1</v>
+    </platform>
+    <platform position="10,81" texture="concrete,0" layer="5" rotation="0" flip="1,1" surface="none">
+        <v>0,0</v>
+        <v>1,0</v>
+        <v>1,1</v>
+        <v>0,1</v>
+    </platform>
+    <platform position="10,87" texture="concrete,0" layer="5" rotation="0" flip="1,1" surface="none">
+        <v>0,0</v>
+        <v>1,0</v>
+        <v>1,5</v>
+        <v>0,5</v>
+    </platform>
+    <platform position="10,97" texture="concrete,0" layer="5" rotation="0" flip="1,1" surface="none">
+        <v>0,0</v>
+        <v>1,0</v>
+        <v>1,2</v>
+        <v>0,2</v>
+    </platform>
+    <platform position="52,81" texture="concrete,0" layer="5" rotation="0" flip="1,1" surface="none">
+        <v>0,0</v>
+        <v>1,0</v>
+        <v>1,18</v>
+        <v>0,18</v>
     </platform>
 </chunk>
 <chunk>
-    <damage_zone position="4,8">
-        <v>-0.5,0</v>
-        <v>-0.5,-2</v>
-        <v>0.5,-2</v>
-        <v>0.5,0</v>
-        <d>0,28</d>
-        <d>20,6</d>
-        <d>60,6</d>
-        <d>100,6</d>
-        <d>87,6</d>
-        <d>73,6</d>
-        <d>60,6</d>
-        <d>47,6</d>
-        <d>33,6</d>
-        <d>20,6</d>
-        <d>7,6</d>
-        <d>0,127</d>
-    </damage_zone>
-    <moving_platform position="4.0,8.0" texture="bricks,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none">
-        <move type="container">
-        <move type="accelerated">
-            <p>0,-10,28,0.02</p>
-            <p>0,-2,187,0</p>
-            <p>-</p>
-        </move>
-        <move type="linear">
-            <p>0.0,0.0,60.0</p>
-            <p>1.0,1.0,60.0</p>
-        </move>
-        </move>
-        <v>0.0,0.0</v>
-        <v>0.0,1.0</v>
-        <v>1.0,1.0</v>
-        <v>1.0,0.0</v>
-    </moving_platform>
-    <animated_moving_object position="4.0,8.0" texture="wind0" height="1.0" layer="3.0" rotation="0.0" flip="1.0,1.0" frame_time="1.0" offset="0.0">
-        <move type="container">
-        <move type="linear">
-            <p>0,0,28</p>
-            <p>-</p>
-            <p>0,0,60</p>
-            <p>0,0,127</p>
-            <p>-</p>
-        </move>
-        <move type="linear">
-            <p>0.0,0.0,60.0</p>
-            <p>1.0,1.0,60.0</p>
-        </move>
-        </move>
-    </animated_moving_object>
+    <platform position="53,95" texture="dirt,0" layer="5" rotation="0" flip="1,1" surface="none">
+        <v>0,0</v>
+        <v>47,0</v>
+        <v>47,5</v>
+        <v>0,5</v>
+    </platform>
 </chunk>
 <chunk>
-    <damage_zone position="6,8">
-        <v>-0.5,0</v>
-        <v>-0.5,-2</v>
-        <v>0.5,-2</v>
-        <v>0.5,0</v>
-        <d>0,28</d>
-        <d>20,6</d>
-        <d>60,6</d>
-        <d>100,6</d>
-        <d>87,6</d>
-        <d>73,6</d>
-        <d>60,6</d>
-        <d>47,6</d>
-        <d>33,6</d>
-        <d>20,6</d>
-        <d>7,6</d>
-        <d>0,127</d>
-    </damage_zone>
-    <moving_platform position="6.0,8.0" texture="bricks,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none">
-        <move type="container">
-        <move type="accelerated">
-            <p>0,-10,28,0.02</p>
-            <p>0,-2,187,0</p>
-            <p>-</p>
-        </move>
-        <move type="linear">
-            <p>0.0,0.0,60.0</p>
-            <p>1.0,1.0,60.0</p>
-        </move>
-        </move>
-        <v>0.0,0.0</v>
-        <v>0.0,1.0</v>
-        <v>1.0,1.0</v>
-        <v>1.0,0.0</v>
-    </moving_platform>
-    <animated_moving_object position="6.0,8.0" texture="wind0" height="1.0" layer="3.0" rotation="0.0" flip="1.0,1.0" frame_time="1.0" offset="0.0">
-        <move type="container">
-        <move type="linear">
-            <p>0,0,28</p>
-            <p>-</p>
-            <p>0,0,60</p>
-            <p>0,0,127</p>
-            <p>-</p>
-        </move>
-        <move type="linear">
-            <p>0.0,0.0,60.0</p>
-            <p>1.0,1.0,60.0</p>
-        </move>
-        </move>
-    </animated_moving_object>
+    <platform position="11,87" texture="concrete,0" layer="5" rotation="0" flip="1,1" surface="none">
+        <v>0,0</v>
+        <v>0,2</v>
+        <v>41,2</v>
+        <v>41,0</v>
+    </platform>
 </chunk>
 <chunk>
-    <moving_platform position="2.0,8.0" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
-        <move type="linear">
-            <p>0,0,162</p>
-            <p>5.3999999999999995,0.0,0</p>
-            <p>-0.0,-0.0,0</p>
-        </move>
-        <v>0,0</v>
-        <v>0.6,0.0</v>
-        <v>0.6,-0.5</v>
-        <v>0.0,-0.5</v>
-    </moving_platform>
-    <moving_platform position="2.6,8.0" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
-        <move type="linear">
-            <p>0,0,144</p>
-            <p>4.8,0.0,0</p>
-            <p>-0.6,-0.0,18</p>
-        </move>
-        <v>0,0</v>
-        <v>0.6,0.0</v>
-        <v>0.6,-0.5</v>
-        <v>0.0,-0.5</v>
-    </moving_platform>
-    <moving_platform position="3.2,8.0" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
-        <move type="linear">
-            <p>0,0,126</p>
-            <p>4.2,0.0,0</p>
-            <p>-1.2,-0.0,36</p>
-        </move>
-        <v>0,0</v>
-        <v>0.6,0.0</v>
-        <v>0.6,-0.5</v>
-        <v>0.0,-0.5</v>
-    </moving_platform>
-    <moving_platform position="3.8,8.0" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
-        <move type="linear">
-            <p>0,0,108</p>
-            <p>3.5999999999999996,0.0,0</p>
-            <p>-1.7999999999999998,-0.0,54</p>
-        </move>
-        <v>0,0</v>
-        <v>0.6,0.0</v>
-        <v>0.6,-0.5</v>
-        <v>0.0,-0.5</v>
-    </moving_platform>
-    <moving_platform position="4.4,8.0" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
-        <move type="linear">
-            <p>0,0,90</p>
-            <p>3.0,0.0,0</p>
-            <p>-2.4,-0.0,72</p>
-        </move>
-        <v>0,0</v>
-        <v>0.6,0.0</v>
-        <v>0.6,-0.5</v>
-        <v>0.0,-0.5</v>
-    </moving_platform>
-    <moving_platform position="5.0,8.0" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
-        <move type="linear">
-            <p>0,0,72</p>
-            <p>2.4,0.0,0</p>
-            <p>-3.0,-0.0,90</p>
-        </move>
-        <v>0,0</v>
-        <v>0.6,0.0</v>
-        <v>0.6,-0.5</v>
-        <v>0.0,-0.5</v>
-    </moving_platform>
-    <moving_platform position="5.6,8.0" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
-        <move type="linear">
-            <p>0,0,54</p>
-            <p>1.7999999999999998,0.0,0</p>
-            <p>-3.5999999999999996,-0.0,108</p>
-        </move>
-        <v>0,0</v>
-        <v>0.6,0.0</v>
-        <v>0.6,-0.5</v>
-        <v>0.0,-0.5</v>
-    </moving_platform>
-    <moving_platform position="6.2,8.0" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
-        <move type="linear">
-            <p>0,0,36</p>
-            <p>1.2,0.0,0</p>
-            <p>-4.2,-0.0,126</p>
-        </move>
-        <v>0,0</v>
-        <v>0.6,0.0</v>
-        <v>0.6,-0.5</v>
-        <v>0.0,-0.5</v>
-    </moving_platform>
-    <moving_platform position="6.8,8.0" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
-        <move type="linear">
-            <p>0,0,18</p>
-            <p>0.6,0.0,0</p>
-            <p>-4.8,-0.0,144</p>
-        </move>
-        <v>0,0</v>
-        <v>0.6,0.0</v>
-        <v>0.6,-0.5</v>
-        <v>0.0,-0.5</v>
-    </moving_platform>
-    <platform position="7.3999999999999995,8.0" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
-        <v>0,0</v>
-        <v>0.6,0.0</v>
-        <v>0.6,-0.5</v>
-        <v>0.0,-0.5</v>
+    <wall position="12,99" texture="TEXSteel_stick" layer="8" rotation="0">
+        <vt>0,0,0,429.3911182728614</vt>
+        <vt>0.5,0,64,429.3911182728614</vt>
+        <vt>0.5,-10,64,-850.6088817271386</vt>
+        <vt>0,-10,0,-850.6088817271386</vt>
+    </wall>
+    <wall position="14.5,99" texture="TEXSteel_stick" layer="8" rotation="0">
+        <vt>0,0,0,551.2592021041717</vt>
+        <vt>0.5,0,64,551.2592021041717</vt>
+        <vt>0.5,-10,64,-728.7407978958283</vt>
+        <vt>0,-10,0,-728.7407978958283</vt>
+    </wall>
+    <animated_wall position="11.8,99" texture="ATXWater_Drops_Flowing" layer="8" rotation="0" frame_time="1" offset="0">
+        <vt>0,0,64,707.176237462844</vt>
+        <vt>0.2,0,0,707.176237462844</vt>
+        <vt>0.2,-10,0,-2492.8237625371557</vt>
+        <vt>0,-10,64,-2492.8237625371557</vt>
+    </animated_wall>
+    <animated_wall position="15,99" texture="ATXWater_Drops_Flowing" layer="8" rotation="0" frame_time="1" offset="0">
+        <vt>0,0,-64,1058.3669709941769</vt>
+        <vt>0.2,0,0,1058.3669709941769</vt>
+        <vt>0.2,-10,0,-2141.633029005823</vt>
+        <vt>0,-10,-64,-2141.633029005823</vt>
+    </animated_wall>
+    <barrier position="12,89.0" surface="none">
+        <vt>0,0,64,613.5817575884558</vt>
+        <vt>0,0.3844307256113953,0,664.8647937185284</vt>
+        <vt>3,2.7883230442085476,0,1484.9836750228385</vt>
+        <vt>3,2.403892318597152,64,1433.700638892766</vt>
+    </barrier>
+    <platform position="12,89.0" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,2.7883230442085476,64,1420.3756602071935</vt>
+        <vt>0,2.403892318597152,0,1369.092624077121</vt>
+        <vt>3,0,0,548.973742772811</vt>
+        <vt>3,0.3844307256113953,64,600.2567789028835</vt>
     </platform>
-    <platform position="2,8" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
-        <v>0,0</v>
-        <v>0.6,0.0</v>
-        <v>0.6,-0.5</v>
-        <v>0.0,-0.5</v>
+    <animated_wall position="12,89.3844307256114" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0.23988016599412754,2.403892318597152,64,2413.216493656266</vt>
+        <vt>0,2.403892318597152,0,2441.803923650918</vt>
+        <vt>3,0,0,801.5661610422977</vt>
+        <vt>3,0.19221536280569765,64,904.1322333024428</vt>
+    </animated_wall>
+    <animated_wall position="12,89.3844307256114" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0,0,0,579.3704938708863</vt>
+        <vt>0,0.19221536280569765,64,681.9365661310314</vt>
+        <vt>2.7601198340058724,2.403892318597152,64,2191.0208264848543</vt>
+        <vt>3,2.403892318597152,0,2219.6082564795065</vt>
+    </animated_wall>
+    <wall position="12,89.0" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>0,0,64,695.7971236368587</vt>
+        <vt>0,0.3844307256113953,0,747.0801597669313</vt>
+        <vt>1.2601198340058724,1.3941615221042738,0,1061.8207368201297</vt>
+        <vt>1.5,1.3941615221042738,32.0,1105.8565642890137</vt>
+        <vt>1.5,1.201946159298576,64,1743.17531150253</vt>
+    </wall>
+    <wall position="12,89.0" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>0,2.403892318597152,0,1515.916004941169</vt>
+        <vt>0,2.7883230442085476,64,1567.1990410712415</vt>
+        <vt>1.5,1.5863768849099713,64,2078.168982920991</vt>
+        <vt>1.5,1.3941615221042738,32.0,1105.8565642890137</vt>
+        <vt>1.2601198340058724,1.3941615221042738,0,1061.8207368201297</vt>
+    </wall>
+    <wall position="12,89.0" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>3,2.7883230442085476,64,1567.1990410712415</vt>
+        <vt>3,2.403892318597152,0,1515.916004941169</vt>
+        <vt>1.7398801659941279,1.3941615221042738,0,1171.4333154164126</vt>
+        <vt>1.5,1.3941615221042738,32.0,1105.8565642890137</vt>
+        <vt>1.5,1.5863768849099713,64,2078.168982920991</vt>
+    </wall>
+    <wall position="12,89.0" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>3,0.3844307256113953,0,747.0801597669313</vt>
+        <vt>3,0,64,695.7971236368587</vt>
+        <vt>1.5,1.201946159298576,64,1743.17531150253</vt>
+        <vt>1.5,1.3941615221042738,32.0,1105.8565642890137</vt>
+        <vt>1.7398801659941279,1.3941615221042738,0,1171.4333154164126</vt>
+    </wall>
+    <barrier position="12,91.40389231859716" surface="none">
+        <vt>0,0,64,420.00997397545393</vt>
+        <vt>0,0.3844307256113953,0,471.2930101055265</vt>
+        <vt>3,2.7883230442085476,0,1291.4118914098367</vt>
+        <vt>3,2.403892318597152,64,1240.1288552797641</vt>
+    </barrier>
+    <platform position="12,91.40389231859716" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,2.7883230442085476,64,1372.202192388176</vt>
+        <vt>0,2.403892318597152,0,1320.9191562581034</vt>
+        <vt>3,0,0,500.80027495379323</vt>
+        <vt>3,0.3844307256113953,64,552.0833110838659</vt>
     </platform>
+    <animated_wall position="12,91.78832304420855" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0.23988016599412754,2.403892318597152,64,1747.4959588771735</vt>
+        <vt>0,2.403892318597152,0,1776.0833888718257</vt>
+        <vt>3,0,0,135.84562626320556</vt>
+        <vt>3,0.19221536280569765,64,238.4116985233507</vt>
+    </animated_wall>
+    <animated_wall position="12,91.78832304420855" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0,0,0,467.1853604226922</vt>
+        <vt>0,0.19221536280569765,64,569.7514326828374</vt>
+        <vt>2.7601198340058724,2.403892318597152,64,2078.8356930366604</vt>
+        <vt>3,2.403892318597152,0,2107.4231230313126</vt>
+    </animated_wall>
+    <wall position="12,91.40389231859716" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>0,0,64,758.6837759700774</vt>
+        <vt>0,0.3844307256113953,0,809.9668121001499</vt>
+        <vt>1.2601198340058724,1.3941615221042738,0,1124.7073891533485</vt>
+        <vt>1.5,1.3941615221042738,32.0,1168.7432166222325</vt>
+        <vt>1.5,1.201946159298576,64,1806.0619638357484</vt>
+    </wall>
+    <wall position="12,91.40389231859716" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>0,2.403892318597152,0,1578.8026572743875</vt>
+        <vt>0,2.7883230442085476,64,1630.08569340446</vt>
+        <vt>1.5,1.5863768849099713,64,2141.0556352542094</vt>
+        <vt>1.5,1.3941615221042738,32.0,1168.7432166222325</vt>
+        <vt>1.2601198340058724,1.3941615221042738,0,1124.7073891533485</vt>
+    </wall>
+    <wall position="12,91.40389231859716" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>3,2.7883230442085476,64,1630.08569340446</vt>
+        <vt>3,2.403892318597152,0,1578.8026572743875</vt>
+        <vt>1.7398801659941279,1.3941615221042738,0,1234.3199677496311</vt>
+        <vt>1.5,1.3941615221042738,32.0,1168.7432166222325</vt>
+        <vt>1.5,1.5863768849099713,64,2141.0556352542094</vt>
+    </wall>
+    <wall position="12,91.40389231859716" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>3,0.3844307256113953,0,809.9668121001499</vt>
+        <vt>3,0,64,758.6837759700774</vt>
+        <vt>1.5,1.201946159298576,64,1806.0619638357484</vt>
+        <vt>1.5,1.3941615221042738,32.0,1168.7432166222325</vt>
+        <vt>1.7398801659941279,1.3941615221042738,0,1234.3199677496311</vt>
+    </wall>
+    <barrier position="12,93.8077846371943" surface="none">
+        <vt>0,0,64,553.9409755955096</vt>
+        <vt>0,0.3844307256113953,0,605.2240117255822</vt>
+        <vt>3,2.7883230442085476,0,1425.3428930298924</vt>
+        <vt>3,2.403892318597152,64,1374.0598568998198</vt>
+    </barrier>
+    <platform position="12,93.8077846371943" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,2.7883230442085476,64,1320.5822957428159</vt>
+        <vt>0,2.403892318597152,0,1269.2992596127433</vt>
+        <vt>3,0,0,449.1803783084333</vt>
+        <vt>3,0.3844307256113953,64,500.4634144385059</vt>
+    </platform>
+    <animated_wall position="12,94.1922153628057" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0.23988016599412754,2.403892318597152,64,2544.428594797831</vt>
+        <vt>0,2.403892318597152,0,2573.016024792483</vt>
+        <vt>3,0,0,932.778262183863</vt>
+        <vt>3,0.19221536280569765,64,1035.3443344440082</vt>
+    </animated_wall>
+    <animated_wall position="12,94.1922153628057" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0,0,0,747.616073761589</vt>
+        <vt>0,0.19221536280569765,64,850.1821460217341</vt>
+        <vt>2.7601198340058724,2.403892318597152,64,2359.266406375557</vt>
+        <vt>3,2.403892318597152,0,2387.853836370209</vt>
+    </animated_wall>
+    <wall position="12,93.8077846371943" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>0,0,64,818.6441080737173</vt>
+        <vt>0,0.3844307256113953,0,869.9271442037899</vt>
+        <vt>1.2601198340058724,1.3941615221042738,0,1184.6677212569884</vt>
+        <vt>1.5,1.3941615221042738,32.0,1228.7035487258725</vt>
+        <vt>1.5,1.201946159298576,64,1866.0222959393886</vt>
+    </wall>
+    <wall position="12,93.8077846371943" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>0,2.403892318597152,0,1638.7629893780274</vt>
+        <vt>0,2.7883230442085476,64,1690.0460255081</vt>
+        <vt>1.5,1.5863768849099713,64,2201.015967357849</vt>
+        <vt>1.5,1.3941615221042738,32.0,1228.7035487258725</vt>
+        <vt>1.2601198340058724,1.3941615221042738,0,1184.6677212569884</vt>
+    </wall>
+    <wall position="12,93.8077846371943" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>3,2.7883230442085476,64,1690.0460255081</vt>
+        <vt>3,2.403892318597152,0,1638.7629893780274</vt>
+        <vt>1.7398801659941279,1.3941615221042738,0,1294.2802998532711</vt>
+        <vt>1.5,1.3941615221042738,32.0,1228.7035487258725</vt>
+        <vt>1.5,1.5863768849099713,64,2201.015967357849</vt>
+    </wall>
+    <wall position="12,93.8077846371943" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>3,0.3844307256113953,0,869.9271442037899</vt>
+        <vt>3,0,64,818.6441080737173</vt>
+        <vt>1.5,1.201946159298576,64,1866.0222959393886</vt>
+        <vt>1.5,1.3941615221042738,32.0,1228.7035487258725</vt>
+        <vt>1.7398801659941279,1.3941615221042738,0,1294.2802998532711</vt>
+    </wall>
+    <barrier position="12,96.21167695579146" surface="none">
+        <vt>0,0,64,786.5338649306997</vt>
+        <vt>0,0.3844307256113953,0,837.8169010607722</vt>
+        <vt>3,2.7883230442085476,0,1657.9357823650823</vt>
+        <vt>3,2.403892318597152,64,1606.6527462350098</vt>
+    </barrier>
+    <platform position="12,96.21167695579146" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,2.7883230442085476,64,1230.623117893549</vt>
+        <vt>0,2.403892318597152,0,1179.3400817634765</vt>
+        <vt>3,0,0,359.2212004591664</vt>
+        <vt>3,0.3844307256113953,64,410.504236589239</vt>
+    </platform>
+    <animated_wall position="12,96.59610768140286" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0.23988016599412754,2.403892318597152,64,2264.087898860382</vt>
+        <vt>0,2.403892318597152,0,2292.6753288550344</vt>
+        <vt>3,0,0,652.4375662464142</vt>
+        <vt>3,0.19221536280569765,64,755.0036385065594</vt>
+    </animated_wall>
+    <animated_wall position="12,96.59610768140286" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0,0,0,132.4907602352272</vt>
+        <vt>0,0.19221536280569765,64,235.05683249537236</vt>
+        <vt>2.7601198340058724,2.403892318597152,64,1744.1410928491953</vt>
+        <vt>3,2.403892318597152,0,1772.7285228438475</vt>
+    </animated_wall>
+    <wall position="12,96.21167695579146" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>0,0,64,542.3272033448212</vt>
+        <vt>0,0.3844307256113953,0,593.6102394748938</vt>
+        <vt>1.2601198340058724,1.3941615221042738,0,908.3508165280923</vt>
+        <vt>1.5,1.3941615221042738,32.0,952.3866439969763</vt>
+        <vt>1.5,1.201946159298576,64,1589.7053912104925</vt>
+    </wall>
+    <wall position="12,96.21167695579146" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>0,2.403892318597152,0,1362.4460846491313</vt>
+        <vt>0,2.7883230442085476,64,1413.7291207792039</vt>
+        <vt>1.5,1.5863768849099713,64,1924.699062628953</vt>
+        <vt>1.5,1.3941615221042738,32.0,952.3866439969763</vt>
+        <vt>1.2601198340058724,1.3941615221042738,0,908.3508165280923</vt>
+    </wall>
+    <wall position="12,96.21167695579146" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>3,2.7883230442085476,64,1413.7291207792039</vt>
+        <vt>3,2.403892318597152,0,1362.4460846491313</vt>
+        <vt>1.7398801659941279,1.3941615221042738,0,1017.963395124375</vt>
+        <vt>1.5,1.3941615221042738,32.0,952.3866439969763</vt>
+        <vt>1.5,1.5863768849099713,64,1924.699062628953</vt>
+    </wall>
+    <wall position="12,96.21167695579146" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>3,0.3844307256113953,0,593.6102394748938</vt>
+        <vt>3,0,64,542.3272033448212</vt>
+        <vt>1.5,1.201946159298576,64,1589.7053912104925</vt>
+        <vt>1.5,1.3941615221042738,32.0,952.3866439969763</vt>
+        <vt>1.7398801659941279,1.3941615221042738,0,1017.963395124375</vt>
+    </wall>
+</chunk>
+<chunk>
+    <wall position="17,99" texture="TEXSteel_stick" layer="8" rotation="0">
+        <vt>0,0,0,168.08806047537075</vt>
+        <vt>0.5,0,64,168.08806047537075</vt>
+        <vt>0.5,-10,64,-1111.9119395246294</vt>
+        <vt>0,-10,0,-1111.9119395246294</vt>
+    </wall>
+    <wall position="19.5,99" texture="TEXSteel_stick" layer="8" rotation="0">
+        <vt>0,0,0,348.81399628465215</vt>
+        <vt>0.5,0,64,348.81399628465215</vt>
+        <vt>0.5,-10,64,-931.1860037153479</vt>
+        <vt>0,-10,0,-931.1860037153479</vt>
+    </wall>
+    <animated_wall position="16.8,99" texture="ATXWater_Drops_Flowing" layer="8" rotation="0" frame_time="1" offset="0">
+        <vt>0,0,64,455.9668104459399</vt>
+        <vt>0.2,0,0,455.9668104459399</vt>
+        <vt>0.2,-10,0,-2744.0331895540603</vt>
+        <vt>0,-10,64,-2744.0331895540603</vt>
+    </animated_wall>
+    <animated_wall position="20,99" texture="ATXWater_Drops_Flowing" layer="8" rotation="0" frame_time="1" offset="0">
+        <vt>0,0,-64,456.1288853580004</vt>
+        <vt>0.2,0,0,456.1288853580004</vt>
+        <vt>0.2,-10,0,-2743.8711146419996</vt>
+        <vt>0,-10,-64,-2743.8711146419996</vt>
+    </animated_wall>
+    <platform position="17,89.0" texture="TEXSteel_stick" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,0,64,693.6236467638544</vt>
+        <vt>0,0.34046804289193494,0,727.9686492780164</vt>
+        <vt>3,1.9503900357432804,0,1454.3004741141444</vt>
+        <vt>3,1.6099219928513455,64,1419.9554715999825</vt>
+    </platform>
+    <animated_wall position="17,89.34046804289194" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0,0,0,240.00268474149038</vt>
+        <vt>0,0.17023402144596747,64,308.6926897698144</vt>
+        <vt>2.682778378949036,1.6099219928513455,64,1607.750900178456</vt>
+        <vt>3,1.6099219928513455,0,1692.6663344137464</vt>
+    </animated_wall>
+    <platform position="17,90.60992199285134" texture="TEXSteel_stick" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,1.9503900357432804,64,806.2398617800114</vt>
+        <vt>0,1.6099219928513455,0,771.8948592658495</vt>
+        <vt>3,0,0,45.563034429721455</vt>
+        <vt>3,0.34046804289193494,64,79.90803694388347</vt>
+    </platform>
+    <animated_wall position="17,90.95039003574328" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0.3172216210509641,1.6099219928513455,64,1887.0020315046659</vt>
+        <vt>0,1.6099219928513455,0,1971.9174657399562</vt>
+        <vt>3,0,0,519.2538160677001</vt>
+        <vt>3,0.17023402144596747,64,587.9438210960242</vt>
+    </animated_wall>
+    <platform position="17,92.2198439857027" texture="TEXSteel_stick" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,0,64,605.8512014917204</vt>
+        <vt>0,0.34046804289193494,0,640.1962040058825</vt>
+        <vt>3,1.9503900357432804,0,1366.5280288420104</vt>
+        <vt>3,1.6099219928513455,64,1332.1830263278484</vt>
+    </platform>
+    <animated_wall position="17,92.56031202859464" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0,0,0,416.46336858340425</vt>
+        <vt>0,0.17023402144596747,64,485.1533736117283</vt>
+        <vt>2.682778378949036,1.6099219928513455,64,1784.2115840203699</vt>
+        <vt>3,1.6099219928513455,0,1869.1270182556602</vt>
+    </animated_wall>
+    <platform position="17,93.82976597855404" texture="TEXSteel_stick" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,1.9503900357432804,64,771.6252089789647</vt>
+        <vt>0,1.6099219928513455,0,737.2802064648027</vt>
+        <vt>3,0,0,10.948381628674712</vt>
+        <vt>3,0.34046804289193494,64,45.293384142836736</vt>
+    </platform>
+    <animated_wall position="17,94.17023402144598" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0.3172216210509641,1.6099219928513455,64,2165.6762831397327</vt>
+        <vt>0,1.6099219928513455,0,2250.591717375023</vt>
+        <vt>3,0,0,797.9280677027672</vt>
+        <vt>3,0.17023402144596747,64,866.6180727310913</vt>
+    </animated_wall>
+    <platform position="17,95.43968797140538" texture="TEXSteel_stick" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,0,64,538.5335550555777</vt>
+        <vt>0,0.34046804289193494,0,572.8785575697398</vt>
+        <vt>3,1.9503900357432804,0,1299.2103824058677</vt>
+        <vt>3,1.6099219928513455,64,1264.8653798917057</vt>
+    </platform>
+    <animated_wall position="17,95.78015601429732" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0,0,0,259.085441692681</vt>
+        <vt>0,0.17023402144596747,64,327.77544672100504</vt>
+        <vt>2.682778378949036,1.6099219928513455,64,1626.8336571296468</vt>
+        <vt>3,1.6099219928513455,0,1711.7490913649372</vt>
+    </animated_wall>
+    <platform position="17,97.04960996425673" texture="TEXSteel_stick" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,1.9503900357432804,64,1260.4082878798106</vt>
+        <vt>0,1.6099219928513455,0,1226.0632853656487</vt>
+        <vt>3,0,0,499.7314605295206</vt>
+        <vt>3,0.34046804289193494,64,534.0764630436826</vt>
+    </platform>
+    <animated_wall position="17,97.39007800714867" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0.3172216210509641,1.6099219928513455,64,2223.679015524085</vt>
+        <vt>0,1.6099219928513455,0,2308.5944497593755</vt>
+        <vt>3,0,0,855.9308000871197</vt>
+        <vt>3,0.17023402144596747,64,924.6208051154438</vt>
+    </animated_wall>
+</chunk>
+<chunk>
+    <wall position="22,99" texture="TEXSteel_stick" layer="8" rotation="0">
+        <vt>0,0,0,1085.2853171288048</vt>
+        <vt>0.5,0,64,1085.2853171288048</vt>
+        <vt>0.5,-10,64,-194.71468287119524</vt>
+        <vt>0,-10,0,-194.71468287119524</vt>
+    </wall>
+    <wall position="24.5,99" texture="TEXSteel_stick" layer="8" rotation="0">
+        <vt>0,0,0,397.3798464145685</vt>
+        <vt>0.5,0,64,397.3798464145685</vt>
+        <vt>0.5,-10,64,-882.6201535854316</vt>
+        <vt>0,-10,0,-882.6201535854316</vt>
+    </wall>
+    <animated_wall position="21.8,99" texture="ATXWater_Drops_Flowing" layer="8" rotation="0" frame_time="1" offset="0">
+        <vt>0,0,64,856.2125636558305</vt>
+        <vt>0.2,0,0,856.2125636558305</vt>
+        <vt>0.2,-10,0,-2343.7874363441697</vt>
+        <vt>0,-10,64,-2343.7874363441697</vt>
+    </animated_wall>
+    <animated_wall position="25,99" texture="ATXWater_Drops_Flowing" layer="8" rotation="0" frame_time="1" offset="0">
+        <vt>0,0,-64,515.516320738792</vt>
+        <vt>0.2,0,0,515.516320738792</vt>
+        <vt>0.2,-10,0,-2684.4836792612077</vt>
+        <vt>0,-10,-64,-2684.4836792612077</vt>
+    </animated_wall>
+    <barrier position="22,89.0" surface="none">
+        <vt>0,0,64,765.7107390768762</vt>
+        <vt>0,0.3844307256113953,0,816.9937752069487</vt>
+        <vt>3,2.7883230442085476,0,1637.1126565112588</vt>
+        <vt>3,2.403892318597152,64,1585.8296203811863</vt>
+    </barrier>
+    <platform position="22,89.0" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,2.7883230442085476,64,1309.1889386544076</vt>
+        <vt>0,2.403892318597152,0,1257.905902524335</vt>
+        <vt>3,0,0,437.78702122002494</vt>
+        <vt>3,0.3844307256113953,64,489.0700573500975</vt>
+    </platform>
+    <animated_wall position="22,89.3844307256114" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0.23988016599412754,2.403892318597152,64,2190.4762074080995</vt>
+        <vt>0,2.403892318597152,0,2219.0636374027517</vt>
+        <vt>3,0,0,578.8258747941316</vt>
+        <vt>3,0.19221536280569765,64,681.3919470542767</vt>
+    </animated_wall>
+    <animated_wall position="22,89.3844307256114" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0,0,0,381.79841300748024</vt>
+        <vt>0,0.19221536280569765,64,484.36448526762535</vt>
+        <vt>2.7601198340058724,2.403892318597152,64,1993.4487456214483</vt>
+        <vt>3,2.403892318597152,0,2022.0361756161005</vt>
+    </animated_wall>
+    <wall position="22,89.0" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>0,0,64,189.2530972760164</vt>
+        <vt>0,0.3844307256113953,0,240.536133406089</vt>
+        <vt>1.2601198340058724,1.3941615221042738,0,555.2767104592874</vt>
+        <vt>1.5,1.3941615221042738,32.0,599.3125379281714</vt>
+        <vt>1.5,1.201946159298576,64,1236.6312851416876</vt>
+    </wall>
+    <wall position="22,89.0" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>0,2.403892318597152,0,1009.3719785803265</vt>
+        <vt>0,2.7883230442085476,64,1060.655014710399</vt>
+        <vt>1.5,1.5863768849099713,64,1571.6249565601483</vt>
+        <vt>1.5,1.3941615221042738,32.0,599.3125379281714</vt>
+        <vt>1.2601198340058724,1.3941615221042738,0,555.2767104592874</vt>
+    </wall>
+    <wall position="22,89.0" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>3,2.7883230442085476,64,1060.655014710399</vt>
+        <vt>3,2.403892318597152,0,1009.3719785803265</vt>
+        <vt>1.7398801659941279,1.3941615221042738,0,664.8892890555702</vt>
+        <vt>1.5,1.3941615221042738,32.0,599.3125379281714</vt>
+        <vt>1.5,1.5863768849099713,64,1571.6249565601483</vt>
+    </wall>
+    <wall position="22,89.0" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>3,0.3844307256113953,0,240.536133406089</vt>
+        <vt>3,0,64,189.2530972760164</vt>
+        <vt>1.5,1.201946159298576,64,1236.6312851416876</vt>
+        <vt>1.5,1.3941615221042738,32.0,599.3125379281714</vt>
+        <vt>1.7398801659941279,1.3941615221042738,0,664.8892890555702</vt>
+    </wall>
+    <barrier position="22,91.40389231859716" surface="none">
+        <vt>0,0,64,739.0773664948531</vt>
+        <vt>0,0.3844307256113953,0,790.3604026249257</vt>
+        <vt>3,2.7883230442085476,0,1610.4792839292359</vt>
+        <vt>3,2.403892318597152,64,1559.1962477991633</vt>
+    </barrier>
+    <platform position="22,91.40389231859716" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,2.7883230442085476,64,1508.1101470466365</vt>
+        <vt>0,2.403892318597152,0,1456.827110916564</vt>
+        <vt>3,0,0,636.7082296122538</vt>
+        <vt>3,0.3844307256113953,64,687.9912657423264</vt>
+    </platform>
+    <animated_wall position="22,91.78832304420855" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0.23988016599412754,2.403892318597152,64,2039.3026474065412</vt>
+        <vt>0,2.403892318597152,0,2067.8900774011936</vt>
+        <vt>3,0,0,427.6523147925732</vt>
+        <vt>3,0.19221536280569765,64,530.2183870527183</vt>
+    </animated_wall>
+    <animated_wall position="22,91.78832304420855" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0,0,0,789.9661335932914</vt>
+        <vt>0,0.19221536280569765,64,892.5322058534365</vt>
+        <vt>2.7601198340058724,2.403892318597152,64,2401.6164662072592</vt>
+        <vt>3,2.403892318597152,0,2430.2038962019114</vt>
+    </animated_wall>
+    <wall position="22,91.40389231859716" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>0,0,64,761.3557641293472</vt>
+        <vt>0,0.3844307256113953,0,812.6388002594198</vt>
+        <vt>1.2601198340058724,1.3941615221042738,0,1127.3793773126183</vt>
+        <vt>1.5,1.3941615221042738,32.0,1171.4152047815023</vt>
+        <vt>1.5,1.201946159298576,64,1808.7339519950183</vt>
+    </wall>
+    <wall position="22,91.40389231859716" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>0,2.403892318597152,0,1581.4746454336573</vt>
+        <vt>0,2.7883230442085476,64,1632.7576815637299</vt>
+        <vt>1.5,1.5863768849099713,64,2143.7276234134793</vt>
+        <vt>1.5,1.3941615221042738,32.0,1171.4152047815023</vt>
+        <vt>1.2601198340058724,1.3941615221042738,0,1127.3793773126183</vt>
+    </wall>
+    <wall position="22,91.40389231859716" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>3,2.7883230442085476,64,1632.7576815637299</vt>
+        <vt>3,2.403892318597152,0,1581.4746454336573</vt>
+        <vt>1.7398801659941279,1.3941615221042738,0,1236.991955908901</vt>
+        <vt>1.5,1.3941615221042738,32.0,1171.4152047815023</vt>
+        <vt>1.5,1.5863768849099713,64,2143.7276234134793</vt>
+    </wall>
+    <wall position="22,91.40389231859716" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>3,0.3844307256113953,0,812.6388002594198</vt>
+        <vt>3,0,64,761.3557641293472</vt>
+        <vt>1.5,1.201946159298576,64,1808.7339519950183</vt>
+        <vt>1.5,1.3941615221042738,32.0,1171.4152047815023</vt>
+        <vt>1.7398801659941279,1.3941615221042738,0,1236.991955908901</vt>
+    </wall>
+    <barrier position="22,93.8077846371943" surface="none">
+        <vt>0,0,64,525.2489693148854</vt>
+        <vt>0,0.3844307256113953,0,576.5320054449579</vt>
+        <vt>3,2.7883230442085476,0,1396.650886749268</vt>
+        <vt>3,2.403892318597152,64,1345.3678506191955</vt>
+    </barrier>
+    <platform position="22,93.8077846371943" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,2.7883230442085476,64,1648.8705813979086</vt>
+        <vt>0,2.403892318597152,0,1597.587545267836</vt>
+        <vt>3,0,0,777.4686639635258</vt>
+        <vt>3,0.3844307256113953,64,828.7517000935984</vt>
+    </platform>
+    <animated_wall position="22,94.1922153628057" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0.23988016599412754,2.403892318597152,64,1763.4241543216524</vt>
+        <vt>0,2.403892318597152,0,1792.0115843163046</vt>
+        <vt>3,0,0,151.7738217076845</vt>
+        <vt>3,0.19221536280569765,64,254.33989396782965</vt>
+    </animated_wall>
+    <animated_wall position="22,94.1922153628057" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0,0,0,84.93809207705056</vt>
+        <vt>0,0.19221536280569765,64,187.5041643371957</vt>
+        <vt>2.7601198340058724,2.403892318597152,64,1696.5884246910186</vt>
+        <vt>3,2.403892318597152,0,1725.1758546856709</vt>
+    </animated_wall>
+    <wall position="22,93.8077846371943" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>0,0,64,179.30782098980896</vt>
+        <vt>0,0.3844307256113953,0,230.59085711988155</vt>
+        <vt>1.2601198340058724,1.3941615221042738,0,545.33143417308</vt>
+        <vt>1.5,1.3941615221042738,32.0,589.367261641964</vt>
+        <vt>1.5,1.201946159298576,64,1226.6860088554802</vt>
+    </wall>
+    <wall position="22,93.8077846371943" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>0,2.403892318597152,0,999.4267022941191</vt>
+        <vt>0,2.7883230442085476,64,1050.7097384241915</vt>
+        <vt>1.5,1.5863768849099713,64,1561.679680273941</vt>
+        <vt>1.5,1.3941615221042738,32.0,589.367261641964</vt>
+        <vt>1.2601198340058724,1.3941615221042738,0,545.33143417308</vt>
+    </wall>
+    <wall position="22,93.8077846371943" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>3,2.7883230442085476,64,1050.7097384241915</vt>
+        <vt>3,2.403892318597152,0,999.4267022941191</vt>
+        <vt>1.7398801659941279,1.3941615221042738,0,654.9440127693628</vt>
+        <vt>1.5,1.3941615221042738,32.0,589.367261641964</vt>
+        <vt>1.5,1.5863768849099713,64,1561.679680273941</vt>
+    </wall>
+    <wall position="22,93.8077846371943" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>3,0.3844307256113953,0,230.59085711988155</vt>
+        <vt>3,0,64,179.30782098980896</vt>
+        <vt>1.5,1.201946159298576,64,1226.6860088554802</vt>
+        <vt>1.5,1.3941615221042738,32.0,589.367261641964</vt>
+        <vt>1.7398801659941279,1.3941615221042738,0,654.9440127693628</vt>
+    </wall>
+    <barrier position="22,96.21167695579146" surface="none">
+        <vt>0,0,64,130.28168273000404</vt>
+        <vt>0,0.3844307256113953,0,181.5647188600766</vt>
+        <vt>3,2.7883230442085476,0,1001.6836001643867</vt>
+        <vt>3,2.403892318597152,64,950.4005640343141</vt>
+    </barrier>
+    <platform position="22,96.21167695579146" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,2.7883230442085476,64,1290.7927838044188</vt>
+        <vt>0,2.403892318597152,0,1239.5097476743463</vt>
+        <vt>3,0,0,419.3908663700361</vt>
+        <vt>3,0.3844307256113953,64,470.6739025001087</vt>
+    </platform>
+    <animated_wall position="22,96.59610768140286" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0.23988016599412754,2.403892318597152,64,1965.0453125249717</vt>
+        <vt>0,2.403892318597152,0,1993.632742519624</vt>
+        <vt>3,0,0,353.39497991100365</vt>
+        <vt>3,0.19221536280569765,64,455.9610521711488</vt>
+    </animated_wall>
+    <animated_wall position="22,96.59610768140286" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0,0,0,165.38658845656767</vt>
+        <vt>0,0.19221536280569765,64,267.9526607167128</vt>
+        <vt>2.7601198340058724,2.403892318597152,64,1777.0369210705358</vt>
+        <vt>3,2.403892318597152,0,1805.624351065188</vt>
+    </animated_wall>
+    <wall position="22,96.21167695579146" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>0,0,64,398.5059510287692</vt>
+        <vt>0,0.3844307256113953,0,449.78898715884173</vt>
+        <vt>1.2601198340058724,1.3941615221042738,0,764.5295642120402</vt>
+        <vt>1.5,1.3941615221042738,32.0,808.5653916809242</vt>
+        <vt>1.5,1.201946159298576,64,1445.8841388944404</vt>
+    </wall>
+    <wall position="22,96.21167695579146" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>0,2.403892318597152,0,1218.6248323330792</vt>
+        <vt>0,2.7883230442085476,64,1269.9078684631518</vt>
+        <vt>1.5,1.5863768849099713,64,1780.8778103129011</vt>
+        <vt>1.5,1.3941615221042738,32.0,808.5653916809242</vt>
+        <vt>1.2601198340058724,1.3941615221042738,0,764.5295642120402</vt>
+    </wall>
+    <wall position="22,96.21167695579146" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>3,2.7883230442085476,64,1269.9078684631518</vt>
+        <vt>3,2.403892318597152,0,1218.6248323330792</vt>
+        <vt>1.7398801659941279,1.3941615221042738,0,874.142142808323</vt>
+        <vt>1.5,1.3941615221042738,32.0,808.5653916809242</vt>
+        <vt>1.5,1.5863768849099713,64,1780.8778103129011</vt>
+    </wall>
+    <wall position="22,96.21167695579146" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>3,0.3844307256113953,0,449.78898715884173</vt>
+        <vt>3,0,64,398.5059510287692</vt>
+        <vt>1.5,1.201946159298576,64,1445.8841388944404</vt>
+        <vt>1.5,1.3941615221042738,32.0,808.5653916809242</vt>
+        <vt>1.7398801659941279,1.3941615221042738,0,874.142142808323</vt>
+    </wall>
+</chunk>
+<chunk>
+    <wall position="27,99" texture="TEXSteel_stick" layer="8" rotation="0">
+        <vt>0,0,0,728.8077943525452</vt>
+        <vt>0.5,0,64,728.8077943525452</vt>
+        <vt>0.5,-10,64,-551.1922056474548</vt>
+        <vt>0,-10,0,-551.1922056474548</vt>
+    </wall>
+    <wall position="29.5,99" texture="TEXSteel_stick" layer="8" rotation="0">
+        <vt>0,0,0,590.0791813001779</vt>
+        <vt>0.5,0,64,590.0791813001779</vt>
+        <vt>0.5,-10,64,-689.9208186998221</vt>
+        <vt>0,-10,0,-689.9208186998221</vt>
+    </wall>
+    <animated_wall position="26.8,99" texture="ATXWater_Drops_Flowing" layer="8" rotation="0" frame_time="1" offset="0">
+        <vt>0,0,64,6.856647183404476</vt>
+        <vt>0.2,0,0,6.856647183404476</vt>
+        <vt>0.2,-10,0,-3193.1433528165953</vt>
+        <vt>0,-10,64,-3193.1433528165953</vt>
+    </animated_wall>
+    <animated_wall position="30,99" texture="ATXWater_Drops_Flowing" layer="8" rotation="0" frame_time="1" offset="0">
+        <vt>0,0,-64,955.772503906496</vt>
+        <vt>0.2,0,0,955.772503906496</vt>
+        <vt>0.2,-10,0,-2244.2274960935038</vt>
+        <vt>0,-10,-64,-2244.2274960935038</vt>
+    </animated_wall>
+    <platform position="27,89.0" texture="TEXSteel_stick" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,0,64,473.2632480930897</vt>
+        <vt>0,0.34046804289193494,0,507.60825060725176</vt>
+        <vt>3,1.9503900357432804,0,1233.9400754433796</vt>
+        <vt>3,1.6099219928513455,64,1199.5950729292176</vt>
+    </platform>
+    <animated_wall position="27,89.34046804289194" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0,0,0,492.84843327014295</vt>
+        <vt>0,0.17023402144596747,64,561.538438298467</vt>
+        <vt>2.682778378949036,1.6099219928513455,64,1860.5966487071087</vt>
+        <vt>3,1.6099219928513455,0,1945.512082942399</vt>
+    </animated_wall>
+    <platform position="27,90.60992199285134" texture="TEXSteel_stick" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,1.9503900357432804,64,1404.0961833368738</vt>
+        <vt>0,1.6099219928513455,0,1369.7511808227118</vt>
+        <vt>3,0,0,643.4193559865839</vt>
+        <vt>3,0.34046804289193494,64,677.764358500746</vt>
+    </platform>
+    <animated_wall position="27,90.95039003574328" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0.3172216210509641,1.6099219928513455,64,2246.0082389862723</vt>
+        <vt>0,1.6099219928513455,0,2330.9236732215627</vt>
+        <vt>3,0,0,878.2600235493065</vt>
+        <vt>3,0.17023402144596747,64,946.9500285776306</vt>
+    </animated_wall>
+    <platform position="27,92.2198439857027" texture="TEXSteel_stick" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,0,64,632.5284130878173</vt>
+        <vt>0,0.34046804289193494,0,666.8734156019793</vt>
+        <vt>3,1.9503900357432804,0,1393.2052404381072</vt>
+        <vt>3,1.6099219928513455,64,1358.8602379239453</vt>
+    </platform>
+    <animated_wall position="27,92.56031202859464" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0,0,0,40.80011090611024</vt>
+        <vt>0,0.17023402144596747,64,109.4901159344343</vt>
+        <vt>2.682778378949036,1.6099219928513455,64,1408.5483263430758</vt>
+        <vt>3,1.6099219928513455,0,1493.4637605783662</vt>
+    </animated_wall>
+    <platform position="27,93.82976597855404" texture="TEXSteel_stick" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,1.9503900357432804,64,1111.6909479163437</vt>
+        <vt>0,1.6099219928513455,0,1077.3459454021818</vt>
+        <vt>3,0,0,351.0141205660537</vt>
+        <vt>3,0.34046804289193494,64,385.35912308021574</vt>
+    </platform>
+    <animated_wall position="27,94.17023402144598" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0.3172216210509641,1.6099219928513455,64,2108.395090660668</vt>
+        <vt>0,1.6099219928513455,0,2193.310524895958</vt>
+        <vt>3,0,0,740.6468752237023</vt>
+        <vt>3,0.17023402144596747,64,809.3368802520264</vt>
+    </animated_wall>
+    <platform position="27,95.43968797140538" texture="TEXSteel_stick" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,0,64,110.22591879837157</vt>
+        <vt>0,0.34046804289193494,0,144.57092131253359</vt>
+        <vt>3,1.9503900357432804,0,870.9027461486615</vt>
+        <vt>3,1.6099219928513455,64,836.5577436344996</vt>
+    </platform>
+    <animated_wall position="27,95.78015601429732" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0,0,0,83.77210260434519</vt>
+        <vt>0,0.17023402144596747,64,152.46210763266924</vt>
+        <vt>2.682778378949036,1.6099219928513455,64,1451.520318041311</vt>
+        <vt>3,1.6099219928513455,0,1536.4357522766013</vt>
+    </animated_wall>
+    <platform position="27,97.04960996425673" texture="TEXSteel_stick" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,1.9503900357432804,64,1162.73054470722</vt>
+        <vt>0,1.6099219928513455,0,1128.385542193058</vt>
+        <vt>3,0,0,402.05371735692995</vt>
+        <vt>3,0.34046804289193494,64,436.398719871092</vt>
+    </platform>
+    <animated_wall position="27,97.39007800714867" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0.3172216210509641,1.6099219928513455,64,1583.51022998018</vt>
+        <vt>0,1.6099219928513455,0,1668.4256642154703</vt>
+        <vt>3,0,0,215.76201454321426</vt>
+        <vt>3,0.17023402144596747,64,284.4520195715383</vt>
+    </animated_wall>
+</chunk>
+<chunk>
+    <wall position="32,99" texture="TEXSteel_stick" layer="8" rotation="0">
+        <vt>0,0,0,502.4775822020729</vt>
+        <vt>0.5,0,64,502.4775822020729</vt>
+        <vt>0.5,-10,64,-777.5224177979271</vt>
+        <vt>0,-10,0,-777.5224177979271</vt>
+    </wall>
+    <wall position="34.5,99" texture="TEXSteel_stick" layer="8" rotation="0">
+        <vt>0,0,0,1025.4577069073991</vt>
+        <vt>0.5,0,64,1025.4577069073991</vt>
+        <vt>0.5,-10,64,-254.54229309260086</vt>
+        <vt>0,-10,0,-254.54229309260086</vt>
+    </wall>
+    <animated_wall position="31.8,99" texture="ATXWater_Drops_Flowing" layer="8" rotation="0" frame_time="1" offset="0">
+        <vt>0,0,64,950.3756514398162</vt>
+        <vt>0.2,0,0,950.3756514398162</vt>
+        <vt>0.2,-10,0,-2249.6243485601835</vt>
+        <vt>0,-10,64,-2249.6243485601835</vt>
+    </animated_wall>
+    <animated_wall position="35,99" texture="ATXWater_Drops_Flowing" layer="8" rotation="0" frame_time="1" offset="0">
+        <vt>0,0,-64,152.40408546812702</vt>
+        <vt>0.2,0,0,152.40408546812702</vt>
+        <vt>0.2,-10,0,-3047.595914531873</vt>
+        <vt>0,-10,-64,-3047.595914531873</vt>
+    </animated_wall>
+    <barrier position="32,89.0" surface="none">
+        <vt>0,0,64,298.17507151083015</vt>
+        <vt>0,0.3844307256113953,0,349.4581076409027</vt>
+        <vt>3,2.7883230442085476,0,1169.5769889452129</vt>
+        <vt>3,2.403892318597152,64,1118.2939528151403</vt>
+    </barrier>
+    <platform position="32,89.0" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,2.7883230442085476,64,1216.091148628569</vt>
+        <vt>0,2.403892318597152,0,1164.8081124984965</vt>
+        <vt>3,0,0,344.6892311941863</vt>
+        <vt>3,0.3844307256113953,64,395.97226732425884</vt>
+    </platform>
+    <animated_wall position="32,89.3844307256114" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0.23988016599412754,2.403892318597152,64,2949.4057633367456</vt>
+        <vt>0,2.403892318597152,0,2977.993193331398</vt>
+        <vt>3,0,0,1337.7554307227776</vt>
+        <vt>3,0.19221536280569765,64,1440.3215029829228</vt>
+    </animated_wall>
+    <animated_wall position="32,89.3844307256114" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0,0,0,519.3363071439455</vt>
+        <vt>0,0.19221536280569765,64,621.9023794040907</vt>
+        <vt>2.7601198340058724,2.403892318597152,64,2130.9866397579135</vt>
+        <vt>3,2.403892318597152,0,2159.5740697525657</vt>
+    </animated_wall>
+    <wall position="32,89.0" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>0,0,64,182.62874700234934</vt>
+        <vt>0,0.3844307256113953,0,233.91178313242193</vt>
+        <vt>1.2601198340058724,1.3941615221042738,0,548.6523601856204</vt>
+        <vt>1.5,1.3941615221042738,32.0,592.6881876545044</vt>
+        <vt>1.5,1.201946159298576,64,1230.0069348680206</vt>
+    </wall>
+    <wall position="32,89.0" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>0,2.403892318597152,0,1002.7476283066594</vt>
+        <vt>0,2.7883230442085476,64,1054.030664436732</vt>
+        <vt>1.5,1.5863768849099713,64,1565.0006062864813</vt>
+        <vt>1.5,1.3941615221042738,32.0,592.6881876545044</vt>
+        <vt>1.2601198340058724,1.3941615221042738,0,548.6523601856204</vt>
+    </wall>
+    <wall position="32,89.0" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>3,2.7883230442085476,64,1054.030664436732</vt>
+        <vt>3,2.403892318597152,0,1002.7476283066594</vt>
+        <vt>1.7398801659941279,1.3941615221042738,0,658.2649387819032</vt>
+        <vt>1.5,1.3941615221042738,32.0,592.6881876545044</vt>
+        <vt>1.5,1.5863768849099713,64,1565.0006062864813</vt>
+    </wall>
+    <wall position="32,89.0" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>3,0.3844307256113953,0,233.91178313242193</vt>
+        <vt>3,0,64,182.62874700234934</vt>
+        <vt>1.5,1.201946159298576,64,1230.0069348680206</vt>
+        <vt>1.5,1.3941615221042738,32.0,592.6881876545044</vt>
+        <vt>1.7398801659941279,1.3941615221042738,0,658.2649387819032</vt>
+    </wall>
+    <barrier position="32,91.40389231859716" surface="none">
+        <vt>0,0,64,383.04051695565454</vt>
+        <vt>0,0.3844307256113953,0,434.3235530857271</vt>
+        <vt>3,2.7883230442085476,0,1254.4424343900373</vt>
+        <vt>3,2.403892318597152,64,1203.1593982599647</vt>
+    </barrier>
+    <platform position="32,91.40389231859716" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,2.7883230442085476,64,1271.19075810378</vt>
+        <vt>0,2.403892318597152,0,1219.9077219737073</vt>
+        <vt>3,0,0,399.7888406693973</vt>
+        <vt>3,0.3844307256113953,64,451.07187679946986</vt>
+    </platform>
+    <animated_wall position="32,91.78832304420855" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0.23988016599412754,2.403892318597152,64,2628.824385813206</vt>
+        <vt>0,2.403892318597152,0,2657.411815807858</vt>
+        <vt>3,0,0,1017.1740531992378</vt>
+        <vt>3,0.19221536280569765,64,1119.740125459383</vt>
+    </animated_wall>
+    <animated_wall position="32,91.78832304420855" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0,0,0,359.10250490173024</vt>
+        <vt>0,0.19221536280569765,64,461.6685771618754</vt>
+        <vt>2.7601198340058724,2.403892318597152,64,1970.7528375156983</vt>
+        <vt>3,2.403892318597152,0,1999.3402675103505</vt>
+    </animated_wall>
+    <wall position="32,91.40389231859716" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>0,0,64,213.61982946962326</vt>
+        <vt>0,0.3844307256113953,0,264.9028655996958</vt>
+        <vt>1.2601198340058724,1.3941615221042738,0,579.6434426528942</vt>
+        <vt>1.5,1.3941615221042738,32.0,623.6792701217782</vt>
+        <vt>1.5,1.201946159298576,64,1260.9980173352944</vt>
+    </wall>
+    <wall position="32,91.40389231859716" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>0,2.403892318597152,0,1033.7387107739332</vt>
+        <vt>0,2.7883230442085476,64,1085.0217469040058</vt>
+        <vt>1.5,1.5863768849099713,64,1595.9916887537552</vt>
+        <vt>1.5,1.3941615221042738,32.0,623.6792701217782</vt>
+        <vt>1.2601198340058724,1.3941615221042738,0,579.6434426528942</vt>
+    </wall>
+    <wall position="32,91.40389231859716" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>3,2.7883230442085476,64,1085.0217469040058</vt>
+        <vt>3,2.403892318597152,0,1033.7387107739332</vt>
+        <vt>1.7398801659941279,1.3941615221042738,0,689.2560212491771</vt>
+        <vt>1.5,1.3941615221042738,32.0,623.6792701217782</vt>
+        <vt>1.5,1.5863768849099713,64,1595.9916887537552</vt>
+    </wall>
+    <wall position="32,91.40389231859716" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>3,0.3844307256113953,0,264.9028655996958</vt>
+        <vt>3,0,64,213.61982946962326</vt>
+        <vt>1.5,1.201946159298576,64,1260.9980173352944</vt>
+        <vt>1.5,1.3941615221042738,32.0,623.6792701217782</vt>
+        <vt>1.7398801659941279,1.3941615221042738,0,689.2560212491771</vt>
+    </wall>
+    <barrier position="32,93.8077846371943" surface="none">
+        <vt>0,0,64,393.32865835571124</vt>
+        <vt>0,0.3844307256113953,0,444.6116944857838</vt>
+        <vt>3,2.7883230442085476,0,1264.730575790094</vt>
+        <vt>3,2.403892318597152,64,1213.4475396600214</vt>
+    </barrier>
+    <platform position="32,93.8077846371943" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,2.7883230442085476,64,1396.7145652658876</vt>
+        <vt>0,2.403892318597152,0,1345.431529135815</vt>
+        <vt>3,0,0,525.3126478315049</vt>
+        <vt>3,0.3844307256113953,64,576.5956839615775</vt>
+    </platform>
+    <animated_wall position="32,94.1922153628057" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0.23988016599412754,2.403892318597152,64,1753.2812441772448</vt>
+        <vt>0,2.403892318597152,0,1781.868674171897</vt>
+        <vt>3,0,0,141.63091156327678</vt>
+        <vt>3,0.19221536280569765,64,244.19698382342193</vt>
+    </animated_wall>
+    <animated_wall position="32,94.1922153628057" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0,0,0,132.53669051829692</vt>
+        <vt>0,0.19221536280569765,64,235.10276277844207</vt>
+        <vt>2.7601198340058724,2.403892318597152,64,1744.1870231322648</vt>
+        <vt>3,2.403892318597152,0,1772.774453126917</vt>
+    </animated_wall>
+    <wall position="32,93.8077846371943" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>0,0,64,153.75282418291235</vt>
+        <vt>0,0.3844307256113953,0,205.03586031298494</vt>
+        <vt>1.2601198340058724,1.3941615221042738,0,519.7764373661834</vt>
+        <vt>1.5,1.3941615221042738,32.0,563.8122648350674</vt>
+        <vt>1.5,1.201946159298576,64,1201.1310120485834</vt>
+    </wall>
+    <wall position="32,93.8077846371943" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>0,2.403892318597152,0,973.8717054872225</vt>
+        <vt>0,2.7883230442085476,64,1025.154741617295</vt>
+        <vt>1.5,1.5863768849099713,64,1536.1246834670442</vt>
+        <vt>1.5,1.3941615221042738,32.0,563.8122648350674</vt>
+        <vt>1.2601198340058724,1.3941615221042738,0,519.7764373661834</vt>
+    </wall>
+    <wall position="32,93.8077846371943" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>3,2.7883230442085476,64,1025.154741617295</vt>
+        <vt>3,2.403892318597152,0,973.8717054872225</vt>
+        <vt>1.7398801659941279,1.3941615221042738,0,629.3890159624661</vt>
+        <vt>1.5,1.3941615221042738,32.0,563.8122648350674</vt>
+        <vt>1.5,1.5863768849099713,64,1536.1246834670442</vt>
+    </wall>
+    <wall position="32,93.8077846371943" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>3,0.3844307256113953,0,205.03586031298494</vt>
+        <vt>3,0,64,153.75282418291235</vt>
+        <vt>1.5,1.201946159298576,64,1201.1310120485834</vt>
+        <vt>1.5,1.3941615221042738,32.0,563.8122648350674</vt>
+        <vt>1.7398801659941279,1.3941615221042738,0,629.3890159624661</vt>
+    </wall>
+    <barrier position="32,96.21167695579146" surface="none">
+        <vt>0,0,64,459.86406083192844</vt>
+        <vt>0,0.3844307256113953,0,511.147096962001</vt>
+        <vt>3,2.7883230442085476,0,1331.265978266311</vt>
+        <vt>3,2.403892318597152,64,1279.9829421362385</vt>
+    </barrier>
+    <platform position="32,96.21167695579146" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,2.7883230442085476,64,1618.642043051433</vt>
+        <vt>0,2.403892318597152,0,1567.3590069213603</vt>
+        <vt>3,0,0,747.2401256170502</vt>
+        <vt>3,0.3844307256113953,64,798.5231617471228</vt>
+    </platform>
+    <animated_wall position="32,96.59610768140286" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0.23988016599412754,2.403892318597152,64,2221.114111755647</vt>
+        <vt>0,2.403892318597152,0,2249.7015417502994</vt>
+        <vt>3,0,0,609.4637791416792</vt>
+        <vt>3,0.19221536280569765,64,712.0298514018243</vt>
+    </animated_wall>
+    <animated_wall position="32,96.59610768140286" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0,0,0,532.6036464671739</vt>
+        <vt>0,0.19221536280569765,64,635.169718727319</vt>
+        <vt>2.7601198340058724,2.403892318597152,64,2144.253979081142</vt>
+        <vt>3,2.403892318597152,0,2172.841409075794</vt>
+    </animated_wall>
+    <wall position="32,96.21167695579146" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>0,0,64,485.40033558486596</vt>
+        <vt>0,0.3844307256113953,0,536.6833717149385</vt>
+        <vt>1.2601198340058724,1.3941615221042738,0,851.423948768137</vt>
+        <vt>1.5,1.3941615221042738,32.0,895.4597762370211</vt>
+        <vt>1.5,1.201946159298576,64,1532.7785234505373</vt>
+    </wall>
+    <wall position="32,96.21167695579146" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>0,2.403892318597152,0,1305.519216889176</vt>
+        <vt>0,2.7883230442085476,64,1356.8022530192486</vt>
+        <vt>1.5,1.5863768849099713,64,1867.7721948689978</vt>
+        <vt>1.5,1.3941615221042738,32.0,895.4597762370211</vt>
+        <vt>1.2601198340058724,1.3941615221042738,0,851.423948768137</vt>
+    </wall>
+    <wall position="32,96.21167695579146" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>3,2.7883230442085476,64,1356.8022530192486</vt>
+        <vt>3,2.403892318597152,0,1305.519216889176</vt>
+        <vt>1.7398801659941279,1.3941615221042738,0,961.0365273644197</vt>
+        <vt>1.5,1.3941615221042738,32.0,895.4597762370211</vt>
+        <vt>1.5,1.5863768849099713,64,1867.7721948689978</vt>
+    </wall>
+    <wall position="32,96.21167695579146" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>3,0.3844307256113953,0,536.6833717149385</vt>
+        <vt>3,0,64,485.40033558486596</vt>
+        <vt>1.5,1.201946159298576,64,1532.7785234505373</vt>
+        <vt>1.5,1.3941615221042738,32.0,895.4597762370211</vt>
+        <vt>1.7398801659941279,1.3941615221042738,0,961.0365273644197</vt>
+    </wall>
+</chunk>
+<chunk>
+    <wall position="37,99" texture="TEXSteel_stick" layer="8" rotation="0">
+        <vt>0,0,0,542.5330578657446</vt>
+        <vt>0.5,0,64,542.5330578657446</vt>
+        <vt>0.5,-10,64,-737.4669421342554</vt>
+        <vt>0,-10,0,-737.4669421342554</vt>
+    </wall>
+    <wall position="39.5,99" texture="TEXSteel_stick" layer="8" rotation="0">
+        <vt>0,0,0,726.6757632119734</vt>
+        <vt>0.5,0,64,726.6757632119734</vt>
+        <vt>0.5,-10,64,-553.3242367880266</vt>
+        <vt>0,-10,0,-553.3242367880266</vt>
+    </wall>
+    <animated_wall position="36.8,99" texture="ATXWater_Drops_Flowing" layer="8" rotation="0" frame_time="1" offset="0">
+        <vt>0,0,64,298.51476359933383</vt>
+        <vt>0.2,0,0,298.51476359933383</vt>
+        <vt>0.2,-10,0,-2901.485236400666</vt>
+        <vt>0,-10,64,-2901.485236400666</vt>
+    </animated_wall>
+    <animated_wall position="40,99" texture="ATXWater_Drops_Flowing" layer="8" rotation="0" frame_time="1" offset="0">
+        <vt>0,0,-64,230.72027304441292</vt>
+        <vt>0.2,0,0,230.72027304441292</vt>
+        <vt>0.2,-10,0,-2969.279726955587</vt>
+        <vt>0,-10,-64,-2969.279726955587</vt>
+    </animated_wall>
+    <platform position="37,89.0" texture="TEXSteel_stick" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,0,64,113.28960551053491</vt>
+        <vt>0,0.34046804289193494,0,147.63460802469694</vt>
+        <vt>3,1.9503900357432804,0,873.9664328608249</vt>
+        <vt>3,1.6099219928513455,64,839.6214303466629</vt>
+    </platform>
+    <animated_wall position="37,89.34046804289194" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0,0,0,144.6267429442062</vt>
+        <vt>0,0.17023402144596747,64,213.31674797253027</vt>
+        <vt>2.682778378949036,1.6099219928513455,64,1512.3749583811718</vt>
+        <vt>3,1.6099219928513455,0,1597.2903926164622</vt>
+    </animated_wall>
+    <platform position="37,90.60992199285134" texture="TEXSteel_stick" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,1.9503900357432804,64,1341.9886780317545</vt>
+        <vt>0,1.6099219928513455,0,1307.6436755175926</vt>
+        <vt>3,0,0,581.3118506814645</vt>
+        <vt>3,0.34046804289193494,64,615.6568531956266</vt>
+    </platform>
+    <animated_wall position="37,90.95039003574328" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0.3172216210509641,1.6099219928513455,64,1688.8492937703463</vt>
+        <vt>0,1.6099219928513455,0,1773.7647280056367</vt>
+        <vt>3,0,0,321.10107833338066</vt>
+        <vt>3,0.17023402144596747,64,389.7910833617047</vt>
+    </animated_wall>
+    <platform position="37,92.2198439857027" texture="TEXSteel_stick" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,0,64,226.36807405230718</vt>
+        <vt>0,0.34046804289193494,0,260.7130765664692</vt>
+        <vt>3,1.9503900357432804,0,987.0449014025971</vt>
+        <vt>3,1.6099219928513455,64,952.6998988884352</vt>
+    </platform>
+    <animated_wall position="37,92.56031202859464" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0,0,0,408.90243061797617</vt>
+        <vt>0,0.17023402144596747,64,477.5924356463002</vt>
+        <vt>2.682778378949036,1.6099219928513455,64,1776.6506460549417</vt>
+        <vt>3,1.6099219928513455,0,1861.566080290232</vt>
+    </animated_wall>
+    <platform position="37,93.82976597855404" texture="TEXSteel_stick" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,1.9503900357432804,64,929.0345347453673</vt>
+        <vt>0,1.6099219928513455,0,894.6895322312054</vt>
+        <vt>3,0,0,168.3577073950773</vt>
+        <vt>3,0.34046804289193494,64,202.70270990923933</vt>
+    </platform>
+    <animated_wall position="37,94.17023402144598" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0.3172216210509641,1.6099219928513455,64,1822.8666904306267</vt>
+        <vt>0,1.6099219928513455,0,1907.782124665917</vt>
+        <vt>3,0,0,455.118474993661</vt>
+        <vt>3,0.17023402144596747,64,523.808480021985</vt>
+    </animated_wall>
+    <platform position="37,95.43968797140538" texture="TEXSteel_stick" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,0,64,533.2958055251042</vt>
+        <vt>0,0.34046804289193494,0,567.6408080392663</vt>
+        <vt>3,1.9503900357432804,0,1293.972632875394</vt>
+        <vt>3,1.6099219928513455,64,1259.6276303612321</vt>
+    </platform>
+    <animated_wall position="37,95.78015601429732" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0,0,0,264.70542676568505</vt>
+        <vt>0,0.17023402144596747,64,333.3954317940091</vt>
+        <vt>2.682778378949036,1.6099219928513455,64,1632.4536422026508</vt>
+        <vt>3,1.6099219928513455,0,1717.3690764379412</vt>
+    </animated_wall>
+    <platform position="37,97.04960996425673" texture="TEXSteel_stick" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,1.9503900357432804,64,1416.570945118992</vt>
+        <vt>0,1.6099219928513455,0,1382.2259426048302</vt>
+        <vt>3,0,0,655.8941177687021</vt>
+        <vt>3,0.34046804289193494,64,690.2391202828642</vt>
+    </platform>
+    <animated_wall position="37,97.39007800714867" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0.3172216210509641,1.6099219928513455,64,2066.5670942121624</vt>
+        <vt>0,1.6099219928513455,0,2151.4825284474528</vt>
+        <vt>3,0,0,698.8188787751967</vt>
+        <vt>3,0.17023402144596747,64,767.5088838035208</vt>
+    </animated_wall>
+</chunk>
+<chunk>
+    <wall position="42,99" texture="TEXSteel_stick" layer="8" rotation="0">
+        <vt>0,0,0,284.92301091612615</vt>
+        <vt>0.5,0,64,284.92301091612615</vt>
+        <vt>0.5,-10,64,-995.0769890838739</vt>
+        <vt>0,-10,0,-995.0769890838739</vt>
+    </wall>
+    <wall position="44.5,99" texture="TEXSteel_stick" layer="8" rotation="0">
+        <vt>0,0,0,716.8021254589812</vt>
+        <vt>0.5,0,64,716.8021254589812</vt>
+        <vt>0.5,-10,64,-563.1978745410188</vt>
+        <vt>0,-10,0,-563.1978745410188</vt>
+    </wall>
+    <animated_wall position="41.8,99" texture="ATXWater_Drops_Flowing" layer="8" rotation="0" frame_time="1" offset="0">
+        <vt>0,0,64,83.16331600331296</vt>
+        <vt>0.2,0,0,83.16331600331296</vt>
+        <vt>0.2,-10,0,-3116.836683996687</vt>
+        <vt>0,-10,64,-3116.836683996687</vt>
+    </animated_wall>
+    <animated_wall position="45,99" texture="ATXWater_Drops_Flowing" layer="8" rotation="0" frame_time="1" offset="0">
+        <vt>0,0,-64,615.1890871989282</vt>
+        <vt>0.2,0,0,615.1890871989282</vt>
+        <vt>0.2,-10,0,-2584.810912801072</vt>
+        <vt>0,-10,-64,-2584.810912801072</vt>
+    </animated_wall>
+    <barrier position="42,89.0" surface="none">
+        <vt>0,0,64,436.0699374056202</vt>
+        <vt>0,0.3844307256113953,0,487.35297353569274</vt>
+        <vt>3,2.7883230442085476,0,1307.4718548400028</vt>
+        <vt>3,2.403892318597152,64,1256.1888187099303</vt>
+    </barrier>
+    <platform position="42,89.0" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,2.7883230442085476,64,1635.4509394606507</vt>
+        <vt>0,2.403892318597152,0,1584.1679033305782</vt>
+        <vt>3,0,0,764.0490220262681</vt>
+        <vt>3,0.3844307256113953,64,815.3320581563406</vt>
+    </platform>
+    <animated_wall position="42,89.3844307256114" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0.23988016599412754,2.403892318597152,64,1993.533537753388</vt>
+        <vt>0,2.403892318597152,0,2022.1209677480401</vt>
+        <vt>3,0,0,381.88320513942</vt>
+        <vt>3,0.19221536280569765,64,484.4492773995652</vt>
+    </animated_wall>
+    <animated_wall position="42,89.3844307256114" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0,0,0,318.87116870616325</vt>
+        <vt>0,0.19221536280569765,64,421.4372409663084</vt>
+        <vt>2.7601198340058724,2.403892318597152,64,1930.5215013201312</vt>
+        <vt>3,2.403892318597152,0,1959.1089313147834</vt>
+    </animated_wall>
+    <wall position="42,89.0" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>0,0,64,445.87902090882494</vt>
+        <vt>0,0.3844307256113953,0,497.1620570388975</vt>
+        <vt>1.2601198340058724,1.3941615221042738,0,811.9026340920959</vt>
+        <vt>1.5,1.3941615221042738,32.0,855.9384615609799</vt>
+        <vt>1.5,1.201946159298576,64,1493.2572087744961</vt>
+    </wall>
+    <wall position="42,89.0" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>0,2.403892318597152,0,1265.9979022131351</vt>
+        <vt>0,2.7883230442085476,64,1317.2809383432077</vt>
+        <vt>1.5,1.5863768849099713,64,1828.2508801929569</vt>
+        <vt>1.5,1.3941615221042738,32.0,855.9384615609799</vt>
+        <vt>1.2601198340058724,1.3941615221042738,0,811.9026340920959</vt>
+    </wall>
+    <wall position="42,89.0" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>3,2.7883230442085476,64,1317.2809383432077</vt>
+        <vt>3,2.403892318597152,0,1265.9979022131351</vt>
+        <vt>1.7398801659941279,1.3941615221042738,0,921.5152126883788</vt>
+        <vt>1.5,1.3941615221042738,32.0,855.9384615609799</vt>
+        <vt>1.5,1.5863768849099713,64,1828.2508801929569</vt>
+    </wall>
+    <wall position="42,89.0" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>3,0.3844307256113953,0,497.1620570388975</vt>
+        <vt>3,0,64,445.87902090882494</vt>
+        <vt>1.5,1.201946159298576,64,1493.2572087744961</vt>
+        <vt>1.5,1.3941615221042738,32.0,855.9384615609799</vt>
+        <vt>1.7398801659941279,1.3941615221042738,0,921.5152126883788</vt>
+    </wall>
+    <barrier position="42,91.40389231859716" surface="none">
+        <vt>0,0,64,570.6926699423619</vt>
+        <vt>0,0.3844307256113953,0,621.9757060724345</vt>
+        <vt>3,2.7883230442085476,0,1442.0945873767446</vt>
+        <vt>3,2.403892318597152,64,1390.811551246672</vt>
+    </barrier>
+    <platform position="42,91.40389231859716" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,2.7883230442085476,64,1228.3595496198325</vt>
+        <vt>0,2.403892318597152,0,1177.07651348976</vt>
+        <vt>3,0,0,356.95763218544977</vt>
+        <vt>3,0.3844307256113953,64,408.2406683155223</vt>
+    </platform>
+    <animated_wall position="42,91.78832304420855" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0.23988016599412754,2.403892318597152,64,2216.820342316924</vt>
+        <vt>0,2.403892318597152,0,2245.407772311576</vt>
+        <vt>3,0,0,605.1700097029558</vt>
+        <vt>3,0.19221536280569765,64,707.7360819631009</vt>
+    </animated_wall>
+    <animated_wall position="42,91.78832304420855" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0,0,0,295.7443803274804</vt>
+        <vt>0,0.19221536280569765,64,398.3104525876256</vt>
+        <vt>2.7601198340058724,2.403892318597152,64,1907.3947129414485</vt>
+        <vt>3,2.403892318597152,0,1935.9821429361007</vt>
+    </animated_wall>
+    <wall position="42,91.40389231859716" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>0,0,64,689.0222895281902</vt>
+        <vt>0,0.3844307256113953,0,740.3053256582627</vt>
+        <vt>1.2601198340058724,1.3941615221042738,0,1055.0459027114612</vt>
+        <vt>1.5,1.3941615221042738,32.0,1099.0817301803452</vt>
+        <vt>1.5,1.201946159298576,64,1736.4004773938614</vt>
+    </wall>
+    <wall position="42,91.40389231859716" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>0,2.403892318597152,0,1509.1411708325004</vt>
+        <vt>0,2.7883230442085476,64,1560.424206962573</vt>
+        <vt>1.5,1.5863768849099713,64,2071.394148812322</vt>
+        <vt>1.5,1.3941615221042738,32.0,1099.0817301803452</vt>
+        <vt>1.2601198340058724,1.3941615221042738,0,1055.0459027114612</vt>
+    </wall>
+    <wall position="42,91.40389231859716" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>3,2.7883230442085476,64,1560.424206962573</vt>
+        <vt>3,2.403892318597152,0,1509.1411708325004</vt>
+        <vt>1.7398801659941279,1.3941615221042738,0,1164.658481307744</vt>
+        <vt>1.5,1.3941615221042738,32.0,1099.0817301803452</vt>
+        <vt>1.5,1.5863768849099713,64,2071.394148812322</vt>
+    </wall>
+    <wall position="42,91.40389231859716" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>3,0.3844307256113953,0,740.3053256582627</vt>
+        <vt>3,0,64,689.0222895281902</vt>
+        <vt>1.5,1.201946159298576,64,1736.4004773938614</vt>
+        <vt>1.5,1.3941615221042738,32.0,1099.0817301803452</vt>
+        <vt>1.7398801659941279,1.3941615221042738,0,1164.658481307744</vt>
+    </wall>
+    <barrier position="42,93.8077846371943" surface="none">
+        <vt>0,0,64,241.6892893717477</vt>
+        <vt>0,0.3844307256113953,0,292.97232550182025</vt>
+        <vt>3,2.7883230442085476,0,1113.0912068061302</vt>
+        <vt>3,2.403892318597152,64,1061.8081706760577</vt>
+    </barrier>
+    <platform position="42,93.8077846371943" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,2.7883230442085476,64,913.9849339766812</vt>
+        <vt>0,2.403892318597152,0,862.7018978466086</vt>
+        <vt>3,0,0,42.58301654229857</vt>
+        <vt>3,0.3844307256113953,64,93.86605267237115</vt>
+    </platform>
+    <animated_wall position="42,94.1922153628057" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0.23988016599412754,2.403892318597152,64,2578.9239368819894</vt>
+        <vt>0,2.403892318597152,0,2607.5113668766417</vt>
+        <vt>3,0,0,967.2736042680216</vt>
+        <vt>3,0.19221536280569765,64,1069.8396765281668</vt>
+    </animated_wall>
+    <animated_wall position="42,94.1922153628057" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0,0,0,801.326055300047</vt>
+        <vt>0,0.19221536280569765,64,903.8921275601921</vt>
+        <vt>2.7601198340058724,2.403892318597152,64,2412.976387914015</vt>
+        <vt>3,2.403892318597152,0,2441.5638179086673</vt>
+    </animated_wall>
+    <wall position="42,93.8077846371943" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>0,0,64,132.56299017781447</vt>
+        <vt>0,0.3844307256113953,0,183.84602630788703</vt>
+        <vt>1.2601198340058724,1.3941615221042738,0,498.5866033610855</vt>
+        <vt>1.5,1.3941615221042738,32.0,542.6224308299695</vt>
+        <vt>1.5,1.201946159298576,64,1179.9411780434857</vt>
+    </wall>
+    <wall position="42,93.8077846371943" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>0,2.403892318597152,0,952.6818714821245</vt>
+        <vt>0,2.7883230442085476,64,1003.9649076121971</vt>
+        <vt>1.5,1.5863768849099713,64,1514.9348494619464</vt>
+        <vt>1.5,1.3941615221042738,32.0,542.6224308299695</vt>
+        <vt>1.2601198340058724,1.3941615221042738,0,498.5866033610855</vt>
+    </wall>
+    <wall position="42,93.8077846371943" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>3,2.7883230442085476,64,1003.9649076121971</vt>
+        <vt>3,2.403892318597152,0,952.6818714821245</vt>
+        <vt>1.7398801659941279,1.3941615221042738,0,608.1991819573683</vt>
+        <vt>1.5,1.3941615221042738,32.0,542.6224308299695</vt>
+        <vt>1.5,1.5863768849099713,64,1514.9348494619464</vt>
+    </wall>
+    <wall position="42,93.8077846371943" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>3,0.3844307256113953,0,183.84602630788703</vt>
+        <vt>3,0,64,132.56299017781447</vt>
+        <vt>1.5,1.201946159298576,64,1179.9411780434857</vt>
+        <vt>1.5,1.3941615221042738,32.0,542.6224308299695</vt>
+        <vt>1.7398801659941279,1.3941615221042738,0,608.1991819573683</vt>
+    </wall>
+    <barrier position="42,96.21167695579146" surface="none">
+        <vt>0,0,64,777.092951258882</vt>
+        <vt>0,0.3844307256113953,0,828.3759873889545</vt>
+        <vt>3,2.7883230442085476,0,1648.4948686932646</vt>
+        <vt>3,2.403892318597152,64,1597.211832563192</vt>
+    </barrier>
+    <platform position="42,96.21167695579146" texture="bricks,0" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,2.7883230442085476,64,1496.2454813775144</vt>
+        <vt>0,2.403892318597152,0,1444.9624452474418</vt>
+        <vt>3,0,0,624.8435639431317</vt>
+        <vt>3,0.3844307256113953,64,676.1266000732043</vt>
+    </platform>
+    <animated_wall position="42,96.59610768140286" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0.23988016599412754,2.403892318597152,64,2797.6338323931423</vt>
+        <vt>0,2.403892318597152,0,2826.2212623877945</vt>
+        <vt>3,0,0,1185.9834997791743</vt>
+        <vt>3,0.19221536280569765,64,1288.5495720393194</vt>
+    </animated_wall>
+    <animated_wall position="42,96.59610768140286" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0,0,0,129.15872369314346</vt>
+        <vt>0,0.19221536280569765,64,231.7247959532886</vt>
+        <vt>2.7601198340058724,2.403892318597152,64,1740.8090563071114</vt>
+        <vt>3,2.403892318597152,0,1769.3964863017636</vt>
+    </animated_wall>
+    <wall position="42,96.21167695579146" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>0,0,64,257.2449151062342</vt>
+        <vt>0,0.3844307256113953,0,308.52795123630676</vt>
+        <vt>1.2601198340058724,1.3941615221042738,0,623.2685282895052</vt>
+        <vt>1.5,1.3941615221042738,32.0,667.3043557583892</vt>
+        <vt>1.5,1.201946159298576,64,1304.6231029719054</vt>
+    </wall>
+    <wall position="42,96.21167695579146" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>0,2.403892318597152,0,1077.3637964105442</vt>
+        <vt>0,2.7883230442085476,64,1128.6468325406167</vt>
+        <vt>1.5,1.5863768849099713,64,1639.6167743903661</vt>
+        <vt>1.5,1.3941615221042738,32.0,667.3043557583892</vt>
+        <vt>1.2601198340058724,1.3941615221042738,0,623.2685282895052</vt>
+    </wall>
+    <wall position="42,96.21167695579146" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>3,2.7883230442085476,64,1128.6468325406167</vt>
+        <vt>3,2.403892318597152,0,1077.3637964105442</vt>
+        <vt>1.7398801659941279,1.3941615221042738,0,732.8811068857881</vt>
+        <vt>1.5,1.3941615221042738,32.0,667.3043557583892</vt>
+        <vt>1.5,1.5863768849099713,64,1639.6167743903661</vt>
+    </wall>
+    <wall position="42,96.21167695579146" texture="TEXSteel_stick" layer="5" rotation="0">
+        <vt>3,0.3844307256113953,0,308.52795123630676</vt>
+        <vt>3,0,64,257.2449151062342</vt>
+        <vt>1.5,1.201946159298576,64,1304.6231029719054</vt>
+        <vt>1.5,1.3941615221042738,32.0,667.3043557583892</vt>
+        <vt>1.7398801659941279,1.3941615221042738,0,732.8811068857881</vt>
+    </wall>
+</chunk>
+<chunk>
+    <wall position="47,99" texture="TEXSteel_stick" layer="8" rotation="0">
+        <vt>0,0,0,629.4435681010182</vt>
+        <vt>0.5,0,64,629.4435681010182</vt>
+        <vt>0.5,-10,64,-650.5564318989818</vt>
+        <vt>0,-10,0,-650.5564318989818</vt>
+    </wall>
+    <wall position="49.5,99" texture="TEXSteel_stick" layer="8" rotation="0">
+        <vt>0,0,0,576.0133062622124</vt>
+        <vt>0.5,0,64,576.0133062622124</vt>
+        <vt>0.5,-10,64,-703.9866937377876</vt>
+        <vt>0,-10,0,-703.9866937377876</vt>
+    </wall>
+    <animated_wall position="46.8,99" texture="ATXWater_Drops_Flowing" layer="8" rotation="0" frame_time="1" offset="0">
+        <vt>0,0,64,92.00469194736485</vt>
+        <vt>0.2,0,0,92.00469194736485</vt>
+        <vt>0.2,-10,0,-3107.995308052635</vt>
+        <vt>0,-10,64,-3107.995308052635</vt>
+    </animated_wall>
+    <animated_wall position="50,99" texture="ATXWater_Drops_Flowing" layer="8" rotation="0" frame_time="1" offset="0">
+        <vt>0,0,-64,1129.687938311296</vt>
+        <vt>0.2,0,0,1129.687938311296</vt>
+        <vt>0.2,-10,0,-2070.312061688704</vt>
+        <vt>0,-10,-64,-2070.312061688704</vt>
+    </animated_wall>
+    <platform position="47,89.0" texture="TEXSteel_stick" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,0,64,642.2430479634197</vt>
+        <vt>0,0.34046804289193494,0,676.5880504775818</vt>
+        <vt>3,1.9503900357432804,0,1402.9198753137098</vt>
+        <vt>3,1.6099219928513455,64,1368.5748727995478</vt>
+    </platform>
+    <animated_wall position="47,89.34046804289194" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0,0,0,497.22929950575093</vt>
+        <vt>0,0.17023402144596747,64,565.919304534075</vt>
+        <vt>2.682778378949036,1.6099219928513455,64,1864.9775149427167</vt>
+        <vt>3,1.6099219928513455,0,1949.892949178007</vt>
+    </animated_wall>
+    <platform position="47,90.60992199285134" texture="TEXSteel_stick" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,1.9503900357432804,64,901.2485176526018</vt>
+        <vt>0,1.6099219928513455,0,866.9035151384398</vt>
+        <vt>3,0,0,140.57169030231177</vt>
+        <vt>3,0.34046804289193494,64,174.91669281647378</vt>
+    </platform>
+    <animated_wall position="47,90.95039003574328" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0.3172216210509641,1.6099219928513455,64,1991.0209747814386</vt>
+        <vt>0,1.6099219928513455,0,2075.936409016729</vt>
+        <vt>3,0,0,623.2727593444729</vt>
+        <vt>3,0.17023402144596747,64,691.962764372797</vt>
+    </animated_wall>
+    <platform position="47,92.2198439857027" texture="TEXSteel_stick" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,0,64,652.5009085285078</vt>
+        <vt>0,0.34046804289193494,0,686.8459110426699</vt>
+        <vt>3,1.9503900357432804,0,1413.1777358787976</vt>
+        <vt>3,1.6099219928513455,64,1378.8327333646357</vt>
+    </platform>
+    <animated_wall position="47,92.56031202859464" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0,0,0,185.7456561200992</vt>
+        <vt>0,0.17023402144596747,64,254.43566114842326</vt>
+        <vt>2.682778378949036,1.6099219928513455,64,1553.493871557065</vt>
+        <vt>3,1.6099219928513455,0,1638.4093057923553</vt>
+    </animated_wall>
+    <platform position="47,93.82976597855404" texture="TEXSteel_stick" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,1.9503900357432804,64,1166.2054846915444</vt>
+        <vt>0,1.6099219928513455,0,1131.8604821773824</vt>
+        <vt>3,0,0,405.52865734125453</vt>
+        <vt>3,0.34046804289193494,64,439.8736598554166</vt>
+    </platform>
+    <animated_wall position="47,94.17023402144598" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0.3172216210509641,1.6099219928513455,64,1685.610898100939</vt>
+        <vt>0,1.6099219928513455,0,1770.5263323362294</vt>
+        <vt>3,0,0,317.86268266397343</vt>
+        <vt>3,0.17023402144596747,64,386.55268769229747</vt>
+    </animated_wall>
+    <platform position="47,95.43968797140538" texture="TEXSteel_stick" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,0,64,408.0179844260963</vt>
+        <vt>0,0.34046804289193494,0,442.36298694025834</vt>
+        <vt>3,1.9503900357432804,0,1168.6948117763864</vt>
+        <vt>3,1.6099219928513455,64,1134.3498092622244</vt>
+    </platform>
+    <animated_wall position="47,95.78015601429732" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0,0,0,203.79061935335207</vt>
+        <vt>0,0.17023402144596747,64,272.48062438167614</vt>
+        <vt>2.682778378949036,1.6099219928513455,64,1571.5388347903177</vt>
+        <vt>3,1.6099219928513455,0,1656.454269025608</vt>
+    </animated_wall>
+    <platform position="47,97.04960996425673" texture="TEXSteel_stick" layer="5" rotation="0" flip="1,1" surface="none">
+        <vt>0,1.9503900357432804,64,778.7114250351764</vt>
+        <vt>0,1.6099219928513455,0,744.3664225210144</vt>
+        <vt>3,0,0,18.034597684886396</vt>
+        <vt>3,0.34046804289193494,64,52.379600199048426</vt>
+    </platform>
+    <animated_wall position="47,97.39007800714867" texture="ATXWater_Drops_Flowing" layer="5" rotation="0" frame_time="2" offset="0">
+        <vt>0.3172216210509641,1.6099219928513455,64,2704.8737314686655</vt>
+        <vt>0,1.6099219928513455,0,2789.789165703956</vt>
+        <vt>3,0,0,1337.1255160316998</vt>
+        <vt>3,0.17023402144596747,64,1405.815521060024</vt>
+    </animated_wall>
 </chunk>
 </level>
