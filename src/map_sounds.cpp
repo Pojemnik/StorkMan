@@ -1,7 +1,7 @@
 #include "map_sounds.h"
 
-Map_sound::Map_sound(int sound_, Vectorf pos_, std::vector<Vectorf>&& mesh, int volume_, int id_)
-	: sound(sound_), collision(mesh, pos_), default_volume(volume_), id(id_), pos(pos_) {}
+Map_sound::Map_sound(std::vector<Vectorf>&& mesh, Map_sound_info info_)
+	: collision(mesh, info_.pos), info(info_) {}
 
 Collision Map_sound::get_collision() const
 {
@@ -10,20 +10,25 @@ Collision Map_sound::get_collision() const
 
 int Map_sound::get_sound() const
 {
-	return sound;
+	return info.sound;
 }
 
 int Map_sound::get_id() const
 {
-	return id;
+	return info.id;
 }
 
 Vectorf Map_sound::get_pos() const
 {
-	return pos;
+	return info.pos;
 }
 
 int Map_sound::get_default_volume() const
 {
-	return default_volume;
+	return info.volume;
+}
+
+Map_sound_info Map_sound::get_info() const
+{
+	return info;
 }

@@ -128,18 +128,14 @@ void Map::update(float dt, Vectorf player_pos, sf::FloatRect screen_rect)
 		{
 			if (!last_map_sounds.contains(it))
 			{
-				const Vectorf pos = it->get_pos() / context.global_scale;
-				send_message(Message::Message_type::ENTERED_SOUND,
-					std::make_tuple(it->get_sound(), it->get_id(), pos));
+				send_message(Message::Message_type::ENTERED_SOUND, it->get_info());
 			}
 		}
 		for (const auto& it : last_map_sounds)
 		{
 			if (!current_map_sounds.contains(it))
 			{
-				const Vectorf pos = it->get_pos() / context.global_scale;
-				send_message(Message::Message_type::LEFT_SOUND,
-					std::make_tuple(it->get_sound(), it->get_id(), pos));
+				send_message(Message::Message_type::LEFT_SOUND, it->get_info());
 			}
 		}
 		last_map_sounds = current_map_sounds;

@@ -1,23 +1,22 @@
 #pragma once
 #include <SFML/Audio.hpp>
 #include "collisions.h"
+#include "map_sound_info.h"
 
 class Map_sound
 {
-	const int sound;
 	Collision collision;
-	int default_volume;
-	const int id;
-	Vectorf pos;
+	const Map_sound_info info;
 	//Other sound params
 
 public:
-	Map_sound(int sound_, Vectorf pos_, std::vector<Vectorf>&& mesh, int volume_, int id_);
+	Map_sound(std::vector<Vectorf>&& mesh, Map_sound_info info_);
 	Collision get_collision() const;
 	int get_sound() const;
 	int get_id() const;
 	Vectorf get_pos() const;
 	int get_default_volume() const;
+	Map_sound_info get_info() const;
 };
 
 inline bool operator==(const Map_sound& lhs, const Map_sound& rhs)

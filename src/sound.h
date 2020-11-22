@@ -10,15 +10,33 @@
 typedef std::string string;
 typedef Message::Message_type Msgtype;
 
+class Sound
+{
+	sf::Sound sound;
+	int system_volume = 100;
+	int sound_volume;
+
+	void reset();
+
+public:
+	void play(const sf::SoundBuffer& buffer, int volume);
+	void play(const sf::SoundBuffer& buffer, Map_sound_info info);
+	void set_volume(int new_volume);
+	void stop();
+	bool is_stopped() const;
+};
+
 class Sound_pool
 {
 	static const int POOL_SIZE = 30;
-	std::array<sf::Sound, POOL_SIZE> pool;
+	std::array<Sound, POOL_SIZE> pool;
 	std::unordered_map<std::pair<int, int>, int, util::pair_hash> map_sounds;
 
 public:
-	int play_sound(const sf::SoundBuffer& sb, bool relative = true, Vectorf pos = Vectorf(0,0), bool repeated = false);
-	void play_map_sound(const sf::SoundBuffer& sb, std::pair<int, int> id, Vectorf pos);
+	Sound_pool();
+	int play_sound(const sf::SoundBuffer& sb);
+	int play_sound(const sf::SoundBuffer& sb, Map_sound_info info);
+	void play_map_sound(const sf::SoundBuffer& sb, Map_sound_info info, int lvl_id);
 	void set_volume(int volume);
 	void stop_sound(std::pair<int, int> id);
 };

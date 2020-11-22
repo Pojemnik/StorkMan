@@ -11,6 +11,7 @@
 #include "barriers.h"
 #include "zones.h"
 #include "map_sounds.h"
+#include "map_sound_info.h"
 
 using namespace parse;
 

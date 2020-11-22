@@ -926,9 +926,15 @@ Map_sound Parser::parse_sound(tinyxml2::XMLElement* element, Vectori level_pos, 
 {
 	try
 	{
-		Vectorf pos = get_position(element, level_pos);
-		int sound = map_sounds.at(get_attribute_by_name("sound", element));
-		int volume = get_and_parse_var<int>("volume", element);
+		Map_sound_info info;
+		info.id = id;
+		info.repeat = true;
+		info.relative = false;
+		info.pos = get_position(element, level_pos);
+		info.sound = map_sounds.at(get_attribute_by_name("sound", element));
+		info.volume = get_and_parse_var<int>("volume", element, 100);
+		info.attenuation = get_and_parse_var<float>("attenuation", element, 1.f);
+		info.min_distance = get_and_parse_var<float>("min_distance", element, 1);
 		std::vector<Vectorf> vert;
 		tinyxml2::XMLElement* e = element->FirstChildElement();
 		while (e != NULL)
@@ -942,7 +948,7 @@ Map_sound Parser::parse_sound(tinyxml2::XMLElement* element, Vectori level_pos, 
 			}
 			e = e->NextSiblingElement();
 		}
-		return Map_sound(sound, pos, std::move(vert), volume, id);
+		return Map_sound(std::move(vert), info);
 	}
 	catch (const std::out_of_range& e)
 	{

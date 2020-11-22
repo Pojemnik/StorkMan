@@ -4,6 +4,7 @@
 #include "entities.h"
 #include "level.h"
 #include "messaging.h"
+#include "map_sound_info.h"
 
 class Map : public Message_sender
 {

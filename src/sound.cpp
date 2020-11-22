@@ -119,14 +119,15 @@ void Sound_system::on_entity_stop(const Message& msg)
 
 void Sound_system::on_sound_enter(const Message& msg)
 {
-	auto args = std::get<std::tuple<int, int, Vectorf>>(msg.args);
-	pool.play_map_sound(map_sounds.at(std::get<0>(args)),
-		std::make_pair(lvl_id, std::get<1>(args)), std::get<2>(args));
+	Map_sound_info args = std::get<Map_sound_info>(msg.args);
+	args.pos /= context.global_scale;
+	pool.play_map_sound(map_sounds.at(args.sound), args, lvl_id);
 }
 
 void Sound_system::on_sound_left(const Message& msg)
 {
-	pool.stop_sound(std::make_pair(lvl_id, std::get<1>(std::get<std::tuple<int, int, Vectorf>>(msg.args))));
+	int id = std::get<Map_sound_info>(msg.args).id;
+	pool.stop_sound({lvl_id, id});
 }
 
 void Sound_system::on_window_focus_change(const Message& msg)
@@ -206,33 +207,50 @@ void Sound_system::update_music_state(float dt)
 	}
 }
 
-int Sound_pool::play_sound(const sf::SoundBuffer& sb, bool relative, Vectorf pos, bool repeated)
+Sound_pool::Sound_pool()
+{
+	for (auto& it : pool)
+	{
+		it.stop();
+	}
+}
+
+int Sound_pool::play_sound(const sf::SoundBuffer& sb)
 {
 	for (int i = 0; i < POOL_SIZE; i++)
 	{
-		if (pool[i].getStatus() == sf::SoundSource::Status::Stopped)
+		if (pool[i].is_stopped())
 		{
-			pool[i].setBuffer(sb);
-			pool[i].setRelativeToListener(relative);
-			pool[i].setPosition(pos.x, pos.y, 0);
-			pool[i].setLoop(repeated);
-			pool[i].play();
+			pool[i].play(sb, 100);
 			return i;
 		}
 	}
 	throw std::runtime_error("Sound pool overflow");
 }
 
-void Sound_pool::play_map_sound(const sf::SoundBuffer& sb, std::pair<int, int> id, Vectorf pos)
+int Sound_pool::play_sound(const sf::SoundBuffer& sb, Map_sound_info info)
 {
-	map_sounds.insert({ id, play_sound(sb, false, pos, true) });
+	for (int i = 0; i < POOL_SIZE; i++)
+	{
+		if (pool[i].is_stopped())
+		{
+			pool[i].play(sb, info);
+			return i;
+		}
+	}
+	throw std::runtime_error("Sound pool overflow");
+}
+
+void Sound_pool::play_map_sound(const sf::SoundBuffer& sb, Map_sound_info info, int lvl_id)
+{
+	map_sounds.insert({ {lvl_id, info.id}, play_sound(sb, info) });
 }
 
 void Sound_pool::set_volume(int volume)
 {
 	for (auto& it : pool)
 	{
-		it.setVolume(volume);
+		it.set_volume(volume);
 	}
 }
 
@@ -241,4 +259,53 @@ void Sound_pool::stop_sound(std::pair<int, int> id)
 	int sound_i = map_sounds.at(id);
 	map_sounds.erase(id);
 	pool[sound_i].stop();
+}
+
+void Sound::reset()
+{
+	sound.setLoop(false);
+	sound.setMinDistance(1.f);
+	sound.setPosition(0.f,0.f,0.f);
+	sound.setRelativeToListener(true);
+	sound.setVolume(100);
+	sound_volume = 100;
+}
+
+void Sound::play(const sf::SoundBuffer& buffer, int volume)
+{
+	reset();
+	sound_volume = volume;
+	sound.setVolume((float)system_volume * sound_volume / 100.f);
+	sound.setBuffer(buffer);
+	sound.play();
+}
+
+void Sound::play(const sf::SoundBuffer& buffer, Map_sound_info info)
+{
+	sound.setAttenuation(info.attenuation);
+	sound.setLoop(info.repeat);
+	sound.setMinDistance(info.min_distance);
+	sound.setPosition(info.pos.x, info.pos.y, 0);
+	sound.setRelativeToListener(info.relative);
+	sound_volume = info.volume;
+	sound.setVolume((float)system_volume * sound_volume / 100.f);
+	sound.setBuffer(buffer);
+	sound.play();
+}
+
+void Sound::set_volume(int new_volume)
+{
+	system_volume = new_volume;
+	sound.setVolume((float)system_volume * sound_volume / 100.f);
+}
+
+void Sound::stop()
+{
+	sound.stop();
+	reset();
+}
+
+bool Sound::is_stopped() const
+{
+	return (sound.getStatus() == sf::SoundSource::Status::Stopped);
 }
