@@ -124,6 +124,11 @@ void Sound_system::on_sound_enter(const Message& msg)
 		std::make_pair(lvl_id, std::get<1>(args)), std::get<2>(args));
 }
 
+void Sound_system::on_sound_left(const Message& msg)
+{
+	pool.stop_sound(std::make_pair(lvl_id, std::get<1>(std::get<std::tuple<int, int, Vectorf>>(msg.args))));
+}
+
 void Sound_system::on_window_focus_change(const Message& msg)
 {
 	if (std::get<bool>(msg.args))
@@ -212,9 +217,10 @@ int Sound_pool::play_sound(const sf::SoundBuffer& sb, bool relative, Vectorf pos
 			pool[i].setPosition(pos.x, pos.y, 0);
 			pool[i].setLoop(repeated);
 			pool[i].play();
-			return;
+			return i;
 		}
 	}
+	throw std::runtime_error("Sound pool overflow");
 }
 
 void Sound_pool::play_map_sound(const sf::SoundBuffer& sb, std::pair<int, int> id, Vectorf pos)

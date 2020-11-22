@@ -13,7 +13,7 @@ class Map : public Message_sender
 	std::vector<Entity*> entities;
 	sf::Sprite background;
 	std::vector<Level*> considered_levels;
-	std::unordered_set<const Map_sound*, std::hash<Map_sound*>, Map_sound_compare> last_map_sounds;
+	std::unordered_set<const Map_sound*, std::hash<const Map_sound*>, Map_sound_compare> last_map_sounds;
 
 	void get_considered_levels();
 

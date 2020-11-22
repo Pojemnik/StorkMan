@@ -6,17 +6,18 @@ class Map_sound
 {
 	const int sound;
 	Collision collision;
-	int volume;
+	int default_volume;
 	const int id;
 	Vectorf pos;
 	//Other sound params
 
 public:
-	Map_sound(int sound_, Collision&& collision_, int volume_, int id_);
+	Map_sound(int sound_, Vectorf pos_, std::vector<Vectorf>&& mesh, int volume_, int id_);
 	Collision get_collision() const;
 	int get_sound() const;
 	int get_id() const;
 	Vectorf get_pos() const;
+	int get_default_volume() const;
 };
 
 inline bool operator==(const Map_sound& lhs, const Map_sound& rhs)

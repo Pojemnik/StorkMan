@@ -49,10 +49,15 @@ class Parser
 		parse_animated_wall(tinyxml2::XMLElement* element, Vectori level_pos);
 	std::pair<std::optional<int>, std::shared_ptr<Animated_moving_platform>>
 		parse_animated_moving_platform(tinyxml2::XMLElement* element, Vectori level_pos);
-	std::pair<std::optional<int>, std::shared_ptr<Damage_zone>> parse_damage_zone(tinyxml2::XMLElement* element, Vectori level_pos);
-	std::pair<std::optional<int>, std::shared_ptr<Moving_damage_zone>> parse_moving_damage_zone(tinyxml2::XMLElement* element, Vectori level_pos);
-	std::pair<std::optional<int>, std::shared_ptr<Barrier>> parse_barrier(tinyxml2::XMLElement* element, Vectori level_pos);
-	std::pair<std::optional<int>, std::shared_ptr<Moving_barrier>> parse_moving_barrier(tinyxml2::XMLElement* element, Vectori level_pos);
+	std::pair<std::optional<int>, std::shared_ptr<Damage_zone>>
+		parse_damage_zone(tinyxml2::XMLElement* element, Vectori level_pos);
+	std::pair<std::optional<int>, std::shared_ptr<Moving_damage_zone>>
+		parse_moving_damage_zone(tinyxml2::XMLElement* element, Vectori level_pos);
+	std::pair<std::optional<int>, std::shared_ptr<Barrier>>
+		parse_barrier(tinyxml2::XMLElement* element, Vectori level_pos);
+	std::pair<std::optional<int>, std::shared_ptr<Moving_barrier>>
+		parse_moving_barrier(tinyxml2::XMLElement* element, Vectori level_pos);
+	Map_sound parse_sound(tinyxml2::XMLElement* element, Vectori level_pos, int id);
 	sf::FloatRect calculate_chunk_bounds(tinyxml2::XMLElement* root,
 		std::vector<std::shared_ptr<Map_object>>& objects);
 	const std::unordered_map<

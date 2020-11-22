@@ -241,16 +241,24 @@ void Level::draw_zones(sf::RenderTarget& target, sf::RenderStates states) const
 	//}
 }
 
-std::vector<const Map_sound*> Level::get_current_map_sounds(Vectorf player_pos) const
+std::unordered_set<const Map_sound*, std::hash<const Map_sound*>, Map_sound_compare>
+Level::get_current_map_sounds(Vectorf player_pos) const
 {
-	std::vector<const Map_sound*> current_sounds;
+	std::unordered_set<const Map_sound*, std::hash<const Map_sound*>, Map_sound_compare>
+	current_sounds;
 	sf::FloatRect player_rect(player_pos, { 1.f,1.f });
+	std::vector<Vectorf> player_mesh = { Vectorf(0,0), Vectorf(0,1),
+		Vectorf(1,1), Vectorf(1,0) };
+	Collision player_col(player_mesh, player_pos);
 	for (const auto& it : sounds)
 	{
-		if (player_rect.intersects(it.get_collision().rect))
+		Collision sound_col = it.get_collision();
+		if (player_rect.intersects(sound_col.rect))
 		{
-			//Check mesh collision
-			current_sounds.push_back(&it);
+			if (coll::test_bollean(sound_col, player_col))
+			{
+				current_sounds.insert(&it);
+			}
 		}
 	}
 	return current_sounds;

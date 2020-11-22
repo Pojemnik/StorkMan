@@ -73,6 +73,8 @@ Level Parser::parse_level(tinyxml2::XMLElement* root, Vectori global_pos, int co
 	tinyxml2::XMLElement* element = root->FirstChildElement();
 	std::vector<Map_chunk> chunks;
 	std::vector<Moving_element> moving;
+	std::vector<Map_sound> sounds;
+	int sound_id = 0;
 	while (element != nullptr)
 	{
 		string name = element->Name();
@@ -80,10 +82,15 @@ Level Parser::parse_level(tinyxml2::XMLElement* root, Vectori global_pos, int co
 		{
 			chunks.push_back(parse_chunk(element, global_pos));
 		}
+		if (name == "sound")
+		{
+			sounds.push_back(parse_sound(element, global_pos, sound_id));
+			sound_id++;
+		}
 		element = element->NextSiblingElement();
 	}
 	return Level(std::move(chunks), std::move(moving),
-		std::move(std::vector<Map_sound>()), global_pos, code);
+		std::move(sounds), global_pos, code);
 }
 
 std::unique_ptr<Level> Parser::open_and_parse_level(Vectori pos, string filepath, int code)
@@ -913,6 +920,37 @@ std::pair<std::optional<int>, std::shared_ptr<Moving_barrier>> Parser::parse_mov
 		std::cout << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
 	}
 	throw std::runtime_error("Moving platform error");
+}
+
+Map_sound Parser::parse_sound(tinyxml2::XMLElement* element, Vectori level_pos, int id)
+{
+	try
+	{
+		Vectorf pos = get_position(element, level_pos);
+		int sound = map_sounds.at(get_attribute_by_name("sound", element));
+		int volume = get_and_parse_var<int>("volume", element);
+		std::vector<Vectorf> vert;
+		tinyxml2::XMLElement* e = element->FirstChildElement();
+		while (e != NULL)
+		{
+			string n = e->Name();
+			if (n == "v")
+			{
+				Vectorf v = parse_var<Vectorf>(e->GetText());
+				v *= context.global_scale;
+				vert.push_back(v);
+			}
+			e = e->NextSiblingElement();
+		}
+		return Map_sound(sound, pos, std::move(vert), volume, id);
+	}
+	catch (const std::out_of_range& e)
+	{
+		std::cout << "Wyjatek: " << e.what() << '\n';
+		std::cout << "Element: " << "object" << '\n';
+		std::cout << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
+	}
+	throw std::runtime_error("Object error");
 }
 
 sf::FloatRect Parser::calculate_chunk_bounds(tinyxml2::XMLElement* root,

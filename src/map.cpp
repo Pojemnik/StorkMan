@@ -99,6 +99,7 @@ void Map::update(float dt, Vectorf player_pos, sf::FloatRect screen_rect)
 	Vectori player_pos_on_map = Vectori(
 		int(player_pos.x / context.global_scale / context.level_size.x),
 		int(player_pos.y / context.global_scale / context.level_size.y));
+	bool out_of_map = false;
 	if (player_pos_on_map != current_pos)
 	{
 		current_pos = player_pos_on_map;
@@ -109,6 +110,7 @@ void Map::update(float dt, Vectorf player_pos, sf::FloatRect screen_rect)
 		catch (const std::out_of_range& e)
 		{
 			send_message<string>(Message::Message_type::ERROR, "Level out of range");
+			out_of_map = true;
 		}
 		last_map_sounds.clear();
 	}
@@ -119,22 +121,28 @@ void Map::update(float dt, Vectorf player_pos, sf::FloatRect screen_rect)
 		it->resolve_collisions(entities);
 		it->make_zones_interactions(entities);
 	}
-	auto current_map_sounds = levels.at(current_pos.x).at(current_pos.y)->get_current_map_sounds(player_pos);
-	for (const auto& it : current_map_sounds)
+	if (!out_of_map)
 	{
-		if (!last_map_sounds.contains(it))
+		auto current_map_sounds = levels.at(current_pos.x).at(current_pos.y)->get_current_map_sounds(player_pos);
+		for (const auto& it : current_map_sounds)
 		{
-			send_message(Message::Message_type::ENTERED_SOUND,
-				std::make_tuple(it->get_sound(), it->get_id(), it->get_pos()));
+			if (!last_map_sounds.contains(it))
+			{
+				const Vectorf pos = it->get_pos() / context.global_scale;
+				send_message(Message::Message_type::ENTERED_SOUND,
+					std::make_tuple(it->get_sound(), it->get_id(), pos));
+			}
 		}
-	}
-	for (const auto& it : last_map_sounds)
-	{
-		if (!current_map_sounds.contains(it))
+		for (const auto& it : last_map_sounds)
 		{
-			send_message(Message::Message_type::LEFT_SOUND,
-				std::make_tuple(it->get_sound(), it->get_id(), it->get_pos()));
+			if (!current_map_sounds.contains(it))
+			{
+				const Vectorf pos = it->get_pos() / context.global_scale;
+				send_message(Message::Message_type::LEFT_SOUND,
+					std::make_tuple(it->get_sound(), it->get_id(), pos));
+			}
 		}
+		last_map_sounds = current_map_sounds;
 	}
 }
 
