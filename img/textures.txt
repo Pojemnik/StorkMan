@@ -68,7 +68,15 @@ img/tex/objects/worldbuilders/STALAGMITY06.png stalagmit6 0
 img/tex/objects/worldbuilders/STALAGMITY07.png stalagmit7 0
 img/tex/textures/ground/SKALA00.png rock0 1
 img/tex/textures/ground/ZIEMIA00.png ground0 1
+img/tex/textures/instalations/Electricity_cable_blue.png TEXElectricity_cable_blue 1
+img/tex/textures/instalations/Electricity_cable_green.png TEXElectricity_cable_green 1
+img/tex/textures/instalations/Electricity_cable_red.png TEXElectricity_cable_red 1
+img/tex/textures/instalations/Electricity_cable_yellow.png TEXElectricity_cable_yellow 1
+img/tex/textures/instalations/Hydro_pipe.png TEXHydro_pipe 1
+img/tex/textures/instalations/Hydro_pipe_rusted.png TEXHydro_pipe_rusted 1
 img/tex/textures/instalations/Steel_stick.png TEXSteel_stick 1
+img/tex/textures/instalations/Steel_stick_rusted.png TEXSteel_stick_rusted 1
+img/tex/textures/instalations/Vent_pipe.png TEXVent_pipe 1
 img/tex/textures/wall/MUR00.png wall0 1
 img/tex/textures/wood/DESKI00.png lumber0 1
 img/tex/textures/wood/DESKI00.png lumbers0 0
