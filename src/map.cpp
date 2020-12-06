@@ -5,23 +5,9 @@ void Map::init()
 	send_message<int>(Message::Message_type::CHANGED_LEVEL, levels[current_pos.x][current_pos.y]->code);
 }
 
-void Map::update_levels_physics(float dt, sf::FloatRect screen_rect)
+void Map::get_considered_levels()
 {
-	call_on_considered_levels(std::bind(&Level::update_physics, std::placeholders::_1, dt, screen_rect));
-}
-void Map::update_levels_graphics(float dt, sf::FloatRect screen_rect)
-{
-	call_on_considered_levels(std::bind(&Level::update_graphics, std::placeholders::_1, dt, screen_rect));
-}
-
-
-void Map::resolve_collisions()
-{
-	call_on_considered_levels(std::bind(&Level::resolve_collisions, std::placeholders::_1, entities));
-}
-
-void Map::call_on_considered_levels(std::function<void(Level&)> foo)
-{
+	considered_levels.clear();
 	for (int i = -1; i < 2; i++)
 	{
 		int y = current_pos.y + i;
@@ -126,12 +112,11 @@ void Map::update_physics(float dt, Vectorf player_pos, sf::FloatRect screen_rect
 			send_message<string>(Message::Message_type::ERROR, "Level out of range");
 			out_of_map = true;
 		}
-		last_map_sounds.clear();
 	}
 	get_considered_levels();
 	for (auto& it : considered_levels)
 	{
-		it->update(dt, screen_rect);
+		it->update_physics(dt, screen_rect);
 		it->resolve_collisions(entities);
 		it->make_zones_interactions(entities);
 	}
@@ -154,13 +139,14 @@ void Map::update_physics(float dt, Vectorf player_pos, sf::FloatRect screen_rect
 		}
 		last_map_sounds = current_map_sounds;
 	}
-	update_levels_physics(dt, screen_rect);
-	resolve_collisions();
-	make_zones_interactions();
 }
+
 void Map::update_graphics(float dt, Vectorf player_pos, sf::FloatRect screen_rect)
 {
-	update_levels_graphics(dt, screen_rect);
+	for (auto& it : considered_levels)
+	{
+		it->update_graphics(dt, screen_rect);
+	}
 }
 
 void Map::add_entity(Entity* entity)

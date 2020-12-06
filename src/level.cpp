@@ -1,20 +1,6 @@
 #include "level.h"
 #include "zones.h"
 
-const Collidable* Moving_element::get_collidable() const
-{
-	return &*collidable;
-}
-
-Level::Level(std::vector<Map_chunk>&& chunks_, Vectori pos, int code_)
-	: chunks(std::move(chunks_)),global_pos(pos), code(code_) {}
-
-void Level::update_graphics(float dt, sf::FloatRect screen_rect)
-{
-	updatable->update(dt);
-}
-
-
 Level::Level(std::vector<Map_chunk>&& chunks_,
 	std::vector<Map_sound>&& sounds_,
 	Vectori pos, int code_) : chunks(chunks_), sounds(sounds_),
@@ -54,7 +40,7 @@ Level::Level(std::vector<Map_chunk>&& chunks_,
 	}
 }
 
-void Level::update(float dt, sf::FloatRect screen_rect)
+void Level::update_graphics(float dt, sf::FloatRect screen_rect)
 {
 	std::vector<std::future<void>> futures;
 	for (auto& it : chunks)
@@ -133,7 +119,14 @@ void Level::draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states
 				it.draw_layer(target, states, i);
 			}
 		}
-		target.draw(sound_borders, states);
+		if (draw_sound_sources)
+		{
+			for (const auto& it : sound_sources)
+			{
+				target.draw(it, states);
+			}
+			target.draw(sound_borders, states);
+		}
 	}
 }
 
