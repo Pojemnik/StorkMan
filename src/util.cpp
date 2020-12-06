@@ -195,18 +195,18 @@ int util::orientation(Vectorf p, Vectorf q, Vectorf r)
 
 bool util::intersection(std::pair<Vectorf, Vectorf> a, std::pair<Vectorf, Vectorf> b)
 {
-	int o1 = orientation(a.first, b.first, a.second);
-	int o2 = orientation(a.first, b.first, b.second);
-	int o3 = orientation(a.second, b.second, a.first);
-	int o4 = orientation(a.second, b.second, b.first);
+	int o1 = orientation(a.first, a.second, b.first);
+	int o2 = orientation(a.first, a.second, b.second);
+	int o3 = orientation(b.first, b.second, a.first);
+	int o4 = orientation(b.first, b.second, a.second);
 
 	if (o1 != o2 && o3 != o4)
 		return true;
 
-	if (o1 == 0 && on_segment(a.first, a.second, b.first)) return true;
-	if (o2 == 0 && on_segment(a.first, b.second, b.first)) return true;
-	if (o3 == 0 && on_segment(a.second, a.first, b.second)) return true;
-	if (o4 == 0 && on_segment(a.second, b.first, b.second)) return true;
+	if (o1 == 0 && on_segment(a.first, b.first, a.second)) return true;
+	if (o2 == 0 && on_segment(a.first, b.second, a.second)) return true;
+	if (o3 == 0 && on_segment(b.first, a.first, b.second)) return true;
+	if (o4 == 0 && on_segment(b.first, a.second, b.second)) return true;
 
 	return false;
 }
