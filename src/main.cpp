@@ -103,6 +103,7 @@ int main(int argc, char** argv)
 	//Parsing
 	Parser parser(&assets);
 	parser.load_music_config("sound/music/music.cfg");
+	const auto sound_paths = parser.load_map_sound_config("sound/sound/map_sounds.cfg");
 
 	//Window setup
 	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
@@ -174,7 +175,8 @@ int main(int argc, char** argv)
 
 	//Sound init
 	const auto steps_config = parser.load_steps_config("sound/sound/steps.cfg");
-	Sound_system sound_system(assets.entity_sounds, parser.music_paths, steps_config);
+	Sound_system sound_system(assets.entity_sounds, parser.music_paths,
+		sound_paths, steps_config);
 	map.add_receiver(&sound_system);
 	player.add_receiver(&sound_system);
 	sound_system.add_receiver(&*context.console);
@@ -202,6 +204,17 @@ int main(int argc, char** argv)
 	Message_sender engine_sender(Message_sender_type::ENGINE);
 	engine_sender.add_receiver(&sound_system);
 	engine_sender.add_receiver(&*context.console);
+	sf::Sound test_sound;
+	sf::SoundBuffer test_buffer;
+	//test_buffer.loadFromFile("sound/sound/coal_grinder.wav");
+	//test_sound.setBuffer(test_buffer);
+	//test_sound.setPosition(5, 5, 0);
+	//test_sound.setVolume(10);
+	//test_sound.setLoop(true);
+	//test_sound.play();
+	std::cout << util::are_colinear({ 0,0 }, { 1,1 }, { 2,2 });
+	std::cout << util::are_colinear({ 0,0 }, { 2,2 }, { 1,1 });
+	std::cout << util::are_colinear({ 0,1 }, { 2,2 }, { 3,3 });
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -270,6 +283,9 @@ int main(int argc, char** argv)
 					break;
 				case Commands_interpreter::Command_code::DRAW_CHUNKS_BORDERS:
 					map.set_draw_chunks_borders(static_cast<bool>(code.second.x));
+					break;
+				case Commands_interpreter::Command_code::DRAW_SOUND_SOURCES:
+					map.set_draw_sound_sources(static_cast<bool>(code.second.x));
 					break;
 				case Commands_interpreter::Command_code::SET_PLAYER_TEXTURE:
 					player.set_textures_set(static_cast<int>(code.second.x));

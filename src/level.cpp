@@ -1,102 +1,60 @@
 #include "level.h"
 #include "zones.h"
 
-void Map_chunk::draw_border(sf::RenderTarget& target, sf::RenderStates states) const
+const Collidable* Moving_element::get_collidable() const
 {
-	target.draw(border, states);
+	return &*collidable;
 }
-
-void Map_chunk::draw_moving_collisions(sf::RenderTarget& target, sf::RenderStates states) const
-{
-	for (const auto& it : collidables)
-	{
-		it->draw_dynamic_collision(target, states);
-	}
-}
-
-void Map_chunk::draw_static_collisions(sf::RenderTarget& target, sf::RenderStates states) const
-{
-	target.draw(static_collision_vertices, states);
-}
-
-void Map_chunk::draw_zones(sf::RenderTarget& target, sf::RenderStates states) const
-{
-	for (const auto& it : zones)
-	{
-
-		it->draw(target, states);
-	}
-}
-
-void Map_chunk::resolve_collisions(Entity& entity) const
-{
-	entity.resolve_collision(collidables);
-}
-
-void Map_chunk::make_zones_interactions(Entity& entity) const
-{
-	for (auto& it : zones)
-	{
-
-		it->interact(entity);
-	}
-}
-
-Map_chunk::Map_chunk(std::vector<std::shared_ptr<Physical_updatable>>&& p_updatables_,
-	std::vector<std::shared_ptr<Graphical_updatable>>&& g_updatables_,
-	std::vector<std::pair<int, std::shared_ptr<Renderable>>>&& drawables_,
-	std::vector<std::shared_ptr<const Collidable>>&& collidables_,
-	std::vector<std::shared_ptr<Zone>>&& zones_,
-	sf::FloatRect bound_, sf::VertexBuffer&& static_vertices)
-	: p_updatables(std::move(p_updatables_)), g_updatables(std::move(g_updatables_)), collidables(std::move(collidables_)),
-	bound(bound_), zones(std::move(zones_)), static_collision_vertices(std::move(static_vertices))
-{
-	static util::Color_generator colors("data/colors.txt");
-	for (auto& it : drawables_)
-	{
-		layers[it.first].push_back(it.second);
-	}
-	border.setPosition(bound.left, bound.top);
-	border.setSize({ bound.width, bound.height });
-	border.setOutlineColor(colors.get_color());
-	border.setFillColor(sf::Color::Transparent);
-	border.setOutlineThickness(1);
-}
-
-void Map_chunk::update_graphics(float dt)
-{
-	for (auto& it : g_updatables)
-	{
-		it->update_graphics(dt);
-	}
-}
-void Map_chunk::update_physics(float dt)
-{
-	for (auto& it : p_updatables)
-	{
-		it->update_physics(dt);
-	}
-}
-
-
-void Map_chunk::draw_layer(sf::RenderTarget& target, sf::RenderStates states, int layer) const
-{
-	for (const auto& it : layers[layer])
-	{
-		target.draw(*it, states);
-	}
-}
-
-sf::FloatRect Map_chunk::get_bounding_rect() const
-{
-	return bound;
-}
-
 
 Level::Level(std::vector<Map_chunk>&& chunks_, Vectori pos, int code_)
 	: chunks(std::move(chunks_)),global_pos(pos), code(code_) {}
 
 void Level::update_graphics(float dt, sf::FloatRect screen_rect)
+{
+	updatable->update(dt);
+}
+
+
+Level::Level(std::vector<Map_chunk>&& chunks_,
+	std::vector<Map_sound>&& sounds_,
+	Vectori pos, int code_) : chunks(chunks_), sounds(sounds_),
+	global_pos(pos), code(code_),
+	sound_borders(sf::PrimitiveType::Lines, sf::VertexBuffer::Usage::Static)
+{
+	std::vector<Vectorf> vertices;
+	std::vector<std::pair<Vectorf, Vectorf>> edges;
+	for (const auto& it : chunks)
+	{
+		auto v = it.get_chunk_vertices();
+		if (v.first.size() != 0)
+		{
+			vertices.insert(vertices.end(), v.first.begin(), v.first.end());
+			edges.insert(edges.end(), v.second.begin(), v.second.end());
+		}
+	}
+	static util::Color_generator colors("data/colors.txt");
+	for (auto& it : sounds)
+	{
+		it.update_collision(edges, vertices);
+		sf::Color color = colors.get_color();
+		std::vector<sf::Vertex> sound_borders_vect;
+		auto mesh = it.get_collision().mesh;
+		sound_borders.create(mesh.size() * 2);
+		sound_borders_vect.push_back(sf::Vertex(mesh[0], color));
+		for (int i = 1; i < mesh.size(); i++)
+		{
+			sound_borders_vect.push_back(sf::Vertex(mesh[i], color));
+			sound_borders_vect.push_back(sf::Vertex(mesh[i], color));
+		}
+		sound_borders_vect.push_back(sf::Vertex(mesh[0], color));
+		sound_borders.update(sound_borders_vect.data());
+		sound_sources.push_back(sf::CircleShape(5));
+		sound_sources.back().setFillColor(color);
+		sound_sources.back().setPosition(it.get_pos());
+	}
+}
+
+void Level::update(float dt, sf::FloatRect screen_rect)
 {
 	std::vector<std::future<void>> futures;
 	for (auto& it : chunks)
@@ -175,6 +133,7 @@ void Level::draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states
 				it.draw_layer(target, states, i);
 			}
 		}
+		target.draw(sound_borders, states);
 	}
 }
 
@@ -221,6 +180,11 @@ void Level::set_draw_border(bool draw)
 void Level::set_draw_chunks_borders(bool draw)
 {
 	draw_chunks_borders = draw;
+}
+
+void Level::set_draw_sound_sources(bool draw)
+{
+	draw_sound_sources = draw;
 }
 
 void Level::make_zones_interactions(std::vector<Entity*>& entities)
@@ -270,6 +234,29 @@ void Level::draw_zones(sf::RenderTarget& target, sf::RenderStates states) const
 	//{
 	//	it.draw_zones(target, states);
 	//}
+}
+
+std::unordered_set<const Map_sound*, std::hash<const Map_sound*>, Map_sound_compare>
+Level::get_current_map_sounds(Vectorf player_pos) const
+{
+	std::unordered_set<const Map_sound*, std::hash<const Map_sound*>, Map_sound_compare>
+		current_sounds;
+	sf::FloatRect player_rect(player_pos, { 1.f,1.f });
+	std::vector<Vectorf> player_mesh = { Vectorf(0,0), Vectorf(0,1),
+		Vectorf(1,1), Vectorf(1,0) };
+	Collision player_col(player_mesh, player_pos);
+	for (const auto& it : sounds)
+	{
+		Collision sound_col = it.get_collision();
+		if (player_rect.intersects(sound_col.rect))
+		{
+			if (util::contained_in_polygon(player_pos, 1000000, sound_col.mesh))
+			{
+				current_sounds.insert(&it);
+			}
+		}
+	}
+	return current_sounds;
 }
 
 Vectori Level::get_global_pos() const

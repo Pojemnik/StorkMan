@@ -5,18 +5,40 @@
 #include <array>
 
 #include "messaging.h"
+#include "util.h"
 
 typedef std::string string;
 typedef Message::Message_type Msgtype;
 
+class Sound
+{
+	sf::Sound sound;
+	int system_volume = 100;
+	int sound_volume;
+
+	void reset();
+
+public:
+	void play(const sf::SoundBuffer& buffer, int volume);
+	void play(const sf::SoundBuffer& buffer, Map_sound_info info);
+	void set_volume(int new_volume);
+	void stop();
+	bool is_stopped() const;
+};
+
 class Sound_pool
 {
 	static const int POOL_SIZE = 30;
-	std::array<sf::Sound, POOL_SIZE> pool;
+	std::array<Sound, POOL_SIZE> pool;
+	std::unordered_map<std::pair<int, int>, int, util::pair_hash> map_sounds;
 
 public:
-	void play_sound(const sf::SoundBuffer& sb);
+	Sound_pool();
+	int play_sound(const sf::SoundBuffer& sb);
+	int play_sound(const sf::SoundBuffer& sb, Map_sound_info info);
+	void play_map_sound(const sf::SoundBuffer& sb, Map_sound_info info, int lvl_id);
 	void set_volume(int volume);
+	void stop_sound(std::pair<int, int> id);
 };
 
 class Sound_system : public Message_receiver, public Message_sender
@@ -26,6 +48,7 @@ class Sound_system : public Message_receiver, public Message_sender
 	Sound_pool pool;
 	std::unordered_map<int, std::vector<sf::SoundBuffer>> entity_sounds;
 	std::unordered_map<int, sf::SoundBuffer> surface_sounds;
+	std::vector<sf::SoundBuffer> map_sounds;
 	const std::vector<string> music_paths;
 	std::unordered_map<int, sf::Sound> steps;
 	sf::Music music;
@@ -37,6 +60,7 @@ class Sound_system : public Message_receiver, public Message_sender
 	int music_volume = 100;
 	int sound_volume = 100;
 	bool muted = false;
+	int lvl_id = 0;
 	const std::unordered_map<Msgtype, std::function<void(const Message&)>>
 		message_function =
 	{
@@ -47,7 +71,9 @@ class Sound_system : public Message_receiver, public Message_sender
 		{Msgtype::DIED, std::bind(&Sound_system::on_entity_death, this, std::placeholders::_1)},
 		{Msgtype::SOUND_VOLUME, std::bind(&Sound_system::on_sound_volume_change, this, std::placeholders::_1)},
 		{Msgtype::MOVED, std::bind(&Sound_system::on_entity_move, this, std::placeholders::_1)},
-		{Msgtype::STOPPED, std::bind(&Sound_system::on_entity_stop, this, std::placeholders::_1)}
+		{Msgtype::STOPPED, std::bind(&Sound_system::on_entity_stop, this, std::placeholders::_1)},
+		{Msgtype::ENTERED_SOUND, std::bind(&Sound_system::on_sound_enter, this, std::placeholders::_1)},
+		{Msgtype::LEFT_SOUND, std::bind(&Sound_system::on_sound_left, this, std::placeholders::_1)}
 	};
 
 	void update_music_state(float dt);
@@ -59,10 +85,13 @@ class Sound_system : public Message_receiver, public Message_sender
 	void on_sound_volume_change(const Message& msg);
 	void on_entity_move(const Message& msg);
 	void on_entity_stop(const Message& msg);
+	void on_sound_enter(const Message& msg);
+	void on_sound_left(const Message& msg);
 
 public:
-	Sound_system(const std::unordered_map<int, std::vector<string>>& entity_sounds_paths_,
+	Sound_system(const std::unordered_map<int, std::vector<string>>& entity_sounds_paths,
 		const std::vector<string>& music_paths_,
+		const std::vector<string>& map_sounds_paths,
 		const std::unordered_map<int, string> steps_config);
 	void update(float dt);
 };

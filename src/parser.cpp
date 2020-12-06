@@ -1,4 +1,4 @@
-#include "parser.h"
+ï»¿#include "parser.h"
 
 Parser::Parser(Assets* _assets) : assets(_assets)
 {};
@@ -7,7 +7,7 @@ std::pair<Vectori, Vectori> Parser::parse_map_element(tinyxml2::XMLElement* elem
 {
 	if (element == nullptr)
 	{
-		std::cout << "B³¹d w pierwszym elemencie pliku!" << '\n';
+		std::cout << "Bï¿½ï¿½d w pierwszym elemencie pliku!" << '\n';
 		throw std::invalid_argument("NULL pointer");
 	}
 	string root_name = element->Name();
@@ -24,7 +24,7 @@ std::pair<Vectori, Vectori> Parser::parse_map_element(tinyxml2::XMLElement* elem
 	}
 	catch (...)
 	{
-		std::cout << "B³¹d w definicji mapy\n";
+		std::cout << "Bï¿½ï¿½d w definicji mapy\n";
 		throw std::invalid_argument("Invalid map attributes");
 	}
 	if (map_player_pos.x < 0 || map_player_pos.y < 0)
@@ -61,7 +61,7 @@ Level Parser::parse_level(tinyxml2::XMLElement* root, Vectori global_pos, int co
 {
 	if (root == nullptr)
 	{
-		std::cout << "B³¹d w pierwszym elemencie pliku!" << '\n';
+		std::cout << "Bï¿½ï¿½d w pierwszym elemencie pliku!" << '\n';
 		throw std::invalid_argument("NULL pointer in level file");
 	}
 	string root_name = root->Name();
@@ -72,6 +72,8 @@ Level Parser::parse_level(tinyxml2::XMLElement* root, Vectori global_pos, int co
 	}
 	tinyxml2::XMLElement* element = root->FirstChildElement();
 	std::vector<Map_chunk> chunks;
+	std::vector<Map_sound> sounds;
+	int sound_id = 0;
 	while (element != nullptr)
 	{
 		string name = element->Name();
@@ -79,9 +81,15 @@ Level Parser::parse_level(tinyxml2::XMLElement* root, Vectori global_pos, int co
 		{
 			chunks.push_back(parse_chunk(element, global_pos));
 		}
+		if (name == "sound")
+		{
+			sounds.push_back(parse_sound(element, global_pos, sound_id));
+			sound_id++;
+		}
 		element = element->NextSiblingElement();
 	}
-	return Level(std::move(chunks), global_pos, code);
+	return Level(std::move(chunks),
+		std::move(sounds), global_pos, code);
 }
 
 std::unique_ptr<Level> Parser::open_and_parse_level(Vectori pos, string filepath, int code)
@@ -127,7 +135,7 @@ Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root, Vectori level_pos)
 			collidables.push_back(collidable);
 			if (!p_updatable)
 			{
-				add_vertices(collision_vertices, collidables.back()->get_collision());
+				add_vertices(collision_vertices, collidable->get_collision());
 			}
 		}
 		auto zone = dynamic_pointer_cast<Zone>(ptr);
@@ -165,15 +173,15 @@ Parser::parse_platform(tinyxml2::XMLElement* element, Vectori level_pos)
 	{
 		std::cout << "Wyjatek: " << e.what() << '\n';
 		std::cout << "Element: " << "platform" << '\n';
-		std::cout << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz platformy"
-			" lub nieprawid³owa nazwa typu powierzchni"
+		std::cout << "Prawdopodobnie coï¿½ innego niï¿½ wierzchoï¿½ek wewnï¿½trz platformy"
+			" lub nieprawidï¿½owa nazwa typu powierzchni"
 			<< '\n';
 	}
 	catch (const std::out_of_range& e)
 	{
 		std::cout << "Wyjatek: " << e.what() << '\n';
 		std::cout << "Element: " << "platform" << '\n';
-		std::cout << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
+		std::cout << "Prawdopodobnie nieprawidï¿½owa tekstura" << '\n';
 	}
 	throw std::runtime_error("Platform error");
 }
@@ -196,13 +204,13 @@ Parser::parse_wall(tinyxml2::XMLElement* element, Vectori level_pos)
 	{
 		std::cout << "Wyjatek: " << e.what() << '\n';
 		std::cout << "Element: " << "wall" << '\n';
-		std::cout << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz œciany" << '\n';
+		std::cout << "Prawdopodobnie coï¿½ innego niï¿½ wierzchoï¿½ek wewnï¿½trz ï¿½ciany" << '\n';
 	}
 	catch (const std::out_of_range& e)
 	{
 		std::cout << "Wyjatek: " << e.what() << '\n';
 		std::cout << "Element: " << "wall" << '\n';
-		std::cout << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
+		std::cout << "Prawdopodobnie nieprawidï¿½owa tekstura" << '\n';
 	}
 	throw std::runtime_error("Textured_polygon error");
 }
@@ -224,7 +232,7 @@ Parser::parse_object(tinyxml2::XMLElement* element, Vectori level_pos)
 	{
 		std::cout << "Wyjatek: " << e.what() << '\n';
 		std::cout << "Element: " << "object" << '\n';
-		std::cout << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
+		std::cout << "Prawdopodobnie nieprawidï¿½owa tekstura" << '\n';
 	}
 	throw std::runtime_error("Object error");
 }
@@ -251,12 +259,13 @@ Parser::parse_animated_object(tinyxml2::XMLElement* element, Vectori level_pos)
 	{
 		std::cout << "Wyjatek: " << e.what() << '\n';
 		std::cout << "Element: " << "object" << '\n';
-		std::cout << "Prawdopodobnie nieprawid³owa animacja" << '\n';
+		std::cout << "Prawdopodobnie nieprawidï¿½owa animacja" << '\n';
 	}
 	throw std::runtime_error("Animated object error");
 }
 
-std::pair<std::optional<int>, std::shared_ptr<Moving_animated_object>> Parser::parse_animated_moving_object(tinyxml2::XMLElement* element, Vectori level_pos)
+std::pair<std::optional<int>, std::shared_ptr<Moving_animated_object>>
+Parser::parse_animated_moving_object(tinyxml2::XMLElement* element, Vectori level_pos)
 {
 	try
 	{
@@ -288,7 +297,7 @@ std::pair<std::optional<int>, std::shared_ptr<Moving_animated_object>> Parser::p
 	{
 		std::cout << "Wyjatek: " << e.what() << '\n';
 		std::cout << "Element: " << "object" << '\n';
-		std::cout << "Prawdopodobnie nieprawid³owa animacja" << '\n';
+		std::cout << "Prawdopodobnie nieprawidï¿½owa animacja" << '\n';
 	}
 	throw std::runtime_error("Animated object error");
 }
@@ -442,6 +451,32 @@ std::unordered_map<int, string> Parser::load_steps_config(string path)
 	return steps_config;
 }
 
+std::vector<string> Parser::load_map_sound_config(string path)
+{
+	std::ifstream file_raw;
+	file_raw.open(path);
+	if (!file_raw.good())
+	{
+		throw std::invalid_argument("MAp sounds config file not found");
+	}
+	std::vector<string> paths;
+	auto file = util::remove_comments(file_raw);
+	int i = 0;
+	while (!file.eof())
+	{
+		string a, b;
+		file >> a >> b;
+		if (a == "" || b == "")
+		{
+			return paths;
+		}
+		paths.push_back(b);
+		map_sounds.insert({ a, i });
+		i++;
+	}
+	return paths;
+}
+
 std::pair<std::optional<int>, std::shared_ptr<Moving_platform>>
 Parser::parse_old_moving_platform(tinyxml2::XMLElement* element, Vectori level_pos)
 {
@@ -480,13 +515,13 @@ Parser::parse_old_moving_platform(tinyxml2::XMLElement* element, Vectori level_p
 	{
 		std::cout << "Wyjatek: " << e.what() << '\n';
 		std::cout << "Element: " << "moving platform" << '\n';
-		std::cout << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz platformy wahad³a" << '\n';
+		std::cout << "Prawdopodobnie coï¿½ innego niï¿½ wierzchoï¿½ek wewnï¿½trz platformy wahadï¿½a" << '\n';
 	}
 	catch (const std::out_of_range& e)
 	{
 		std::cout << "Wyjatek: " << e.what() << '\n';
 		std::cout << "Element: " << "moving platform" << '\n';
-		std::cout << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
+		std::cout << "Prawdopodobnie nieprawidï¿½owa tekstura" << '\n';
 	}
 	throw std::runtime_error("Moving platform error");
 }
@@ -522,7 +557,7 @@ Parser::parse_old_moving_object(tinyxml2::XMLElement* element, Vectori level_pos
 	{
 		std::cout << "Wyjatek: " << e.what() << '\n';
 		std::cout << "Element: " << "moving_object" << '\n';
-		std::cout << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
+		std::cout << "Prawdopodobnie nieprawidï¿½owa tekstura" << '\n';
 	}
 	throw std::runtime_error("Moving object error");
 }
@@ -566,13 +601,13 @@ Parser::parse_moving_platform(tinyxml2::XMLElement* element, Vectori level_pos)
 	{
 		std::cout << "Wyjatek: " << e.what() << '\n';
 		std::cout << "Element: " << "linmovingear platform" << '\n';
-		std::cout << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz platformy" << '\n';
+		std::cout << "Prawdopodobnie coï¿½ innego niï¿½ wierzchoï¿½ek wewnï¿½trz platformy" << '\n';
 	}
 	catch (const std::out_of_range& e)
 	{
 		std::cout << "Wyjatek: " << e.what() << '\n';
 		std::cout << "Element: " << "linear platform" << '\n';
-		std::cout << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
+		std::cout << "Prawdopodobnie nieprawidï¿½owa tekstura" << '\n';
 	}
 	throw std::runtime_error("Moving platform error");
 }
@@ -606,7 +641,7 @@ Parser::parse_moving_object(tinyxml2::XMLElement* element, Vectori level_pos)
 	{
 		std::cout << "Wyjatek: " << e.what() << '\n';
 		std::cout << "Element: " << "moving_object" << '\n';
-		std::cout << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
+		std::cout << "Prawdopodobnie nieprawidï¿½owa tekstura" << '\n';
 	}
 	throw std::runtime_error("Moving object error");
 }
@@ -648,7 +683,7 @@ Parser::parse_pendulum(tinyxml2::XMLElement* element, Vectori level_pos)
 			}
 			else
 			{
-				std::cout << "B³¹d w wahadle" << '\n';
+				std::cout << "Bï¿½ï¿½d w wahadle" << '\n';
 				throw std::invalid_argument("Error in pendulum vertices/attachment points");
 			}
 			e = e->NextSiblingElement();
@@ -661,13 +696,13 @@ Parser::parse_pendulum(tinyxml2::XMLElement* element, Vectori level_pos)
 	{
 		std::cout << "Wyjatek: " << e.what() << '\n';
 		std::cout << "Element: " << "pendulum" << '\n';
-		std::cout << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz platformy wahad³a" << '\n';
+		std::cout << "Prawdopodobnie coï¿½ innego niï¿½ wierzchoï¿½ek wewnï¿½trz platformy wahadï¿½a" << '\n';
 	}
 	catch (const std::out_of_range& e)
 	{
 		std::cout << "Wyjatek: " << e.what() << '\n';
 		std::cout << "Element: " << "pendulum" << '\n';
-		std::cout << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
+		std::cout << "Prawdopodobnie nieprawidï¿½owa tekstura" << '\n';
 	}
 	throw std::runtime_error("Pendulum error");
 }
@@ -693,13 +728,13 @@ std::pair<std::optional<int>, std::shared_ptr<Animated_polygon>> Parser::parse_a
 	{
 		std::cout << "Wyjatek: " << e.what() << '\n';
 		std::cout << "Element: " << "animated_wall" << '\n';
-		std::cout << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz œciany" << '\n';
+		std::cout << "Prawdopodobnie coï¿½ innego niï¿½ wierzchoï¿½ek wewnï¿½trz ï¿½ciany" << '\n';
 	}
 	catch (const std::out_of_range& e)
 	{
 		std::cout << "Wyjatek: " << e.what() << '\n';
 		std::cout << "Element: " << "animated_wall" << '\n';
-		std::cout << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
+		std::cout << "Prawdopodobnie nieprawidï¿½owa tekstura" << '\n';
 	}
 	throw std::runtime_error("Textured_polygon error");
 }
@@ -745,13 +780,13 @@ std::pair<std::optional<int>, std::shared_ptr<Animated_moving_platform>> Parser:
 	{
 		std::cout << "Wyjatek: " << e.what() << '\n';
 		std::cout << "Element: " << "animated_wall" << '\n';
-		std::cout << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz œciany" << '\n';
+		std::cout << "Prawdopodobnie coï¿½ innego niï¿½ wierzchoï¿½ek wewnï¿½trz ï¿½ciany" << '\n';
 	}
 	catch (const std::out_of_range& e)
 	{
 		std::cout << "Wyjatek: " << e.what() << '\n';
 		std::cout << "Element: " << "animated_wall" << '\n';
-		std::cout << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
+		std::cout << "Prawdopodobnie nieprawidï¿½owa tekstura" << '\n';
 	}
 	throw std::runtime_error("Textured_polygon error");
 }
@@ -787,7 +822,7 @@ std::pair<std::optional<int>, std::shared_ptr <Damage_zone>> Parser::parse_damag
 	{
 		std::cout << "Wyjatek: " << e.what() << '\n';
 		std::cout << "Element: " << "damage zone" << '\n';
-		std::cout << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz strefy" << '\n';
+		std::cout << "Prawdopodobnie coï¿½ innego niï¿½ wierzchoï¿½ek wewnï¿½trz strefy" << '\n';
 	}
 	throw std::runtime_error("damage zone error");
 }
@@ -828,7 +863,7 @@ std::pair<std::optional<int>, std::shared_ptr<Moving_damage_zone>> Parser::parse
 	{
 		std::cout << "Wyjatek: " << e.what() << '\n';
 		std::cout << "Element: " << "damage zone" << '\n';
-		std::cout << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz strefy" << '\n';
+		std::cout << "Prawdopodobnie coï¿½ innego niï¿½ wierzchoï¿½ek wewnï¿½trz strefy" << '\n';
 	}
 	throw std::runtime_error("moving damage zone error");
 }
@@ -881,15 +916,52 @@ std::pair<std::optional<int>, std::shared_ptr<Moving_barrier>> Parser::parse_mov
 	{
 		std::cout << "Wyjatek: " << e.what() << '\n';
 		std::cout << "Element: " << "moving barrier" << '\n';
-		std::cout << "Prawdopodobnie coœ innego ni¿ wierzcho³ek wewn¹trz platformy" << '\n';
+		std::cout << "Prawdopodobnie coï¿½ innego niï¿½ wierzchoï¿½ek wewnï¿½trz platformy" << '\n';
 	}
 	catch (const std::out_of_range& e)
 	{
 		std::cout << "Wyjatek: " << e.what() << '\n';
 		std::cout << "Element: " << "moving barrier" << '\n';
-		std::cout << "Prawdopodobnie nieprawid³owa tekstura" << '\n';
+		std::cout << "Prawdopodobnie nieprawidï¿½owa tekstura" << '\n';
 	}
 	throw std::runtime_error("Moving platform error");
+}
+
+Map_sound Parser::parse_sound(tinyxml2::XMLElement* element, Vectori level_pos, int id)
+{
+	try
+	{
+		Map_sound_info info;
+		info.id = id;
+		info.repeat = true;
+		info.relative = false;
+		info.pos = get_position(element, level_pos);
+		info.sound = map_sounds.at(get_attribute_by_name("sound", element));
+		info.volume = get_and_parse_var<int>("volume", element, 100);
+		info.attenuation = get_and_parse_var<float>("attenuation", element, 1.f);
+		info.min_distance = get_and_parse_var<float>("min_distance", element, 1);
+		std::vector<Vectorf> vert;
+		tinyxml2::XMLElement* e = element->FirstChildElement();
+		while (e != NULL)
+		{
+			string n = e->Name();
+			if (n == "v")
+			{
+				Vectorf v = parse_var<Vectorf>(e->GetText());
+				v *= context.global_scale;
+				vert.push_back(v);
+			}
+			e = e->NextSiblingElement();
+		}
+		return Map_sound(std::move(vert), info);
+	}
+	catch (const std::out_of_range& e)
+	{
+		std::cout << "Wyjatek: " << e.what() << '\n';
+		std::cout << "Element: " << "object" << '\n';
+		std::cout << "Prawdopodobnie nieprawidï¿½owa tekstura" << '\n';
+	}
+	throw std::runtime_error("Object error");
 }
 
 sf::FloatRect Parser::calculate_chunk_bounds(tinyxml2::XMLElement* root,

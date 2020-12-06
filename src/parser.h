@@ -10,6 +10,8 @@
 #include "parser_helper.h"
 #include "barriers.h"
 #include "zones.h"
+#include "map_sounds.h"
+#include "map_sound_info.h"
 
 using namespace parse;
 
@@ -17,6 +19,7 @@ class Parser
 {
 	const Assets* assets;
 	std::unordered_map<string, string> level_music;
+	std::unordered_map<string, int> map_sounds;
 
 	std::pair<Vectori, Vectori> parse_map_element(tinyxml2::XMLElement* element);
 	std::tuple<Vectori, string, string> parse_level_element(tinyxml2::XMLElement* element, Vectori map_size);
@@ -47,10 +50,15 @@ class Parser
 		parse_animated_wall(tinyxml2::XMLElement* element, Vectori level_pos);
 	std::pair<std::optional<int>, std::shared_ptr<Animated_moving_platform>>
 		parse_animated_moving_platform(tinyxml2::XMLElement* element, Vectori level_pos);
-	std::pair<std::optional<int>, std::shared_ptr<Damage_zone>> parse_damage_zone(tinyxml2::XMLElement* element, Vectori level_pos);
-	std::pair<std::optional<int>, std::shared_ptr<Moving_damage_zone>> parse_moving_damage_zone(tinyxml2::XMLElement* element, Vectori level_pos);
-	std::pair<std::optional<int>, std::shared_ptr<Barrier>> parse_barrier(tinyxml2::XMLElement* element, Vectori level_pos);
-	std::pair<std::optional<int>, std::shared_ptr<Moving_barrier>> parse_moving_barrier(tinyxml2::XMLElement* element, Vectori level_pos);
+	std::pair<std::optional<int>, std::shared_ptr<Damage_zone>>
+		parse_damage_zone(tinyxml2::XMLElement* element, Vectori level_pos);
+	std::pair<std::optional<int>, std::shared_ptr<Moving_damage_zone>>
+		parse_moving_damage_zone(tinyxml2::XMLElement* element, Vectori level_pos);
+	std::pair<std::optional<int>, std::shared_ptr<Barrier>>
+		parse_barrier(tinyxml2::XMLElement* element, Vectori level_pos);
+	std::pair<std::optional<int>, std::shared_ptr<Moving_barrier>>
+		parse_moving_barrier(tinyxml2::XMLElement* element, Vectori level_pos);
+	Map_sound parse_sound(tinyxml2::XMLElement* element, Vectori level_pos, int id);
 	sf::FloatRect calculate_chunk_bounds(tinyxml2::XMLElement* root,
 		std::vector<std::shared_ptr<Map_object>>& objects);
 	const std::unordered_map<
@@ -82,5 +90,6 @@ public:
 	Entity_config parse_entity_config(string path);
 	void load_music_config(string path);
 	std::unordered_map<int, string> load_steps_config(string path);
+	std::vector<string> load_map_sound_config(string path);
 	Parser(Assets* _assets);
 };

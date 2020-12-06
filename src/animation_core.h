@@ -21,25 +21,6 @@ struct Frame_info
 	Frame_info(Vectori part_size_, Vectori frame_size_, Vectori offset_);
 };
 
-template<typename T>
-inline void hash_combine(std::size_t& seed, const T& val)
-{
-	std::hash<T> hasher;
-	seed ^= hasher(val) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
-}
-
-struct pair_hash
-{
-	template<typename S, typename T>
-	inline size_t operator()(const std::pair<S, T>& val) const
-	{
-		size_t seed = 0;
-		hash_combine(seed, val.first);
-		hash_combine(seed, val.second);
-		return seed;
-	}
-};
-
 struct Dynamic_animation_struct
 {
 	const std::vector<std::vector<float>> key_frames;
