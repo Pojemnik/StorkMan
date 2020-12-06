@@ -48,9 +48,21 @@ Level::Level(std::vector<Map_chunk>&& chunks_,
 	global_pos(pos), code(code_),
 	sound_borders(sf::PrimitiveType::Lines, sf::VertexBuffer::Usage::Static)
 {
-	static util::Color_generator colors("data/colors.txt");
-	for (const auto& it : sounds)
+	std::vector<Vectorf> vertices;
+	std::vector<std::pair<Vectorf, Vectorf>> edges;
+	for (const auto& it : chunks)
 	{
+		auto v = it.get_chunk_vertices();
+		if (v.first.size() != 0)
+		{
+			vertices.insert(vertices.end(), v.first.begin(), v.first.end());
+			edges.insert(edges.end(), v.second.begin(), v.second.end());
+		}
+	}
+	static util::Color_generator colors("data/colors.txt");
+	for (auto& it : sounds)
+	{
+		it.update_collision(edges, vertices);
 		sf::Color color = colors.get_color();
 		std::vector<sf::Vertex> sound_borders_vect;
 		auto mesh = it.get_collision().mesh;
@@ -280,7 +292,7 @@ std::unordered_set<const Map_sound*, std::hash<const Map_sound*>, Map_sound_comp
 Level::get_current_map_sounds(Vectorf player_pos) const
 {
 	std::unordered_set<const Map_sound*, std::hash<const Map_sound*>, Map_sound_compare>
-	current_sounds;
+		current_sounds;
 	sf::FloatRect player_rect(player_pos, { 1.f,1.f });
 	std::vector<Vectorf> player_mesh = { Vectorf(0,0), Vectorf(0,1),
 		Vectorf(1,1), Vectorf(1,0) };
@@ -290,7 +302,7 @@ Level::get_current_map_sounds(Vectorf player_pos) const
 		Collision sound_col = it.get_collision();
 		if (player_rect.intersects(sound_col.rect))
 		{
-			if (coll::test_bollean(sound_col, player_col))
+			if (util::contained_in_polygon(player_pos, 1000000, sound_col.mesh))
 			{
 				current_sounds.insert(&it);
 			}

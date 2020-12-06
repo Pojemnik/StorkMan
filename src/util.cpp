@@ -166,14 +166,49 @@ Vectorf util::intersection_point(std::pair<Vectorf, Vectorf> a, std::pair<Vector
 	}
 }
 
+bool util::on_segment(Vectorf p, Vectorf q, Vectorf r)
+{
+	if (q.x <= std::max(p.x, r.x) && q.x >= std::min(p.x, r.x) &&
+		q.y <= std::max(p.y, r.y) && q.y >= std::min(p.y, r.y))
+		return true;
+
+	return false;
+}
+
+bool util::are_colinear(Vectorf p, Vectorf q, Vectorf r, float epsilon)
+{
+	const Vectorf v1 = { r.x - q.x, r.y - q.y };
+	const Vectorf v2 = { p.x - q.x, p.y - q.y };
+	const float area = v1.x * v2.y - v1.y * v2.x;
+	return (fabs(area) < epsilon);
+}
+
+int util::orientation(Vectorf p, Vectorf q, Vectorf r)
+{
+	int val = (q.y - p.y) * (r.x - q.x) -
+		(q.x - p.x) * (r.y - q.y);
+
+	if (val == 0) return 0;
+
+	return (val > 0) ? 1 : 2;
+}
+
 bool util::intersection(std::pair<Vectorf, Vectorf> a, std::pair<Vectorf, Vectorf> b)
 {
-	Vectorf tmp = intersection_point(a, b);
-	if (tmp.x == FLT_MAX && tmp.y == FLT_MAX)
-	{
-		return false;
-	}
-	return true;
+	int o1 = orientation(a.first, b.first, a.second);
+	int o2 = orientation(a.first, b.first, b.second);
+	int o3 = orientation(a.second, b.second, a.first);
+	int o4 = orientation(a.second, b.second, b.first);
+
+	if (o1 != o2 && o3 != o4)
+		return true;
+
+	if (o1 == 0 && on_segment(a.first, a.second, b.first)) return true;
+	if (o2 == 0 && on_segment(a.first, b.second, b.first)) return true;
+	if (o3 == 0 && on_segment(a.second, a.first, b.second)) return true;
+	if (o4 == 0 && on_segment(a.second, b.first, b.second)) return true;
+
+	return false;
 }
 
 void util::save_texture(std::string path, sf::Texture* texture)

@@ -212,6 +212,9 @@ int main(int argc, char** argv)
 	//test_sound.setVolume(10);
 	//test_sound.setLoop(true);
 	//test_sound.play();
+	std::cout << util::are_colinear({ 0,0 }, { 1,1 }, { 2,2 });
+	std::cout << util::are_colinear({ 0,0 }, { 2,2 }, { 1,1 });
+	std::cout << util::are_colinear({ 0,1 }, { 2,2 }, { 3,3 });
 	while (window.isOpen())
 	{
 		sf::Event event;

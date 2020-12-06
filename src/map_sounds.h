@@ -2,15 +2,17 @@
 #include <SFML/Audio.hpp>
 #include "collisions.h"
 #include "map_sound_info.h"
+#include "polygon_generator.h"
 
 class Map_sound
 {
 	Collision collision;
 	const Map_sound_info info;
-	//Other sound params
 
 public:
 	Map_sound(std::vector<Vectorf>&& mesh, Map_sound_info info_);
+	void update_collision(std::vector<std::pair<Vectorf, Vectorf>>& map_edges,
+		std::vector<Vectorf>& map_vertices);
 	Collision get_collision() const;
 	int get_sound() const;
 	int get_id() const;

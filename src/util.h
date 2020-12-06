@@ -114,6 +114,9 @@ namespace util
 	Vectorf intersection_point(std::pair<Vectorf, Vectorf> a, std::pair<Vectorf, Vectorf> b);
 	bool intersection(std::pair<Vectorf, Vectorf> a, std::pair<Vectorf, Vectorf> b);
 	bool contained_in_polygon(Vectorf point, float max_x, const std::vector<Vectorf>& polygon);
+	int orientation(Vectorf p, Vectorf q, Vectorf r);
+	bool on_segment(Vectorf p, Vectorf q, Vectorf r);
+	bool are_colinear(Vectorf p, Vectorf q, Vectorf r, float epsilon = eps);
 
 	//Misc
 	template <class T> typename std::vector<T>::iterator increment_iterator(

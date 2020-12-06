@@ -130,7 +130,7 @@ Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root, Vectori level_pos)
 			collidables.push_back(collidable);
 			if (!updatable)
 			{
-				add_vertices(collision_vertices, collidables.back()->get_collision());
+				add_vertices(collision_vertices, collidable->get_collision());
 			}
 		}
 		auto zone = dynamic_pointer_cast<Zone>(ptr);
@@ -260,7 +260,8 @@ Parser::parse_animated_object(tinyxml2::XMLElement* element, Vectori level_pos)
 	throw std::runtime_error("Animated object error");
 }
 
-std::pair<std::optional<int>, std::shared_ptr<Moving_animated_object>> Parser::parse_animated_moving_object(tinyxml2::XMLElement* element, Vectori level_pos)
+std::pair<std::optional<int>, std::shared_ptr<Moving_animated_object>>
+Parser::parse_animated_moving_object(tinyxml2::XMLElement* element, Vectori level_pos)
 {
 	try
 	{

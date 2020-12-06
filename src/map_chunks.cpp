@@ -41,6 +41,24 @@ void Map_chunk::make_zones_interactions(Entity& entity) const
 	}
 }
 
+std::pair<std::vector<Vectorf>, std::vector<std::pair<Vectorf, Vectorf>>> Map_chunk::get_chunk_vertices() const
+{
+	std::vector<Vectorf> vert;
+	std::vector<std::pair<Vectorf, Vectorf>> edges;
+	for (const auto& it : collidables)
+	{
+		const auto mesh = it->get_collision()->mesh;
+		vert.push_back(mesh[0]);
+		for (int i = 1; i < mesh.size(); i++)
+		{
+			edges.push_back(std::make_pair(mesh[i - 1], mesh[i]));
+			vert.push_back(mesh[i]);
+		}
+		edges.push_back(std::make_pair(mesh.back(), mesh.front()));
+	}
+	return std::make_pair(vert, edges);
+}
+
 Map_chunk::Map_chunk(std::vector<std::shared_ptr<Updatable>>&& updatables_,
 	std::vector<std::pair<int, std::shared_ptr<Renderable>>>&& drawables_,
 	std::vector<std::shared_ptr<const Collidable>>&& collidables_,

@@ -3,6 +3,15 @@
 Map_sound::Map_sound(std::vector<Vectorf>&& mesh, Map_sound_info info_)
 	: collision(mesh, info_.pos), info(info_) {}
 
+void Map_sound::update_collision(std::vector<std::pair<Vectorf, Vectorf>>& map_edges, std::vector<Vectorf>& map_vertices)
+{
+	collision.mesh.clear();
+	const auto polygon =  Polygon_generator::calc_polygon(info.pos, 1, map_edges, map_vertices);
+	collision.mesh = polygon;
+	collision.rect = util::mesh_to_rect(collision.mesh);
+	collision.calculate_min_max_arr();
+}
+
 Collision Map_sound::get_collision() const
 {
 	return collision;

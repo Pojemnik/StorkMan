@@ -29,5 +29,6 @@ public:
 	void draw_zones(sf::RenderTarget& target, sf::RenderStates states) const;
 	void resolve_collisions(Entity& entity) const;
 	void make_zones_interactions(Entity& entity) const;
+	std::pair<std::vector<Vectorf>, std::vector<std::pair<Vectorf, Vectorf>>> get_chunk_vertices() const;
 	sf::FloatRect get_bounding_rect() const;
 };
