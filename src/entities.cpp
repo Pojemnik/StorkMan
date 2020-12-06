@@ -93,9 +93,9 @@ Animation_index Entity::get_current_animation()
 	return animation->get_current_animation();
 }
 
-void Entity::move(int dir)
+void Entity::move(int dir, float dt)
 {
-	physical.move({ move_speed * dir, 0.f });
+	physical.move({ move_speed * dir*dt, 0.f });
 	if (last_direction != dir)
 	{
 		flip(dir);
@@ -103,14 +103,14 @@ void Entity::move(int dir)
 	}
 }
 
-void Entity::apply_force(Vectorf force)
+void Entity::apply_force(Vectorf force, float dt)
 {
-	physical.apply_force(force);
+	physical.apply_force(force*dt);
 }
 
-void Entity::jump()
+void Entity::jump(float dt)
 {
-	physical.apply_force({ 0, -jump_force });
+	physical.apply_force({ 0, -jump_force * dt});
 }
 
 void Entity::flip(int dir)
@@ -129,7 +129,7 @@ void Entity::flip(int dir)
 	sprite.scale(-1, 1);
 }
 
-void Entity::update(float dt)
+void Entity::update_physics(float dt)
 {
 	auto temp = physical.get_collision_info();
 	collision_vector = temp.first;
@@ -137,7 +137,11 @@ void Entity::update(float dt)
 	on_ground = physical.is_on_ground();
 	controller->update(dt);
 	state->update(*this, dt);
-	physical.update(dt);
+	physical.update_physics(dt);
+	
+}
+void Entity::update_graphics(float dt)
+{
 	sprite.setPosition(physical.get_pos());
 	animation->next_frame(dt);
 	sprite.setTexture(*animation->get_texture());

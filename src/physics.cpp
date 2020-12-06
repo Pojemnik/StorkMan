@@ -28,19 +28,11 @@ Vectorf Physical::get_pos()
 	return pos;
 }
 
-void Physical::update(float dt)
+void Physical::update_physics(float dt)
 {
 	temp_delta = -temp_delta;
 	delta_pos += move_delta * dt;
-	static float acc(0);
-	acc += dt;
-	int i = 0;
-	while (acc > 1.f)
-	{
-		i++;
-		speed += acceleration;
-		acc -= 1.f;
-	}
+	speed += acceleration * dt;
 	if (temp_delta != Vectorf(0, 0))
 	{
 		float k = util::vector_dot_product(speed, temp_delta) /
@@ -66,11 +58,8 @@ void Physical::update(float dt)
 		}
 		delta_pos += temp_delta - util::normalize(temp_delta, 2.0f);
 	}
-	while (i--)
-	{
-		delta_pos += speed;
-		delta_pos += external_speed;
-	}
+	delta_pos += speed*dt;
+	delta_pos += external_speed*dt;
 	pos += delta_pos;
 	collision.rect.left += delta_pos.x;
 	collision.rect.top += delta_pos.y;

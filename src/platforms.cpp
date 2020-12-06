@@ -64,7 +64,7 @@ Moving_platform::Moving_platform(Vectorf pos_, const sf::Texture* texture_,
 	vertex.update(tmp);
 }
 
-void Moving_platform::update(float dt)
+void Moving_platform::update_physics(float dt)
 {
 	ai->calc_pos(dt);
 	sf::Transform new_pos = sf::Transform().translate(pos)*ai->get_pos();
@@ -101,7 +101,7 @@ Animated_polygon::Animated_polygon(Vectorf pos, std::unique_ptr<Animation>&& ani
 	std::vector<sf::Vertex> points) : animation(std::move(animation_)),
 	Textured_polygon(pos, nullptr, points)
 {
-	update(.0f);
+	update_graphics(.0f);
 }
 
 void Animated_polygon::update_frame()
@@ -125,7 +125,7 @@ sf::FloatRect Animated_polygon::get_bounding_rect() const
 	return bound;
 }
 
-void Animated_polygon::update(float dt)
+void Animated_polygon::update_graphics(float dt)
 {
 	next_frame(dt);
 	update_frame();
@@ -137,14 +137,18 @@ Animated_moving_platform::Animated_moving_platform(Vectorf pos_,
 	: Moving_platform(pos_, nullptr, points_, std::move(ai_), surface_),
 	animation(std::move(animation_))
 {
-	update(.0f);
+	update_graphics(.0f);
 }
 
-void Animated_moving_platform::update(float dt)
+void Animated_moving_platform::update_graphics(float dt)
 {
-	Moving_platform::update(dt);
 	next_frame(dt);
 	update_frame();
+}
+
+void Animated_moving_platform::update_physics(float dt)
+{
+	Moving_platform::update_physics(dt);
 }
 
 void Animated_moving_platform::update_frame()

@@ -72,7 +72,6 @@ Level Parser::parse_level(tinyxml2::XMLElement* root, Vectori global_pos, int co
 	}
 	tinyxml2::XMLElement* element = root->FirstChildElement();
 	std::vector<Map_chunk> chunks;
-	std::vector<Moving_element> moving;
 	while (element != nullptr)
 	{
 		string name = element->Name();
@@ -82,7 +81,7 @@ Level Parser::parse_level(tinyxml2::XMLElement* root, Vectori global_pos, int co
 		}
 		element = element->NextSiblingElement();
 	}
-	return Level(std::move(chunks), std::move(moving), global_pos, code);
+	return Level(std::move(chunks), global_pos, code);
 }
 
 std::unique_ptr<Level> Parser::open_and_parse_level(Vectori pos, string filepath, int code)
@@ -94,7 +93,8 @@ std::unique_ptr<Level> Parser::open_and_parse_level(Vectori pos, string filepath
 
 Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root, Vectori level_pos)
 {
-	std::vector<std::shared_ptr<Updatable>> updatables;
+	std::vector<std::shared_ptr<Physical_updatable>> p_updatables;
+	std::vector<std::shared_ptr<Graphical_updatable>> g_updatables;
 	std::vector<std::pair<int, std::shared_ptr<Renderable>>> drawables;
 	std::vector<std::shared_ptr<const Collidable>> collidables;
 	std::vector<std::shared_ptr<Zone>> zones;
@@ -111,16 +111,21 @@ Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root, Vectori level_pos)
 		{
 			drawables.emplace_back(layer.value(), drawable);
 		}
-		auto updatable = dynamic_pointer_cast<Updatable>(ptr);
-		if (updatable)
+		auto p_updatable = dynamic_pointer_cast<Physical_updatable>(ptr);
+		if (p_updatable)
 		{
-			updatables.push_back(updatable);
+			p_updatables.push_back(p_updatable);
+		}
+		auto g_updatable = dynamic_pointer_cast<Graphical_updatable>(ptr);
+		if (g_updatable)
+		{
+			g_updatables.push_back(g_updatable);
 		}
 		auto collidable = dynamic_pointer_cast<Collidable>(ptr);
 		if (collidable)
 		{
 			collidables.push_back(collidable);
-			if (!updatable)
+			if (!p_updatable)
 			{
 				add_vertices(collision_vertices, collidables.back()->get_collision());
 			}
@@ -136,7 +141,7 @@ Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root, Vectori level_pos)
 	sf::VertexBuffer collision_buffer(sf::Lines, sf::VertexBuffer::Static);
 	collision_buffer.create(collision_vertices.size());
 	collision_buffer.update(collision_vertices.data());
-	return Map_chunk(std::move(updatables), std::move(drawables),
+	return Map_chunk(std::move(p_updatables), std::move(g_updatables), std::move(drawables),
 		std::move(collidables), std::move(zones), bound, std::move(collision_buffer));
 
 }

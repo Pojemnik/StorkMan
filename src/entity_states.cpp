@@ -3,7 +3,7 @@
 void Run_state::enter(Entity& entity)
 {
 	entity.set_animation(Animation_index::MOVE);
-	entity.move(entity.direction);
+	entity.move(entity.direction, 0);
 	entity.send_message<int>(Message::Message_type::MOVED, static_cast<int>(entity.surface));
 	std::cout << "Run enter" << std::endl;
 }
@@ -42,8 +42,8 @@ std::pair<Entity_state*, Entity_state_info> Run_state::update(Entity& entity, fl
 			break;
 		}
 	}
-	entity.apply_force({ 0, context.gravity });
-	entity.move(entity.direction);
+	entity.apply_force({ 0, context.gravity }, dt);
+	entity.move(entity.direction, dt);
 	return std::make_pair(nullptr, Entity_state_info::NONE);
 }
 
@@ -65,7 +65,7 @@ void Run_jump_state::enter(Entity& entity)
 
 void Jump_state::enter(Entity& entity)
 {
-	entity.jump();
+	entity.jump(0);
 	entity.on_ground = false;
 }
 
@@ -88,7 +88,7 @@ std::pair<Entity_state*, Entity_state_info> Jump_state::update(Entity& entity, f
 		{
 		case Command::Command_type::MOVE:
 			entity.direction = std::get<int>(cmd.args);
-			entity.move(entity.direction);
+			entity.move(entity.direction, dt);
 			break;
 		case Command::Command_type::STOP_JUMP:
 			return std::make_pair(new In_air_state(), Entity_state_info::REPLACE);
@@ -100,7 +100,7 @@ std::pair<Entity_state*, Entity_state_info> Jump_state::update(Entity& entity, f
 	{
 		return std::make_pair(new In_air_state(), Entity_state_info::REPLACE);
 	}
-	entity.jump();
+	entity.jump(dt);
 	return std::make_pair(nullptr, Entity_state_info::NONE);
 }
 
@@ -138,7 +138,7 @@ std::pair<Entity_state*, Entity_state_info> Idle_state::update(Entity& entity, f
 			break;
 		}
 	}
-	entity.apply_force({ 0, context.gravity });
+	entity.apply_force({ 0, context.gravity }, dt);
 	assert(entity.get_current_animation() == Animation_index::IDLE);
 	return std::make_pair(nullptr, Entity_state_info::NONE);
 }
@@ -197,12 +197,12 @@ std::pair<Entity_state*, Entity_state_info> In_air_state::update(Entity& entity,
 		{
 		case Command::Command_type::MOVE:
 			entity.direction = std::get<int>(cmd.args);
-			entity.move(entity.direction);
+			entity.move(entity.direction,dt );
 			break;
 		default:
 			break;
 		}
 	}
-	entity.apply_force({ 0, context.gravity });
+	entity.apply_force({ 0, context.gravity }, dt);
 	return std::make_pair(nullptr, Entity_state_info::NONE);
 }

@@ -5,10 +5,15 @@ void Map::init()
 	send_message<int>(Message::Message_type::CHANGED_LEVEL, levels[current_pos.x][current_pos.y]->code);
 }
 
-void Map::update_levels(float dt, sf::FloatRect screen_rect)
+void Map::update_levels_physics(float dt, sf::FloatRect screen_rect)
 {
-	call_on_considered_levels(std::bind(&Level::update, std::placeholders::_1, dt, screen_rect));
+	call_on_considered_levels(std::bind(&Level::update_physics, std::placeholders::_1, dt, screen_rect));
 }
+void Map::update_levels_graphics(float dt, sf::FloatRect screen_rect)
+{
+	call_on_considered_levels(std::bind(&Level::update_graphics, std::placeholders::_1, dt, screen_rect));
+}
+
 
 void Map::resolve_collisions()
 {
@@ -173,7 +178,7 @@ void Map::draw_zones(sf::RenderTarget& target, sf::RenderStates states) const
 	}
 }
 
-void Map::update(float dt, Vectorf player_pos, sf::FloatRect screen_rect)
+void Map::update_physics(float dt, Vectorf player_pos, sf::FloatRect screen_rect)
 {
 	Vectori player_pos_on_map = Vectori(
 		int(player_pos.x / context.global_scale / context.level_size.x),
@@ -190,9 +195,13 @@ void Map::update(float dt, Vectorf player_pos, sf::FloatRect screen_rect)
 			send_message<string>(Message::Message_type::ERROR, "Level out of range");
 		}
 	}
-	update_levels(dt, screen_rect);
+	update_levels_physics(dt, screen_rect);
 	resolve_collisions();
 	make_zones_interactions();
+}
+void Map::update_graphics(float dt, Vectorf player_pos, sf::FloatRect screen_rect)
+{
+	update_levels_graphics(dt, screen_rect);
 }
 
 void Map::add_entity(Entity* entity)

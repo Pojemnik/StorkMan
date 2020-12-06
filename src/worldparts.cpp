@@ -43,7 +43,7 @@ sf::FloatRect Moving_object::get_bounding_rect() const
 	return rect;
 }
 
-void Moving_object::update(float dt)
+void Moving_object::update_graphics(float dt)
 {
 	ai->calc_pos(dt);
 }
@@ -65,7 +65,7 @@ void Animated_object::next_frame(float dt)
 	animation->next_frame(dt);
 }
 
-void Animated_object::update(float dt)
+void Animated_object::update_graphics(float dt)
 {
 	next_frame(dt);
 	update_frame();
@@ -96,6 +96,6 @@ sf::FloatRect Moving_animated_object::get_bounding_rect() const
 
 void Moving_animated_object::update(float dt)
 {
-	Animated_object::update(dt);
+	Animated_object::update_graphics(dt);
 	ai->calc_pos(dt);
 }

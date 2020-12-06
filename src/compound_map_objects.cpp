@@ -41,13 +41,17 @@ sf::FloatRect Pendulum::get_bounding_rect() const
 	return bound;
 }
 
-void Pendulum::update(float dt)
+void Pendulum::update_physics(float dt)
+{
+	platform.update_physics(dt);
+}
+
+void Pendulum::update_graphics(float dt)
 {
 	for (auto& it : lines)
 	{
-		it.update(dt);
+		it.update_graphics(dt);
 	}
-	platform.update(dt);
 }
 
 Vectorf Pendulum::get_speed() const

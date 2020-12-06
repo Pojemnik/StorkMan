@@ -15,7 +15,7 @@ public:
 	virtual sf::FloatRect get_bounding_rect() const;
 };
 
-class Moving_barrier : public Barrier, public Updatable
+class Moving_barrier : public Barrier, public Physical_updatable
 {
 	std::unique_ptr<Simple_AI> ai;
 	std::vector<Vectorf> base_mesh;
@@ -27,7 +27,7 @@ class Moving_barrier : public Barrier, public Updatable
 public:
 
 	Moving_barrier(std::vector<sf::Vertex>&& vertices_, std::unique_ptr<Simple_AI> ai_, Vectorf pos_, Surface_type surface_);
-	void update(float dt);
+	void update_physics(float dt);
 	virtual void draw_dynamic_collision(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual Vectorf get_speed() const;
 };

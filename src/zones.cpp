@@ -50,7 +50,7 @@ void Damage_zone::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(buffer, states);
 }
 
-void Damage_zone::update(float dt)
+void Damage_zone::update_physics(float dt)
 {
 	time += dt;
 	changed_damage = false;
@@ -70,10 +70,10 @@ Moving_damage_zone::Moving_damage_zone(std::vector<Vectorf>& vert, Vectorf p,
 	base_mesh = collision.mesh;
 }
 
-void Moving_damage_zone::update(float dt)
+void Moving_damage_zone::update_physics(float dt)
 {
 	ai->calc_pos(dt);
-	Damage_zone::update(dt);
+	Damage_zone::update_physics(dt);
 	sf::Transform new_pos = ai->get_pos();
 	for (int i = 0; i < base_mesh.size(); i++)
 	{

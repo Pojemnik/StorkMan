@@ -13,7 +13,7 @@ enum class Entity_state_info {PUSH, POP, REPLACE, NONE};
 
 class Entity_state_machine;
 
-class Entity : public Updatable, public Collidable, public Message_sender, public Renderable
+class Entity : public Physical_updatable,public Graphical_updatable, public Collidable, public Message_sender, public Renderable
 {
 protected:
 	float move_speed = 4.6f;
@@ -47,16 +47,17 @@ public:
 	void resolve_collision(const Collidable& other);
 	void set_animation(Animation_index a);
 	Animation_index get_current_animation();
-	void move(int direction);
-	void apply_force(Vectorf force);
-	void jump();
+	void move(int direction, float dt);
+	void apply_force(Vectorf force, float dt);
+	void jump(float dt);
 	void deal_damage(int amount);
 	void set_max_health(int val);
 	int get_max_health();
 	void heal(int amount);
 	Vectorf get_position();
 	void set_position(Vectorf new_position);
-	void update(float dt);
+	void update_graphics(float dt);
+	void update_physics(float dt);
 	void set_textures_set(int set);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	Entity(std::unique_ptr<Animation>&& animation_, Physical& physical_,

@@ -42,12 +42,13 @@ void Map_chunk::make_zones_interactions(Entity& entity) const
 	}
 }
 
-Map_chunk::Map_chunk(std::vector<std::shared_ptr<Updatable>>&& updatables_,
+Map_chunk::Map_chunk(std::vector<std::shared_ptr<Physical_updatable>>&& p_updatables_,
+	std::vector<std::shared_ptr<Graphical_updatable>>&& g_updatables_,
 	std::vector<std::pair<int, std::shared_ptr<Renderable>>>&& drawables_,
 	std::vector<std::shared_ptr<const Collidable>>&& collidables_,
 	std::vector<std::shared_ptr<Zone>>&& zones_,
 	sf::FloatRect bound_, sf::VertexBuffer&& static_vertices)
-	: updatables(std::move(updatables_)), collidables(std::move(collidables_)),
+	: p_updatables(std::move(p_updatables_)), g_updatables(std::move(g_updatables_)), collidables(std::move(collidables_)),
 	bound(bound_), zones(std::move(zones_)), static_collision_vertices(std::move(static_vertices))
 {
 	static util::Color_generator colors("data/colors.txt");
@@ -62,13 +63,21 @@ Map_chunk::Map_chunk(std::vector<std::shared_ptr<Updatable>>&& updatables_,
 	border.setOutlineThickness(1);
 }
 
-void Map_chunk::update(float dt)
+void Map_chunk::update_graphics(float dt)
 {
-	for (auto& it : updatables)
+	for (auto& it : g_updatables)
 	{
-		it->update(dt);
+		it->update_graphics(dt);
 	}
 }
+void Map_chunk::update_physics(float dt)
+{
+	for (auto& it : p_updatables)
+	{
+		it->update_physics(dt);
+	}
+}
+
 
 void Map_chunk::draw_layer(sf::RenderTarget& target, sf::RenderStates states, int layer) const
 {
@@ -83,53 +92,11 @@ sf::FloatRect Map_chunk::get_bounding_rect() const
 	return bound;
 }
 
-const Collidable* Moving_element::get_collidable() const
-{
-	return &*collidable;
-}
 
-sf::FloatRect Moving_element::get_bounding_rect() const
-{
-	return object->get_bounding_rect();
-}
+Level::Level(std::vector<Map_chunk>&& chunks_, Vectori pos, int code_)
+	: chunks(std::move(chunks_)),global_pos(pos), code(code_) {}
 
-void Moving_element::update(float dt)
-{
-	updatable->update(dt);
-}
-
-void Moving_element::draw(sf::RenderTarget& target, sf::RenderStates states) const
-{
-	if (is_drawable && on_screen)
-	{
-		target.draw(*renderable, states);
-	}
-}
-
-void Moving_element::draw_moving_collisions(sf::RenderTarget& target, sf::RenderStates states) const
-{
-	if (is_collidable)
-	{
-		collidable->draw_dynamic_collision(target, states);
-	}
-}
-
-Moving_element::Moving_element(std::shared_ptr<Updatable> updatable_, int layer_) :
-	updatable(std::move(updatable_)), layer(layer_)
-{
-	renderable = std::dynamic_pointer_cast<Renderable>(updatable);
-	is_drawable = (renderable != nullptr);
-	collidable = std::dynamic_pointer_cast<Collidable>(updatable);
-	is_collidable = (collidable != nullptr);
-	object = std::dynamic_pointer_cast<Map_object>(updatable);
-}
-
-Level::Level(std::vector<Map_chunk>&& chunks_,
-	std::vector<Moving_element>&& moving_, Vectori pos, int code_)
-	: chunks(std::move(chunks_)), moving(std::move(moving_)),
-	global_pos(pos), code(code_) {}
-
-void Level::update(float dt, sf::FloatRect screen_rect)
+void Level::update_graphics(float dt, sf::FloatRect screen_rect)
 {
 	std::vector<std::future<void>> futures;
 	for (auto& it : chunks)
@@ -137,7 +104,7 @@ void Level::update(float dt, sf::FloatRect screen_rect)
 		if (it.get_bounding_rect().intersects(screen_rect))
 		{
 			it.on_screen = true;
-			futures.push_back(context.thread_pool->push(Level::update_chunk, it, dt));
+			futures.push_back(context.thread_pool->push(Level::update_chunk_graphics, it, dt));
 			//Maybe check if there is something to update in chunk
 		}
 		else
@@ -145,12 +112,21 @@ void Level::update(float dt, sf::FloatRect screen_rect)
 			it.on_screen = false;
 		}
 	}
-	for (auto& it : moving)
+	for (auto& it : futures)
+	{
+		it.get();
+	}
+}
+void Level::update_physics(float dt, sf::FloatRect screen_rect)
+{
+	std::vector<std::future<void>> futures;
+	for (auto& it : chunks)
 	{
 		if (it.get_bounding_rect().intersects(screen_rect))
 		{
 			it.on_screen = true;
-			it.update(dt);
+			futures.push_back(context.thread_pool->push(Level::update_chunk_physics, it, dt));
+			//Maybe check if there is something to update in chunk
 		}
 		else
 		{
@@ -163,10 +139,15 @@ void Level::update(float dt, sf::FloatRect screen_rect)
 	}
 }
 
-void Level::update_chunk(int id, Map_chunk& chunk, float dt)
+void Level::update_chunk_graphics(int id, Map_chunk& chunk, float dt)
 {
 	(void)id;
-	chunk.update(dt);
+	chunk.update_graphics(dt);
+}
+void Level::update_chunk_physics(int id, Map_chunk& chunk, float dt)
+{
+	(void)id;
+	chunk.update_physics(dt);
 }
 
 void Level::draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const
@@ -178,13 +159,6 @@ void Level::draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states
 			if (it.on_screen)
 			{
 				it.draw_layer(target, states, i);
-			}
-		}
-		for (const auto& it : moving)
-		{
-			if (it.layer == i)
-			{
-				target.draw(it, states);
 			}
 		}
 	}
@@ -201,13 +175,6 @@ void Level::draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states
 				it.draw_layer(target, states, i);
 			}
 		}
-		for (const auto& it : moving)
-		{
-			if (it.layer == i)
-			{
-				target.draw(it, states);
-			}
-		}
 	}
 }
 
@@ -220,13 +187,6 @@ void Level::draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) c
 			if (it.on_screen)
 			{
 				it.draw_layer(target, states, i);
-			}
-		}
-		for (const auto& it : moving)
-		{
-			if (it.layer == i)
-			{
-				target.draw(it, states);
 			}
 		}
 	}
@@ -248,13 +208,6 @@ void Level::resolve_collisions(std::vector<Entity*>& entities)
 			if (it->get_collision()->rect.intersects(chunk_it.get_bounding_rect()))
 			{
 				chunk_it.resolve_collisions(*it);
-			}
-		}
-		for (const auto& moving_it : moving)
-		{
-			if (moving_it.is_collidable)
-			{
-				it->resolve_collision(*moving_it.get_collidable());
 			}
 		}
 	}
@@ -289,10 +242,6 @@ void Level::draw_moving_collisions(sf::RenderTarget& target, sf::RenderStates st
 		{
 			it.draw_moving_collisions(target, states);
 		}
-	}
-	for (const auto& it : moving)
-	{
-		it.draw_moving_collisions(target, states);
 	}
 }
 

@@ -158,16 +158,16 @@ int main(int argc, char** argv)
 	map.add_entity(&player);
 
 	//Test enemy
-	//animation = std::make_unique<Key_frame_animation>(stork_parts,
-	//	*animations, stork_tree);
-	//Physical enemy_physical(storkman_config.mesh, { 20 * context.global_scale,
-	//	5 * context.global_scale });
-	//machine = std::make_unique<Entity_state_machine>(new Idle_state());
-	//controller = std::make_unique<Idle_cotroller>();
-	//Entity test_enemy(std::move(animation), enemy_physical, std::move(machine),
-	//	std::move(controller), storkman_config.height, storkman_config.max_hp,
-	//	Message_sender_type::ENEMY);
-	//map.add_entity(&test_enemy);
+	animation = std::make_unique<Key_frame_animation>(stork_parts,
+		*animations, stork_tree);
+	Physical enemy_physical(storkman_config.mesh, { 20 * context.global_scale,
+		5 * context.global_scale });
+	machine = std::make_unique<Entity_state_machine>(new Idle_state());
+	controller = std::make_unique<Idle_cotroller>();
+	Entity test_enemy(std::move(animation), enemy_physical, std::move(machine),
+		std::move(controller), storkman_config.height, storkman_config.max_hp,
+		Message_sender_type::ENEMY);
+	map.add_entity(&test_enemy);
 
 	//Config file
 	bool init = execute_init_file("config.cfg");
@@ -294,9 +294,19 @@ int main(int argc, char** argv)
 			float(context.resolution.x), float(context.resolution.y));
 		if (!context.console->is_active())
 		{
-			map.update(time, player.get_position(), screen_rect);
-			//test_enemy.update(time);
-			player.update(time);
+			static float acc(0);
+			const static float STEP(1);
+			acc += time;
+			while (acc > STEP)
+			{
+				map.update_physics(STEP, player.get_position(), screen_rect);
+				test_enemy.update_physics(STEP);
+				player.update_physics(STEP);
+				acc -= STEP;
+			}
+			map.update_graphics(time, player.get_position(), screen_rect);
+			test_enemy.update_graphics(time);
+			player.update_graphics(time);
 		}
 		if (context.draw_fps_counter)
 		{
@@ -312,7 +322,7 @@ int main(int argc, char** argv)
 		window.clear();
 		map.draw_bottom_layers(window, rs);
 		window.draw(player, rs);
-		//window.draw(test_enemy, rs);
+		window.draw(test_enemy, rs);
 		map.draw_middle_layers(window, rs);
 		map.draw_top_layers(window, rs);
 		if (context.draw_damage_zones)

@@ -7,17 +7,15 @@ public:
 	virtual sf::FloatRect get_bounding_rect() const = 0;
 };
 
-class Updatable
+class Physical_updatable
 {
 public:
-	virtual void update(float dt) = 0;
+	virtual void update_physics(float dt) = 0;
 };
-
-class Transformable
+class Graphical_updatable
 {
 public:
-	virtual void move(sf::Vector2f delta) = 0;
-	virtual void set_position(sf::Vector2f new_position) = 0;
+	virtual void update_graphics(float dt) = 0;
 };
 
 class Renderable : public sf::Drawable

@@ -4,30 +4,11 @@
 class Zone;
 class Entity;
 
-class Moving_element : public Updatable, public Renderable, public Map_object
+
+class Map_chunk : public Map_object
 {
-	std::shared_ptr<Updatable> updatable;
-	std::shared_ptr<Renderable> renderable;
-	std::shared_ptr<Map_object> object;
-	std::shared_ptr<Collidable> collidable;
-	bool is_drawable;
-
-public:
-	int layer;
-	bool on_screen;
-	bool is_collidable;
-
-	const Collidable* get_collidable() const;
-	sf::FloatRect get_bounding_rect() const;
-	void update(float dt);
-	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-	void draw_moving_collisions(sf::RenderTarget& target, sf::RenderStates states) const;
-	Moving_element(std::shared_ptr<Updatable> updatable_, int layer_ = 0);
-};
-
-class Map_chunk : public Updatable, public Map_object
-{
-	std::vector<std::shared_ptr<Updatable>> updatables;
+	std::vector<std::shared_ptr<Physical_updatable>> p_updatables;
+	std::vector<std::shared_ptr<Graphical_updatable>> g_updatables;
 	std::vector<std::shared_ptr<const Collidable>> collidables;
 	std::vector<std::shared_ptr<Zone>> zones;
 	std::array<std::vector<std::shared_ptr<Renderable>>, TOTAL_LAYERS> layers;
@@ -37,12 +18,14 @@ class Map_chunk : public Updatable, public Map_object
 
 public:
 	bool on_screen = false;
-	Map_chunk(std::vector<std::shared_ptr<Updatable>>&& updatables_,
+	Map_chunk(std::vector<std::shared_ptr<Physical_updatable>>&& p_updatables_,
+		std::vector<std::shared_ptr<Graphical_updatable>>&& g_updatables_,
 		std::vector<std::pair<int, std::shared_ptr<Renderable>>>&& drawables_,
 		std::vector<std::shared_ptr<const Collidable>>&& collidables_,
 		std::vector<std::shared_ptr<Zone>>&& zones_,
 		sf::FloatRect bound_, sf::VertexBuffer&& static_vertices);
-	void update(float dt);
+	void update_graphics(float dt);
+	void update_physics(float dt);
 	void draw_layer(sf::RenderTarget& target, sf::RenderStates states, int layer) const;
 	void draw_border(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_moving_collisions(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -57,19 +40,20 @@ class Level
 {
 	std::vector<Map_chunk> chunks;
 	Vectori global_pos;
-	std::vector<Moving_element> moving;
 	bool draw_border = false;//Currently unused
 	bool draw_chunks_borders = false;
 
-	static void update_chunk(int id, Map_chunk& chunk, float dt);
+	static void update_chunk_graphics(int id, Map_chunk& chunk, float dt);
+	static void update_chunk_physics(int id, Map_chunk& chunk, float dt);
+
 
 public:
 	const int code;
 
 	Level() = default;
-	Level(std::vector<Map_chunk>&& chunks_,
-		std::vector<Moving_element>&& moving_, Vectori pos, int code_);
-	void update(float dt, sf::FloatRect screen_rect);
+	Level(std::vector<Map_chunk>&& chunks_, Vectori pos, int code_);
+	void update_physics(float dt, sf::FloatRect screen_rect);
+	void update_graphics(float dt, sf::FloatRect screen_rect);
 	void draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) const;

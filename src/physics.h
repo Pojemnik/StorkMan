@@ -4,7 +4,7 @@
 #include "collisions.h"
 #include "interfaces.h"
 
-class Physical : public Updatable, public Collidable
+class Physical : public Physical_updatable, public Collidable
 {
 	Collision collision;
 	Vectorf acceleration;
@@ -27,7 +27,7 @@ public:
 	Physical(std::vector<Vectorf> mesh, Vectorf pos_);
 	const Collision* const get_collision() const;
 	Vectorf get_pos();
-	void update(float dt);
+	void update_physics(float dt);
 	void set_defaults();
 	void apply_force(Vectorf force_);
 	void resolve_collision(const std::vector<std::shared_ptr<const Collidable>>& others);

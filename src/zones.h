@@ -19,7 +19,7 @@ public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
-class Damage_zone : public Zone, public Updatable
+class Damage_zone : public Zone, public Physical_updatable
 {
 protected:
 	std::vector<std::pair<int, float>> damage;
@@ -31,7 +31,7 @@ public:
 
 	Damage_zone(std::vector<Vectorf>& vert, Vectorf p,
 		std::vector<std::pair<int, float>>& dmg);
-	virtual void update(float dt);
+	virtual void update_physics(float dt);
 	virtual void interact(Entity& entity);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
@@ -45,6 +45,6 @@ class Moving_damage_zone : public Damage_zone
 public:
 	Moving_damage_zone(std::vector<Vectorf>& vert, Vectorf p,
 		std::vector<std::pair<int, float>>& dmg, std::unique_ptr<Simple_AI>&& ai_);
-	virtual void update(float dt);
+	virtual void update_physics(float dt);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
