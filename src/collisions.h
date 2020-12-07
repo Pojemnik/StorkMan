@@ -14,8 +14,9 @@ struct Collision
 	sf::FloatRect rect;
 	std::vector<std::pair<float, float>> min_max_arr;
 	Surface_type surface = Surface_type::NONE;
+	int id = -1;
+	bool one_sided = false;
 
-	Collision() = default;
 	Collision(sf::FloatRect rect_);
 	Collision(std::vector<Vectorf>&& mesh_);
 	Collision(std::vector<Vectorf>&& mesh_, Vectorf pos);

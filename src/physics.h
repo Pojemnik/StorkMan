@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <set>
 
 #include "collisions.h"
 #include "interfaces.h"
@@ -19,8 +20,11 @@ class Physical : public Physical_updatable, public Collidable
 	bool last_on_ground = false;
 	float max_up = 1.f;
 	Vectorf temp_delta = { 0,0 };
+	std::set<int> current_one_side_collision_ids;
+	std::set<int> last_one_side_collision_ids;
 
 	void reset_physics();
+	Vectorf resolve_one_sided_collisions(Vectorf collision_vector, int id);
 
 public:
 	Physical(std::vector<Vectorf>&& mesh, Vectorf pos_);

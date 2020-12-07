@@ -52,6 +52,8 @@ namespace parse
 	Vectorf parse_var<Vectorf>(string val);
 	template <>
 	Vectori parse_var<Vectori>(string val);
+	template <>
+	bool parse_var<bool>(string val);
 
 	template <typename T>
 	T parse_var(string a, string b);
@@ -156,6 +158,12 @@ namespace parse
 		int x = std::stoi(val.substr(0, p));
 		int y = std::stoi(val.substr(p + 1));
 		return Vectori(x, y);
+	}
+
+	template <>
+	inline bool parse_var<bool>(string val)
+	{
+		return (val == "true" || val == "1");
 	}
 
 	template<>

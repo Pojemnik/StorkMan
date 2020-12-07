@@ -3,7 +3,8 @@
 Map_sound::Map_sound(std::vector<Vectorf>&& mesh, Map_sound_info info_)
 	: collision(mesh, info_.pos), info(info_), initialized(true) {}
 
-Map_sound::Map_sound(Map_sound_info info_) : info(info_) {}
+Map_sound::Map_sound(Map_sound_info info_) : info(info_),
+collision(sf::FloatRect(info_.pos, { 0,0 })) {}
 
 void Map_sound::update_collision(std::vector<std::pair<Vectorf, Vectorf>>& map_edges, std::vector<Vectorf>& map_vertices)
 {

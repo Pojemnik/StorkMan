@@ -20,6 +20,7 @@ class Parser
 	const Assets* assets;
 	std::unordered_map<string, string> level_music;
 	std::unordered_map<string, int> map_sounds;
+	Id_generator collidable_id_gen;
 
 	std::pair<Vectori, Vectori> parse_map_element(tinyxml2::XMLElement* element);
 	std::tuple<Vectori, string, string> parse_level_element(tinyxml2::XMLElement* element, Vectori map_size);

@@ -22,6 +22,15 @@ const int MIDDLE_LAYERS = 3;
 const int TOP_LAYERS = 2;
 const int TOTAL_LAYERS = BOTTOM_LAYERS + MIDDLE_LAYERS + TOP_LAYERS;
 
+class Id_generator
+{
+	std::mutex mutex;
+	int next_id = 0;
+
+public:
+	int get_id();
+};
+
 struct Context
 {
 	bool draw_map_vertices = false;
@@ -38,6 +47,7 @@ struct Context
 	std::unique_ptr<ctpl::thread_pool> thread_pool;
 	Vectori level_size = { 100, 100 };
 	bool window_focus = false;
+	Id_generator id_generator;
 };
 
 extern struct Context context;
@@ -87,6 +97,7 @@ namespace util
 	float vector_dot_product(sf::Vector2f a, sf::Vector2f b);
 	float vector_cross_product(sf::Vector2f a, sf::Vector2f b);
 	bool round_and_compare(Vectorf a, Vectorf b);
+	bool round_and_compare(Vectorf a, Vectorf b, float eps);
 	Vectorf saturate(Vectorf val, const Vectorf max_val);
 	bool vectorf_compare(const Vectorf& a, const Vectorf& b);
 	bool vectorf_binary_predicate(const Vectorf& a, const Vectorf& b);

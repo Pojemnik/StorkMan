@@ -8,12 +8,14 @@ Collision::Collision(sf::FloatRect rect_)
 	mesh.push_back({ rect_.left + rect_.width, rect_.top + rect_.height });
 	mesh.push_back({ rect_.left, rect_.top + rect_.height });
 	calculate_min_max_arr();
+	id = context.id_generator.get_id();
 }
 
 Collision::Collision(std::vector<Vectorf>&& mesh_) : mesh(mesh_)
 {
 	rect = util::mesh_to_rect(mesh);
 	calculate_min_max_arr();
+	id = context.id_generator.get_id();
 }
 
 Collision::Collision(std::vector<Vectorf>&& mesh_, Vectorf pos) : mesh(mesh_)
@@ -24,6 +26,7 @@ Collision::Collision(std::vector<Vectorf>&& mesh_, Vectorf pos) : mesh(mesh_)
 	}
 	rect = util::mesh_to_rect(mesh);
 	calculate_min_max_arr();
+	id = context.id_generator.get_id();
 }
 
 Collision::Collision(const std::vector<sf::Vertex>& vertices, Vectorf pos) : mesh(vertices.size())
@@ -35,6 +38,7 @@ Collision::Collision(const std::vector<sf::Vertex>& vertices, Vectorf pos) : mes
 	}
 	rect = util::mesh_to_rect(mesh);
 	calculate_min_max_arr();
+	id = context.id_generator.get_id();
 }
 
 Collision::Collision(const std::vector<Vectorf>& vertices, Vectorf pos) : mesh(vertices)
@@ -45,6 +49,7 @@ Collision::Collision(const std::vector<Vectorf>& vertices, Vectorf pos) : mesh(v
 	}
 	rect = util::mesh_to_rect(mesh);
 	calculate_min_max_arr();
+	id = context.id_generator.get_id();
 }
 
 Collision::Collision(sf::FloatRect rect_, float scale, Vectorf pos)
@@ -55,6 +60,7 @@ Collision::Collision(sf::FloatRect rect_, float scale, Vectorf pos)
 	mesh.push_back({ rect_.left * scale + pos.x + rect_.width * scale, rect_.top * scale + pos.y + rect_.height * scale });
 	mesh.push_back({ rect_.left * scale + pos.x, rect_.top * scale + pos.y + rect_.height * scale });
 	calculate_min_max_arr();
+	id = context.id_generator.get_id();
 }
 
 Collision::Collision(std::vector<Vectorf>&& mesh_, Vectorf pos, Surface_type surface_) :
@@ -66,6 +72,7 @@ Collision::Collision(std::vector<Vectorf>&& mesh_, Vectorf pos, Surface_type sur
 	}
 	rect = util::mesh_to_rect(mesh_);
 	calculate_min_max_arr();
+	id = context.id_generator.get_id();
 }
 
 Collision::Collision(const std::vector<sf::Vertex>& vertices, Vectorf pos, Surface_type surface_) :
@@ -78,6 +85,7 @@ Collision::Collision(const std::vector<sf::Vertex>& vertices, Vectorf pos, Surfa
 	}
 	rect = util::mesh_to_rect(mesh);
 	calculate_min_max_arr();
+	id = context.id_generator.get_id();
 }
 
 void Collision::calculate_min_max_arr()

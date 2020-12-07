@@ -26,7 +26,7 @@ protected:
 public:
 	const Collision* const get_collision() const;
 	Platform(Vectorf pos_, const sf::Texture* texture_,
-		std::vector<sf::Vertex> points_, Surface_type surface_);
+		std::vector<sf::Vertex> points_, Surface_type surface_, bool one_sided);
 	virtual sf::FloatRect get_bounding_rect() const;
 };
 

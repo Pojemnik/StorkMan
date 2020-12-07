@@ -46,6 +46,7 @@ platform:
 		rotation* (domyślnie 0)
 		flip* (domyślnie 1,1)
 		surface* (domyślnie none)
+		one_sided* (bool) (domyślnie false) - czy platforma jest jednostronna - czy gracz przenika przez nią od dołu
 	
 	zawartość:
 		znaczniki <v> opisujące kolejne wierzchołki

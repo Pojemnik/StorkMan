@@ -1,5 +1,11 @@
 ﻿<level name="Podziemna Świątynia - poziom testowy 04">
-	<sound volume="100" sound="coal_grinder" position="20,10" attenuation="0.5" min_distance="2"/>
+<chunk>
+	<platform position="20,11" texture="rock0" one_sided="true">
+		<v>0,0</v>
+		<v>2,2</v>
+		<v>0,2</v>
+	</platform>
+	</chunk>
 	/---------------------------------------------------------------------PODZIEMIE
 	<chunk>
 		<wall position="79,36.5" texture="ground0">

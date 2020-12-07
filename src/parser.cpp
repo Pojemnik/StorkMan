@@ -167,7 +167,8 @@ Parser::parse_platform(tinyxml2::XMLElement* element, Vectori level_pos)
 		std::vector<sf::Vertex> points =
 			parse_vertices(element->FirstChildElement(), fliprot);
 		int layer = parse_layer(element, DEFAULT_PLATFORM_LAYER);
-		return std::make_pair(layer, std::make_shared<Platform>(pos, tex, points, surface));
+		bool one_sided = get_and_parse_var<bool>("one_sided", element, false);
+		return std::make_pair(layer, std::make_shared<Platform>(pos, tex, points, surface, one_sided));
 	}
 	catch (const std::invalid_argument& e)
 	{
@@ -309,10 +310,10 @@ Map Parser::parse_map(tinyxml2::XMLElement* root)
 	Vectori player_pos = map_data.second;
 	tinyxml2::XMLElement* element = root->FirstChildElement();
 	Map map(map_size, player_pos, assets->backgrounds.at("main_bg"));
-
+	int lvl_n = 0;
+#define DEBUG_ASYNC__STORK__PARSE
 #ifndef DEBUG_ASYNC__STORK__PARSE
 	std::vector<std::future<std::unique_ptr<Level>>> futures;
-	int lvl_n = 0;
 	while (element != NULL)
 	{
 		string name = element->Name();

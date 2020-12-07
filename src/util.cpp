@@ -2,6 +2,13 @@
 
 struct Context context;
 
+int Id_generator::get_id()
+{
+	std::lock_guard<std::mutex> lock(mutex);
+	next_id++;
+	return next_id;
+}
+
 std::stringstream util::remove_comments(std::ifstream& file)
 {
 	std::stringstream ss;
@@ -129,6 +136,14 @@ bool util::round_and_compare(Vectorf a, Vectorf b)
 {
 	a = { float(round(a.x)), float(round(a.y)) };
 	b = { float(round(b.x)), float(round(b.y)) };
+	return a == b;
+}
+
+bool util::round_and_compare(Vectorf a, Vectorf b, float eps)
+{
+	float multipler = 1.f / eps;
+	a = { float(round(a.x*multipler))*eps, float(round(a.y*multipler))*eps };
+	b = { float(round(b.x*multipler))*eps, float(round(b.y*multipler))*eps };
 	return a == b;
 }
 
