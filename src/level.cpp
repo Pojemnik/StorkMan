@@ -21,7 +21,10 @@ Level::Level(std::vector<Map_chunk>&& chunks_,
 	static util::Color_generator colors("data/colors.txt");
 	for (auto& it : sounds)
 	{
-		it.update_collision(edges, vertices);
+		if (!it.is_initialized())
+		{
+			it.update_collision(edges, vertices);
+		}
 		sf::Color color = colors.get_color();
 		std::vector<sf::Vertex> sound_borders_vect;
 		auto mesh = it.get_collision().mesh;

@@ -1,7 +1,9 @@
 #include "map_sounds.h"
 
 Map_sound::Map_sound(std::vector<Vectorf>&& mesh, Map_sound_info info_)
-	: collision(mesh, info_.pos), info(info_) {}
+	: collision(mesh, info_.pos), info(info_), initialized(true) {}
+
+Map_sound::Map_sound(Map_sound_info info_) : info(info_) {}
 
 void Map_sound::update_collision(std::vector<std::pair<Vectorf, Vectorf>>& map_edges, std::vector<Vectorf>& map_vertices)
 {
@@ -40,4 +42,9 @@ int Map_sound::get_default_volume() const
 Map_sound_info Map_sound::get_info() const
 {
 	return info;
+}
+
+bool Map_sound::is_initialized() const
+{
+	return initialized;
 }

@@ -8,9 +8,11 @@ class Map_sound
 {
 	Collision collision;
 	const Map_sound_info info;
+	bool initialized = false;
 
 public:
 	Map_sound(std::vector<Vectorf>&& mesh, Map_sound_info info_);
+	Map_sound(Map_sound_info info_);
 	void update_collision(std::vector<std::pair<Vectorf, Vectorf>>& map_edges,
 		std::vector<Vectorf>& map_vertices);
 	Collision get_collision() const;
@@ -19,6 +21,7 @@ public:
 	Vectorf get_pos() const;
 	int get_default_volume() const;
 	Map_sound_info get_info() const;
+	bool is_initialized() const;
 };
 
 inline bool operator==(const Map_sound& lhs, const Map_sound& rhs)

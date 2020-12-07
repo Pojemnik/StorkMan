@@ -196,6 +196,17 @@ animated_moving_object:
 		
 	znaczniki:
 		<move>
+		
+sound:
+	atrybuty:
+		position
+		volume* - (int) (domyślne 100) głośność maksymalna
+		sound - (string) - nazwa dźwięku do odtworzenia (patrz plik sound/sound/map_sounds.cfg)
+		attenuation* - (float) (domyślnie 1) szybkość zanikania dźwięku wraz z odległością
+		min_distance* - (float) [prawdopodobnie m] odległość, w jakiej dźwięk osiąga maksymalną głośność
+	
+	znaczniki:
+		opcjonalne znaczniki <v> opisujące kolejne wierzchołki strefy słyszalności dźwięku. Jeśli nie zostaną podane strefa zostanie wygenerowana automatycznie.
 
 Znaczniki pomocnicze (nie występują samodzielnie):
 		

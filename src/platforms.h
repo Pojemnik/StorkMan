@@ -66,7 +66,7 @@ public:
 	virtual void update_graphics(float dt);
 };
 
-class Animated_moving_platform : public Moving_platform, public Animatable, public Graphical_updatable, public Physical_updatable
+class Animated_moving_platform : public Moving_platform, public Animatable, public Graphical_updatable
 {
 protected:
 	std::unique_ptr<Animation> animation;
