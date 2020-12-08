@@ -1,5 +1,5 @@
 ﻿<level name="Podziemna Świątynia - poziom testowy 04">
-<chunk>
+	<chunk>
 	<platform position="20,9" texture="rock0" one_sided="true">
 		<v>0,0</v>
 		<v>2,0</v>

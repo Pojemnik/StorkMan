@@ -28,26 +28,31 @@ bool process_event(sf::Event& event)
 					context.console->activate();
 				}
 			}
-			if (event.key.control && event.key.code == sf::Keyboard::V
-				&& context.console->is_active())
+			if (context.console->is_active())
 			{
-				string s = sf::Clipboard::getString();
-				context.console->input_append(s);
+				if (event.key.control && event.key.code == sf::Keyboard::V)
+				{
+					string s = sf::Clipboard::getString();
+					context.console->input_append(s);
+				}
+				if (event.key.code == sf::Keyboard::Up)
+				{
+					context.console->get_next_history_line();
+				}
+				if (event.key.code == sf::Keyboard::Down)
+				{
+					context.console->get_previous_history_line();
+				}
 			}
-			if (event.key.code == sf::Keyboard::G &&
-				!context.console->is_active())
+			else
 			{
-				context.gravity = -context.gravity;
+				if (event.key.code == sf::Keyboard::G)
+				{
+					context.gravity = -context.gravity;
+				}
 			}
-			if (event.key.code == sf::Keyboard::Up
-				&& context.console->is_active())
+			if (context.editor_mode)
 			{
-				context.console->get_next_history_line();
-			}
-			if (event.key.code == sf::Keyboard::Down
-				&& context.console->is_active())
-			{
-				context.console->get_previous_history_line();
 			}
 		}
 		break;
@@ -204,17 +209,7 @@ int main(int argc, char** argv)
 	Message_sender engine_sender(Message_sender_type::ENGINE);
 	engine_sender.add_receiver(&sound_system);
 	engine_sender.add_receiver(&*context.console);
-	sf::Sound test_sound;
 	sf::SoundBuffer test_buffer;
-	//test_buffer.loadFromFile("sound/sound/coal_grinder.wav");
-	//test_sound.setBuffer(test_buffer);
-	//test_sound.setPosition(5, 5, 0);
-	//test_sound.setVolume(10);
-	//test_sound.setLoop(true);
-	//test_sound.play();
-	std::cout << util::are_colinear({ 0,0 }, { 1,1 }, { 2,2 });
-	std::cout << util::are_colinear({ 0,0 }, { 2,2 }, { 1,1 });
-	std::cout << util::are_colinear({ 0,1 }, { 2,2 }, { 3,3 });
 	while (window.isOpen())
 	{
 		sf::Event event;

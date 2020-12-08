@@ -48,6 +48,7 @@ struct Context
 	Vectori level_size = { 100, 100 };
 	bool window_focus = false;
 	Id_generator id_generator;
+	bool editor_mode = false;
 };
 
 extern struct Context context;

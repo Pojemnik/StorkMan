@@ -7,9 +7,6 @@
 class Zone;
 class Entity;
 
-
-
-
 class Level
 {
 	std::vector<Map_chunk> chunks;
@@ -23,7 +20,6 @@ class Level
 
 	static void update_chunk_graphics(int id, Map_chunk& chunk, float dt);
 	static void update_chunk_physics(int id, Map_chunk& chunk, float dt);
-
 
 public:
 	const int code;

@@ -16,11 +16,6 @@ class Map : public Message_sender
 	std::vector<Level*> considered_levels;
 	std::unordered_set<const Map_sound*, std::hash<const Map_sound*>, Map_sound_compare> last_map_sounds;
 
-	void update_levels_physics(float dt, sf::FloatRect screen_rect);
-	void update_levels_graphics(float dt, sf::FloatRect screen_rect);
-	void resolve_collisions();
-	void call_on_considered_levels(std::function<void(Level&)> foo);
-	void make_zones_interactions();
 	void get_considered_levels();
 
 public:

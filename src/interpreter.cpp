@@ -13,10 +13,10 @@ void Commands_interpreter::load_help_page()
 {
 	std::string tmp;
 	std::ifstream tmpfs("data/commands.txt");
-	while(std::getline(tmpfs,tmp))
+	while (std::getline(tmpfs, tmp))
 	{
 		help_page += tmp + "\n";
-	}	
+	}
 }
 
 Vectorf Commands_interpreter::get_vectorf(const Command& cmd, std::string var_name)
@@ -301,11 +301,15 @@ std::pair<Commands_interpreter::Command_code, Vectorf> Commands_interpreter::exe
 	}
 	else if (cmd.name == "soundsources")
 	{
-	bool draw = get_bool(cmd, "Sounds' sources", { "drawn", "hidden" });
-	return std::make_pair(Command_code::DRAW_SOUND_SOURCES,
-		Vectorf(static_cast<bool>(draw), 0));
+		bool draw = get_bool(cmd, "Sounds' sources", { "drawn", "hidden" });
+		return std::make_pair(Command_code::DRAW_SOUND_SOURCES,
+			Vectorf(static_cast<bool>(draw), 0));
 	}
-	else if (cmd.name == "help" || cmd.name =="?")
+	else if (cmd.name == "edit")
+	{
+		context.editor_mode = get_bool(cmd, "Editor mode", { "enabled", "disabled" });
+	}
+	else if (cmd.name == "help" || cmd.name == "?")
 	{
 		if (help_page == "")
 			load_help_page();
