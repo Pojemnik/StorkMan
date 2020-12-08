@@ -313,6 +313,7 @@ int main(int argc, char** argv)
 				map.update_physics(STEP, player.get_position(), screen_rect);
 				test_enemy.update_physics(STEP);
 				player.update_physics(STEP);
+				context.player_pos = player.get_position();
 				acc -= STEP;
 			}
 			map.update_graphics(time, player.get_position(), screen_rect);
