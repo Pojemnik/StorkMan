@@ -22,6 +22,7 @@ class Physical : public Physical_updatable, public Collidable
 	Vectorf temp_delta = { 0,0 };
 	std::set<int> current_one_side_collision_ids;
 	std::set<int> last_one_side_collision_ids;
+	bool fallthrough = false;
 
 	void reset_physics();
 	Vectorf resolve_one_sided_collisions(Vectorf collision_vector, int id);
@@ -41,4 +42,5 @@ public:
 	std::pair<Vectorf, Surface_type> get_collision_info() const;
 	bool is_on_ground() const;
 	sf::FloatRect get_bounding_rect() const;
+	void set_fallthrough(bool val);
 };

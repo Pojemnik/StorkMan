@@ -6,24 +6,24 @@ void Entity_state_machine::update(Entity& entity, float dt)
 	{
 		throw std::runtime_error("Out of entity stack!");
 	}
-	std::pair<Entity_state*, Entity_state_info> state = state_stack.top()->update(entity, dt);
+	std::pair<Entity_state*, Entity_stack_command> state = state_stack.top()->update(entity, dt);
 	switch (state.second)
 	{
-	case Entity_state_info::REPLACE:
+	case Entity_stack_command::REPLACE:
 		state_stack.top()->exit(entity);
 		delete state_stack.top();
 		state_stack.pop();
 		[[fallthrough]];
-	case Entity_state_info::PUSH:
+	case Entity_stack_command::PUSH:
 		state_stack.push(state.first);
 		state_stack.top()->enter(entity);
 		break;
-	case Entity_state_info::POP:
+	case Entity_stack_command::POP:
 		state_stack.top()->exit(entity);
 		delete state_stack.top();
 		state_stack.pop();
 		break;
-	case Entity_state_info::NONE:
+	case Entity_stack_command::NONE:
 		break;
 	}
 }
@@ -135,8 +135,9 @@ void Entity::update_physics(float dt)
 	collision_vector = temp.first;
 	surface = temp.second;
 	on_ground = physical.is_on_ground();
-	controller->update(dt);
+	controller->update();
 	state->update(*this, dt);
+	physical.set_fallthrough(fallthrough);
 	physical.update_physics(dt);
 	
 }

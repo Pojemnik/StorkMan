@@ -12,7 +12,7 @@ Vectorf Physical::resolve_one_sided_collisions(Vectorf collision_vector, int id)
 		(std::hypot(collision_vector.x, collision_vector.y));
 	if (!last_one_side_collision_ids.contains(id))
 	{
-		if (up < -0.7f)
+		if (up < -0.7f && !fallthrough)
 		{
 			return collision_vector;
 		}
@@ -205,4 +205,9 @@ bool Physical::is_on_ground() const
 sf::FloatRect Physical::get_bounding_rect() const
 {
 	return collision.rect;
+}
+
+void Physical::set_fallthrough(bool val)
+{
+	fallthrough = val;
 }

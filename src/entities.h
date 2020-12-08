@@ -9,11 +9,11 @@
 #include "messaging.h"
 #include "control.h"
 
-enum class Entity_state_info {PUSH, POP, REPLACE, NONE};
+enum class Entity_stack_command {PUSH, POP, REPLACE, NONE};
 
 class Entity_state_machine;
 
-class Entity : public Physical_updatable,public Graphical_updatable, public Collidable, public Message_sender, public Renderable
+class Entity : public Physical_updatable, public Graphical_updatable, public Collidable, public Message_sender, public Renderable
 {
 protected:
 	float move_speed = 4.6f;
@@ -38,6 +38,7 @@ public:
 	Vectorf collision_vector;
 	Surface_type surface;
 	bool on_ground;
+	bool fallthrough = false;
 
 	void set_draw_collision(bool draw);
 	void set_jump_force(float new_force);
@@ -78,7 +79,7 @@ struct Entity_state
 {
 	virtual void enter(Entity& entity) = 0;
 	virtual void exit(Entity& entity) { (void)entity; /*Unused*/ };
-	virtual std::pair<Entity_state*, Entity_state_info> update(Entity& entity, float dt) = 0;
+	virtual std::pair<Entity_state*, Entity_stack_command> update(Entity& entity, float dt) = 0;
 	virtual ~Entity_state() {};
 };
 
