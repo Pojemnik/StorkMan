@@ -1,30 +1,5 @@
 ﻿<level name="Podziemna Świątynia - poziom testowy 04">
-	<chunk>
-	<platform position="20,9" texture="rock0" one_sided="true">
-		<v>0,0</v>
-		<v>2,0</v>
-		<v>2,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="20,11" texture="rock0" one_sided="true">
-		<v>0,0</v>
-		<v>2,0</v>
-		<v>2,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="20,13" texture="rock0" one_sided="true">
-		<v>0,0</v>
-		<v>2,0</v>
-		<v>2,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	<platform position="20,15" texture="rock0" one_sided="true">
-		<v>0,0</v>
-		<v>2,0</v>
-		<v>2,0.5</v>
-		<v>0,0.5</v>
-	</platform>
-	</chunk>
+	<sound volume="100" sound="coal_grinder" position="20,10" attenuation="0.5" min_distance="2" range="15"/>
 	/---------------------------------------------------------------------PODZIEMIE
 	<chunk>
 		<wall position="79,36.5" texture="ground0">

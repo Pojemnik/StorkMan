@@ -12,7 +12,6 @@ typedef std::string string;
 class Polygon_generator
 {
 	static const int eps = 0.001f;
-	static const int polygon_const = 2.f;
 	static std::pair<float, Vectorf>cast_ray(Vectorf source, Vectorf alfa,
 		std::vector<std::pair<Vectorf, Vectorf>>& map_edges);
 	static int add_bounds(Vectorf source, float max_size, std::vector<std::pair<Vectorf,
@@ -23,6 +22,6 @@ class Polygon_generator
 
 public:
 	static std::vector<Vectorf> calc_polygon(Vectorf source,
-		float max_size,
-		std::vector<std::pair<Vectorf, Vectorf>>& map_edges, std::vector<Vectorf>& map_vertices);
+		float max_size, std::vector<std::pair<Vectorf, Vectorf>>& map_edges,
+		std::vector<Vectorf>& map_vertices);
 };

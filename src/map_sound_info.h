@@ -14,4 +14,5 @@ struct Map_sound_info
 	float attenuation;
 	float min_distance;
 	float volume;
+	float range;
 };

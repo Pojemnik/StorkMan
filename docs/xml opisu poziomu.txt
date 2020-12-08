@@ -205,6 +205,7 @@ sound:
 		sound - (string) - nazwa dźwięku do odtworzenia (patrz plik sound/sound/map_sounds.cfg)
 		attenuation* - (float) (domyślnie 1) szybkość zanikania dźwięku wraz z odległością
 		min_distance* - (float) [prawdopodobnie m] odległość, w jakiej dźwięk osiąga maksymalną głośność
+		range* - (float) (domyślnie 8) [m] maksymalna odległość, w której dźwięk jest słyszalny - w przypadku braku obiektów blokujących dźwięk zakres słyszlności jest kwadratem o boku range
 	
 	znaczniki:
 		opcjonalne znaczniki <v> opisujące kolejne wierzchołki strefy słyszalności dźwięku. Jeśli nie zostaną podane strefa zostanie wygenerowana automatycznie.

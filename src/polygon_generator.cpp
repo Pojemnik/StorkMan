@@ -46,7 +46,7 @@ std::vector<Vectorf> Polygon_generator::calc_polygon(Vectorf source,
 		if (alfa == Vectorf(0, 0))
 			continue;
 		if (util::sq(alfa.x) + util::sq(alfa.y) <
-			polygon_const * util::sq(500 * max_size) + 50)
+			2.f * util::sq(max_size) + 2)
 		{
 			std::pair<float, Vectorf> point;
 			point = cast_ray(source, alfa, map_edges);
@@ -78,7 +78,7 @@ int Polygon_generator::add_bounds(Vectorf source, float max_size, std::vector<st
 	Vectorf>>&map_edges, std::vector<Vectorf>& map_vertices)
 {
 	int added = 4;
-	const float edge = 500 * max_size;
+	const float edge = max_size;
 	map_edges.push_back(std::make_pair(
 		source + Vectorf(-edge, edge), source + Vectorf(edge, edge)));
 	map_edges.push_back(std::make_pair(

@@ -9,7 +9,8 @@ collision(sf::FloatRect(info_.pos, { 0,0 })) {}
 void Map_sound::update_collision(std::vector<std::pair<Vectorf, Vectorf>>& map_edges, std::vector<Vectorf>& map_vertices)
 {
 	collision.mesh.clear();
-	const auto polygon =  Polygon_generator::calc_polygon(info.pos, 1, map_edges, map_vertices);
+	const auto polygon =  Polygon_generator::calc_polygon(info.pos,
+		info.range, map_edges, map_vertices);
 	collision.mesh = polygon;
 	collision.rect = util::mesh_to_rect(collision.mesh);
 	collision.calculate_min_max_arr();
