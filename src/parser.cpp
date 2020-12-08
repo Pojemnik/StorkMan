@@ -940,7 +940,7 @@ Map_sound Parser::parse_sound(tinyxml2::XMLElement* element, Vectori level_pos, 
 		info.sound = map_sounds.at(get_attribute_by_name("sound", element));
 		info.volume = get_and_parse_var<int>("volume", element, 100);
 		info.attenuation = get_and_parse_var<float>("attenuation", element, 1.f);
-		info.min_distance = get_and_parse_var<float>("min_distance", element, 1.f) * context.global_scale;
+		info.min_distance = get_and_parse_var<float>("min_distance", element, 1.f);
 		info.range = get_and_parse_var<float>("range", element, 8.f) * context.global_scale;
 		std::vector<Vectorf> vert;
 		tinyxml2::XMLElement* e = element->FirstChildElement();
