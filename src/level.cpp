@@ -19,6 +19,7 @@ Level::Level(std::vector<Map_chunk>&& chunks_,
 		}
 	}
 	static util::Color_generator colors("data/colors.txt");
+	std::vector<sf::Vertex> sound_borders_vect;
 	for (auto& it : sounds)
 	{
 		if (!it.is_initialized())
@@ -26,9 +27,7 @@ Level::Level(std::vector<Map_chunk>&& chunks_,
 			it.update_collision(edges, vertices);
 		}
 		sf::Color color = colors.get_color();
-		std::vector<sf::Vertex> sound_borders_vect;
 		auto mesh = it.get_collision().mesh;
-		sound_borders.create(mesh.size() * 2);
 		sound_borders_vect.push_back(sf::Vertex(mesh[0], color));
 		for (int i = 1; i < mesh.size(); i++)
 		{
@@ -36,11 +35,12 @@ Level::Level(std::vector<Map_chunk>&& chunks_,
 			sound_borders_vect.push_back(sf::Vertex(mesh[i], color));
 		}
 		sound_borders_vect.push_back(sf::Vertex(mesh[0], color));
-		sound_borders.update(sound_borders_vect.data());
 		sound_sources.push_back(sf::CircleShape(5));
 		sound_sources.back().setFillColor(color);
 		sound_sources.back().setPosition(it.get_pos());
 	}
+	sound_borders.create(sound_borders_vect.size());
+	sound_borders.update(sound_borders_vect.data());
 }
 
 void Level::update_graphics(float dt, sf::FloatRect screen_rect)

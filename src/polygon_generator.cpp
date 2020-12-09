@@ -140,11 +140,11 @@ std::vector<Vectorf> Polygon_generator::simplify(std::vector<Vectorf>&& polygon)
 			j = j + 1;
 		}
 	}
-	polygon.erase(std::remove_if(polygon.begin(), polygon.end(), [to_remove]
+	int k = 0;
+	polygon.erase(std::remove_if(polygon.begin(), polygon.end(), [to_remove, &k]
 	(Vectorf element)
 	{
-		static int i(0);
-		return to_remove[i++];
+		return to_remove[k++];
 	}), polygon.end());
 	return polygon;
 }
