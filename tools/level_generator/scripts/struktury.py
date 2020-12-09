@@ -1,15 +1,24 @@
 import podstawy
 import random
 import math
-def schody(x=0, y=0, warstwa=5, obrót=1, długość=2, wysokość=2, przesunięcie=0, stopnie=4, tekstura=podstawy.domyślna_tekstura, zwróć_tekst=False):
+def schody(x=0, y=0, warstwa=5, obrót=1, długość=2, wysokość=2, przesunięcie=0, stopnie=4, tekstura=podstawy.domyślna_tekstura, blokada=True, zwróć_tekst=False):
     s = ""
+    v = ["v",4]
+    v += [0,0]
+    v += [0,-wysokość]
+    v += [przesunięcie*obrót,-wysokość]
+    v += [(przesunięcie+długość)*obrót,0]
+    if blokada:
+        s = s + podstawy.bariera(x=x,y=y,wierzchołki=v,zwróć_tekst=True)
+    else:
+        s = s + podstawy.platforma(x=x,y=y,warstwa=warstwa,tekstura=tekstura,wierzchołki=v,jednostronna=True,zwróć_tekst=True)
     for i in range(stopnie):
         v = ["v",4,]
         v += [0,-wysokość/stopnie*i]
         v += [(długość-(długość-przesunięcie)/stopnie*i)*obrót,-wysokość/stopnie*i]
         v += [(długość-(długość-przesunięcie)/stopnie*i)*obrót,-wysokość/stopnie*(i+1)]
         v += [0,-wysokość/stopnie*(i+1)]
-        s = s + podstawy.platforma(x=x,y=y,warstwa=warstwa,tekstura=tekstura,wierzchołki=v,zwróć_tekst=True)
+        s = s + podstawy.platforma(x=x,y=y,warstwa=warstwa,tekstura=tekstura,wierzchołki=v,jednostronna=True,zwróć_tekst=True)
     if zwróć_tekst:
         return s
     else:
@@ -124,7 +133,7 @@ def komnata(x=0, y=0, warstwa=5, wysokość=10, szerokość=10, tekstura=podstaw
         return s
     else:
         podstawy.zapis(s)
-def element_podłużny(x=0, y=0, warstwa=5, powierzchnia=podstawy.domyślna_powierzchnia, grubość=0.5, tekstura=podstawy.domyślna_tekstura, szerokość_tekstury=64, trasa=[4,0,0,1,1,3,2,4,3], kolizja=False, parametr_losowości=1024, zwróć_tekst=False):
+def element_podłużny(x=0, y=0, warstwa=5, powierzchnia=podstawy.domyślna_powierzchnia, grubość=0.5, tekstura=podstawy.domyślna_tekstura, szerokość_tekstury=64, trasa=[4,0,0,1,1,3,2,4,3], kolizja=False, jednostronność=False, parametr_losowości=1024, zwróć_tekst=False):
     s = ""
     m = random.random()*parametr_losowości
     P = []
@@ -218,15 +227,6 @@ def element_podłużny(x=0, y=0, warstwa=5, powierzchnia=podstawy.domyślna_powi
                 py = trasa[6+i*2]+n
                 lx = trasa[5+i*2]-wsp*n
                 ly = trasa[6+i*2]-n
-            #if (trasa[i*2+1]-trasa[i*2+3])*(trasa[i*2+5]-trasa[i*2+3])>=0:
-             #   zamien = not(zamien)
-        #    if zamien:
-         #       n = px      #nie wiem dlaczego musi tu być ten if, natomiast wiem że to jest paskudne rozwiązanie problemu, ale nie wiedziałem jak inaczej
-          #      px = lx
-           #     lx = n
-            #    n = py
-             #   py = ly
-              #  ly = n
             kA = pA[i] #prawa strona
             kB = pB[i]
             kC = -kA*P[i*2]-kB*P[i*2+1]
@@ -261,7 +261,7 @@ def element_podłużny(x=0, y=0, warstwa=5, powierzchnia=podstawy.domyślna_powi
         v = ["vt",4,P[i*2],P[i*2+1],szerokość_tekstury,m,P[i*2+2],P[i*2+3],szerokość_tekstury,m+n,L[i*2+2],L[i*2+3],0,m+n,L[i*2],L[i*2+1],0,m]
         m += n
         if kolizja:
-            s += podstawy.platforma(x=x,y=y,warstwa=warstwa,tekstura=tekstura,wierzchołki=v,zwróć_tekst=True)
+            s += podstawy.platforma(x=x,y=y,warstwa=warstwa,tekstura=tekstura,wierzchołki=v,jednostronna=jednostronność,zwróć_tekst=True)
         else:
             s += podstawy.ściana(x=x,y=y,warstwa=warstwa,tekstura=tekstura,wierzchołki=v,zwróć_tekst=True)
     if zwróć_tekst:

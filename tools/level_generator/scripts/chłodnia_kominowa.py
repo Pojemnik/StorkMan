@@ -60,7 +60,7 @@ def słup_chłodniczy_potrójny(x=0, y=0, warstwa=8, warstwa_poprzeczki=5, rozst
             v += [0,n,0,szerokość_tekstury/szerokość_poprzeczki*odchylenie+losowe_przesunięcie]
             v += [rozstaw*odbicie,n+gr,0,szerokość_tekstury/szerokość_poprzeczki*(dł+odchylenie)+losowe_przesunięcie]
             v += [rozstaw*odbicie,gr,szerokość_tekstury,szerokość_tekstury/szerokość_poprzeczki*dł+losowe_przesunięcie]
-            s += podstawy.platforma(x=x,y=y-wysokość+i*gr,warstwa=warstwa_poprzeczki,tekstura=tekstura,wierzchołki=v,zwróć_tekst=True)
+            s += podstawy.platforma(x=x,y=y-wysokość+i*gr,warstwa=warstwa_poprzeczki,tekstura=tekstura,wierzchołki=v,jednostronna=True,zwróć_tekst=True)
             if obecność_wody:
                 if losowość:
                     losowe_przesunięcie = random.random()*szerokość_tekstury*dł/szerokość_poprzeczki
@@ -82,7 +82,7 @@ def słup_chłodniczy_potrójny(x=0, y=0, warstwa=8, warstwa_poprzeczki=5, rozst
             v += [0,gr,0,szerokość_tekstury/szerokość_poprzeczki*dł+losowe_przesunięcie]
             v += [rozstaw*odbicie,0,0,0+losowe_przesunięcie]
             v += [rozstaw*odbicie,n,szerokość_tekstury,szerokość_tekstury/szerokość_poprzeczki*odchylenie+losowe_przesunięcie]
-            s += podstawy.platforma(x=x,y=y-wysokość+i*gr,warstwa=warstwa_poprzeczki,tekstura=tekstura,wierzchołki=v,zwróć_tekst=True)
+            s += podstawy.platforma(x=x,y=y-wysokość+i*gr,warstwa=warstwa_poprzeczki,tekstura=tekstura,wierzchołki=v,jednostronna=True,zwróć_tekst=True)
             if obecność_wody:
                 if losowość:
                     losowe_przesunięcie = random.random()*szerokość_animowanej_tekstury*dł/szerokość_animacji_poprzeczki
@@ -155,7 +155,7 @@ def słup_chłodniczy_poczwórny(x=0, y=0, warstwa=8, warstwa_poprzeczki=5, rozs
         v += [0,n,0,szerokość_tekstury/szerokość_poprzeczki*odchylenie+losowe_przesunięcie]
         v += [rozstaw*odbicie,n+gr,0,szerokość_tekstury/szerokość_poprzeczki*(dł+odchylenie)+losowe_przesunięcie]
         v += [rozstaw*odbicie,gr,szerokość_tekstury,szerokość_tekstury/szerokość_poprzeczki*dł+losowe_przesunięcie]
-        s += podstawy.bariera(x=x,y=y-wysokość+i*gr,wierzchołki=v,zwróć_tekst=True)
+        s += podstawy.platforma(x=x,y=y-wysokość+i*gr,wierzchołki=v,jednostronna=True,zwróć_tekst=True)
         if losowość:
             losowe_przesunięcie = random.random()*szerokość_tekstury*dł/szerokość_poprzeczki
         else:
@@ -165,7 +165,7 @@ def słup_chłodniczy_poczwórny(x=0, y=0, warstwa=8, warstwa_poprzeczki=5, rozs
         v += [0,gr,0,szerokość_tekstury/szerokość_poprzeczki*dł+losowe_przesunięcie]
         v += [rozstaw*odbicie,0,0,0+losowe_przesunięcie]
         v += [rozstaw*odbicie,n,szerokość_tekstury,szerokość_tekstury/szerokość_poprzeczki*odchylenie+losowe_przesunięcie]
-        s += podstawy.platforma(x=x,y=y-wysokość+i*gr,wierzchołki=v,zwróć_tekst=True)
+        s += podstawy.platforma(x=x,y=y-wysokość+i*gr,wierzchołki=v,jednostronna=True,zwróć_tekst=True)
         if obecność_wody:
             przesunięcie = pow(pow(n*(szerokość_animacji_poprzeczki/szerokość_poprzeczki)*rozstaw*odbicie/gr,2)+pow(n*(szerokość_animacji_poprzeczki/szerokość_poprzeczki),2),0.5)
             if losowość:

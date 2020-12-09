@@ -1,4 +1,116 @@
 ﻿<level name="Podziemna Świątynia - poziom testowy 04">
+<chunk>
+    <platform position="15.0,15.5" texture="bricks,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="true">
+        <v>0.0,0.0</v>
+        <v>0.0,-4.0</v>
+        <v>0.0,-4.0</v>
+        <v>4.0,0.0</v>
+    </platform>
+    <platform position="15.0,15.5" texture="bricks,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="true">
+        <v>0.0,-0.0</v>
+        <v>4.0,-0.0</v>
+        <v>4.0,-0.5</v>
+        <v>0.0,-0.5</v>
+    </platform>
+    <platform position="15.0,15.5" texture="bricks,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="true">
+        <v>0.0,-0.5</v>
+        <v>3.5,-0.5</v>
+        <v>3.5,-1.0</v>
+        <v>0.0,-1.0</v>
+    </platform>
+    <platform position="15.0,15.5" texture="bricks,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="true">
+        <v>0.0,-1.0</v>
+        <v>3.0,-1.0</v>
+        <v>3.0,-1.5</v>
+        <v>0.0,-1.5</v>
+    </platform>
+    <platform position="15.0,15.5" texture="bricks,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="true">
+        <v>0.0,-1.5</v>
+        <v>2.5,-1.5</v>
+        <v>2.5,-2.0</v>
+        <v>0.0,-2.0</v>
+    </platform>
+    <platform position="15.0,15.5" texture="bricks,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="true">
+        <v>0.0,-2.0</v>
+        <v>2.0,-2.0</v>
+        <v>2.0,-2.5</v>
+        <v>0.0,-2.5</v>
+    </platform>
+    <platform position="15.0,15.5" texture="bricks,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="true">
+        <v>0.0,-2.5</v>
+        <v>1.5,-2.5</v>
+        <v>1.5,-3.0</v>
+        <v>0.0,-3.0</v>
+    </platform>
+    <platform position="15.0,15.5" texture="bricks,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="true">
+        <v>0.0,-3.0</v>
+        <v>1.0,-3.0</v>
+        <v>1.0,-3.5</v>
+        <v>0.0,-3.5</v>
+    </platform>
+    <platform position="15.0,15.5" texture="bricks,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="true">
+        <v>0.0,-3.5</v>
+        <v>0.5,-3.5</v>
+        <v>0.5,-4.0</v>
+        <v>0.0,-4.0</v>
+    </platform>
+</chunk>
+<chunk>
+    <barrier position="22.0,15.5" surface="none">
+        <v>0.0,0.0</v>
+        <v>0.0,-4.0</v>
+        <v>0.0,-4.0</v>
+        <v>4.0,0.0</v>
+    </barrier>
+    <platform position="22.0,15.5" texture="paving,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="true">
+        <v>0.0,-0.0</v>
+        <v>4.0,-0.0</v>
+        <v>4.0,-0.5</v>
+        <v>0.0,-0.5</v>
+    </platform>
+    <platform position="22.0,15.5" texture="paving,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="true">
+        <v>0.0,-0.5</v>
+        <v>3.5,-0.5</v>
+        <v>3.5,-1.0</v>
+        <v>0.0,-1.0</v>
+    </platform>
+    <platform position="22.0,15.5" texture="paving,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="true">
+        <v>0.0,-1.0</v>
+        <v>3.0,-1.0</v>
+        <v>3.0,-1.5</v>
+        <v>0.0,-1.5</v>
+    </platform>
+    <platform position="22.0,15.5" texture="paving,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="true">
+        <v>0.0,-1.5</v>
+        <v>2.5,-1.5</v>
+        <v>2.5,-2.0</v>
+        <v>0.0,-2.0</v>
+    </platform>
+    <platform position="22.0,15.5" texture="paving,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="true">
+        <v>0.0,-2.0</v>
+        <v>2.0,-2.0</v>
+        <v>2.0,-2.5</v>
+        <v>0.0,-2.5</v>
+    </platform>
+    <platform position="22.0,15.5" texture="paving,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="true">
+        <v>0.0,-2.5</v>
+        <v>1.5,-2.5</v>
+        <v>1.5,-3.0</v>
+        <v>0.0,-3.0</v>
+    </platform>
+    <platform position="22.0,15.5" texture="paving,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="true">
+        <v>0.0,-3.0</v>
+        <v>1.0,-3.0</v>
+        <v>1.0,-3.5</v>
+        <v>0.0,-3.5</v>
+    </platform>
+    <platform position="22.0,15.5" texture="paving,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="true">
+        <v>0.0,-3.5</v>
+        <v>0.5,-3.5</v>
+        <v>0.5,-4.0</v>
+        <v>0.0,-4.0</v>
+    </platform>
+</chunk>
 	<sound volume="100" sound="coal_grinder" position="20,10" attenuation="1" min_distance="2" range="30"/>
 	/---------------------------------------------------------------------PODZIEMIE
 	<chunk>

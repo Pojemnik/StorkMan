@@ -12,6 +12,7 @@ domyślny_obiekt = "chest0"
 domyślny_animowany_obiekt = "wind0"
 domyślna_lina = "rope2"
 domyślna_powierzchnia = "none"
+domyślny_dźwięk = "coal_grinder"
 
 def znaczniki(nazwa):
     if nazwa == "accelerated":
@@ -23,7 +24,7 @@ def znaczniki(nazwa):
     if nazwa == "v":
         return 2
     if nazwa == "vt":
-        return 2
+        return 4
     return 0
 def podział_na_elementy(s):
     r = []
@@ -103,7 +104,7 @@ def odczyt_elementu(s):
         t = s[k+2:p]
         if p>=0 and p<l:
             k = s.find('"',p+1)
-            if t=="texture=" or t=="surface=" or t=="line=":
+            if t=="texture=" or t=="surface=" or t=="line=" or t=="one_sided=" or t=="sound=":
                 r = r + [s[p+1:k],]
             else:
                 f = s[p+1:k]
@@ -176,9 +177,22 @@ def indeks_ruchu_elementu(e):
         return 4
     if e[0]=="animated_moving_object":
         return 11
+    if e[0]=="sound":
+        return 0
 def zapis(s):
-    s = """<chunk>\n""" + s + """</chunk>"""
-    lvl.add(s)
+    s_chunk = ""
+    s_no_chunk = ""
+    t = podział_na_elementy(s)
+    for i in range(t[0]):
+        t[i+1] = odczyt_elementu(t[i+1])
+        if t[i+1][0]=="sound":
+            s_no_chunk += zapis_elementu(t[i+1],zwróć_tekst=True)
+        else:
+            s_chunk += zapis_elementu(t[i+1],zwróć_tekst=True)
+    if s_chunk != "":
+        s_chunk = """<chunk>\n""" + s_chunk + """</chunk>"""
+    s_final = s_no_chunk + s_chunk
+    lvl.add(s_final)
 def zapis_elementu(e ,zwróć_tekst=False):
     s = ""
     p = 0
@@ -188,8 +202,12 @@ def zapis_elementu(e ,zwróć_tekst=False):
     d_d = []
     d_t = []
     if e[0]=="platform":
-        v = round(e[10]*znaczniki(e[9])+11)
-        s = platforma(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8],e[9:v],True)
+        if e[9]=="true":
+            e[9] = True
+        else:
+            e[9] = False
+        v = round(e[11]*znaczniki(e[10])+12)
+        s = platforma(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8],e[9],e[10:v],True)
     if e[0]=="object":
         s = obiekt(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8],True)
     if e[0]=="animated_object":
@@ -237,10 +255,10 @@ def zapis_elementu(e ,zwróć_tekst=False):
         for i in range(e[p]):
             d_d = d_d + [e[p+1+2*i],]
             d_t = d_t + [e[p+2+2*i],]
-        s = strefa_obrażeń(e[1],e[2],e[3:p],e[p],d_d,d_t,True)
+        s = strefa_obrażeń(e[1],e[2],e[3:v],e[p],d_d,d_t,True)
     if e[0]=="barrier":
         v = e[5]*znaczniki(e[4])+6
-        s = bariera(e[1],e[2],e[3],e[4:p],True)
+        s = bariera(e[1],e[2],e[3],e[4:v],True)
     if e[0]=="moving_damage_zone":
         if e[3] == "container":
             p = 5
@@ -270,6 +288,8 @@ def zapis_elementu(e ,zwróć_tekst=False):
         else:
             p = round(e[12]*znaczniki(e[11])+13)
         s = animowany_ruchomy_obiekt(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8],e[9],e[10],e[11:p],True)
+    if e[0]=="sound":
+        s = dźwięk(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8:],zwróć_tekst=True)
     if zwróć_tekst:
         return s
     else:
@@ -303,16 +323,21 @@ def złożenie_ruchu(ruch=["linear",2,0,0,60,1,1,60]):
     return s
 def złożenie_wierzchołków(wierzchołki=["v",4,0,0,0,1,1,1,1,0]):
     s = ""
-    if wierzchołki[0] == "v":
-        for i in range(wierzchołki[1]):
-            s = s + """\n        <v>{0},{1}</v>""".format(wierzchołki[2*i+2],wierzchołki[2*i+3])
-    if wierzchołki[0] == "vt":
-        for i in range(wierzchołki[1]):
-            s = s + """\n        <vt>{0},{1},{2},{3}</vt>""".format(wierzchołki[2*i+2],wierzchołki[2*i+3],wierzchołki[2*i+4],wierzchołki[2*i+5])
+    if wierzchołki != []:
+        if wierzchołki[0] == "v":
+            for i in range(wierzchołki[1]):
+                s = s + """\n        <v>{0},{1}</v>""".format(wierzchołki[2*i+2],wierzchołki[2*i+3])
+        if wierzchołki[0] == "vt":
+            for i in range(wierzchołki[1]):
+                s = s + """\n        <vt>{0},{1},{2},{3}</vt>""".format(wierzchołki[4*i+2],wierzchołki[4*i+3],wierzchołki[4*i+4],wierzchołki[4*i+5])
     return s
-def platforma(x=0, y=0, tekstura=domyślna_tekstura, warstwa=5, rotacja=0, odbicie_x=1, odbicie_y=1, powierzchnia=domyślna_powierzchnia, wierzchołki=["v",4,0,0,0,1,1,1,1,0], zwróć_tekst=False):
+def platforma(x=0, y=0, tekstura=domyślna_tekstura, warstwa=5, rotacja=0, odbicie_x=1, odbicie_y=1, powierzchnia=domyślna_powierzchnia, jednostronna=False, wierzchołki=["v",4,0,0,0,1,1,1,1,0], zwróć_tekst=False):
     s = ""
-    s = s + """    <platform position="{0},{1}" texture="{2}" layer="{3}" rotation="{4}" flip="{5},{6}" surface="{7}">""".format(x,y,tekstura,warstwa,rotacja,odbicie_x,odbicie_y,powierzchnia)
+    if jednostronna:
+        tekst = "true"
+    else:
+        tekst = "false"
+    s = s + """    <platform position="{0},{1}" texture="{2}" layer="{3}" rotation="{4}" flip="{5},{6}" surface="{7}" one_sided="{8}">""".format(x,y,tekstura,warstwa,rotacja,odbicie_x,odbicie_y,powierzchnia,tekst)
     s = s + złożenie_wierzchołków(wierzchołki=wierzchołki)
     s = s + """\n    </platform>\n"""
     if zwróć_tekst:
@@ -438,6 +463,18 @@ def animowany_ruchomy_obiekt(x=0, y=0, tekstura=domyślny_animowany_obiekt, wyso
     s = s + """    <animated_moving_object position="{0},{1}" texture="{2}" height="{3}" layer="{4}" rotation="{5}" flip="{6},{7}" frame_time="{8}" offset="{9}">""".format(x,y,tekstura,wysokość,warstwa,rotacja,odbicie_x,odbicie_y,czas_klatki,przesunięcie)
     s = s + złożenie_ruchu(ruch=ruch)
     s = s + """\n    </animated_moving_object>\n"""
+    if zwróć_tekst:
+        return s
+    else:
+        zapis(s)
+def dźwięk(x=0, y=0, głośność=100, dźwięk=domyślny_dźwięk, wyciszanie=1, próg_głośności=2, zasięg=8, wierzchołki=["v",0], zwróć_tekst=False):
+    s = ""
+    s = s + '    <sound position="{0},{1}" volume="{2}" sound="{3}" attenuation="{4}" min_distance="{5}" range="{6}"'.format(x,y,głośność,dźwięk,wyciszanie,próg_głośności,zasięg)
+    v = złożenie_wierzchołków(wierzchołki=wierzchołki)
+    if v == "":
+        s += "/>\n"
+    else:
+        s += """>\n""" + v + """    </sound>\n"""
     if zwróć_tekst:
         return s
     else:
