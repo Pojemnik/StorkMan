@@ -3,6 +3,7 @@
 #include <cmath>
 
 #include "util.h"
+#include "messaging.h"
 
 class Tooltip : public sf::Drawable
 {
@@ -33,7 +34,7 @@ public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
-class Grid : public sf::Drawable
+class Grid : public sf::Drawable, public Message_receiver
 {
 private:
 	sf::VertexBuffer buffer;
@@ -47,6 +48,7 @@ private:
 	std::vector<Grid_point> points;
 	sf::Font* font;
 	sf::Color tooltip_color;
+	bool add_point_next_update = false;
 
 	void init();
 	Vectorf get_closest_node_pos(Vectorf t);//Position on map in pixels
@@ -56,8 +58,9 @@ public:
 		sf::Color grid_color, sf::Color tooltip_color_, sf::Font& font_);
 	void set_density(double d);
 	void set_color(sf::Color c);
-	void pre_draw(Vectorf map_mouse_pos);
+	void update(Vectorf map_mouse_pos);
 	void add_point(Vectorf map_mouse_pos);
 	void remove_points();
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	virtual void push_message(Message& msg);
 };

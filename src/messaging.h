@@ -36,7 +36,7 @@ struct Message
 	enum class Message_type {
 		DIED, DAMAGED, MOVED, JUMPED, ERROR, OUT, CHANGED_LEVEL, WINDOW_FOCUS,
 		MUSIC_VOLUME, RESOLUTION_CHANGED, SOUND_VOLUME, STOPPED, ENTERED_SOUND,
-		LEFT_SOUND
+		LEFT_SOUND, ADD_GRID_POINT, REMOVE_GRID_POINTS
 	};
 	Message_type type;
 	std::variant<int, std::string, float, bool, Vectori, Vectorf, Map_sound_info> args;

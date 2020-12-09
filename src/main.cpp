@@ -9,7 +9,7 @@
 
 const std::string VERSION = "pre-alpha 0.5.2";
 
-bool process_event(sf::Event& event)
+bool process_event(sf::Event& event, Message_sender& sender)
 {
 	switch (event.type)
 	{
@@ -51,9 +51,16 @@ bool process_event(sf::Event& event)
 				{
 					context.gravity = -context.gravity;
 				}
-			}
-			if (context.editor_mode)
-			{
+				if (context.editor_mode)
+				{
+					if (event.key.code == sf::Keyboard::Delete)
+					{
+						if (!context.console->is_active())
+						{
+							sender.send_message(Message::Message_type::REMOVE_GRID_POINTS, NULL);
+						}
+					}
+				}
 			}
 		}
 		break;
@@ -71,6 +78,18 @@ bool process_event(sf::Event& event)
 		if (context.console->is_active() && context.window_focus)
 		{
 			context.console->scroll((int)event.mouseWheelScroll.delta);
+		}
+		break;
+	case sf::Event::MouseButtonPressed:
+		if (context.window_focus && !context.console->is_active())
+		{
+			if (event.mouseButton.button == sf::Mouse::Left)
+			{
+				if (context.editor_mode)
+				{
+					sender.send_message(Message::Message_type::ADD_GRID_POINT, NULL);
+				}
+			}
 		}
 		break;
 	}
@@ -215,6 +234,7 @@ int main(int argc, char** argv)
 	Message_sender engine_sender(Message_sender_type::ENGINE);
 	engine_sender.add_receiver(&sound_system);
 	engine_sender.add_receiver(&*context.console);
+	engine_sender.add_receiver(&grid);
 	sf::SoundBuffer test_buffer;
 	while (window.isOpen())
 	{
@@ -226,7 +246,7 @@ int main(int argc, char** argv)
 		}
 		while (window.pollEvent(event))
 		{
-			if (process_event(event))
+			if (process_event(event, engine_sender))
 			{
 				window.close();
 				return 0;
@@ -363,7 +383,7 @@ int main(int argc, char** argv)
 		}
 		if (context.editor_mode)
 		{
-			grid.pre_draw(mouse_pos);
+			grid.update(mouse_pos);
 			window.draw(grid, rs);
 		}
 		if (context.draw_hp)

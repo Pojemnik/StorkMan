@@ -55,6 +55,18 @@ void Grid::draw(sf::RenderTarget& target, sf::RenderStates states) const
 		target.draw(it, states);
 }
 
+void Grid::push_message(Message& msg)
+{
+	if (msg.type == Message::Message_type::ADD_GRID_POINT)
+	{
+		add_point_next_update = true;
+	}
+	if (msg.type == Message::Message_type::REMOVE_GRID_POINTS)
+	{
+		remove_points();
+	}
+}
+
 void Grid::set_density(double d)
 {
 	density = d;
@@ -67,10 +79,15 @@ void Grid::set_color(sf::Color c)
 	init();
 }
 
-void Grid::pre_draw(Vectorf map_mouse_pos)
+void Grid::update(Vectorf map_mouse_pos)
 {
 	Vectorf pos = get_closest_node_pos(map_mouse_pos);
 	cursor_point.set_position(pos);
+	if (add_point_next_update)
+	{
+		add_point(map_mouse_pos);
+		add_point_next_update = false;
+	}
 }
 
 void Grid::add_point(Vectorf map_mouse_pos)
