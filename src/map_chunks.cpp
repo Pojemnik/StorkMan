@@ -96,14 +96,17 @@ std::pair<std::vector<Vectorf>, std::vector<std::pair<Vectorf, Vectorf>>> Map_ch
 	std::vector<std::pair<Vectorf, Vectorf>> edges;
 	for (const auto& it : collidables)
 	{
-		const auto mesh = it->get_collision()->mesh;
-		vert.push_back(mesh[0]);
-		for (int i = 1; i < mesh.size(); i++)
+		if (!it->get_collision()->one_sided)
 		{
-			edges.push_back(std::make_pair(mesh[i - 1], mesh[i]));
-			vert.push_back(mesh[i]);
+			const auto mesh = it->get_collision()->mesh;
+			vert.push_back(mesh[0]);
+			for (int i = 1; i < mesh.size(); i++)
+			{
+				edges.push_back(std::make_pair(mesh[i - 1], mesh[i]));
+				vert.push_back(mesh[i]);
+			}
+			edges.push_back(std::make_pair(mesh.back(), mesh.front()));
 		}
-		edges.push_back(std::make_pair(mesh.back(), mesh.front()));
 	}
 	return std::make_pair(vert, edges);
 }
