@@ -5,6 +5,7 @@
 #include "control.h"
 #include "entity_states.h"
 #include "sound.h"
+#include "edit_tools.h"
 
 const std::string VERSION = "pre-alpha 0.5.2";
 
@@ -202,6 +203,11 @@ int main(int argc, char** argv)
 	hp.setFillColor(sf::Color(200, 0, 0));
 	hp.setString(std::to_string(player.health));
 
+	//Tools
+	Grid grid(context.global_scale, 0.5, static_cast<Vectorf>(context.level_size),
+		sf::Color(255, 255, 255, 50), sf::Color(0, 0, 0, 170), assets.consola);
+	Tooltip tooltip({ 0, 0 }, assets.consola, sf::Color(0, 0, 0, 170));
+
 	//Other
 	context.thread_pool = std::unique_ptr<ctpl::thread_pool>(new ctpl::thread_pool(4));
 	sf::Clock clock;
@@ -298,11 +304,21 @@ int main(int argc, char** argv)
 		time /= 1000000.0f;
 		time *= context.fps;
 		clock.restart();
+
+		//Camera
 		Vectorf camera_pos = player.get_position();
 		camera_pos -= Vectorf((float)context.resolution.x / 2,
 			(float)context.resolution.y / 2);
 		sf::FloatRect screen_rect(camera_pos.x, camera_pos.y,
 			float(context.resolution.x), float(context.resolution.y));
+
+		Vectorf mouse_pos = (Vectorf)sf::Mouse::getPosition() -
+			(Vectorf)window.getPosition() +
+			camera_pos;
+		mouse_pos += {-6.f, -31.f}; //Magic numbers
+		//mouse_pos = Vectorf(mouse_pos.x / context.camera_zoom.x,
+		//	mouse_pos.y / context.camera_zoom.y);
+
 		if (!context.console->is_active())
 		{
 			static float acc(0);
@@ -344,6 +360,11 @@ int main(int argc, char** argv)
 		if (context.draw_map_vertices)
 		{
 			map.draw_vertices(window, rs);
+		}
+		if (context.editor_mode)
+		{
+			grid.pre_draw(mouse_pos);
+			window.draw(grid, rs);
 		}
 		if (context.draw_hp)
 		{
