@@ -90,6 +90,13 @@ bool process_event(sf::Event& event, Message_sender& sender)
 					sender.send_message(Message::Message_type::ADD_GRID_POINT, NULL);
 				}
 			}
+			else if (event.mouseButton.button == sf::Mouse::Right)
+			{
+				if (context.editor_mode)
+				{
+					sender.send_message(Message::Message_type::ADD_GRID_POINT, NULL);
+				}
+			}
 		}
 		break;
 	}
@@ -236,6 +243,12 @@ int main(int argc, char** argv)
 	engine_sender.add_receiver(&*context.console);
 	engine_sender.add_receiver(&grid);
 	sf::SoundBuffer test_buffer;
+	Vectorf camera_pos;
+	camera_pos = player.get_position();
+	camera_pos -= sf::Vector2f(context.resolution) / 2.0f;
+	Vectorf mouse_pos = static_cast<Vectorf>(sf::Mouse::getPosition() -
+		window.getPosition()) + camera_pos;
+	mouse_pos += {-6.f, -31.f};
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -325,25 +338,14 @@ int main(int argc, char** argv)
 		time *= context.fps;
 		clock.restart();
 
-		//Camera
-		Vectorf camera_pos = player.get_position();
-		camera_pos -= Vectorf((float)context.resolution.x / 2,
-			(float)context.resolution.y / 2);
-		sf::FloatRect screen_rect(camera_pos.x, camera_pos.y,
-			float(context.resolution.x), float(context.resolution.y));
-
-		Vectorf mouse_pos = (Vectorf)sf::Mouse::getPosition() -
-			(Vectorf)window.getPosition() +
-			camera_pos;
-		mouse_pos += {-6.f, -31.f}; //Magic numbers
-		//mouse_pos = Vectorf(mouse_pos.x / context.camera_zoom.x,
-		//	mouse_pos.y / context.camera_zoom.y);
-
+		//Update
 		if (!context.console->is_active())
 		{
 			static float acc(0);
 			const static float STEP(1);
 			acc += time;
+			sf::FloatRect screen_rect(camera_pos.x, camera_pos.y,
+				float(context.resolution.x), float(context.resolution.y));
 			while (acc > STEP)
 			{
 				map.update_physics(STEP, player.get_position(), screen_rect);
@@ -355,16 +357,29 @@ int main(int argc, char** argv)
 			map.update_graphics(time, player.get_position(), screen_rect);
 			test_enemy.update_graphics(time);
 			player.update_graphics(time);
+			sound_system.update(time);
 		}
 		if (context.draw_fps_counter)
 		{
 			fps_counter.setString(std::to_string(int(context.fps / time)));
 		}
-		camera_pos = player.get_position();
-		camera_pos -= sf::Vector2f(context.resolution) / 2.0f;
+
+		//Camera
+		if (!context.editor_mode)
+		{
+			camera_pos = player.get_position();
+			camera_pos -= sf::Vector2f(context.resolution) / 2.0f;
+		}
+		else
+		{
+			mouse_pos = static_cast<Vectorf>(sf::Mouse::getPosition() -
+				window.getPosition()) + camera_pos;
+			mouse_pos += {-6.f, -31.f}; //Magic numbers
+			//mouse_pos = Vectorf(mouse_pos.x / context.camera_zoom.x,
+			//	mouse_pos.y / context.camera_zoom.y);
+		}
 		sf::RenderStates rs = sf::RenderStates::Default;
 		rs.transform = sf::Transform().translate(-camera_pos);
-		sound_system.update(time);
 
 		//Drawing
 		window.clear();
