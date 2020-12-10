@@ -1,3 +1,4 @@
+img/tex/animated_objects/instalations/Rotating_Cylinder.png AOBRotating_Cylinder 8 4 256 256 0
 img/tex/animated_objects/interface/DYMEK03.png dymek3 2 2 256 256 0
 img/tex/animated_objects/lamps/POCHODNIA00.png torch0 4 4 64 64 0
 img/tex/animated_objects/lamps/POCHODNIA01.png torch1 4 4 64 64 0

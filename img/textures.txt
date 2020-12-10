@@ -10,6 +10,8 @@ img/tex/objects/debris/SKALY02.png rocks2 0
 img/tex/objects/instalations/KRATA00.png crate0 0
 img/tex/objects/instalations/RADAR00.png radar0 0
 img/tex/objects/instalations/SLUP00.png pole0 0
+img/tex/objects/instalations/Steam_Generator.png OBJSteam_Generator 0
+img/tex/objects/instalations/Steam_Turbine.png OBJSteam_Turbine 0
 img/tex/objects/instalations/SZNUR02.png rope2 1
 img/tex/objects/instalations/WINDA00.png winda0 0
 img/tex/objects/interface/DYMEK01.png dymek0 0

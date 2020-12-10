@@ -1,117 +1,86 @@
 ﻿<level name="Podziemna Świątynia - poziom testowy 04">
+    <sound position="19.0,13.5" volume="200.0" sound="TURBINA_04" attenuation="1.0" min_distance="4.0" range="20.0"/>
+    <sound position="28.0,13.5" volume="200.0" sound="TURBINA_05" attenuation="1.0" min_distance="4.0" range="20.0"/>
+    <sound position="37.0,13.5" volume="200.0" sound="TURBINA_06" attenuation="1.0" min_distance="4.0" range="20.0"/>
 <chunk>
-    <platform position="15.0,15.5" texture="bricks,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="true">
-        <v>0.0,0.0</v>
-        <v>0.0,-4.0</v>
-        <v>0.0,-4.0</v>
-        <v>4.0,0.0</v>
-    </platform>
-    <platform position="15.0,15.5" texture="bricks,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="true">
-        <v>0.0,-0.0</v>
-        <v>4.0,-0.0</v>
-        <v>4.0,-0.5</v>
-        <v>0.0,-0.5</v>
-    </platform>
-    <platform position="15.0,15.5" texture="bricks,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="true">
-        <v>0.0,-0.5</v>
-        <v>3.5,-0.5</v>
-        <v>3.5,-1.0</v>
-        <v>0.0,-1.0</v>
-    </platform>
-    <platform position="15.0,15.5" texture="bricks,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="true">
-        <v>0.0,-1.0</v>
-        <v>3.0,-1.0</v>
-        <v>3.0,-1.5</v>
-        <v>0.0,-1.5</v>
-    </platform>
-    <platform position="15.0,15.5" texture="bricks,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="true">
-        <v>0.0,-1.5</v>
-        <v>2.5,-1.5</v>
-        <v>2.5,-2.0</v>
-        <v>0.0,-2.0</v>
-    </platform>
-    <platform position="15.0,15.5" texture="bricks,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="true">
-        <v>0.0,-2.0</v>
-        <v>2.0,-2.0</v>
-        <v>2.0,-2.5</v>
-        <v>0.0,-2.5</v>
-    </platform>
-    <platform position="15.0,15.5" texture="bricks,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="true">
-        <v>0.0,-2.5</v>
-        <v>1.5,-2.5</v>
-        <v>1.5,-3.0</v>
-        <v>0.0,-3.0</v>
-    </platform>
-    <platform position="15.0,15.5" texture="bricks,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="true">
-        <v>0.0,-3.0</v>
-        <v>1.0,-3.0</v>
-        <v>1.0,-3.5</v>
-        <v>0.0,-3.5</v>
-    </platform>
-    <platform position="15.0,15.5" texture="bricks,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="true">
-        <v>0.0,-3.5</v>
-        <v>0.5,-3.5</v>
-        <v>0.5,-4.0</v>
-        <v>0.0,-4.0</v>
-    </platform>
+    <moving_object position="12.0,13.5" texture="OBJSteam_Generator" height="2.0" layer="11.0" rotation="0.0" flip="1.0,1.0">
+        <move type="linear">
+            <p>-0.006573781358470263,0.01,0.25</p>
+            <p>0.014771152631780771,-0.00027917844982701043,0.25</p>
+            <p>-6.938893903907228e-18,-0.018801617991642178,0.25</p>
+            <p>-0.014771152631780787,-0.00027917844982700696,0.25</p>
+            <p>0.006573781358470235,0.009999999999999986,0.25</p>
+            <p>0.011845544696757955,-0.013097104319733424,0.25</p>
+            <p>-0.011845544696757965,-0.013097104319733419,0.25</p>
+        </move>
+    </moving_object>
+    <animated_moving_object position="14.0,14.0" texture="AOBRotating_Cylinder" height="1.0" layer="11.0" rotation="0.0" flip="1.0,1.0" frame_time="0.46875" offset="0.0">
+        <move type="linear">
+            <p>-0.006573781358470263,0.01,0.25</p>
+            <p>0.014771152631780771,-0.00027917844982701043,0.25</p>
+            <p>-6.938893903907228e-18,-0.018801617991642178,0.25</p>
+            <p>-0.014771152631780787,-0.00027917844982700696,0.25</p>
+            <p>0.006573781358470235,0.009999999999999986,0.25</p>
+            <p>0.011845544696757955,-0.013097104319733424,0.25</p>
+            <p>-0.011845544696757965,-0.013097104319733419,0.25</p>
+        </move>
+    </animated_moving_object>
+    <moving_object position="15.0,11.5" texture="OBJSteam_Turbine" height="4.0" layer="11.0" rotation="0.0" flip="1.0,1.0">
+        <move type="linear">
+            <p>-0.006573781358470263,0.01,0.25</p>
+            <p>0.014771152631780771,-0.00027917844982701043,0.25</p>
+            <p>-6.938893903907228e-18,-0.018801617991642178,0.25</p>
+            <p>-0.014771152631780787,-0.00027917844982700696,0.25</p>
+            <p>0.006573781358470235,0.009999999999999986,0.25</p>
+            <p>0.011845544696757955,-0.013097104319733424,0.25</p>
+            <p>-0.011845544696757965,-0.013097104319733419,0.25</p>
+        </move>
+    </moving_object>
+    <animated_moving_object position="23.0,14.0" texture="AOBRotating_Cylinder" height="1.0" layer="11.0" rotation="0.0" flip="1.0,1.0" frame_time="0.234375" offset="0.0">
+        <move type="linear">
+            <p>-0.006573781358470263,0.01,0.25</p>
+            <p>0.014771152631780771,-0.00027917844982701043,0.25</p>
+            <p>-6.938893903907228e-18,-0.018801617991642178,0.25</p>
+            <p>-0.014771152631780787,-0.00027917844982700696,0.25</p>
+            <p>0.006573781358470235,0.009999999999999986,0.25</p>
+            <p>0.011845544696757955,-0.013097104319733424,0.25</p>
+            <p>-0.011845544696757965,-0.013097104319733419,0.25</p>
+        </move>
+    </animated_moving_object>
+    <moving_object position="24.0,11.5" texture="OBJSteam_Turbine" height="4.0" layer="11.0" rotation="0.0" flip="1.0,1.0">
+        <move type="linear">
+            <p>-0.006573781358470263,0.01,0.25</p>
+            <p>0.014771152631780771,-0.00027917844982701043,0.25</p>
+            <p>-6.938893903907228e-18,-0.018801617991642178,0.25</p>
+            <p>-0.014771152631780787,-0.00027917844982700696,0.25</p>
+            <p>0.006573781358470235,0.009999999999999986,0.25</p>
+            <p>0.011845544696757955,-0.013097104319733424,0.25</p>
+            <p>-0.011845544696757965,-0.013097104319733419,0.25</p>
+        </move>
+    </moving_object>
+    <animated_moving_object position="32.0,14.0" texture="AOBRotating_Cylinder" height="1.0" layer="11.0" rotation="0.0" flip="1.0,1.0" frame_time="0.1171875" offset="0.0">
+        <move type="linear">
+            <p>-0.006573781358470263,0.01,0.25</p>
+            <p>0.014771152631780771,-0.00027917844982701043,0.25</p>
+            <p>-6.938893903907228e-18,-0.018801617991642178,0.25</p>
+            <p>-0.014771152631780787,-0.00027917844982700696,0.25</p>
+            <p>0.006573781358470235,0.009999999999999986,0.25</p>
+            <p>0.011845544696757955,-0.013097104319733424,0.25</p>
+            <p>-0.011845544696757965,-0.013097104319733419,0.25</p>
+        </move>
+    </animated_moving_object>
+    <moving_object position="33.0,11.5" texture="OBJSteam_Turbine" height="4.0" layer="11.0" rotation="0.0" flip="1.0,1.0">
+        <move type="linear">
+            <p>-0.006573781358470263,0.01,0.25</p>
+            <p>0.014771152631780771,-0.00027917844982701043,0.25</p>
+            <p>-6.938893903907228e-18,-0.018801617991642178,0.25</p>
+            <p>-0.014771152631780787,-0.00027917844982700696,0.25</p>
+            <p>0.006573781358470235,0.009999999999999986,0.25</p>
+            <p>0.011845544696757955,-0.013097104319733424,0.25</p>
+            <p>-0.011845544696757965,-0.013097104319733419,0.25</p>
+        </move>
+    </moving_object>
 </chunk>
-<chunk>
-    <barrier position="22.0,15.5" surface="none">
-        <v>0.0,0.0</v>
-        <v>0.0,-4.0</v>
-        <v>0.0,-4.0</v>
-        <v>4.0,0.0</v>
-    </barrier>
-    <platform position="22.0,15.5" texture="paving,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="true">
-        <v>0.0,-0.0</v>
-        <v>4.0,-0.0</v>
-        <v>4.0,-0.5</v>
-        <v>0.0,-0.5</v>
-    </platform>
-    <platform position="22.0,15.5" texture="paving,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="true">
-        <v>0.0,-0.5</v>
-        <v>3.5,-0.5</v>
-        <v>3.5,-1.0</v>
-        <v>0.0,-1.0</v>
-    </platform>
-    <platform position="22.0,15.5" texture="paving,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="true">
-        <v>0.0,-1.0</v>
-        <v>3.0,-1.0</v>
-        <v>3.0,-1.5</v>
-        <v>0.0,-1.5</v>
-    </platform>
-    <platform position="22.0,15.5" texture="paving,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="true">
-        <v>0.0,-1.5</v>
-        <v>2.5,-1.5</v>
-        <v>2.5,-2.0</v>
-        <v>0.0,-2.0</v>
-    </platform>
-    <platform position="22.0,15.5" texture="paving,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="true">
-        <v>0.0,-2.0</v>
-        <v>2.0,-2.0</v>
-        <v>2.0,-2.5</v>
-        <v>0.0,-2.5</v>
-    </platform>
-    <platform position="22.0,15.5" texture="paving,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="true">
-        <v>0.0,-2.5</v>
-        <v>1.5,-2.5</v>
-        <v>1.5,-3.0</v>
-        <v>0.0,-3.0</v>
-    </platform>
-    <platform position="22.0,15.5" texture="paving,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="true">
-        <v>0.0,-3.0</v>
-        <v>1.0,-3.0</v>
-        <v>1.0,-3.5</v>
-        <v>0.0,-3.5</v>
-    </platform>
-    <platform position="22.0,15.5" texture="paving,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="true">
-        <v>0.0,-3.5</v>
-        <v>0.5,-3.5</v>
-        <v>0.5,-4.0</v>
-        <v>0.0,-4.0</v>
-    </platform>
-</chunk>
-	<sound volume="100" sound="coal_grinder" position="20,10" attenuation="1" min_distance="2" range="30"/>
 	/---------------------------------------------------------------------PODZIEMIE
 	<chunk>
 		<wall position="79,36.5" texture="ground0">

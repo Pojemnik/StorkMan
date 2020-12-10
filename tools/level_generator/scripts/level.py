@@ -10,7 +10,10 @@ import struktury
 import mechanizmy
 import obiekty
 import chłodnia_kominowa
+import ruchy
+import elektrownia_węglowa
 
+elektrownia_węglowa.generator(x=12,y=15.5,warstwa=11)
 struktury.schody(x=15,y=15.5,wysokość=4,długość=4,stopnie=8,tekstura="bricks,0",blokada=False)
 struktury.schody(x=22,y=15.5,wysokość=4,długość=4,stopnie=8,tekstura="paving,0")
 podstawy.platforma(x=0,y=95,wierzchołki=["v",4,0,0,10,0,10,5,0,5],tekstura="dirt,0")
@@ -43,8 +46,8 @@ chłodnia_kominowa.słup_chłodniczy_poczwórny(x=32,y=99)
 chłodnia_kominowa.słup_chłodniczy_potrójny(x=37,y=99)
 chłodnia_kominowa.słup_chłodniczy_poczwórny(x=42,y=99)
 chłodnia_kominowa.słup_chłodniczy_potrójny(x=47,y=99)
-podstawy.dźwięk(x=70,y=88)
-s = podstawy.dźwięk(x=70,y=88,zwróć_tekst=True) + podstawy.platforma(zwróć_tekst=True)
-podstawy.zapis(s)
+elektrownia_węglowa.generator(x=62,y=95)
+podstawy.platforma(x=40,y=75,wierzchołki=["v",4,0,0,0,1,1,1,1,0,],tekstura="concrete,0")
+podstawy.platforma(x=40,y=75,wierzchołki=obiekty.wielokąt_foremny(n=7),tekstura="asphalt,0")
 
 lvl.save('level.xml')
