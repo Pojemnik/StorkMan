@@ -6,102 +6,9 @@
 #include "entity_states.h"
 #include "sound.h"
 #include "edit_tools.h"
+#include "event_handler.h"
 
 const std::string VERSION = "pre-alpha 0.5.2";
-
-bool process_event(sf::Event& event, Message_sender& sender)
-{
-	switch (event.type)
-	{
-	case sf::Event::Closed:
-		return true;
-	case sf::Event::KeyPressed:
-		if (context.window_focus)
-		{
-			if (event.key.code == sf::Keyboard::Tilde)
-			{
-				if (context.console->is_active())
-				{
-					context.console->deactivate();
-				}
-				else
-				{
-					context.console->activate();
-				}
-			}
-			if (context.console->is_active())
-			{
-				if (event.key.control && event.key.code == sf::Keyboard::V)
-				{
-					string s = sf::Clipboard::getString();
-					context.console->input_append(s);
-				}
-				if (event.key.code == sf::Keyboard::Up)
-				{
-					context.console->get_next_history_line();
-				}
-				if (event.key.code == sf::Keyboard::Down)
-				{
-					context.console->get_previous_history_line();
-				}
-			}
-			else
-			{
-				if (event.key.code == sf::Keyboard::G)
-				{
-					context.gravity = -context.gravity;
-				}
-				if (context.editor_mode)
-				{
-					if (event.key.code == sf::Keyboard::Delete)
-					{
-						if (!context.console->is_active())
-						{
-							sender.send_message(Message::Message_type::REMOVE_GRID_POINTS, NULL);
-						}
-					}
-				}
-			}
-		}
-		break;
-	case sf::Event::TextEntered:
-		if (context.console->is_active() && context.window_focus)
-		{
-			if (event.text.unicode < 128)
-			{
-				char c = char(event.text.unicode);
-				context.console->input_append(c);
-			}
-		}
-		break;
-	case sf::Event::MouseWheelScrolled:
-		if (context.console->is_active() && context.window_focus)
-		{
-			context.console->scroll((int)event.mouseWheelScroll.delta);
-		}
-		break;
-	case sf::Event::MouseButtonPressed:
-		if (context.window_focus && !context.console->is_active())
-		{
-			if (event.mouseButton.button == sf::Mouse::Left)
-			{
-				if (context.editor_mode)
-				{
-					sender.send_message(Message::Message_type::ADD_GRID_POINT, NULL);
-				}
-			}
-			else if (event.mouseButton.button == sf::Mouse::Right)
-			{
-				if (context.editor_mode)
-				{
-					sender.send_message(Message::Message_type::ADD_GRID_POINT, NULL);
-				}
-			}
-		}
-		break;
-	}
-	return false;
-}
 
 bool execute_init_file(string path)
 {
@@ -238,10 +145,13 @@ int main(int argc, char** argv)
 	context.thread_pool = std::unique_ptr<ctpl::thread_pool>(new ctpl::thread_pool(4));
 	sf::Clock clock;
 	map.init();
+	Receiver_component engine_receiver;
+	Event_handler event_handler;
+	event_handler.add_receiver(&grid);
+	event_handler.add_receiver(&engine_receiver);
 	Message_sender engine_sender(Message_sender_type::ENGINE);
 	engine_sender.add_receiver(&sound_system);
 	engine_sender.add_receiver(&*context.console);
-	engine_sender.add_receiver(&grid);
 	sf::SoundBuffer test_buffer;
 	Vectorf camera_pos;
 	camera_pos = player.get_position();
@@ -259,10 +169,19 @@ int main(int argc, char** argv)
 		}
 		while (window.pollEvent(event))
 		{
-			if (process_event(event, engine_sender))
+			event_handler.handle_event(event);
+		}
+		while (engine_receiver.message_available())
+		{
+			Message msg = engine_receiver.pop_message();
+			if (msg.type == Message::Message_type::WINDOW_CLOSED)
 			{
 				window.close();
 				return 0;
+			}
+			else if (msg.type == Message::Message_type::CAMERA_MOVED)
+			{
+				camera_pos -= std::get<Vectorf>(msg.args);
 			}
 		}
 		if (context.console->is_active() || init)

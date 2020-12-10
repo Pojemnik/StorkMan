@@ -36,7 +36,7 @@ struct Message
 	enum class Message_type {
 		DIED, DAMAGED, MOVED, JUMPED, ERROR, OUT, CHANGED_LEVEL, WINDOW_FOCUS,
 		MUSIC_VOLUME, RESOLUTION_CHANGED, SOUND_VOLUME, STOPPED, ENTERED_SOUND,
-		LEFT_SOUND, ADD_GRID_POINT, REMOVE_GRID_POINTS
+		LEFT_SOUND, ADD_GRID_POINT, REMOVE_GRID_POINTS, WINDOW_CLOSED, CAMERA_MOVED
 	};
 	Message_type type;
 	std::variant<int, std::string, float, bool, Vectori, Vectorf, Map_sound_info> args;
@@ -58,6 +58,14 @@ protected:
 
 public:
 	virtual void push_message(Message& msg);
+};
+
+class Receiver_component : public Message_receiver
+{
+public:
+	virtual void push_message(Message& msg);
+	bool message_available() const;
+	Message pop_message();
 };
 
 class Message_sender
