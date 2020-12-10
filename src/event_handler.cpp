@@ -20,11 +20,11 @@ void Event_handler::handle_event(sf::Event& event)
 		{
 			if (context.console->is_active())
 			{
-				context.console->deactivate();
+				send_message(Message::Message_type::CONSOLE_DEACTIVATED, NULL);
 			}
 			else
 			{
-				context.console->activate();
+				send_message(Message::Message_type::CONSOLE_ACTIVATED, NULL);
 			}
 		}
 		if (context.console->is_active())
@@ -32,15 +32,15 @@ void Event_handler::handle_event(sf::Event& event)
 			if (event.key.control && event.key.code == sf::Keyboard::V)
 			{
 				string s = sf::Clipboard::getString();
-				context.console->input_append(s);
+				send_message<string>(Message::Message_type::CONSOLE_INPUT, s);
 			}
 			if (event.key.code == sf::Keyboard::Up)
 			{
-				context.console->get_next_history_line();
+				send_message<int>(Message::Message_type::CONSOLE_HISTORY, 1);
 			}
 			if (event.key.code == sf::Keyboard::Down)
 			{
-				context.console->get_previous_history_line();
+				send_message<int>(Message::Message_type::CONSOLE_HISTORY, -1);
 			}
 		}
 		else
@@ -67,14 +67,15 @@ void Event_handler::handle_event(sf::Event& event)
 			if (event.text.unicode < 128)
 			{
 				char c = char(event.text.unicode);
-				context.console->input_append(c);
+				send_message<char>(Message::Message_type::CONSOLE_INPUT, c);
 			}
 		}
 		break;
 	case sf::Event::MouseWheelScrolled:
 		if (context.console->is_active())
 		{
-			context.console->scroll((int)event.mouseWheelScroll.delta);
+			send_message<int>(Message::Message_type::CONSOLE_SCROLLED,
+				(int)event.mouseWheelScroll.delta);
 		}
 		break;
 	case sf::Event::MouseButtonPressed:

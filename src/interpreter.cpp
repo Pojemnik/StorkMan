@@ -80,7 +80,6 @@ Vectori Commands_interpreter::get_vectori(const Command& cmd, std::string var_na
 			vector = { tab[0],tab[1] };
 			context.console->out << var_name + " set to " << (Vectorf)vector << '\n';
 		}
-
 	}
 	else
 	{
@@ -100,8 +99,8 @@ bool Commands_interpreter::get_bool(const Command& cmd, std::string var_name, st
 			val = true;
 		else
 			val = false;
-		context.console->out << var_name + " " <<
-			((val) ? true_false_string[0] : true_false_string[1]) + '\n';
+		context.console->out << (var_name + " " +
+			((val) ? true_false_string[0] : true_false_string[1]) + '\n');
 	}
 	else
 	{

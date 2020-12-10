@@ -35,5 +35,4 @@ private:
 	bool get_bool(const Command& cmd, std::string var_name,
 		std::array<std::string, 2> true_false_string);
 	int get_int(const Command& cmd, std::string var_name);
-
 };

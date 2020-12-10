@@ -16,7 +16,7 @@ class Message_sender;
 
 enum class Message_sender_type {
 	PLAYER = 0, MAP, SOUND_SYSTEM, INTERPRETER, ENGINE,
-	ENEMY
+	ENEMY, CONSOLE
 };
 
 class Message_sender_id
@@ -36,15 +36,17 @@ struct Message
 	enum class Message_type {
 		DIED, DAMAGED, MOVED, JUMPED, ERROR, OUT, CHANGED_LEVEL, WINDOW_FOCUS,
 		MUSIC_VOLUME, RESOLUTION_CHANGED, SOUND_VOLUME, STOPPED, ENTERED_SOUND,
-		LEFT_SOUND, ADD_GRID_POINT, REMOVE_GRID_POINTS, WINDOW_CLOSED, CAMERA_MOVED
+		LEFT_SOUND, ADD_GRID_POINT, REMOVE_GRID_POINTS, WINDOW_CLOSED,
+		CAMERA_MOVED, CONSOLE_ACTIVATED, CONSOLE_DEACTIVATED, CONSOLE_SCROLLED,
+		CONSOLE_HISTORY, CONSOLE_INPUT, CONSOLE_COMMAND_RECEIVED
 	};
 	Message_type type;
-	std::variant<int, std::string, float, bool, Vectori, Vectorf, Map_sound_info> args;
+	std::variant<int, std::string, float, bool, Vectori, Vectorf, Map_sound_info, char> args;
 	const Message_sender* sender;
 
 	Message(Message_type type_, const Message_sender* sender_);
 	Message(Message_type type_, const Message_sender* sender_,
-		std::variant<int, std::string, float, bool, Vectori, Vectorf, Map_sound_info> args_) :
+		std::variant<int, std::string, float, bool, Vectori, Vectorf, Map_sound_info, char> args_) :
 		type(type_), sender(sender_), args(args_) {}
 };
 
@@ -85,7 +87,7 @@ public:
 template <typename T>
 void Message_sender::send_message(Message::Message_type type, T args) const
 {
-	std::variant<int, std::string, float, bool, Vectori, Vectorf, Map_sound_info> args_variant = args;
+	std::variant<int, std::string, float, bool, Vectori, Vectorf, Map_sound_info, char> args_variant = args;
 	Message msg(type, this, args_variant);
 	for (const auto& it : receivers)
 	{

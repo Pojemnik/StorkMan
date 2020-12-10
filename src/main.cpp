@@ -38,6 +38,7 @@ int main(int argc, char** argv)
 
 	//Interpreter
 	Commands_interpreter interpreter;
+	interpreter.add_receiver(&*context.console);
 
 	//Parsing
 	Parser parser(&assets);
@@ -109,9 +110,6 @@ int main(int argc, char** argv)
 		Message_sender_type::ENEMY);
 	map.add_entity(&test_enemy);
 
-	//Config file
-	bool init = execute_init_file("config.cfg");
-
 	//Sound init
 	const auto steps_config = parser.load_steps_config("sound/sound/steps.cfg");
 	Sound_system sound_system(assets.entity_sounds, parser.music_paths,
@@ -146,9 +144,11 @@ int main(int argc, char** argv)
 	sf::Clock clock;
 	map.init();
 	Receiver_component engine_receiver;
+	context.console->add_receiver(&engine_receiver);
 	Event_handler event_handler;
 	event_handler.add_receiver(&grid);
 	event_handler.add_receiver(&engine_receiver);
+	event_handler.add_receiver(&*context.console);
 	Message_sender engine_sender(Message_sender_type::ENGINE);
 	engine_sender.add_receiver(&sound_system);
 	engine_sender.add_receiver(&*context.console);
@@ -159,6 +159,10 @@ int main(int argc, char** argv)
 	Vectorf mouse_pos = static_cast<Vectorf>(sf::Mouse::getPosition() -
 		window.getPosition()) + camera_pos;
 	mouse_pos += {-6.f, -31.f};
+
+	//Config file
+	bool init = execute_init_file("config.cfg");
+
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -174,27 +178,20 @@ int main(int argc, char** argv)
 		while (engine_receiver.message_available())
 		{
 			Message msg = engine_receiver.pop_message();
-			if (msg.type == Message::Message_type::WINDOW_CLOSED)
+			switch (msg.type)
 			{
+			case Message::Message_type::WINDOW_CLOSED:
 				window.close();
 				return 0;
-			}
-			else if (msg.type == Message::Message_type::CAMERA_MOVED)
-			{
+				break;
+			case Message::Message_type::CAMERA_MOVED:
 				camera_pos -= std::get<Vectorf>(msg.args);
-			}
-		}
-		if (context.console->is_active() || init)
-		{
-			if (init)
+				break;
+			case Message::Message_type::CONSOLE_COMMAND_RECEIVED:
 			{
-				init = false;
-			}
-			while (context.console->user_input_data_available())
-			{
+				string command = std::get<string>(msg.args);
 				std::pair<Commands_interpreter::Command_code, Vectorf> code =
-					interpreter.get_and_execute_command(
-						context.console->get_user_input_line());
+					interpreter.get_and_execute_command(command);
 				switch (code.first)
 				{
 				case Commands_interpreter::Command_code::CHANGE_RESOLUTION:
@@ -246,6 +243,10 @@ int main(int argc, char** argv)
 				default:
 					break;
 				}
+			}
+			break;
+			default:
+				break;
 			}
 		}
 		if (context.console->output_available())
