@@ -113,5 +113,13 @@ void Event_handler::handle_event(sf::Event& event)
 			send_message<Vectorf>(Message::Message_type::CAMERA_MOVED, mouse_delta);
 		}
 		break;
+	case sf::Event::Resized:
+	{
+		Vectori new_size = Vectori(event.size.width, event.size.height);
+		send_message<Vectori>(Message::Message_type::WINDOW_RESIZED, new_size);
+	}
+		break;
+	default:
+		break;
 	}
 }

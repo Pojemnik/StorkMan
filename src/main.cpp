@@ -49,7 +49,7 @@ int main(int argc, char** argv)
 	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
 	sf::RenderWindow window(sf::VideoMode(context.resolution.x,
 		context.resolution.y, desktop.bitsPerPixel),
-		"StorkMan " + VERSION, sf::Style::Titlebar | sf::Style::Close);
+		"StorkMan " + VERSION, sf::Style::Titlebar | sf::Style::Close | sf::Style::Resize);
 	sf::Vector2u icon_size = assets.icon.getSize();
 	window.setIcon(icon_size.x, icon_size.y, assets.icon.getPixelsPtr());
 
@@ -200,6 +200,18 @@ int main(int argc, char** argv)
 					{
 						camera_zoom = 0.3f;
 					}
+				}
+				break;
+			case Message::Message_type::WINDOW_RESIZED:
+				if (context.editor_mode)
+				{
+					Vectori size = std::get<Vectori>(msg.args);
+					context.resolution = Vectori(size.x, size.y);
+					window.setView(sf::View(sf::FloatRect(0, 0, size.x, size.y)));
+				}
+				else
+				{
+					window.setSize(static_cast<sf::Vector2u>(context.resolution));
 				}
 				break;
 			case Message::Message_type::CONSOLE_COMMAND_RECEIVED:
