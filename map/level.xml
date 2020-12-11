@@ -1,5 +1,16 @@
 ﻿<level name="Podziemna Świątynia - poziom testowy 04">
 <chunk>
+    <animated_moving_object position="30.0,80.0" texture="AOBSteam_Cloud_Concentrated" height="1.0" layer="3.0" rotation="0.0" flip="1.0,1.0" frame_time="1.0" offset="0.0">
+        <move type="linear">
+            <p>-15.500941811398295,2.0000000000000018,2.0</p>
+            <p>25.081050708476802,-27.484543436884714,2.0</p>
+            <p>-25.08105070847681,-27.4845434368847,2.0</p>
+            <p>15.500941811398302,1.9999999999999893,2.0</p>
+            <p>-7.105427357601002e-15,-45.706993423652094,2.0</p>
+        </move>
+    </animated_moving_object>
+</chunk>
+<chunk>
     <platform position="15.0,15.5" texture="bricks,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="true">
         <v>0.0,0.0</v>
         <v>0.0,-4.0</v>

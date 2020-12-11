@@ -159,6 +159,7 @@ int main(int argc, char** argv)
 	Vectorf mouse_pos = static_cast<Vectorf>(sf::Mouse::getPosition() -
 		window.getPosition()) + camera_pos;
 	mouse_pos += {-6.f, -31.f};
+	float camera_zoom = 1.f;
 
 	//Config file
 	bool init = execute_init_file("config.cfg");
@@ -187,6 +188,20 @@ int main(int argc, char** argv)
 			case Message::Message_type::CAMERA_MOVED:
 				camera_pos -= std::get<Vectorf>(msg.args);
 				break;
+			case Message::Message_type::MOUSE_SCROLLED:
+				if (!context.console->is_active() && context.editor_mode)
+				{
+					camera_zoom += static_cast<float>(std::get<int>(msg.args)) / 10.f;
+					if (camera_zoom > 1.9f)
+					{
+						camera_zoom = 1.9f;
+					}
+					else if (camera_zoom < 0.1f)
+					{
+						camera_zoom = 0.1f;
+					}
+				}
+				break;
 			case Message::Message_type::CONSOLE_COMMAND_RECEIVED:
 			{
 				string command = std::get<string>(msg.args);
@@ -197,8 +212,8 @@ int main(int argc, char** argv)
 				case Commands_interpreter::Command_code::CHANGE_RESOLUTION:
 				{
 					window.setSize(sf::Vector2u(context.resolution.x, context.resolution.y));
-					sf::FloatRect visibleArea(0.f, 0.f, context.resolution.x, context.resolution.y);
-					window.setView(sf::View(visibleArea));
+					sf::FloatRect visible_area(0.f, 0.f, context.resolution.x, context.resolution.y);
+					window.setView(sf::View(visible_area));
 					engine_sender.send_message<Vectori>(Message::Message_type::RESOLUTION_CHANGED, context.resolution);
 				}
 				break;
@@ -264,8 +279,8 @@ int main(int argc, char** argv)
 			static float acc(0);
 			const static float STEP(1);
 			acc += time;
-			sf::FloatRect screen_rect(camera_pos.x, camera_pos.y,
-				float(context.resolution.x), float(context.resolution.y));
+			sf::FloatRect screen_rect(camera_pos,
+				static_cast<Vectorf>(context.resolution));
 			while (acc > STEP)
 			{
 				map.update_physics(STEP, player.get_position(), screen_rect);
@@ -285,21 +300,21 @@ int main(int argc, char** argv)
 		}
 
 		//Camera
-		if (!context.editor_mode)
-		{
-			camera_pos = player.get_position();
-			camera_pos -= sf::Vector2f(context.resolution) / 2.0f;
-		}
-		else
+		if (context.editor_mode)
 		{
 			mouse_pos = static_cast<Vectorf>(sf::Mouse::getPosition() -
 				window.getPosition()) + camera_pos;
 			mouse_pos += {-6.f, -31.f}; //Magic numbers
-			//mouse_pos = Vectorf(mouse_pos.x / context.camera_zoom.x,
-			//	mouse_pos.y / context.camera_zoom.y);
+			mouse_pos /= camera_zoom;
+		}
+		else
+		{
+			camera_pos = player.get_position();
+			camera_pos -= sf::Vector2f(context.resolution) / 2.0f;
 		}
 		sf::RenderStates rs = sf::RenderStates::Default;
 		rs.transform = sf::Transform().translate(-camera_pos);
+		rs.transform.scale(camera_zoom, camera_zoom);
 
 		//Drawing
 		window.clear();

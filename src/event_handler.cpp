@@ -72,11 +72,8 @@ void Event_handler::handle_event(sf::Event& event)
 		}
 		break;
 	case sf::Event::MouseWheelScrolled:
-		if (context.console->is_active())
-		{
-			send_message<int>(Message::Message_type::CONSOLE_SCROLLED,
-				(int)event.mouseWheelScroll.delta);
-		}
+		send_message<int>(Message::Message_type::MOUSE_SCROLLED,
+			(int)event.mouseWheelScroll.delta);
 		break;
 	case sf::Event::MouseButtonPressed:
 		if (!context.console->is_active())

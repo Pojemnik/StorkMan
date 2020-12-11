@@ -139,8 +139,11 @@ void Console::push_message(Message& msg)
 	case Message::Message_type::CONSOLE_DEACTIVATED:
 		deactivate();
 		break;
-	case Message::Message_type::CONSOLE_SCROLLED:
-		scroll(std::get<int>(msg.args));
+	case Message::Message_type::MOUSE_SCROLLED:
+		if (active)
+		{
+			scroll(std::get<int>(msg.args));
+		}
 		break;
 	case Message::Message_type::CONSOLE_HISTORY:
 		if (std::get<int>(msg.args) == 1)
