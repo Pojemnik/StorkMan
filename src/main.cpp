@@ -192,13 +192,13 @@ int main(int argc, char** argv)
 				if (!context.console->is_active() && context.editor_mode)
 				{
 					camera_zoom += static_cast<float>(std::get<int>(msg.args)) / 10.f;
-					if (camera_zoom > 1.9f)
+					if (camera_zoom > 4.9f)
 					{
-						camera_zoom = 1.9f;
+						camera_zoom = 4.9f;
 					}
-					else if (camera_zoom < 0.1f)
+					else if (camera_zoom < 0.3f)
 					{
-						camera_zoom = 0.1f;
+						camera_zoom = 0.3f;
 					}
 				}
 				break;
@@ -279,8 +279,8 @@ int main(int argc, char** argv)
 			static float acc(0);
 			const static float STEP(1);
 			acc += time;
-			sf::FloatRect screen_rect(camera_pos,
-				static_cast<Vectorf>(context.resolution));
+			sf::FloatRect screen_rect(camera_pos * (1.f / camera_zoom),
+				static_cast<Vectorf>(context.resolution) * (1.f/camera_zoom));
 			while (acc > STEP)
 			{
 				map.update_physics(STEP, player.get_position(), screen_rect);
@@ -311,6 +311,7 @@ int main(int argc, char** argv)
 		{
 			camera_pos = player.get_position();
 			camera_pos -= sf::Vector2f(context.resolution) / 2.0f;
+			camera_zoom = 1.f;
 		}
 		sf::RenderStates rs = sf::RenderStates::Default;
 		rs.transform = sf::Transform().translate(-camera_pos);
@@ -335,6 +336,15 @@ int main(int argc, char** argv)
 		{
 			grid.update(mouse_pos);
 			window.draw(grid, rs);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
+		{
+			string s = std::to_string(mouse_pos.x / context.global_scale)
+				+ " " + std::to_string(mouse_pos.y / context.global_scale);
+			tooltip.set_content(s);
+			tooltip.set_position((Vectorf)sf::Mouse::getPosition() -
+				(Vectorf)window.getPosition());
+			window.draw(tooltip);
 		}
 		if (context.draw_hp)
 		{
