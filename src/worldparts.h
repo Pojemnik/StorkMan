@@ -53,7 +53,7 @@ public:
 	Moving_animated_object(Vectorf pos_, std::unique_ptr<Animation> animation_,
 		float height_, std::unique_ptr<Simple_AI> ai_, int flip_ = 0,
 		float angle_ = 0);
-	void update(float dt);
+	void update_graphics(float dt);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual sf::FloatRect get_bounding_rect() const;
 };

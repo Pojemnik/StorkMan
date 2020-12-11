@@ -94,7 +94,7 @@ sf::FloatRect Moving_animated_object::get_bounding_rect() const
 	return rect;
 }
 
-void Moving_animated_object::update(float dt)
+void Moving_animated_object::update_graphics(float dt)
 {
 	Animated_object::update_graphics(dt);
 	ai->calc_pos(dt);
