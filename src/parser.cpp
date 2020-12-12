@@ -303,13 +303,13 @@ Parser::parse_animated_moving_object(tinyxml2::XMLElement* element, Vectori leve
 	throw std::runtime_error("Animated object error");
 }
 
-Map Parser::parse_map(tinyxml2::XMLElement* root)
+Map* Parser::parse_map(tinyxml2::XMLElement* root)
 {
 	auto map_data = parse_map_element(root);
 	Vectori map_size = map_data.first;
 	Vectori player_pos = map_data.second;
 	tinyxml2::XMLElement* element = root->FirstChildElement();
-	Map map(map_size, player_pos, assets->backgrounds.at("main_bg"));
+	Map*  map=new Map(map_size, player_pos, assets->backgrounds.at("main_bg"));
 	int lvl_n = 0;
 #define DEBUG_ASYNC__STORK__PARSE
 #ifndef DEBUG_ASYNC__STORK__PARSE
@@ -340,7 +340,7 @@ Map Parser::parse_map(tinyxml2::XMLElement* root)
 	}
 	for (auto& it : futures)
 	{
-		map.add_level(std::move(it.get()));
+		map->add_level(std::move(it.get()));
 	}
 #else
 	while (element != NULL)
@@ -350,7 +350,7 @@ Map Parser::parse_map(tinyxml2::XMLElement* root)
 		{
 			auto [pos, path, code] = parse_level_element(element, map_size);
 			level_names[code] = lvl_n;
-			map.add_level(std::move(open_and_parse_level(pos, path, lvl_n)));
+			map->add_level(std::move(open_and_parse_level(pos, path, lvl_n)));
 			lvl_n++;
 		}
 		else

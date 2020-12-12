@@ -24,7 +24,22 @@ bool execute_init_file(string path)
 	}
 	return init;
 }
-
+Map* load_map(std::string path,Parser& parser)
+{
+	tinyxml2::XMLDocument doc;
+	tinyxml2::XMLError error = doc.LoadFile(path.c_str());
+	if (error != tinyxml2::XMLError::XML_SUCCESS)
+	{
+		context.console->err << "Brak poziomu" << '\n';
+		return nullptr;
+	}
+	context.console->log << "Initializing map..." << '\n';
+	tinyxml2::XMLElement* root = doc.FirstChildElement();
+	Map* map = parser.parse_map(root);
+	context.console->log << "done!" << '\n';
+	map->add_receiver(&*context.console);
+	return map;
+}
 int main(int argc, char** argv)
 {
 	//Assets
@@ -54,20 +69,8 @@ int main(int argc, char** argv)
 	window.setIcon(icon_size.x, icon_size.y, assets.icon.getPixelsPtr());
 
 	//Map
-	std::string path = (argc == 2) ? argv[1] : "map/map.xml";
-	tinyxml2::XMLDocument doc;
-	tinyxml2::XMLError error = doc.LoadFile(path.c_str());
-	if (error != tinyxml2::XMLError::XML_SUCCESS)
-	{
-		context.console->err << "Brak poziomu" << '\n';
-		return -1;
-	}
-	context.console->log << "Initializing map..." << '\n';
-	tinyxml2::XMLElement* root = doc.FirstChildElement();
-	Map map = parser.parse_map(root);
-	context.console->log << "done!" << '\n';
-	map.add_receiver(&*context.console);
-
+	Map* map=load_map((argc == 2) ? argv[1] : "map/map.xml",parser);
+	
 	//Player
 	Entity_config storkman_config = parser.parse_entity_config("data/storkman.txt");
 	assets.add_entity_sounds(storkman_config.type, storkman_config.sounds);
@@ -96,7 +99,7 @@ int main(int argc, char** argv)
 		std::move(controller), storkman_config.height, storkman_config.max_hp,
 		Message_sender_type::PLAYER);
 	player.add_receiver(context.console.get());
-	map.add_entity(&player);
+	map->add_entity(&player);
 
 	//Test enemy
 	animation = std::make_unique<Key_frame_animation>(stork_parts,
@@ -108,13 +111,13 @@ int main(int argc, char** argv)
 	Entity test_enemy(std::move(animation), enemy_physical, std::move(machine),
 		std::move(controller), storkman_config.height, storkman_config.max_hp,
 		Message_sender_type::ENEMY);
-	map.add_entity(&test_enemy);
+	map->add_entity(&test_enemy);
 
 	//Sound init
 	const auto steps_config = parser.load_steps_config("sound/sound/steps.cfg");
 	Sound_system sound_system(assets.entity_sounds, parser.music_paths,
 		sound_paths, steps_config);
-	map.add_receiver(&sound_system);
+	map->add_receiver(&sound_system);
 	player.add_receiver(&sound_system);
 	sound_system.add_receiver(&*context.console);
 	interpreter.add_receiver(&sound_system);
@@ -142,7 +145,7 @@ int main(int argc, char** argv)
 	//Other
 	context.thread_pool = std::unique_ptr<ctpl::thread_pool>(new ctpl::thread_pool(4));
 	sf::Clock clock;
-	map.init();
+	map->init();
 	Receiver_component engine_receiver;
 	context.console->add_receiver(&engine_receiver);
 	Event_handler event_handler;
@@ -164,6 +167,7 @@ int main(int argc, char** argv)
 	//Config file
 	bool init = execute_init_file("config.cfg");
 
+	//Loop
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -214,6 +218,14 @@ int main(int argc, char** argv)
 					window.setSize(static_cast<sf::Vector2u>(context.resolution));
 				}
 				break;
+			case Message::Message_type::RELOAD_MAP:
+				delete map;
+				map = load_map((argc == 2) ? argv[1] : "map/map.xml", parser);
+				map->add_entity(&player);
+				map->add_entity(&test_enemy);
+				map->add_receiver(&sound_system);
+				map->init();
+				break;
 			case Message::Message_type::CONSOLE_COMMAND_RECEIVED:
 			{
 				string command = std::get<string>(msg.args);
@@ -259,10 +271,10 @@ int main(int argc, char** argv)
 					player.set_draw_collision(static_cast<bool>(code.second.x));
 					break;
 				case Commands_interpreter::Command_code::DRAW_CHUNKS_BORDERS:
-					map.set_draw_chunks_borders(static_cast<bool>(code.second.x));
+					map->set_draw_chunks_borders(static_cast<bool>(code.second.x));
 					break;
 				case Commands_interpreter::Command_code::DRAW_SOUND_SOURCES:
-					map.set_draw_sound_sources(static_cast<bool>(code.second.x));
+					map->set_draw_sound_sources(static_cast<bool>(code.second.x));
 					break;
 				case Commands_interpreter::Command_code::SET_PLAYER_TEXTURE:
 					player.set_textures_set(static_cast<int>(code.second.x));
@@ -295,13 +307,13 @@ int main(int argc, char** argv)
 				static_cast<Vectorf>(context.resolution) * (1.f/camera_zoom));
 			while (acc > STEP)
 			{
-				map.update_physics(STEP, player.get_position(), screen_rect);
+				map->update_physics(STEP, player.get_position(), screen_rect);
 				test_enemy.update_physics(STEP);
 				player.update_physics(STEP);
 				context.player_pos = player.get_position();
 				acc -= STEP;
 			}
-			map.update_graphics(time, player.get_position(), screen_rect);
+			map->update_graphics(time, player.get_position(), screen_rect);
 			test_enemy.update_graphics(time);
 			player.update_graphics(time);
 			sound_system.update(time);
@@ -331,18 +343,18 @@ int main(int argc, char** argv)
 
 		//Drawing
 		window.clear();
-		map.draw_bottom_layers(window, rs);
+		map->draw_bottom_layers(window, rs);
 		window.draw(player, rs);
 		window.draw(test_enemy, rs);
-		map.draw_middle_layers(window, rs);
-		map.draw_top_layers(window, rs);
+		map->draw_middle_layers(window, rs);
+		map->draw_top_layers(window, rs);
 		if (context.draw_damage_zones)
 		{
-			map.draw_zones(window, rs);
+			map->draw_zones(window, rs);
 		}
 		if (context.draw_map_vertices)
 		{
-			map.draw_vertices(window, rs);
+			map->draw_vertices(window, rs);
 		}
 		if (context.editor_mode)
 		{

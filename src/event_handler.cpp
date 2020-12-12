@@ -58,6 +58,13 @@ void Event_handler::handle_event(sf::Event& event)
 						send_message(Message::Message_type::REMOVE_GRID_POINTS, NULL);
 					}
 				}
+				if (event.key.code == sf::Keyboard::R)
+				{
+					if (!context.console->is_active())
+					{
+						send_message(Message::Message_type::RELOAD_MAP, NULL);
+					}
+				}
 			}
 		}
 		break;

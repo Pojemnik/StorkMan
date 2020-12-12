@@ -87,7 +87,7 @@ class Parser
 public:
 	std::unordered_map<string, int> level_names;
 	std::vector<string> music_paths;
-	Map parse_map(tinyxml2::XMLElement* root);
+	Map* parse_map(tinyxml2::XMLElement* root);
 	Entity_config parse_entity_config(string path);
 	void load_music_config(string path);
 	std::unordered_map<int, string> load_steps_config(string path);
