@@ -8,7 +8,7 @@ const Collision* const Pendulum::get_collision() const
 Pendulum::Pendulum(Vectorf pos_, const sf::Texture* texture_,
 	std::vector<sf::Vertex> points_, std::vector<Vectorf> attach_pts,
 	float angle_, float line_len_, const sf::Texture* const line_texture_,
-	Vectori line_size, Surface_type surface_) : 
+	Vectori line_size, int surface_) : 
 	platform({ pos_.x,pos_.y - line_len_ * context.global_scale }, texture_, points_,
 		std::move(std::make_unique<Swing_AI>(line_len_, angle_)), surface_)
 {

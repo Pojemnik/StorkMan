@@ -21,11 +21,13 @@ class Parser
 	std::unordered_map<string, string> level_music;
 	std::unordered_map<string, int> map_sounds;
 	Id_generator collidable_id_gen;
+	std::unordered_map<string, int> name_to_surface = { {"none", 0} };
 
 	std::pair<Vectori, Vectori> parse_map_element(tinyxml2::XMLElement* element);
 	std::tuple<Vectori, string, string> parse_level_element(tinyxml2::XMLElement* element, Vectori map_size);
 	Level parse_level(tinyxml2::XMLElement* root, Vectori global_pos, int code);
 	std::unique_ptr<Level> open_and_parse_level(Vectori pos, string path, int code);
+	int parse_surface(tinyxml2::XMLElement* element);
 	Map_chunk parse_chunk(tinyxml2::XMLElement* root, Vectori level_pos);
 	std::pair<std::optional<int>, std::shared_ptr<Platform>>
 		parse_platform(tinyxml2::XMLElement* element, Vectori level_pos);
@@ -87,6 +89,8 @@ class Parser
 public:
 	std::unordered_map<string, int> level_names;
 	std::vector<string> music_paths;
+	
+	void parse_surface_types_config(string path);
 	Map* parse_map(tinyxml2::XMLElement* root);
 	Entity_config parse_entity_config(string path);
 	void load_music_config(string path);

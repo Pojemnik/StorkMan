@@ -1,5 +1,6 @@
 #include "parser_helper.h"
 
+
 std::vector<string> parse::split_string(string s, string d)
 {
 	size_t i = 0;
@@ -29,7 +30,7 @@ std::pair<Vectorf, float> parse::parse_path_node(string content)
 	auto vect = split_string(content);
 	if (vect[0] == "-")
 	{
-		return { Vectorf(NAN,NAN), 0.f};
+		return { Vectorf(NAN,NAN), 0.f };
 	}
 	Vectorf v = parse_var<Vectorf>(vect[0], vect[1]);
 	v *= context.global_scale;
@@ -47,7 +48,7 @@ std::tuple<Vectorf, float, float> parse::parse_acc_path_node(string content)
 	Vectorf v = parse_var<Vectorf>(vect[0], vect[1]);
 	v *= context.global_scale;
 	float time = std::stof(vect[2]);
-	float a = std::stof(vect[3])*context.global_scale;
+	float a = std::stof(vect[3]) * context.global_scale;
 	return std::tuple<Vectorf, float, float>(v, time, a);
 }
 
@@ -131,16 +132,6 @@ std::vector<sf::Vertex> parse::parse_vertices(tinyxml2::XMLElement* element, std
 		element = element->NextSiblingElement();
 	}
 	return points;
-}
-
-Surface_type parse::parse_surface(tinyxml2::XMLElement* element)
-{
-	string surface_str = get_attribute_by_name("surface", element);
-	if (surface_str == "")
-	{
-		return Surface_type::NONE;
-	}
-	return name_to_surface.at(surface_str);
 }
 
 std::unique_ptr<Simple_AI> parse::parse_move(tinyxml2::XMLElement* element)

@@ -1,6 +1,6 @@
 #include "barriers.h"
 
-Barrier::Barrier(std::vector<sf::Vertex>&& vertices_, Vectorf pos_, Surface_type surface_)
+Barrier::Barrier(std::vector<sf::Vertex>&& vertices_, Vectorf pos_, int surface_)
 	: collision(std::move(vertices_), pos_, surface_) {}
 
 const Collision* const Barrier::get_collision() const
@@ -14,7 +14,7 @@ sf::FloatRect Barrier::get_bounding_rect() const
 }
 
 Moving_barrier::Moving_barrier(std::vector<sf::Vertex>&& vertices_,
-	std::unique_ptr<Simple_AI> ai_, Vectorf pos_, Surface_type surface_) :
+	std::unique_ptr<Simple_AI> ai_, Vectorf pos_, int surface_) :
 	Barrier(std::move(vertices_), { 0,0 }, surface_), ai(std::move(ai_)),
 	vertex(sf::LineStrip, sf::VertexBuffer::Static), pos(pos_)
 {

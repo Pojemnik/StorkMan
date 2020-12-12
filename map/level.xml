@@ -213,7 +213,7 @@
 			<v>1.5,0.5</v>
 			<v>1.5,0</v>
 		</platform>
-		<platform position="30.5,6" texture="wood,2" surface="grass">
+		<platform position="30.5,6" texture="wood,2" surface="wood">
 			<v>0,0</v>
 			<v>0,0.5</v>
 			<v>3,0.5</v>

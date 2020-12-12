@@ -15,7 +15,7 @@ class Physical : public Physical_updatable, public Collidable
 	Vectorf delta_pos;
 	Vectorf move_delta;
 	Vectorf collision_vector;
-	Surface_type surface;
+	int surface;
 	bool on_ground = false;
 	bool last_on_ground = false;
 	float max_up = 1.f;
@@ -39,7 +39,7 @@ public:
 	void resolve_collision(const Collidable& other);
 	void move(Vectorf delta);
 	void set_position(Vectorf new_pos);
-	std::pair<Vectorf, Surface_type> get_collision_info() const;
+	std::pair<Vectorf, int> get_collision_info() const;
 	bool is_on_ground() const;
 	sf::FloatRect get_bounding_rect() const;
 	void set_fallthrough(bool val);

@@ -24,6 +24,7 @@ bool execute_init_file(string path)
 	}
 	return init;
 }
+
 Map* load_map(std::string path,Parser& parser)
 {
 	tinyxml2::XMLDocument doc;
@@ -40,6 +41,7 @@ Map* load_map(std::string path,Parser& parser)
 	map->add_receiver(&*context.console);
 	return map;
 }
+
 int main(int argc, char** argv)
 {
 	//Assets
@@ -57,6 +59,7 @@ int main(int argc, char** argv)
 
 	//Parsing
 	Parser parser(&assets);
+	parser.parse_surface_types_config("data/surfaces.txt");
 	parser.load_music_config("sound/music/music.cfg");
 	const auto sound_paths = parser.load_map_sound_config("sound/sound/map_sounds.cfg");
 

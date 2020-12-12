@@ -10,7 +10,7 @@ protected:
 	Collision collision;
 
 public:
-	Barrier(std::vector<sf::Vertex>&& vertices_, Vectorf pos_, Surface_type surface_);
+	Barrier(std::vector<sf::Vertex>&& vertices_, Vectorf pos_, int surface_);
 	virtual const Collision* const get_collision() const;
 	virtual sf::FloatRect get_bounding_rect() const;
 };
@@ -26,7 +26,7 @@ class Moving_barrier : public Barrier, public Physical_updatable
 
 public:
 
-	Moving_barrier(std::vector<sf::Vertex>&& vertices_, std::unique_ptr<Simple_AI> ai_, Vectorf pos_, Surface_type surface_);
+	Moving_barrier(std::vector<sf::Vertex>&& vertices_, std::unique_ptr<Simple_AI> ai_, Vectorf pos_, int surface_);
 	void update_physics(float dt);
 	virtual void draw_dynamic_collision(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual Vectorf get_speed() const;

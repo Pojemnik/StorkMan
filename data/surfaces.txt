@@ -1,0 +1,5 @@
+grass
+concrete
+ice
+metal
+wood

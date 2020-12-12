@@ -30,7 +30,7 @@ const Collision* const Platform::get_collision() const
 }
 
 Platform::Platform(Vectorf pos_, const sf::Texture* texture_,
-	std::vector<sf::Vertex> points_, Surface_type surface_, bool one_sided) :
+	std::vector<sf::Vertex> points_, int surface_, bool one_sided) :
 	collision(points_, pos_, surface_),
 	Textured_polygon(pos_, texture_, std::move(std::vector<sf::Vertex>(points_)))
 {
@@ -49,7 +49,7 @@ const Collision* const Moving_platform::get_collision() const
 
 Moving_platform::Moving_platform(Vectorf pos_, const sf::Texture* texture_,
 	std::vector<sf::Vertex> points_, std::unique_ptr<Simple_AI> ai_,
-	Surface_type surface_) : Platform({ 0,0 }, texture_, points_, surface_, false), ai(std::move(ai_)),
+	int surface_) : Platform({ 0,0 }, texture_, points_, surface_, false), ai(std::move(ai_)),
 	vertex(sf::LineStrip, sf::VertexBuffer::Static), pos(pos_)
 {
 	base_rect = collision.rect;
@@ -136,7 +136,7 @@ void Animated_polygon::update_graphics(float dt)
 
 Animated_moving_platform::Animated_moving_platform(Vectorf pos_,
 	std::unique_ptr<Animation>&& animation_, std::vector<sf::Vertex> points_,
-	std::unique_ptr<Simple_AI> ai_, Surface_type surface_)
+	std::unique_ptr<Simple_AI> ai_, int surface_)
 	: Moving_platform(pos_, nullptr, points_, std::move(ai_), surface_),
 	animation(std::move(animation_))
 {

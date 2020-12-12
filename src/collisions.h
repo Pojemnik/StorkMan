@@ -5,24 +5,21 @@
 
 #include "util.h"
 
-//if updated update map string to surface_type in parser_helper too
-enum class Surface_type : int {NONE = 0, GRASS, CONCRETE, ICE, METAL};
-
 struct Collision
 {
 	std::vector<Vectorf> mesh;
 	sf::FloatRect rect;
 	std::vector<std::pair<float, float>> min_max_arr;
-	Surface_type surface = Surface_type::NONE;
+	int surface = 0;
 	int id = -1;
 	bool one_sided = false;
 
 	Collision(sf::FloatRect rect_);
 	Collision(std::vector<Vectorf>&& mesh_);
 	Collision(std::vector<Vectorf>&& mesh_, Vectorf pos);
-	Collision(std::vector<Vectorf>&& mesh_, Vectorf pos, Surface_type surface_);
+	Collision(std::vector<Vectorf>&& mesh_, Vectorf pos, int surface_);
 	Collision(const std::vector<sf::Vertex>& vertices, Vectorf pos);
-	Collision(const std::vector<sf::Vertex>& vertices, Vectorf pos, Surface_type surface_);
+	Collision(const std::vector<sf::Vertex>& vertices, Vectorf pos, int surface_);
 	Collision(const std::vector<Vectorf>& vertices, Vectorf pos);
 	Collision(sf::FloatRect rect_, float scale, Vectorf pos);
 	void calculate_min_max_arr();

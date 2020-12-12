@@ -19,15 +19,7 @@ namespace parse
 	const int DEFAULT_PLATFORM_LAYER = 5;
 	const int DEFAULT_OBJECT_LAYER = 3;
 	const Vectorf fliptab[4] = { {1,1},{-1,1},{1,-1},{-1,-1} };
-	const std::unordered_map<string, Surface_type> name_to_surface =
-	{
-		{"none", Surface_type::NONE},
-		{"grass", Surface_type::GRASS},
-		{"concrete", Surface_type::CONCRETE},
-		{"ice", Surface_type::ICE},
-		{"metal", Surface_type::METAL}
-	};
-
+	
 	std::vector<string> split_string(string s, string d = ",");
 	std::string get_attribute_by_name(std::string name, tinyxml2::XMLElement* element);
 	sf::Color parse_color(std::string val);
@@ -36,7 +28,6 @@ namespace parse
 	sf::Vertex parse_vertex(string content, std::pair<int, float> fliprot);
 	sf::Vertex parse_textured_vertex(string content);
 	std::vector<sf::Vertex> parse_vertices(tinyxml2::XMLElement* element, std::pair<int, float> fliprot);
-	Surface_type parse_surface(tinyxml2::XMLElement* element);
 	void add_vertices(std::vector<sf::Vertex>& vec, const Collision* col);
 	Vectorf get_position(tinyxml2::XMLElement* element, const Vectori& level_pos);
 
@@ -62,7 +53,7 @@ namespace parse
 	template <>
 	Vectori parse_var<Vectori>(string a, string b);
 	template <>
-	std::pair<float, float> parse_var<std::pair<float,float>>(string a, string b);
+	std::pair<float, float> parse_var<std::pair<float, float>>(string a, string b);
 
 	template <typename T>
 	std::unique_ptr<Simple_AI> parse_Simple_AI(tinyxml2::XMLElement* element);

@@ -36,7 +36,7 @@ public:
 	int health;
 	int direction = 1;//x sign
 	Vectorf collision_vector;
-	Surface_type surface;
+	int surface;
 	bool on_ground;
 	bool fallthrough = false;
 

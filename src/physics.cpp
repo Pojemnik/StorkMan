@@ -61,7 +61,7 @@ void Physical::update_physics(float dt)
 			util::vector_dot_product(temp_delta, temp_delta);
 		if (k < 0)
 		{
-			if (surface == Surface_type::ICE)
+			if (surface == 3)
 			{
 				speed -= temp_delta * k;
 				speed *= 0.9f;
@@ -104,7 +104,7 @@ void Physical::set_defaults()
 	delta_pos = Vectorf(0, 0);
 	move_delta = Vectorf(0, 0);
 	external_speed = Vectorf(0, 0);
-	surface = Surface_type::NONE;
+	surface = 0;
 	max_up = 1.f;
 }
 
@@ -192,7 +192,7 @@ void Physical::set_position(Vectorf new_pos)
 	reset_physics();
 }
 
-std::pair<Vectorf, Surface_type> Physical::get_collision_info() const
+std::pair<Vectorf, int> Physical::get_collision_info() const
 {
 	return std::make_pair(collision_vector, surface);
 }

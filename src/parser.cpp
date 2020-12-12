@@ -1,4 +1,14 @@
 ﻿#include "parser.h"
+void Parser::parse_surface_types_config(string path)
+{
+	std::ifstream config_file(path, std::ios::in);
+	std::stringstream config_file_stripped = util::remove_comments(config_file);
+	string tmp;
+	while (config_file_stripped >> tmp)
+	{
+		name_to_surface[tmp] = name_to_surface.size();
+	}
+}
 
 Parser::Parser(Assets* _assets) : assets(_assets)
 {};
@@ -162,7 +172,7 @@ Parser::parse_platform(tinyxml2::XMLElement* element, Vectori level_pos)
 		string val = get_attribute_by_name("texture", element);
 		const sf::Texture* tex = assets->textures.at(val);
 		Vectorf pos = get_position(element, level_pos);
-		Surface_type surface = parse_surface(element);
+		int surface = parse_surface(element);
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		std::vector<sf::Vertex> points =
 			parse_vertices(element->FirstChildElement(), fliprot);
@@ -510,7 +520,7 @@ Parser::parse_old_moving_platform(tinyxml2::XMLElement* element, Vectori level_p
 		}
 		int layer = parse_layer(element, DEFAULT_PLATFORM_LAYER);
 		return std::make_pair(layer, std::make_shared<Moving_platform>(pos, tex, std::move(vert),
-			std::unique_ptr<Simple_AI>(new Linear_AI(path, time_offset)), Surface_type::NONE));
+			std::unique_ptr<Simple_AI>(new Linear_AI(path, time_offset)), 0));
 	}
 	catch (const std::invalid_argument& e)
 	{
@@ -571,7 +581,7 @@ Parser::parse_moving_platform(tinyxml2::XMLElement* element, Vectori level_pos)
 		string val = get_attribute_by_name("texture", element);
 		const sf::Texture* tex = assets->textures.at(val);
 		Vectorf pos = get_position(element, level_pos);
-		Surface_type surface = parse_surface(element);
+		int surface = parse_surface(element);
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		std::vector<sf::Vertex> vert;
 		std::unique_ptr<Simple_AI> ai;
@@ -657,7 +667,7 @@ Parser::parse_pendulum(tinyxml2::XMLElement* element, Vectori level_pos)
 		string line_tex_string = get_attribute_by_name("line", element);
 		const sf::Texture* line_tex = assets->textures.at(line_tex_string);
 		Vectorf pos = get_position(element, level_pos);
-		Surface_type surface = parse_surface(element);
+		int surface = parse_surface(element);
 		float line_len = get_and_parse_var<float>("length", element);
 		float angle = util::deg_to_rad(get_and_parse_var<float>("angle", element));
 		Vectori line_offset = get_and_parse_var<Vectori>("line_offset", element);
@@ -745,7 +755,7 @@ std::pair<std::optional<int>, std::shared_ptr<Animated_moving_platform>> Parser:
 	try
 	{
 		Vectorf pos = get_position(element, level_pos);
-		Surface_type surface = parse_surface(element);
+		int surface = parse_surface(element);
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		string val = get_attribute_by_name("texture", element);
 		const std::vector<const sf::Texture*>* tex = &assets->animations.at(val);
@@ -874,7 +884,7 @@ std::pair<std::optional<int>, std::shared_ptr<Barrier>> Parser::parse_barrier(ti
 	try
 	{
 		Vectorf pos = get_position(element, level_pos);
-		Surface_type surface = parse_surface(element);
+		int surface = parse_surface(element);
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		std::vector<sf::Vertex> points =
 			parse_vertices(element->FirstChildElement(), fliprot);
@@ -894,7 +904,7 @@ std::pair<std::optional<int>, std::shared_ptr<Moving_barrier>> Parser::parse_mov
 	try
 	{
 		Vectorf pos = get_position(element, level_pos);
-		Surface_type surface = parse_surface(element);
+		int surface = parse_surface(element);
 		std::vector<sf::Vertex> vert;
 		std::unique_ptr<Simple_AI> ai;
 		tinyxml2::XMLElement* e = element->FirstChildElement();
@@ -998,4 +1008,15 @@ sf::FloatRect Parser::calculate_chunk_bounds(tinyxml2::XMLElement* root,
 	float bottom = get_and_parse_var<float>("bottom", root, 0) * context.global_scale;
 	bound.height += bottom + top;
 	return bound;
+}
+
+
+int Parser::parse_surface(tinyxml2::XMLElement* element)
+{
+	string surface_str = get_attribute_by_name("surface", element);
+	if (surface_str == "")
+	{
+		return 0;
+	}
+	return name_to_surface.at(surface_str);
 }

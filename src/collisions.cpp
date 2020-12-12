@@ -63,7 +63,7 @@ Collision::Collision(sf::FloatRect rect_, float scale, Vectorf pos)
 	id = context.id_generator.get_id();
 }
 
-Collision::Collision(std::vector<Vectorf>&& mesh_, Vectorf pos, Surface_type surface_) :
+Collision::Collision(std::vector<Vectorf>&& mesh_, Vectorf pos, int surface_) :
  surface(surface_)
 {
 	for (auto& it : mesh_)
@@ -75,7 +75,7 @@ Collision::Collision(std::vector<Vectorf>&& mesh_, Vectorf pos, Surface_type sur
 	id = context.id_generator.get_id();
 }
 
-Collision::Collision(const std::vector<sf::Vertex>& vertices, Vectorf pos, Surface_type surface_) :
+Collision::Collision(const std::vector<sf::Vertex>& vertices, Vectorf pos, int surface_) :
 	mesh(vertices.size()), surface(surface_)
 {
 	int i = 0;
