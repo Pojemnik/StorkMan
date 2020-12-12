@@ -166,7 +166,8 @@ int main(int argc, char** argv)
 
 	//Config file
 	bool init = execute_init_file("config.cfg");
-
+	sf::RenderStates rs = sf::RenderStates::Default;
+	sf::Transform rs_inv_transform=sf::Transform::Identity;
 	//Loop
 	while (window.isOpen())
 	{
@@ -195,6 +196,7 @@ int main(int argc, char** argv)
 			case Message::Message_type::MOUSE_SCROLLED:
 				if (!context.console->is_active() && context.editor_mode)
 				{
+					float old_camera_zoom = camera_zoom;
 					camera_zoom += static_cast<float>(std::get<int>(msg.args)) / 10.f;
 					if (camera_zoom > 4.9f)
 					{
@@ -203,6 +205,10 @@ int main(int argc, char** argv)
 					else if (camera_zoom < 0.3f)
 					{
 						camera_zoom = 0.3f;
+					}
+					if (camera_zoom != old_camera_zoom)
+					{
+						camera_pos += mouse_pos * (camera_zoom - old_camera_zoom);
 					}
 				}
 				break;
@@ -303,8 +309,8 @@ int main(int argc, char** argv)
 			static float acc(0);
 			const static float STEP(1);
 			acc += time;
-			sf::FloatRect screen_rect(camera_pos * (1.f / camera_zoom),
-				static_cast<Vectorf>(context.resolution) * (1.f/camera_zoom));
+			sf::FloatRect screen_rect({0.0f,0.0f},static_cast<Vectorf>(context.resolution));
+			screen_rect = rs_inv_transform.transformRect(screen_rect);
 			while (acc > STEP)
 			{
 				map->update_physics(STEP, player.get_position(), screen_rect);
@@ -327,9 +333,10 @@ int main(int argc, char** argv)
 		if (context.editor_mode)
 		{
 			mouse_pos = static_cast<Vectorf>(sf::Mouse::getPosition() -
-				window.getPosition()) + camera_pos;
+				window.getPosition());
 			mouse_pos += {-6.f, -31.f}; //Magic numbers
-			mouse_pos /= camera_zoom;
+			//mouse_pos /= camera_zoom;
+			mouse_pos = rs_inv_transform.transformPoint(mouse_pos);
 		}
 		else
 		{
@@ -337,9 +344,11 @@ int main(int argc, char** argv)
 			camera_pos -= sf::Vector2f(context.resolution) / 2.0f;
 			camera_zoom = 1.f;
 		}
-		sf::RenderStates rs = sf::RenderStates::Default;
+		rs = sf::RenderStates::Default;
 		rs.transform = sf::Transform().translate(-camera_pos);
 		rs.transform.scale(camera_zoom, camera_zoom);
+		rs_inv_transform= sf::Transform().scale(1/camera_zoom, 1/camera_zoom);
+		rs_inv_transform.translate(camera_pos);
 
 		//Drawing
 		window.clear();
