@@ -3,11 +3,7 @@ img/tex/objects/buildings/DOM01.png house1 0
 img/tex/objects/debris/KOLUMNA01.png column1 0
 img/tex/objects/debris/PAJECZYNA00.png web0 0
 img/tex/objects/debris/PAJECZYNA01.png web1 0
-img/tex/objects/debris/RUINA00.png ruin0 0
 img/tex/objects/debris/SKALY00.png rocks0 0
-img/tex/objects/debris/SKALY01.png rocks1 0
-img/tex/objects/debris/SKALY02.png rocks2 0
-img/tex/objects/instalations/KRATA00.png crate0 0
 img/tex/objects/instalations/RADAR00.png radar0 0
 img/tex/objects/instalations/SLUP00.png pole0 0
 img/tex/objects/instalations/Steam_Generator.png OBJSteam_Generator 0
@@ -31,8 +27,6 @@ img/tex/objects/interior_design/STOL00.png table0 0
 img/tex/objects/interior_design/STOL00.png table0 0
 img/tex/objects/interior_design/STOL01.png table1 0
 img/tex/objects/interior_design/STOL02.png table2 0
-img/tex/objects/lamps/ALARMOWA00.png alarm0 0
-img/tex/objects/lamps/GORNICZA00.png mine0 0
 img/tex/objects/lamps/GORNICZA02.png mine2 0
 img/tex/objects/lamps/JARZENIOWKA00.png lamp1 0
 img/tex/objects/lamps/LAMPA00.png street0 0
@@ -51,15 +45,7 @@ img/tex/objects/plants/DRZEWO01.png tree1 0
 img/tex/objects/plants/TRAWA03.png grass3 0
 img/tex/objects/plants/TRAWA04.png grass4 0
 img/tex/objects/plants/TRAWA05.png grass5 0
-img/tex/objects/signs/STRZALKA00.png arrow0 0
-img/tex/objects/signs/STRZALKA01.png arrow1 0
-img/tex/objects/signs/STRZALKA06.png arrow6 0
-img/tex/objects/treasures/KRYSZTAL00.png crystal0 0
-img/tex/objects/treasures/KRYSZTAL01.png crystal1 0
-img/tex/objects/treasures/KRYSZTAL02.png crystal2 0
-img/tex/objects/treasures/KRYSZTAL03.png crystal3 0
 img/tex/objects/treasures/POSWIATA00.png glow0 1
-img/tex/objects/treasures/PUCHAR00.png grail0 1
 img/tex/objects/worldbuilders/STALAGMITY00.png stalagmit0 0
 img/tex/objects/worldbuilders/STALAGMITY01.png stalagmit1 0
 img/tex/objects/worldbuilders/STALAGMITY02.png stalagmit2 0
@@ -68,8 +54,6 @@ img/tex/objects/worldbuilders/STALAGMITY04.png stalagmit4 0
 img/tex/objects/worldbuilders/STALAGMITY05.png stalagmit5 0
 img/tex/objects/worldbuilders/STALAGMITY06.png stalagmit6 0
 img/tex/objects/worldbuilders/STALAGMITY07.png stalagmit7 0
-img/tex/textures/ground/SKALA00.png rock0 1
-img/tex/textures/ground/ZIEMIA00.png ground0 1
 img/tex/textures/instalations/Electricity_cable_blue.png TEXElectricity_cable_blue 1
 img/tex/textures/instalations/Electricity_cable_green.png TEXElectricity_cable_green 1
 img/tex/textures/instalations/Electricity_cable_red.png TEXElectricity_cable_red 1
@@ -79,8 +63,6 @@ img/tex/textures/instalations/Hydro_pipe_rusted.png TEXHydro_pipe_rusted 1
 img/tex/textures/instalations/Steel_stick.png TEXSteel_stick 1
 img/tex/textures/instalations/Steel_stick_rusted.png TEXSteel_stick_rusted 1
 img/tex/textures/instalations/Vent_pipe.png TEXVent_pipe 1
-img/tex/textures/wall/MUR00.png wall0 1
-img/tex/textures/wood/DESKI00.png lumber0 1
 img/tex/textures/wood/DESKI00.png lumbers0 0
 img/tex/textures/wood/DESKI01.png lumber1 0
 img/tex/textures/wood/DESKI01.png lumbers1 0

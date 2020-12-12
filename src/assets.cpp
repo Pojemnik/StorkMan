@@ -1,6 +1,43 @@
 #include "assets.h"
 
-const sf::Texture* Assets::load_texture(sf::Image& img, Vectori pos, Vectori size, bool repeat)
+void Assets::load_concatenated_texture_file(string path)
+{
+	std::ifstream config_file(path, std::ios::in);
+	string img_path;
+	std::stringstream config_file_stripped = util::remove_comments(config_file);
+	std::getline(config_file_stripped, img_path);
+	int number_of_textures;
+	config_file_stripped >> number_of_textures;
+	sf::Image image;
+	image.loadFromFile(img_path);
+	while (number_of_textures--)
+	{
+		string name;
+		Vectori pos;
+		Vectori size;
+		bool repeated;
+		config_file_stripped >> name >> pos.x >> pos.y >> size.x >> size.y >> repeated;
+		sf::Texture* tmp = new sf::Texture;
+		tmp->loadFromImage(image, sf::IntRect(pos, size));
+		tmp->setRepeated(repeated);
+		if(textures.contains(name))
+			throw std::runtime_error("Duplicated texture name");
+		textures[name] = tmp;
+	}
+}
+
+void Assets::load_concatenated_texture_file_group(string path)
+{
+	std::ifstream config_file(path, std::ios::in);
+	std::stringstream config_file_stripped = util::remove_comments(config_file);
+	string tmp;
+	while(getline(config_file_stripped,tmp))
+	{
+		load_concatenated_texture_file(tmp);
+	}
+}
+
+const  sf::Texture* Assets::load_texture(sf::Image& img, Vectori pos, Vectori size, bool repeat)
 {
 	sf::Texture* tex = new sf::Texture();
 	if (!tex->loadFromImage(img, sf::IntRect(pos, size)))
@@ -248,17 +285,17 @@ void Assets::load_assets()
 {
 	//Background
 	backgrounds["main_bg"] = load_texture("img/bg/bg.jpg", false);
-	backgrounds["forest_bg"] = load_texture("img/bg/LAS.png", false);
 	//User interface
-	console_bg = load_texture("img/ui/console_bg.png", false);
+	load_concatenated_texture_file_group("img/textures.cfg");
+	{
+		sf::Texture* tmp_t = new sf::Texture();
+		sf::Image tmp_i;
+		tmp_i.create(1920, 180, sf::Color(0, 0, 0, 128));
+		tmp_t->loadFromImage(tmp_i);
+		console_bg = tmp_t;
+	}
 	load_hp_bar();
 	//Textures
-	auto [n, size, tex_names] = load_texture_file_config("img/world_textures_config.txt");
-	std::vector<const sf::Texture*> tmp = load_textures("img/tex/world_textures.png", n, size, true);
-	for (int i = 0; i < tex_names.size(); i++)
-	{
-		textures[tex_names[i]] = tmp[i];
-	}
 	parse_additional_textures("img/textures.txt");
 	parse_additional_animations("img/animations.txt");
 	//Icon

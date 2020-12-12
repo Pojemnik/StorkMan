@@ -29,7 +29,8 @@ class Assets
 	void load_sound(sf::SoundBuffer& buf, string path);
 	void load_hp_bar();
 	std::tuple<Vectori, Vectori, std::vector<string>> load_texture_file_config(string path);
-
+	void load_concatenated_texture_file(string path);
+	void load_concatenated_texture_file_group(string path);
 public:
 	struct Hp_bar
 	{
