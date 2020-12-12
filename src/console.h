@@ -26,7 +26,7 @@ public:
 	Stream_color color;
 
 private:
-	string buffer;
+	string buffer = "";
 	std::queue<string> data;
 
 	void ingest(string s);
@@ -47,7 +47,7 @@ private:
 	friend Console_stream& operator<<(Console_stream& stream, int i);
 };
 
-class Console : public sf::Drawable, public Message_receiver
+class Console : public sf::Drawable, public Message_receiver, public Message_sender
 {
 public:
 	Console_stream out;

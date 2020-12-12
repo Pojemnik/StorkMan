@@ -60,3 +60,18 @@ void Message_sender::remove_receiver(Message_receiver* receiver)
 
 Message::Message(Message_type type_, const Message_sender* sender_) :
 	type(type_), sender(sender_) {}
+
+void Receiver_component::push_message(Message& msg)
+{
+	Message_receiver::push_message(msg);
+}
+
+bool Receiver_component::message_available() const
+{
+	return Message_receiver::message_available();
+}
+
+Message Receiver_component::pop_message()
+{
+	return Message_receiver::pop_message();
+}

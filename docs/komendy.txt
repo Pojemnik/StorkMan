@@ -28,6 +28,7 @@ heal					brak			-					Uzdrawia gracza
 dealdamage				int				-					Zadaje graczowi obrażenia
 playertexture			int				0					Ustawia wygląd gracza
 help lub ?				brak			-					Wyświetla pomoc
+edit					bool			false				Włącza/wyłącza tryb edytora/przeglądarki
 
 Komendy podajesz wraz z argumentami w jednej linii.
 Przykład:

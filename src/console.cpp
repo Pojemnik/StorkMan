@@ -83,7 +83,7 @@ void Console_stream::ingest(char c)
 
 void Console_stream::ingest(string s)
 {
-	for (auto c : s)
+	for (const char& c : s)
 	{
 		ingest(c);
 	}
@@ -129,11 +129,41 @@ void Console::push_message(Message& msg)
 		err << static_cast<const string>(std::get<string>(msg.args));
 		break;
 	case Message::Message_type::RESOLUTION_CHANGED:
-	{
 		resolution = std::get<Vectori>(msg.args);
 		deactivate();
 		activate();
-	}
+		break;
+	case Message::Message_type::CONSOLE_ACTIVATED:
+		activate();
+		break;
+	case Message::Message_type::CONSOLE_DEACTIVATED:
+		deactivate();
+		break;
+	case Message::Message_type::MOUSE_SCROLLED:
+		if (active)
+		{
+			scroll(std::get<int>(msg.args));
+		}
+		break;
+	case Message::Message_type::CONSOLE_HISTORY:
+		if (std::get<int>(msg.args) == 1)
+		{
+			get_next_history_line();
+		}
+		else
+		{
+			get_previous_history_line();
+		}
+		break;
+	case Message::Message_type::CONSOLE_INPUT:
+		if (std::holds_alternative<char>(msg.args))
+		{
+			input_append(std::get<char>(msg.args));
+		}
+		else
+		{
+			input_append(std::get<string>(msg.args));
+		}
 		break;
 	default:
 		break;
@@ -142,7 +172,7 @@ void Console::push_message(Message& msg)
 
 Console::Console(const sf::Texture* tex, sf::Font* f, Vectori res) : font(f),
 out(Stream_color::WHITE), log(Stream_color::GREY), err(Stream_color::RED),
- resolution(res)
+ resolution(res), Message_sender(Message_sender_type::CONSOLE)
 {
 	background.setTexture(*tex);
 	for (auto& text : content_text)
@@ -302,6 +332,9 @@ void Console::input_append(char c)
 			input_buffer.push(line_begin);
 			buffer.setString(input_buffer.back() + cursor);
 			update_content();
+			send_message<string>(Message::Message_type::CONSOLE_COMMAND_RECEIVED,
+				get_user_input_line());
+			//In this implementataion the buffer is quite useless
 		}
 		if (c == '\b')
 		{

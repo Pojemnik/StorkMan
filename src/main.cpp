@@ -5,76 +5,10 @@
 #include "control.h"
 #include "entity_states.h"
 #include "sound.h"
+#include "edit_tools.h"
+#include "event_handler.h"
 
-const std::string VERSION = "pre-alpha 0.5.2";
-
-bool process_event(sf::Event& event)
-{
-	switch (event.type)
-	{
-	case sf::Event::Closed:
-		return true;
-	case sf::Event::KeyPressed:
-		if (context.window_focus)
-		{
-			if (event.key.code == sf::Keyboard::Tilde)
-			{
-				if (context.console->is_active())
-				{
-					context.console->deactivate();
-				}
-				else
-				{
-					context.console->activate();
-				}
-			}
-			if (context.console->is_active())
-			{
-				if (event.key.control && event.key.code == sf::Keyboard::V)
-				{
-					string s = sf::Clipboard::getString();
-					context.console->input_append(s);
-				}
-				if (event.key.code == sf::Keyboard::Up)
-				{
-					context.console->get_next_history_line();
-				}
-				if (event.key.code == sf::Keyboard::Down)
-				{
-					context.console->get_previous_history_line();
-				}
-			}
-			else
-			{
-				if (event.key.code == sf::Keyboard::G)
-				{
-					context.gravity = -context.gravity;
-				}
-			}
-			if (context.editor_mode)
-			{
-			}
-		}
-		break;
-	case sf::Event::TextEntered:
-		if (context.console->is_active() && context.window_focus)
-		{
-			if (event.text.unicode < 128)
-			{
-				char c = char(event.text.unicode);
-				context.console->input_append(c);
-			}
-		}
-		break;
-	case sf::Event::MouseWheelScrolled:
-		if (context.console->is_active() && context.window_focus)
-		{
-			context.console->scroll((int)event.mouseWheelScroll.delta);
-		}
-		break;
-	}
-	return false;
-}
+const std::string VERSION = "pre-alpha 0.5.3";
 
 bool execute_init_file(string path)
 {
@@ -90,7 +24,22 @@ bool execute_init_file(string path)
 	}
 	return init;
 }
-
+Map* load_map(std::string path,Parser& parser)
+{
+	tinyxml2::XMLDocument doc;
+	tinyxml2::XMLError error = doc.LoadFile(path.c_str());
+	if (error != tinyxml2::XMLError::XML_SUCCESS)
+	{
+		context.console->err << "Brak poziomu" << '\n';
+		return nullptr;
+	}
+	context.console->log << "Initializing map..." << '\n';
+	tinyxml2::XMLElement* root = doc.FirstChildElement();
+	Map* map = parser.parse_map(root);
+	context.console->log << "done!" << '\n';
+	map->add_receiver(&*context.console);
+	return map;
+}
 int main(int argc, char** argv)
 {
 	//Assets
@@ -104,6 +53,7 @@ int main(int argc, char** argv)
 
 	//Interpreter
 	Commands_interpreter interpreter;
+	interpreter.add_receiver(&*context.console);
 
 	//Parsing
 	Parser parser(&assets);
@@ -114,25 +64,13 @@ int main(int argc, char** argv)
 	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
 	sf::RenderWindow window(sf::VideoMode(context.resolution.x,
 		context.resolution.y, desktop.bitsPerPixel),
-		"StorkMan " + VERSION, sf::Style::Titlebar | sf::Style::Close);
+		"StorkMan " + VERSION, sf::Style::Titlebar | sf::Style::Close | sf::Style::Resize);
 	sf::Vector2u icon_size = assets.icon.getSize();
 	window.setIcon(icon_size.x, icon_size.y, assets.icon.getPixelsPtr());
 
 	//Map
-	std::string path = (argc == 2) ? argv[1] : "map/map.xml";
-	tinyxml2::XMLDocument doc;
-	tinyxml2::XMLError error = doc.LoadFile(path.c_str());
-	if (error != tinyxml2::XMLError::XML_SUCCESS)
-	{
-		context.console->err << "Brak poziomu" << '\n';
-		return -1;
-	}
-	context.console->log << "Initializing map..." << '\n';
-	tinyxml2::XMLElement* root = doc.FirstChildElement();
-	Map map = parser.parse_map(root);
-	context.console->log << "done!" << '\n';
-	map.add_receiver(&*context.console);
-
+	Map* map=load_map((argc == 2) ? argv[1] : "map/map.xml",parser);
+	
 	//Player
 	Entity_config storkman_config = parser.parse_entity_config("data/storkman.txt");
 	assets.add_entity_sounds(storkman_config.type, storkman_config.sounds);
@@ -161,7 +99,7 @@ int main(int argc, char** argv)
 		std::move(controller), storkman_config.height, storkman_config.max_hp,
 		Message_sender_type::PLAYER);
 	player.add_receiver(context.console.get());
-	map.add_entity(&player);
+	map->add_entity(&player);
 
 	//Test enemy
 	animation = std::make_unique<Key_frame_animation>(stork_parts,
@@ -173,16 +111,13 @@ int main(int argc, char** argv)
 	Entity test_enemy(std::move(animation), enemy_physical, std::move(machine),
 		std::move(controller), storkman_config.height, storkman_config.max_hp,
 		Message_sender_type::ENEMY);
-	map.add_entity(&test_enemy);
-
-	//Config file
-	bool init = execute_init_file("config.cfg");
+	map->add_entity(&test_enemy);
 
 	//Sound init
 	const auto steps_config = parser.load_steps_config("sound/sound/steps.cfg");
 	Sound_system sound_system(assets.entity_sounds, parser.music_paths,
 		sound_paths, steps_config);
-	map.add_receiver(&sound_system);
+	map->add_receiver(&sound_system);
 	player.add_receiver(&sound_system);
 	sound_system.add_receiver(&*context.console);
 	interpreter.add_receiver(&sound_system);
@@ -202,14 +137,38 @@ int main(int argc, char** argv)
 	hp.setFillColor(sf::Color(200, 0, 0));
 	hp.setString(std::to_string(player.health));
 
+	//Tools
+	Grid grid(context.global_scale, 0.5, static_cast<Vectorf>(context.level_size),
+		sf::Color(255, 255, 255, 50), sf::Color(0, 0, 0, 170), assets.consola);
+	Tooltip tooltip({ 0, 0 }, assets.consola, sf::Color(0, 0, 0, 170));
+
 	//Other
 	context.thread_pool = std::unique_ptr<ctpl::thread_pool>(new ctpl::thread_pool(4));
 	sf::Clock clock;
-	map.init();
+	map->init();
+	Receiver_component engine_receiver;
+	context.console->add_receiver(&engine_receiver);
+	Event_handler event_handler;
+	event_handler.add_receiver(&grid);
+	event_handler.add_receiver(&engine_receiver);
+	event_handler.add_receiver(&*context.console);
 	Message_sender engine_sender(Message_sender_type::ENGINE);
 	engine_sender.add_receiver(&sound_system);
 	engine_sender.add_receiver(&*context.console);
 	sf::SoundBuffer test_buffer;
+	Vectorf camera_pos;
+	camera_pos = player.get_position();
+	camera_pos -= sf::Vector2f(context.resolution) / 2.0f;
+	Vectorf mouse_pos = static_cast<Vectorf>(sf::Mouse::getPosition() -
+		window.getPosition()) + camera_pos;
+	mouse_pos += {-6.f, -31.f};
+	float camera_zoom = 1.f;
+
+	//Config file
+	bool init = execute_init_file("config.cfg");
+	sf::RenderStates rs = sf::RenderStates::Default;
+	sf::Transform rs_inv_transform=sf::Transform::Identity;
+	//Loop
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -220,30 +179,73 @@ int main(int argc, char** argv)
 		}
 		while (window.pollEvent(event))
 		{
-			if (process_event(event))
+			event_handler.handle_event(event);
+		}
+		while (engine_receiver.message_available())
+		{
+			Message msg = engine_receiver.pop_message();
+			switch (msg.type)
 			{
+			case Message::Message_type::WINDOW_CLOSED:
 				window.close();
 				return 0;
-			}
-		}
-		if (context.console->is_active() || init)
-		{
-			if (init)
+				break;
+			case Message::Message_type::CAMERA_MOVED:
+				camera_pos -= std::get<Vectorf>(msg.args);
+				break;
+			case Message::Message_type::MOUSE_SCROLLED:
+				if (!context.console->is_active() && context.editor_mode)
+				{
+					const static float MIN_ZOOM(0.2f);
+					const static float MAX_ZOOM(4.9f);
+					float old_camera_zoom = camera_zoom;
+					camera_zoom += static_cast<float>(std::get<int>(msg.args)) / 10.f;
+					if (camera_zoom > MAX_ZOOM)
+					{
+						camera_zoom = MAX_ZOOM;
+					}
+					else if (camera_zoom < MIN_ZOOM)
+					{
+						camera_zoom = MIN_ZOOM;
+					}
+					if (camera_zoom != old_camera_zoom)
+					{
+						camera_pos += mouse_pos * (camera_zoom - old_camera_zoom);
+					}
+				}
+				break;
+			case Message::Message_type::WINDOW_RESIZED:
+				if (context.editor_mode)
+				{
+					Vectori size = std::get<Vectori>(msg.args);
+					context.resolution = Vectori(size.x, size.y);
+					window.setView(sf::View(sf::FloatRect(0, 0, size.x, size.y)));
+				}
+				else
+				{
+					window.setSize(static_cast<sf::Vector2u>(context.resolution));
+				}
+				break;
+			case Message::Message_type::RELOAD_MAP:
+				delete map;
+				map = load_map((argc == 2) ? argv[1] : "map/map.xml", parser);
+				map->add_entity(&player);
+				map->add_entity(&test_enemy);
+				map->add_receiver(&sound_system);
+				map->init();
+				break;
+			case Message::Message_type::CONSOLE_COMMAND_RECEIVED:
 			{
-				init = false;
-			}
-			while (context.console->user_input_data_available())
-			{
+				string command = std::get<string>(msg.args);
 				std::pair<Commands_interpreter::Command_code, Vectorf> code =
-					interpreter.get_and_execute_command(
-						context.console->get_user_input_line());
+					interpreter.get_and_execute_command(command);
 				switch (code.first)
 				{
 				case Commands_interpreter::Command_code::CHANGE_RESOLUTION:
 				{
 					window.setSize(sf::Vector2u(context.resolution.x, context.resolution.y));
-					sf::FloatRect visibleArea(0.f, 0.f, context.resolution.x, context.resolution.y);
-					window.setView(sf::View(visibleArea));
+					sf::FloatRect visible_area(0.f, 0.f, context.resolution.x, context.resolution.y);
+					window.setView(sf::View(visible_area));
 					engine_sender.send_message<Vectori>(Message::Message_type::RESOLUTION_CHANGED, context.resolution);
 				}
 				break;
@@ -277,10 +279,10 @@ int main(int argc, char** argv)
 					player.set_draw_collision(static_cast<bool>(code.second.x));
 					break;
 				case Commands_interpreter::Command_code::DRAW_CHUNKS_BORDERS:
-					map.set_draw_chunks_borders(static_cast<bool>(code.second.x));
+					map->set_draw_chunks_borders(static_cast<bool>(code.second.x));
 					break;
 				case Commands_interpreter::Command_code::DRAW_SOUND_SOURCES:
-					map.set_draw_sound_sources(static_cast<bool>(code.second.x));
+					map->set_draw_sound_sources(static_cast<bool>(code.second.x));
 					break;
 				case Commands_interpreter::Command_code::SET_PLAYER_TEXTURE:
 					player.set_textures_set(static_cast<int>(code.second.x));
@@ -288,6 +290,10 @@ int main(int argc, char** argv)
 				default:
 					break;
 				}
+			}
+			break;
+			default:
+				break;
 			}
 		}
 		if (context.console->output_available())
@@ -298,52 +304,81 @@ int main(int argc, char** argv)
 		time /= 1000000.0f;
 		time *= context.fps;
 		clock.restart();
-		Vectorf camera_pos = player.get_position();
-		camera_pos -= Vectorf((float)context.resolution.x / 2,
-			(float)context.resolution.y / 2);
-		sf::FloatRect screen_rect(camera_pos.x, camera_pos.y,
-			float(context.resolution.x), float(context.resolution.y));
+
+		//Update
 		if (!context.console->is_active())
 		{
 			static float acc(0);
 			const static float STEP(1);
 			acc += time;
+			sf::FloatRect screen_rect({0.0f,0.0f},static_cast<Vectorf>(context.resolution));
+			screen_rect = rs_inv_transform.transformRect(screen_rect);
 			while (acc > STEP)
 			{
-				map.update_physics(STEP, player.get_position(), screen_rect);
+				map->update_physics(STEP, player.get_position(), screen_rect);
 				test_enemy.update_physics(STEP);
 				player.update_physics(STEP);
 				context.player_pos = player.get_position();
 				acc -= STEP;
 			}
-			map.update_graphics(time, player.get_position(), screen_rect);
+			map->update_graphics(time, player.get_position(), screen_rect);
 			test_enemy.update_graphics(time);
 			player.update_graphics(time);
+			sound_system.update(time);
 		}
 		if (context.draw_fps_counter)
 		{
 			fps_counter.setString(std::to_string(int(context.fps / time)));
 		}
-		camera_pos = player.get_position();
-		camera_pos -= sf::Vector2f(context.resolution) / 2.0f;
-		sf::RenderStates rs = sf::RenderStates::Default;
+
+		//Camera
+		if (context.editor_mode)
+		{
+			mouse_pos = static_cast<Vectorf>(sf::Mouse::getPosition() -
+				window.getPosition());
+			mouse_pos += {-6.f, -31.f}; //Magic numbers
+			mouse_pos = rs_inv_transform.transformPoint(mouse_pos);
+		}
+		else
+		{
+			camera_pos = player.get_position();
+			camera_pos -= sf::Vector2f(context.resolution) / 2.0f;
+			camera_zoom = 1.f;
+		}
+		rs = sf::RenderStates::Default;
 		rs.transform = sf::Transform().translate(-camera_pos);
-		sound_system.update(time);
+		rs.transform.scale(camera_zoom, camera_zoom);
+		rs_inv_transform= sf::Transform().scale(1/camera_zoom, 1/camera_zoom);
+		rs_inv_transform.translate(camera_pos);
 
 		//Drawing
 		window.clear();
-		map.draw_bottom_layers(window, rs);
+		map->draw_bottom_layers(window, rs);
 		window.draw(player, rs);
 		window.draw(test_enemy, rs);
-		map.draw_middle_layers(window, rs);
-		map.draw_top_layers(window, rs);
+		map->draw_middle_layers(window, rs);
+		map->draw_top_layers(window, rs);
 		if (context.draw_damage_zones)
 		{
-			map.draw_zones(window, rs);
+			map->draw_zones(window, rs);
 		}
 		if (context.draw_map_vertices)
 		{
-			map.draw_vertices(window, rs);
+			map->draw_vertices(window, rs);
+		}
+		if (context.editor_mode)
+		{
+			grid.update(mouse_pos);
+			window.draw(grid, rs);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
+		{
+			string s = std::to_string(mouse_pos.x / context.global_scale)
+				+ " " + std::to_string(mouse_pos.y / context.global_scale);
+			tooltip.set_content(s);
+			tooltip.set_position((Vectorf)sf::Mouse::getPosition() -
+				(Vectorf)window.getPosition());
+			window.draw(tooltip);
 		}
 		if (context.draw_hp)
 		{
