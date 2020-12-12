@@ -115,8 +115,6 @@ void Event_handler::handle_event(sf::Event& event)
 			Vectorf mouse_pos = static_cast<Vectorf>(sf::Mouse::getPosition());
 			Vectorf mouse_delta = mouse_pos - mouse_start_pos;
 			mouse_start_pos = mouse_pos;
-			//mouse_pos = Vectorf(mouse_pos.x / context.camera_zoom.x,
-			//	mouse_pos.y / context.camera_zoom.y);
 			send_message<Vectorf>(Message::Message_type::CAMERA_MOVED, mouse_delta);
 		}
 		break;

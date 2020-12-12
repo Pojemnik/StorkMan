@@ -8,7 +8,7 @@
 #include "edit_tools.h"
 #include "event_handler.h"
 
-const std::string VERSION = "pre-alpha 0.5.2";
+const std::string VERSION = "pre-alpha 0.5.3";
 
 bool execute_init_file(string path)
 {
@@ -196,15 +196,17 @@ int main(int argc, char** argv)
 			case Message::Message_type::MOUSE_SCROLLED:
 				if (!context.console->is_active() && context.editor_mode)
 				{
+					const static float MIN_ZOOM(0.2f);
+					const static float MAX_ZOOM(4.9f);
 					float old_camera_zoom = camera_zoom;
 					camera_zoom += static_cast<float>(std::get<int>(msg.args)) / 10.f;
-					if (camera_zoom > 4.9f)
+					if (camera_zoom > MAX_ZOOM)
 					{
-						camera_zoom = 4.9f;
+						camera_zoom = MAX_ZOOM;
 					}
-					else if (camera_zoom < 0.3f)
+					else if (camera_zoom < MIN_ZOOM)
 					{
-						camera_zoom = 0.3f;
+						camera_zoom = MIN_ZOOM;
 					}
 					if (camera_zoom != old_camera_zoom)
 					{
@@ -335,7 +337,6 @@ int main(int argc, char** argv)
 			mouse_pos = static_cast<Vectorf>(sf::Mouse::getPosition() -
 				window.getPosition());
 			mouse_pos += {-6.f, -31.f}; //Magic numbers
-			//mouse_pos /= camera_zoom;
 			mouse_pos = rs_inv_transform.transformPoint(mouse_pos);
 		}
 		else
