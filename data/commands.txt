@@ -7,6 +7,7 @@ mapvertices (bool) (false) Drawing platforms' edges
 drawhp (bool) (false) Drawing player's health as number in upper left corner of the screen
 damagezones (bool) (false) Draws damage zones
 chunksborders (bool) (false) Draws chunks' borders
+soundsources (bool) (false)	Draws sound zones and their sources
 
 Settings:
 gravity (float) (0.3) Gravity
@@ -26,3 +27,4 @@ heal (none) (-) Heals player
 dealdamage (int) (-) Deals damage to player
 playertexture (int) (0) Sets player's texture
 help (none) (-) Displays help | alias: ?
+edit (bool)	(false)	Enables/disables browser mode

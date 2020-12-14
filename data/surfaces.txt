@@ -1,3 +1,4 @@
+#Only names of surfaces. Surface named "none" is default
 grass
 concrete
 ice

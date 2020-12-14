@@ -17,8 +17,8 @@ Często używane atrybuty:
 - height (float [m]) - wysokość, używana do obliczania skali
 - frame_time (float [1/60s]) - co ile czasu ma się zmieniać klatka animacji obiekty
 - offset (float [1/60s]) - od którego momentu zacząć animację 
-- surface (string {none, grass, concrete, ice}) - typ powierzchni. Należy wybrać z dotępnych. Lista dostępnych typów zostanie udostępniona na żądanie
-
+- surface (string {none, ...}) - typ powierzchni. Należy wybrać z dotępnych - patrz plik data/surfaces.txt
+- color (float, float, float) - filtr koloru - wartość poszczególnych składowych (RGB) koloru elementu jest mnożona przez {wartość}/255
 Znaczniki główne:
 
 level:
@@ -47,6 +47,7 @@ platform:
 		flip* (domyślnie 1,1)
 		surface* (domyślnie none)
 		one_sided* (bool) (domyślnie false) - czy platforma jest jednostronna - czy gracz przenika przez nią od dołu
+		color* (domyślnie 255,255,255)
 	
 	zawartość:
 		znaczniki <v> opisujące kolejne wierzchołki
@@ -59,6 +60,7 @@ object:
 		rotation* (domyślnie 0)
 		flip* (domyślnie 1,1)
 		layer* (domyślne 3)
+		color* (domyślnie 255,255,255)
 		
 animated_object:
 	atrybuty:
@@ -70,6 +72,7 @@ animated_object:
 		layer* (domyślne 3)
 		frame_time* (domyślnie 1)
 		offset* (domyślnie 0)
+		color* (domyślnie 255,255,255)
 		
 moving_object:
 	atrybuty:
@@ -80,6 +83,7 @@ moving_object:
 		flip* (domyślnie 1,1)
 		layer* (domyślne 3)
 		frame_time* (domyślnie 1)
+		color* (domyślnie 255,255,255)
 	
 	zawartość:
 		<move>
@@ -96,6 +100,7 @@ pendulum:
 		flip* (domyślnie 1,1)
 		line_offset (int [px], int [px]) - miejsce, gdzie zaczyna się tekstura liny na grafice - współrzędne lewego górnego rogu
 		surface* (domyślnie none)
+		color* (domyślnie 255,255,255) - dotyczy platformy i lin
 		
 	zawartość:
 		znaczniki <v> lub <vt> opisujące kolejne wierzchołki
@@ -109,6 +114,7 @@ moving_platform:
 		rotation* (domyślnie 0)
 		flip* (domyślnie 1,1)
 		surface* (domyślnie none)
+		color* (domyślnie 255,255,255)
 		
 	zawartość:
 		znaczniki <v> lub <vt> opsujące kolejne wierzchołki
@@ -120,6 +126,7 @@ wall:
 		texture
 		layer* - (domyślne 1)
 		flip* (domyślnie 1,1)
+		color* (domyślnie 255,255,255)
 	
 	zawartość:
 		znaczniki <v> opisujące kolejne wierzchołki
@@ -132,6 +139,7 @@ animated_wall:
 		frame_time* (domyślnie 1)
 		offset* (domyślnie 0)
 		flip* (domyślnie 1,1)
+		color* (domyślnie 255,255,255)
 	
 	zawartość:
 		znaczniki <v> opisujące kolejne wierzchołki
@@ -146,6 +154,7 @@ animated_moving_platform:
 		offset* (domyślne 0)
 		frame_time* (domyślnie 1)
 		surface* (domyślnie none)
+		color* (domyślnie 255,255,255)
 		
 	zawartość:
 		znaczniki <v> lub <vt> opsujące kolejne wierzchołki
@@ -194,6 +203,7 @@ animated_moving_object:
 		layer* (domyślne 3)
 		frame_time* (domyślnie 1)
 		offset* (domyślnie 0)
+		color* (domyślnie 255,255,255)
 		
 	znaczniki:
 		<move>

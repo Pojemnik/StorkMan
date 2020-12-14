@@ -1,3 +1,7 @@
+Plik textures.cfg zawiera ścieżki do plików opisujących strukturę zawartości w plikach graficznych zawierających wiele "sklejonych" tekstur. W celu dodania nowych grafik należy odpowiednio edytować te pliki lub dodać nowe.
+
+
+=============PRZESTARZAŁE, MOŻNA UŻYĆ, ALE TYLKO DO SPRAWDZENIA "NA SZYBKO"==============================
 Dodawanie nowych tekstur:
 W pliku img/textures.txt podajesz odpowiednio:
 Scieżkę do pliku z teksturą, nazwę używaną przez edytor,
