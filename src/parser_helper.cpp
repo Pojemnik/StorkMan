@@ -52,15 +52,6 @@ std::tuple<Vectorf, float, float> parse::parse_acc_path_node(string content)
 	return std::tuple<Vectorf, float, float>(v, time, a);
 }
 
-sf::Color parse::parse_color(string val)
-{
-	auto vect = split_string(val);
-	uint8_t r = (uint8_t)std::stoi(vect[0]);
-	uint8_t g = (uint8_t)std::stoi(vect[1]);
-	uint8_t b = (uint8_t)std::stoi(vect[2]);
-	return sf::Color(r, g, b);
-}
-
 std::pair<int, float> parse::parse_flip_rotation(tinyxml2::XMLElement* element)
 {
 	float rotationang = get_and_parse_var<float>("rotation", element, 0.f);

@@ -19,10 +19,9 @@ namespace parse
 	const int DEFAULT_PLATFORM_LAYER = 5;
 	const int DEFAULT_OBJECT_LAYER = 3;
 	const Vectorf fliptab[4] = { {1,1},{-1,1},{1,-1},{-1,-1} };
-	
+
 	std::vector<string> split_string(string s, string d = ",");
 	std::string get_attribute_by_name(std::string name, tinyxml2::XMLElement* element);
-	sf::Color parse_color(std::string val);
 	std::pair<int, float> parse_flip_rotation(tinyxml2::XMLElement* element);
 	int parse_layer(tinyxml2::XMLElement* element, int default_value);
 	sf::Vertex parse_vertex(string content, std::pair<int, float> fliprot);
@@ -45,6 +44,8 @@ namespace parse
 	Vectori parse_var<Vectori>(string val);
 	template <>
 	bool parse_var<bool>(string val);
+	template <>
+	sf::Color parse_var<sf::Color>(string val);
 
 	template <typename T>
 	T parse_var(string a, string b);
@@ -105,6 +106,16 @@ namespace parse
 		T var;
 		ss >> var;
 		return var;
+	}
+
+	template <>
+	inline sf::Color parse_var<sf::Color>(string val)
+	{
+		auto vect = split_string(val);
+		uint8_t r = (uint8_t)std::stoi(vect[0]);
+		uint8_t g = (uint8_t)std::stoi(vect[1]);
+		uint8_t b = (uint8_t)std::stoi(vect[2]);
+		return sf::Color(r, g, b);
 	}
 
 	template <>

@@ -40,10 +40,6 @@ class Parser
 	std::pair<std::optional<int>, std::shared_ptr<Moving_animated_object>>
 		parse_animated_moving_object(tinyxml2::XMLElement* element, Vectori level_pos);
 	std::pair<std::optional<int>, std::shared_ptr<Moving_platform>>
-		parse_old_moving_platform(tinyxml2::XMLElement* element, Vectori level_pos);
-	std::pair<std::optional<int>, std::shared_ptr<Moving_object>>
-		parse_old_moving_object(tinyxml2::XMLElement* element, Vectori level_pos);
-	std::pair<std::optional<int>, std::shared_ptr<Moving_platform>>
 		parse_moving_platform(tinyxml2::XMLElement* element, Vectori level_pos);
 	std::pair<std::optional<int>, std::shared_ptr<Moving_object>>
 		parse_moving_object(tinyxml2::XMLElement* element, Vectori level_pos);
@@ -73,8 +69,6 @@ class Parser
 		{"object", std::bind(&Parser::parse_object, this, std::placeholders::_1, std::placeholders::_2)},
 		{"animated_object", std::bind(&Parser::parse_animated_object, this, std::placeholders::_1, std::placeholders::_2)},
 		{"animated_moving_object", std::bind(&Parser::parse_animated_moving_object, this, std::placeholders::_1, std::placeholders::_2)},
-		{"old_moving_platform", std::bind(&Parser::parse_old_moving_platform, this, std::placeholders::_1, std::placeholders::_2)},
-		{"old_moving_object", std::bind(&Parser::parse_old_moving_object, this, std::placeholders::_1, std::placeholders::_2)},
 		{"moving_platform", std::bind(&Parser::parse_moving_platform, this, std::placeholders::_1, std::placeholders::_2)},
 		{"moving_object", std::bind(&Parser::parse_moving_object, this, std::placeholders::_1, std::placeholders::_2)},
 		{"pendulum", std::bind(&Parser::parse_pendulum, this, std::placeholders::_1, std::placeholders::_2)},

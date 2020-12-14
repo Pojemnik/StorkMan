@@ -1,85 +1,10 @@
 ﻿<level name="Podziemna Świątynia - poziom testowy 04">
-    <sound position="19.0,13.5" volume="200.0" sound="TURBINA_04" attenuation="1.0" min_distance="4.0" range="20.0"/>
-    <sound position="28.0,13.5" volume="200.0" sound="TURBINA_05" attenuation="1.0" min_distance="4.0" range="20.0"/>
-    <sound position="37.0,13.5" volume="200.0" sound="TURBINA_06" attenuation="1.0" min_distance="4.0" range="20.0"/>
 <chunk>
-    <moving_object position="12.0,13.5" texture="OBJSteam_Generator" height="2.0" layer="11.0" rotation="0.0" flip="1.0,1.0">
-        <move type="linear">
-            <p>-0.006573781358470263,0.01,0.25</p>
-            <p>0.014771152631780771,-0.00027917844982701043,0.25</p>
-            <p>-6.938893903907228e-18,-0.018801617991642178,0.25</p>
-            <p>-0.014771152631780787,-0.00027917844982700696,0.25</p>
-            <p>0.006573781358470235,0.009999999999999986,0.25</p>
-            <p>0.011845544696757955,-0.013097104319733424,0.25</p>
-            <p>-0.011845544696757965,-0.013097104319733419,0.25</p>
-        </move>
-    </moving_object>
-    <animated_moving_object position="14.0,14.0" texture="AOBRotating_Cylinder" height="1.0" layer="11.0" rotation="0.0" flip="1.0,1.0" frame_time="0.46875" offset="0.0">
-        <move type="linear">
-            <p>-0.006573781358470263,0.01,0.25</p>
-            <p>0.014771152631780771,-0.00027917844982701043,0.25</p>
-            <p>-6.938893903907228e-18,-0.018801617991642178,0.25</p>
-            <p>-0.014771152631780787,-0.00027917844982700696,0.25</p>
-            <p>0.006573781358470235,0.009999999999999986,0.25</p>
-            <p>0.011845544696757955,-0.013097104319733424,0.25</p>
-            <p>-0.011845544696757965,-0.013097104319733419,0.25</p>
-        </move>
-    </animated_moving_object>
-    <moving_object position="15.0,11.5" texture="OBJSteam_Turbine" height="4.0" layer="11.0" rotation="0.0" flip="1.0,1.0">
-        <move type="linear">
-            <p>-0.006573781358470263,0.01,0.25</p>
-            <p>0.014771152631780771,-0.00027917844982701043,0.25</p>
-            <p>-6.938893903907228e-18,-0.018801617991642178,0.25</p>
-            <p>-0.014771152631780787,-0.00027917844982700696,0.25</p>
-            <p>0.006573781358470235,0.009999999999999986,0.25</p>
-            <p>0.011845544696757955,-0.013097104319733424,0.25</p>
-            <p>-0.011845544696757965,-0.013097104319733419,0.25</p>
-        </move>
-    </moving_object>
-    <animated_moving_object position="23.0,14.0" texture="AOBRotating_Cylinder" height="1.0" layer="11.0" rotation="0.0" flip="1.0,1.0" frame_time="0.234375" offset="0.0">
-        <move type="linear">
-            <p>-0.006573781358470263,0.01,0.25</p>
-            <p>0.014771152631780771,-0.00027917844982701043,0.25</p>
-            <p>-6.938893903907228e-18,-0.018801617991642178,0.25</p>
-            <p>-0.014771152631780787,-0.00027917844982700696,0.25</p>
-            <p>0.006573781358470235,0.009999999999999986,0.25</p>
-            <p>0.011845544696757955,-0.013097104319733424,0.25</p>
-            <p>-0.011845544696757965,-0.013097104319733419,0.25</p>
-        </move>
-    </animated_moving_object>
-    <moving_object position="24.0,11.5" texture="OBJSteam_Turbine" height="4.0" layer="11.0" rotation="0.0" flip="1.0,1.0">
-        <move type="linear">
-            <p>-0.006573781358470263,0.01,0.25</p>
-            <p>0.014771152631780771,-0.00027917844982701043,0.25</p>
-            <p>-6.938893903907228e-18,-0.018801617991642178,0.25</p>
-            <p>-0.014771152631780787,-0.00027917844982700696,0.25</p>
-            <p>0.006573781358470235,0.009999999999999986,0.25</p>
-            <p>0.011845544696757955,-0.013097104319733424,0.25</p>
-            <p>-0.011845544696757965,-0.013097104319733419,0.25</p>
-        </move>
-    </moving_object>
-    <animated_moving_object position="32.0,14.0" texture="AOBRotating_Cylinder" height="1.0" layer="11.0" rotation="0.0" flip="1.0,1.0" frame_time="0.1171875" offset="0.0">
-        <move type="linear">
-            <p>-0.006573781358470263,0.01,0.25</p>
-            <p>0.014771152631780771,-0.00027917844982701043,0.25</p>
-            <p>-6.938893903907228e-18,-0.018801617991642178,0.25</p>
-            <p>-0.014771152631780787,-0.00027917844982700696,0.25</p>
-            <p>0.006573781358470235,0.009999999999999986,0.25</p>
-            <p>0.011845544696757955,-0.013097104319733424,0.25</p>
-            <p>-0.011845544696757965,-0.013097104319733419,0.25</p>
-        </move>
-    </animated_moving_object>
-    <moving_object position="33.0,11.5" texture="OBJSteam_Turbine" height="4.0" layer="11.0" rotation="0.0" flip="1.0,1.0">
-        <move type="linear">
-            <p>-0.006573781358470263,0.01,0.25</p>
-            <p>0.014771152631780771,-0.00027917844982701043,0.25</p>
-            <p>-6.938893903907228e-18,-0.018801617991642178,0.25</p>
-            <p>-0.014771152631780787,-0.00027917844982700696,0.25</p>
-            <p>0.006573781358470235,0.009999999999999986,0.25</p>
-            <p>0.011845544696757955,-0.013097104319733424,0.25</p>
-            <p>-0.011845544696757965,-0.013097104319733419,0.25</p>
-        </move>
-    </moving_object>
+    <wall position="20,13" texture="dirt,0" layer="5.0" rotation="0.0" flip="1.0,1.0" color = "255,100,0">
+        <v>5.0,-5.0</v>
+		<v>5.0,0.0</v>
+		<v>0.0,0.0</v>
+    </wall>
 </chunk>
 	/---------------------------------------------------------------------PODZIEMIE
 	<chunk>
@@ -276,7 +201,7 @@
 		<object position="1, 16.5" texture="crystal3" height="2"/>
 	</chunk>
 	<chunk>
-		<animated_object position="2, 7.4" texture="grass7" height="1.5" layer="8" frame_time="6" rotation="39"/>
+		<animated_object position="2, 7.4" texture="grass7" height="1.5" layer="8" frame_time="6" rotation="39" color="255,0,255"/>
 	</chunk>
 	<chunk>
 		<animated_object position="8.25, 4.55" texture="grass8" height="1" layer="8" frame_time="6" rotation="-14" offset="3"/>
@@ -993,7 +918,7 @@
 		</platform>
 	</chunk>
 	<chunk right="2">
-		<moving_platform position="88,21" texture="construction,0" layer="2">
+		<moving_platform position="88,21" texture="construction,0" layer="2" color = "0,255,255">
 			<move type="linear">
 				<p>0,-15.5,60</p>
 				<p>0,-15.5,280</p>
@@ -1248,7 +1173,7 @@
 				<p>0,0,310</p>
 			</move>
 		</moving_object>
-		<object position="91, 0" texture="crane0" height="25" layer="0" flip="-1,1"/>
+		<object position="91, 0" texture="crane0" height="25" layer="0" flip="-1,1" color="0, 255, 255"/>
 	</chunk>
 	<chunk>
 		<object position="85, 33" texture="column0" height="3" layer="8"/>

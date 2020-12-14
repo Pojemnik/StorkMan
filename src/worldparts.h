@@ -16,7 +16,7 @@ public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual sf::FloatRect get_bounding_rect() const;
 	Object(Vectorf pos_, const sf::Texture* const texture_, float height_,
-		int flip_ = 0, float angle_ = 0);
+		int flip_, float angle_, sf::Color color);
 };
 
 class Moving_object : public Object, public Graphical_updatable
@@ -26,7 +26,7 @@ protected:
 
 public:
 	Moving_object(Vectorf pos_, const sf::Texture* texture_, float height_,
-		std::unique_ptr<Simple_AI> ai_, int flip_ = 0, float angle_ = 0);
+		std::unique_ptr<Simple_AI> ai_, int flip_, float angle_, sf::Color color);
 	void update_graphics(float dt);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual sf::FloatRect get_bounding_rect() const;
@@ -39,7 +39,7 @@ protected:
 
 public:
 	Animated_object(Vectorf pos_, std::unique_ptr<Animation>&& animation_,
-		float height_, int flip_ = 0, float angle_ = 0);
+		float height_, int flip_, float angle_, sf::Color color);
 	void update_frame();
 	void next_frame(float dt);
 	void update_graphics(float dt);
@@ -51,8 +51,8 @@ class Moving_animated_object : public Animated_object
 
 public:
 	Moving_animated_object(Vectorf pos_, std::unique_ptr<Animation> animation_,
-		float height_, std::unique_ptr<Simple_AI> ai_, int flip_ = 0,
-		float angle_ = 0);
+		float height_, std::unique_ptr<Simple_AI> ai_, int flip_,
+		float angle_, sf::Color color);
 	void update_graphics(float dt);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual sf::FloatRect get_bounding_rect() const;

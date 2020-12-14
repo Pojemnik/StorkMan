@@ -1,11 +1,12 @@
 #include "platforms.h"
 
 Textured_polygon::Textured_polygon(Vectorf pos, const sf::Texture* texture_,
-	std::vector<sf::Vertex> points) : texture(texture_)
+	std::vector<sf::Vertex> points, sf::Color color) : texture(texture_)
 {
 	for (auto& it : points)
 	{
 		it.position += pos;
+		it.color = color;
 	}
 	polygon = sf::VertexBuffer(sf::TrianglesFan, sf::VertexBuffer::Static);
 	polygon.create(points.size());
@@ -30,9 +31,10 @@ const Collision* const Platform::get_collision() const
 }
 
 Platform::Platform(Vectorf pos_, const sf::Texture* texture_,
-	std::vector<sf::Vertex> points_, int surface_, bool one_sided) :
-	collision(points_, pos_, surface_),
-	Textured_polygon(pos_, texture_, std::move(std::vector<sf::Vertex>(points_)))
+	std::vector<sf::Vertex> points_, int surface_, bool one_sided,
+	sf::Color color) :
+	collision(points_, pos_, surface_), Textured_polygon(pos_, texture_,
+		std::move(std::vector<sf::Vertex>(points_)), color)
 {
 	collision.one_sided = one_sided;
 }
@@ -49,8 +51,10 @@ const Collision* const Moving_platform::get_collision() const
 
 Moving_platform::Moving_platform(Vectorf pos_, const sf::Texture* texture_,
 	std::vector<sf::Vertex> points_, std::unique_ptr<Simple_AI> ai_,
-	int surface_) : Platform({ 0,0 }, texture_, points_, surface_, false), ai(std::move(ai_)),
-	vertex(sf::LineStrip, sf::VertexBuffer::Static), pos(pos_)
+	int surface_, sf::Color color) : 
+	Platform({ 0,0 }, texture_, points_, surface_, false, color),
+	ai(std::move(ai_)), vertex(sf::LineStrip, sf::VertexBuffer::Static),
+	pos(pos_)
 {
 	base_rect = collision.rect;
 	base_mesh = collision.mesh;
@@ -100,9 +104,10 @@ Vectorf Moving_platform::get_speed() const
 	return speed;
 }
 
-Animated_polygon::Animated_polygon(Vectorf pos, std::unique_ptr<Animation>&& animation_,
-	std::vector<sf::Vertex> points) : animation(std::move(animation_)),
-	Textured_polygon(pos, nullptr, points)
+Animated_polygon::Animated_polygon(Vectorf pos,
+	std::unique_ptr<Animation>&& animation_, std::vector<sf::Vertex> points,
+	sf::Color color) : animation(std::move(animation_)),
+	Textured_polygon(pos, nullptr, points, color)
 {
 	update_graphics(.0f);
 }
@@ -136,8 +141,8 @@ void Animated_polygon::update_graphics(float dt)
 
 Animated_moving_platform::Animated_moving_platform(Vectorf pos_,
 	std::unique_ptr<Animation>&& animation_, std::vector<sf::Vertex> points_,
-	std::unique_ptr<Simple_AI> ai_, int surface_)
-	: Moving_platform(pos_, nullptr, points_, std::move(ai_), surface_),
+	std::unique_ptr<Simple_AI> ai_, int surface_, sf::Color color)
+	: Moving_platform(pos_, nullptr, points_, std::move(ai_), surface_, color),
 	animation(std::move(animation_))
 {
 	update_graphics(.0f);

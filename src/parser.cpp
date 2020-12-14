@@ -1,4 +1,5 @@
 ﻿#include "parser.h"
+
 void Parser::parse_surface_types_config(string path)
 {
 	std::ifstream config_file(path, std::ios::in);
@@ -178,7 +179,8 @@ Parser::parse_platform(tinyxml2::XMLElement* element, Vectori level_pos)
 			parse_vertices(element->FirstChildElement(), fliprot);
 		int layer = parse_layer(element, DEFAULT_PLATFORM_LAYER);
 		bool one_sided = get_and_parse_var<bool>("one_sided", element, false);
-		return std::make_pair(layer, std::make_shared<Platform>(pos, tex, points, surface, one_sided));
+		sf::Color color = get_and_parse_var<sf::Color>("color", element, sf::Color::White);
+		return std::make_pair(layer, std::make_shared<Platform>(pos, tex, points, surface, one_sided, color));
 	}
 	catch (const std::invalid_argument& e)
 	{
@@ -209,7 +211,8 @@ Parser::parse_wall(tinyxml2::XMLElement* element, Vectori level_pos)
 		std::vector<sf::Vertex> points =
 			parse_vertices(element->FirstChildElement(), fliprot);
 		int layer = parse_layer(element, DEFAULT_WALL_LAYER);
-		return std::make_pair(layer, std::make_shared<Textured_polygon>(pos, tex, points));
+		sf::Color color = get_and_parse_var<sf::Color>("color", element, sf::Color::White);
+		return std::make_pair(layer, std::make_shared<Textured_polygon>(pos, tex, points, color));
 	}
 	catch (const std::invalid_argument& e)
 	{
@@ -237,7 +240,9 @@ Parser::parse_object(tinyxml2::XMLElement* element, Vectori level_pos)
 		float height = get_and_parse_var<float>("height", element);
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		int layer = parse_layer(element, DEFAULT_OBJECT_LAYER);
-		return std::make_pair(layer, std::make_shared<Object>(pos, tex, height, fliprot.first, fliprot.second));
+		sf::Color color = get_and_parse_var<sf::Color>("color", element, sf::Color::White);
+		return std::make_pair(layer, std::make_shared<Object>(pos, tex, height,
+			fliprot.first, fliprot.second, color));
 	}
 	catch (const std::out_of_range& e)
 	{
@@ -263,8 +268,9 @@ Parser::parse_animated_object(tinyxml2::XMLElement* element, Vectori level_pos)
 		Static_animation_struct sas(tex, frame_time);
 		std::unique_ptr<Animation> animation = std::make_unique<Static_animation>(sas, frame_offset);
 		int layer = parse_layer(element, DEFAULT_OBJECT_LAYER);
+		sf::Color color = get_and_parse_var<sf::Color>("color", element, sf::Color::White);
 		return std::make_pair(layer, std::make_shared<Animated_object>(pos, std::move(animation),
-			height, fliprot.first, fliprot.second));
+			height, fliprot.first, fliprot.second, color));
 	}
 	catch (const std::out_of_range& e)
 	{
@@ -287,6 +293,7 @@ Parser::parse_animated_moving_object(tinyxml2::XMLElement* element, Vectori leve
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		float frame_time = get_and_parse_var<float>("frame_time", element, 1.f);
 		float frame_offset = get_and_parse_var<float>("offset", element, 0.f);
+		sf::Color color = get_and_parse_var<sf::Color>("color", element, sf::Color::White);
 		std::unique_ptr<Simple_AI> ai;
 		tinyxml2::XMLElement* e = element->FirstChildElement();
 		while (e != NULL)
@@ -302,7 +309,7 @@ Parser::parse_animated_moving_object(tinyxml2::XMLElement* element, Vectori leve
 		std::unique_ptr<Animation> animation = std::make_unique<Static_animation>(sas, frame_offset);
 		int layer = parse_layer(element, DEFAULT_OBJECT_LAYER);
 		return std::make_pair(layer, std::make_shared<Moving_animated_object>(pos, std::move(animation),
-			height, std::move(ai), fliprot.first, fliprot.second));
+			height, std::move(ai), fliprot.first, fliprot.second, color));
 	}
 	catch (const std::out_of_range& e)
 	{
@@ -321,7 +328,6 @@ Map* Parser::parse_map(tinyxml2::XMLElement* root)
 	tinyxml2::XMLElement* element = root->FirstChildElement();
 	Map*  map=new Map(map_size, player_pos, assets->backgrounds.at("main_bg"));
 	int lvl_n = 0;
-#define DEBUG_ASYNC__STORK__PARSE
 #ifndef DEBUG_ASYNC__STORK__PARSE
 	std::vector<std::future<std::unique_ptr<Level>>> futures;
 	while (element != NULL)
@@ -489,91 +495,6 @@ std::vector<string> Parser::load_map_sound_config(string path)
 }
 
 std::pair<std::optional<int>, std::shared_ptr<Moving_platform>>
-Parser::parse_old_moving_platform(tinyxml2::XMLElement* element, Vectori level_pos)
-{
-	try
-	{
-		string val = get_attribute_by_name("texture", element);
-		const sf::Texture* tex = assets->textures.at(val);
-		Vectorf pos = get_position(element, level_pos);
-		std::pair<int, float> fliprot = parse_flip_rotation(element);
-		std::vector<std::pair<Vectorf, float>> path;
-		float time_offset = get_and_parse_var<float>("offset", element, 0.f);
-		std::vector<sf::Vertex> vert;
-		tinyxml2::XMLElement* e = element->FirstChildElement();
-		while (e != NULL)
-		{
-			string n = e->Name();
-			if (n == "v")
-			{
-				vert.push_back(parse_vertex(e->GetText(), fliprot));
-			}
-			else if (n == "vt")
-			{
-				vert.push_back(parse_textured_vertex(e->GetText()));
-			}
-			else if (n == "p")
-			{
-				path.push_back(parse_path_node(e->GetText()));
-			}
-			e = e->NextSiblingElement();
-		}
-		int layer = parse_layer(element, DEFAULT_PLATFORM_LAYER);
-		return std::make_pair(layer, std::make_shared<Moving_platform>(pos, tex, std::move(vert),
-			std::unique_ptr<Simple_AI>(new Linear_AI(path, time_offset)), 0));
-	}
-	catch (const std::invalid_argument& e)
-	{
-		std::cout << "Wyjatek: " << e.what() << '\n';
-		std::cout << "Element: " << "moving platform" << '\n';
-		std::cout << "Prawdopodobnie co� innego ni� wierzcho�ek wewn�trz platformy wahad�a" << '\n';
-	}
-	catch (const std::out_of_range& e)
-	{
-		std::cout << "Wyjatek: " << e.what() << '\n';
-		std::cout << "Element: " << "moving platform" << '\n';
-		std::cout << "Prawdopodobnie nieprawid�owa tekstura" << '\n';
-	}
-	throw std::runtime_error("Moving platform error");
-}
-
-std::pair<std::optional<int>, std::shared_ptr<Moving_object>>
-Parser::parse_old_moving_object(tinyxml2::XMLElement* element, Vectori level_pos)
-{
-	try
-	{
-		const sf::Texture* tex;
-		Vectorf pos = get_position(element, level_pos);
-		string val = get_attribute_by_name("texture", element);
-		tex = assets->textures.at(val);
-		float height = get_and_parse_var<float>("height", element);
-		std::pair<int, float> fliprot = parse_flip_rotation(element);
-		std::vector<std::pair<Vectorf, float>> path;
-		float time_offset = get_and_parse_var<float>("offset", element, 0.f);
-		tinyxml2::XMLElement* e = element->FirstChildElement();
-		while (e != NULL)
-		{
-			string n = e->Name();
-			if (n == "p")
-			{
-				path.push_back(parse_path_node(e->GetText()));
-			}
-			e = e->NextSiblingElement();
-		}
-		int layer = parse_layer(element, DEFAULT_OBJECT_LAYER);
-		return std::make_pair(layer, std::make_shared<Moving_object>(pos, tex, height,
-			std::unique_ptr<Simple_AI>(new Linear_AI(path, time_offset))));
-	}
-	catch (const std::out_of_range& e)
-	{
-		std::cout << "Wyjatek: " << e.what() << '\n';
-		std::cout << "Element: " << "moving_object" << '\n';
-		std::cout << "Prawdopodobnie nieprawid�owa tekstura" << '\n';
-	}
-	throw std::runtime_error("Moving object error");
-}
-
-std::pair<std::optional<int>, std::shared_ptr<Moving_platform>>
 Parser::parse_moving_platform(tinyxml2::XMLElement* element, Vectori level_pos)
 {
 	try
@@ -585,6 +506,7 @@ Parser::parse_moving_platform(tinyxml2::XMLElement* element, Vectori level_pos)
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		std::vector<sf::Vertex> vert;
 		std::unique_ptr<Simple_AI> ai;
+		sf::Color color = get_and_parse_var<sf::Color>("color", element, sf::Color::White);
 		tinyxml2::XMLElement* e = element->FirstChildElement();
 		while (e != NULL)
 		{
@@ -606,7 +528,7 @@ Parser::parse_moving_platform(tinyxml2::XMLElement* element, Vectori level_pos)
 		int layer = parse_layer(element, DEFAULT_PLATFORM_LAYER);
 		return std::make_pair(layer,
 			std::make_shared<Moving_platform>(pos, tex, std::move(vert),
-				std::move(ai), surface));
+				std::move(ai), surface, color));
 	}
 	catch (const std::invalid_argument& e)
 	{
@@ -634,6 +556,7 @@ Parser::parse_moving_object(tinyxml2::XMLElement* element, Vectori level_pos)
 		tex = assets->textures.at(val);
 		float height = get_and_parse_var<float>("height", element);
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
+		sf::Color color = get_and_parse_var<sf::Color>("color", element, sf::Color::White);
 		std::unique_ptr<Simple_AI> ai;
 		tinyxml2::XMLElement* e = element->FirstChildElement();
 		while (e != NULL)
@@ -646,7 +569,8 @@ Parser::parse_moving_object(tinyxml2::XMLElement* element, Vectori level_pos)
 			e = e->NextSiblingElement();
 		}
 		int layer = parse_layer(element, DEFAULT_OBJECT_LAYER);
-		return std::make_pair(layer, std::make_shared<Moving_object>(pos, tex, height, std::move(ai)));
+		return std::make_pair(layer, std::make_shared<Moving_object>(pos, tex,
+			height, std::move(ai), fliprot.first, fliprot.second, color));
 	}
 	catch (const std::out_of_range& e)
 	{
@@ -672,6 +596,7 @@ Parser::parse_pendulum(tinyxml2::XMLElement* element, Vectori level_pos)
 		float angle = util::deg_to_rad(get_and_parse_var<float>("angle", element));
 		Vectori line_offset = get_and_parse_var<Vectori>("line_offset", element);
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
+		sf::Color color = get_and_parse_var<sf::Color>("color", element, sf::Color::White);
 		std::vector<Vectorf> attach_points;
 		std::vector<sf::Vertex> vert;
 		tinyxml2::XMLElement* e = element->FirstChildElement();
@@ -701,7 +626,7 @@ Parser::parse_pendulum(tinyxml2::XMLElement* element, Vectori level_pos)
 		}
 		int layer = parse_layer(element, DEFAULT_PLATFORM_LAYER);
 		return std::make_pair(layer, std::make_shared<Pendulum>(pos, tex, std::move(vert),
-			attach_points, angle, line_len, line_tex, line_offset, surface));
+			attach_points, angle, line_len, line_tex, line_offset, surface, color));
 	}
 	catch (const std::invalid_argument& e)
 	{
@@ -733,7 +658,10 @@ std::pair<std::optional<int>, std::shared_ptr<Animated_polygon>> Parser::parse_a
 		int layer = parse_layer(element, DEFAULT_OBJECT_LAYER);
 		Static_animation_struct sas(tex, frame_time);
 		std::unique_ptr<Animation> animation = std::make_unique<Static_animation>(sas, frame_offset);
-		return std::make_pair(layer, std::make_shared<Animated_polygon>(pos, std::move(animation), points));
+		sf::Color color = get_and_parse_var<sf::Color>("color", element, sf::Color::White);
+		return std::make_pair(layer, 
+			std::make_shared<Animated_polygon>(pos, std::move(animation),
+				points, color));
 	}
 	catch (const std::invalid_argument& e)
 	{
@@ -766,6 +694,7 @@ std::pair<std::optional<int>, std::shared_ptr<Animated_moving_platform>> Parser:
 		std::unique_ptr<Animation> animation = std::make_unique<Static_animation>(sas, frame_offset);
 		std::unique_ptr<Simple_AI> ai;
 		std::vector<sf::Vertex> points;
+		sf::Color color = get_and_parse_var<sf::Color>("color", element, sf::Color::White);
 		tinyxml2::XMLElement* e = element->FirstChildElement();
 		while (e != NULL)
 		{
@@ -785,7 +714,7 @@ std::pair<std::optional<int>, std::shared_ptr<Animated_moving_platform>> Parser:
 			e = e->NextSiblingElement();
 		}
 		return std::make_pair(layer, std::make_shared<Animated_moving_platform>(pos,
-			std::move(animation), points, std::move(ai), surface));
+			std::move(animation), points, std::move(ai), surface, color));
 	}
 	catch (const std::invalid_argument& e)
 	{
