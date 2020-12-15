@@ -3,7 +3,7 @@ import podstawy
 import operacje
 import ruchy
 
-def generator(x=0, y=0, obrót=1, wysokość=4, warstwa=5, turbiny=[3,"TURBINA_04","TURBINA_05","TURBINA_06"], podstawa_wzmocnienia=2, głośność=200, zasięg_dźwięku=20, czas_obrotu_wału=60, wstrząsy=[True,0.01,7,0,0.25], zwróć_tekst=False):
+def generator(x=0, y=0, obrót=1, wysokość=4, warstwa=5, turbiny=[3,"TURBINA_04","TURBINA_05","TURBINA_06"], podstawa_wzmocnienia=2, głośność=200, zasięg_dźwięku=20, czas_obrotu_wału=60, wstrząsy=[True,0.02,7,0,8], zwróć_tekst=False):
     czas_klatki = czas_obrotu_wału/4/32
     poz_x = x + wysokość/2*obrót
     s = ""

@@ -1,7 +1,7 @@
 import math
 import obiekty
 
-def wstrząsy(wychylenie=0.25, wielokąt=5, obrót=0, czas_wychylenia=0.1):
+def wstrząsy(wychylenie=0.25, wielokąt=5, obrót=0, czas_wychylenia=2):
     alfa = 180*(1-(wielokąt-2)/wielokąt)
     bok = math.tan(alfa/2)*wychylenie*2
     v = obiekty.wielokąt_foremny(n=wielokąt,bok=bok,obrót=obrót)
