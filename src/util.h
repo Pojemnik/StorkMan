@@ -45,7 +45,7 @@ struct Context
 	Vectorf player_pos;
 	std::unique_ptr<Console> console;
 	std::unique_ptr<ctpl::thread_pool> thread_pool;
-	Vectori level_size = { 100, 100 };
+	Vectori level_size = { 50, 50 };
 	bool window_focus = false;
 	Id_generator id_generator;
 	bool editor_mode = false;

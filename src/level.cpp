@@ -51,8 +51,9 @@ void Level::update_graphics(float dt, sf::FloatRect screen_rect)
 		if (it.get_bounding_rect().intersects(screen_rect))
 		{
 			it.on_screen = true;
-			futures.push_back(context.thread_pool->push(Level::update_chunk_graphics, it, dt));
+			//futures.push_back(context.thread_pool->push(Level::update_chunk_graphics, it, dt));
 			//Maybe check if there is something to update in chunk
+			it.update_graphics(dt);
 		}
 		else
 		{
@@ -64,6 +65,7 @@ void Level::update_graphics(float dt, sf::FloatRect screen_rect)
 		it.get();
 	}
 }
+
 void Level::update_physics(float dt, sf::FloatRect screen_rect)
 {
 	std::vector<std::future<void>> futures;
@@ -72,8 +74,9 @@ void Level::update_physics(float dt, sf::FloatRect screen_rect)
 		if (it.get_bounding_rect().intersects(screen_rect))
 		{
 			it.on_screen = true;
-			futures.push_back(context.thread_pool->push(Level::update_chunk_physics, it, dt));
+			//futures.push_back(context.thread_pool->push(Level::update_chunk_physics, it, dt));
 			//Maybe check if there is something to update in chunk
+			it.update_physics(dt);
 		}
 		else
 		{

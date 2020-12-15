@@ -1,4 +1,4 @@
-<level name="Elektrownia_Wêglowa_X3Y2" background="bg1">
+<level name="EW_X3Y2" background="bg1">
 <chunk>
     <platform position="0.0,47.0" texture="dirt,0" layer="5.0" rotation="0.0" flip="1.0,1.0" surface="none" one_sided="false">
         <v>0.0,0.0</v>
@@ -95,6 +95,8 @@
             <p>-0.02369108939351593,-0.026194208639466837,8.0</p>
         </move>
     </animated_moving_object>
+</chunk>
+<chunk>
     <moving_object position="12.5,43.1" texture="OBJSteam_Turbine" height="4.0" layer="5.0" rotation="0.0" flip="1.0,1.0">
         <move type="linear">
             <p>-0.013147562716940526,0.02,8.0</p>
@@ -117,6 +119,8 @@
             <p>-0.02369108939351593,-0.026194208639466837,8.0</p>
         </move>
     </animated_moving_object>
+</chunk>
+<chunk>
     <moving_object position="21.5,43.1" texture="OBJSteam_Turbine" height="4.0" layer="5.0" rotation="0.0" flip="1.0,1.0">
         <move type="linear">
             <p>-0.013147562716940526,0.02,8.0</p>
