@@ -221,8 +221,9 @@ int main(int argc, char** argv)
 				if (context.editor_mode)
 				{
 					Vectori size = std::get<Vectori>(msg.args);
-					context.resolution = Vectori(size.x, size.y);
+					context.resolution = size;
 					window.setView(sf::View(sf::FloatRect(0, 0, size.x, size.y)));
+					engine_sender.send_message<Vectori>(Message::Message_type::RESOLUTION_CHANGED, size);
 				}
 				else
 				{
