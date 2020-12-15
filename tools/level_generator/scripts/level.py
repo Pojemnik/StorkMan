@@ -12,6 +12,7 @@ import obiekty
 import chłodnia_kominowa
 import ruchy
 import elektrownia_węglowa
+import grafiki
 
 #ziemia
 podstawy.platforma(x=0,y=47,wierzchołki=["v",4,0,0,0,3,50,3,50,0],tekstura="dirt,0")
@@ -54,6 +55,11 @@ podstawy.obiekt(x=21.25,y=41,wysokość=1.5,tekstura="krata0",warstwa=4)
 podstawy.obiekt(x=28.25,y=41,wysokość=1.5,tekstura="krata0",warstwa=4)
 podstawy.obiekt(x=30.25,y=41,wysokość=1.5,tekstura="krata0",warstwa=4)
 podstawy.obiekt(x=37.25,y=41,wysokość=1.5,tekstura="krata0",warstwa=4)
+grafiki.świetlówka(x=15,y=40.5,warstwa=4,długość=3)
+grafiki.świetlówka(x=19.5,y=40.5,warstwa=4,długość=3)
+grafiki.świetlówka(x=24,y=40.5,warstwa=4,długość=3)
+grafiki.świetlówka(x=28.5,y=40.5,warstwa=4,długość=3)
+grafiki.świetlówka(x=33,y=40.5,warstwa=4,długość=3)
 #budynek generatora - parter - stróżówka
 struktury.element_podłużny(x=42.5,y=30.5,warstwa=7,tekstura="TEXVent_pipe",grubość=0.8,trasa=[10,0,0,0,8.5,0.5,9,3,9,3.5,9.5,3.5,10,3.5,10.5,4,11.5,5,12,5.5,12])
 podstawy.platforma(x=42.5,y=43,warstwa=8,wierzchołki=["v",4,0,0,0,1,1.5,1,1.5,0],tekstura="bricks,0")
@@ -87,5 +93,12 @@ struktury.element_podłużny(x=43,y=30,warstwa=4,tekstura="TEXHydro_pipe",grubo�
 struktury.element_podłużny(x=46.5,y=32,warstwa=9,tekstura="TEXSteel_stick_rusted",grubość=0.35,trasa=[2,0,0,2.5,0],kolizja=True,jednostronność=True)
 struktury.element_podłużny(x=46.5,y=29.5,warstwa=9,tekstura="TEXSteel_stick_rusted",grubość=0.35,trasa=[2,0,0,0,10])
 struktury.schody(x=49,y=39.5,warstwa=5,wysokość=3.5,długość=3.5,stopnie=8,tekstura="bricks,0",obrót=-1)
+grafiki.świetlówka(x=15,y=37.5,warstwa=4,długość=3)
+grafiki.świetlówka(x=24,y=37.5,warstwa=4,długość=3)
+grafiki.świetlówka(x=33,y=37.5,warstwa=4,długość=3)
+podstawy.dźwięk(x=10,y=38.25,dźwięk="RURY",głośność=60,wyciszanie=0.5,zasięg=10)
+podstawy.dźwięk(x=22,y=38.25,dźwięk="RURY",głośność=60,wyciszanie=0.5,zasięg=10)
+podstawy.dźwięk(x=34,y=38.25,dźwięk="RURY",głośność=60,wyciszanie=0.5,zasięg=10)
+podstawy.dźwięk(x=46,y=38.25,dźwięk="RURY",głośność=60,wyciszanie=0.5,zasięg=10)
 
 lvl.save('level.xml')
