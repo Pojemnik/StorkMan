@@ -15,6 +15,8 @@ class Map : public Message_sender
 	sf::Sprite background;
 	std::vector<Level*> considered_levels;
 	std::unordered_set<const Map_sound*, std::hash<const Map_sound*>, Map_sound_compare> last_map_sounds;
+	sf::RectangleShape players_sound_receiver;
+	bool draw_players_receiver = false;
 
 	void get_considered_levels();
 

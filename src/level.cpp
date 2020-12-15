@@ -37,7 +37,7 @@ Level::Level(std::vector<Map_chunk>&& chunks_,
 		sound_borders_vect.push_back(sf::Vertex(mesh[0], color));
 		sound_sources.push_back(sf::CircleShape(5));
 		sound_sources.back().setFillColor(color);
-		sound_sources.back().setPosition(it.get_pos());
+		sound_sources.back().setPosition(it.get_pos() - Vectorf(5, 5));
 	}
 	sound_borders.create(sound_borders_vect.size());
 	sound_borders.update(sound_borders_vect.data());
@@ -246,7 +246,7 @@ Level::get_current_map_sounds(Vectorf player_pos) const
 		Collision sound_col = it.get_collision();
 		if (player_rect.intersects(sound_col.rect))
 		{
-			if (util::contained_in_polygon(player_pos, 1000000, sound_col.mesh))
+			if (util::contained_in_polygon(player_pos, it.get_max_x() + 1.f, sound_col.mesh))
 			{
 				current_sounds.insert(&it);
 			}

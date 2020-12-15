@@ -9,6 +9,7 @@ class Map_sound
 	Collision collision;
 	const Map_sound_info info;
 	bool initialized = false;
+	float max_x = -INFINITY;
 
 public:
 	Map_sound(std::vector<Vectorf>&& mesh, Map_sound_info info_);
@@ -16,12 +17,11 @@ public:
 	void update_collision(std::vector<std::pair<Vectorf, Vectorf>>& map_edges,
 		std::vector<Vectorf>& map_vertices);
 	Collision get_collision() const;
-	int get_sound() const;
 	int get_id() const;
 	Vectorf get_pos() const;
-	int get_default_volume() const;
 	Map_sound_info get_info() const;
 	bool is_initialized() const;
+	float get_max_x() const;
 };
 
 inline bool operator==(const Map_sound& lhs, const Map_sound& rhs)

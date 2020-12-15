@@ -28,7 +28,8 @@ void Map::get_considered_levels()
 }
 
 Map::Map(Vectori size_, Vectori pos, const sf::Texture* bg_tex) : size(size_),
-current_pos(pos), background(*bg_tex), Message_sender(Message_sender_type::MAP)
+current_pos(pos), background(*bg_tex), Message_sender(Message_sender_type::MAP),
+players_sound_receiver(Vectorf(1,1))
 {
 	background.setPosition(-1000, -2500);
 	levels.resize(size.x);
@@ -36,6 +37,7 @@ current_pos(pos), background(*bg_tex), Message_sender(Message_sender_type::MAP)
 	{
 		it.resize(size.y);
 	}
+	players_sound_receiver.setFillColor(sf::Color::Magenta);
 }
 
 void Map::add_level(std::unique_ptr<Level>&& lvl)
@@ -75,6 +77,10 @@ void Map::draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) con
 	{
 		it->draw_top_layers(target, states);
 	}
+	if (draw_players_receiver)
+	{
+		target.draw(players_sound_receiver, states);
+	}
 }
 
 void Map::draw_vertices(sf::RenderTarget& target, sf::RenderStates states) const
@@ -100,12 +106,13 @@ void Map::update_physics(float dt, Vectorf player_pos, sf::FloatRect screen_rect
 		int(player_pos.x / context.global_scale / context.level_size.x),
 		int(player_pos.y / context.global_scale / context.level_size.y));
 	bool out_of_map = false;
+	const Level* current_level = &*levels.at(current_pos.x).at(current_pos.y);
 	if (player_pos_on_map != current_pos)
 	{
 		current_pos = player_pos_on_map;
 		try
 		{
-			send_message<int>(Message::Message_type::CHANGED_LEVEL, levels.at(current_pos.x).at(current_pos.y)->code);
+			send_message<int>(Message::Message_type::CHANGED_LEVEL, current_level->code);
 		}
 		catch (const std::out_of_range& e)
 		{
@@ -122,7 +129,10 @@ void Map::update_physics(float dt, Vectorf player_pos, sf::FloatRect screen_rect
 	}
 	if (!out_of_map)
 	{
-		auto current_map_sounds = levels.at(current_pos.x).at(current_pos.y)->get_current_map_sounds(player_pos);
+		Vectorf sound_player_pos = player_pos;
+		sound_player_pos -= Vectorf(0.35f, 1.05f) * context.global_scale;
+		players_sound_receiver.setPosition(sound_player_pos);
+		auto current_map_sounds = current_level->get_current_map_sounds(sound_player_pos);
 		for (const auto& it : current_map_sounds)
 		{
 			if (!last_map_sounds.contains(it))
@@ -174,4 +184,5 @@ void Map::set_draw_sound_sources(bool draw)
 			it2->set_draw_sound_sources(draw);
 		}
 	}
+	draw_players_receiver = draw;
 }

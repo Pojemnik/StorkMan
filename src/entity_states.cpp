@@ -5,7 +5,7 @@ void Run_state::enter(Entity& entity)
 	entity.set_animation(Animation_index::MOVE);
 	entity.move(entity.direction, 0);
 	entity.send_message<int>(Message::Message_type::MOVED, static_cast<int>(entity.surface));
-	std::cout << "Run enter" << std::endl;
+	//std::cout << "Run enter" << std::endl;
 }
 
 std::pair<Entity_state*, Entity_stack_command> Run_state::update(Entity& entity, float dt)
@@ -57,7 +57,7 @@ void Idle_jump_state::enter(Entity& entity)
 	entity.set_animation(Animation_index::JUMP_IDLE);
 	Jump_state::enter(entity);
 	entity.send_message<bool>(Message::Message_type::JUMPED, false);
-	std::cout << "Idle jump enter" << std::endl;
+	//std::cout << "Idle jump enter" << std::endl;
 }
 
 void Run_jump_state::enter(Entity& entity)
@@ -65,7 +65,7 @@ void Run_jump_state::enter(Entity& entity)
 	entity.set_animation(Animation_index::JUMP_RUN);
 	Jump_state::enter(entity);
 	entity.send_message<bool>(Message::Message_type::JUMPED, true);
-	std::cout << "Run jump enter" << std::endl;
+	//std::cout << "Run jump enter" << std::endl;
 }
 
 void Jump_state::enter(Entity& entity)
@@ -113,7 +113,7 @@ void Idle_state::enter(Entity& entity)
 {
 	entity.set_animation(Animation_index::IDLE);
 	entity.send_message(Message::Message_type::STOPPED);
-	std::cout << "Idle enter" << std::endl;
+	//std::cout << "Idle enter" << std::endl;
 }
 
 std::pair<Entity_state*, Entity_stack_command> Idle_state::update(Entity& entity, float dt)
@@ -185,7 +185,7 @@ void In_air_state::enter(Entity& entity)
 	{
 		entity.set_animation(Animation_index::IDLE);
 	}
-	std::cout << "In air enter" << std::endl;
+	//std::cout << "In air enter" << std::endl;
 }
 
 std::pair<Entity_state*, Entity_stack_command> In_air_state::update(Entity& entity, float dt)

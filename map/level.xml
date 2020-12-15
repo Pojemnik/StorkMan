@@ -1,4 +1,7 @@
 ﻿<level name="Podziemna Świątynia - poziom testowy 04">
+<sound position="19.0,13.5" volume="200.0" sound="TURBINA_04" attenuation="1.0" min_distance="4.0" range="20.0"/>
+    <sound position="28.0,13.5" volume="200.0" sound="TURBINA_05" attenuation="1.0" min_distance="4.0" range="20.0"/>
+    <sound position="37.0,13.5" volume="200.0" sound="TURBINA_06" attenuation="1.0" min_distance="4.0" range="20.0"/>
 <chunk>
     <wall position="20,13" texture="dirt,0" layer="5.0" rotation="0.0" flip="1.0,1.0" color = "255,100,0">
         <v>5.0,-5.0</v>
