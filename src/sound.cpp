@@ -75,6 +75,11 @@ void Sound_system::on_entity_jump(const Message& msg)
 	{
 		pool.play_sound(entity_sounds.at(msg.sender->id.get_type_int())[0]);
 	}
+	int sender_type = msg.sender->id.get_type_int();
+	if (steps.contains(sender_type))
+	{
+		steps.at(sender_type).stop();
+	}
 }
 
 void Sound_system::on_entity_death(const Message& msg)
@@ -99,6 +104,8 @@ void Sound_system::on_entity_move(const Message& msg)
 	{
 		steps.insert({ sender_type, sf::Sound() });
 		steps.at(sender_type).setLoop(true);
+		steps.at(sender_type).setVolume(sound_volume);
+		steps.at(sender_type).setRelativeToListener(true);
 	}
 	int surface_type = std::get<int>(msg.args);
 	if (surface_sounds.contains(surface_type))
