@@ -5,9 +5,14 @@ def schody(x=0, y=0, warstwa=5, obrót=1, długość=2, wysokość=2, przesunię
     s = ""
     v = ["v",4]
     v += [0,0]
-    v += [0,-wysokość]
-    v += [przesunięcie*obrót,-wysokość]
-    v += [(przesunięcie+długość)*obrót,0]
+    if obrót==1:
+        v += [0,-wysokość]
+        v += [przesunięcie*obrót,-wysokość]
+        v += [długość*obrót,0]
+    else:
+        v += [długość*obrót,0]
+        v += [przesunięcie*obrót,-wysokość]
+        v += [0,-wysokość]
     if blokada:
         s = s + podstawy.bariera(x=x,y=y,wierzchołki=v,zwróć_tekst=True)
     else:
@@ -79,7 +84,7 @@ def drabina_dwustronna(x=0, y=0, warstwa=5, naprzemienność=1, początek=0, lew
         return s
     else:
         podstawy.zapis(s)
-def komnata(x=0, y=0, warstwa=5, wysokość=10, szerokość=10, tekstura=podstawy.domyślna_tekstura, grubość_górnej=0.5, grubość_dolnej=0.5, grubość_prawej=0.5, grubość_lewej=0.5, otwory_górne=[0,0], otwory_dolne=[0,0], otwory_prawe=[0,0], otwory_lewe=[0,0], zwróć_tekst=False):
+def komnata(x=0, y=0, warstwa=5, warstwa_tła=3, wysokość=10, szerokość=10, tekstura=podstawy.domyślna_tekstura, tekstura_tła=podstawy.domyślna_tekstura, grubość_górnej=0.5, grubość_dolnej=0.5, grubość_prawej=0.5, grubość_lewej=0.5, otwory_górne=[0,0], otwory_dolne=[0,0], otwory_prawe=[0,0], otwory_lewe=[0,0], tło=True, zwróć_tekst=False):
     s = ""
     v = ["v",4,0,0,grubość_lewej,0,grubość_lewej,grubość_górnej,0,grubość_górnej]
     s = s + podstawy.platforma(x=x,y=y,warstwa=warstwa,tekstura=tekstura,wierzchołki=v,zwróć_tekst=True)
@@ -128,7 +133,9 @@ def komnata(x=0, y=0, warstwa=5, wysokość=10, szerokość=10, tekstura=podstaw
         miejsce = otwory_prawe[i*2+1]+otwory_prawe[i*2+2]+grubość_górnej
     v_y = [0,0,wysokość-grubość_dolnej-miejsce,wysokość-grubość_dolnej-miejsce]
     v = ["v",4,v_x[0],v_y[0],v_x[1],v_y[1],v_x[2],v_y[2],v_x[3],v_y[3]]
-    s = s + podstawy.platforma(x=x+szerokość-grubość_prawej,y=y+miejsce,warstwa=warstwa,tekstura=tekstura,wierzchołki=v,zwróć_tekst=True)  
+    s = s + podstawy.platforma(x=x+szerokość-grubość_prawej,y=y+miejsce,warstwa=warstwa,tekstura=tekstura,wierzchołki=v,zwróć_tekst=True)
+    if tło:
+        s += podstawy.ściana(x=x,y=y,wierzchołki=["v",4,0,0,0,wysokość,szerokość,wysokość,szerokość,0],tekstura=tekstura_tła,warstwa=warstwa_tła,zwróć_tekst=True)
     if zwróć_tekst:
         return s
     else:
