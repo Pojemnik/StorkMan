@@ -109,7 +109,8 @@ Key_frame_animation::Key_frame_animation(std::vector<std::shared_ptr<Animation_p
 void Key_frame_animation::set_animation(Animation_index a)
 {
 	Animation_index alternative = Animation_index::DEFAULT;
-	std::pair<int, int> transition = std::make_pair(key, static_cast<int>(a));
+	std::pair<int, int> transition = 
+		std::make_pair(static_cast<int>(animation), static_cast<int>(a));
 	if (tree.alternative_animations.contains(transition))
 	{
 		bool contains = false;
