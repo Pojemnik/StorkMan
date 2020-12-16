@@ -1,4 +1,5 @@
 import math
+
 global lvl
 global domyślna_tekstura
 global domyślna_animowana_tekstura
@@ -6,6 +7,7 @@ global domyślny_obiekt
 global domyślny_animowany_obiekt
 global domyślna_lina
 global domyślna_powierzchnia
+
 domyślna_tekstura = "bricks,0"
 domyślna_animowana_tekstura = "rain45"
 domyślny_obiekt = "chest0"
@@ -13,6 +15,29 @@ domyślny_animowany_obiekt = "wind0"
 domyślna_lina = "rope2"
 domyślna_powierzchnia = "none"
 domyślny_dźwięk = "coal_grinder"
+
+typy_platforma = [8,"position","texture","layer","rotation","flip","surface","one_sided","color"]
+domyślne_wartości_platforma = [None,None,None,5,0,1,1,"none","false",255,255,255]
+typy_obiekt = [7,"position","texture","height","rotation","flip","layer","color"]
+domyślne_wartości_obiekt = [None,None,None,None,0,1,1,3,255,255,255]
+typy_animowany_obiekt = [9,"position","texture","height","rotation","flip","layer","frame_time","offset","color"]
+domyślne_wartości_animowany_obiekt = [None,None,None,None,0,1,1,3,1,0,255,255,255]
+typy_wahadło = [11,"position","texture","line","length","angle","layer","rotation","flip","line_offset","surface","color"]
+domyślne_wartości_wahadło = [None,None,None,None,None,5,0,1,1,None,"none",255,255,255]
+typy_ruchoma_platforma = [7,"position","texture","layer","rotation","flip","surface","color"]
+domyślne_wartości_ruchoma_platforma = [None,None,None,5,0,1,1,"none",255,255,255]
+typy_ściana = [6,"position","texture","layer","flip","rotation","color"]
+domyślne_wartości_ściana = [None,None,None,1,1,1,0,255,255,255]
+typy_animowana_ściana = [8,"position","texture","layer","frame_time","offset","flip","rotation","color"]
+domyślne_wartości_animowana_ściana = [None,None,None,1,1,0,1,1,0,255,255,255]
+typy_animowana_platforma = [9,"position","texture","layer","rotation","flip","offset","frame_time","surface","color"]
+domyślne_wartości_animowana_platforma = [None,None,None,5,0,1,1,0,1,"none",255,255,255]
+typy_strefa_obrażeń = [1,"position"]
+domyślne_wartości_strefa_obrażeń = [None,None]
+typy_bariera = [2,"position","surface"]
+domyślne_wartości_bariera = [None,None,"none"]
+typy_dźwięk = [6,"position","volume","sound","attenuation","min_distance","range"]
+domyślne_wartości_dźwięk = [None,None,100,None,1,1,8]
 
 def znaczniki(nazwa):
     if nazwa == "accelerated":
@@ -25,6 +50,8 @@ def znaczniki(nazwa):
         return 2
     if nazwa == "vt":
         return 4
+    if nazwa == "d":
+        return 2
     return 0
 def podział_na_elementy(s):
     r = []
@@ -45,6 +72,58 @@ def podział_na_elementy(s):
             r = r + [s[a:b+1],]
             i = i + 1
     r = [i,] + r
+    return r
+def przypisanie_tabeli_wartości(typ):
+    if typ=="platform":
+        return domyślne_wartości_platforma,typy_platforma
+    if typ=="object":
+        return domyślne_wartości_obiekt,typy_obiekt
+    if typ=="animated_object":
+        return domyślne_wartości_animowany_obiekt,typy_animowany_obiekt
+    if typ=="moving_object":
+        return domyślne_wartości_obiekt,typy_obiekt
+    if typ=="pendulum":
+        return domyślne_wartości_wahadło,typy_wahadło
+    if typ=="moving_platform":
+        return domyślne_wartości_ruchoma_platforma,typy_ruchoma_platforma
+    if typ=="wall":
+        return domyślne_wartości_ściana,typy_ściana
+    if typ=="animated_wall":
+        return domyślne_wartości_animowana_ściana,typy_animowana_ściana
+    if typ=="animated_moving_platform" or typ=="moving_animated_platform":
+        return domyślne_wartości_animowana_platforma,typy_animowana_platforma
+    if typ=="damage_zone":
+        return domyślne_wartości_strefa_obrażeń,typy_strefa_obrażeń
+    if typ=="barrier":
+        return domyślne_wartości_bariera,typy_bariera
+    if typ=="moving_damage_zone":
+        return domyślne_wartości_strefa_obrażeń,typy_strefa_obrażeń
+    if typ=="moving_barrier":
+        return domyślne_wartości_bariera,typy_bariera
+    if typ=="animated_moving_object" or typ=="moving_animated_object":
+        return domyślne_wartości_animowany_obiekt,typy_animowany_obiekt
+    if typ=="sound":
+        return domyślne_wartości_dźwięk,typy_dźwięk
+    return [],[]
+def ilość_wartości_parametru(typ):
+    if typ=="color":
+        return 3
+    if typ=="position" or typ=="flip" or typ=="line_offset":
+        return 2
+    return 1
+def uzupełnianie_wartości_odczytu(t):
+    r = [t[0],]
+    t += [None]
+    wartości,typy = przypisanie_tabeli_wartości(t[0])
+    n = 1
+    m = 0
+    for i in range(typy[0]):
+        if t[n] == typy[i+1]:
+            r += t[n+1:n+1+ilość_wartości_parametru(typy[i+1])]
+            n += ilość_wartości_parametru(t[n]) + 1
+        else:
+            r += wartości[m:m+ilość_wartości_parametru(typy[i+1])]
+        m += ilość_wartości_parametru(typy[i+1])
     return r
 def odczyt_ruchu(r,s,t,p,k,i):
     n = 0
@@ -101,11 +180,12 @@ def odczyt_elementu(s):
     r = r + [s[p+1:k+1],]
     while p>=0 and p<l:
         p = s.find('"',k+1)
-        t = s[k+2:p]
+        t = s[k+2:p-1]
         if p>=0 and p<l:
             k = s.find('"',p+1)
-            if t=="texture=" or t=="surface=" or t=="line=" or t=="one_sided=" or t=="sound=":
-                r = r + [s[p+1:k],]
+            r += [t,]
+            if t=="texture" or t=="surface" or t=="line" or t=="one_sided" or t=="sound":
+                r += [s[p+1:k],]
             else:
                 f = s[p+1:k]
                 n = 0
@@ -116,6 +196,7 @@ def odczyt_elementu(s):
                         f = f[n+1:]
                     else:
                         r = r + [float(f),]
+    r = uzupełnianie_wartości_odczytu(r)
     if s.find(r[0],k)!=-1:
         while t!="/"+r[0]:
             p = s.find("<",k)
@@ -150,23 +231,23 @@ def odczyt_elementu(s):
     return r
 def indeks_ruchu_elementu(e):
     if e[0]=="platform":
-        return -9
+        return -12
     if e[0]=="object":
-        return -9
+        return -12
     if e[0]=="animated_object":
-        return -11
+        return -14
     if e[0]=="moving_object":
-        return 9
+        return 12
     if e[0]=="pendulum":
         return 0
     if e[0]=="moving_platform":
-        return 9
+        return 12
     if e[0]=="wall":
         return 0
     if e[0]=="animated_wall":
         return 0
-    if e[0]=="animated_moving_platform":
-        return 11
+    if e[0]=="animated_moving_platform" or e[0]=="moving_animated_platform":
+        return 14
     if e[0]=="damage_zone":
         return -3
     if e[0]=="barrier":
@@ -175,10 +256,43 @@ def indeks_ruchu_elementu(e):
         return 3
     if e[0]=="moving_barrier":
         return 4
-    if e[0]=="animated_moving_object":
-        return 11
+    if e[0]=="animated_moving_object" or e[0]=="moving_animated_object":
+        return 14
     if e[0]=="sound":
         return 0
+    return 0
+def indeks_wierzchołków_elementu(e):
+    if e[0]=="platform":
+        return 13
+    if e[0]=="object":
+        return -1
+    if e[0]=="animated_object":
+        return -1
+    if e[0]=="moving_object":
+        return -1
+    if e[0]=="pendulum":
+        return 17
+    if e[0]=="moving_platform":
+        return 0
+    if e[0]=="wall":
+        return 11
+    if e[0]=="animated_wall":
+        return 13
+    if e[0]=="animated_moving_platform" or e[0]=="moving_animated_platform":
+        return 0
+    if e[0]=="damage_zone":
+        return 3
+    if e[0]=="barrier":
+        return 4
+    if e[0]=="moving_damage_zone":
+        return 0
+    if e[0]=="moving_barrier":
+        return 0
+    if e[0]=="animated_moving_object" or e[0]=="moving_animated_object":
+        return -1
+    if e[0]=="sound":
+        return -1
+    return 0
 def zapis(s):
     s_chunk = ""
     s_no_chunk = ""
@@ -193,101 +307,77 @@ def zapis(s):
         s_chunk = """<chunk>\n""" + s_chunk + """</chunk>"""
     s_final = s_no_chunk + s_chunk
     lvl.add(s_final)
+def wyznaczanie_zakresu_ruchu_w_tablicy_elementu(e, n):
+    if e[n] == "container":
+        p = n+2
+        for i in range(e[n+1]):
+            p += e[p+1]*znaczniki(e[p])+2
+    else:
+        p = e[n+1]*znaczniki(e[n])+(n+2)
+    return p
 def zapis_elementu(e ,zwróć_tekst=False):
     s = ""
     p = 0
     v = 0
+    d = 0
     a_x = []
     a_y = []
-    d_d = []
-    d_t = []
+    n = indeks_ruchu_elementu(e)
+    if n<=0:
+        n = indeks_wierzchołków_elementu(e)
     if e[0]=="platform":
-        if e[9]=="true":
+        if e[9]=="true": #SPECJALNA TRANSFORMACJA TRUE/FALSE Z XML-A DO PYTHONA
             e[9] = True
         else:
             e[9] = False
-        v = round(e[11]*znaczniki(e[10])+12)
-        s = platforma(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8],e[9],e[10:v],True)
+        v = round(e[n+1]*znaczniki(e[n])+(n+2))
+        s = platforma(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8],e[9],e[10],e[11],e[12],e[n:v],True)
     if e[0]=="object":
-        s = obiekt(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8],True)
+        s = obiekt(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8],e[9],e[10],e[11],True)
     if e[0]=="animated_object":
-        s = animowany_obiekt(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8],e[9],e[10],True)
+        s = animowany_obiekt(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8],e[9],e[10],e[11],e[12],e[13],True)
     if e[0]=="moving_object":
-        if e[9] == "container":
-            p = 11
-            for i in range(e[10]):
-                p += e[p+1]*znaczniki(e[p])+2
-        else:
-            p = e[10]*znaczniki(e[9])+11
-        s = ruchomy_obiekt(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8],e[9:p],True)
+        p = wyznaczanie_zakresu_ruchu_w_tablicy_elementu(e,n)
+        s = ruchomy_obiekt(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8],e[9],e[10],e[11],e[n:p],True)
     if e[0]=="pendulum":
-        v = round(e[15]*znaczniki(e[14])+16)
+        v = round(e[n+1]*znaczniki(e[n])+(n+2))
         for i in range(e[v]):
             a_x = a_x + [e[v+2*i+1],]
             a_y = a_y + [e[v+2*i+2],]
-        s = wahadło(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8],e[9],e[10],e[11],e[12],e[13],e[14:v],e[v],a_x,a_y,True)
+        s = wahadło(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8],e[9],e[10],e[11],e[12],e[13],e[14],e[15],e[16],e[n:v],e[v],a_x,a_y,True)
     if e[0]=="moving_platform":
-        if e[9] == "container":
-            p = 11
-            for i in range(e[10]):
-                p += round(e[p+1]*znaczniki(e[p])+2)
-        else:
-            p = round(e[10]*znaczniki(e[9])+11)
+        p = wyznaczanie_zakresu_ruchu_w_tablicy_elementu(e,n)
         v = round(p+e[p+1]*znaczniki(e[p])+2)
-        s = ruchoma_platforma(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8],e[9:p],e[p:v],True)
+        s = ruchoma_platforma(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8],e[9],e[10],e[11],e[n:p],e[p:v],True)
     if e[0]=="wall":
-        v = e[7]*znaczniki(e[6])+8
-        s = ściana(e[1],e[2],e[3],e[4],e[5],e[6:v],True)
+        v = round(e[n+1]*znaczniki(e[n])+(n+2))
+        s = ściana(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8],e[9],e[10],e[n:v],True)
     if e[0]=="animated_wall":
-        v = e[9]*znaczniki(e[8])+10
-        s = animowana_ściana(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8:v],True)
+        v = round(e[n+1]*znaczniki(e[n])+(n+2))
+        s = animowana_ściana(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8],e[9],e[10],e[11],e[12],e[n:v],True)
     if e[0]=="animated_moving_platform" or e[0]=="moving_animated_platform":
-        if e[11] == "container":
-            p = 13
-            for i in range(e[12]):
-                p += e[p+1]*znaczniki(e[p])+2
-        else:
-            p = e[12]*znaczniki(e[11])+13
+        p = wyznaczanie_zakresu_ruchu_w_tablicy_elementu(e,n)
         v = p+e[p+1]*znaczniki(e[p])+2
-        s = animowana_ruchoma_platforma(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8],e[9],e[10],e[11:p],e[p:v],True)
+        s = animowana_ruchoma_platforma(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8],e[9],e[10],e[11],e[12],e[13],e[n:p],e[p:v],True)
     if e[0]=="damage_zone":
-        v = e[4]*znaczniki(e[3])+5
-        for i in range(e[p]):
-            d_d = d_d + [e[p+1+2*i],]
-            d_t = d_t + [e[p+2+2*i],]
-        s = strefa_obrażeń(e[1],e[2],e[3:v],e[p],d_d,d_t,True)
+        v = round(e[n+1]*znaczniki(e[n])+(n+2))
+        d = v+e[v+1]*znaczniki(e[v])+2
+        s = strefa_obrażeń(e[1],e[2],e[n:v],e[v:d],True)
     if e[0]=="barrier":
-        v = e[5]*znaczniki(e[4])+6
-        s = bariera(e[1],e[2],e[3],e[4:v],True)
+        v = round(e[n+1]*znaczniki(e[n])+(n+2))
+        s = bariera(e[1],e[2],e[3],e[n:v],True)
     if e[0]=="moving_damage_zone":
-        if e[3] == "container":
-            p = 5
-            for i in range(e[4]):
-                p += e[p+1]*znaczniki(e[p])+2
-        else:
-            p = e[4]*znaczniki(e[3])+5
+        p = wyznaczanie_zakresu_ruchu_w_tablicy_elementu(e,n)
         v = p+e[p+1]*znaczniki(e[p])+2
-        for i in range(e[v]):
-            d_d = d_d + [v+1+i*2,]
-            d_t = d_t + [v+2+i*2,]
-        s = ruchoma_strefa_obrażeń(e[1],e[2],e[3:p],e[p:v],e[v],d_d,d_t,True)
+        d = v+e[v+1]*znaczniki(e[v])+2
+        s = ruchoma_strefa_obrażeń(e[1],e[2],e[n:p],e[p:v],e[v:d],True)
     if e[0]=="moving_barrier":
-        if e[4] == "container":
-            p = 6
-            for i in range(e[5]):
-                p += e[p+1]*znaczniki(e[p])+2
-        else:
-            p = e[5]*znaczniki(e[4])+6
+        p = wyznaczanie_zakresu_ruchu_w_tablicy_elementu(e,n)
         v = p+e[p+1]*znaczniki(e[p])+2
         s = ruchoma_bariera(e[1],e[2],e[3],e[4:p],e[p:v],True)
     if e[0]=="animated_moving_object" or e[0]=="moving_animated_object":
-        if e[11] == "container":
-            p = 13
-            for i in range(e[12]):
-                p += e[p+1]*znaczniki(e[p])+2
-        else:
-            p = round(e[12]*znaczniki(e[11])+13)
-        s = animowany_ruchomy_obiekt(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8],e[9],e[10],e[11:p],True)
+        p = wyznaczanie_zakresu_ruchu_w_tablicy_elementu(e,n)
+        s = animowany_ruchomy_obiekt(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8],e[9],e[10],e[11],e[12],e[13],e[n:p],True)
     if e[0]=="sound":
         s = dźwięk(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8:],zwróć_tekst=True)
     if zwróć_tekst:
@@ -296,6 +386,7 @@ def zapis_elementu(e ,zwróć_tekst=False):
         zapis(s)
 def złożenie_ruchu(ruch=["linear",2,0,0,60,1,1,60]):
     s = """\n        <move type="{0}">""".format(ruch[0])
+    zaokr = 3
     if ruch[0] == "container":
         pos = 2
         for i in range(ruch[1]):
@@ -306,171 +397,306 @@ def złożenie_ruchu(ruch=["linear",2,0,0,60,1,1,60]):
             if ruch[i*3+4] == -1:
                 s = s + """\n            <p>-</p>"""
             else:
-                s = s + """\n            <p>{0},{1},{2}</p>""".format(ruch[i*3+2],ruch[i*3+3],ruch[i*3+4])
+                s = s + """\n            <p>{0},{1},{2}</p>""".format(round(ruch[i*3+2],zaokr),round(ruch[i*3+3],zaokr),round(ruch[i*3+4],zaokr))
     if ruch[0] == "accelerated":
         for i in range(ruch[1]):
             if ruch[i*4+4] == -1:
                 s = s + """\n            <p>-</p>"""
             else:
-                s = s + """\n            <p>{0},{1},{2},{3}</p>""".format(ruch[i*4+2],ruch[i*4+3],ruch[i*4+4],ruch[i*4+5])
+                s = s + """\n            <p>{0},{1},{2},{3}</p>""".format(round(ruch[i*4+2],zaokr),round(ruch[i*4+3],zaokr),round(ruch[i*4+4],zaokr),round(ruch[i*4+5],zaokr))
     if ruch[0] == "rotational":
         for i in range(ruch[1]):
             if ruch[i*2+3] == -1:
                 s = s + """\n            <p>-</p>"""
             else:
-                s = s + """\n            <p>{0},{1}</p>""".format(ruch[i*2+2],ruch[i*2+3])
+                s = s + """\n            <p>{0},{1}</p>""".format(round(ruch[i*2+2],zaokr),round(ruch[i*2+3],zaokr))
     s = s + """\n        </move>"""
     return s
 def złożenie_wierzchołków(wierzchołki=["v",4,0,0,0,1,1,1,1,0]):
     s = ""
+    zaokr = 3
     if wierzchołki != []:
         if wierzchołki[0] == "v":
             for i in range(wierzchołki[1]):
-                s = s + """\n        <v>{0},{1}</v>""".format(wierzchołki[2*i+2],wierzchołki[2*i+3])
+                s = s + """\n        <v>{0},{1}</v>""".format(round(wierzchołki[2*i+2],zaokr),round(wierzchołki[2*i+3],zaokr))
         if wierzchołki[0] == "vt":
             for i in range(wierzchołki[1]):
-                s = s + """\n        <vt>{0},{1},{2},{3}</vt>""".format(wierzchołki[4*i+2],wierzchołki[4*i+3],wierzchołki[4*i+4],wierzchołki[4*i+5])
+                s = s + """\n        <vt>{0},{1},{2},{3}</vt>""".format(round(wierzchołki[4*i+2],zaokr),round(wierzchołki[4*i+3],zaokr),round(wierzchołki[4*i+4],zaokr),round(wierzchołki[4*i+5],zaokr))
     return s
-def platforma(x=0, y=0, tekstura=domyślna_tekstura, warstwa=5, rotacja=0, odbicie_x=1, odbicie_y=1, powierzchnia=domyślna_powierzchnia, jednostronna=False, wierzchołki=["v",4,0,0,0,1,1,1,1,0], zwróć_tekst=False):
+def złożenie_obrażeń(obrażenia=["d",2,100,60,0,60]):
     s = ""
-    if jednostronna:
+    zaokr = 3
+    if obrażenia[0] == "d":
+        for i in range(obrażenia[1]):
+            s = s + """\n        <d>{0},{1}</d>""".format(round(obrażenia[i*2+2],zaokr),round(obrażenia[i*2+3],zaokr))
+    return s
+def parametr_pojedyńczy(s, n, typ, wartości, domyślne, zaokrąglenie):
+    if zaokrąglenie[0] == True:
+        wartości[n] = round(wartości[n],zaokrąglenie[1])
+        if round(wartości[n]) == wartości[n]:
+            wartości[n] = int(round(wartości[n],zaokrąglenie[1]))
+    if domyślne[n]!=None:
+        if wartości[n]!=domyślne[n]:
+            s += typ + '="{0}" '.format(wartości[n])
+    else:
+        s += typ + '="{0}" '.format(wartości[n])
+    n += 1
+    return s,n
+def parametr_podwójny(s, n, typ, wartości, domyślne, zaokrąglenie):
+    if zaokrąglenie[0] == True:
+        wartości[n] = round(wartości[n],zaokrąglenie[1])
+        wartości[n+1] = round(wartości[n+1],zaokrąglenie[1])
+        if round(wartości[n]) == wartości[n]:
+            wartości[n] = int(round(wartości[n],zaokrąglenie[1]))
+        if round(wartości[n+1]) == wartości[n+1]:
+            wartości[n+1] = int(round(wartości[n+1],zaokrąglenie[1]))
+    if domyślne[n]!=None:
+        if wartości[n]!=domyślne[n] or wartości[n+1]!=domyślne[n+1]:
+            s += typ + '="{0},{1}" '.format(wartości[n],wartości[n+1])
+    else:
+        s += typ + '="{0},{1}" '.format(wartości[n],wartości[n+1])
+    n += 2
+    return s,n
+def parametr_potrójny(s, n, typ, wartości, domyślne, zaokrąglenie):
+    if zaokrąglenie[0] == True:
+        wartości[n] = round(wartości[n],zaokrąglenie[1])
+        wartości[n+1] = round(wartości[n+1],zaokrąglenie[1])
+        wartości[n+2] = round(wartości[n+2],zaokrąglenie[1])
+        if round(wartości[n]) == wartości[n]:
+            wartości[n] = int(round(wartości[n],zaokrąglenie[1]))
+        if round(wartości[n+1]) == wartości[n+1]:
+            wartości[n+1] = int(round(wartości[n+1],zaokrąglenie[1]))
+        if round(wartości[n+2]) == wartości[n+2]:
+            wartości[n+2] = int(round(wartości[n+2],zaokrąglenie[1]))
+    if domyślne[n]!=None:
+        if wartości[n]!=domyślne[n] or wartości[n+1]!=domyślne[n+1] or wartości[n+2]!=domyślne[n+2]:
+            s += typ + '="{0},{1},{2}" '.format(wartości[n],wartości[n+1],wartości[n+2])
+    else:
+        s += typ + '="{0},{1},{2}" '.format(wartości[n],wartości[n+1],wartości[n+2])
+    n += 3
+    return s,n
+def parametry(typy, wartości, domyślne):
+    s = ""
+    n = 0
+    for i in range(typy[0]):
+        if typy[i+1] == "position":
+            s,n = parametr_podwójny(s,n,typy[i+1],wartości,domyślne,[True,3])
+        if typy[i+1] == "texture":
+            s,n = parametr_pojedyńczy(s,n,typy[i+1],wartości,domyślne,[False,])
+        if typy[i+1] == "layer":
+            s,n = parametr_pojedyńczy(s,n,typy[i+1],wartości,domyślne,[True,0])
+        if typy[i+1] == "rotation":
+            s,n = parametr_pojedyńczy(s,n,typy[i+1],wartości,domyślne,[True,3])
+        if typy[i+1] == "flip":
+            s,n = parametr_podwójny(s,n,typy[i+1],wartości,domyślne,[True,0])
+        if typy[i+1] == "surface":
+            s,n = parametr_pojedyńczy(s,n,typy[i+1],wartości,domyślne,[False,])
+        if typy[i+1] == "one_sided":
+            s,n = parametr_pojedyńczy(s,n,typy[i+1],wartości,domyślne,[False,])
+        if typy[i+1] == "color":
+            s,n = parametr_potrójny(s,n,typy[i+1],wartości,domyślne,[True,1])
+        if typy[i+1] == "height":
+            s,n = parametr_pojedyńczy(s,n,typy[i+1],wartości,domyślne,[True,3])
+        if typy[i+1] == "frame_time":
+            s,n = parametr_pojedyńczy(s,n,typy[i+1],wartości,domyślne,[True,3])
+        if typy[i+1] == "offset":
+            s,n = parametr_pojedyńczy(s,n,typy[i+1],wartości,domyślne,[True,3])
+        if typy[i+1] == "line":
+            s,n = parametr_pojedyńczy(s,n,typy[i+1],wartości,domyślne,[False,])
+        if typy[i+1] == "length":
+            s,n = parametr_pojedyńczy(s,n,typy[i+1],wartości,domyślne,[True,3])
+        if typy[i+1] == "angle":
+            s,n = parametr_pojedyńczy(s,n,typy[i+1],wartości,domyślne,[True,3])
+        if typy[i+1] == "line_offset":
+            s,n = parametr_podwójny(s,n,typy[i+1],wartości,domyślne,[True,3])
+        if typy[i+1] == "volume":
+            s,n = parametr_pojedyńczy(s,n,typy[i+1],wartości,domyślne,[True,3])
+        if typy[i+1] == "sound":
+            s,n = parametr_pojedyńczy(s,n,typy[i+1],wartości,domyślne,[False,])
+        if typy[i+1] == "attenuation":
+            s,n = parametr_pojedyńczy(s,n,typy[i+1],wartości,domyślne,[True,3])
+        if typy[i+1] == "min_distance":
+            s,n = parametr_pojedyńczy(s,n,typy[i+1],wartości,domyślne,[True,3])
+        if typy[i+1] == "range":
+            s,n = parametr_pojedyńczy(s,n,typy[i+1],wartości,domyślne,[True,3])
+    return s
+def platforma(x=0, y=0, tekstura=domyślna_tekstura, warstwa=5, rotacja=0, odbicie_x=1, odbicie_y=1, powierzchnia=domyślna_powierzchnia, jednostronna=False, R=255, G=255, B=255, wierzchołki=["v",4,0,0,0,1,1,1,1,0], zwróć_tekst=False):
+    s = ""
+    if jednostronna: #SPECJALNA TRANSFORMACJA TRUE/FALSE Z XML-A DO PYTHONA
         tekst = "true"
     else:
         tekst = "false"
-    s = s + """    <platform position="{0},{1}" texture="{2}" layer="{3}" rotation="{4}" flip="{5},{6}" surface="{7}" one_sided="{8}">""".format(x,y,tekstura,warstwa,rotacja,odbicie_x,odbicie_y,powierzchnia,tekst)
-    s = s + złożenie_wierzchołków(wierzchołki=wierzchołki)
-    s = s + """\n    </platform>\n"""
+    wartości = [x,y,tekstura,warstwa,rotacja,odbicie_x,odbicie_y,powierzchnia,tekst,R,G,B]
+    w,t = przypisanie_tabeli_wartości("platform")
+    s += "    <platform " + parametry(t,wartości,w) + ">"
+    #s += """    <platform position="{0},{1}" texture="{2}" layer="{3}" rotation="{4}" flip="{5},{6}" surface="{7}" one_sided="{8}" color="{9},{10},{11}">""".format(x,y,tekstura,round(warstwa),rotacja,round(odbicie_x),round(odbicie_y),powierzchnia,tekst,R,G,B)
+    s += złożenie_wierzchołków(wierzchołki)
+    s += """\n    </platform>\n"""
     if zwróć_tekst:
         return s
     else:
         zapis(s)
-def obiekt(x=0, y=0, tekstura=domyślny_obiekt, wysokość=1, warstwa=3, rotacja=0, odbicie_x=1, odbicie_y=1, zwróć_tekst=False):
+def obiekt(x=0, y=0, tekstura=domyślny_obiekt, wysokość=1, rotacja=0, odbicie_x=1, odbicie_y=1, warstwa=3, R=255, G=255, B=255, zwróć_tekst=False):
     s = ""
-    s = s + """    <object position="{0},{1}" texture="{2}" height="{3}" layer="{4}" rotation="{5}" flip="{6},{7}"/>""".format(x,y,tekstura,wysokość,warstwa,rotacja,odbicie_x,odbicie_y)
+    wartości = [x,y,tekstura,wysokość,rotacja,odbicie_x,odbicie_y,warstwa,R,G,B]
+    w,t = przypisanie_tabeli_wartości("object")
+    s += "    <object " + parametry(t,wartości,w) + "/>"
+    #s += """    <object position="{0},{1}" texture="{2}" height="{3}" layer="{4}" rotation="{5}" flip="{6},{7}"/>""".format(x,y,tekstura,wysokość,warstwa,rotacja,odbicie_x,odbicie_y)
     if zwróć_tekst:
         return s
     else:
         zapis(s)
-def animowany_obiekt(x=0, y=0, tekstura=domyślny_animowany_obiekt, wysokość=1, warstwa=3, rotacja=0, odbicie_x=1, odbicie_y=1, czas_klatki=1, przesunięcie=0, zwróć_tekst=False):
+def animowany_obiekt(x=0, y=0, tekstura=domyślny_animowany_obiekt, wysokość=1, rotacja=0, odbicie_x=1, odbicie_y=1, warstwa=3, czas_klatki=1, przesunięcie=0, R=255, G=255, B=255, zwróć_tekst=False):
     s = ""
-    s = s + """    <animated_object position="{0},{1}" texture="{2}" height="{3}" layer="{4}" rotation="{5}" flip="{6},{7}" frame_time="{8}" offset="{9}"/>""".format(x,y,tekstura,wysokość,warstwa,rotacja,odbicie_x,odbicie_y,czas_klatki,przesunięcie)
+    wartości = [x,y,tekstura,wysokość,rotacja,odbicie_x,odbicie_y,warstwa,czas_klatki,przesunięcie,R,G,B]
+    w,t = przypisanie_tabeli_wartości("animated_object")
+    s += "    <animated_object " + parametry(t,wartości,w) + "/>"
+    #s += """    <animated_object position="{0},{1}" texture="{2}" height="{3}" layer="{4}" rotation="{5}" flip="{6},{7}" frame_time="{8}" offset="{9}"/>""".format(x,y,tekstura,wysokość,warstwa,rotacja,odbicie_x,odbicie_y,czas_klatki,przesunięcie)
     if zwróć_tekst:
         return s
     else:
         zapis(s)
-def ruchomy_obiekt(x=0, y=0, tekstura=domyślny_obiekt, wysokość=1, warstwa=3, rotacja=0, odbicie_x=1, odbicie_y=1, ruch=["linear",2,0,0,60,1,1,60], zwróć_tekst=False):
+def ruchomy_obiekt(x=0, y=0, tekstura=domyślny_obiekt, wysokość=1, rotacja=0, odbicie_x=1, odbicie_y=1, warstwa=3, R=255, G=255, B=255, ruch=["linear",2,0,0,60,1,1,60], zwróć_tekst=False):
     s = ""
-    s = s + """    <moving_object position="{0},{1}" texture="{2}" height="{3}" layer="{4}" rotation="{5}" flip="{6},{7}">""".format(x,y,tekstura,wysokość,warstwa,rotacja,odbicie_x,odbicie_y)
-    s = s + złożenie_ruchu(ruch=ruch)
-    s = s + """\n    </moving_object>\n"""
+    wartości = [x,y,tekstura,wysokość,rotacja,odbicie_x,odbicie_y,warstwa,R,G,B]
+    w,t = przypisanie_tabeli_wartości("moving_object")
+    s += "    <moving_object " + parametry(t,wartości,w) + ">"
+    #s += """    <moving_object position="{0},{1}" texture="{2}" height="{3}" layer="{4}" rotation="{5}" flip="{6},{7}">""".format(x,y,tekstura,wysokość,warstwa,rotacja,odbicie_x,odbicie_y)
+    s += złożenie_ruchu(ruch)
+    s += """\n    </moving_object>\n"""
     if zwróć_tekst:
         return s
     else:
         zapis(s)
-def wahadło(x=0, y=0, tekstura=domyślna_tekstura, lina=domyślna_lina, długość=5, wychylenie=30, warstwa=5, rotacja=0, odbicie_x=1, odbicie_y=1, początek_liny_x=256, początek_liny_y=0, powierzchnia=domyślna_powierzchnia, wierzchołki=["v",4,0,0,0,1,1,1,1,0], zaczepienia=2, zaczepienia_x=(0,1), zaczepienia_y=(0,1), zwróć_tekst=False):
+def wahadło(x=0, y=0, tekstura=domyślna_tekstura, lina=domyślna_lina, długość=5, wychylenie=30, warstwa=5, rotacja=0, odbicie_x=1, odbicie_y=1, początek_liny_x=256, początek_liny_y=0, powierzchnia=domyślna_powierzchnia, R=255, G=255, B=255, wierzchołki=["v",4,0,0,0,1,1,1,1,0], zaczepienia=2, zaczepienia_x=(0,1), zaczepienia_y=(0,1), zwróć_tekst=False):
     s = ""
-    s = s + """    <pendulum position="{0},{1}" texture="{2}" line="{3}" length="{4}" angle="{5}" layer="{6}" rotation="{7}" flip="{8},{9}" line_offset="{10},{11}" surface="{12}">""".format(x,y,tekstura,lina,długość,wychylenie,warstwa,rotacja,odbicie_x,odbicie_y,początek_liny_x,początek_liny_y,powierzchnia)
-    s = s + złożenie_wierzchołków(wierzchołki=wierzchołki)
+    wartości = [x,y,tekstura,lina,długość,wychylenie,warstwa,rotacja,odbicie_x,odbicie_y,początek_liny_x,początek_liny_y,powierzchnia,R,G,B]
+    w,t = przypisanie_tabeli_wartości("pendulum")
+    s += "    <pendulum " + parametry(t,wartości,w) + ">"
+    #s += """    <pendulum position="{0},{1}" texture="{2}" line="{3}" length="{4}" angle="{5}" layer="{6}" rotation="{7}" flip="{8},{9}" line_offset="{10},{11}" surface="{12}">""".format(x,y,tekstura,lina,długość,wychylenie,warstwa,rotacja,odbicie_x,odbicie_y,początek_liny_x,początek_liny_y,powierzchnia)
+    s += złożenie_wierzchołków(wierzchołki)
     for i in range(zaczepienia):
-        s = s + """\n        <a>{0},{1}</a>""".format(zaczepienia_x[i],zaczepienia_y[i])
-    s = s + """\n    </pendulum>\n"""
+        s += """\n        <a>{0},{1}</a>""".format(zaczepienia_x[i],zaczepienia_y[i])
+    s += """\n    </pendulum>\n"""
     if zwróć_tekst:
         return s
     else:
         zapis(s)
-def ruchoma_platforma(x=0, y=0, tekstura=domyślna_tekstura, warstwa=5, rotacja=0, odbicie_x=1, odbicie_y=1, powierzchnia=domyślna_powierzchnia, ruch=["linear",2,0,0,60,1,1,60], wierzchołki=["v",4,0,0,0,1,1,1,1,0], zwróć_tekst=False):
+def ruchoma_platforma(x=0, y=0, tekstura=domyślna_tekstura, warstwa=5, rotacja=0, odbicie_x=1, odbicie_y=1, powierzchnia=domyślna_powierzchnia, R=255, G=255, B=255, ruch=["linear",2,0,0,60,1,1,60], wierzchołki=["v",4,0,0,0,1,1,1,1,0], zwróć_tekst=False):
     s = ""
-    s = s + """    <moving_platform position="{0},{1}" texture="{2}" layer="{3}" rotation="{4}" flip="{5},{6}" surface="{7}">""".format(x,y,tekstura,warstwa,rotacja,odbicie_x,odbicie_y,powierzchnia)
-    s = s + złożenie_ruchu(ruch=ruch)
-    s = s + złożenie_wierzchołków(wierzchołki=wierzchołki)
-    s = s + """\n    </moving_platform>\n"""
+    wartości = [x,y,tekstura,warstwa,rotacja,odbicie_x,odbicie_y,powierzchnia,R,G,B]
+    w,t = przypisanie_tabeli_wartości("moving_platform")
+    s += "    <moving_platform " + parametry(t,wartości,w) + ">"
+    #s += """    <moving_platform position="{0},{1}" texture="{2}" layer="{3}" rotation="{4}" flip="{5},{6}" surface="{7}">""".format(x,y,tekstura,warstwa,rotacja,odbicie_x,odbicie_y,powierzchnia)
+    s += złożenie_ruchu(ruch) + złożenie_wierzchołków(wierzchołki)
+    s += """\n    </moving_platform>\n"""
     if zwróć_tekst:
         return s
     else:
         zapis(s)
-def ściana(x=0, y=0, tekstura=domyślna_tekstura, warstwa=1, rotacja=0, wierzchołki=["v",4,0,0,0,1,1,1,1,0], zwróć_tekst=False):
+def ściana(x=0, y=0, tekstura=domyślna_tekstura, warstwa=1, odbicie_x=1, odbicie_y=1, rotacja=0, R=255, G=255, B=255, wierzchołki=["v",4,0,0,0,1,1,1,1,0], zwróć_tekst=False):
     s = ""
-    s = s + """    <wall position="{0},{1}" texture="{2}" layer="{3}" rotation="{4}">""".format(x,y,tekstura,warstwa,rotacja)
-    s = s + złożenie_wierzchołków(wierzchołki=wierzchołki)
-    s = s + """\n    </wall>\n"""
+    wartości = [x,y,tekstura,warstwa,odbicie_x,odbicie_y,rotacja,R,G,B]
+    w,t = przypisanie_tabeli_wartości("wall")
+    s += "    <wall " + parametry(t,wartości,w) + ">"
+    #s += """    <wall position="{0},{1}" texture="{2}" layer="{3}" rotation="{4}">""".format(x,y,tekstura,warstwa,rotacja)
+    s += złożenie_wierzchołków(wierzchołki)
+    s += """\n    </wall>\n"""
     if zwróć_tekst:
         return s
     else:
         zapis(s)
-def animowana_ściana(x=0, y=0, tekstura=domyślna_animowana_tekstura, warstwa=1, rotacja=0, czas_klatki=1, przesunięcie=0, wierzchołki=["v",4,0,0,0,1,1,1,1,0], zwróć_tekst=False):
+def animowana_ściana(x=0, y=0, tekstura=domyślna_animowana_tekstura, warstwa=1, czas_klatki=1, przesunięcie=0, odbicie_x=1, odbicie_y=1, rotacja=0, R=255, G=255, B=255, wierzchołki=["v",4,0,0,0,1,1,1,1,0], zwróć_tekst=False):
     s = ""
-    s = s + """    <animated_wall position="{0},{1}" texture="{2}" layer="{3}" rotation="{4}" frame_time="{5}" offset="{6}">""".format(x,y,tekstura,warstwa,rotacja,czas_klatki,przesunięcie)
-    s = s + złożenie_wierzchołków(wierzchołki=wierzchołki)
-    s = s + """\n    </animated_wall>\n"""
+    wartości = [x,y,tekstura,warstwa,czas_klatki,przesunięcie,odbicie_x,odbicie_y,rotacja,R,G,B]
+    w,t = przypisanie_tabeli_wartości("animated_wall")
+    s += "    <animated_wall " + parametry(t,wartości,w) + ">"
+    #s += """    <animated_wall position="{0},{1}" texture="{2}" layer="{3}" rotation="{4}" frame_time="{5}" offset="{6}">""".format(x,y,tekstura,warstwa,rotacja,czas_klatki,przesunięcie)
+    s += złożenie_wierzchołków(wierzchołki)
+    s += """\n    </animated_wall>\n"""
     if zwróć_tekst:
         return s
     else:
         zapis(s)
-def animowana_ruchoma_platforma(x=0, y=0, tekstura=domyślna_animowana_tekstura, warstwa=5, rotacja=0, odbicie_x=1, odbicie_y=1, powierzchnia=domyślna_powierzchnia, czas_klatki=1, przesunięcie=0, ruch=["linear",2,0,0,60,1,1,60], wierzchołki=["v",4,0,0,0,1,1,1,1,0], zwróć_tekst=False):
+def animowana_ruchoma_platforma(x=0, y=0, tekstura=domyślna_animowana_tekstura, warstwa=5, rotacja=0, odbicie_x=1, odbicie_y=1, przesunięcie=0, czas_klatki=1, powierzchnia=domyślna_powierzchnia, R=255, G=255, B=255, ruch=["linear",2,0,0,60,1,1,60], wierzchołki=["v",4,0,0,0,1,1,1,1,0], zwróć_tekst=False):
     s = ""
-    s = s + """    <animated_moving_platform position="{0},{1}" texture="{2}" layer="{3}" rotation="{4}" flip="{5},{6}" surface="{7}" frame_time="{8}" offset="{9}">""".format(x,y,tekstura,warstwa,rotacja,odbicie_x,odbicie_y,powierzchnia,czas_klatki,przesunięcie)   
-    s = s + złożenie_ruchu(ruch=ruch)
-    s = s + złożenie_wierzchołków(wierzchołki=wierzchołki)
-    s = s + """\n    </animated_moving_platform>\n"""
+    wartości = [x,y,tekstura,warstwa,rotacja,odbicie_x,odbicie_y,przesunięcie,czas_klatki,powierzchnia,R,G,B]
+    w,t = przypisanie_tabeli_wartości("animated_moving_platform")
+    s += "    <animated_moving_platform " + parametry(t,wartości,w) + ">"
+    #s += """    <animated_moving_platform position="{0},{1}" texture="{2}" layer="{3}" rotation="{4}" flip="{5},{6}" surface="{7}" frame_time="{8}" offset="{9}">""".format(x,y,tekstura,warstwa,rotacja,odbicie_x,odbicie_y,powierzchnia,czas_klatki,przesunięcie)   
+    s += złożenie_ruchu(ruch) + złożenie_wierzchołków(wierzchołki)
+    s += """\n    </animated_moving_platform>\n"""
     if zwróć_tekst:
         return s
     else:
         zapis(s)
-def strefa_obrażeń(x=0, y=0, wierzchołki=["v",4,0,0,0,1,1,1,1,0], stany=2, stany_d=[100,0], stany_t=[60,60], zwróć_tekst=False):
+def strefa_obrażeń(x=0, y=0, wierzchołki=["v",4,0,0,0,1,1,1,1,0], obrażenia=["d",2,100,60,0,60], zwróć_tekst=False):
     s = ""
-    s = s + """    <damage_zone position="{0},{1}">""".format(x,y)
-    s = s + złożenie_wierzchołków(wierzchołki=wierzchołki)
-    for i in range(stany):
-        s = s + """\n        <d>{0},{1}</d>""".format(stany_d[i],stany_t[i])
-    s = s + """\n    </damage_zone>\n"""
+    wartości = [x,y]
+    w,t = przypisanie_tabeli_wartości("damage_zone")
+    s += "    <damage_zone " + parametry(t,wartości,w) + ">"
+    #s += """    <damage_zone position="{0},{1}">""".format(x,y)
+    s += złożenie_wierzchołków(wierzchołki) + złożenie_obrażeń(obrażenia)
+    s += """\n    </damage_zone>\n"""
     if zwróć_tekst:
         return s
     else:
         zapis(s)
 def bariera(x=0, y=0, powierzchnia=domyślna_powierzchnia, wierzchołki=["v",4,0,0,0,1,1,1,1,0], zwróć_tekst=False):
     s = ""
-    s = s + """    <barrier position="{0},{1}" surface="{2}">""".format(x,y,powierzchnia)
-    s = s + złożenie_wierzchołków(wierzchołki=wierzchołki)
-    s = s + """\n    </barrier>\n"""
+    wartości = [x,y,powierzchnia]
+    w,t = przypisanie_tabeli_wartości("barrier")
+    s += "    <barrier " + parametry(t,wartości,w) + ">"
+    #s += """    <barrier position="{0},{1}" surface="{2}">""".format(x,y,powierzchnia)
+    s += złożenie_wierzchołków(wierzchołki)
+    s += """\n    </barrier>\n"""
     if zwróć_tekst:
         return s
     else:
         zapis(s)
-def ruchoma_strefa_obrażeń(x=0, y=0, ruch=["linear",2,0,0,60,1,1,60], wierzchołki=["v",4,0,0,0,1,1,1,1,0], stany=2, stany_d=[100,0], stany_t=[60,60], zwróć_tekst=False):
+def ruchoma_strefa_obrażeń(x=0, y=0, ruch=["linear",2,0,0,60,1,1,60], wierzchołki=["v",4,0,0,0,1,1,1,1,0], obrażenia=["d",2,100,60,0,60], zwróć_tekst=False):
     s = ""
-    s = s + """    <moving_damage_zone position="{0},{1}">""".format(x,y)
-    s = s + złożenie_ruchu(ruch=ruch)
-    s = s + złożenie_wierzchołków(wierzchołki=wierzchołki)
-    for i in range(stany):
-        s = s + """\n        <d>{0},{1}</d>""".format(stany_d[i],stany_t[i])
-    s = s + """\n    </moving_damage_zone>\n"""
+    wartości = [x,y]
+    w,t = przypisanie_tabeli_wartości("moving_damage_zone")
+    s += "    <moving_damage_zone " + parametry(t,wartości,w) + ">"
+    #s += """    <moving_damage_zone position="{0},{1}">""".format(x,y)
+    s += złożenie_ruchu(ruch) + złożenie_wierzchołków(wierzchołki) + złożenie_wierzchołków(obrażenia)
+    s += """\n    </moving_damage_zone>\n"""
     if zwróć_tekst:
         return s
     else:
         zapis(s)
 def ruchoma_bariera(x=0, y=0, powierzchnia=domyślna_powierzchnia, ruch=["linear",2,0,0,60,1,1,60], wierzchołki=["v",4,0,0,0,1,1,1,1,0], zwróć_tekst=False):
     s = ""
-    s = s + """    <moving_barrier position="{0},{1}" surface="{2}">""".format(x,y,powierzchnia)
-    s = s + złożenie_ruchu(ruch=ruch)
-    s = s + złożenie_wierzchołków(wierzchołki=wierzchołki)
-    s = s + """\n    </moving_barrier>\n"""
+    wartości = [x,y,powierzchnia]
+    w,t = przypisanie_tabeli_wartości("moving_barrier")
+    s += "    <moving_barrier " + parametry(t,wartości,w) + ">"
+    #s += """    <moving_barrier position="{0},{1}" surface="{2}">""".format(x,y,powierzchnia)
+    s += złożenie_ruchu(ruch) + złożenie_wierzchołków(wierzchołki)
+    s += """\n    </moving_barrier>\n"""
     if zwróć_tekst:
         return s
     else:
         zapis(s)
-def animowany_ruchomy_obiekt(x=0, y=0, tekstura=domyślny_animowany_obiekt, wysokość=1, warstwa=3, rotacja=0, odbicie_x=1, odbicie_y=1, czas_klatki=1, przesunięcie=0, ruch=["linear",2,0,0,60,1,1,60], zwróć_tekst=False):
+def animowany_ruchomy_obiekt(x=0, y=0, tekstura=domyślny_animowany_obiekt, wysokość=1, rotacja=0, odbicie_x=1, odbicie_y=1, warstwa=3, czas_klatki=1, przesunięcie=0, R=255, G=255, B=255, ruch=["linear",2,0,0,60,1,1,60], zwróć_tekst=False):
     s = ""
-    s = s + """    <animated_moving_object position="{0},{1}" texture="{2}" height="{3}" layer="{4}" rotation="{5}" flip="{6},{7}" frame_time="{8}" offset="{9}">""".format(x,y,tekstura,wysokość,warstwa,rotacja,odbicie_x,odbicie_y,czas_klatki,przesunięcie)
-    s = s + złożenie_ruchu(ruch=ruch)
-    s = s + """\n    </animated_moving_object>\n"""
+    wartości = [x,y,tekstura,wysokość,rotacja,odbicie_x,odbicie_y,warstwa,czas_klatki,przesunięcie,R,G,B]
+    w,t = przypisanie_tabeli_wartości("animated_moving_object")
+    s += "    <animated_moving_object " + parametry(t,wartości,w) + ">"
+    #s += """    <animated_moving_object position="{0},{1}" texture="{2}" height="{3}" layer="{4}" rotation="{5}" flip="{6},{7}" frame_time="{8}" offset="{9}">""".format(x,y,tekstura,wysokość,warstwa,rotacja,odbicie_x,odbicie_y,czas_klatki,przesunięcie)
+    s += złożenie_ruchu(ruch)
+    s += """\n    </animated_moving_object>\n"""
     if zwróć_tekst:
         return s
     else:
         zapis(s)
 def dźwięk(x=0, y=0, głośność=100, dźwięk=domyślny_dźwięk, wyciszanie=1, próg_głośności=2, zasięg=8, wierzchołki=["v",0], zwróć_tekst=False):
     s = ""
-    s = s + '    <sound position="{0},{1}" volume="{2}" sound="{3}" attenuation="{4}" min_distance="{5}" range="{6}"'.format(x,y,głośność,dźwięk,wyciszanie,próg_głośności,zasięg)
-    v = złożenie_wierzchołków(wierzchołki=wierzchołki)
+    wartości = [x,y,głośność,dźwięk,wyciszanie,próg_głośności,zasięg]
+    w,t = przypisanie_tabeli_wartości("sound")
+    s += "    <sound " + parametry(t,wartości,w) + "/>"
+    #s += '    <sound position="{0},{1}" volume="{2}" sound="{3}" attenuation="{4}" min_distance="{5}" range="{6}"'.format(x,y,głośność,dźwięk,wyciszanie,próg_głośności,zasięg)
+    v = złożenie_wierzchołków(wierzchołki)
     if v == "":
         s += "/>\n"
     else:
