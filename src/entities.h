@@ -8,8 +8,8 @@
 #include "animations.h"
 #include "messaging.h"
 #include "control.h"
-
-enum class Entity_stack_command {PUSH, POP, REPLACE, NONE};
+#include "entity_state_core.h"
+#include "entity_state_machine.h"
 
 class Entity_state_machine;
 
@@ -23,7 +23,7 @@ protected:
 	sf::Sprite sprite;
 	std::pair<float, int> height;
 	std::unique_ptr<Animation> animation;
-	std::unique_ptr<Entity_state_machine> state;
+	std::unique_ptr<Entity_state_machine> state_machine;
 	int max_health;
 	float scale;
 	sf::RectangleShape coll_shape;
@@ -61,6 +61,7 @@ public:
 	void update_physics(float dt);
 	void set_textures_set(int set);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	void push_state(Entity_state* state);
 	Entity(std::unique_ptr<Animation>&& animation_, Physical& physical_,
 		std::unique_ptr<Entity_state_machine>&& state_,
 		std::unique_ptr<Controller>&& controller_, std::pair<float, int> height_,
@@ -73,21 +74,4 @@ struct Compare_entities
 	{
 		return (lhs->id.get_id() == rhs->id.get_id());
 	}
-};
-
-struct Entity_state
-{
-	virtual void enter(Entity& entity) = 0;
-	virtual void exit(Entity& entity) { (void)entity; /*Unused*/ };
-	virtual std::pair<Entity_state*, Entity_stack_command> update(Entity& entity, float dt) = 0;
-	virtual ~Entity_state() {};
-};
-
-class Entity_state_machine
-{
-	std::stack<Entity_state*> state_stack;
-
-public:
-	virtual void update(Entity& entity, float dt);
-	Entity_state_machine(Entity_state* state);
 };

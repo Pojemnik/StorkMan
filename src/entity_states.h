@@ -1,5 +1,7 @@
 #pragma once
+#include <utility>
 #include "entities.h"
+#include "entity_state_core.h"
 
 struct Run_state : public Entity_state
 {

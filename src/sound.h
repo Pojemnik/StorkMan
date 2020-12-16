@@ -68,7 +68,7 @@ class Sound_system : public Message_receiver, public Message_sender
 		{Msgtype::WINDOW_FOCUS, std::bind(&Sound_system::on_window_focus_change, this, std::placeholders::_1)},
 		{Msgtype::MUSIC_VOLUME, std::bind(&Sound_system::on_music_volume_change, this, std::placeholders::_1)},
 		{Msgtype::JUMPED, std::bind(&Sound_system::on_entity_jump, this, std::placeholders::_1)},
-		{Msgtype::DIED, std::bind(&Sound_system::on_entity_death, this, std::placeholders::_1)},
+		{Msgtype::DYING, std::bind(&Sound_system::on_entity_death, this, std::placeholders::_1)},
 		{Msgtype::SOUND_VOLUME, std::bind(&Sound_system::on_sound_volume_change, this, std::placeholders::_1)},
 		{Msgtype::MOVED, std::bind(&Sound_system::on_entity_move, this, std::placeholders::_1)},
 		{Msgtype::STOPPED, std::bind(&Sound_system::on_entity_stop, this, std::placeholders::_1)},

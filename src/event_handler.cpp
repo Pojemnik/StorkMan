@@ -6,7 +6,7 @@ void Event_handler::handle_event(sf::Event& event)
 {
 	if (event.type == sf::Event::Closed)
 	{
-		send_message(Message::Message_type::WINDOW_CLOSED, NULL);
+		send_message(Message::Message_type::WINDOW_CLOSED);
 		return;
 	}
 	if (!context.window_focus)
@@ -20,11 +20,11 @@ void Event_handler::handle_event(sf::Event& event)
 		{
 			if (context.console->is_active())
 			{
-				send_message(Message::Message_type::CONSOLE_DEACTIVATED, NULL);
+				send_message(Message::Message_type::CONSOLE_DEACTIVATED);
 			}
 			else
 			{
-				send_message(Message::Message_type::CONSOLE_ACTIVATED, NULL);
+				send_message(Message::Message_type::CONSOLE_ACTIVATED);
 			}
 		}
 		if (context.console->is_active())
@@ -55,14 +55,14 @@ void Event_handler::handle_event(sf::Event& event)
 				{
 					if (!context.console->is_active())
 					{
-						send_message(Message::Message_type::REMOVE_GRID_POINTS, NULL);
+						send_message(Message::Message_type::REMOVE_GRID_POINTS);
 					}
 				}
 				if (event.key.code == sf::Keyboard::R)
 				{
 					if (!context.console->is_active())
 					{
-						send_message(Message::Message_type::RELOAD_MAP, NULL);
+						send_message(Message::Message_type::RELOAD_MAP);
 					}
 				}
 			}
@@ -89,7 +89,7 @@ void Event_handler::handle_event(sf::Event& event)
 			{
 				if (context.editor_mode)
 				{
-					send_message(Message::Message_type::ADD_GRID_POINT, NULL);
+					send_message(Message::Message_type::ADD_GRID_POINT);
 				}
 			}
 			else if (event.mouseButton.button == sf::Mouse::Right)

@@ -126,6 +126,7 @@ wall:
 		texture
 		layer* - (domyślne 1)
 		flip* (domyślnie 1,1)
+		rotation* (domyślnie 0)
 		color* (domyślnie 255,255,255)
 	
 	zawartość:
@@ -139,6 +140,7 @@ animated_wall:
 		frame_time* (domyślnie 1)
 		offset* (domyślnie 0)
 		flip* (domyślnie 1,1)
+		rotation* (domyślnie 0)
 		color* (domyślnie 255,255,255)
 	
 	zawartość:
@@ -214,7 +216,7 @@ sound:
 		volume* - (int) (domyślne 100) głośność maksymalna
 		sound - (string) - nazwa dźwięku do odtworzenia (patrz plik sound/sound/map_sounds.cfg)
 		attenuation* - (float) (domyślnie 1) szybkość zanikania dźwięku wraz z odległością
-		min_distance* - (float) [prawdopodobnie m] odległość, w jakiej dźwięk osiąga maksymalną głośność
+		min_distance* - (float) [m] (domyślnie 1) odległość, w jakiej dźwięk osiąga maksymalną głośność
 		range* - (float) (domyślnie 8) [m] maksymalna odległość, w której dźwięk jest słyszalny - w przypadku braku obiektów blokujących dźwięk zakres słyszlności jest kwadratem o boku range*2
 	
 	znaczniki:

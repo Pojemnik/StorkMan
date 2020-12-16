@@ -105,16 +105,16 @@ int main(int argc, char** argv)
 	map->add_entity(&player);
 
 	//Test enemy
-	animation = std::make_unique<Key_frame_animation>(stork_parts,
-		*animations, stork_tree);
-	Physical enemy_physical(storkman_config.mesh, { 20 * context.global_scale,
-		5 * context.global_scale });
-	machine = std::make_unique<Entity_state_machine>(new Idle_state());
-	controller = std::make_unique<Idle_cotroller>();
-	Entity test_enemy(std::move(animation), enemy_physical, std::move(machine),
-		std::move(controller), storkman_config.height, storkman_config.max_hp,
-		Message_sender_type::ENEMY);
-	map->add_entity(&test_enemy);
+	//animation = std::make_unique<Key_frame_animation>(stork_parts,
+	//	*animations, stork_tree);
+	//Physical enemy_physical(storkman_config.mesh, { 20 * context.global_scale,
+	//	5 * context.global_scale });
+	//machine = std::make_unique<Entity_state_machine>(new Idle_state());
+	//controller = std::make_unique<Idle_cotroller>();
+	//Entity test_enemy(std::move(animation), enemy_physical, std::move(machine),
+	//	std::move(controller), storkman_config.height, storkman_config.max_hp,
+	//	Message_sender_type::ENEMY);
+	//map->add_entity(&test_enemy);
 
 	//Sound init
 	const auto steps_config = parser.load_steps_config("sound/sound/steps.cfg");
@@ -151,6 +151,7 @@ int main(int argc, char** argv)
 	map->init();
 	Receiver_component engine_receiver;
 	context.console->add_receiver(&engine_receiver);
+	player.add_receiver(&engine_receiver);
 	Event_handler event_handler;
 	event_handler.add_receiver(&grid);
 	event_handler.add_receiver(&engine_receiver);
@@ -234,9 +235,16 @@ int main(int argc, char** argv)
 				delete map;
 				map = load_map((argc == 2) ? argv[1] : "map/map.xml", parser);
 				map->add_entity(&player);
-				map->add_entity(&test_enemy);
+				//map->add_entity(&test_enemy);
 				map->add_receiver(&sound_system);
 				map->init();
+				break;
+			case Message::Message_type::DIED:
+				if (msg.sender->id.get_type() == Message_sender_type::PLAYER)
+				{
+					player.push_state(new Idle_state());
+					player.heal(1000);
+				}
 				break;
 			case Message::Message_type::CONSOLE_COMMAND_RECEIVED:
 			{
@@ -320,13 +328,13 @@ int main(int argc, char** argv)
 			while (acc > STEP)
 			{
 				map->update_physics(STEP, player.get_position(), screen_rect);
-				test_enemy.update_physics(STEP);
+				//test_enemy.update_physics(STEP);
 				player.update_physics(STEP);
 				context.player_pos = player.get_position();
 				acc -= STEP;
 			}
 			map->update_graphics(time, player.get_position(), screen_rect);
-			test_enemy.update_graphics(time);
+			//test_enemy.update_graphics(time);
 			player.update_graphics(time);
 			sound_system.update(time);
 		}
@@ -359,7 +367,7 @@ int main(int argc, char** argv)
 		window.clear();
 		map->draw_bottom_layers(window, rs);
 		window.draw(player, rs);
-		window.draw(test_enemy, rs);
+		//window.draw(test_enemy, rs);
 		map->draw_middle_layers(window, rs);
 		map->draw_top_layers(window, rs);
 		if (context.draw_damage_zones)

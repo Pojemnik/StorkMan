@@ -156,11 +156,12 @@ std::pair<Entity_state*, Entity_stack_command> Idle_state::update(Entity& entity
 void Die_state::enter(Entity& entity)
 {
 	entity.set_animation(Animation_index::DIE);
+	entity.send_message(Message::Message_type::DYING);
 }
 
 void Die_state::exit(Entity& entity)
 {
-	entity.send_message(Message::Message_type::DIED, NULL);
+	entity.send_message(Message::Message_type::DIED);
 }
 
 std::pair<Entity_state*, Entity_stack_command> Die_state::update(Entity& entity, float dt)

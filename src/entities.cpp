@@ -1,44 +1,11 @@
 #include "entities.h"
 
-void Entity_state_machine::update(Entity& entity, float dt)
-{
-	if (state_stack.size() <= 0)
-	{
-		throw std::runtime_error("Out of entity stack!");
-	}
-	std::pair<Entity_state*, Entity_stack_command> state = state_stack.top()->update(entity, dt);
-	switch (state.second)
-	{
-	case Entity_stack_command::REPLACE:
-		state_stack.top()->exit(entity);
-		delete state_stack.top();
-		state_stack.pop();
-		[[fallthrough]];
-	case Entity_stack_command::PUSH:
-		state_stack.push(state.first);
-		state_stack.top()->enter(entity);
-		break;
-	case Entity_stack_command::POP:
-		state_stack.top()->exit(entity);
-		delete state_stack.top();
-		state_stack.pop();
-		break;
-	case Entity_stack_command::NONE:
-		break;
-	}
-}
-
-Entity_state_machine::Entity_state_machine(Entity_state* state)
-{
-	state_stack.push(state);
-}
-
 Entity::Entity(std::unique_ptr<Animation>&& animation_, Physical& physical_,
 	std::unique_ptr<Entity_state_machine>&& state_,
 	std::unique_ptr<Controller>&& controller_, std::pair<float, int> height_,
 	int health_, Message_sender_type type)
 	: animation(std::move(animation_)), physical(physical_),
-	state(std::move(state_)), controller(std::move(controller_)),
+	state_machine(std::move(state_)), controller(std::move(controller_)),
 	health(health_), height(height_), Message_sender(type)
 {
 	set_max_health(health);
@@ -136,7 +103,7 @@ void Entity::update_physics(float dt)
 	surface = temp.second;
 	on_ground = physical.is_on_ground();
 	controller->update();
-	state->update(*this, dt);
+	state_machine->update(*this, dt);
 	physical.set_fallthrough(fallthrough);
 	physical.update_physics(dt);
 	
@@ -160,6 +127,11 @@ void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const
 		target.draw(coll_shape, states);
 	}
 	target.draw(sprite, states);
+}
+
+void Entity::push_state(Entity_state* state)
+{
+	state_machine->push_state(state, this);
 }
 
 Vectorf Entity::get_position()
