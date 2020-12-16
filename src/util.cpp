@@ -139,11 +139,11 @@ bool util::round_and_compare(Vectorf a, Vectorf b)
 	return a == b;
 }
 
-bool util::round_and_compare(Vectorf a, Vectorf b, float eps)
+bool util::round_and_compare(Vectorf a, Vectorf b, float epsilon)
 {
-	float multipler = 1.f / eps;
-	a = { float(round(a.x*multipler))*eps, float(round(a.y*multipler))*eps };
-	b = { float(round(b.x*multipler))*eps, float(round(b.y*multipler))*eps };
+	float multipler = 1.f / epsilon;
+	a = { float(round(a.x * multipler)) * epsilon, float(round(a.y * multipler)) * epsilon };
+	b = { float(round(b.x * multipler)) * epsilon, float(round(b.y * multipler)) * epsilon };
 	return a == b;
 }
 
@@ -200,8 +200,8 @@ bool util::are_colinear(Vectorf p, Vectorf q, Vectorf r, float epsilon)
 
 int util::orientation(Vectorf p, Vectorf q, Vectorf r)
 {
-	int val = (q.y - p.y) * (r.x - q.x) -
-		(q.x - p.x) * (r.y - q.y);
+	int val = static_cast<int>((q.y - p.y) * (r.x - q.x) -
+		(q.x - p.x) * (r.y - q.y));
 
 	if (val == 0) return 0;
 

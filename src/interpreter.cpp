@@ -244,7 +244,7 @@ std::pair<Commands_interpreter::Command_code, Vectorf> Commands_interpreter::exe
 	}
 	else if (cmd.name == "soundvolume")
 	{
-		float vol = get_float(cmd, "Sound volume");
+		int vol = get_int(cmd, "Sound volume");
 		if (vol < 0 || vol > 100)
 		{
 			throw std::invalid_argument("Incorrect argument");

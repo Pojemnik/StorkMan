@@ -6,15 +6,15 @@ void Physical::reset_physics()
 	speed = { 0,0 };
 }
 
-Vectorf Physical::resolve_one_sided_collisions(Vectorf collision_vector, int id)
+Vectorf Physical::resolve_one_sided_collisions(Vectorf current_collision_vector, int id)
 {
-	float up = util::vector_dot_product({ 0,-1 }, collision_vector) /
-		(std::hypot(collision_vector.x, collision_vector.y));
+	float up = util::vector_dot_product({ 0,-1 }, current_collision_vector) /
+		(std::hypot(current_collision_vector.x, current_collision_vector.y));
 	if (!last_one_side_collision_ids.contains(id))
 	{
 		if (up < -0.7f && !fallthrough)
 		{
-			return collision_vector;
+			return current_collision_vector;
 		}
 		else
 		{
@@ -122,16 +122,16 @@ void Physical::resolve_collision(const std::vector<std::shared_ptr<const Collida
 			continue;
 		if (!collision.rect.intersects(other_collision->rect))
 			continue;
-		Vectorf collision_vector = coll::test_collision(collision, *other_collision);
+		Vectorf current_collision_vector = coll::test_collision(collision, *other_collision);
 		if (!other_collision->one_sided)
 		{
-			temp_delta += collision_vector;
+			temp_delta += current_collision_vector;
 		}
 		else
 		{
-			if (!util::round_and_compare(collision_vector, Vectorf(0, 0), 0.1f))
+			if (!util::round_and_compare(current_collision_vector, Vectorf(0, 0), 0.1f))
 			{
-				temp_delta += resolve_one_sided_collisions(collision_vector, other_collision->id);
+				temp_delta += resolve_one_sided_collisions(current_collision_vector, other_collision->id);
 			}
 		}
 		if (temp_delta.y > 0)
@@ -156,16 +156,16 @@ void Physical::resolve_collision(const Collidable& other)
 		return;
 	if (!collision.rect.intersects(other_collision->rect))
 		return;
-	Vectorf collision_vector = coll::test_collision(collision, *other_collision);
+	Vectorf current_collision_vector = coll::test_collision(collision, *other_collision);
 	if (!other_collision->one_sided)
 	{
-		temp_delta += collision_vector;
+		temp_delta += current_collision_vector;
 	}
 	else
 	{
-		if (!util::round_and_compare(collision_vector, Vectorf(0, 0), 0.1f))
+		if (!util::round_and_compare(current_collision_vector, Vectorf(0, 0), 0.1f))
 		{
-			temp_delta += resolve_one_sided_collisions(collision_vector, other_collision->id);
+			temp_delta += resolve_one_sided_collisions(current_collision_vector, other_collision->id);
 		}
 	}
 	if (temp_delta.y > 0)

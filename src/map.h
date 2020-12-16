@@ -28,7 +28,7 @@ public:
 	void draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) const;
 	void update_physics(float dt, Vectorf player_pos, sf::FloatRect screen_rect);
-	void update_graphics(float dt, Vectorf player_pos, sf::FloatRect screen_rect);
+	void update_graphics(float dt, sf::FloatRect screen_rect);
 	void add_entity(Entity* entity);
 	void set_draw_chunks_borders(bool draw);
 	void set_draw_sound_sources(bool draw);

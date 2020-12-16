@@ -62,7 +62,7 @@ void Sound_system::update(float dt)
 void Sound_system::on_music_volume_change(const Message& msg)
 {
 	music_volume = std::get<int>(msg.args);
-	music.setVolume(music_volume);
+	music.setVolume(static_cast<float>(music_volume));
 }
 
 void Sound_system::on_entity_jump(const Message& msg)
@@ -93,7 +93,7 @@ void Sound_system::on_sound_volume_change(const Message& msg)
 	pool.set_volume(sound_volume);
 	for (auto& it : steps)
 	{
-		it.second.setVolume(sound_volume);
+		it.second.setVolume(static_cast<float>(sound_volume));
 	}
 }
 
@@ -104,7 +104,7 @@ void Sound_system::on_entity_move(const Message& msg)
 	{
 		steps.insert({ sender_type, sf::Sound() });
 		steps.at(sender_type).setLoop(true);
-		steps.at(sender_type).setVolume(sound_volume);
+		steps.at(sender_type).setVolume(static_cast<float>(sound_volume));
 		steps.at(sender_type).setRelativeToListener(true);
 	}
 	int surface_type = std::get<int>(msg.args);
@@ -133,8 +133,8 @@ void Sound_system::on_sound_enter(const Message& msg)
 
 void Sound_system::on_sound_left(const Message& msg)
 {
-	int id = std::get<Map_sound_info>(msg.args).id;
-	pool.stop_sound({lvl_id, id});
+	int sound_id = std::get<Map_sound_info>(msg.args).id;
+	pool.stop_sound({lvl_id, sound_id});
 }
 
 void Sound_system::on_window_focus_change(const Message& msg)
@@ -153,16 +153,15 @@ void Sound_system::on_window_focus_change(const Message& msg)
 
 void Sound_system::on_level_change(const Message& msg)
 {
-	int id = std::get<int>(msg.args);
-	lvl_id = id;
-	if (music_id == -1 || music_paths.at(id) != music_paths.at(music_id))
+	lvl_id = std::get<int>(msg.args);
+	if (music_id == -1 || music_paths.at(lvl_id) != music_paths.at(music_id))
 	{
 		timer = CHANGE_DELTA;
-		next_music_id = id;
+		next_music_id = lvl_id;
 		if (state == Music_state::UNINITALIZED)
 		{
 			state = Music_state::LOUDER;
-			music_id = id;
+			music_id = lvl_id;
 			music.openFromFile(music_paths.at(music_id));
 			music.play();
 		}
@@ -181,7 +180,7 @@ void Sound_system::update_music_state(float dt)
 		if (timer <= 0)
 		{
 			state = Music_state::DEFAULT;
-			music.setVolume(music_volume);
+			music.setVolume(static_cast<float>(music_volume));
 		}
 		else
 		{

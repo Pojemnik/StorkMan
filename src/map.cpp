@@ -114,7 +114,7 @@ void Map::update_physics(float dt, Vectorf player_pos, sf::FloatRect screen_rect
 		{
 			send_message<int>(Message::Message_type::CHANGED_LEVEL, current_level->code);
 		}
-		catch (const std::out_of_range& e)
+		catch (const std::out_of_range&)
 		{
 			send_message<string>(Message::Message_type::ERROR, "Level out of range");
 			out_of_map = true;
@@ -151,7 +151,7 @@ void Map::update_physics(float dt, Vectorf player_pos, sf::FloatRect screen_rect
 	}
 }
 
-void Map::update_graphics(float dt, Vectorf player_pos, sf::FloatRect screen_rect)
+void Map::update_graphics(float dt, sf::FloatRect screen_rect)
 {
 	for (auto& it : considered_levels)
 	{

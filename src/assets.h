@@ -10,10 +10,10 @@ struct Entity_config
 	Vectori textures_n;
 	Vectori texture_size;
 	string tree_file;
-	int max_hp;
+	int max_hp = 1000;
 	std::pair<float, int> height;
 	std::vector<string> sounds;
-	int type;
+	int type = 0;
 };
 
 class Assets

@@ -14,7 +14,7 @@ class Sound
 {
 	sf::Sound sound;
 	int system_volume = 100;
-	int sound_volume;
+	int sound_volume = 100;
 
 	void reset();
 

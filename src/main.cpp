@@ -8,11 +8,10 @@
 #include "edit_tools.h"
 #include "event_handler.h"
 
-const std::string VERSION = "pre-alpha 0.5.3";
+const std::string VERSION = "pre-alpha 0.5.3.1";
 
-bool execute_init_file(string path)
+void execute_init_file(string path)
 {
-	bool init = false;
 	std::ifstream config("config.cfg");
 	std::stringstream configsstream;
 	string configstring;
@@ -20,9 +19,7 @@ bool execute_init_file(string path)
 	{
 		std::getline(config, configstring);
 		context.console->input_append(configstring + "\r\n");
-		init = true;
 	}
-	return init;
 }
 
 Map* load_map(std::string path,Parser& parser)
@@ -169,7 +166,7 @@ int main(int argc, char** argv)
 	float camera_zoom = 1.f;
 
 	//Config file
-	bool init = execute_init_file("config.cfg");
+	execute_init_file("config.cfg");
 	sf::RenderStates rs = sf::RenderStates::Default;
 	sf::Transform rs_inv_transform=sf::Transform::Identity;
 	//Loop
@@ -223,7 +220,8 @@ int main(int argc, char** argv)
 				{
 					Vectori size = std::get<Vectori>(msg.args);
 					context.resolution = size;
-					window.setView(sf::View(sf::FloatRect(0, 0, size.x, size.y)));
+					window.setView(sf::View(sf::FloatRect(0, 0,
+						static_cast<float>(size.x), static_cast<float>(size.y))));
 					engine_sender.send_message<Vectori>(Message::Message_type::RESOLUTION_CHANGED, size);
 				}
 				else
@@ -256,7 +254,9 @@ int main(int argc, char** argv)
 				case Commands_interpreter::Command_code::CHANGE_RESOLUTION:
 				{
 					window.setSize(sf::Vector2u(context.resolution.x, context.resolution.y));
-					sf::FloatRect visible_area(0.f, 0.f, context.resolution.x, context.resolution.y);
+					sf::FloatRect visible_area(0.f, 0.f,
+						static_cast<float>(context.resolution.x),
+						static_cast<float>(context.resolution.y));
 					window.setView(sf::View(visible_area));
 					engine_sender.send_message<Vectori>(Message::Message_type::RESOLUTION_CHANGED, context.resolution);
 				}
@@ -333,7 +333,7 @@ int main(int argc, char** argv)
 				context.player_pos = player.get_position();
 				acc -= STEP;
 			}
-			map->update_graphics(time, player.get_position(), screen_rect);
+			map->update_graphics(time, screen_rect);
 			//test_enemy.update_graphics(time);
 			player.update_graphics(time);
 			sound_system.update(time);

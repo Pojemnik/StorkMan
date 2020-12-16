@@ -38,8 +38,8 @@ class Grid : public sf::Drawable, public Message_receiver
 {
 private:
 	sf::VertexBuffer buffer;
-	double density;
-	double scale;
+	float density;
+	float scale;
 	const Vectorf level_size;
 	Vectori lines_n;
 	sf::Color color;
@@ -54,9 +54,9 @@ private:
 	Vectorf get_closest_node_pos(Vectorf t);//Position on map in pixels
 
 public:
-	Grid(double scale_, double density_, Vectorf level_size_,
+	Grid(float scale_, float density_, Vectorf level_size_,
 		sf::Color grid_color, sf::Color tooltip_color_, sf::Font& font_);
-	void set_density(double d);
+	void set_density(float d);
 	void set_color(sf::Color c);
 	void update(Vectorf map_mouse_pos);
 	void add_point(Vectorf map_mouse_pos);

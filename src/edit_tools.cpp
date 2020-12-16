@@ -10,7 +10,7 @@ void Grid::init()
 	temp = new sf::Vertex[elements + 4];
 	buffer.create(elements + 4);
 	int n = 0;
-	for (double i = 0; i < level_size.x; i += density * scale)
+	for (double i = 0; i < level_size.x; i += static_cast<double>(density) * scale)
 	{
 		temp[n].color = color;
 		temp[n++].position = Vectorf(i, 0);
@@ -35,7 +35,7 @@ void Grid::init()
 	buffer.update(temp);
 }
 
-Grid::Grid(double scale_, double density_, Vectorf level_size_,
+Grid::Grid(float scale_, float density_, Vectorf level_size_,
 	sf::Color grid_color, sf::Color tooltip_color_, sf::Font& font_)
 	: scale(scale_), density(density_),
 	level_size(level_size_*context.global_scale), color(grid_color),
@@ -67,7 +67,7 @@ void Grid::push_message(Message& msg)
 	}
 }
 
-void Grid::set_density(double d)
+void Grid::set_density(float d)
 {
 	density = d;
 	init();

@@ -3,7 +3,7 @@
 std::pair<float, Vectorf> Polygon_generator::cast_ray(Vectorf source, Vectorf alfa,
 	std::vector<std::pair<Vectorf, Vectorf>>& map_edges)
 {
-	if (fabs(alfa.x) < eps)
+	if (fabs(alfa.x) < .01f)
 	{
 		return std::pair<float, Vectorf>(util::convert_vector(alfa), source);
 	}
@@ -144,6 +144,7 @@ std::vector<Vectorf> Polygon_generator::simplify(std::vector<Vectorf>&& polygon)
 	polygon.erase(std::remove_if(polygon.begin(), polygon.end(), [to_remove, &k]
 	(Vectorf element)
 	{
+		(void)element;
 		return to_remove[k++];
 	}), polygon.end());
 	return polygon;
