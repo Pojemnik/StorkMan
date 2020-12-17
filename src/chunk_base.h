@@ -7,7 +7,7 @@
 class Chunk : public Map_object
 {
 public:
-	virtual ~Chunk() = 0;
+	virtual ~Chunk() = 0 {};
 	virtual void update_graphics(float dt) = 0;
 	virtual void update_physics(float dt) = 0;
 	virtual void draw_layer(sf::RenderTarget& target, sf::RenderStates states, int layer) const = 0;
