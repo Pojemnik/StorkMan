@@ -1,17 +1,16 @@
 #include "level.h"
 #include "zones.h"
 
-Level::Level(std::vector<Map_chunk>&& chunks_,
-	std::vector<Map_sound>&& sounds_,
-	Vectori pos, int code_) : chunks(chunks_), sounds(sounds_),
-	global_pos(pos), code(code_),
+Level::Level(std::vector<std::unique_ptr<Chunk>>&& chunks_,
+	std::vector<Map_sound>&& sounds_, Vectori pos, int code_) : chunks(std::move(chunks_)),
+	sounds(sounds_), global_pos(pos), code(code_),
 	sound_borders(sf::PrimitiveType::Lines, sf::VertexBuffer::Usage::Static)
 {
 	std::vector<Vectorf> vertices;
 	std::vector<std::pair<Vectorf, Vectorf>> edges;
 	for (const auto& it : chunks)
 	{
-		auto v = it.get_chunk_vertices();
+		auto v = it->get_chunk_vertices();
 		if (v.first.size() != 0)
 		{
 			vertices.insert(vertices.end(), v.first.begin(), v.first.end());
@@ -41,63 +40,70 @@ Level::Level(std::vector<Map_chunk>&& chunks_,
 	}
 	sound_borders.create(sound_borders_vect.size());
 	sound_borders.update(sound_borders_vect.data());
+	chunks_on_screen.resize(chunks.size());
 }
 
 void Level::update_graphics(float dt, sf::FloatRect screen_rect)
 {
+	int i = 0;
 	for (auto& it : chunks)
 	{
-		if (it.get_bounding_rect().intersects(screen_rect))
+		if (it->get_bounding_rect().intersects(screen_rect))
 		{
-			it.on_screen = true;
+			chunks_on_screen[i] = true;
 			//Maybe check if there is something to update in chunk
-			it.update_graphics(dt);
+			it->update_graphics(dt);
 		}
 		else
 		{
-			it.on_screen = false;
+			chunks_on_screen[i] = false;
 		}
+		i++;
 	}
 }
 
 void Level::update_physics(float dt, sf::FloatRect screen_rect)
 {
+	int i = 0;
 	for (auto& it : chunks)
 	{
-		if (it.get_bounding_rect().intersects(screen_rect))
+		if (it->get_bounding_rect().intersects(screen_rect))
 		{
-			it.on_screen = true;
+			chunks_on_screen[i] = true;
 			//Maybe check if there is something to update in chunk
-			it.update_physics(dt);
+			it->update_physics(dt);
 		}
 		else
 		{
-			it.on_screen = false;
+			chunks_on_screen[i] = false;
 		}
+		i++;
 	}
 }
 
-void Level::update_chunk_graphics(int id, Map_chunk& chunk, float dt)
+void Level::update_chunk_graphics(int id, Chunk* chunk, float dt)
 {
 	(void)id;
-	chunk.update_graphics(dt);
+	chunk->update_graphics(dt);
 }
-void Level::update_chunk_physics(int id, Map_chunk& chunk, float dt)
+void Level::update_chunk_physics(int id, Chunk* chunk, float dt)
 {
 	(void)id;
-	chunk.update_physics(dt);
+	chunk->update_physics(dt);
 }
 
 void Level::draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	for (int i = 0; i < BOTTOM_LAYERS; i++)
 	{
+		int j = 0;
 		for (const auto& it : chunks)
 		{
-			if (it.on_screen)
+			if (chunks_on_screen[j])
 			{
-				it.draw_layer(target, states, i);
+				it->draw_layer(target, states, i);
 			}
+			j++;
 		}
 	}
 }
@@ -106,12 +112,14 @@ void Level::draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states
 {
 	for (int i = BOTTOM_LAYERS; i < BOTTOM_LAYERS + MIDDLE_LAYERS; i++)
 	{
+		int j = 0;
 		for (const auto& it : chunks)
 		{
-			if (it.on_screen)
+			if (chunks_on_screen[j])
 			{
-				it.draw_layer(target, states, i);
+				it->draw_layer(target, states, i);
 			}
+			j++;
 		}
 		if (draw_sound_sources)
 		{
@@ -128,19 +136,21 @@ void Level::draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) c
 {
 	for (int i = BOTTOM_LAYERS + MIDDLE_LAYERS; i < TOTAL_LAYERS; i++)
 	{
+		int j = 0;
 		for (const auto& it : chunks)
 		{
-			if (it.on_screen)
+			if (chunks_on_screen[j])
 			{
-				it.draw_layer(target, states, i);
+				it->draw_layer(target, states, i);
 			}
+			j++;
 		}
 	}
 	for (const auto& it : chunks)
 	{
 		if (draw_chunks_borders)
 		{
-			it.draw_border(target, states);
+			it->draw_border(target, states);
 		}
 	}
 }
@@ -151,9 +161,9 @@ void Level::resolve_collisions(std::vector<Entity*>& entities)
 	{
 		for (const auto& chunk_it : chunks)
 		{
-			if (it->get_collision()->rect.intersects(chunk_it.get_bounding_rect()))
+			if (it->get_collision()->rect.intersects(chunk_it->get_bounding_rect()))
 			{
-				chunk_it.resolve_collisions(*it);
+				chunk_it->resolve_collisions(*it);
 			}
 		}
 	}
@@ -180,41 +190,47 @@ void Level::make_zones_interactions(std::vector<Entity*>& entities)
 	{
 		for (const auto& chunk_it : chunks)
 		{
-			chunk_it.make_zones_interactions(*it);
+			chunk_it->make_zones_interactions(*it);
 		}
 	}
 }
 
 void Level::draw_moving_collisions(sf::RenderTarget& target, sf::RenderStates states) const
 {
+	int i = 0;
 	for (const auto& it : chunks)
 	{
-		if (it.on_screen)
+		if (chunks_on_screen[i])
 		{
-			it.draw_moving_collisions(target, states);
+			it->draw_moving_collisions(target, states);
 		}
+		i++;
 	}
 }
 
 void Level::draw_static_collisions(sf::RenderTarget& target, sf::RenderStates states) const
 {
+	int i = 0;
 	for (const auto& it : chunks)
 	{
-		if (it.on_screen)
+		if (chunks_on_screen[i])
 		{
-			it.draw_static_collisions(target, states);
+			it->draw_static_collisions(target, states);
 		}
+		i++;
 	}
 }
 
 void Level::draw_zones(sf::RenderTarget& target, sf::RenderStates states) const
 {
+	int i = 0;
 	for (const auto& it : chunks)
 	{
-		if (it.on_screen)
+		if (chunks_on_screen[i])
 		{
-			it.draw_zones(target, states);
+			it->draw_zones(target, states);
 		}
+		i++;
 	}
 	//Add, when moving damage zones are added
 	//for (const auto& it : moving)

@@ -82,7 +82,7 @@ Level Parser::parse_level(tinyxml2::XMLElement* root, Vectori global_pos, int co
 		throw std::invalid_argument("No level node");
 	}
 	tinyxml2::XMLElement* element = root->FirstChildElement();
-	std::vector<Map_chunk> chunks;
+	std::vector<std::unique_ptr<Chunk>> chunks;
 	std::vector<Map_sound> sounds;
 	int sound_id = 0;
 	while (element != nullptr)
@@ -90,7 +90,7 @@ Level Parser::parse_level(tinyxml2::XMLElement* root, Vectori global_pos, int co
 		string name = element->Name();
 		if (name == "chunk")
 		{
-			chunks.push_back(parse_chunk(element, global_pos));
+			chunks.emplace_back(std::move(parse_chunk(element, global_pos)));
 		}
 		if (name == "sound")
 		{
@@ -110,7 +110,7 @@ std::unique_ptr<Level> Parser::open_and_parse_level(Vectori pos, string filepath
 	return std::make_unique<Level>(parse_level(lvl_root.FirstChildElement(), pos, code));
 }
 
-Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root, Vectori level_pos)
+std::unique_ptr<Chunk> Parser::parse_chunk(tinyxml2::XMLElement* root, Vectori level_pos)
 {
 	std::vector<std::shared_ptr<Physical_updatable>> p_updatables;
 	std::vector<std::shared_ptr<Graphical_updatable>> g_updatables;
@@ -160,8 +160,9 @@ Map_chunk Parser::parse_chunk(tinyxml2::XMLElement* root, Vectori level_pos)
 	sf::VertexBuffer collision_buffer(sf::Lines, sf::VertexBuffer::Static);
 	collision_buffer.create(collision_vertices.size());
 	collision_buffer.update(collision_vertices.data());
-	return Map_chunk(std::move(p_updatables), std::move(g_updatables), std::move(drawables),
-		std::move(collidables), std::move(zones), bound, std::move(collision_buffer));
+	return std::make_unique<Map_chunk>(std::move(p_updatables),
+		std::move(g_updatables), std::move(drawables), std::move(collidables),
+		std::move(zones), bound, std::move(collision_buffer));
 
 }
 

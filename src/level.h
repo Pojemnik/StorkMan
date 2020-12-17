@@ -2,14 +2,15 @@
 #include <unordered_set>
 #include "compound_map_objects.h"
 #include "map_sounds.h"
-#include "map_chunks.h"
+#include "map_chunk.h"
 
 class Zone;
 class Entity;
 
 class Level
 {
-	std::vector<Map_chunk> chunks;
+	std::vector<std::unique_ptr<Chunk>> chunks;
+	std::vector<bool> chunks_on_screen;
 	Vectori global_pos;
 	std::vector<Map_sound> sounds;
 	std::vector<sf::CircleShape> sound_sources;
@@ -18,14 +19,14 @@ class Level
 	bool draw_chunks_borders = false;
 	bool draw_sound_sources = false;
 
-	static void update_chunk_graphics(int id, Map_chunk& chunk, float dt);
-	static void update_chunk_physics(int id, Map_chunk& chunk, float dt);
+	static void update_chunk_graphics(int id, Chunk* chunk, float dt);
+	static void update_chunk_physics(int id, Chunk* chunk, float dt);
 
 public:
 	const int code;
 
 	Level() = default;
-	Level(std::vector<Map_chunk>&& chunks_, std::vector<Map_sound>&& sounds_, Vectori pos, int code_);
+	Level(std::vector<std::unique_ptr<Chunk>>&& chunks_, std::vector<Map_sound>&& sounds_, Vectori pos, int code_);
 	void update_physics(float dt, sf::FloatRect screen_rect);
 	void update_graphics(float dt, sf::FloatRect screen_rect);
 	void draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const;

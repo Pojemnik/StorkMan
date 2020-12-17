@@ -1,4 +1,5 @@
-#include "map_chunks.h"
+#include "map_chunk.h"
+
 void Map_chunk::draw_border(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(border, states);

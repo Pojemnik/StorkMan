@@ -28,7 +28,7 @@ class Parser
 	Level parse_level(tinyxml2::XMLElement* root, Vectori global_pos, int code);
 	std::unique_ptr<Level> open_and_parse_level(Vectori pos, string path, int code);
 	int parse_surface(tinyxml2::XMLElement* element);
-	Map_chunk parse_chunk(tinyxml2::XMLElement* root, Vectori level_pos);
+	std::unique_ptr<Chunk> parse_chunk(tinyxml2::XMLElement* root, Vectori level_pos);
 	std::pair<std::optional<int>, std::shared_ptr<Platform>>
 		parse_platform(tinyxml2::XMLElement* element, Vectori level_pos);
 	std::pair<std::optional<int>, std::shared_ptr<Textured_polygon>>

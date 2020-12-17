@@ -2,8 +2,9 @@
 #include "compound_map_objects.h"
 #include "map_sounds.h"
 #include "zones.h"
+#include "chunk_base.h"
 
-class Map_chunk : public Map_object
+class Map_chunk : public Chunk
 {
 	std::vector<std::shared_ptr<Physical_updatable>> p_updatables;
 	std::vector<std::shared_ptr<Graphical_updatable>> g_updatables;
@@ -15,7 +16,6 @@ class Map_chunk : public Map_object
 	sf::VertexBuffer static_collision_vertices;
 
 public:
-	bool on_screen = false;
 	Map_chunk(std::vector<std::shared_ptr<Physical_updatable>>&& p_updatables_,
 		std::vector<std::shared_ptr<Graphical_updatable>>&& g_updatables_,
 		std::vector<std::pair<int, std::shared_ptr<Renderable>>>&& drawables_,
