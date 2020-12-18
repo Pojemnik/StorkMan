@@ -4,7 +4,7 @@
 #include "zones.h"
 #include "entities.h"
 
-class Chunk : public Map_object
+class Chunk : public Map_object, public Message_receiver, virtual public Message_sender
 {
 public:
 	virtual ~Chunk() = 0 {};

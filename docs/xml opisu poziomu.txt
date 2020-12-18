@@ -19,6 +19,7 @@ Często używane atrybuty:
 - offset (float [1/60s]) - od którego momentu zacząć animację 
 - surface (string {none, ...}) - typ powierzchni. Należy wybrać z dotępnych - patrz plik data/surfaces.txt
 - color (float, float, float) - filtr koloru - wartość poszczególnych składowych (RGB) koloru elementu jest mnożona przez {wartość}/255
+
 Znaczniki główne:
 
 level:
@@ -221,6 +222,14 @@ sound:
 	
 	znaczniki:
 		opcjonalne znaczniki <v> opisujące kolejne wierzchołki strefy słyszalności dźwięku. Jeśli nie zostaną podane strefa zostanie wygenerowana automatycznie.
+		
+event:
+	atrybuty:
+		name - nazwa zdarzenia używana póżniej w znacznikach state. UWAGA: nazwa eventu musi zostać zadeklarowany powyżej znacznika state, który jej używa
+		
+dynamic chunk:
+	znaczniki:
+		<state> (patrz znaczniki pomocnicze)
 
 Znaczniki pomocnicze (nie występują samodzielnie):
 		
@@ -253,3 +262,8 @@ v:
 	
 vt:
 	zawartość: (float [m], float [m], int [px], int [px]) - pozycja wierzchołka, pozycja danego wierzchołka na teksturze w pikselach - przydatne w przypadku nie powtarzanych tekstur
+
+state:
+	artybuty:
+		trigger* (string) (domyślnie default) - nazwa zdarzenia wywołującego określony stan dynamicznego chunka, wartość default oznacza stan początkowy
+	Wszystkie pozostałe atrybuty i zawartość identyczne jak w chunk

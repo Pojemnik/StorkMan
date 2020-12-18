@@ -85,12 +85,21 @@ Level Parser::parse_level(tinyxml2::XMLElement* root, Vectori global_pos, int co
 	std::vector<std::unique_ptr<Chunk>> chunks;
 	std::vector<Map_sound> sounds;
 	int sound_id = 0;
+	int event_index = 1;
 	while (element != nullptr)
 	{
 		string name = element->Name();
 		if (name == "chunk")
 		{
 			chunks.emplace_back(std::move(parse_chunk(element, global_pos)));
+		}
+		if (name == "dynamic_chunk")
+		{
+			chunks.emplace_back(std::move(parse_dynamic_chunk(element, global_pos)));
+		}
+		if (name == "event")
+		{
+			events.insert({ get_attribute_by_name("name", element), event_index++ });
 		}
 		if (name == "sound")
 		{
@@ -164,6 +173,31 @@ std::unique_ptr<Chunk> Parser::parse_chunk(tinyxml2::XMLElement* root, Vectori l
 		std::move(g_updatables), std::move(drawables), std::move(collidables),
 		std::move(zones), bound, std::move(collision_buffer));
 
+}
+
+std::unique_ptr<Chunk> Parser::parse_dynamic_chunk(tinyxml2::XMLElement* root, Vectori level_pos)
+{
+	std::vector<std::unique_ptr<Chunk>> chunks;
+	std::unordered_map<int, int> transition_array;
+	tinyxml2::XMLElement* element = root->FirstChildElement();
+	int chunk_index = 0;
+	while (element != nullptr)
+	{
+		string name = element->Name();
+		if (name == "state")
+		{
+			string trigger_val = get_attribute_by_name("trigger", element);
+			if (trigger_val == "")
+			{
+				trigger_val = "default";
+			}
+			transition_array.insert({ events.at(trigger_val), chunk_index++ });
+			chunks.emplace_back(std::move(parse_chunk(element, level_pos)));
+		}
+		element = element->NextSiblingElement();
+	}
+	return std::make_unique<Dynamic_chunk>(std::move(chunks),
+		std::move(transition_array));
 }
 
 std::pair<std::optional<int>, std::shared_ptr<Platform>>
@@ -325,7 +359,7 @@ Map* Parser::parse_map(tinyxml2::XMLElement* root)
 	Vectori map_size = map_data.first;
 	Vectori player_pos = map_data.second;
 	tinyxml2::XMLElement* element = root->FirstChildElement();
-	Map*  map=new Map(map_size, player_pos, assets->backgrounds.at("main_bg"));
+	Map* map = new Map(map_size, player_pos, assets->backgrounds.at("main_bg"));
 	int lvl_n = 0;
 #ifndef DEBUG_ASYNC__STORK__PARSE
 	std::vector<std::future<std::unique_ptr<Level>>> futures;
@@ -493,6 +527,11 @@ std::vector<string> Parser::load_map_sound_config(string path)
 	return paths;
 }
 
+std::unordered_map<string, int> Parser::get_event_map() const
+{
+	return events;
+}
+
 std::pair<std::optional<int>, std::shared_ptr<Moving_platform>>
 Parser::parse_moving_platform(tinyxml2::XMLElement* element, Vectori level_pos)
 {
@@ -658,7 +697,7 @@ std::pair<std::optional<int>, std::shared_ptr<Animated_polygon>> Parser::parse_a
 		Static_animation_struct sas(tex, frame_time);
 		std::unique_ptr<Animation> animation = std::make_unique<Static_animation>(sas, frame_offset);
 		sf::Color color = get_and_parse_var<sf::Color>("color", element, sf::Color::White);
-		return std::make_pair(layer, 
+		return std::make_pair(layer,
 			std::make_shared<Animated_polygon>(pos, std::move(animation),
 				points, color));
 	}

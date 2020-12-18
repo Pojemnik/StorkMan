@@ -22,7 +22,7 @@ void execute_init_file(string path)
 	}
 }
 
-Map* load_map(std::string path,Parser& parser)
+Map* load_map(std::string path, Parser& parser)
 {
 	tinyxml2::XMLDocument doc;
 	tinyxml2::XMLError error = doc.LoadFile(path.c_str());
@@ -69,8 +69,8 @@ int main(int argc, char** argv)
 	window.setIcon(icon_size.x, icon_size.y, assets.icon.getPixelsPtr());
 
 	//Map
-	Map* map=load_map((argc == 2) ? argv[1] : "map/map.xml",parser);
-	
+	Map* map = load_map((argc == 2) ? argv[1] : "map/map.xml", parser);
+
 	//Player
 	Entity_config storkman_config = parser.parse_entity_config("data/storkman.txt");
 	assets.add_entity_sounds(storkman_config.type, storkman_config.sounds);
@@ -148,6 +148,7 @@ int main(int argc, char** argv)
 	map->init();
 	Receiver_component engine_receiver;
 	context.console->add_receiver(&engine_receiver);
+	interpreter.add_receiver(&engine_receiver);
 	player.add_receiver(&engine_receiver);
 	Event_handler event_handler;
 	event_handler.add_receiver(&grid);
@@ -156,6 +157,7 @@ int main(int argc, char** argv)
 	Message_sender engine_sender(Message_sender_type::ENGINE);
 	engine_sender.add_receiver(&sound_system);
 	engine_sender.add_receiver(&*context.console);
+	engine_sender.add_receiver(map);
 	sf::SoundBuffer test_buffer;
 	Vectorf camera_pos;
 	camera_pos = player.get_position();
@@ -164,11 +166,12 @@ int main(int argc, char** argv)
 		window.getPosition()) + camera_pos;
 	mouse_pos += {-6.f, -31.f};
 	float camera_zoom = 1.f;
+	const auto map_events = parser.get_event_map();
 
 	//Config file
 	execute_init_file("config.cfg");
 	sf::RenderStates rs = sf::RenderStates::Default;
-	sf::Transform rs_inv_transform=sf::Transform::Identity;
+	sf::Transform rs_inv_transform = sf::Transform::Identity;
 	//Loop
 	while (window.isOpen())
 	{
@@ -230,12 +233,14 @@ int main(int argc, char** argv)
 				}
 				break;
 			case Message::Message_type::RELOAD_MAP:
+				engine_sender.remove_receiver(map);
 				delete map;
 				map = load_map((argc == 2) ? argv[1] : "map/map.xml", parser);
 				map->add_entity(&player);
 				//map->add_entity(&test_enemy);
 				map->add_receiver(&sound_system);
 				map->init();
+				engine_sender.add_receiver(map);
 				break;
 			case Message::Message_type::DIED:
 				if (msg.sender->id.get_type() == Message_sender_type::PLAYER)
@@ -243,6 +248,10 @@ int main(int argc, char** argv)
 					player.push_state(new Idle_state());
 					player.heal(1000);
 				}
+				break;
+			case Message::Message_type::MAP_EVENT:
+				engine_sender.send_message(Message::Message_type::MAP_EVENT,
+					map_events.at(std::get<string>(msg.args)));
 				break;
 			case Message::Message_type::CONSOLE_COMMAND_RECEIVED:
 			{
@@ -323,7 +332,7 @@ int main(int argc, char** argv)
 			static float acc(0);
 			const static float STEP(1);
 			acc += time;
-			sf::FloatRect screen_rect({0.0f,0.0f},static_cast<Vectorf>(context.resolution));
+			sf::FloatRect screen_rect({ 0.0f,0.0f }, static_cast<Vectorf>(context.resolution));
 			screen_rect = rs_inv_transform.transformRect(screen_rect);
 			while (acc > STEP)
 			{
@@ -360,7 +369,7 @@ int main(int argc, char** argv)
 		rs = sf::RenderStates::Default;
 		rs.transform = sf::Transform().translate(-camera_pos);
 		rs.transform.scale(camera_zoom, camera_zoom);
-		rs_inv_transform= sf::Transform().scale(1/camera_zoom, 1/camera_zoom);
+		rs_inv_transform = sf::Transform().scale(1 / camera_zoom, 1 / camera_zoom);
 		rs_inv_transform.translate(camera_pos);
 
 		//Drawing

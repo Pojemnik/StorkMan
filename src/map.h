@@ -6,7 +6,7 @@
 #include "messaging.h"
 #include "map_sound_info.h"
 
-class Map : public Message_sender
+class Map : public Message_sender, public Message_receiver
 {
 	Vectori size;
 	Vectori current_pos;

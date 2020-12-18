@@ -16,7 +16,7 @@ class Message_sender;
 
 enum class Message_sender_type {
 	PLAYER = 0, MAP, SOUND_SYSTEM, INTERPRETER, ENGINE,
-	ENEMY, CONSOLE
+	ENEMY, CONSOLE, LEVEL, CHUNK
 };
 
 class Message_sender_id

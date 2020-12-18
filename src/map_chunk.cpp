@@ -47,8 +47,11 @@ Map_chunk::Map_chunk(std::vector<std::shared_ptr<Physical_updatable>>&& p_updata
 	std::vector<std::shared_ptr<const Collidable>>&& collidables_,
 	std::vector<std::shared_ptr<Zone>>&& zones_,
 	sf::FloatRect bound_, sf::VertexBuffer&& static_vertices)
-	: p_updatables(std::move(p_updatables_)), g_updatables(std::move(g_updatables_)), collidables(std::move(collidables_)),
-	bound(bound_), zones(std::move(zones_)), static_collision_vertices(std::move(static_vertices))
+	: p_updatables(std::move(p_updatables_)),
+	g_updatables(std::move(g_updatables_)), collidables(std::move(collidables_)),
+	bound(bound_), zones(std::move(zones_)),
+	static_collision_vertices(std::move(static_vertices)),
+	Message_sender(Message_sender_type::CHUNK)
 {
 	static util::Color_generator colors("data/colors.txt");
 	for (auto& it : drawables_)

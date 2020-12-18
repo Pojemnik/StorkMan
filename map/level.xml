@@ -1,1578 +1,1597 @@
 <level name="Elektrownia_Wêglowa_X3Y2" background="bg1">
-<chunk>
-    <platform position="0,47" texture="dirt,0" >
-        <v>0.0,0.0</v>
-        <v>0.0,3.0</v>
-        <v>50.0,3.0</v>
-        <v>50.0,0.0</v>
-    </platform>
-</chunk>
-<chunk>
-    <platform position="6.5,0" texture="bricks,0" layer="8" >
-        <v>0.0,0.0</v>
-        <v>1.0,0.0</v>
-        <v>1.0,1.0</v>
-        <v>0.0,1.0</v>
-    </platform>
-    <platform position="49,0" texture="bricks,0" layer="8" >
-        <v>0.0,0.0</v>
-        <v>1.0,0.0</v>
-        <v>1.0,1.0</v>
-        <v>0.0,1.0</v>
-    </platform>
-    <platform position="49,47" texture="bricks,0" layer="8" >
-        <v>0.0,0.0</v>
-        <v>1.0,0.0</v>
-        <v>1.0,1.0</v>
-        <v>0.0,1.0</v>
-    </platform>
-    <platform position="6.5,47" texture="bricks,0" layer="8" >
-        <v>0.0,0.0</v>
-        <v>1.0,0.0</v>
-        <v>1.0,1.0</v>
-        <v>0.0,1.0</v>
-    </platform>
-    <platform position="7.5,0" texture="bricks,0" layer="8" >
-        <v>0.0,0.0</v>
-        <v>41.5,0.0</v>
-        <v>41.5,1.0</v>
-        <v>0.0,1.0</v>
-    </platform>
-    <platform position="7.5,47" texture="bricks,0" layer="8" >
-        <v>0.0,0.0</v>
-        <v>41.5,0.0</v>
-        <v>41.5,1.0</v>
-        <v>0.0,1.0</v>
-    </platform>
-    <platform position="6.5,1" texture="bricks,0" layer="8" >
-        <v>0.0,0.0</v>
-        <v>1.0,0.0</v>
-        <v>1.0,43.0</v>
-        <v>0.0,43.0</v>
-    </platform>
-    <platform position="6.5,47" texture="bricks,0" layer="8" >
-        <v>0.0,0.0</v>
-        <v>1.0,0.0</v>
-        <v>1.0,0.0</v>
-        <v>0.0,0.0</v>
-    </platform>
-    <platform position="49,1" texture="bricks,0" layer="8" >
-        <v>0.0,0.0</v>
-        <v>1.0,0.0</v>
-        <v>1.0,46.0</v>
-        <v>0.0,46.0</v>
-    </platform>
-    <wall position="6.5,0" texture="asphalt,0" layer="3" >
-        <v>0.0,0.0</v>
-        <v>0.0,48.0</v>
-        <v>43.5,48.0</v>
-        <v>43.5,0.0</v>
-    </wall>
-</chunk>
-    <sound position="16.5,45.1" volume="200" sound="TURBINA_04" min_distance="4" range="20" />/>
-    <sound position="25.5,45.1" volume="200" sound="TURBINA_05" min_distance="4" range="20" />/>
-    <sound position="34.5,45.1" volume="200" sound="TURBINA_06" min_distance="4" range="20" />/>
-<chunk>
-    <moving_object position="9.5,45.1" texture="OBJSteam_Generator" height="2" layer="5" >
-        <move type="linear">
-            <p>-0.013,0.02,8.0</p>
-            <p>0.03,-0.001,8.0</p>
-            <p>-0.0,-0.038,8.0</p>
-            <p>-0.03,-0.001,8.0</p>
-            <p>0.013,0.02,8.0</p>
-            <p>0.024,-0.026,8.0</p>
-            <p>-0.024,-0.026,8.0</p>
-        </move>
-    </moving_object>
-    <animated_moving_object position="11.5,45.6" texture="AOBRotating_Cylinder" height="1" layer="5" frame_time="0.469" >
-        <move type="linear">
-            <p>-0.013,0.02,8.0</p>
-            <p>0.03,-0.001,8.0</p>
-            <p>-0.0,-0.038,8.0</p>
-            <p>-0.03,-0.001,8.0</p>
-            <p>0.013,0.02,8.0</p>
-            <p>0.024,-0.026,8.0</p>
-            <p>-0.024,-0.026,8.0</p>
-        </move>
-    </animated_moving_object>
-    <moving_object position="12.5,43.1" texture="OBJSteam_Turbine" height="4" layer="5" >
-        <move type="linear">
-            <p>-0.013,0.02,8.0</p>
-            <p>0.03,-0.001,8.0</p>
-            <p>-0.0,-0.038,8.0</p>
-            <p>-0.03,-0.001,8.0</p>
-            <p>0.013,0.02,8.0</p>
-            <p>0.024,-0.026,8.0</p>
-            <p>-0.024,-0.026,8.0</p>
-        </move>
-    </moving_object>
-    <animated_moving_object position="20.5,45.6" texture="AOBRotating_Cylinder" height="1" layer="5" frame_time="0.234" >
-        <move type="linear">
-            <p>-0.013,0.02,8.0</p>
-            <p>0.03,-0.001,8.0</p>
-            <p>-0.0,-0.038,8.0</p>
-            <p>-0.03,-0.001,8.0</p>
-            <p>0.013,0.02,8.0</p>
-            <p>0.024,-0.026,8.0</p>
-            <p>-0.024,-0.026,8.0</p>
-        </move>
-    </animated_moving_object>
-    <moving_object position="21.5,43.1" texture="OBJSteam_Turbine" height="4" layer="5" >
-        <move type="linear">
-            <p>-0.013,0.02,8.0</p>
-            <p>0.03,-0.001,8.0</p>
-            <p>-0.0,-0.038,8.0</p>
-            <p>-0.03,-0.001,8.0</p>
-            <p>0.013,0.02,8.0</p>
-            <p>0.024,-0.026,8.0</p>
-            <p>-0.024,-0.026,8.0</p>
-        </move>
-    </moving_object>
-    <animated_moving_object position="29.5,45.6" texture="AOBRotating_Cylinder" height="1" layer="5" frame_time="0.117" >
-        <move type="linear">
-            <p>-0.013,0.02,8.0</p>
-            <p>0.03,-0.001,8.0</p>
-            <p>-0.0,-0.038,8.0</p>
-            <p>-0.03,-0.001,8.0</p>
-            <p>0.013,0.02,8.0</p>
-            <p>0.024,-0.026,8.0</p>
-            <p>-0.024,-0.026,8.0</p>
-        </move>
-    </animated_moving_object>
-    <moving_object position="30.5,43.1" texture="OBJSteam_Turbine" height="4" layer="5" >
-        <move type="linear">
-            <p>-0.013,0.02,8.0</p>
-            <p>0.03,-0.001,8.0</p>
-            <p>-0.0,-0.038,8.0</p>
-            <p>-0.03,-0.001,8.0</p>
-            <p>0.013,0.02,8.0</p>
-            <p>0.024,-0.026,8.0</p>
-            <p>-0.024,-0.026,8.0</p>
-        </move>
-    </moving_object>
-</chunk>
-<chunk>
-    <platform position="41.5,39.5" texture="bricks,0" layer="8" >
-        <v>0.0,0.0</v>
-        <v>1.0,0.0</v>
-        <v>1.0,1.0</v>
-        <v>0.0,1.0</v>
-    </platform>
-    <platform position="48,39.5" texture="bricks,0" layer="8" >
-        <v>0.0,0.0</v>
-        <v>1.0,0.0</v>
-        <v>1.0,1.0</v>
-        <v>0.0,1.0</v>
-    </platform>
-    <platform position="48,46" texture="bricks,0" layer="8" >
-        <v>0.0,0.0</v>
-        <v>1.0,0.0</v>
-        <v>1.0,1.0</v>
-        <v>0.0,1.0</v>
-    </platform>
-    <platform position="41.5,46" texture="bricks,0" layer="8" >
-        <v>0.0,0.0</v>
-        <v>1.0,0.0</v>
-        <v>1.0,1.0</v>
-        <v>0.0,1.0</v>
-    </platform>
-    <platform position="42.5,39.5" texture="bricks,0" layer="8" >
-        <v>0.0,0.0</v>
-        <v>5.5,0.0</v>
-        <v>5.5,1.0</v>
-        <v>0.0,1.0</v>
-    </platform>
-    <platform position="42.5,46" texture="bricks,0" layer="8" >
-        <v>0.0,0.0</v>
-        <v>5.5,0.0</v>
-        <v>5.5,1.0</v>
-        <v>0.0,1.0</v>
-    </platform>
-    <platform position="41.5,40.5" texture="bricks,0" layer="8" >
-        <v>0.0,0.0</v>
-        <v>1.0,0.0</v>
-        <v>1.0,3.5</v>
-        <v>0.0,3.5</v>
-    </platform>
-    <platform position="41.5,46" texture="bricks,0" layer="8" >
-        <v>0.0,0.0</v>
-        <v>1.0,0.0</v>
-        <v>1.0,0.0</v>
-        <v>0.0,0.0</v>
-    </platform>
-    <platform position="48,40.5" texture="bricks,0" layer="8" >
-        <v>0.0,0.0</v>
-        <v>1.0,0.0</v>
-        <v>1.0,5.5</v>
-        <v>0.0,5.5</v>
-    </platform>
-</chunk>
-<chunk>
-    <barrier position="41.5,47" >
-        <v>0.0,0.0</v>
-        <v>-1.5,0.0</v>
-        <v>-0.5,-1.0</v>
-        <v>0.0,-1.0</v>
-    </barrier>
-    <platform position="41.5,47" texture="bricks,0" one_sided="true" >
-        <v>0.0,-0.0</v>
-        <v>-1.5,-0.0</v>
-        <v>-1.5,-0.333</v>
-        <v>0.0,-0.333</v>
-    </platform>
-    <platform position="41.5,47" texture="bricks,0" one_sided="true" >
-        <v>0.0,-0.333</v>
-        <v>-1.167,-0.333</v>
-        <v>-1.167,-0.667</v>
-        <v>0.0,-0.667</v>
-    </platform>
-    <platform position="41.5,47" texture="bricks,0" one_sided="true" >
-        <v>0.0,-0.667</v>
-        <v>-0.833,-0.667</v>
-        <v>-0.833,-1.0</v>
-        <v>0.0,-1.0</v>
-    </platform>
-</chunk>
-<chunk>
-    <wall position="14.5,40.5" texture="TEXVent_pipe" layer="4" >
-        <vt>-0.4,0.0,64.0,464.657</vt>
-        <vt>-0.4,6.5,64.0,984.657</vt>
-        <vt>0.4,6.5,0.0,984.657</vt>
-        <vt>0.4,0.0,0.0,464.657</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="18.5,40.5" texture="TEXVent_pipe" layer="4" >
-        <vt>-0.4,0.0,64.0,841.781</vt>
-        <vt>-0.4,6.5,64.0,1361.781</vt>
-        <vt>0.4,6.5,0.0,1361.781</vt>
-        <vt>0.4,0.0,0.0,841.781</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="23.5,40.5" texture="TEXVent_pipe" layer="4" >
-        <vt>-0.4,0.0,64.0,565.423</vt>
-        <vt>-0.4,6.5,64.0,1085.423</vt>
-        <vt>0.4,6.5,0.0,1085.423</vt>
-        <vt>0.4,0.0,0.0,565.423</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="27.5,40.5" texture="TEXVent_pipe" layer="4" >
-        <vt>-0.4,0.0,64.0,107.633</vt>
-        <vt>-0.4,6.5,64.0,627.633</vt>
-        <vt>0.4,6.5,0.0,627.633</vt>
-        <vt>0.4,0.0,0.0,107.633</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="32.5,40.5" texture="TEXVent_pipe" layer="4" >
-        <vt>-0.4,0.0,64.0,998.378</vt>
-        <vt>-0.4,6.5,64.0,1518.378</vt>
-        <vt>0.4,6.5,0.0,1518.378</vt>
-        <vt>0.4,0.0,0.0,998.378</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="36.5,40.5" texture="TEXVent_pipe" layer="4" >
-        <vt>-0.4,0.0,64.0,942.34</vt>
-        <vt>-0.4,6.5,64.0,1462.34</vt>
-        <vt>0.4,6.5,0.0,1462.34</vt>
-        <vt>0.4,0.0,0.0,942.34</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="8,40.5" texture="TEXSteel_stick_rusted" layer="7" >
-        <vt>-0.175,0.0,64.0,832.159</vt>
-        <vt>-0.175,1.428,64.0,1119.7</vt>
-        <vt>0.175,1.572,0.0,1119.7</vt>
-        <vt>0.175,0.0,0.0,832.159</vt>
-    </wall>
-    <wall position="8,40.5" texture="TEXSteel_stick_rusted" layer="7" >
-        <vt>-0.175,1.428,64.0,1119.7</vt>
-        <vt>-1.124,2.376,64.0,1391.554</vt>
-        <vt>-0.876,2.624,0.0,1391.554</vt>
-        <vt>0.175,1.572,0.0,1119.7</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="12,40.5" texture="TEXSteel_stick_rusted" layer="8" >
-        <vt>-0.175,0.0,64.0,416.758</vt>
-        <vt>-0.175,6.5,64.0,1605.329</vt>
-        <vt>0.175,6.5,0.0,1605.329</vt>
-        <vt>0.175,0.0,0.0,416.758</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="21,40.5" texture="TEXSteel_stick_rusted" layer="8" >
-        <vt>-0.175,0.0,64.0,644.428</vt>
-        <vt>-0.175,6.5,64.0,1833.0</vt>
-        <vt>0.175,6.5,0.0,1833.0</vt>
-        <vt>0.175,0.0,0.0,644.428</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="30,40.5" texture="TEXSteel_stick_rusted" layer="8" >
-        <vt>-0.175,0.0,64.0,163.194</vt>
-        <vt>-0.175,6.5,64.0,1351.766</vt>
-        <vt>0.175,6.5,0.0,1351.766</vt>
-        <vt>0.175,0.0,0.0,163.194</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="39,40.5" texture="TEXSteel_stick_rusted" layer="8" >
-        <vt>-0.175,0.0,64.0,345.734</vt>
-        <vt>-0.175,6.5,64.0,1534.306</vt>
-        <vt>0.175,6.5,0.0,1534.306</vt>
-        <vt>0.175,0.0,0.0,345.734</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="12.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>-0.521,-0.479,32.0,973.187</vt>
-        <vt>-0.017,0.026,32.0,1353.595</vt>
-        <vt>0.017,-0.026,0.0,1353.595</vt>
-        <vt>-0.479,-0.521,0.0,973.187</vt>
-    </wall>
-    <wall position="12.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>-0.017,0.026,32.0,1353.595</vt>
-        <vt>0.491,0.229,32.0,1645.098</vt>
-        <vt>0.509,0.171,0.0,1645.098</vt>
-        <vt>0.017,-0.026,0.0,1353.595</vt>
-    </wall>
-    <wall position="12.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>0.491,0.229,32.0,1645.098</vt>
-        <vt>0.994,0.359,32.0,1922.565</vt>
-        <vt>1.006,0.301,0.0,1922.565</vt>
-        <vt>0.509,0.171,0.0,1645.098</vt>
-    </wall>
-    <wall position="12.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>0.994,0.359,32.0,1922.565</vt>
-        <vt>1.5,0.43,32.0,2194.995</vt>
-        <vt>1.5,0.37,0.0,2194.995</vt>
-        <vt>1.006,0.301,0.0,1922.565</vt>
-    </wall>
-    <wall position="12.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>1.5,0.43,32.0,2194.995</vt>
-        <vt>2.006,0.359,32.0,2467.426</vt>
-        <vt>1.994,0.301,0.0,2467.426</vt>
-        <vt>1.5,0.37,0.0,2194.995</vt>
-    </wall>
-    <wall position="12.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>2.006,0.359,32.0,2467.426</vt>
-        <vt>2.509,0.229,32.0,2744.892</vt>
-        <vt>2.491,0.171,0.0,2744.892</vt>
-        <vt>1.994,0.301,0.0,2467.426</vt>
-    </wall>
-    <wall position="12.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>2.509,0.229,32.0,2744.892</vt>
-        <vt>3.017,0.026,32.0,3036.395</vt>
-        <vt>2.983,-0.026,0.0,3036.395</vt>
-        <vt>2.491,0.171,0.0,2744.892</vt>
-    </wall>
-    <wall position="12.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>3.017,0.026,32.0,3036.395</vt>
-        <vt>3.521,-0.479,32.0,3416.803</vt>
-        <vt>3.479,-0.521,0.0,3416.803</vt>
-        <vt>2.983,-0.026,0.0,3036.395</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="12.5,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>-0.535,-0.465,32.0,90.006</vt>
-        <vt>-0.031,0.04,32.0,318.422</vt>
-        <vt>0.031,-0.04,0.0,318.422</vt>
-        <vt>-0.465,-0.535,0.0,90.006</vt>
-    </wall>
-    <wall position="12.5,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>-0.031,0.04,32.0,318.422</vt>
-        <vt>0.68,0.446,32.0,580.494</vt>
-        <vt>0.72,0.354,0.0,580.494</vt>
-        <vt>0.031,-0.04,0.0,318.422</vt>
-    </wall>
-    <wall position="12.5,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>0.68,0.446,32.0,580.494</vt>
-        <vt>1.39,0.649,32.0,816.486</vt>
-        <vt>1.41,0.551,0.0,816.486</vt>
-        <vt>0.72,0.354,0.0,580.494</vt>
-    </wall>
-    <wall position="12.5,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>1.39,0.649,32.0,816.486</vt>
-        <vt>2.1,0.751,32.0,1046.139</vt>
-        <vt>2.1,0.649,0.0,1046.139</vt>
-        <vt>1.41,0.551,0.0,816.486</vt>
-    </wall>
-    <wall position="12.5,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>2.1,0.751,32.0,1046.139</vt>
-        <vt>2.81,0.649,32.0,1275.792</vt>
-        <vt>2.79,0.551,0.0,1275.792</vt>
-        <vt>2.1,0.649,0.0,1046.139</vt>
-    </wall>
-    <wall position="12.5,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>2.81,0.649,32.0,1275.792</vt>
-        <vt>3.52,0.446,32.0,1511.784</vt>
-        <vt>3.48,0.354,0.0,1511.784</vt>
-        <vt>2.79,0.551,0.0,1275.792</vt>
-    </wall>
-    <wall position="12.5,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>3.52,0.446,32.0,1511.784</vt>
-        <vt>4.231,0.04,32.0,1773.855</vt>
-        <vt>4.169,-0.04,0.0,1773.855</vt>
-        <vt>3.48,0.354,0.0,1511.784</vt>
-    </wall>
-    <wall position="12.5,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>4.231,0.04,32.0,1773.855</vt>
-        <vt>4.735,-0.465,32.0,2002.272</vt>
-        <vt>4.665,-0.535,0.0,2002.272</vt>
-        <vt>4.169,-0.04,0.0,1773.855</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="16.7,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>-0.535,-0.465,32.0,949.431</vt>
-        <vt>-0.031,0.04,32.0,1177.848</vt>
-        <vt>0.031,-0.04,0.0,1177.848</vt>
-        <vt>-0.465,-0.535,0.0,949.431</vt>
-    </wall>
-    <wall position="16.7,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>-0.031,0.04,32.0,1177.848</vt>
-        <vt>0.68,0.446,32.0,1439.919</vt>
-        <vt>0.72,0.354,0.0,1439.919</vt>
-        <vt>0.031,-0.04,0.0,1177.848</vt>
-    </wall>
-    <wall position="16.7,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>0.68,0.446,32.0,1439.919</vt>
-        <vt>1.39,0.649,32.0,1675.911</vt>
-        <vt>1.41,0.551,0.0,1675.911</vt>
-        <vt>0.72,0.354,0.0,1439.919</vt>
-    </wall>
-    <wall position="16.7,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>1.39,0.649,32.0,1675.911</vt>
-        <vt>2.1,0.751,32.0,1905.564</vt>
-        <vt>2.1,0.649,0.0,1905.564</vt>
-        <vt>1.41,0.551,0.0,1675.911</vt>
-    </wall>
-    <wall position="16.7,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>2.1,0.751,32.0,1905.564</vt>
-        <vt>2.81,0.649,32.0,2135.217</vt>
-        <vt>2.79,0.551,0.0,2135.217</vt>
-        <vt>2.1,0.649,0.0,1905.564</vt>
-    </wall>
-    <wall position="16.7,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>2.81,0.649,32.0,2135.217</vt>
-        <vt>3.52,0.446,32.0,2371.21</vt>
-        <vt>3.48,0.354,0.0,2371.21</vt>
-        <vt>2.79,0.551,0.0,2135.217</vt>
-    </wall>
-    <wall position="16.7,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>3.52,0.446,32.0,2371.21</vt>
-        <vt>4.231,0.04,32.0,2633.281</vt>
-        <vt>4.169,-0.04,0.0,2633.281</vt>
-        <vt>3.48,0.354,0.0,2371.21</vt>
-    </wall>
-    <wall position="16.7,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>4.231,0.04,32.0,2633.281</vt>
-        <vt>4.735,-0.465,32.0,2861.697</vt>
-        <vt>4.665,-0.535,0.0,2861.697</vt>
-        <vt>4.169,-0.04,0.0,2633.281</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="15.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>-0.521,-0.479,32.0,128.66</vt>
-        <vt>-0.017,0.026,32.0,509.068</vt>
-        <vt>0.017,-0.026,0.0,509.068</vt>
-        <vt>-0.479,-0.521,0.0,128.66</vt>
-    </wall>
-    <wall position="15.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>-0.017,0.026,32.0,509.068</vt>
-        <vt>0.491,0.229,32.0,800.572</vt>
-        <vt>0.509,0.171,0.0,800.572</vt>
-        <vt>0.017,-0.026,0.0,509.068</vt>
-    </wall>
-    <wall position="15.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>0.491,0.229,32.0,800.572</vt>
-        <vt>0.994,0.359,32.0,1078.038</vt>
-        <vt>1.006,0.301,0.0,1078.038</vt>
-        <vt>0.509,0.171,0.0,800.572</vt>
-    </wall>
-    <wall position="15.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>0.994,0.359,32.0,1078.038</vt>
-        <vt>1.5,0.43,32.0,1350.468</vt>
-        <vt>1.5,0.37,0.0,1350.468</vt>
-        <vt>1.006,0.301,0.0,1078.038</vt>
-    </wall>
-    <wall position="15.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>1.5,0.43,32.0,1350.468</vt>
-        <vt>2.006,0.359,32.0,1622.899</vt>
-        <vt>1.994,0.301,0.0,1622.899</vt>
-        <vt>1.5,0.37,0.0,1350.468</vt>
-    </wall>
-    <wall position="15.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>2.006,0.359,32.0,1622.899</vt>
-        <vt>2.509,0.229,32.0,1900.365</vt>
-        <vt>2.491,0.171,0.0,1900.365</vt>
-        <vt>1.994,0.301,0.0,1622.899</vt>
-    </wall>
-    <wall position="15.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>2.509,0.229,32.0,1900.365</vt>
-        <vt>3.017,0.026,32.0,2191.868</vt>
-        <vt>2.983,-0.026,0.0,2191.868</vt>
-        <vt>2.491,0.171,0.0,1900.365</vt>
-    </wall>
-    <wall position="15.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>3.017,0.026,32.0,2191.868</vt>
-        <vt>3.521,-0.479,32.0,2572.276</vt>
-        <vt>3.479,-0.521,0.0,2572.276</vt>
-        <vt>2.983,-0.026,0.0,2191.868</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="18.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>-0.521,-0.479,32.0,93.87</vt>
-        <vt>-0.017,0.026,32.0,474.278</vt>
-        <vt>0.017,-0.026,0.0,474.278</vt>
-        <vt>-0.479,-0.521,0.0,93.87</vt>
-    </wall>
-    <wall position="18.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>-0.017,0.026,32.0,474.278</vt>
-        <vt>0.491,0.229,32.0,765.782</vt>
-        <vt>0.509,0.171,0.0,765.782</vt>
-        <vt>0.017,-0.026,0.0,474.278</vt>
-    </wall>
-    <wall position="18.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>0.491,0.229,32.0,765.782</vt>
-        <vt>0.994,0.359,32.0,1043.248</vt>
-        <vt>1.006,0.301,0.0,1043.248</vt>
-        <vt>0.509,0.171,0.0,765.782</vt>
-    </wall>
-    <wall position="18.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>0.994,0.359,32.0,1043.248</vt>
-        <vt>1.5,0.43,32.0,1315.678</vt>
-        <vt>1.5,0.37,0.0,1315.678</vt>
-        <vt>1.006,0.301,0.0,1043.248</vt>
-    </wall>
-    <wall position="18.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>1.5,0.43,32.0,1315.678</vt>
-        <vt>2.006,0.359,32.0,1588.109</vt>
-        <vt>1.994,0.301,0.0,1588.109</vt>
-        <vt>1.5,0.37,0.0,1315.678</vt>
-    </wall>
-    <wall position="18.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>2.006,0.359,32.0,1588.109</vt>
-        <vt>2.509,0.229,32.0,1865.575</vt>
-        <vt>2.491,0.171,0.0,1865.575</vt>
-        <vt>1.994,0.301,0.0,1588.109</vt>
-    </wall>
-    <wall position="18.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>2.509,0.229,32.0,1865.575</vt>
-        <vt>3.017,0.026,32.0,2157.078</vt>
-        <vt>2.983,-0.026,0.0,2157.078</vt>
-        <vt>2.491,0.171,0.0,1865.575</vt>
-    </wall>
-    <wall position="18.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>3.017,0.026,32.0,2157.078</vt>
-        <vt>3.521,-0.479,32.0,2537.486</vt>
-        <vt>3.479,-0.521,0.0,2537.486</vt>
-        <vt>2.983,-0.026,0.0,2157.078</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="21.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>-0.521,-0.479,32.0,321.031</vt>
-        <vt>-0.017,0.026,32.0,701.438</vt>
-        <vt>0.017,-0.026,0.0,701.438</vt>
-        <vt>-0.479,-0.521,0.0,321.031</vt>
-    </wall>
-    <wall position="21.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>-0.017,0.026,32.0,701.438</vt>
-        <vt>0.491,0.229,32.0,992.942</vt>
-        <vt>0.509,0.171,0.0,992.942</vt>
-        <vt>0.017,-0.026,0.0,701.438</vt>
-    </wall>
-    <wall position="21.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>0.491,0.229,32.0,992.942</vt>
-        <vt>0.994,0.359,32.0,1270.408</vt>
-        <vt>1.006,0.301,0.0,1270.408</vt>
-        <vt>0.509,0.171,0.0,992.942</vt>
-    </wall>
-    <wall position="21.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>0.994,0.359,32.0,1270.408</vt>
-        <vt>1.5,0.43,32.0,1542.839</vt>
-        <vt>1.5,0.37,0.0,1542.839</vt>
-        <vt>1.006,0.301,0.0,1270.408</vt>
-    </wall>
-    <wall position="21.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>1.5,0.43,32.0,1542.839</vt>
-        <vt>2.006,0.359,32.0,1815.269</vt>
-        <vt>1.994,0.301,0.0,1815.269</vt>
-        <vt>1.5,0.37,0.0,1542.839</vt>
-    </wall>
-    <wall position="21.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>2.006,0.359,32.0,1815.269</vt>
-        <vt>2.509,0.229,32.0,2092.735</vt>
-        <vt>2.491,0.171,0.0,2092.735</vt>
-        <vt>1.994,0.301,0.0,1815.269</vt>
-    </wall>
-    <wall position="21.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>2.509,0.229,32.0,2092.735</vt>
-        <vt>3.017,0.026,32.0,2384.239</vt>
-        <vt>2.983,-0.026,0.0,2384.239</vt>
-        <vt>2.491,0.171,0.0,2092.735</vt>
-    </wall>
-    <wall position="21.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>3.017,0.026,32.0,2384.239</vt>
-        <vt>3.521,-0.479,32.0,2764.647</vt>
-        <vt>3.479,-0.521,0.0,2764.647</vt>
-        <vt>2.983,-0.026,0.0,2384.239</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="24.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>-0.521,-0.479,32.0,255.981</vt>
-        <vt>-0.017,0.026,32.0,636.389</vt>
-        <vt>0.017,-0.026,0.0,636.389</vt>
-        <vt>-0.479,-0.521,0.0,255.981</vt>
-    </wall>
-    <wall position="24.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>-0.017,0.026,32.0,636.389</vt>
-        <vt>0.491,0.229,32.0,927.892</vt>
-        <vt>0.509,0.171,0.0,927.892</vt>
-        <vt>0.017,-0.026,0.0,636.389</vt>
-    </wall>
-    <wall position="24.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>0.491,0.229,32.0,927.892</vt>
-        <vt>0.994,0.359,32.0,1205.358</vt>
-        <vt>1.006,0.301,0.0,1205.358</vt>
-        <vt>0.509,0.171,0.0,927.892</vt>
-    </wall>
-    <wall position="24.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>0.994,0.359,32.0,1205.358</vt>
-        <vt>1.5,0.43,32.0,1477.789</vt>
-        <vt>1.5,0.37,0.0,1477.789</vt>
-        <vt>1.006,0.301,0.0,1205.358</vt>
-    </wall>
-    <wall position="24.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>1.5,0.43,32.0,1477.789</vt>
-        <vt>2.006,0.359,32.0,1750.219</vt>
-        <vt>1.994,0.301,0.0,1750.219</vt>
-        <vt>1.5,0.37,0.0,1477.789</vt>
-    </wall>
-    <wall position="24.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>2.006,0.359,32.0,1750.219</vt>
-        <vt>2.509,0.229,32.0,2027.686</vt>
-        <vt>2.491,0.171,0.0,2027.686</vt>
-        <vt>1.994,0.301,0.0,1750.219</vt>
-    </wall>
-    <wall position="24.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>2.509,0.229,32.0,2027.686</vt>
-        <vt>3.017,0.026,32.0,2319.189</vt>
-        <vt>2.983,-0.026,0.0,2319.189</vt>
-        <vt>2.491,0.171,0.0,2027.686</vt>
-    </wall>
-    <wall position="24.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>3.017,0.026,32.0,2319.189</vt>
-        <vt>3.521,-0.479,32.0,2699.597</vt>
-        <vt>3.479,-0.521,0.0,2699.597</vt>
-        <vt>2.983,-0.026,0.0,2319.189</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="20.9,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>-0.535,-0.465,32.0,727.753</vt>
-        <vt>-0.031,0.04,32.0,956.17</vt>
-        <vt>0.031,-0.04,0.0,956.17</vt>
-        <vt>-0.465,-0.535,0.0,727.753</vt>
-    </wall>
-    <wall position="20.9,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>-0.031,0.04,32.0,956.17</vt>
-        <vt>0.68,0.446,32.0,1218.241</vt>
-        <vt>0.72,0.354,0.0,1218.241</vt>
-        <vt>0.031,-0.04,0.0,956.17</vt>
-    </wall>
-    <wall position="20.9,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>0.68,0.446,32.0,1218.241</vt>
-        <vt>1.39,0.649,32.0,1454.234</vt>
-        <vt>1.41,0.551,0.0,1454.234</vt>
-        <vt>0.72,0.354,0.0,1218.241</vt>
-    </wall>
-    <wall position="20.9,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>1.39,0.649,32.0,1454.234</vt>
-        <vt>2.1,0.751,32.0,1683.886</vt>
-        <vt>2.1,0.649,0.0,1683.886</vt>
-        <vt>1.41,0.551,0.0,1454.234</vt>
-    </wall>
-    <wall position="20.9,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>2.1,0.751,32.0,1683.886</vt>
-        <vt>2.81,0.649,32.0,1913.539</vt>
-        <vt>2.79,0.551,0.0,1913.539</vt>
-        <vt>2.1,0.649,0.0,1683.886</vt>
-    </wall>
-    <wall position="20.9,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>2.81,0.649,32.0,1913.539</vt>
-        <vt>3.52,0.446,32.0,2149.532</vt>
-        <vt>3.48,0.354,0.0,2149.532</vt>
-        <vt>2.79,0.551,0.0,1913.539</vt>
-    </wall>
-    <wall position="20.9,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>3.52,0.446,32.0,2149.532</vt>
-        <vt>4.231,0.04,32.0,2411.603</vt>
-        <vt>4.169,-0.04,0.0,2411.603</vt>
-        <vt>3.48,0.354,0.0,2149.532</vt>
-    </wall>
-    <wall position="20.9,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>4.231,0.04,32.0,2411.603</vt>
-        <vt>4.735,-0.465,32.0,2640.02</vt>
-        <vt>4.665,-0.535,0.0,2640.02</vt>
-        <vt>4.169,-0.04,0.0,2411.603</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="25.1,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>-0.535,-0.465,32.0,307.351</vt>
-        <vt>-0.028,0.043,32.0,536.909</vt>
-        <vt>0.028,-0.043,0.0,536.909</vt>
-        <vt>-0.465,-0.535,0.0,307.351</vt>
-    </wall>
-    <wall position="25.1,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>-0.028,0.043,32.0,536.909</vt>
-        <vt>0.484,0.248,32.0,713.529</vt>
-        <vt>0.516,0.152,0.0,713.529</vt>
-        <vt>0.028,-0.043,0.0,536.909</vt>
-    </wall>
-    <wall position="25.1,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>0.484,0.248,32.0,713.529</vt>
-        <vt>0.99,0.379,32.0,880.782</vt>
-        <vt>1.01,0.281,0.0,880.782</vt>
-        <vt>0.516,0.152,0.0,713.529</vt>
-    </wall>
-    <wall position="25.1,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>0.99,0.379,32.0,880.782</vt>
-        <vt>1.5,0.45,32.0,1045.506</vt>
-        <vt>1.5,0.35,0.0,1045.506</vt>
-        <vt>1.01,0.281,0.0,880.782</vt>
-    </wall>
-    <wall position="25.1,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>1.5,0.45,32.0,1045.506</vt>
-        <vt>2.01,0.379,32.0,1210.229</vt>
-        <vt>1.99,0.281,0.0,1210.229</vt>
-        <vt>1.5,0.35,0.0,1045.506</vt>
-    </wall>
-    <wall position="25.1,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>2.01,0.379,32.0,1210.229</vt>
-        <vt>2.516,0.248,32.0,1377.482</vt>
-        <vt>2.484,0.152,0.0,1377.482</vt>
-        <vt>1.99,0.281,0.0,1210.229</vt>
-    </wall>
-    <wall position="25.1,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>2.516,0.248,32.0,1377.482</vt>
-        <vt>3.028,0.043,32.0,1554.102</vt>
-        <vt>2.972,-0.043,0.0,1554.102</vt>
-        <vt>2.484,0.152,0.0,1377.482</vt>
-    </wall>
-    <wall position="25.1,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>3.028,0.043,32.0,1554.102</vt>
-        <vt>3.535,-0.465,32.0,1783.661</vt>
-        <vt>3.465,-0.535,0.0,1783.661</vt>
-        <vt>2.972,-0.043,0.0,1554.102</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="28.1,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>-0.535,-0.465,32.0,456.303</vt>
-        <vt>-0.031,0.04,32.0,684.72</vt>
-        <vt>0.031,-0.04,0.0,684.72</vt>
-        <vt>-0.465,-0.535,0.0,456.303</vt>
-    </wall>
-    <wall position="28.1,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>-0.031,0.04,32.0,684.72</vt>
-        <vt>0.68,0.446,32.0,946.791</vt>
-        <vt>0.72,0.354,0.0,946.791</vt>
-        <vt>0.031,-0.04,0.0,684.72</vt>
-    </wall>
-    <wall position="28.1,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>0.68,0.446,32.0,946.791</vt>
-        <vt>1.39,0.649,32.0,1182.783</vt>
-        <vt>1.41,0.551,0.0,1182.783</vt>
-        <vt>0.72,0.354,0.0,946.791</vt>
-    </wall>
-    <wall position="28.1,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>1.39,0.649,32.0,1182.783</vt>
-        <vt>2.1,0.751,32.0,1412.436</vt>
-        <vt>2.1,0.649,0.0,1412.436</vt>
-        <vt>1.41,0.551,0.0,1182.783</vt>
-    </wall>
-    <wall position="28.1,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>2.1,0.751,32.0,1412.436</vt>
-        <vt>2.81,0.649,32.0,1642.089</vt>
-        <vt>2.79,0.551,0.0,1642.089</vt>
-        <vt>2.1,0.649,0.0,1412.436</vt>
-    </wall>
-    <wall position="28.1,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>2.81,0.649,32.0,1642.089</vt>
-        <vt>3.52,0.446,32.0,1878.082</vt>
-        <vt>3.48,0.354,0.0,1878.082</vt>
-        <vt>2.79,0.551,0.0,1642.089</vt>
-    </wall>
-    <wall position="28.1,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>3.52,0.446,32.0,1878.082</vt>
-        <vt>4.231,0.04,32.0,2140.153</vt>
-        <vt>4.169,-0.04,0.0,2140.153</vt>
-        <vt>3.48,0.354,0.0,1878.082</vt>
-    </wall>
-    <wall position="28.1,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>4.231,0.04,32.0,2140.153</vt>
-        <vt>4.735,-0.465,32.0,2368.57</vt>
-        <vt>4.665,-0.535,0.0,2368.57</vt>
-        <vt>4.169,-0.04,0.0,2140.153</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="27.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>-0.521,-0.479,32.0,127.68</vt>
-        <vt>-0.017,0.026,32.0,508.088</vt>
-        <vt>0.017,-0.026,0.0,508.088</vt>
-        <vt>-0.479,-0.521,0.0,127.68</vt>
-    </wall>
-    <wall position="27.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>-0.017,0.026,32.0,508.088</vt>
-        <vt>0.491,0.229,32.0,799.591</vt>
-        <vt>0.509,0.171,0.0,799.591</vt>
-        <vt>0.017,-0.026,0.0,508.088</vt>
-    </wall>
-    <wall position="27.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>0.491,0.229,32.0,799.591</vt>
-        <vt>0.994,0.359,32.0,1077.057</vt>
-        <vt>1.006,0.301,0.0,1077.057</vt>
-        <vt>0.509,0.171,0.0,799.591</vt>
-    </wall>
-    <wall position="27.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>0.994,0.359,32.0,1077.057</vt>
-        <vt>1.5,0.43,32.0,1349.488</vt>
-        <vt>1.5,0.37,0.0,1349.488</vt>
-        <vt>1.006,0.301,0.0,1077.057</vt>
-    </wall>
-    <wall position="27.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>1.5,0.43,32.0,1349.488</vt>
-        <vt>2.006,0.359,32.0,1621.918</vt>
-        <vt>1.994,0.301,0.0,1621.918</vt>
-        <vt>1.5,0.37,0.0,1349.488</vt>
-    </wall>
-    <wall position="27.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>2.006,0.359,32.0,1621.918</vt>
-        <vt>2.509,0.229,32.0,1899.385</vt>
-        <vt>2.491,0.171,0.0,1899.385</vt>
-        <vt>1.994,0.301,0.0,1621.918</vt>
-    </wall>
-    <wall position="27.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>2.509,0.229,32.0,1899.385</vt>
-        <vt>3.017,0.026,32.0,2190.888</vt>
-        <vt>2.983,-0.026,0.0,2190.888</vt>
-        <vt>2.491,0.171,0.0,1899.385</vt>
-    </wall>
-    <wall position="27.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>3.017,0.026,32.0,2190.888</vt>
-        <vt>3.521,-0.479,32.0,2571.296</vt>
-        <vt>3.479,-0.521,0.0,2571.296</vt>
-        <vt>2.983,-0.026,0.0,2190.888</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="30.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>-0.521,-0.479,32.0,632.281</vt>
-        <vt>-0.017,0.026,32.0,1012.689</vt>
-        <vt>0.017,-0.026,0.0,1012.689</vt>
-        <vt>-0.479,-0.521,0.0,632.281</vt>
-    </wall>
-    <wall position="30.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>-0.017,0.026,32.0,1012.689</vt>
-        <vt>0.491,0.229,32.0,1304.192</vt>
-        <vt>0.509,0.171,0.0,1304.192</vt>
-        <vt>0.017,-0.026,0.0,1012.689</vt>
-    </wall>
-    <wall position="30.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>0.491,0.229,32.0,1304.192</vt>
-        <vt>0.994,0.359,32.0,1581.659</vt>
-        <vt>1.006,0.301,0.0,1581.659</vt>
-        <vt>0.509,0.171,0.0,1304.192</vt>
-    </wall>
-    <wall position="30.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>0.994,0.359,32.0,1581.659</vt>
-        <vt>1.5,0.43,32.0,1854.089</vt>
-        <vt>1.5,0.37,0.0,1854.089</vt>
-        <vt>1.006,0.301,0.0,1581.659</vt>
-    </wall>
-    <wall position="30.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>1.5,0.43,32.0,1854.089</vt>
-        <vt>2.006,0.359,32.0,2126.52</vt>
-        <vt>1.994,0.301,0.0,2126.52</vt>
-        <vt>1.5,0.37,0.0,1854.089</vt>
-    </wall>
-    <wall position="30.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>2.006,0.359,32.0,2126.52</vt>
-        <vt>2.509,0.229,32.0,2403.986</vt>
-        <vt>2.491,0.171,0.0,2403.986</vt>
-        <vt>1.994,0.301,0.0,2126.52</vt>
-    </wall>
-    <wall position="30.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>2.509,0.229,32.0,2403.986</vt>
-        <vt>3.017,0.026,32.0,2695.489</vt>
-        <vt>2.983,-0.026,0.0,2695.489</vt>
-        <vt>2.491,0.171,0.0,2403.986</vt>
-    </wall>
-    <wall position="30.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>3.017,0.026,32.0,2695.489</vt>
-        <vt>3.521,-0.479,32.0,3075.897</vt>
-        <vt>3.479,-0.521,0.0,3075.897</vt>
-        <vt>2.983,-0.026,0.0,2695.489</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="33.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>-0.521,-0.479,32.0,484.075</vt>
-        <vt>-0.017,0.026,32.0,864.483</vt>
-        <vt>0.017,-0.026,0.0,864.483</vt>
-        <vt>-0.479,-0.521,0.0,484.075</vt>
-    </wall>
-    <wall position="33.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>-0.017,0.026,32.0,864.483</vt>
-        <vt>0.491,0.229,32.0,1155.986</vt>
-        <vt>0.509,0.171,0.0,1155.986</vt>
-        <vt>0.017,-0.026,0.0,864.483</vt>
-    </wall>
-    <wall position="33.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>0.491,0.229,32.0,1155.986</vt>
-        <vt>0.994,0.359,32.0,1433.453</vt>
-        <vt>1.006,0.301,0.0,1433.453</vt>
-        <vt>0.509,0.171,0.0,1155.986</vt>
-    </wall>
-    <wall position="33.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>0.994,0.359,32.0,1433.453</vt>
-        <vt>1.5,0.43,32.0,1705.883</vt>
-        <vt>1.5,0.37,0.0,1705.883</vt>
-        <vt>1.006,0.301,0.0,1433.453</vt>
-    </wall>
-    <wall position="33.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>1.5,0.43,32.0,1705.883</vt>
-        <vt>2.006,0.359,32.0,1978.314</vt>
-        <vt>1.994,0.301,0.0,1978.314</vt>
-        <vt>1.5,0.37,0.0,1705.883</vt>
-    </wall>
-    <wall position="33.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>2.006,0.359,32.0,1978.314</vt>
-        <vt>2.509,0.229,32.0,2255.78</vt>
-        <vt>2.491,0.171,0.0,2255.78</vt>
-        <vt>1.994,0.301,0.0,1978.314</vt>
-    </wall>
-    <wall position="33.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>2.509,0.229,32.0,2255.78</vt>
-        <vt>3.017,0.026,32.0,2547.283</vt>
-        <vt>2.983,-0.026,0.0,2547.283</vt>
-        <vt>2.491,0.171,0.0,2255.78</vt>
-    </wall>
-    <wall position="33.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>3.017,0.026,32.0,2547.283</vt>
-        <vt>3.521,-0.479,32.0,2927.691</vt>
-        <vt>3.479,-0.521,0.0,2927.691</vt>
-        <vt>2.983,-0.026,0.0,2547.283</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="32.3,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>-0.535,-0.465,32.0,87.547</vt>
-        <vt>-0.031,0.04,32.0,315.964</vt>
-        <vt>0.031,-0.04,0.0,315.964</vt>
-        <vt>-0.465,-0.535,0.0,87.547</vt>
-    </wall>
-    <wall position="32.3,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>-0.031,0.04,32.0,315.964</vt>
-        <vt>0.68,0.446,32.0,578.035</vt>
-        <vt>0.72,0.354,0.0,578.035</vt>
-        <vt>0.031,-0.04,0.0,315.964</vt>
-    </wall>
-    <wall position="32.3,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>0.68,0.446,32.0,578.035</vt>
-        <vt>1.39,0.649,32.0,814.028</vt>
-        <vt>1.41,0.551,0.0,814.028</vt>
-        <vt>0.72,0.354,0.0,578.035</vt>
-    </wall>
-    <wall position="32.3,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>1.39,0.649,32.0,814.028</vt>
-        <vt>2.1,0.751,32.0,1043.681</vt>
-        <vt>2.1,0.649,0.0,1043.681</vt>
-        <vt>1.41,0.551,0.0,814.028</vt>
-    </wall>
-    <wall position="32.3,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>2.1,0.751,32.0,1043.681</vt>
-        <vt>2.81,0.649,32.0,1273.333</vt>
-        <vt>2.79,0.551,0.0,1273.333</vt>
-        <vt>2.1,0.649,0.0,1043.681</vt>
-    </wall>
-    <wall position="32.3,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>2.81,0.649,32.0,1273.333</vt>
-        <vt>3.52,0.446,32.0,1509.326</vt>
-        <vt>3.48,0.354,0.0,1509.326</vt>
-        <vt>2.79,0.551,0.0,1273.333</vt>
-    </wall>
-    <wall position="32.3,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>3.52,0.446,32.0,1509.326</vt>
-        <vt>4.231,0.04,32.0,1771.397</vt>
-        <vt>4.169,-0.04,0.0,1771.397</vt>
-        <vt>3.48,0.354,0.0,1509.326</vt>
-    </wall>
-    <wall position="32.3,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>4.231,0.04,32.0,1771.397</vt>
-        <vt>4.735,-0.465,32.0,1999.814</vt>
-        <vt>4.665,-0.535,0.0,1999.814</vt>
-        <vt>4.169,-0.04,0.0,1771.397</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="36.5,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>-0.535,-0.465,32.0,499.332</vt>
-        <vt>-0.031,0.04,32.0,727.748</vt>
-        <vt>0.031,-0.04,0.0,727.748</vt>
-        <vt>-0.465,-0.535,0.0,499.332</vt>
-    </wall>
-    <wall position="36.5,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>-0.031,0.04,32.0,727.748</vt>
-        <vt>0.68,0.446,32.0,989.82</vt>
-        <vt>0.72,0.354,0.0,989.82</vt>
-        <vt>0.031,-0.04,0.0,727.748</vt>
-    </wall>
-    <wall position="36.5,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>0.68,0.446,32.0,989.82</vt>
-        <vt>1.39,0.649,32.0,1225.812</vt>
-        <vt>1.41,0.551,0.0,1225.812</vt>
-        <vt>0.72,0.354,0.0,989.82</vt>
-    </wall>
-    <wall position="36.5,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>1.39,0.649,32.0,1225.812</vt>
-        <vt>2.1,0.751,32.0,1455.465</vt>
-        <vt>2.1,0.649,0.0,1455.465</vt>
-        <vt>1.41,0.551,0.0,1225.812</vt>
-    </wall>
-    <wall position="36.5,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>2.1,0.751,32.0,1455.465</vt>
-        <vt>2.81,0.649,32.0,1685.118</vt>
-        <vt>2.79,0.551,0.0,1685.118</vt>
-        <vt>2.1,0.649,0.0,1455.465</vt>
-    </wall>
-    <wall position="36.5,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>2.81,0.649,32.0,1685.118</vt>
-        <vt>3.52,0.446,32.0,1921.11</vt>
-        <vt>3.48,0.354,0.0,1921.11</vt>
-        <vt>2.79,0.551,0.0,1685.118</vt>
-    </wall>
-    <wall position="36.5,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>3.52,0.446,32.0,1921.11</vt>
-        <vt>4.231,0.04,32.0,2183.181</vt>
-        <vt>4.169,-0.04,0.0,2183.181</vt>
-        <vt>3.48,0.354,0.0,1921.11</vt>
-    </wall>
-    <wall position="36.5,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
-        <vt>4.231,0.04,32.0,2183.181</vt>
-        <vt>4.735,-0.465,32.0,2411.598</vt>
-        <vt>4.665,-0.535,0.0,2411.598</vt>
-        <vt>4.169,-0.04,0.0,2183.181</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="36.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>-0.521,-0.479,32.0,634.868</vt>
-        <vt>-0.017,0.026,32.0,1015.276</vt>
-        <vt>0.017,-0.026,0.0,1015.276</vt>
-        <vt>-0.479,-0.521,0.0,634.868</vt>
-    </wall>
-    <wall position="36.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>-0.017,0.026,32.0,1015.276</vt>
-        <vt>0.491,0.229,32.0,1306.78</vt>
-        <vt>0.509,0.171,0.0,1306.78</vt>
-        <vt>0.017,-0.026,0.0,1015.276</vt>
-    </wall>
-    <wall position="36.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>0.491,0.229,32.0,1306.78</vt>
-        <vt>0.994,0.359,32.0,1584.246</vt>
-        <vt>1.006,0.301,0.0,1584.246</vt>
-        <vt>0.509,0.171,0.0,1306.78</vt>
-    </wall>
-    <wall position="36.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>0.994,0.359,32.0,1584.246</vt>
-        <vt>1.5,0.43,32.0,1856.676</vt>
-        <vt>1.5,0.37,0.0,1856.676</vt>
-        <vt>1.006,0.301,0.0,1584.246</vt>
-    </wall>
-    <wall position="36.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>1.5,0.43,32.0,1856.676</vt>
-        <vt>2.006,0.359,32.0,2129.107</vt>
-        <vt>1.994,0.301,0.0,2129.107</vt>
-        <vt>1.5,0.37,0.0,1856.676</vt>
-    </wall>
-    <wall position="36.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>2.006,0.359,32.0,2129.107</vt>
-        <vt>2.509,0.229,32.0,2406.573</vt>
-        <vt>2.491,0.171,0.0,2406.573</vt>
-        <vt>1.994,0.301,0.0,2129.107</vt>
-    </wall>
-    <wall position="36.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>2.509,0.229,32.0,2406.573</vt>
-        <vt>3.017,0.026,32.0,2698.076</vt>
-        <vt>2.983,-0.026,0.0,2698.076</vt>
-        <vt>2.491,0.171,0.0,2406.573</vt>
-    </wall>
-    <wall position="36.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
-        <vt>3.017,0.026,32.0,2698.076</vt>
-        <vt>3.521,-0.479,32.0,3078.484</vt>
-        <vt>3.479,-0.521,0.0,3078.484</vt>
-        <vt>2.983,-0.026,0.0,2698.076</vt>
-    </wall>
-</chunk>
-<chunk>
-    <object position="12.25,41" texture="krata0" height="1.5" layer="4" /></chunk>
-<chunk>
-    <object position="19.25,41" texture="krata0" height="1.5" layer="4" /></chunk>
-<chunk>
-    <object position="21.25,41" texture="krata0" height="1.5" layer="4" /></chunk>
-<chunk>
-    <object position="28.25,41" texture="krata0" height="1.5" layer="4" /></chunk>
-<chunk>
-    <object position="30.25,41" texture="krata0" height="1.5" layer="4" /></chunk>
-<chunk>
-    <object position="37.25,41" texture="krata0" height="1.5" layer="4" /></chunk>
-    <sound position="16.5,40.875" sound="LAMPA_01" min_distance="1.5" range="20" />/>
-<chunk>
-    <animated_object position="15,40.5" texture="AOBFluorescent_shining_instable" height="0.75" layer="4" /></chunk>
-    <sound position="21,40.875" sound="LAMPA_01" min_distance="1.5" range="20" />/>
-<chunk>
-    <animated_object position="19.5,40.5" texture="AOBFluorescent_shining_instable" height="0.75" layer="4" /></chunk>
-    <sound position="25.5,40.875" sound="LAMPA_01" min_distance="1.5" range="20" />/>
-<chunk>
-    <animated_object position="24,40.5" texture="AOBFluorescent_shining_instable" height="0.75" layer="4" /></chunk>
-    <sound position="30,40.875" sound="LAMPA_01" min_distance="1.5" range="20" />/>
-<chunk>
-    <animated_object position="28.5,40.5" texture="AOBFluorescent_shining_instable" height="0.75" layer="4" /></chunk>
-    <sound position="34.5,40.875" sound="LAMPA_01" min_distance="1.5" range="20" />/>
-<chunk>
-    <animated_object position="33,40.5" texture="AOBFluorescent_shining_instable" height="0.75" layer="4" /></chunk>
-<chunk>
-    <wall position="42.5,30.5" texture="TEXVent_pipe" layer="7" >
-        <vt>-0.4,0.0,64.0,854.469</vt>
-        <vt>-0.4,8.666,64.0,1547.724</vt>
-        <vt>0.4,8.334,0.0,1547.724</vt>
-        <vt>0.4,0.0,0.0,854.469</vt>
-    </wall>
-    <wall position="42.5,30.5" texture="TEXVent_pipe" layer="7" >
-        <vt>-0.4,8.666,64.0,1547.724</vt>
-        <vt>0.334,9.4,64.0,1630.802</vt>
-        <vt>0.666,8.6,0.0,1630.802</vt>
-        <vt>0.4,8.334,0.0,1547.724</vt>
-    </wall>
-    <wall position="42.5,30.5" texture="TEXVent_pipe" layer="7" >
-        <vt>0.334,9.4,64.0,1630.802</vt>
-        <vt>2.834,9.4,64.0,1830.802</vt>
-        <vt>3.166,8.6,0.0,1830.802</vt>
-        <vt>0.666,8.6,0.0,1630.802</vt>
-    </wall>
-    <wall position="42.5,30.5" texture="TEXVent_pipe" layer="7" >
-        <vt>2.834,9.4,64.0,1830.802</vt>
-        <vt>3.1,9.666,64.0,1913.88</vt>
-        <vt>3.9,9.334,0.0,1913.88</vt>
-        <vt>3.166,8.6,0.0,1830.802</vt>
-    </wall>
-    <wall position="42.5,30.5" texture="TEXVent_pipe" layer="7" >
-        <vt>3.1,9.666,64.0,1913.88</vt>
-        <vt>3.1,10.083,64.0,1960.507</vt>
-        <vt>3.9,9.917,0.0,1960.507</vt>
-        <vt>3.9,9.334,0.0,1913.88</vt>
-    </wall>
-    <wall position="42.5,30.5" texture="TEXVent_pipe" layer="7" >
-        <vt>3.1,10.083,64.0,1960.507</vt>
-        <vt>3.1,10.594,64.0,2001.434</vt>
-        <vt>3.9,10.406,0.0,2001.434</vt>
-        <vt>3.9,9.917,0.0,1960.507</vt>
-    </wall>
-    <wall position="42.5,30.5" texture="TEXVent_pipe" layer="7" >
-        <vt>3.1,10.594,64.0,2001.434</vt>
-        <vt>3.702,11.798,64.0,2109.098</vt>
-        <vt>4.298,11.202,0.0,2109.098</vt>
-        <vt>3.9,10.406,0.0,2001.434</vt>
-    </wall>
-    <wall position="42.5,30.5" texture="TEXVent_pipe" layer="7" >
-        <vt>3.702,11.798,64.0,2109.098</vt>
-        <vt>4.906,12.4,64.0,2216.761</vt>
-        <vt>5.094,11.6,0.0,2216.761</vt>
-        <vt>4.298,11.202,0.0,2109.098</vt>
-    </wall>
-    <wall position="42.5,30.5" texture="TEXVent_pipe" layer="7" >
-        <vt>4.906,12.4,64.0,2216.761</vt>
-        <vt>5.5,12.4,64.0,2264.315</vt>
-        <vt>5.5,11.6,0.0,2264.315</vt>
-        <vt>5.094,11.6,0.0,2216.761</vt>
-    </wall>
-</chunk>
-<chunk>
-    <platform position="42.5,43" texture="bricks,0" layer="8" >
-        <v>0.0,0.0</v>
-        <v>0.0,1.0</v>
-        <v>1.5,1.0</v>
-        <v>1.5,0.0</v>
-    </platform>
-</chunk>
-<chunk>
-    <platform position="7.5,39.5" texture="panels,2" layer="8" >
-        <v>0.0,0.0</v>
-        <v>0.0,1.0</v>
-        <v>1.0,1.0</v>
-        <v>1.0,0.0</v>
-    </platform>
-</chunk>
-<chunk>
-    <platform position="11.5,39.5" texture="panels,1" layer="8" >
-        <v>0.0,0.0</v>
-        <v>0.0,1.0</v>
-        <v>30.0,1.0</v>
-        <v>30.0,0.0</v>
-    </platform>
-</chunk>
-<chunk>
-    <platform position="8,39.7" texture="panels,0" layer="7" >
-        <v>0.0,0.0</v>
-        <v>0.0,0.6</v>
-        <v>4.0,0.6</v>
-        <v>4.0,0.0</v>
-    </platform>
-</chunk>
-<chunk>
-    <wall position="8,36" texture="TEXSteel_stick_rusted" layer="8" >
-        <vt>-0.175,0.0,64.0,380.24</vt>
-        <vt>-0.175,3.5,64.0,1020.24</vt>
-        <vt>0.175,3.5,0.0,1020.24</vt>
-        <vt>0.175,0.0,0.0,380.24</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="12,36" texture="TEXSteel_stick_rusted" layer="8" >
-        <vt>-0.175,0.0,64.0,163.47</vt>
-        <vt>-0.175,3.5,64.0,803.47</vt>
-        <vt>0.175,3.5,0.0,803.47</vt>
-        <vt>0.175,0.0,0.0,163.47</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="21,36" texture="TEXSteel_stick_rusted" layer="8" >
-        <vt>-0.175,0.0,64.0,844.289</vt>
-        <vt>-0.175,3.5,64.0,1484.289</vt>
-        <vt>0.175,3.5,0.0,1484.289</vt>
-        <vt>0.175,0.0,0.0,844.289</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="30,36" texture="TEXSteel_stick_rusted" layer="8" >
-        <vt>-0.175,0.0,64.0,466.097</vt>
-        <vt>-0.175,3.5,64.0,1106.097</vt>
-        <vt>0.175,3.5,0.0,1106.097</vt>
-        <vt>0.175,0.0,0.0,466.097</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="39,36" texture="TEXSteel_stick_rusted" layer="8" >
-        <vt>-0.175,0.0,64.0,659.012</vt>
-        <vt>-0.175,3.5,64.0,1299.012</vt>
-        <vt>0.175,3.5,0.0,1299.012</vt>
-        <vt>0.175,0.0,0.0,659.012</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="14.5,36" texture="TEXVent_pipe" layer="5" >
-        <vt>-0.4,0.0,64.0,390.304</vt>
-        <vt>-0.4,3.5,64.0,670.304</vt>
-        <vt>0.4,3.5,0.0,670.304</vt>
-        <vt>0.4,0.0,0.0,390.304</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="18.5,36" texture="TEXVent_pipe" layer="5" >
-        <vt>-0.4,0.0,64.0,756.377</vt>
-        <vt>-0.4,3.5,64.0,1036.377</vt>
-        <vt>0.4,3.5,0.0,1036.377</vt>
-        <vt>0.4,0.0,0.0,756.377</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="23.5,36" texture="TEXVent_pipe" layer="5" >
-        <vt>-0.4,0.0,64.0,991.078</vt>
-        <vt>-0.4,3.5,64.0,1271.078</vt>
-        <vt>0.4,3.5,0.0,1271.078</vt>
-        <vt>0.4,0.0,0.0,991.078</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="27.5,36" texture="TEXVent_pipe" layer="5" >
-        <vt>-0.4,0.0,64.0,125.598</vt>
-        <vt>-0.4,3.5,64.0,405.598</vt>
-        <vt>0.4,3.5,0.0,405.598</vt>
-        <vt>0.4,0.0,0.0,125.598</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="32.5,36" texture="TEXVent_pipe" layer="5" >
-        <vt>-0.4,0.0,64.0,746.432</vt>
-        <vt>-0.4,3.5,64.0,1026.432</vt>
-        <vt>0.4,3.5,0.0,1026.432</vt>
-        <vt>0.4,0.0,0.0,746.432</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="36.5,36" texture="TEXVent_pipe" layer="5" >
-        <vt>-0.4,0.0,64.0,975.154</vt>
-        <vt>-0.4,3.5,64.0,1255.154</vt>
-        <vt>0.4,3.5,0.0,1255.154</vt>
-        <vt>0.4,0.0,0.0,975.154</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="12.5,36" texture="TEXElectricity_cable_yellow" layer="5" >
-        <vt>-0.05,0.0,32.0,213.989</vt>
-        <vt>-0.05,3.5,32.0,1333.989</vt>
-        <vt>0.05,3.5,0.0,1333.989</vt>
-        <vt>0.05,0.0,0.0,213.989</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="39.5,36" texture="TEXElectricity_cable_red" layer="6" >
-        <vt>-0.03,0.0,32.0,993.237</vt>
-        <vt>-0.03,3.5,32.0,2859.903</vt>
-        <vt>0.03,3.5,0.0,2859.903</vt>
-        <vt>0.03,0.0,0.0,993.237</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="40.7,36" texture="TEXElectricity_cable_yellow" layer="5" >
-        <vt>-0.05,0.0,32.0,606.072</vt>
-        <vt>-0.05,3.5,32.0,1726.072</vt>
-        <vt>0.05,3.5,0.0,1726.072</vt>
-        <vt>0.05,0.0,0.0,606.072</vt>
-    </wall>
-</chunk>
-<chunk>
-    <platform position="7.5,36.5" texture="TEXHydro_pipe_rusted" layer="9" one_sided="true" >
-        <vt>0.0,0.55,64.0,941.229</vt>
-        <vt>41.5,0.55,64.0,3355.774</vt>
-        <vt>41.5,-0.55,0.0,3355.774</vt>
-        <vt>0.0,-0.55,0.0,941.229</vt>
-    </platform>
-</chunk>
-<chunk>
-    <platform position="42,29" texture="TEXHydro_pipe_rusted" layer="9" one_sided="true" >
-        <vt>7.0,-0.55,64.0,372.011</vt>
-        <vt>2.911,-0.55,64.0,609.931</vt>
-        <vt>3.089,0.55,0.0,609.931</vt>
-        <vt>7.0,0.55,0.0,372.011</vt>
-    </platform>
-    <platform position="42,29" texture="TEXHydro_pipe_rusted" layer="9" one_sided="true" >
-        <vt>2.911,-0.55,64.0,609.931</vt>
-        <vt>1.203,0.019,64.0,714.671</vt>
-        <vt>1.797,0.981,0.0,714.671</vt>
-        <vt>3.089,0.55,0.0,609.931</vt>
-    </platform>
-    <platform position="42,29" texture="TEXHydro_pipe_rusted" layer="9" one_sided="true" >
-        <vt>1.203,0.019,64.0,714.671</vt>
-        <vt>0.657,0.565,64.0,759.589</vt>
-        <vt>1.343,1.435,0.0,759.589</vt>
-        <vt>1.797,0.981,0.0,714.671</vt>
-    </platform>
-    <platform position="42,29" texture="TEXHydro_pipe_rusted" layer="9" one_sided="true" >
-        <vt>0.657,0.565,64.0,759.589</vt>
-        <vt>0.019,1.203,64.0,812.061</vt>
-        <vt>0.981,1.797,0.0,812.061</vt>
-        <vt>1.343,1.435,0.0,759.589</vt>
-    </platform>
-    <platform position="42,29" texture="TEXHydro_pipe_rusted" layer="9" one_sided="true" >
-        <vt>0.019,1.203,64.0,812.061</vt>
-        <vt>-0.55,2.911,64.0,916.802</vt>
-        <vt>0.55,3.089,0.0,916.802</vt>
-        <vt>0.981,1.797,0.0,812.061</vt>
-    </platform>
-    <platform position="42,29" texture="TEXHydro_pipe_rusted" layer="9" one_sided="true" >
-        <vt>-0.55,2.911,64.0,916.802</vt>
-        <vt>-0.55,7.0,64.0,1154.722</vt>
-        <vt>0.55,7.0,0.0,1154.722</vt>
-        <vt>0.55,3.089,0.0,916.802</vt>
-    </platform>
-</chunk>
-<chunk>
-    <platform position="9.5,32.2" texture="TEXVent_pipe" layer="8" >
-        <vt>2.0,-0.4,64.0,13.828</vt>
-        <vt>0.834,-0.4,64.0,107.083</vt>
-        <vt>1.166,0.4,0.0,107.083</vt>
-        <vt>2.0,0.4,0.0,13.828</vt>
-    </platform>
-    <platform position="9.5,32.2" texture="TEXVent_pipe" layer="8" >
-        <vt>0.834,-0.4,64.0,107.083</vt>
-        <vt>-0.4,0.834,64.0,246.73</vt>
-        <vt>0.4,1.166,0.0,246.73</vt>
-        <vt>1.166,0.4,0.0,107.083</vt>
-    </platform>
-    <platform position="9.5,32.2" texture="TEXVent_pipe" layer="8" >
-        <vt>-0.4,0.834,64.0,246.73</vt>
-        <vt>-0.4,2.666,64.0,393.24</vt>
-        <vt>0.4,2.334,0.0,393.24</vt>
-        <vt>0.4,1.166,0.0,246.73</vt>
-    </platform>
-    <platform position="9.5,32.2" texture="TEXVent_pipe" layer="8" >
-        <vt>-0.4,2.666,64.0,393.24</vt>
-        <vt>0.834,3.9,64.0,532.886</vt>
-        <vt>1.166,3.1,0.0,532.886</vt>
-        <vt>0.4,2.334,0.0,393.24</vt>
-    </platform>
-    <platform position="9.5,32.2" texture="TEXVent_pipe" layer="8" >
-        <vt>0.834,3.9,64.0,532.886</vt>
-        <vt>32.166,3.9,64.0,3039.396</vt>
-        <vt>31.834,3.1,0.0,3039.396</vt>
-        <vt>1.166,3.1,0.0,532.886</vt>
-    </platform>
-    <platform position="9.5,32.2" texture="TEXVent_pipe" layer="8" >
-        <vt>32.166,3.9,64.0,3039.396</vt>
-        <vt>32.783,3.283,64.0,3109.219</vt>
-        <vt>32.217,2.717,0.0,3109.219</vt>
-        <vt>31.834,3.1,0.0,3039.396</vt>
-    </platform>
-</chunk>
-<chunk>
-    <wall position="7.5,38.25" texture="TEXHydro_pipe" layer="4" >
-        <vt>0.0,0.75,64.0,928.789</vt>
-        <vt>41.5,0.75,64.0,2699.455</vt>
-        <vt>41.5,-0.75,0.0,2699.455</vt>
-        <vt>0.0,-0.75,0.0,928.789</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="7.5,37.25" texture="TEXSteel_stick" layer="5" >
-        <vt>0.0,0.4,64.0,586.792</vt>
-        <vt>41.5,0.4,64.0,3906.792</vt>
-        <vt>41.5,-0.4,0.0,3906.792</vt>
-        <vt>0.0,-0.4,0.0,586.792</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="7.5,39.25" texture="TEXSteel_stick" layer="5" >
-        <vt>0.0,0.4,64.0,295.999</vt>
-        <vt>41.5,0.4,64.0,3615.999</vt>
-        <vt>41.5,-0.4,0.0,3615.999</vt>
-        <vt>0.0,-0.4,0.0,295.999</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="7.5,37.55" texture="TEXElectricity_cable_green" layer="5" >
-        <vt>0.0,0.04,32.0,303.507</vt>
-        <vt>41.5,0.04,32.0,16903.507</vt>
-        <vt>41.5,-0.04,0.0,16903.507</vt>
-        <vt>0.0,-0.04,0.0,303.507</vt>
-    </wall>
-</chunk>
-<chunk>
-    <wall position="7.5,37.65" texture="TEXElectricity_cable_red" layer="5" >
-        <vt>0.0,0.03,32.0,635.633</vt>
-        <vt>41.5,0.03,32.0,22768.967</vt>
-        <vt>41.5,-0.03,0.0,22768.967</vt>
-        <vt>0.0,-0.03,0.0,635.633</vt>
-    </wall>
-</chunk>
-<chunk>
-    <platform position="43,30" texture="TEXHydro_pipe" layer="4" >
-        <vt>-0.4,0.0,64.0,403.229</vt>
-        <vt>-0.4,6.0,64.0,883.229</vt>
-        <vt>0.4,6.0,0.0,883.229</vt>
-        <vt>0.4,0.0,0.0,403.229</vt>
-    </platform>
-</chunk>
-<chunk>
-    <platform position="46.5,32" texture="TEXSteel_stick_rusted" layer="9" one_sided="true" >
-        <vt>0.0,0.175,64.0,327.947</vt>
-        <vt>2.5,0.175,64.0,785.09</vt>
-        <vt>2.5,-0.175,0.0,785.09</vt>
-        <vt>0.0,-0.175,0.0,327.947</vt>
-    </platform>
-</chunk>
-<chunk>
-    <wall position="46.5,29.5" texture="TEXSteel_stick_rusted" layer="9" >
-        <vt>-0.175,0.0,64.0,985.474</vt>
-        <vt>-0.175,10.0,64.0,2814.046</vt>
-        <vt>0.175,10.0,0.0,2814.046</vt>
-        <vt>0.175,0.0,0.0,985.474</vt>
-    </wall>
-</chunk>
-<chunk>
-    <barrier position="49,39.5" >
-        <v>0.0,0.0</v>
-        <v>-3.5,0.0</v>
-        <v>0.0,-3.5</v>
-        <v>0.0,-3.5</v>
-    </barrier>
-    <platform position="49,39.5" texture="bricks,0" one_sided="true" >
-        <v>0.0,-0.0</v>
-        <v>-3.5,-0.0</v>
-        <v>-3.5,-0.438</v>
-        <v>0.0,-0.438</v>
-    </platform>
-    <platform position="49,39.5" texture="bricks,0" one_sided="true" >
-        <v>0.0,-0.438</v>
-        <v>-3.062,-0.438</v>
-        <v>-3.062,-0.875</v>
-        <v>0.0,-0.875</v>
-    </platform>
-    <platform position="49,39.5" texture="bricks,0" one_sided="true" >
-        <v>0.0,-0.875</v>
-        <v>-2.625,-0.875</v>
-        <v>-2.625,-1.312</v>
-        <v>0.0,-1.312</v>
-    </platform>
-    <platform position="49,39.5" texture="bricks,0" one_sided="true" >
-        <v>0.0,-1.312</v>
-        <v>-2.188,-1.312</v>
-        <v>-2.188,-1.75</v>
-        <v>0.0,-1.75</v>
-    </platform>
-    <platform position="49,39.5" texture="bricks,0" one_sided="true" >
-        <v>0.0,-1.75</v>
-        <v>-1.75,-1.75</v>
-        <v>-1.75,-2.188</v>
-        <v>0.0,-2.188</v>
-    </platform>
-    <platform position="49,39.5" texture="bricks,0" one_sided="true" >
-        <v>0.0,-2.188</v>
-        <v>-1.312,-2.188</v>
-        <v>-1.312,-2.625</v>
-        <v>0.0,-2.625</v>
-    </platform>
-    <platform position="49,39.5" texture="bricks,0" one_sided="true" >
-        <v>0.0,-2.625</v>
-        <v>-0.875,-2.625</v>
-        <v>-0.875,-3.062</v>
-        <v>0.0,-3.062</v>
-    </platform>
-    <platform position="49,39.5" texture="bricks,0" one_sided="true" >
-        <v>0.0,-3.062</v>
-        <v>-0.438,-3.062</v>
-        <v>-0.438,-3.5</v>
-        <v>0.0,-3.5</v>
-    </platform>
-</chunk>
-    <sound position="16.5,37.875" sound="LAMPA_01" min_distance="1.5" range="20" />/>
-<chunk>
-    <animated_object position="15,37.5" texture="AOBFluorescent_shining_instable" height="0.75" layer="4" /></chunk>
-    <sound position="25.5,37.875" sound="LAMPA_01" min_distance="1.5" range="20" />/>
-<chunk>
-    <animated_object position="24,37.5" texture="AOBFluorescent_shining_instable" height="0.75" layer="4" /></chunk>
-    <sound position="34.5,37.875" sound="LAMPA_01" min_distance="1.5" range="20" />/>
-<chunk>
-    <animated_object position="33,37.5" texture="AOBFluorescent_shining_instable" height="0.75" layer="4" /></chunk>
-    <sound position="10,38.25" volume="60" sound="RURY" attenuation="0.5" min_distance="2" range="10" />/>
+	<event name="event1"/>
+	<dynamic_chunk>
+		<state>
+		<platform position="15,15" texture="bricks,0" layer="8" >
+			<v>0.0,0.0</v>
+			<v>1.0,0.0</v>
+			<v>1.0,1.0</v>
+			<v>0.0,1.0</v>
+		</platform>
+		</state>
+		<state trigger="event1">
+		<platform position="15,15" texture="dirt,0" layer="8" >
+			<v>0.0,0.0</v>
+			<v>1.0,0.0</v>
+			<v>1.0,1.0</v>
+			<v>0.0,1.0</v>
+		</platform>
+		</state>
+	</dynamic_chunk>
+	<chunk>
+		<platform position="0,47" texture="dirt,0" >
+			<v>0.0,0.0</v>
+			<v>0.0,3.0</v>
+			<v>50.0,3.0</v>
+			<v>50.0,0.0</v>
+		</platform>
+	</chunk>
+	<chunk>
+		<platform position="6.5,0" texture="bricks,0" layer="8" >
+			<v>0.0,0.0</v>
+			<v>1.0,0.0</v>
+			<v>1.0,1.0</v>
+			<v>0.0,1.0</v>
+		</platform>
+		<platform position="49,0" texture="bricks,0" layer="8" >
+			<v>0.0,0.0</v>
+			<v>1.0,0.0</v>
+			<v>1.0,1.0</v>
+			<v>0.0,1.0</v>
+		</platform>
+		<platform position="49,47" texture="bricks,0" layer="8" >
+			<v>0.0,0.0</v>
+			<v>1.0,0.0</v>
+			<v>1.0,1.0</v>
+			<v>0.0,1.0</v>
+		</platform>
+		<platform position="6.5,47" texture="bricks,0" layer="8" >
+			<v>0.0,0.0</v>
+			<v>1.0,0.0</v>
+			<v>1.0,1.0</v>
+			<v>0.0,1.0</v>
+		</platform>
+		<platform position="7.5,0" texture="bricks,0" layer="8" >
+			<v>0.0,0.0</v>
+			<v>41.5,0.0</v>
+			<v>41.5,1.0</v>
+			<v>0.0,1.0</v>
+		</platform>
+		<platform position="7.5,47" texture="bricks,0" layer="8" >
+			<v>0.0,0.0</v>
+			<v>41.5,0.0</v>
+			<v>41.5,1.0</v>
+			<v>0.0,1.0</v>
+		</platform>
+		<platform position="6.5,1" texture="bricks,0" layer="8" >
+			<v>0.0,0.0</v>
+			<v>1.0,0.0</v>
+			<v>1.0,43.0</v>
+			<v>0.0,43.0</v>
+		</platform>
+		<platform position="6.5,47" texture="bricks,0" layer="8" >
+			<v>0.0,0.0</v>
+			<v>1.0,0.0</v>
+			<v>1.0,0.0</v>
+			<v>0.0,0.0</v>
+		</platform>
+		<platform position="49,1" texture="bricks,0" layer="8" >
+			<v>0.0,0.0</v>
+			<v>1.0,0.0</v>
+			<v>1.0,46.0</v>
+			<v>0.0,46.0</v>
+		</platform>
+		<wall position="6.5,0" texture="asphalt,0" layer="3" >
+			<v>0.0,0.0</v>
+			<v>0.0,48.0</v>
+			<v>43.5,48.0</v>
+			<v>43.5,0.0</v>
+		</wall>
+	</chunk>
+	<sound position="16.5,45.1" volume="200" sound="TURBINA_04" min_distance="4" range="20" />/>
+	<sound position="25.5,45.1" volume="200" sound="TURBINA_05" min_distance="4" range="20" />/>
+	<sound position="34.5,45.1" volume="200" sound="TURBINA_06" min_distance="4" range="20" />/>
+	<chunk>
+		<moving_object position="9.5,45.1" texture="OBJSteam_Generator" height="2" layer="5" >
+			<move type="linear">
+				<p>-0.013,0.02,8.0</p>
+				<p>0.03,-0.001,8.0</p>
+				<p>-0.0,-0.038,8.0</p>
+				<p>-0.03,-0.001,8.0</p>
+				<p>0.013,0.02,8.0</p>
+				<p>0.024,-0.026,8.0</p>
+				<p>-0.024,-0.026,8.0</p>
+			</move>
+		</moving_object>
+		<animated_moving_object position="11.5,45.6" texture="AOBRotating_Cylinder" height="1" layer="5" frame_time="0.469" >
+			<move type="linear">
+				<p>-0.013,0.02,8.0</p>
+				<p>0.03,-0.001,8.0</p>
+				<p>-0.0,-0.038,8.0</p>
+				<p>-0.03,-0.001,8.0</p>
+				<p>0.013,0.02,8.0</p>
+				<p>0.024,-0.026,8.0</p>
+				<p>-0.024,-0.026,8.0</p>
+			</move>
+		</animated_moving_object>
+		<moving_object position="12.5,43.1" texture="OBJSteam_Turbine" height="4" layer="5" >
+			<move type="linear">
+				<p>-0.013,0.02,8.0</p>
+				<p>0.03,-0.001,8.0</p>
+				<p>-0.0,-0.038,8.0</p>
+				<p>-0.03,-0.001,8.0</p>
+				<p>0.013,0.02,8.0</p>
+				<p>0.024,-0.026,8.0</p>
+				<p>-0.024,-0.026,8.0</p>
+			</move>
+		</moving_object>
+		<animated_moving_object position="20.5,45.6" texture="AOBRotating_Cylinder" height="1" layer="5" frame_time="0.234" >
+			<move type="linear">
+				<p>-0.013,0.02,8.0</p>
+				<p>0.03,-0.001,8.0</p>
+				<p>-0.0,-0.038,8.0</p>
+				<p>-0.03,-0.001,8.0</p>
+				<p>0.013,0.02,8.0</p>
+				<p>0.024,-0.026,8.0</p>
+				<p>-0.024,-0.026,8.0</p>
+			</move>
+		</animated_moving_object>
+		<moving_object position="21.5,43.1" texture="OBJSteam_Turbine" height="4" layer="5" >
+			<move type="linear">
+				<p>-0.013,0.02,8.0</p>
+				<p>0.03,-0.001,8.0</p>
+				<p>-0.0,-0.038,8.0</p>
+				<p>-0.03,-0.001,8.0</p>
+				<p>0.013,0.02,8.0</p>
+				<p>0.024,-0.026,8.0</p>
+				<p>-0.024,-0.026,8.0</p>
+			</move>
+		</moving_object>
+		<animated_moving_object position="29.5,45.6" texture="AOBRotating_Cylinder" height="1" layer="5" frame_time="0.117" >
+			<move type="linear">
+				<p>-0.013,0.02,8.0</p>
+				<p>0.03,-0.001,8.0</p>
+				<p>-0.0,-0.038,8.0</p>
+				<p>-0.03,-0.001,8.0</p>
+				<p>0.013,0.02,8.0</p>
+				<p>0.024,-0.026,8.0</p>
+				<p>-0.024,-0.026,8.0</p>
+			</move>
+		</animated_moving_object>
+		<moving_object position="30.5,43.1" texture="OBJSteam_Turbine" height="4" layer="5" >
+			<move type="linear">
+				<p>-0.013,0.02,8.0</p>
+				<p>0.03,-0.001,8.0</p>
+				<p>-0.0,-0.038,8.0</p>
+				<p>-0.03,-0.001,8.0</p>
+				<p>0.013,0.02,8.0</p>
+				<p>0.024,-0.026,8.0</p>
+				<p>-0.024,-0.026,8.0</p>
+			</move>
+		</moving_object>
+	</chunk>
+	<chunk>
+		<platform position="41.5,39.5" texture="bricks,0" layer="8" >
+			<v>0.0,0.0</v>
+			<v>1.0,0.0</v>
+			<v>1.0,1.0</v>
+			<v>0.0,1.0</v>
+		</platform>
+		<platform position="48,39.5" texture="bricks,0" layer="8" >
+			<v>0.0,0.0</v>
+			<v>1.0,0.0</v>
+			<v>1.0,1.0</v>
+			<v>0.0,1.0</v>
+		</platform>
+		<platform position="48,46" texture="bricks,0" layer="8" >
+			<v>0.0,0.0</v>
+			<v>1.0,0.0</v>
+			<v>1.0,1.0</v>
+			<v>0.0,1.0</v>
+		</platform>
+		<platform position="41.5,46" texture="bricks,0" layer="8" >
+			<v>0.0,0.0</v>
+			<v>1.0,0.0</v>
+			<v>1.0,1.0</v>
+			<v>0.0,1.0</v>
+		</platform>
+		<platform position="42.5,39.5" texture="bricks,0" layer="8" >
+			<v>0.0,0.0</v>
+			<v>5.5,0.0</v>
+			<v>5.5,1.0</v>
+			<v>0.0,1.0</v>
+		</platform>
+		<platform position="42.5,46" texture="bricks,0" layer="8" >
+			<v>0.0,0.0</v>
+			<v>5.5,0.0</v>
+			<v>5.5,1.0</v>
+			<v>0.0,1.0</v>
+		</platform>
+		<platform position="41.5,40.5" texture="bricks,0" layer="8" >
+			<v>0.0,0.0</v>
+			<v>1.0,0.0</v>
+			<v>1.0,3.5</v>
+			<v>0.0,3.5</v>
+		</platform>
+		<platform position="41.5,46" texture="bricks,0" layer="8" >
+			<v>0.0,0.0</v>
+			<v>1.0,0.0</v>
+			<v>1.0,0.0</v>
+			<v>0.0,0.0</v>
+		</platform>
+		<platform position="48,40.5" texture="bricks,0" layer="8" >
+			<v>0.0,0.0</v>
+			<v>1.0,0.0</v>
+			<v>1.0,5.5</v>
+			<v>0.0,5.5</v>
+		</platform>
+	</chunk>
+	<chunk>
+		<barrier position="41.5,47" >
+			<v>0.0,0.0</v>
+			<v>-1.5,0.0</v>
+			<v>-0.5,-1.0</v>
+			<v>0.0,-1.0</v>
+		</barrier>
+		<platform position="41.5,47" texture="bricks,0" one_sided="true" >
+			<v>0.0,-0.0</v>
+			<v>-1.5,-0.0</v>
+			<v>-1.5,-0.333</v>
+			<v>0.0,-0.333</v>
+		</platform>
+		<platform position="41.5,47" texture="bricks,0" one_sided="true" >
+			<v>0.0,-0.333</v>
+			<v>-1.167,-0.333</v>
+			<v>-1.167,-0.667</v>
+			<v>0.0,-0.667</v>
+		</platform>
+		<platform position="41.5,47" texture="bricks,0" one_sided="true" >
+			<v>0.0,-0.667</v>
+			<v>-0.833,-0.667</v>
+			<v>-0.833,-1.0</v>
+			<v>0.0,-1.0</v>
+		</platform>
+	</chunk>
+	<chunk>
+		<wall position="14.5,40.5" texture="TEXVent_pipe" layer="4" >
+			<vt>-0.4,0.0,64.0,464.657</vt>
+			<vt>-0.4,6.5,64.0,984.657</vt>
+			<vt>0.4,6.5,0.0,984.657</vt>
+			<vt>0.4,0.0,0.0,464.657</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="18.5,40.5" texture="TEXVent_pipe" layer="4" >
+			<vt>-0.4,0.0,64.0,841.781</vt>
+			<vt>-0.4,6.5,64.0,1361.781</vt>
+			<vt>0.4,6.5,0.0,1361.781</vt>
+			<vt>0.4,0.0,0.0,841.781</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="23.5,40.5" texture="TEXVent_pipe" layer="4" >
+			<vt>-0.4,0.0,64.0,565.423</vt>
+			<vt>-0.4,6.5,64.0,1085.423</vt>
+			<vt>0.4,6.5,0.0,1085.423</vt>
+			<vt>0.4,0.0,0.0,565.423</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="27.5,40.5" texture="TEXVent_pipe" layer="4" >
+			<vt>-0.4,0.0,64.0,107.633</vt>
+			<vt>-0.4,6.5,64.0,627.633</vt>
+			<vt>0.4,6.5,0.0,627.633</vt>
+			<vt>0.4,0.0,0.0,107.633</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="32.5,40.5" texture="TEXVent_pipe" layer="4" >
+			<vt>-0.4,0.0,64.0,998.378</vt>
+			<vt>-0.4,6.5,64.0,1518.378</vt>
+			<vt>0.4,6.5,0.0,1518.378</vt>
+			<vt>0.4,0.0,0.0,998.378</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="36.5,40.5" texture="TEXVent_pipe" layer="4" >
+			<vt>-0.4,0.0,64.0,942.34</vt>
+			<vt>-0.4,6.5,64.0,1462.34</vt>
+			<vt>0.4,6.5,0.0,1462.34</vt>
+			<vt>0.4,0.0,0.0,942.34</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="8,40.5" texture="TEXSteel_stick_rusted" layer="7" >
+			<vt>-0.175,0.0,64.0,832.159</vt>
+			<vt>-0.175,1.428,64.0,1119.7</vt>
+			<vt>0.175,1.572,0.0,1119.7</vt>
+			<vt>0.175,0.0,0.0,832.159</vt>
+		</wall>
+		<wall position="8,40.5" texture="TEXSteel_stick_rusted" layer="7" >
+			<vt>-0.175,1.428,64.0,1119.7</vt>
+			<vt>-1.124,2.376,64.0,1391.554</vt>
+			<vt>-0.876,2.624,0.0,1391.554</vt>
+			<vt>0.175,1.572,0.0,1119.7</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="12,40.5" texture="TEXSteel_stick_rusted" layer="8" >
+			<vt>-0.175,0.0,64.0,416.758</vt>
+			<vt>-0.175,6.5,64.0,1605.329</vt>
+			<vt>0.175,6.5,0.0,1605.329</vt>
+			<vt>0.175,0.0,0.0,416.758</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="21,40.5" texture="TEXSteel_stick_rusted" layer="8" >
+			<vt>-0.175,0.0,64.0,644.428</vt>
+			<vt>-0.175,6.5,64.0,1833.0</vt>
+			<vt>0.175,6.5,0.0,1833.0</vt>
+			<vt>0.175,0.0,0.0,644.428</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="30,40.5" texture="TEXSteel_stick_rusted" layer="8" >
+			<vt>-0.175,0.0,64.0,163.194</vt>
+			<vt>-0.175,6.5,64.0,1351.766</vt>
+			<vt>0.175,6.5,0.0,1351.766</vt>
+			<vt>0.175,0.0,0.0,163.194</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="39,40.5" texture="TEXSteel_stick_rusted" layer="8" >
+			<vt>-0.175,0.0,64.0,345.734</vt>
+			<vt>-0.175,6.5,64.0,1534.306</vt>
+			<vt>0.175,6.5,0.0,1534.306</vt>
+			<vt>0.175,0.0,0.0,345.734</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="12.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>-0.521,-0.479,32.0,973.187</vt>
+			<vt>-0.017,0.026,32.0,1353.595</vt>
+			<vt>0.017,-0.026,0.0,1353.595</vt>
+			<vt>-0.479,-0.521,0.0,973.187</vt>
+		</wall>
+		<wall position="12.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>-0.017,0.026,32.0,1353.595</vt>
+			<vt>0.491,0.229,32.0,1645.098</vt>
+			<vt>0.509,0.171,0.0,1645.098</vt>
+			<vt>0.017,-0.026,0.0,1353.595</vt>
+		</wall>
+		<wall position="12.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>0.491,0.229,32.0,1645.098</vt>
+			<vt>0.994,0.359,32.0,1922.565</vt>
+			<vt>1.006,0.301,0.0,1922.565</vt>
+			<vt>0.509,0.171,0.0,1645.098</vt>
+		</wall>
+		<wall position="12.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>0.994,0.359,32.0,1922.565</vt>
+			<vt>1.5,0.43,32.0,2194.995</vt>
+			<vt>1.5,0.37,0.0,2194.995</vt>
+			<vt>1.006,0.301,0.0,1922.565</vt>
+		</wall>
+		<wall position="12.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>1.5,0.43,32.0,2194.995</vt>
+			<vt>2.006,0.359,32.0,2467.426</vt>
+			<vt>1.994,0.301,0.0,2467.426</vt>
+			<vt>1.5,0.37,0.0,2194.995</vt>
+		</wall>
+		<wall position="12.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>2.006,0.359,32.0,2467.426</vt>
+			<vt>2.509,0.229,32.0,2744.892</vt>
+			<vt>2.491,0.171,0.0,2744.892</vt>
+			<vt>1.994,0.301,0.0,2467.426</vt>
+		</wall>
+		<wall position="12.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>2.509,0.229,32.0,2744.892</vt>
+			<vt>3.017,0.026,32.0,3036.395</vt>
+			<vt>2.983,-0.026,0.0,3036.395</vt>
+			<vt>2.491,0.171,0.0,2744.892</vt>
+		</wall>
+		<wall position="12.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>3.017,0.026,32.0,3036.395</vt>
+			<vt>3.521,-0.479,32.0,3416.803</vt>
+			<vt>3.479,-0.521,0.0,3416.803</vt>
+			<vt>2.983,-0.026,0.0,3036.395</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="12.5,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>-0.535,-0.465,32.0,90.006</vt>
+			<vt>-0.031,0.04,32.0,318.422</vt>
+			<vt>0.031,-0.04,0.0,318.422</vt>
+			<vt>-0.465,-0.535,0.0,90.006</vt>
+		</wall>
+		<wall position="12.5,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>-0.031,0.04,32.0,318.422</vt>
+			<vt>0.68,0.446,32.0,580.494</vt>
+			<vt>0.72,0.354,0.0,580.494</vt>
+			<vt>0.031,-0.04,0.0,318.422</vt>
+		</wall>
+		<wall position="12.5,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>0.68,0.446,32.0,580.494</vt>
+			<vt>1.39,0.649,32.0,816.486</vt>
+			<vt>1.41,0.551,0.0,816.486</vt>
+			<vt>0.72,0.354,0.0,580.494</vt>
+		</wall>
+		<wall position="12.5,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>1.39,0.649,32.0,816.486</vt>
+			<vt>2.1,0.751,32.0,1046.139</vt>
+			<vt>2.1,0.649,0.0,1046.139</vt>
+			<vt>1.41,0.551,0.0,816.486</vt>
+		</wall>
+		<wall position="12.5,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>2.1,0.751,32.0,1046.139</vt>
+			<vt>2.81,0.649,32.0,1275.792</vt>
+			<vt>2.79,0.551,0.0,1275.792</vt>
+			<vt>2.1,0.649,0.0,1046.139</vt>
+		</wall>
+		<wall position="12.5,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>2.81,0.649,32.0,1275.792</vt>
+			<vt>3.52,0.446,32.0,1511.784</vt>
+			<vt>3.48,0.354,0.0,1511.784</vt>
+			<vt>2.79,0.551,0.0,1275.792</vt>
+		</wall>
+		<wall position="12.5,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>3.52,0.446,32.0,1511.784</vt>
+			<vt>4.231,0.04,32.0,1773.855</vt>
+			<vt>4.169,-0.04,0.0,1773.855</vt>
+			<vt>3.48,0.354,0.0,1511.784</vt>
+		</wall>
+		<wall position="12.5,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>4.231,0.04,32.0,1773.855</vt>
+			<vt>4.735,-0.465,32.0,2002.272</vt>
+			<vt>4.665,-0.535,0.0,2002.272</vt>
+			<vt>4.169,-0.04,0.0,1773.855</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="16.7,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>-0.535,-0.465,32.0,949.431</vt>
+			<vt>-0.031,0.04,32.0,1177.848</vt>
+			<vt>0.031,-0.04,0.0,1177.848</vt>
+			<vt>-0.465,-0.535,0.0,949.431</vt>
+		</wall>
+		<wall position="16.7,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>-0.031,0.04,32.0,1177.848</vt>
+			<vt>0.68,0.446,32.0,1439.919</vt>
+			<vt>0.72,0.354,0.0,1439.919</vt>
+			<vt>0.031,-0.04,0.0,1177.848</vt>
+		</wall>
+		<wall position="16.7,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>0.68,0.446,32.0,1439.919</vt>
+			<vt>1.39,0.649,32.0,1675.911</vt>
+			<vt>1.41,0.551,0.0,1675.911</vt>
+			<vt>0.72,0.354,0.0,1439.919</vt>
+		</wall>
+		<wall position="16.7,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>1.39,0.649,32.0,1675.911</vt>
+			<vt>2.1,0.751,32.0,1905.564</vt>
+			<vt>2.1,0.649,0.0,1905.564</vt>
+			<vt>1.41,0.551,0.0,1675.911</vt>
+		</wall>
+		<wall position="16.7,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>2.1,0.751,32.0,1905.564</vt>
+			<vt>2.81,0.649,32.0,2135.217</vt>
+			<vt>2.79,0.551,0.0,2135.217</vt>
+			<vt>2.1,0.649,0.0,1905.564</vt>
+		</wall>
+		<wall position="16.7,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>2.81,0.649,32.0,2135.217</vt>
+			<vt>3.52,0.446,32.0,2371.21</vt>
+			<vt>3.48,0.354,0.0,2371.21</vt>
+			<vt>2.79,0.551,0.0,2135.217</vt>
+		</wall>
+		<wall position="16.7,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>3.52,0.446,32.0,2371.21</vt>
+			<vt>4.231,0.04,32.0,2633.281</vt>
+			<vt>4.169,-0.04,0.0,2633.281</vt>
+			<vt>3.48,0.354,0.0,2371.21</vt>
+		</wall>
+		<wall position="16.7,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>4.231,0.04,32.0,2633.281</vt>
+			<vt>4.735,-0.465,32.0,2861.697</vt>
+			<vt>4.665,-0.535,0.0,2861.697</vt>
+			<vt>4.169,-0.04,0.0,2633.281</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="15.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>-0.521,-0.479,32.0,128.66</vt>
+			<vt>-0.017,0.026,32.0,509.068</vt>
+			<vt>0.017,-0.026,0.0,509.068</vt>
+			<vt>-0.479,-0.521,0.0,128.66</vt>
+		</wall>
+		<wall position="15.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>-0.017,0.026,32.0,509.068</vt>
+			<vt>0.491,0.229,32.0,800.572</vt>
+			<vt>0.509,0.171,0.0,800.572</vt>
+			<vt>0.017,-0.026,0.0,509.068</vt>
+		</wall>
+		<wall position="15.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>0.491,0.229,32.0,800.572</vt>
+			<vt>0.994,0.359,32.0,1078.038</vt>
+			<vt>1.006,0.301,0.0,1078.038</vt>
+			<vt>0.509,0.171,0.0,800.572</vt>
+		</wall>
+		<wall position="15.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>0.994,0.359,32.0,1078.038</vt>
+			<vt>1.5,0.43,32.0,1350.468</vt>
+			<vt>1.5,0.37,0.0,1350.468</vt>
+			<vt>1.006,0.301,0.0,1078.038</vt>
+		</wall>
+		<wall position="15.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>1.5,0.43,32.0,1350.468</vt>
+			<vt>2.006,0.359,32.0,1622.899</vt>
+			<vt>1.994,0.301,0.0,1622.899</vt>
+			<vt>1.5,0.37,0.0,1350.468</vt>
+		</wall>
+		<wall position="15.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>2.006,0.359,32.0,1622.899</vt>
+			<vt>2.509,0.229,32.0,1900.365</vt>
+			<vt>2.491,0.171,0.0,1900.365</vt>
+			<vt>1.994,0.301,0.0,1622.899</vt>
+		</wall>
+		<wall position="15.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>2.509,0.229,32.0,1900.365</vt>
+			<vt>3.017,0.026,32.0,2191.868</vt>
+			<vt>2.983,-0.026,0.0,2191.868</vt>
+			<vt>2.491,0.171,0.0,1900.365</vt>
+		</wall>
+		<wall position="15.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>3.017,0.026,32.0,2191.868</vt>
+			<vt>3.521,-0.479,32.0,2572.276</vt>
+			<vt>3.479,-0.521,0.0,2572.276</vt>
+			<vt>2.983,-0.026,0.0,2191.868</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="18.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>-0.521,-0.479,32.0,93.87</vt>
+			<vt>-0.017,0.026,32.0,474.278</vt>
+			<vt>0.017,-0.026,0.0,474.278</vt>
+			<vt>-0.479,-0.521,0.0,93.87</vt>
+		</wall>
+		<wall position="18.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>-0.017,0.026,32.0,474.278</vt>
+			<vt>0.491,0.229,32.0,765.782</vt>
+			<vt>0.509,0.171,0.0,765.782</vt>
+			<vt>0.017,-0.026,0.0,474.278</vt>
+		</wall>
+		<wall position="18.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>0.491,0.229,32.0,765.782</vt>
+			<vt>0.994,0.359,32.0,1043.248</vt>
+			<vt>1.006,0.301,0.0,1043.248</vt>
+			<vt>0.509,0.171,0.0,765.782</vt>
+		</wall>
+		<wall position="18.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>0.994,0.359,32.0,1043.248</vt>
+			<vt>1.5,0.43,32.0,1315.678</vt>
+			<vt>1.5,0.37,0.0,1315.678</vt>
+			<vt>1.006,0.301,0.0,1043.248</vt>
+		</wall>
+		<wall position="18.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>1.5,0.43,32.0,1315.678</vt>
+			<vt>2.006,0.359,32.0,1588.109</vt>
+			<vt>1.994,0.301,0.0,1588.109</vt>
+			<vt>1.5,0.37,0.0,1315.678</vt>
+		</wall>
+		<wall position="18.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>2.006,0.359,32.0,1588.109</vt>
+			<vt>2.509,0.229,32.0,1865.575</vt>
+			<vt>2.491,0.171,0.0,1865.575</vt>
+			<vt>1.994,0.301,0.0,1588.109</vt>
+		</wall>
+		<wall position="18.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>2.509,0.229,32.0,1865.575</vt>
+			<vt>3.017,0.026,32.0,2157.078</vt>
+			<vt>2.983,-0.026,0.0,2157.078</vt>
+			<vt>2.491,0.171,0.0,1865.575</vt>
+		</wall>
+		<wall position="18.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>3.017,0.026,32.0,2157.078</vt>
+			<vt>3.521,-0.479,32.0,2537.486</vt>
+			<vt>3.479,-0.521,0.0,2537.486</vt>
+			<vt>2.983,-0.026,0.0,2157.078</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="21.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>-0.521,-0.479,32.0,321.031</vt>
+			<vt>-0.017,0.026,32.0,701.438</vt>
+			<vt>0.017,-0.026,0.0,701.438</vt>
+			<vt>-0.479,-0.521,0.0,321.031</vt>
+		</wall>
+		<wall position="21.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>-0.017,0.026,32.0,701.438</vt>
+			<vt>0.491,0.229,32.0,992.942</vt>
+			<vt>0.509,0.171,0.0,992.942</vt>
+			<vt>0.017,-0.026,0.0,701.438</vt>
+		</wall>
+		<wall position="21.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>0.491,0.229,32.0,992.942</vt>
+			<vt>0.994,0.359,32.0,1270.408</vt>
+			<vt>1.006,0.301,0.0,1270.408</vt>
+			<vt>0.509,0.171,0.0,992.942</vt>
+		</wall>
+		<wall position="21.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>0.994,0.359,32.0,1270.408</vt>
+			<vt>1.5,0.43,32.0,1542.839</vt>
+			<vt>1.5,0.37,0.0,1542.839</vt>
+			<vt>1.006,0.301,0.0,1270.408</vt>
+		</wall>
+		<wall position="21.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>1.5,0.43,32.0,1542.839</vt>
+			<vt>2.006,0.359,32.0,1815.269</vt>
+			<vt>1.994,0.301,0.0,1815.269</vt>
+			<vt>1.5,0.37,0.0,1542.839</vt>
+		</wall>
+		<wall position="21.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>2.006,0.359,32.0,1815.269</vt>
+			<vt>2.509,0.229,32.0,2092.735</vt>
+			<vt>2.491,0.171,0.0,2092.735</vt>
+			<vt>1.994,0.301,0.0,1815.269</vt>
+		</wall>
+		<wall position="21.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>2.509,0.229,32.0,2092.735</vt>
+			<vt>3.017,0.026,32.0,2384.239</vt>
+			<vt>2.983,-0.026,0.0,2384.239</vt>
+			<vt>2.491,0.171,0.0,2092.735</vt>
+		</wall>
+		<wall position="21.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>3.017,0.026,32.0,2384.239</vt>
+			<vt>3.521,-0.479,32.0,2764.647</vt>
+			<vt>3.479,-0.521,0.0,2764.647</vt>
+			<vt>2.983,-0.026,0.0,2384.239</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="24.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>-0.521,-0.479,32.0,255.981</vt>
+			<vt>-0.017,0.026,32.0,636.389</vt>
+			<vt>0.017,-0.026,0.0,636.389</vt>
+			<vt>-0.479,-0.521,0.0,255.981</vt>
+		</wall>
+		<wall position="24.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>-0.017,0.026,32.0,636.389</vt>
+			<vt>0.491,0.229,32.0,927.892</vt>
+			<vt>0.509,0.171,0.0,927.892</vt>
+			<vt>0.017,-0.026,0.0,636.389</vt>
+		</wall>
+		<wall position="24.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>0.491,0.229,32.0,927.892</vt>
+			<vt>0.994,0.359,32.0,1205.358</vt>
+			<vt>1.006,0.301,0.0,1205.358</vt>
+			<vt>0.509,0.171,0.0,927.892</vt>
+		</wall>
+		<wall position="24.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>0.994,0.359,32.0,1205.358</vt>
+			<vt>1.5,0.43,32.0,1477.789</vt>
+			<vt>1.5,0.37,0.0,1477.789</vt>
+			<vt>1.006,0.301,0.0,1205.358</vt>
+		</wall>
+		<wall position="24.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>1.5,0.43,32.0,1477.789</vt>
+			<vt>2.006,0.359,32.0,1750.219</vt>
+			<vt>1.994,0.301,0.0,1750.219</vt>
+			<vt>1.5,0.37,0.0,1477.789</vt>
+		</wall>
+		<wall position="24.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>2.006,0.359,32.0,1750.219</vt>
+			<vt>2.509,0.229,32.0,2027.686</vt>
+			<vt>2.491,0.171,0.0,2027.686</vt>
+			<vt>1.994,0.301,0.0,1750.219</vt>
+		</wall>
+		<wall position="24.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>2.509,0.229,32.0,2027.686</vt>
+			<vt>3.017,0.026,32.0,2319.189</vt>
+			<vt>2.983,-0.026,0.0,2319.189</vt>
+			<vt>2.491,0.171,0.0,2027.686</vt>
+		</wall>
+		<wall position="24.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>3.017,0.026,32.0,2319.189</vt>
+			<vt>3.521,-0.479,32.0,2699.597</vt>
+			<vt>3.479,-0.521,0.0,2699.597</vt>
+			<vt>2.983,-0.026,0.0,2319.189</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="20.9,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>-0.535,-0.465,32.0,727.753</vt>
+			<vt>-0.031,0.04,32.0,956.17</vt>
+			<vt>0.031,-0.04,0.0,956.17</vt>
+			<vt>-0.465,-0.535,0.0,727.753</vt>
+		</wall>
+		<wall position="20.9,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>-0.031,0.04,32.0,956.17</vt>
+			<vt>0.68,0.446,32.0,1218.241</vt>
+			<vt>0.72,0.354,0.0,1218.241</vt>
+			<vt>0.031,-0.04,0.0,956.17</vt>
+		</wall>
+		<wall position="20.9,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>0.68,0.446,32.0,1218.241</vt>
+			<vt>1.39,0.649,32.0,1454.234</vt>
+			<vt>1.41,0.551,0.0,1454.234</vt>
+			<vt>0.72,0.354,0.0,1218.241</vt>
+		</wall>
+		<wall position="20.9,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>1.39,0.649,32.0,1454.234</vt>
+			<vt>2.1,0.751,32.0,1683.886</vt>
+			<vt>2.1,0.649,0.0,1683.886</vt>
+			<vt>1.41,0.551,0.0,1454.234</vt>
+		</wall>
+		<wall position="20.9,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>2.1,0.751,32.0,1683.886</vt>
+			<vt>2.81,0.649,32.0,1913.539</vt>
+			<vt>2.79,0.551,0.0,1913.539</vt>
+			<vt>2.1,0.649,0.0,1683.886</vt>
+		</wall>
+		<wall position="20.9,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>2.81,0.649,32.0,1913.539</vt>
+			<vt>3.52,0.446,32.0,2149.532</vt>
+			<vt>3.48,0.354,0.0,2149.532</vt>
+			<vt>2.79,0.551,0.0,1913.539</vt>
+		</wall>
+		<wall position="20.9,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>3.52,0.446,32.0,2149.532</vt>
+			<vt>4.231,0.04,32.0,2411.603</vt>
+			<vt>4.169,-0.04,0.0,2411.603</vt>
+			<vt>3.48,0.354,0.0,2149.532</vt>
+		</wall>
+		<wall position="20.9,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>4.231,0.04,32.0,2411.603</vt>
+			<vt>4.735,-0.465,32.0,2640.02</vt>
+			<vt>4.665,-0.535,0.0,2640.02</vt>
+			<vt>4.169,-0.04,0.0,2411.603</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="25.1,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>-0.535,-0.465,32.0,307.351</vt>
+			<vt>-0.028,0.043,32.0,536.909</vt>
+			<vt>0.028,-0.043,0.0,536.909</vt>
+			<vt>-0.465,-0.535,0.0,307.351</vt>
+		</wall>
+		<wall position="25.1,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>-0.028,0.043,32.0,536.909</vt>
+			<vt>0.484,0.248,32.0,713.529</vt>
+			<vt>0.516,0.152,0.0,713.529</vt>
+			<vt>0.028,-0.043,0.0,536.909</vt>
+		</wall>
+		<wall position="25.1,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>0.484,0.248,32.0,713.529</vt>
+			<vt>0.99,0.379,32.0,880.782</vt>
+			<vt>1.01,0.281,0.0,880.782</vt>
+			<vt>0.516,0.152,0.0,713.529</vt>
+		</wall>
+		<wall position="25.1,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>0.99,0.379,32.0,880.782</vt>
+			<vt>1.5,0.45,32.0,1045.506</vt>
+			<vt>1.5,0.35,0.0,1045.506</vt>
+			<vt>1.01,0.281,0.0,880.782</vt>
+		</wall>
+		<wall position="25.1,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>1.5,0.45,32.0,1045.506</vt>
+			<vt>2.01,0.379,32.0,1210.229</vt>
+			<vt>1.99,0.281,0.0,1210.229</vt>
+			<vt>1.5,0.35,0.0,1045.506</vt>
+		</wall>
+		<wall position="25.1,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>2.01,0.379,32.0,1210.229</vt>
+			<vt>2.516,0.248,32.0,1377.482</vt>
+			<vt>2.484,0.152,0.0,1377.482</vt>
+			<vt>1.99,0.281,0.0,1210.229</vt>
+		</wall>
+		<wall position="25.1,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>2.516,0.248,32.0,1377.482</vt>
+			<vt>3.028,0.043,32.0,1554.102</vt>
+			<vt>2.972,-0.043,0.0,1554.102</vt>
+			<vt>2.484,0.152,0.0,1377.482</vt>
+		</wall>
+		<wall position="25.1,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>3.028,0.043,32.0,1554.102</vt>
+			<vt>3.535,-0.465,32.0,1783.661</vt>
+			<vt>3.465,-0.535,0.0,1783.661</vt>
+			<vt>2.972,-0.043,0.0,1554.102</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="28.1,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>-0.535,-0.465,32.0,456.303</vt>
+			<vt>-0.031,0.04,32.0,684.72</vt>
+			<vt>0.031,-0.04,0.0,684.72</vt>
+			<vt>-0.465,-0.535,0.0,456.303</vt>
+		</wall>
+		<wall position="28.1,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>-0.031,0.04,32.0,684.72</vt>
+			<vt>0.68,0.446,32.0,946.791</vt>
+			<vt>0.72,0.354,0.0,946.791</vt>
+			<vt>0.031,-0.04,0.0,684.72</vt>
+		</wall>
+		<wall position="28.1,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>0.68,0.446,32.0,946.791</vt>
+			<vt>1.39,0.649,32.0,1182.783</vt>
+			<vt>1.41,0.551,0.0,1182.783</vt>
+			<vt>0.72,0.354,0.0,946.791</vt>
+		</wall>
+		<wall position="28.1,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>1.39,0.649,32.0,1182.783</vt>
+			<vt>2.1,0.751,32.0,1412.436</vt>
+			<vt>2.1,0.649,0.0,1412.436</vt>
+			<vt>1.41,0.551,0.0,1182.783</vt>
+		</wall>
+		<wall position="28.1,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>2.1,0.751,32.0,1412.436</vt>
+			<vt>2.81,0.649,32.0,1642.089</vt>
+			<vt>2.79,0.551,0.0,1642.089</vt>
+			<vt>2.1,0.649,0.0,1412.436</vt>
+		</wall>
+		<wall position="28.1,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>2.81,0.649,32.0,1642.089</vt>
+			<vt>3.52,0.446,32.0,1878.082</vt>
+			<vt>3.48,0.354,0.0,1878.082</vt>
+			<vt>2.79,0.551,0.0,1642.089</vt>
+		</wall>
+		<wall position="28.1,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>3.52,0.446,32.0,1878.082</vt>
+			<vt>4.231,0.04,32.0,2140.153</vt>
+			<vt>4.169,-0.04,0.0,2140.153</vt>
+			<vt>3.48,0.354,0.0,1878.082</vt>
+		</wall>
+		<wall position="28.1,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>4.231,0.04,32.0,2140.153</vt>
+			<vt>4.735,-0.465,32.0,2368.57</vt>
+			<vt>4.665,-0.535,0.0,2368.57</vt>
+			<vt>4.169,-0.04,0.0,2140.153</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="27.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>-0.521,-0.479,32.0,127.68</vt>
+			<vt>-0.017,0.026,32.0,508.088</vt>
+			<vt>0.017,-0.026,0.0,508.088</vt>
+			<vt>-0.479,-0.521,0.0,127.68</vt>
+		</wall>
+		<wall position="27.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>-0.017,0.026,32.0,508.088</vt>
+			<vt>0.491,0.229,32.0,799.591</vt>
+			<vt>0.509,0.171,0.0,799.591</vt>
+			<vt>0.017,-0.026,0.0,508.088</vt>
+		</wall>
+		<wall position="27.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>0.491,0.229,32.0,799.591</vt>
+			<vt>0.994,0.359,32.0,1077.057</vt>
+			<vt>1.006,0.301,0.0,1077.057</vt>
+			<vt>0.509,0.171,0.0,799.591</vt>
+		</wall>
+		<wall position="27.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>0.994,0.359,32.0,1077.057</vt>
+			<vt>1.5,0.43,32.0,1349.488</vt>
+			<vt>1.5,0.37,0.0,1349.488</vt>
+			<vt>1.006,0.301,0.0,1077.057</vt>
+		</wall>
+		<wall position="27.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>1.5,0.43,32.0,1349.488</vt>
+			<vt>2.006,0.359,32.0,1621.918</vt>
+			<vt>1.994,0.301,0.0,1621.918</vt>
+			<vt>1.5,0.37,0.0,1349.488</vt>
+		</wall>
+		<wall position="27.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>2.006,0.359,32.0,1621.918</vt>
+			<vt>2.509,0.229,32.0,1899.385</vt>
+			<vt>2.491,0.171,0.0,1899.385</vt>
+			<vt>1.994,0.301,0.0,1621.918</vt>
+		</wall>
+		<wall position="27.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>2.509,0.229,32.0,1899.385</vt>
+			<vt>3.017,0.026,32.0,2190.888</vt>
+			<vt>2.983,-0.026,0.0,2190.888</vt>
+			<vt>2.491,0.171,0.0,1899.385</vt>
+		</wall>
+		<wall position="27.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>3.017,0.026,32.0,2190.888</vt>
+			<vt>3.521,-0.479,32.0,2571.296</vt>
+			<vt>3.479,-0.521,0.0,2571.296</vt>
+			<vt>2.983,-0.026,0.0,2190.888</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="30.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>-0.521,-0.479,32.0,632.281</vt>
+			<vt>-0.017,0.026,32.0,1012.689</vt>
+			<vt>0.017,-0.026,0.0,1012.689</vt>
+			<vt>-0.479,-0.521,0.0,632.281</vt>
+		</wall>
+		<wall position="30.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>-0.017,0.026,32.0,1012.689</vt>
+			<vt>0.491,0.229,32.0,1304.192</vt>
+			<vt>0.509,0.171,0.0,1304.192</vt>
+			<vt>0.017,-0.026,0.0,1012.689</vt>
+		</wall>
+		<wall position="30.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>0.491,0.229,32.0,1304.192</vt>
+			<vt>0.994,0.359,32.0,1581.659</vt>
+			<vt>1.006,0.301,0.0,1581.659</vt>
+			<vt>0.509,0.171,0.0,1304.192</vt>
+		</wall>
+		<wall position="30.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>0.994,0.359,32.0,1581.659</vt>
+			<vt>1.5,0.43,32.0,1854.089</vt>
+			<vt>1.5,0.37,0.0,1854.089</vt>
+			<vt>1.006,0.301,0.0,1581.659</vt>
+		</wall>
+		<wall position="30.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>1.5,0.43,32.0,1854.089</vt>
+			<vt>2.006,0.359,32.0,2126.52</vt>
+			<vt>1.994,0.301,0.0,2126.52</vt>
+			<vt>1.5,0.37,0.0,1854.089</vt>
+		</wall>
+		<wall position="30.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>2.006,0.359,32.0,2126.52</vt>
+			<vt>2.509,0.229,32.0,2403.986</vt>
+			<vt>2.491,0.171,0.0,2403.986</vt>
+			<vt>1.994,0.301,0.0,2126.52</vt>
+		</wall>
+		<wall position="30.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>2.509,0.229,32.0,2403.986</vt>
+			<vt>3.017,0.026,32.0,2695.489</vt>
+			<vt>2.983,-0.026,0.0,2695.489</vt>
+			<vt>2.491,0.171,0.0,2403.986</vt>
+		</wall>
+		<wall position="30.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>3.017,0.026,32.0,2695.489</vt>
+			<vt>3.521,-0.479,32.0,3075.897</vt>
+			<vt>3.479,-0.521,0.0,3075.897</vt>
+			<vt>2.983,-0.026,0.0,2695.489</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="33.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>-0.521,-0.479,32.0,484.075</vt>
+			<vt>-0.017,0.026,32.0,864.483</vt>
+			<vt>0.017,-0.026,0.0,864.483</vt>
+			<vt>-0.479,-0.521,0.0,484.075</vt>
+		</wall>
+		<wall position="33.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>-0.017,0.026,32.0,864.483</vt>
+			<vt>0.491,0.229,32.0,1155.986</vt>
+			<vt>0.509,0.171,0.0,1155.986</vt>
+			<vt>0.017,-0.026,0.0,864.483</vt>
+		</wall>
+		<wall position="33.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>0.491,0.229,32.0,1155.986</vt>
+			<vt>0.994,0.359,32.0,1433.453</vt>
+			<vt>1.006,0.301,0.0,1433.453</vt>
+			<vt>0.509,0.171,0.0,1155.986</vt>
+		</wall>
+		<wall position="33.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>0.994,0.359,32.0,1433.453</vt>
+			<vt>1.5,0.43,32.0,1705.883</vt>
+			<vt>1.5,0.37,0.0,1705.883</vt>
+			<vt>1.006,0.301,0.0,1433.453</vt>
+		</wall>
+		<wall position="33.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>1.5,0.43,32.0,1705.883</vt>
+			<vt>2.006,0.359,32.0,1978.314</vt>
+			<vt>1.994,0.301,0.0,1978.314</vt>
+			<vt>1.5,0.37,0.0,1705.883</vt>
+		</wall>
+		<wall position="33.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>2.006,0.359,32.0,1978.314</vt>
+			<vt>2.509,0.229,32.0,2255.78</vt>
+			<vt>2.491,0.171,0.0,2255.78</vt>
+			<vt>1.994,0.301,0.0,1978.314</vt>
+		</wall>
+		<wall position="33.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>2.509,0.229,32.0,2255.78</vt>
+			<vt>3.017,0.026,32.0,2547.283</vt>
+			<vt>2.983,-0.026,0.0,2547.283</vt>
+			<vt>2.491,0.171,0.0,2255.78</vt>
+		</wall>
+		<wall position="33.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>3.017,0.026,32.0,2547.283</vt>
+			<vt>3.521,-0.479,32.0,2927.691</vt>
+			<vt>3.479,-0.521,0.0,2927.691</vt>
+			<vt>2.983,-0.026,0.0,2547.283</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="32.3,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>-0.535,-0.465,32.0,87.547</vt>
+			<vt>-0.031,0.04,32.0,315.964</vt>
+			<vt>0.031,-0.04,0.0,315.964</vt>
+			<vt>-0.465,-0.535,0.0,87.547</vt>
+		</wall>
+		<wall position="32.3,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>-0.031,0.04,32.0,315.964</vt>
+			<vt>0.68,0.446,32.0,578.035</vt>
+			<vt>0.72,0.354,0.0,578.035</vt>
+			<vt>0.031,-0.04,0.0,315.964</vt>
+		</wall>
+		<wall position="32.3,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>0.68,0.446,32.0,578.035</vt>
+			<vt>1.39,0.649,32.0,814.028</vt>
+			<vt>1.41,0.551,0.0,814.028</vt>
+			<vt>0.72,0.354,0.0,578.035</vt>
+		</wall>
+		<wall position="32.3,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>1.39,0.649,32.0,814.028</vt>
+			<vt>2.1,0.751,32.0,1043.681</vt>
+			<vt>2.1,0.649,0.0,1043.681</vt>
+			<vt>1.41,0.551,0.0,814.028</vt>
+		</wall>
+		<wall position="32.3,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>2.1,0.751,32.0,1043.681</vt>
+			<vt>2.81,0.649,32.0,1273.333</vt>
+			<vt>2.79,0.551,0.0,1273.333</vt>
+			<vt>2.1,0.649,0.0,1043.681</vt>
+		</wall>
+		<wall position="32.3,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>2.81,0.649,32.0,1273.333</vt>
+			<vt>3.52,0.446,32.0,1509.326</vt>
+			<vt>3.48,0.354,0.0,1509.326</vt>
+			<vt>2.79,0.551,0.0,1273.333</vt>
+		</wall>
+		<wall position="32.3,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>3.52,0.446,32.0,1509.326</vt>
+			<vt>4.231,0.04,32.0,1771.397</vt>
+			<vt>4.169,-0.04,0.0,1771.397</vt>
+			<vt>3.48,0.354,0.0,1509.326</vt>
+		</wall>
+		<wall position="32.3,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>4.231,0.04,32.0,1771.397</vt>
+			<vt>4.735,-0.465,32.0,1999.814</vt>
+			<vt>4.665,-0.535,0.0,1999.814</vt>
+			<vt>4.169,-0.04,0.0,1771.397</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="36.5,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>-0.535,-0.465,32.0,499.332</vt>
+			<vt>-0.031,0.04,32.0,727.748</vt>
+			<vt>0.031,-0.04,0.0,727.748</vt>
+			<vt>-0.465,-0.535,0.0,499.332</vt>
+		</wall>
+		<wall position="36.5,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>-0.031,0.04,32.0,727.748</vt>
+			<vt>0.68,0.446,32.0,989.82</vt>
+			<vt>0.72,0.354,0.0,989.82</vt>
+			<vt>0.031,-0.04,0.0,727.748</vt>
+		</wall>
+		<wall position="36.5,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>0.68,0.446,32.0,989.82</vt>
+			<vt>1.39,0.649,32.0,1225.812</vt>
+			<vt>1.41,0.551,0.0,1225.812</vt>
+			<vt>0.72,0.354,0.0,989.82</vt>
+		</wall>
+		<wall position="36.5,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>1.39,0.649,32.0,1225.812</vt>
+			<vt>2.1,0.751,32.0,1455.465</vt>
+			<vt>2.1,0.649,0.0,1455.465</vt>
+			<vt>1.41,0.551,0.0,1225.812</vt>
+		</wall>
+		<wall position="36.5,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>2.1,0.751,32.0,1455.465</vt>
+			<vt>2.81,0.649,32.0,1685.118</vt>
+			<vt>2.79,0.551,0.0,1685.118</vt>
+			<vt>2.1,0.649,0.0,1455.465</vt>
+		</wall>
+		<wall position="36.5,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>2.81,0.649,32.0,1685.118</vt>
+			<vt>3.52,0.446,32.0,1921.11</vt>
+			<vt>3.48,0.354,0.0,1921.11</vt>
+			<vt>2.79,0.551,0.0,1685.118</vt>
+		</wall>
+		<wall position="36.5,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>3.52,0.446,32.0,1921.11</vt>
+			<vt>4.231,0.04,32.0,2183.181</vt>
+			<vt>4.169,-0.04,0.0,2183.181</vt>
+			<vt>3.48,0.354,0.0,1921.11</vt>
+		</wall>
+		<wall position="36.5,40.5" texture="TEXElectricity_cable_yellow" layer="7" >
+			<vt>4.231,0.04,32.0,2183.181</vt>
+			<vt>4.735,-0.465,32.0,2411.598</vt>
+			<vt>4.665,-0.535,0.0,2411.598</vt>
+			<vt>4.169,-0.04,0.0,2183.181</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="36.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>-0.521,-0.479,32.0,634.868</vt>
+			<vt>-0.017,0.026,32.0,1015.276</vt>
+			<vt>0.017,-0.026,0.0,1015.276</vt>
+			<vt>-0.479,-0.521,0.0,634.868</vt>
+		</wall>
+		<wall position="36.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>-0.017,0.026,32.0,1015.276</vt>
+			<vt>0.491,0.229,32.0,1306.78</vt>
+			<vt>0.509,0.171,0.0,1306.78</vt>
+			<vt>0.017,-0.026,0.0,1015.276</vt>
+		</wall>
+		<wall position="36.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>0.491,0.229,32.0,1306.78</vt>
+			<vt>0.994,0.359,32.0,1584.246</vt>
+			<vt>1.006,0.301,0.0,1584.246</vt>
+			<vt>0.509,0.171,0.0,1306.78</vt>
+		</wall>
+		<wall position="36.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>0.994,0.359,32.0,1584.246</vt>
+			<vt>1.5,0.43,32.0,1856.676</vt>
+			<vt>1.5,0.37,0.0,1856.676</vt>
+			<vt>1.006,0.301,0.0,1584.246</vt>
+		</wall>
+		<wall position="36.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>1.5,0.43,32.0,1856.676</vt>
+			<vt>2.006,0.359,32.0,2129.107</vt>
+			<vt>1.994,0.301,0.0,2129.107</vt>
+			<vt>1.5,0.37,0.0,1856.676</vt>
+		</wall>
+		<wall position="36.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>2.006,0.359,32.0,2129.107</vt>
+			<vt>2.509,0.229,32.0,2406.573</vt>
+			<vt>2.491,0.171,0.0,2406.573</vt>
+			<vt>1.994,0.301,0.0,2129.107</vt>
+		</wall>
+		<wall position="36.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>2.509,0.229,32.0,2406.573</vt>
+			<vt>3.017,0.026,32.0,2698.076</vt>
+			<vt>2.983,-0.026,0.0,2698.076</vt>
+			<vt>2.491,0.171,0.0,2406.573</vt>
+		</wall>
+		<wall position="36.5,40.5" texture="TEXElectricity_cable_red" layer="7" >
+			<vt>3.017,0.026,32.0,2698.076</vt>
+			<vt>3.521,-0.479,32.0,3078.484</vt>
+			<vt>3.479,-0.521,0.0,3078.484</vt>
+			<vt>2.983,-0.026,0.0,2698.076</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<object position="12.25,41" texture="krata0" height="1.5" layer="4" /></chunk>
+	<chunk>
+		<object position="19.25,41" texture="krata0" height="1.5" layer="4" /></chunk>
+	<chunk>
+		<object position="21.25,41" texture="krata0" height="1.5" layer="4" /></chunk>
+	<chunk>
+		<object position="28.25,41" texture="krata0" height="1.5" layer="4" /></chunk>
+	<chunk>
+		<object position="30.25,41" texture="krata0" height="1.5" layer="4" /></chunk>
+	<chunk>
+		<object position="37.25,41" texture="krata0" height="1.5" layer="4" /></chunk>
+	<sound position="16.5,40.875" sound="LAMPA_01" min_distance="1.5" range="20" />/>
+	<chunk>
+		<animated_object position="15,40.5" texture="AOBFluorescent_shining_instable" height="0.75" layer="4" /></chunk>
+	<sound position="21,40.875" sound="LAMPA_01" min_distance="1.5" range="20" />/>
+	<chunk>
+		<animated_object position="19.5,40.5" texture="AOBFluorescent_shining_instable" height="0.75" layer="4" /></chunk>
+	<sound position="25.5,40.875" sound="LAMPA_01" min_distance="1.5" range="20" />/>
+	<chunk>
+		<animated_object position="24,40.5" texture="AOBFluorescent_shining_instable" height="0.75" layer="4" /></chunk>
+	<sound position="30,40.875" sound="LAMPA_01" min_distance="1.5" range="20" />/>
+	<chunk>
+		<animated_object position="28.5,40.5" texture="AOBFluorescent_shining_instable" height="0.75" layer="4" /></chunk>
+	<sound position="34.5,40.875" sound="LAMPA_01" min_distance="1.5" range="20" />/>
+	<chunk>
+		<animated_object position="33,40.5" texture="AOBFluorescent_shining_instable" height="0.75" layer="4" /></chunk>
+	<chunk>
+		<wall position="42.5,30.5" texture="TEXVent_pipe" layer="7" >
+			<vt>-0.4,0.0,64.0,854.469</vt>
+			<vt>-0.4,8.666,64.0,1547.724</vt>
+			<vt>0.4,8.334,0.0,1547.724</vt>
+			<vt>0.4,0.0,0.0,854.469</vt>
+		</wall>
+		<wall position="42.5,30.5" texture="TEXVent_pipe" layer="7" >
+			<vt>-0.4,8.666,64.0,1547.724</vt>
+			<vt>0.334,9.4,64.0,1630.802</vt>
+			<vt>0.666,8.6,0.0,1630.802</vt>
+			<vt>0.4,8.334,0.0,1547.724</vt>
+		</wall>
+		<wall position="42.5,30.5" texture="TEXVent_pipe" layer="7" >
+			<vt>0.334,9.4,64.0,1630.802</vt>
+			<vt>2.834,9.4,64.0,1830.802</vt>
+			<vt>3.166,8.6,0.0,1830.802</vt>
+			<vt>0.666,8.6,0.0,1630.802</vt>
+		</wall>
+		<wall position="42.5,30.5" texture="TEXVent_pipe" layer="7" >
+			<vt>2.834,9.4,64.0,1830.802</vt>
+			<vt>3.1,9.666,64.0,1913.88</vt>
+			<vt>3.9,9.334,0.0,1913.88</vt>
+			<vt>3.166,8.6,0.0,1830.802</vt>
+		</wall>
+		<wall position="42.5,30.5" texture="TEXVent_pipe" layer="7" >
+			<vt>3.1,9.666,64.0,1913.88</vt>
+			<vt>3.1,10.083,64.0,1960.507</vt>
+			<vt>3.9,9.917,0.0,1960.507</vt>
+			<vt>3.9,9.334,0.0,1913.88</vt>
+		</wall>
+		<wall position="42.5,30.5" texture="TEXVent_pipe" layer="7" >
+			<vt>3.1,10.083,64.0,1960.507</vt>
+			<vt>3.1,10.594,64.0,2001.434</vt>
+			<vt>3.9,10.406,0.0,2001.434</vt>
+			<vt>3.9,9.917,0.0,1960.507</vt>
+		</wall>
+		<wall position="42.5,30.5" texture="TEXVent_pipe" layer="7" >
+			<vt>3.1,10.594,64.0,2001.434</vt>
+			<vt>3.702,11.798,64.0,2109.098</vt>
+			<vt>4.298,11.202,0.0,2109.098</vt>
+			<vt>3.9,10.406,0.0,2001.434</vt>
+		</wall>
+		<wall position="42.5,30.5" texture="TEXVent_pipe" layer="7" >
+			<vt>3.702,11.798,64.0,2109.098</vt>
+			<vt>4.906,12.4,64.0,2216.761</vt>
+			<vt>5.094,11.6,0.0,2216.761</vt>
+			<vt>4.298,11.202,0.0,2109.098</vt>
+		</wall>
+		<wall position="42.5,30.5" texture="TEXVent_pipe" layer="7" >
+			<vt>4.906,12.4,64.0,2216.761</vt>
+			<vt>5.5,12.4,64.0,2264.315</vt>
+			<vt>5.5,11.6,0.0,2264.315</vt>
+			<vt>5.094,11.6,0.0,2216.761</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<platform position="42.5,43" texture="bricks,0" layer="8" >
+			<v>0.0,0.0</v>
+			<v>0.0,1.0</v>
+			<v>1.5,1.0</v>
+			<v>1.5,0.0</v>
+		</platform>
+	</chunk>
+	<chunk>
+		<platform position="7.5,39.5" texture="panels,2" layer="8" >
+			<v>0.0,0.0</v>
+			<v>0.0,1.0</v>
+			<v>1.0,1.0</v>
+			<v>1.0,0.0</v>
+		</platform>
+	</chunk>
+	<chunk>
+		<platform position="11.5,39.5" texture="panels,1" layer="8" >
+			<v>0.0,0.0</v>
+			<v>0.0,1.0</v>
+			<v>30.0,1.0</v>
+			<v>30.0,0.0</v>
+		</platform>
+	</chunk>
+	<chunk>
+		<platform position="8,39.7" texture="panels,0" layer="7" >
+			<v>0.0,0.0</v>
+			<v>0.0,0.6</v>
+			<v>4.0,0.6</v>
+			<v>4.0,0.0</v>
+		</platform>
+	</chunk>
+	<chunk>
+		<wall position="8,36" texture="TEXSteel_stick_rusted" layer="8" >
+			<vt>-0.175,0.0,64.0,380.24</vt>
+			<vt>-0.175,3.5,64.0,1020.24</vt>
+			<vt>0.175,3.5,0.0,1020.24</vt>
+			<vt>0.175,0.0,0.0,380.24</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="12,36" texture="TEXSteel_stick_rusted" layer="8" >
+			<vt>-0.175,0.0,64.0,163.47</vt>
+			<vt>-0.175,3.5,64.0,803.47</vt>
+			<vt>0.175,3.5,0.0,803.47</vt>
+			<vt>0.175,0.0,0.0,163.47</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="21,36" texture="TEXSteel_stick_rusted" layer="8" >
+			<vt>-0.175,0.0,64.0,844.289</vt>
+			<vt>-0.175,3.5,64.0,1484.289</vt>
+			<vt>0.175,3.5,0.0,1484.289</vt>
+			<vt>0.175,0.0,0.0,844.289</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="30,36" texture="TEXSteel_stick_rusted" layer="8" >
+			<vt>-0.175,0.0,64.0,466.097</vt>
+			<vt>-0.175,3.5,64.0,1106.097</vt>
+			<vt>0.175,3.5,0.0,1106.097</vt>
+			<vt>0.175,0.0,0.0,466.097</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="39,36" texture="TEXSteel_stick_rusted" layer="8" >
+			<vt>-0.175,0.0,64.0,659.012</vt>
+			<vt>-0.175,3.5,64.0,1299.012</vt>
+			<vt>0.175,3.5,0.0,1299.012</vt>
+			<vt>0.175,0.0,0.0,659.012</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="14.5,36" texture="TEXVent_pipe" layer="5" >
+			<vt>-0.4,0.0,64.0,390.304</vt>
+			<vt>-0.4,3.5,64.0,670.304</vt>
+			<vt>0.4,3.5,0.0,670.304</vt>
+			<vt>0.4,0.0,0.0,390.304</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="18.5,36" texture="TEXVent_pipe" layer="5" >
+			<vt>-0.4,0.0,64.0,756.377</vt>
+			<vt>-0.4,3.5,64.0,1036.377</vt>
+			<vt>0.4,3.5,0.0,1036.377</vt>
+			<vt>0.4,0.0,0.0,756.377</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="23.5,36" texture="TEXVent_pipe" layer="5" >
+			<vt>-0.4,0.0,64.0,991.078</vt>
+			<vt>-0.4,3.5,64.0,1271.078</vt>
+			<vt>0.4,3.5,0.0,1271.078</vt>
+			<vt>0.4,0.0,0.0,991.078</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="27.5,36" texture="TEXVent_pipe" layer="5" >
+			<vt>-0.4,0.0,64.0,125.598</vt>
+			<vt>-0.4,3.5,64.0,405.598</vt>
+			<vt>0.4,3.5,0.0,405.598</vt>
+			<vt>0.4,0.0,0.0,125.598</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="32.5,36" texture="TEXVent_pipe" layer="5" >
+			<vt>-0.4,0.0,64.0,746.432</vt>
+			<vt>-0.4,3.5,64.0,1026.432</vt>
+			<vt>0.4,3.5,0.0,1026.432</vt>
+			<vt>0.4,0.0,0.0,746.432</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="36.5,36" texture="TEXVent_pipe" layer="5" >
+			<vt>-0.4,0.0,64.0,975.154</vt>
+			<vt>-0.4,3.5,64.0,1255.154</vt>
+			<vt>0.4,3.5,0.0,1255.154</vt>
+			<vt>0.4,0.0,0.0,975.154</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="12.5,36" texture="TEXElectricity_cable_yellow" layer="5" >
+			<vt>-0.05,0.0,32.0,213.989</vt>
+			<vt>-0.05,3.5,32.0,1333.989</vt>
+			<vt>0.05,3.5,0.0,1333.989</vt>
+			<vt>0.05,0.0,0.0,213.989</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="39.5,36" texture="TEXElectricity_cable_red" layer="6" >
+			<vt>-0.03,0.0,32.0,993.237</vt>
+			<vt>-0.03,3.5,32.0,2859.903</vt>
+			<vt>0.03,3.5,0.0,2859.903</vt>
+			<vt>0.03,0.0,0.0,993.237</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="40.7,36" texture="TEXElectricity_cable_yellow" layer="5" >
+			<vt>-0.05,0.0,32.0,606.072</vt>
+			<vt>-0.05,3.5,32.0,1726.072</vt>
+			<vt>0.05,3.5,0.0,1726.072</vt>
+			<vt>0.05,0.0,0.0,606.072</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<platform position="7.5,36.5" texture="TEXHydro_pipe_rusted" layer="9" one_sided="true" >
+			<vt>0.0,0.55,64.0,941.229</vt>
+			<vt>41.5,0.55,64.0,3355.774</vt>
+			<vt>41.5,-0.55,0.0,3355.774</vt>
+			<vt>0.0,-0.55,0.0,941.229</vt>
+		</platform>
+	</chunk>
+	<chunk>
+		<platform position="42,29" texture="TEXHydro_pipe_rusted" layer="9" one_sided="true" >
+			<vt>7.0,-0.55,64.0,372.011</vt>
+			<vt>2.911,-0.55,64.0,609.931</vt>
+			<vt>3.089,0.55,0.0,609.931</vt>
+			<vt>7.0,0.55,0.0,372.011</vt>
+		</platform>
+		<platform position="42,29" texture="TEXHydro_pipe_rusted" layer="9" one_sided="true" >
+			<vt>2.911,-0.55,64.0,609.931</vt>
+			<vt>1.203,0.019,64.0,714.671</vt>
+			<vt>1.797,0.981,0.0,714.671</vt>
+			<vt>3.089,0.55,0.0,609.931</vt>
+		</platform>
+		<platform position="42,29" texture="TEXHydro_pipe_rusted" layer="9" one_sided="true" >
+			<vt>1.203,0.019,64.0,714.671</vt>
+			<vt>0.657,0.565,64.0,759.589</vt>
+			<vt>1.343,1.435,0.0,759.589</vt>
+			<vt>1.797,0.981,0.0,714.671</vt>
+		</platform>
+		<platform position="42,29" texture="TEXHydro_pipe_rusted" layer="9" one_sided="true" >
+			<vt>0.657,0.565,64.0,759.589</vt>
+			<vt>0.019,1.203,64.0,812.061</vt>
+			<vt>0.981,1.797,0.0,812.061</vt>
+			<vt>1.343,1.435,0.0,759.589</vt>
+		</platform>
+		<platform position="42,29" texture="TEXHydro_pipe_rusted" layer="9" one_sided="true" >
+			<vt>0.019,1.203,64.0,812.061</vt>
+			<vt>-0.55,2.911,64.0,916.802</vt>
+			<vt>0.55,3.089,0.0,916.802</vt>
+			<vt>0.981,1.797,0.0,812.061</vt>
+		</platform>
+		<platform position="42,29" texture="TEXHydro_pipe_rusted" layer="9" one_sided="true" >
+			<vt>-0.55,2.911,64.0,916.802</vt>
+			<vt>-0.55,7.0,64.0,1154.722</vt>
+			<vt>0.55,7.0,0.0,1154.722</vt>
+			<vt>0.55,3.089,0.0,916.802</vt>
+		</platform>
+	</chunk>
+	<chunk>
+		<platform position="9.5,32.2" texture="TEXVent_pipe" layer="8" >
+			<vt>2.0,-0.4,64.0,13.828</vt>
+			<vt>0.834,-0.4,64.0,107.083</vt>
+			<vt>1.166,0.4,0.0,107.083</vt>
+			<vt>2.0,0.4,0.0,13.828</vt>
+		</platform>
+		<platform position="9.5,32.2" texture="TEXVent_pipe" layer="8" >
+			<vt>0.834,-0.4,64.0,107.083</vt>
+			<vt>-0.4,0.834,64.0,246.73</vt>
+			<vt>0.4,1.166,0.0,246.73</vt>
+			<vt>1.166,0.4,0.0,107.083</vt>
+		</platform>
+		<platform position="9.5,32.2" texture="TEXVent_pipe" layer="8" >
+			<vt>-0.4,0.834,64.0,246.73</vt>
+			<vt>-0.4,2.666,64.0,393.24</vt>
+			<vt>0.4,2.334,0.0,393.24</vt>
+			<vt>0.4,1.166,0.0,246.73</vt>
+		</platform>
+		<platform position="9.5,32.2" texture="TEXVent_pipe" layer="8" >
+			<vt>-0.4,2.666,64.0,393.24</vt>
+			<vt>0.834,3.9,64.0,532.886</vt>
+			<vt>1.166,3.1,0.0,532.886</vt>
+			<vt>0.4,2.334,0.0,393.24</vt>
+		</platform>
+		<platform position="9.5,32.2" texture="TEXVent_pipe" layer="8" >
+			<vt>0.834,3.9,64.0,532.886</vt>
+			<vt>32.166,3.9,64.0,3039.396</vt>
+			<vt>31.834,3.1,0.0,3039.396</vt>
+			<vt>1.166,3.1,0.0,532.886</vt>
+		</platform>
+		<platform position="9.5,32.2" texture="TEXVent_pipe" layer="8" >
+			<vt>32.166,3.9,64.0,3039.396</vt>
+			<vt>32.783,3.283,64.0,3109.219</vt>
+			<vt>32.217,2.717,0.0,3109.219</vt>
+			<vt>31.834,3.1,0.0,3039.396</vt>
+		</platform>
+	</chunk>
+	<chunk>
+		<wall position="7.5,38.25" texture="TEXHydro_pipe" layer="4" >
+			<vt>0.0,0.75,64.0,928.789</vt>
+			<vt>41.5,0.75,64.0,2699.455</vt>
+			<vt>41.5,-0.75,0.0,2699.455</vt>
+			<vt>0.0,-0.75,0.0,928.789</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="7.5,37.25" texture="TEXSteel_stick" layer="5" >
+			<vt>0.0,0.4,64.0,586.792</vt>
+			<vt>41.5,0.4,64.0,3906.792</vt>
+			<vt>41.5,-0.4,0.0,3906.792</vt>
+			<vt>0.0,-0.4,0.0,586.792</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="7.5,39.25" texture="TEXSteel_stick" layer="5" >
+			<vt>0.0,0.4,64.0,295.999</vt>
+			<vt>41.5,0.4,64.0,3615.999</vt>
+			<vt>41.5,-0.4,0.0,3615.999</vt>
+			<vt>0.0,-0.4,0.0,295.999</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="7.5,37.55" texture="TEXElectricity_cable_green" layer="5" >
+			<vt>0.0,0.04,32.0,303.507</vt>
+			<vt>41.5,0.04,32.0,16903.507</vt>
+			<vt>41.5,-0.04,0.0,16903.507</vt>
+			<vt>0.0,-0.04,0.0,303.507</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<wall position="7.5,37.65" texture="TEXElectricity_cable_red" layer="5" >
+			<vt>0.0,0.03,32.0,635.633</vt>
+			<vt>41.5,0.03,32.0,22768.967</vt>
+			<vt>41.5,-0.03,0.0,22768.967</vt>
+			<vt>0.0,-0.03,0.0,635.633</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<platform position="43,30" texture="TEXHydro_pipe" layer="4" >
+			<vt>-0.4,0.0,64.0,403.229</vt>
+			<vt>-0.4,6.0,64.0,883.229</vt>
+			<vt>0.4,6.0,0.0,883.229</vt>
+			<vt>0.4,0.0,0.0,403.229</vt>
+		</platform>
+	</chunk>
+	<chunk>
+		<platform position="46.5,32" texture="TEXSteel_stick_rusted" layer="9" one_sided="true" >
+			<vt>0.0,0.175,64.0,327.947</vt>
+			<vt>2.5,0.175,64.0,785.09</vt>
+			<vt>2.5,-0.175,0.0,785.09</vt>
+			<vt>0.0,-0.175,0.0,327.947</vt>
+		</platform>
+	</chunk>
+	<chunk>
+		<wall position="46.5,29.5" texture="TEXSteel_stick_rusted" layer="9" >
+			<vt>-0.175,0.0,64.0,985.474</vt>
+			<vt>-0.175,10.0,64.0,2814.046</vt>
+			<vt>0.175,10.0,0.0,2814.046</vt>
+			<vt>0.175,0.0,0.0,985.474</vt>
+		</wall>
+	</chunk>
+	<chunk>
+		<barrier position="49,39.5" >
+			<v>0.0,0.0</v>
+			<v>-3.5,0.0</v>
+			<v>0.0,-3.5</v>
+			<v>0.0,-3.5</v>
+		</barrier>
+		<platform position="49,39.5" texture="bricks,0" one_sided="true" >
+			<v>0.0,-0.0</v>
+			<v>-3.5,-0.0</v>
+			<v>-3.5,-0.438</v>
+			<v>0.0,-0.438</v>
+		</platform>
+		<platform position="49,39.5" texture="bricks,0" one_sided="true" >
+			<v>0.0,-0.438</v>
+			<v>-3.062,-0.438</v>
+			<v>-3.062,-0.875</v>
+			<v>0.0,-0.875</v>
+		</platform>
+		<platform position="49,39.5" texture="bricks,0" one_sided="true" >
+			<v>0.0,-0.875</v>
+			<v>-2.625,-0.875</v>
+			<v>-2.625,-1.312</v>
+			<v>0.0,-1.312</v>
+		</platform>
+		<platform position="49,39.5" texture="bricks,0" one_sided="true" >
+			<v>0.0,-1.312</v>
+			<v>-2.188,-1.312</v>
+			<v>-2.188,-1.75</v>
+			<v>0.0,-1.75</v>
+		</platform>
+		<platform position="49,39.5" texture="bricks,0" one_sided="true" >
+			<v>0.0,-1.75</v>
+			<v>-1.75,-1.75</v>
+			<v>-1.75,-2.188</v>
+			<v>0.0,-2.188</v>
+		</platform>
+		<platform position="49,39.5" texture="bricks,0" one_sided="true" >
+			<v>0.0,-2.188</v>
+			<v>-1.312,-2.188</v>
+			<v>-1.312,-2.625</v>
+			<v>0.0,-2.625</v>
+		</platform>
+		<platform position="49,39.5" texture="bricks,0" one_sided="true" >
+			<v>0.0,-2.625</v>
+			<v>-0.875,-2.625</v>
+			<v>-0.875,-3.062</v>
+			<v>0.0,-3.062</v>
+		</platform>
+		<platform position="49,39.5" texture="bricks,0" one_sided="true" >
+			<v>0.0,-3.062</v>
+			<v>-0.438,-3.062</v>
+			<v>-0.438,-3.5</v>
+			<v>0.0,-3.5</v>
+		</platform>
+	</chunk>
+	<sound position="16.5,37.875" sound="LAMPA_01" min_distance="1.5" range="20" />/>
+	<chunk>
+		<animated_object position="15,37.5" texture="AOBFluorescent_shining_instable" height="0.75" layer="4" /></chunk>
+	<sound position="25.5,37.875" sound="LAMPA_01" min_distance="1.5" range="20" />/>
+	<chunk>
+		<animated_object position="24,37.5" texture="AOBFluorescent_shining_instable" height="0.75" layer="4" /></chunk>
+	<sound position="34.5,37.875" sound="LAMPA_01" min_distance="1.5" range="20" />/>
+	<chunk>
+		<animated_object position="33,37.5" texture="AOBFluorescent_shining_instable" height="0.75" layer="4" /></chunk>
+	<sound position="10,38.25" volume="60" sound="RURY" attenuation="0.5" min_distance="2" range="10" />/>
 
-    <sound position="22,38.25" volume="60" sound="RURY" attenuation="0.5" min_distance="2" range="10" />/>
+	<sound position="22,38.25" volume="60" sound="RURY" attenuation="0.5" min_distance="2" range="10" />/>
 
-    <sound position="34,38.25" volume="60" sound="RURY" attenuation="0.5" min_distance="2" range="10" />/>
+	<sound position="34,38.25" volume="60" sound="RURY" attenuation="0.5" min_distance="2" range="10" />/>
 
-    <sound position="46,38.25" volume="60" sound="RURY" attenuation="0.5" min_distance="2" range="10" />/>
+	<sound position="46,38.25" volume="60" sound="RURY" attenuation="0.5" min_distance="2" range="10" />/>
 
 </level>

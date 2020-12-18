@@ -43,9 +43,11 @@ players_sound_receiver(Vectorf(1,1))
 void Map::add_level(std::unique_ptr<Level>&& lvl)
 {
 	Vectori pos = lvl->get_global_pos();
+	lvl->add_receiver(this);
 	try
 	{
 		levels.at(pos.x).at(pos.y) = std::move(lvl);
+		add_receiver(&*levels.at(pos.x).at(pos.y));
 	}
 	catch (std::out_of_range e)
 	{
@@ -121,6 +123,14 @@ void Map::update_physics(float dt, Vectorf player_pos, sf::FloatRect screen_rect
 		}
 	}
 	get_considered_levels();
+	while (message_available())
+	{
+		Message msg = pop_message();
+		if (msg.type == Message::Message_type::MAP_EVENT)
+		{
+			send_message(Message::Message_type::MAP_EVENT, msg.args);
+		}
+	}
 	for (auto& it : considered_levels)
 	{
 		it->update_physics(dt, screen_rect);

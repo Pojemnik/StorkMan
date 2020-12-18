@@ -9,6 +9,7 @@ drawhp					bool			false				Rysowanie poziomu zdrowia bohatera
 damagezones				bool			false				Rysuje strefy obrażeń
 chunksborders			bool			false				Rysuje granice chunków
 soundsources 			bool			false				Rysuje strefy słyszalności i źródła dźwięków
+mapevent				string			-					Wysyła wiadomość i zdarzeniu na mapie
 
 Zmiana ustawień:
 gravity					float			0.3					Przyspieszenie grawitacyjne

@@ -2,7 +2,8 @@
 
 Dynamic_chunk::Dynamic_chunk(std::vector<std::unique_ptr<Chunk>>&& chunks_, 
 	std::unordered_map<int, int>&& transition_array_) :
-	chunks(std::move(chunks_)), transition_array(transition_array_)
+	chunks(std::move(chunks_)), transition_array(transition_array_),
+	Message_sender(Message_sender_type::CHUNK)
 {
 	current_chunk = &*chunks.at(transition_array.at(0));
 }

@@ -22,6 +22,7 @@ class Parser
 	std::unordered_map<string, int> map_sounds;
 	Id_generator collidable_id_gen;
 	std::unordered_map<string, int> name_to_surface = { {"none", 0} };
+	std::unordered_map<string, int> events = { {"default", 0} };
 
 	std::pair<Vectori, Vectori> parse_map_element(tinyxml2::XMLElement* element);
 	std::tuple<Vectori, string, string> parse_level_element(tinyxml2::XMLElement* element, Vectori map_size);
@@ -29,6 +30,7 @@ class Parser
 	std::unique_ptr<Level> open_and_parse_level(Vectori pos, string path, int code);
 	int parse_surface(tinyxml2::XMLElement* element);
 	std::unique_ptr<Chunk> parse_chunk(tinyxml2::XMLElement* root, Vectori level_pos);
+	std::unique_ptr<Chunk> parse_dynamic_chunk(tinyxml2::XMLElement* root, Vectori level_pos);
 	std::pair<std::optional<int>, std::shared_ptr<Platform>>
 		parse_platform(tinyxml2::XMLElement* element, Vectori level_pos);
 	std::pair<std::optional<int>, std::shared_ptr<Textured_polygon>>
@@ -90,5 +92,6 @@ public:
 	void load_music_config(string path);
 	std::unordered_map<int, string> load_steps_config(string path);
 	std::vector<string> load_map_sound_config(string path);
+	std::unordered_map<string, int> get_event_map() const;
 	Parser(Assets* _assets);
 };

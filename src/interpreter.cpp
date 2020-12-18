@@ -308,6 +308,16 @@ std::pair<Commands_interpreter::Command_code, Vectorf> Commands_interpreter::exe
 	{
 		context.editor_mode = get_bool(cmd, "Editor mode", { "enabled", "disabled" });
 	}
+	else if (cmd.name == "mapevent")
+	{
+		if (cmd.args.size() < 1)
+		{
+			print_argument_number_error(1);
+		}
+		string event = cmd.args.at(0);
+		send_message<string>(Message::Message_type::MAP_EVENT, event);
+
+	}
 	else if (cmd.name == "help" || cmd.name == "?")
 	{
 		if (help_page == "")

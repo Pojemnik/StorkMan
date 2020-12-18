@@ -4,11 +4,12 @@
 Level::Level(std::vector<std::unique_ptr<Chunk>>&& chunks_,
 	std::vector<Map_sound>&& sounds_, Vectori pos, int code_) : chunks(std::move(chunks_)),
 	sounds(sounds_), global_pos(pos), code(code_),
-	sound_borders(sf::PrimitiveType::Lines, sf::VertexBuffer::Usage::Static)
+	sound_borders(sf::PrimitiveType::Lines, sf::VertexBuffer::Usage::Static),
+	Message_sender(Message_sender_type::LEVEL)
 {
 	std::vector<Vectorf> vertices;
 	std::vector<std::pair<Vectorf, Vectorf>> edges;
-	for (const auto& it : chunks)
+	for (auto& it : chunks)
 	{
 		auto v = it->get_chunk_vertices();
 		if (v.first.size() != 0)
@@ -16,6 +17,8 @@ Level::Level(std::vector<std::unique_ptr<Chunk>>&& chunks_,
 			vertices.insert(vertices.end(), v.first.begin(), v.first.end());
 			edges.insert(edges.end(), v.second.begin(), v.second.end());
 		}
+		it->add_receiver(this);
+		add_receiver(&*it);
 	}
 	static util::Color_generator colors("data/colors.txt");
 	std::vector<sf::Vertex> sound_borders_vect;
@@ -65,6 +68,14 @@ void Level::update_graphics(float dt, sf::FloatRect screen_rect)
 void Level::update_physics(float dt, sf::FloatRect screen_rect)
 {
 	int i = 0;
+	while (message_available())
+	{
+		Message msg = pop_message();
+		if (msg.type == Message::Message_type::MAP_EVENT)
+		{
+			send_message(Message::Message_type::MAP_EVENT, msg.args);
+		}
+	}
 	for (auto& it : chunks)
 	{
 		if (it->get_bounding_rect().intersects(screen_rect))

@@ -3,11 +3,13 @@
 #include "compound_map_objects.h"
 #include "map_sounds.h"
 #include "map_chunk.h"
+#include "dynamic_chunk.h"
+#include "messaging.h"
 
 class Zone;
 class Entity;
 
-class Level
+class Level : public Message_sender, public Message_receiver
 {
 	std::vector<std::unique_ptr<Chunk>> chunks;
 	std::vector<bool> chunks_on_screen;
