@@ -214,22 +214,25 @@ animated_moving_object:
 sound:
 	atrybuty:
 		position
-		volume* - (int) (domyślne 100) głośność maksymalna
-		sound - (string) - nazwa dźwięku do odtworzenia (patrz plik sound/sound/map_sounds.cfg)
-		attenuation* - (float) (domyślnie 1) szybkość zanikania dźwięku wraz z odległością
-		min_distance* - (float) [m] (domyślnie 1) odległość, w jakiej dźwięk osiąga maksymalną głośność
-		range* - (float) (domyślnie 8) [m] maksymalna odległość, w której dźwięk jest słyszalny - w przypadku braku obiektów blokujących dźwięk zakres słyszlności jest kwadratem o boku range*2
+		volume* (int) (domyślne 100) - głośność maksymalna
+		sound (string) - nazwa dźwięku do odtworzenia (patrz plik sound/sound/map_sounds.cfg)
+		attenuation* (float) (domyślnie 1) - szybkość zanikania dźwięku wraz z odległością
+		min_distance* (float) (domyślnie 1) [m] - odległość, w jakiej dźwięk osiąga maksymalną głośność
+		range* (float) (domyślnie 8) [m] - maksymalna odległość, w której dźwięk jest słyszalny - w przypadku braku obiektów blokujących dźwięk zakres słyszlności jest kwadratem o boku range*2
 	
 	znaczniki:
 		opcjonalne znaczniki <v> opisujące kolejne wierzchołki strefy słyszalności dźwięku. Jeśli nie zostaną podane strefa zostanie wygenerowana automatycznie.
 		
 event:
 	atrybuty:
-		name - nazwa zdarzenia używana póżniej w znacznikach state. UWAGA: nazwa eventu musi zostać zadeklarowany powyżej znacznika state, który jej używa
+		name - nazwa zdarzenia używana póżniej w znacznikach state. UWAGA: nazwa eventu musi zostać zadeklarowany powyżej znacznika state_trigger, który jej używa
 		
 dynamic chunk:
 	znaczniki:
-		<state> (patrz znaczniki pomocnicze)
+		<state>
+		<timed_event>
+		<state_trigger>
+		(patrz znaczniki pomocnicze)
 
 Znaczniki pomocnicze (nie występują samodzielnie):
 		
@@ -264,6 +267,16 @@ vt:
 	zawartość: (float [m], float [m], int [px], int [px]) - pozycja wierzchołka, pozycja danego wierzchołka na teksturze w pikselach - przydatne w przypadku nie powtarzanych tekstur
 
 state:
-	artybuty:
-		trigger* (string) (domyślnie default) - nazwa zdarzenia wywołującego określony stan dynamicznego chunka, wartość default oznacza stan początkowy
-	Wszystkie pozostałe atrybuty i zawartość identyczne jak w chunk
+	Wszystkie atrybuty i zawartość identyczne jak w chunk
+	
+state_trigger:
+	atrybuty:
+		state (int) - stan, do którego ma nastąpić przejście
+		trigger (string) - nazwa zdarzena przełączającego stan na zadany
+
+timed_event:
+	atrybuty:
+		state (int) - stan, w którym zdarzenie czasowe ma być wywoływane
+		event (string) - nazwa wywoływanego zdarzenia
+		time (float) [1/60s] - czas, po którym zostanie wywołane dane zdarzenie (liczone od rozpoczęcia stanu określonego atrybutem state)
+		

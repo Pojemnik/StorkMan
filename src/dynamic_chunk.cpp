@@ -16,6 +16,8 @@ void Dynamic_chunk::update_graphics(float dt)
 
 void Dynamic_chunk::update_physics(float dt, std::vector<int>& msg_up)
 {
+	float last_time = time;
+	time += dt;
 	while (message_available())
 	{
 		Message msg = pop_message();
@@ -27,6 +29,18 @@ void Dynamic_chunk::update_physics(float dt, std::vector<int>& msg_up)
 		if (transition_array.contains(event_index))
 		{
 			current_chunk = &*chunks.at(transition_array.at(event_index));
+			current_chunk_index = transition_array.at(event_index);
+			time = 0;
+		}
+	}
+	if (time_events.contains(current_chunk_index))
+	{
+		for (const auto& it : time_events.at(current_chunk_index))
+		{
+			if (time >= it.first && last_time < it.first)
+			{
+				msg_up.push_back(it.second);
+			}
 		}
 	}
 	current_chunk->update_physics(dt, msg_up);

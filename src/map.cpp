@@ -136,6 +136,11 @@ void Map::update_physics(float dt, Vectorf player_pos, sf::FloatRect screen_rect
 		it->resolve_collisions(entities);
 		it->make_zones_interactions(entities);
 	}
+	for (const auto& it : msg_upstream)
+	{
+		send_message<int>(Message::Message_type::MAP_EVENT, it);
+	}
+	msg_upstream.clear();
 	if (!out_of_map)
 	{
 		Vectorf sound_player_pos = player_pos;

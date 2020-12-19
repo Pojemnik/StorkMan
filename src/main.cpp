@@ -150,6 +150,7 @@ int main(int argc, char** argv)
 	context.console->add_receiver(&engine_receiver);
 	interpreter.add_receiver(&engine_receiver);
 	player.add_receiver(&engine_receiver);
+	map->add_receiver(&engine_receiver);
 	Event_handler event_handler;
 	event_handler.add_receiver(&grid);
 	event_handler.add_receiver(&engine_receiver);
@@ -234,12 +235,14 @@ int main(int argc, char** argv)
 				break;
 			case Message::Message_type::RELOAD_MAP:
 				engine_sender.remove_receiver(map);
+				map->remove_receiver(&engine_receiver);
 				delete map;
 				map = load_map((argc == 2) ? argv[1] : "map/map.xml", parser);
 				map->add_entity(&player);
 				//map->add_entity(&test_enemy);
-				map->add_receiver(&sound_system);
 				map->init();
+				map->add_receiver(&sound_system);
+				map->add_receiver(&engine_receiver);
 				engine_sender.add_receiver(map);
 				break;
 			case Message::Message_type::DIED:
@@ -250,8 +253,16 @@ int main(int argc, char** argv)
 				}
 				break;
 			case Message::Message_type::MAP_EVENT:
-				engine_sender.send_message(Message::Message_type::MAP_EVENT,
-					map_events.at(std::get<string>(msg.args)));
+				if (msg.sender->id.get_type() != Message_sender_type::MAP)
+				{
+					engine_sender.send_message(Message::Message_type::MAP_EVENT,
+						map_events.at(std::get<string>(msg.args)));
+				}
+				else
+				{
+					engine_sender.send_message<string>(Message::Message_type::LOG,
+						"Map event: " + std::to_string(std::get<int>(msg.args)) + '\n');
+				}
 				break;
 			case Message::Message_type::CONSOLE_COMMAND_RECEIVED:
 			{

@@ -179,25 +179,42 @@ std::unique_ptr<Chunk> Parser::parse_dynamic_chunk(tinyxml2::XMLElement* root, V
 {
 	std::vector<std::unique_ptr<Chunk>> chunks;
 	std::unordered_map<int, int> transition_array;
+	std::unordered_map<int, std::vector<std::pair<float, int>>> time_events;
 	tinyxml2::XMLElement* element = root->FirstChildElement();
 	int chunk_index = 0;
 	while (element != nullptr)
 	{
 		string name = element->Name();
-		if (name == "state")
+		if (name == "state_trigger")
 		{
 			string trigger_val = get_attribute_by_name("trigger", element);
 			if (trigger_val == "")
 			{
 				trigger_val = "default";
 			}
-			transition_array.insert({ events.at(trigger_val), chunk_index++ });
+			int state = get_and_parse_var<int>("state", element);
+			transition_array.insert({ events.at(trigger_val), state });
+		}
+		if (name == "timed_event")
+		{
+			string trigger_val = get_attribute_by_name("event", element);
+			int state = get_and_parse_var<int>("state", element);
+			float time = get_and_parse_var<float>("time", element);
+			auto pair = std::make_pair(time, events.at(trigger_val));
+			if (!time_events.contains(state))
+			{
+				time_events[state] = std::vector <std::pair<float, int>>();
+			}
+			time_events[state].push_back(pair);
+		}
+		if (name == "state")
+		{
 			chunks.emplace_back(std::move(parse_chunk(element, level_pos)));
 		}
 		element = element->NextSiblingElement();
 	}
 	return std::make_unique<Dynamic_chunk>(std::move(chunks),
-		std::move(transition_array), std::unordered_map<int, std::vector<std::pair<float, int>>>());
+		std::move(transition_array), std::move(time_events));
 }
 
 std::pair<std::optional<int>, std::shared_ptr<Platform>>
@@ -361,6 +378,7 @@ Map* Parser::parse_map(tinyxml2::XMLElement* root)
 	tinyxml2::XMLElement* element = root->FirstChildElement();
 	Map* map = new Map(map_size, player_pos, assets->backgrounds.at("main_bg"));
 	int lvl_n = 0;
+#define DEBUG_ASYNC__STORK__PARSE
 #ifndef DEBUG_ASYNC__STORK__PARSE
 	std::vector<std::future<std::unique_ptr<Level>>> futures;
 	while (element != NULL)

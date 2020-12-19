@@ -26,7 +26,14 @@
 		</platform>
 	</chunk>
 	<event name="event1"/>
+	<event name="event2"/>
+	<event name="timed_event"/>
 	<dynamic_chunk>
+	
+		<timed_event state="1" event ="timed_event" time="120"/>
+		
+		<state_trigger state="0" trigger="default"/>
+		
 		<state>
 			<platform position="10,16" texture="bricks,0">
 				<v>0,0</v>
@@ -35,18 +42,34 @@
 				<v>0,4</v>
 			</platform>
 		</state>
-		<state trigger="event1" top="4">
-			<moving_platform position="10,16" texture="bricks,0" layer="3">
+		
+		<state_trigger state="1" trigger="event1"/>
+		<state_trigger state="1" trigger="event2"/>
+		
+		<state top="4">
+			<moving_platform position="10,12" texture="bricks,0" layer="4">
 				<v>0,0</v>
 				<v>1,0</v>
 				<v>1,4</v>
 				<v>0,4</v>
 				<move type="linear">
+					<p>0,4,120</p>
 					<p>0,0,120</p>
-					<p>0,-4,120</p>
 				</move>
 			</moving_platform>
 		</state>
+		
+		<state_trigger state="2" trigger="timed_event"/>
+		
+		<state>
+			<platform position="10,12" texture="bricks,0">
+				<v>0,0</v>
+				<v>1,0</v>
+				<v>1,4</v>
+				<v>0,4</v>
+			</platform>
+		</state>
+		
 	</dynamic_chunk>
 	<chunk>
 		<platform position="0,47" texture="dirt,0" >

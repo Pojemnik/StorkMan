@@ -314,8 +314,11 @@ std::pair<Commands_interpreter::Command_code, Vectorf> Commands_interpreter::exe
 		{
 			print_argument_number_error(1);
 		}
-		string event = cmd.args.at(0);
-		send_message<string>(Message::Message_type::MAP_EVENT, event);
+		else
+		{
+			string event = cmd.args.at(0);
+			send_message<string>(Message::Message_type::MAP_EVENT, event);
+		}
 
 	}
 	else if (cmd.name == "help" || cmd.name == "?")

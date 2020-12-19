@@ -13,6 +13,7 @@ class Dynamic_chunk : public Chunk
 	std::unordered_map<int, int> transition_array;
 	std::unordered_map<int, std::vector<std::pair<float, int>>> time_events;
 	float time = 0;
+	int current_chunk_index = 0;
 
 public:
 	Dynamic_chunk(std::vector<std::unique_ptr<Chunk>>&& chunks_,

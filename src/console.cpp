@@ -128,6 +128,9 @@ void Console::push_message(Message& msg)
 	case Message::Message_type::ERROR:
 		err << static_cast<const string>(std::get<string>(msg.args));
 		break;
+	case Message::Message_type::LOG:
+		log << static_cast<const string>(std::get<string>(msg.args));
+		break;
 	case Message::Message_type::RESOLUTION_CHANGED:
 		resolution = std::get<Vectori>(msg.args);
 		deactivate();
