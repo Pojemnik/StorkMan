@@ -4,12 +4,12 @@
 #include "zones.h"
 #include "entities.h"
 
-class Chunk : public Map_object, public Message_receiver, virtual public Message_sender
+class Chunk : public Map_object, public Message_receiver
 {
 public:
 	virtual ~Chunk() = 0 {};
 	virtual void update_graphics(float dt) = 0;
-	virtual void update_physics(float dt) = 0;
+	virtual void update_physics(float dt, std::vector<int>& msg_up) = 0;
 	virtual void draw_layer(sf::RenderTarget& target, sf::RenderStates states, int layer) const = 0;
 	virtual void draw_border(sf::RenderTarget& target, sf::RenderStates states) const = 0;
 	virtual void draw_moving_collisions(sf::RenderTarget& target, sf::RenderStates states) const = 0;

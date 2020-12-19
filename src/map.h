@@ -17,6 +17,7 @@ class Map : public Message_sender, public Message_receiver
 	std::unordered_set<const Map_sound*, std::hash<const Map_sound*>, Map_sound_compare> last_map_sounds;
 	sf::RectangleShape players_sound_receiver;
 	bool draw_players_receiver = false;
+	std::vector<int> msg_upstream;
 
 	void get_considered_levels();
 

@@ -197,7 +197,7 @@ std::unique_ptr<Chunk> Parser::parse_dynamic_chunk(tinyxml2::XMLElement* root, V
 		element = element->NextSiblingElement();
 	}
 	return std::make_unique<Dynamic_chunk>(std::move(chunks),
-		std::move(transition_array));
+		std::move(transition_array), std::unordered_map<int, std::vector<std::pair<float, int>>>());
 }
 
 std::pair<std::optional<int>, std::shared_ptr<Platform>>

@@ -17,7 +17,6 @@ Level::Level(std::vector<std::unique_ptr<Chunk>>&& chunks_,
 			vertices.insert(vertices.end(), v.first.begin(), v.first.end());
 			edges.insert(edges.end(), v.second.begin(), v.second.end());
 		}
-		it->add_receiver(this);
 		add_receiver(&*it);
 	}
 	static util::Color_generator colors("data/colors.txt");
@@ -65,7 +64,7 @@ void Level::update_graphics(float dt, sf::FloatRect screen_rect)
 	}
 }
 
-void Level::update_physics(float dt, sf::FloatRect screen_rect)
+void Level::update_physics(float dt, sf::FloatRect screen_rect, std::vector<int>& msg_up)
 {
 	int i = 0;
 	while (message_available())
@@ -82,7 +81,7 @@ void Level::update_physics(float dt, sf::FloatRect screen_rect)
 		{
 			chunks_on_screen[i] = true;
 			//Maybe check if there is something to update in chunk
-			it->update_physics(dt);
+			it->update_physics(dt, msg_up);
 		}
 		else
 		{
@@ -90,17 +89,6 @@ void Level::update_physics(float dt, sf::FloatRect screen_rect)
 		}
 		i++;
 	}
-}
-
-void Level::update_chunk_graphics(int id, Chunk* chunk, float dt)
-{
-	(void)id;
-	chunk->update_graphics(dt);
-}
-void Level::update_chunk_physics(int id, Chunk* chunk, float dt)
-{
-	(void)id;
-	chunk->update_physics(dt);
 }
 
 void Level::draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const

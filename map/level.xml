@@ -1,21 +1,51 @@
-<level name="Elektrownia_Wêglowa_X3Y2" background="bg1">
+<level name="EW_X3Y2" background="bg1">
+	<chunk>
+		<platform position="10,10" texture="bricks,0">
+			<v>0,0</v>
+			<v>10,0</v>
+			<v>10,1</v>
+			<v>0,1</v>
+		</platform>
+		<platform position="19,10" texture="bricks,0">
+			<v>0,0</v>
+			<v>1,0</v>
+			<v>1,10</v>
+			<v>0,10</v>
+		</platform>
+		<platform position="8,19" texture="bricks,0">
+			<v>0,0</v>
+			<v>12,0</v>
+			<v>12,1</v>
+			<v>0,1</v>
+		</platform>
+		<platform position="10,10" texture="bricks,0">
+			<v>0,0</v>
+			<v>1,0</v>
+			<v>1,7</v>
+			<v>0,7</v>
+		</platform>
+	</chunk>
 	<event name="event1"/>
 	<dynamic_chunk>
 		<state>
-		<platform position="15,15" texture="bricks,0" layer="8" >
-			<v>0.0,0.0</v>
-			<v>1.0,0.0</v>
-			<v>1.0,1.0</v>
-			<v>0.0,1.0</v>
-		</platform>
+			<platform position="10,16" texture="bricks,0">
+				<v>0,0</v>
+				<v>1,0</v>
+				<v>1,4</v>
+				<v>0,4</v>
+			</platform>
 		</state>
-		<state trigger="event1">
-		<platform position="15,15" texture="dirt,0" layer="8" >
-			<v>0.0,0.0</v>
-			<v>1.0,0.0</v>
-			<v>1.0,1.0</v>
-			<v>0.0,1.0</v>
-		</platform>
+		<state trigger="event1" top="4">
+			<moving_platform position="10,16" texture="bricks,0" layer="3">
+				<v>0,0</v>
+				<v>1,0</v>
+				<v>1,4</v>
+				<v>0,4</v>
+				<move type="linear">
+					<p>0,0,120</p>
+					<p>0,-4,120</p>
+				</move>
+			</moving_platform>
 		</state>
 	</dynamic_chunk>
 	<chunk>
@@ -1147,32 +1177,43 @@
 		</wall>
 	</chunk>
 	<chunk>
-		<object position="12.25,41" texture="krata0" height="1.5" layer="4" /></chunk>
+		<object position="12.25,41" texture="krata0" height="1.5" layer="4" />
+	</chunk>
 	<chunk>
-		<object position="19.25,41" texture="krata0" height="1.5" layer="4" /></chunk>
+		<object position="19.25,41" texture="krata0" height="1.5" layer="4" />
+	</chunk>
 	<chunk>
-		<object position="21.25,41" texture="krata0" height="1.5" layer="4" /></chunk>
+		<object position="21.25,41" texture="krata0" height="1.5" layer="4" />
+	</chunk>
 	<chunk>
-		<object position="28.25,41" texture="krata0" height="1.5" layer="4" /></chunk>
+		<object position="28.25,41" texture="krata0" height="1.5" layer="4" />
+	</chunk>
 	<chunk>
-		<object position="30.25,41" texture="krata0" height="1.5" layer="4" /></chunk>
+		<object position="30.25,41" texture="krata0" height="1.5" layer="4" />
+	</chunk>
 	<chunk>
-		<object position="37.25,41" texture="krata0" height="1.5" layer="4" /></chunk>
+		<object position="37.25,41" texture="krata0" height="1.5" layer="4" />
+	</chunk>
 	<sound position="16.5,40.875" sound="LAMPA_01" min_distance="1.5" range="20" />/>
 	<chunk>
-		<animated_object position="15,40.5" texture="AOBFluorescent_shining_instable" height="0.75" layer="4" /></chunk>
+		<animated_object position="15,40.5" texture="AOBFluorescent_shining_instable" height="0.75" layer="4" />
+	</chunk>
 	<sound position="21,40.875" sound="LAMPA_01" min_distance="1.5" range="20" />/>
 	<chunk>
-		<animated_object position="19.5,40.5" texture="AOBFluorescent_shining_instable" height="0.75" layer="4" /></chunk>
+		<animated_object position="19.5,40.5" texture="AOBFluorescent_shining_instable" height="0.75" layer="4" />
+	</chunk>
 	<sound position="25.5,40.875" sound="LAMPA_01" min_distance="1.5" range="20" />/>
 	<chunk>
-		<animated_object position="24,40.5" texture="AOBFluorescent_shining_instable" height="0.75" layer="4" /></chunk>
+		<animated_object position="24,40.5" texture="AOBFluorescent_shining_instable" height="0.75" layer="4" />
+	</chunk>
 	<sound position="30,40.875" sound="LAMPA_01" min_distance="1.5" range="20" />/>
 	<chunk>
-		<animated_object position="28.5,40.5" texture="AOBFluorescent_shining_instable" height="0.75" layer="4" /></chunk>
+		<animated_object position="28.5,40.5" texture="AOBFluorescent_shining_instable" height="0.75" layer="4" />
+	</chunk>
 	<sound position="34.5,40.875" sound="LAMPA_01" min_distance="1.5" range="20" />/>
 	<chunk>
-		<animated_object position="33,40.5" texture="AOBFluorescent_shining_instable" height="0.75" layer="4" /></chunk>
+		<animated_object position="33,40.5" texture="AOBFluorescent_shining_instable" height="0.75" layer="4" />
+	</chunk>
 	<chunk>
 		<wall position="42.5,30.5" texture="TEXVent_pipe" layer="7" >
 			<vt>-0.4,0.0,64.0,854.469</vt>
@@ -1579,13 +1620,16 @@
 	</chunk>
 	<sound position="16.5,37.875" sound="LAMPA_01" min_distance="1.5" range="20" />/>
 	<chunk>
-		<animated_object position="15,37.5" texture="AOBFluorescent_shining_instable" height="0.75" layer="4" /></chunk>
+		<animated_object position="15,37.5" texture="AOBFluorescent_shining_instable" height="0.75" layer="4" />
+	</chunk>
 	<sound position="25.5,37.875" sound="LAMPA_01" min_distance="1.5" range="20" />/>
 	<chunk>
-		<animated_object position="24,37.5" texture="AOBFluorescent_shining_instable" height="0.75" layer="4" /></chunk>
+		<animated_object position="24,37.5" texture="AOBFluorescent_shining_instable" height="0.75" layer="4" />
+	</chunk>
 	<sound position="34.5,37.875" sound="LAMPA_01" min_distance="1.5" range="20" />/>
 	<chunk>
-		<animated_object position="33,37.5" texture="AOBFluorescent_shining_instable" height="0.75" layer="4" /></chunk>
+		<animated_object position="33,37.5" texture="AOBFluorescent_shining_instable" height="0.75" layer="4" />
+	</chunk>
 	<sound position="10,38.25" volume="60" sound="RURY" attenuation="0.5" min_distance="2" range="10" />/>
 
 	<sound position="22,38.25" volume="60" sound="RURY" attenuation="0.5" min_distance="2" range="10" />/>

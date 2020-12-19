@@ -1,9 +1,10 @@
 #include "dynamic_chunk.h"
 
 Dynamic_chunk::Dynamic_chunk(std::vector<std::unique_ptr<Chunk>>&& chunks_, 
-	std::unordered_map<int, int>&& transition_array_) :
+	std::unordered_map<int, int>&& transition_array_,
+	std::unordered_map<int, std::vector<std::pair<float, int>>>&& time_events_) :
 	chunks(std::move(chunks_)), transition_array(transition_array_),
-	Message_sender(Message_sender_type::CHUNK)
+	time_events(time_events_)
 {
 	current_chunk = &*chunks.at(transition_array.at(0));
 }
@@ -13,7 +14,7 @@ void Dynamic_chunk::update_graphics(float dt)
 	current_chunk->update_graphics(dt);
 }
 
-void Dynamic_chunk::update_physics(float dt)
+void Dynamic_chunk::update_physics(float dt, std::vector<int>& msg_up)
 {
 	while (message_available())
 	{
@@ -28,7 +29,7 @@ void Dynamic_chunk::update_physics(float dt)
 			current_chunk = &*chunks.at(transition_array.at(event_index));
 		}
 	}
-	current_chunk->update_physics(dt);
+	current_chunk->update_physics(dt, msg_up);
 }
 
 void Dynamic_chunk::draw_layer(sf::RenderTarget& target, sf::RenderStates states, int layer) const

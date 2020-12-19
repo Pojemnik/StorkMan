@@ -11,11 +11,15 @@ class Dynamic_chunk : public Chunk
 	std::vector<std::unique_ptr<Chunk>> chunks;
 	Chunk* current_chunk;
 	std::unordered_map<int, int> transition_array;
+	std::unordered_map<int, std::vector<std::pair<float, int>>> time_events;
+	float time = 0;
 
 public:
-	Dynamic_chunk(std::vector<std::unique_ptr<Chunk>>&& chunks_, std::unordered_map<int, int>&& transition_array_);
+	Dynamic_chunk(std::vector<std::unique_ptr<Chunk>>&& chunks_,
+		std::unordered_map<int, int>&& transition_array_,
+		std::unordered_map<int, std::vector<std::pair<float, int>>>&& time_events_);
 	void update_graphics(float dt);
-	void update_physics(float dt);
+	void update_physics(float dt, std::vector<int>& msg_up);
 	void draw_layer(sf::RenderTarget& target, sf::RenderStates states, int layer) const;
 	void draw_border(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_moving_collisions(sf::RenderTarget& target, sf::RenderStates states) const;

@@ -23,7 +23,7 @@ public:
 		std::vector<std::shared_ptr<Zone>>&& zones_,
 		sf::FloatRect bound_, sf::VertexBuffer&& static_vertices);
 	void update_graphics(float dt);
-	void update_physics(float dt);
+	void update_physics(float dt, std::vector<int>& msg_up);
 	void draw_layer(sf::RenderTarget& target, sf::RenderStates states, int layer) const;
 	void draw_border(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_moving_collisions(sf::RenderTarget& target, sf::RenderStates states) const;

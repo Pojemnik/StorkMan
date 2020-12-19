@@ -21,15 +21,12 @@ class Level : public Message_sender, public Message_receiver
 	bool draw_chunks_borders = false;
 	bool draw_sound_sources = false;
 
-	static void update_chunk_graphics(int id, Chunk* chunk, float dt);
-	static void update_chunk_physics(int id, Chunk* chunk, float dt);
-
 public:
 	const int code;
 
 	Level() = default;
 	Level(std::vector<std::unique_ptr<Chunk>>&& chunks_, std::vector<Map_sound>&& sounds_, Vectori pos, int code_);
-	void update_physics(float dt, sf::FloatRect screen_rect);
+	void update_physics(float dt, sf::FloatRect screen_rect, std::vector<int>& msg_up);
 	void update_graphics(float dt, sf::FloatRect screen_rect);
 	void draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) const;
