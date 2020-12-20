@@ -8,7 +8,7 @@ def element_potomny(element, typ_nadrzędnego="punkt", nadrzędny=[0,0], zwróć
         if typ_nadrzędnego == "punkt":
             e[1] += nadrzędny[0]
             e[2] += nadrzędny[1]
-            e_txt = podstawy.zapis_elementu(e)
+            e_txt = podstawy.zapis_elementu(e,True)
         if typ_nadrzędnego == "ruch":
             e_txt = dodanie_ruchu(podstawy.zapis_elementu(e,True),nadrzędny,True)
         if typ_nadrzędnego == "ruch punktowy":
