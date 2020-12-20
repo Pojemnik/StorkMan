@@ -39,6 +39,7 @@ public:
 	void play_map_sound(const sf::SoundBuffer& sb, Map_sound_info info, int lvl_id);
 	void set_volume(int volume);
 	void stop_sound(std::pair<int, int> id);
+	void stop_all();
 };
 
 class Sound_system : public Message_receiver, public Message_sender
@@ -73,7 +74,8 @@ class Sound_system : public Message_receiver, public Message_sender
 		{Msgtype::MOVED, std::bind(&Sound_system::on_entity_move, this, std::placeholders::_1)},
 		{Msgtype::STOPPED, std::bind(&Sound_system::on_entity_stop, this, std::placeholders::_1)},
 		{Msgtype::ENTERED_SOUND, std::bind(&Sound_system::on_sound_enter, this, std::placeholders::_1)},
-		{Msgtype::LEFT_SOUND, std::bind(&Sound_system::on_sound_left, this, std::placeholders::_1)}
+		{Msgtype::LEFT_SOUND, std::bind(&Sound_system::on_sound_left, this, std::placeholders::_1)},
+		{Msgtype::RELOAD_MAP, std::bind(&Sound_system::on_map_reload, this, std::placeholders::_1)}
 	};
 
 	void update_music_state(float dt);
@@ -87,6 +89,7 @@ class Sound_system : public Message_receiver, public Message_sender
 	void on_entity_stop(const Message& msg);
 	void on_sound_enter(const Message& msg);
 	void on_sound_left(const Message& msg);
+	void on_map_reload(const Message& msg);
 
 public:
 	Sound_system(const std::unordered_map<int, std::vector<string>>& entity_sounds_paths,

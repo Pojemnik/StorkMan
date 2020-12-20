@@ -155,6 +155,7 @@ int main(int argc, char** argv)
 	event_handler.add_receiver(&grid);
 	event_handler.add_receiver(&engine_receiver);
 	event_handler.add_receiver(&*context.console);
+	event_handler.add_receiver(&sound_system);
 	Message_sender engine_sender(Message_sender_type::ENGINE);
 	engine_sender.add_receiver(&sound_system);
 	engine_sender.add_receiver(&*context.console);

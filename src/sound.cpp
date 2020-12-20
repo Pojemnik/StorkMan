@@ -137,6 +137,11 @@ void Sound_system::on_sound_left(const Message& msg)
 	pool.stop_sound({lvl_id, sound_id});
 }
 
+void Sound_system::on_map_reload(const Message& msg)
+{
+	pool.stop_all();
+}
+
 void Sound_system::on_window_focus_change(const Message& msg)
 {
 	if (std::get<bool>(msg.args))
@@ -265,6 +270,15 @@ void Sound_pool::stop_sound(std::pair<int, int> id)
 	int sound_i = map_sounds.at(id);
 	map_sounds.erase(id);
 	pool[sound_i].stop();
+}
+
+void Sound_pool::stop_all()
+{
+	for (int i = 0; i < POOL_SIZE; i++)
+	{
+		pool[i].stop();
+	}
+	map_sounds.clear();
 }
 
 void Sound::reset()
