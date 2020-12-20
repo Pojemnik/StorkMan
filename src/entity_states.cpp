@@ -176,6 +176,7 @@ std::pair<Entity_state*, Entity_stack_command> Die_state::update(Entity& entity,
 	{
 		return std::make_pair(nullptr, Entity_stack_command::POP);
 	}
+	entity.apply_force({ 0, context.gravity }, dt);
 	assert(entity.get_current_animation() == Animation_index::DIE);
 	return std::make_pair(nullptr, Entity_stack_command::NONE);
 }
