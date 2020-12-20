@@ -113,6 +113,10 @@ void Sound_system::on_entity_move(const Message& msg)
 		steps.at(sender_type).setBuffer(surface_sounds.at(surface_type));
 		steps.at(sender_type).play();
 	}
+	else
+	{
+		steps.at(sender_type).stop();
+	}
 }
 
 void Sound_system::on_entity_stop(const Message& msg)

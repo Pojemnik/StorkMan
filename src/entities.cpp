@@ -100,7 +100,11 @@ void Entity::update_physics(float dt)
 {
 	auto temp = physical.get_collision_info();
 	collision_vector = temp.first;
-	surface = temp.second;
+	if (temp.second != surface)
+	{
+		surface = temp.second;
+		send_message<int>(Message::Message_type::MOVED, static_cast<int>(surface));
+	}
 	on_ground = physical.is_on_ground();
 	controller->update();
 	state_machine->update(*this, dt);
