@@ -1,4 +1,17 @@
 <level name="EW_X3Y2" background="bg1">
+	<event name="event1"/>
+	<event name="event2"/>
+	<event name="timed_event"/>
+	<chunk>
+		<event_zone position="8,17">
+			<v>0,0</v>
+			<v>2,0</v>
+			<v>2,2</v>
+			<v>0,2</v>
+			
+			<e>event1</e>
+		</event_zone>
+	</chunk>
 	<chunk>
 		<platform position="10,10" texture="bricks,0">
 			<v>0,0</v>
@@ -25,9 +38,6 @@
 			<v>0,7</v>
 		</platform>
 	</chunk>
-	<event name="event1"/>
-	<event name="event2"/>
-	<event name="timed_event"/>
 	<dynamic_chunk>
 	
 		<timed_event state="1" event ="timed_event" time="120"/>

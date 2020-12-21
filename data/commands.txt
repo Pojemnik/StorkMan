@@ -5,7 +5,7 @@ command (argument, argument, ...) (default value, default value, ...) descriptio
 Drawing/debug info:
 mapvertices (bool) (false) Drawing platforms' edges
 drawhp (bool) (false) Drawing player's health as number in upper left corner of the screen
-damagezones (bool) (false) Draws damage zones
+drawzones (bool) (false) Draws damage zones
 chunksborders (bool) (false) Draws chunks' borders
 soundsources (bool) (false)	Draws sound zones and their sources
 

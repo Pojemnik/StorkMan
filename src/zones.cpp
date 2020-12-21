@@ -34,8 +34,8 @@ void Damage_zone::interact(Entity& entity)
 	{
 		if (coll::test_bollean(*entity.get_collision(), collision))
 		{
-			bool present = contained.insert(&entity).second;
-			if (changed_damage || present)
+			bool present = !contained.insert(&entity).second;
+			if (changed_damage || !present)
 			{
 				entity.deal_damage(current_damage->first);
 			}
@@ -87,4 +87,39 @@ void Moving_damage_zone::draw(sf::RenderTarget& target, sf::RenderStates states)
 {
 	states.transform *= ai->get_pos();
 	Damage_zone::draw(target, states);
+}
+
+Event_zone::Event_zone(const std::vector<Vectorf>& vert, Vectorf p,
+	std::vector<int>&& events_, bool player_only_) : Zone(vert, p),
+	events(events_), player_only(player_only_) {}
+
+void Event_zone::interact(Entity& entity)
+{
+	if (player_only && entity.id.get_type() != Message_sender_type::PLAYER)
+	{
+		return;
+	}
+	if (get_bounding_rect().intersects(entity.get_collision()->rect))
+	{
+		if (coll::test_bollean(*entity.get_collision(), collision))
+		{
+			bool present = !contained.insert(&entity).second;
+			if (!present)
+			{
+				send_next_time = true;
+			}
+			return;
+		}
+	}
+	contained.erase(&entity);
+}
+
+std::vector<int> Event_zone::get_events()
+{
+	if (send_next_time)
+	{
+		send_next_time = false;
+		return events;
+	}
+	return std::vector<int>();
 }

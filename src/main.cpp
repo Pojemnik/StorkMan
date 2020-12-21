@@ -391,7 +391,7 @@ int main(int argc, char** argv)
 		//window.draw(test_enemy, rs);
 		map->draw_middle_layers(window, rs);
 		map->draw_top_layers(window, rs);
-		if (context.draw_damage_zones)
+		if (context.draw_zones)
 		{
 			map->draw_zones(window, rs);
 		}

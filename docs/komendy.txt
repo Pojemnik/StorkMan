@@ -6,7 +6,7 @@ Wyświetlanie/debug:
 
 mapvertices				bool			false				Rysowanie krawędzi platform
 drawhp					bool			false				Rysowanie poziomu zdrowia bohatera
-damagezones				bool			false				Rysuje strefy obrażeń
+drawzones				bool			false				Rysuje strefy obrażeń
 chunksborders			bool			false				Rysuje granice chunków
 soundsources 			bool			false				Rysuje strefy słyszalności i źródła dźwięków
 mapevent				string			-					Wysyła wiadomość i zdarzeniu na mapie

@@ -128,6 +128,7 @@ std::unique_ptr<Chunk> Parser::parse_chunk(tinyxml2::XMLElement* root, Vectori l
 	std::vector<std::shared_ptr<Zone>> zones;
 	std::vector<std::shared_ptr<Map_object>> map_objects;
 	std::vector<sf::Vertex> collision_vertices;
+	std::vector<std::shared_ptr<Interactive>> interactives;
 	tinyxml2::XMLElement* element = root->FirstChildElement();
 	while (element != nullptr)
 	{
@@ -163,6 +164,11 @@ std::unique_ptr<Chunk> Parser::parse_chunk(tinyxml2::XMLElement* root, Vectori l
 		{
 			zones.push_back(zone);
 		}
+		auto inter = dynamic_pointer_cast<Interactive>(ptr);
+		if (inter)
+		{
+			interactives.push_back(inter);
+		}
 		element = element->NextSiblingElement();
 	}
 	sf::FloatRect bound = calculate_chunk_bounds(root, map_objects);
@@ -171,7 +177,8 @@ std::unique_ptr<Chunk> Parser::parse_chunk(tinyxml2::XMLElement* root, Vectori l
 	collision_buffer.update(collision_vertices.data());
 	return std::make_unique<Map_chunk>(std::move(p_updatables),
 		std::move(g_updatables), std::move(drawables), std::move(collidables),
-		std::move(zones), bound, std::move(collision_buffer));
+		std::move(zones), std::move(interactives), bound, 
+		std::move(collision_buffer));
 
 }
 
@@ -921,6 +928,43 @@ std::pair<std::optional<int>, std::shared_ptr<Moving_barrier>> Parser::parse_mov
 		std::cout << "Check texture" << '\n';
 	}
 	throw std::runtime_error("Moving platform error");
+}
+
+std::pair<std::optional<int>, std::shared_ptr<Event_zone>> Parser::parse_event_zone(tinyxml2::XMLElement* element, Vectori level_pos)
+{
+	try
+	{
+		std::vector<Vectorf> vert;
+		Vectorf pos = get_position(element, level_pos);
+		bool player_only = get_and_parse_var<bool>("player_only", element, false);
+		std::vector<int> zone_events;
+		tinyxml2::XMLElement* e = element->FirstChildElement();
+		while (e != NULL)
+		{
+			string n = e->Name();
+			if (n == "v")
+			{
+				Vectorf v = parse_var<Vectorf>(e->GetText());
+				v *= context.global_scale;
+				vert.push_back(v);
+			}
+			if (n == "e")
+			{
+				string name = e->GetText();
+				zone_events.push_back(events.at(name));
+			}
+			e = e->NextSiblingElement();
+		}
+		return std::make_pair(std::optional<int>(),
+			std::make_shared<Event_zone>(vert, pos, std::move(zone_events), player_only));
+	}
+	catch (const std::invalid_argument& e)
+	{
+		std::cout << "Wyjatek: " << e.what() << '\n';
+		std::cout << "Element: " << "event zone" << '\n';
+		std::cout << "Check vertices" << '\n';
+	}
+	throw std::runtime_error("event zone error");
 }
 
 Map_sound Parser::parse_sound(tinyxml2::XMLElement* element, Vectori level_pos, int id)

@@ -10,6 +10,7 @@ class Map_chunk : public Chunk
 	std::vector<std::shared_ptr<Graphical_updatable>> g_updatables;
 	std::vector<std::shared_ptr<const Collidable>> collidables;
 	std::vector<std::shared_ptr<Zone>> zones;
+	std::vector<std::shared_ptr<Interactive>> interactives;
 	std::array<std::vector<std::shared_ptr<Renderable>>, TOTAL_LAYERS> layers;
 	sf::FloatRect bound;
 	sf::RectangleShape border;
@@ -21,6 +22,7 @@ public:
 		std::vector<std::pair<int, std::shared_ptr<Renderable>>>&& drawables_,
 		std::vector<std::shared_ptr<const Collidable>>&& collidables_,
 		std::vector<std::shared_ptr<Zone>>&& zones_,
+		std::vector<std::shared_ptr<Interactive>>&& interactives_,
 		sf::FloatRect bound_, sf::VertexBuffer&& static_vertices);
 	void update_graphics(float dt);
 	void update_physics(float dt, std::vector<int>& msg_up);

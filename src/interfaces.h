@@ -22,3 +22,9 @@ class Renderable : public sf::Drawable
 {
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const = 0;
 };
+
+class Interactive
+{
+public:
+	virtual std::vector<int> get_events() = 0;
+};

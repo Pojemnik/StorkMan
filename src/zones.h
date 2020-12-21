@@ -48,3 +48,15 @@ public:
 	virtual void update_physics(float dt);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
+
+class Event_zone : public Zone, public Interactive
+{
+	const std::vector<int> events;
+	bool player_only;
+	bool send_next_time = false;
+
+public:
+	Event_zone(const std::vector<Vectorf>& vert, Vectorf p, std::vector<int>&& events_, bool player_only_);
+	virtual void interact(Entity& entity);
+	virtual std::vector<int>get_events();
+};

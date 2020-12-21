@@ -36,7 +36,6 @@ void Map_chunk::make_zones_interactions(Entity& entity) const
 {
 	for (auto& it : zones)
 	{
-
 		it->interact(entity);
 	}
 }
@@ -46,11 +45,13 @@ Map_chunk::Map_chunk(std::vector<std::shared_ptr<Physical_updatable>>&& p_updata
 	std::vector<std::pair<int, std::shared_ptr<Renderable>>>&& drawables_,
 	std::vector<std::shared_ptr<const Collidable>>&& collidables_,
 	std::vector<std::shared_ptr<Zone>>&& zones_,
+	std::vector<std::shared_ptr<Interactive>>&& interactives_,
 	sf::FloatRect bound_, sf::VertexBuffer&& static_vertices)
 	: p_updatables(std::move(p_updatables_)),
 	g_updatables(std::move(g_updatables_)), collidables(std::move(collidables_)),
 	bound(bound_), zones(std::move(zones_)),
-	static_collision_vertices(std::move(static_vertices))
+	static_collision_vertices(std::move(static_vertices)),
+	interactives(std::move(interactives_))
 {
 	static util::Color_generator colors("data/colors.txt");
 	for (auto& it : drawables_)
@@ -77,6 +78,11 @@ void Map_chunk::update_physics(float dt, std::vector<int>& msg_up)
 	for (auto& it : p_updatables)
 	{
 		it->update_physics(dt);
+	}
+	for (auto& it : interactives)
+	{
+		std::vector<int> events = it->get_events();
+		msg_up.insert(msg_up.begin(), events.begin(), events.end());
 	}
 }
 

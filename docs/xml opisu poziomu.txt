@@ -233,6 +233,15 @@ dynamic chunk:
 		<timed_event>
 		<state_trigger>
 		(patrz znaczniki pomocnicze)
+		
+event_zone:
+	atrybuty:
+		position
+		player_only* (bool) (domyślnie false) - czy strefa reaguje wyłącznie na gracza, czy też na inne żyjątka
+		
+	znaczniki:
+		<v>
+		<e> (patrz znaczniki pomocnicze)
 
 Znaczniki pomocnicze (nie występują samodzielnie):
 		
@@ -279,4 +288,7 @@ timed_event:
 		state (int) - stan, w którym zdarzenie czasowe ma być wywoływane
 		event (string) - nazwa wywoływanego zdarzenia
 		time (float) [1/60s] - czas, po którym zostanie wywołane dane zdarzenie (liczone od rozpoczęcia stanu określonego atrybutem state)
+		
+e:
+	zawartość: (string) nazwa eventu do wywołania
 		

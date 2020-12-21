@@ -176,10 +176,10 @@ std::pair<Commands_interpreter::Command_code, Vectorf> Commands_interpreter::exe
 		context.draw_hp =
 			get_bool(cmd, "Player's health level", { "drawn", "hidden" });
 	}
-	else if (cmd.name == "damagezones")
+	else if (cmd.name == "drawzones")
 	{
-		context.draw_damage_zones =
-			get_bool(cmd, "Damage zones", { "drawn", "hidden" });
+		context.draw_zones =
+			get_bool(cmd, "Zones", { "drawn", "hidden" });
 	}
 	else if (cmd.name == "fpscounter")
 	{

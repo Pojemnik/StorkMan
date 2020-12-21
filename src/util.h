@@ -36,7 +36,7 @@ struct Context
 	bool draw_map_vertices = false;
 	bool draw_fps_counter = false;
 	bool draw_hp = false;
-	bool draw_damage_zones = false;
+	bool draw_zones = false;
 	bool god_mode = false;
 	float fps = 60.f;
 	float gravity = 0.3f;
