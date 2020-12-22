@@ -242,6 +242,14 @@ event_zone:
 	znaczniki:
 		<v>
 		<e> (patrz znaczniki pomocnicze)
+		
+clickable_zone:
+	atrybuty:
+		position
+	
+	znaczniki:
+		<v>
+		<e>
 
 Znaczniki pomocnicze (nie występują samodzielnie):
 		

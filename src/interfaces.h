@@ -27,4 +27,5 @@ class Interactive
 {
 public:
 	virtual std::vector<int> get_events() = 0;
+	virtual void clicked(Vectori mouse_pos, int button) = 0;
 };

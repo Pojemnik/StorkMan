@@ -3,14 +3,14 @@
 	<event name="event2"/>
 	<event name="timed_event"/>
 	<chunk>
-		<event_zone position="8,17">
+		<clickable_zone position="10,8">
 			<v>0,0</v>
 			<v>2,0</v>
 			<v>2,2</v>
 			<v>0,2</v>
 			
 			<e>event1</e>
-		</event_zone>
+		</clickable_zone>
 	</chunk>
 	<chunk>
 		<platform position="10,10" texture="bricks,0">

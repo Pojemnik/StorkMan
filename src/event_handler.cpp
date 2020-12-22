@@ -91,6 +91,10 @@ void Event_handler::handle_event(sf::Event& event)
 				{
 					send_message(Message::Message_type::ADD_GRID_POINT);
 				}
+				else
+				{
+					send_message(Message::Message_type::MOUSE_CLICKED);
+				}
 			}
 			else if (event.mouseButton.button == sf::Mouse::Right)
 			{

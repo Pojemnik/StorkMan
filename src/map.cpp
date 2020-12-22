@@ -129,6 +129,10 @@ void Map::update_physics(float dt, Vectorf player_pos, sf::FloatRect screen_rect
 		{
 			send_message(Message::Message_type::MAP_EVENT, msg.args);
 		}
+		if (msg.type == Message::Message_type::MOUSE_CLICKED)
+		{
+			send_message(Message::Message_type::MOUSE_CLICKED, msg.args);
+		}
 	}
 	for (auto& it : considered_levels)
 	{

@@ -265,6 +265,13 @@ int main(int argc, char** argv)
 						"Map event: " + std::to_string(std::get<int>(msg.args)) + '\n');
 				}
 				break;
+			case Message::Message_type::MOUSE_CLICKED:
+				if (msg.sender->id.get_type() == Message_sender_type::ENGINE)
+				{
+					engine_sender.send_message<Vectori>(Message::Message_type::MOUSE_CLICKED,
+						sf::Mouse::getPosition() - window.getPosition() + static_cast<Vectori>(camera_pos));
+				}
+				break;
 			case Message::Message_type::CONSOLE_COMMAND_RECEIVED:
 			{
 				string command = std::get<string>(msg.args);

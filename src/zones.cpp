@@ -123,3 +123,31 @@ std::vector<int> Event_zone::get_events()
 	}
 	return std::vector<int>();
 }
+
+Clickable_zone::Clickable_zone(const std::vector<Vectorf>& vert, Vectorf p, std::vector<int>&& events_)
+	: Event_zone(vert, p, std::move(events_), false) {}
+
+void Clickable_zone::interact(Entity& entity)
+{
+	if (entity.id.get_type() != Message_sender_type::PLAYER)
+	{
+		return;
+	}
+	if (get_bounding_rect().intersects(entity.get_collision()->rect))
+	{
+		if (coll::test_bollean(*entity.get_collision(), collision))
+		{
+			player_inside = true;
+			return;
+		}
+	}
+	player_inside = false;
+}
+
+void Clickable_zone::clicked(Vectori mouse_pos, int button)
+{
+	if (player_inside && util::contained_in_polygon(static_cast<Vectorf>(mouse_pos), 1000000.f, collision.mesh))
+	{
+		send_next_time = true;
+	}
+}

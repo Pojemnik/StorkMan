@@ -75,6 +75,17 @@ void Map_chunk::update_graphics(float dt)
 
 void Map_chunk::update_physics(float dt, std::vector<int>& msg_up)
 {
+	while (message_available())
+	{
+		Message msg = pop_message();
+		if (msg.type == Message::Message_type::MOUSE_CLICKED)
+		{
+			for (auto& it : interactives)
+			{
+				it->clicked(std::get<Vectori>(msg.args), 0);
+			}
+		}
+	}
 	for (auto& it : p_updatables)
 	{
 		it->update_physics(dt);

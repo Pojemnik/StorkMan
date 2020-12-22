@@ -61,6 +61,8 @@ class Parser
 		parse_moving_barrier(tinyxml2::XMLElement* element, Vectori level_pos);
 	std::pair<std::optional<int>, std::shared_ptr<Event_zone>>
 		parse_event_zone(tinyxml2::XMLElement* element, Vectori level_pos);
+	std::pair<std::optional<int>, std::shared_ptr<Clickable_zone>>
+		parse_clickable_zone(tinyxml2::XMLElement* element, Vectori level_pos);
 	Map_sound parse_sound(tinyxml2::XMLElement* element, Vectori level_pos, int id);
 	sf::FloatRect calculate_chunk_bounds(tinyxml2::XMLElement* root,
 		std::vector<std::shared_ptr<Map_object>>& objects);
@@ -82,7 +84,8 @@ class Parser
 		{"moving_damage_zone", std::bind(&Parser::parse_moving_damage_zone, this, std::placeholders::_1, std::placeholders::_2)},
 		{"barrier", std::bind(&Parser::parse_barrier, this, std::placeholders::_1, std::placeholders::_2)},
 		{"moving_barrier", std::bind(&Parser::parse_moving_barrier, this, std::placeholders::_1, std::placeholders::_2)},
-		{"event_zone", std::bind(&Parser::parse_event_zone, this, std::placeholders::_1, std::placeholders::_2)}
+		{"event_zone", std::bind(&Parser::parse_event_zone, this, std::placeholders::_1, std::placeholders::_2)},
+		{"clickable_zone", std::bind(&Parser::parse_clickable_zone, this, std::placeholders::_1, std::placeholders::_2)}
 	};
 
 public:

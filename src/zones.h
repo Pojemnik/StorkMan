@@ -53,10 +53,23 @@ class Event_zone : public Zone, public Interactive
 {
 	const std::vector<int> events;
 	bool player_only;
+
+protected:
 	bool send_next_time = false;
 
 public:
 	Event_zone(const std::vector<Vectorf>& vert, Vectorf p, std::vector<int>&& events_, bool player_only_);
 	virtual void interact(Entity& entity);
 	virtual std::vector<int>get_events();
+	virtual void clicked(Vectori mouse_pos, int button) {};
+};
+
+class Clickable_zone : public Event_zone
+{
+	bool player_inside = false;
+
+public:
+	Clickable_zone(const std::vector<Vectorf>& vert, Vectorf p, std::vector<int>&& events_);
+	virtual void interact(Entity& entity);
+	virtual void clicked(Vectori mouse_pos, int button);
 };

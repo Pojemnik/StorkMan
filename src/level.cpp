@@ -74,6 +74,10 @@ void Level::update_physics(float dt, sf::FloatRect screen_rect, std::vector<int>
 		{
 			send_message(Message::Message_type::MAP_EVENT, msg.args);
 		}
+		if (msg.type == Message::Message_type::MOUSE_CLICKED)
+		{
+			send_message(Message::Message_type::MOUSE_CLICKED, msg.args);
+		}
 	}
 	for (auto& it : chunks)
 	{

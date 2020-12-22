@@ -967,6 +967,42 @@ std::pair<std::optional<int>, std::shared_ptr<Event_zone>> Parser::parse_event_z
 	throw std::runtime_error("event zone error");
 }
 
+std::pair<std::optional<int>, std::shared_ptr<Clickable_zone>> Parser::parse_clickable_zone(tinyxml2::XMLElement* element, Vectori level_pos)
+{
+	try
+	{
+		std::vector<Vectorf> vert;
+		Vectorf pos = get_position(element, level_pos);
+		std::vector<int> zone_events;
+		tinyxml2::XMLElement* e = element->FirstChildElement();
+		while (e != NULL)
+		{
+			string n = e->Name();
+			if (n == "v")
+			{
+				Vectorf v = parse_var<Vectorf>(e->GetText());
+				v *= context.global_scale;
+				vert.push_back(v);
+			}
+			if (n == "e")
+			{
+				string name = e->GetText();
+				zone_events.push_back(events.at(name));
+			}
+			e = e->NextSiblingElement();
+		}
+		return std::make_pair(std::optional<int>(),
+			std::make_shared<Clickable_zone>(vert, pos, std::move(zone_events)));
+	}
+	catch (const std::invalid_argument& e)
+	{
+		std::cout << "Wyjatek: " << e.what() << '\n';
+		std::cout << "Element: " << "clickable zone" << '\n';
+		std::cout << "Check vertices" << '\n';
+	}
+	throw std::runtime_error("clickable zone error");
+}
+
 Map_sound Parser::parse_sound(tinyxml2::XMLElement* element, Vectori level_pos, int id)
 {
 	try
