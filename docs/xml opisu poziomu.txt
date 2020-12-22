@@ -250,6 +250,34 @@ clickable_zone:
 	znaczniki:
 		<v>
 		<e>
+		
+moving_wall:
+	atrybuty:
+		position
+		texture
+		layer* (domyślne 5)
+		rotation* (domyślnie 0)
+		flip* (domyślnie 1,1)
+		color* (domyślnie 255,255,255)
+		
+	zawartość:
+		znaczniki <v> lub <vt> opsujące kolejne wierzchołki
+		<move> opisujący ruch
+		
+animated_moving_wall:
+	atrybuty:
+		position
+		texture
+		layer* (domyślne 5)
+		rotation* (domyślnie 0)
+		flip* (domyślnie 1,1)
+		offset* (domyślne 0)
+		frame_time* (domyślnie 1)
+		color* (domyślnie 255,255,255)
+		
+	zawartość:
+		znaczniki <v> lub <vt> opsujące kolejne wierzchołki
+		<move>
 
 Znaczniki pomocnicze (nie występują samodzielnie):
 		

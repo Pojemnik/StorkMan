@@ -83,3 +83,31 @@ public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual void draw_dynamic_collision(sf::RenderTarget& target, sf::RenderStates states) const;
 };
+
+class Moving_polygon : public Textured_polygon, public Graphical_updatable
+{
+protected:
+	std::unique_ptr<Simple_AI> ai;
+
+public:
+	Moving_polygon(Vectorf pos_, const sf::Texture* texture_,
+		std::vector<sf::Vertex> points_, std::unique_ptr<Simple_AI> ai_,
+		sf::Color color);
+	void update_graphics(float dt);
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+};
+
+class Animated_moving_polygon : public Moving_polygon, public Animatable
+{
+protected:
+	std::unique_ptr<Animation> animation;
+
+public:
+	Animated_moving_polygon(Vectorf pos_, std::unique_ptr<Animation>&& animation_,
+		std::vector<sf::Vertex> points_, std::unique_ptr<Simple_AI> ai_,
+		sf::Color color);
+	void update_graphics(float dt);
+	virtual void update_frame();
+	virtual void next_frame(float dt);
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+};

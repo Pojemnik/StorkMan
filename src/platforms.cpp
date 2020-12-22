@@ -181,3 +181,53 @@ void Animated_moving_platform::draw_dynamic_collision(sf::RenderTarget& target, 
 	states.transform *= ai->get_pos();
 	target.draw(vertex, states);
 }
+
+Moving_polygon::Moving_polygon(Vectorf pos_, const sf::Texture* texture_,
+	std::vector<sf::Vertex> points_, std::unique_ptr<Simple_AI> ai_,
+	sf::Color color) : Textured_polygon(pos_, texture_, points_, color),
+	ai(std::move(ai_)) {}
+
+void Moving_polygon::update_graphics(float dt)
+{
+	ai->calc_pos(dt);
+}
+
+void Moving_polygon::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	states.transform *= ai->get_pos();
+	Textured_polygon::draw(target, states);
+}
+
+Animated_moving_polygon::Animated_moving_polygon(Vectorf pos_,
+	std::unique_ptr<Animation>&& animation_, std::vector<sf::Vertex> points_,
+	std::unique_ptr<Simple_AI> ai_, sf::Color color) : 
+	Moving_polygon(pos_, nullptr, points_, std::move(ai_), color),
+	animation(std::move(animation_))
+{
+
+}
+
+void Animated_moving_polygon::update_graphics(float dt)
+{
+	next_frame(dt);
+	update_frame();
+	Moving_polygon::update_graphics(dt);
+
+}
+
+void Animated_moving_polygon::update_frame()
+{
+	texture = animation->get_texture();
+}
+
+void Animated_moving_polygon::next_frame(float dt)
+{
+	animation->next_frame(dt);
+}
+
+void Animated_moving_polygon::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	states.texture = texture;
+	states.transform *= ai->get_pos();
+	target.draw(polygon, states);
+}

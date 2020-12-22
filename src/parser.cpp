@@ -596,13 +596,13 @@ Parser::parse_moving_platform(tinyxml2::XMLElement* element, Vectori level_pos)
 	catch (const std::invalid_argument& e)
 	{
 		std::cout << "Wyjatek: " << e.what() << '\n';
-		std::cout << "Element: " << "linear moving platform" << '\n';
+		std::cout << "Element: " << "moving platform" << '\n';
 		std::cout << "Check vertices" << '\n';
 	}
 	catch (const std::out_of_range& e)
 	{
 		std::cout << "Wyjatek: " << e.what() << '\n';
-		std::cout << "Element: " << "linear platform" << '\n';
+		std::cout << "Element: " << "moving platform" << '\n';
 		std::cout << "Check texture" << '\n';
 	}
 	throw std::runtime_error("Moving platform error");
@@ -1001,6 +1001,109 @@ std::pair<std::optional<int>, std::shared_ptr<Clickable_zone>> Parser::parse_cli
 		std::cout << "Check vertices" << '\n';
 	}
 	throw std::runtime_error("clickable zone error");
+}
+
+std::pair<std::optional<int>, std::shared_ptr<Moving_polygon>> Parser::parse_moving_wall(tinyxml2::XMLElement* element, Vectori level_pos)
+{
+	try
+	{
+		string val = get_attribute_by_name("texture", element);
+		const sf::Texture* tex = assets->textures.at(val);
+		Vectorf pos = get_position(element, level_pos);
+		std::pair<int, float> fliprot = parse_flip_rotation(element);
+		std::vector<sf::Vertex> vert;
+		std::unique_ptr<Simple_AI> ai;
+		sf::Color color = get_and_parse_var<sf::Color>("color", element, sf::Color::White);
+		tinyxml2::XMLElement* e = element->FirstChildElement();
+		while (e != NULL)
+		{
+			string n = e->Name();
+			if (n == "v")
+			{
+				vert.push_back(parse_vertex(e->GetText(), fliprot));
+			}
+			else if (n == "vt")
+			{
+				vert.push_back(parse_textured_vertex(e->GetText()));
+			}
+			else if (n == "move")
+			{
+				ai = parse_move(e);
+			}
+			e = e->NextSiblingElement();
+		}
+		int layer = parse_layer(element, DEFAULT_PLATFORM_LAYER);
+		return std::make_pair(layer,
+			std::make_shared<Moving_polygon>(pos, tex, std::move(vert),
+				std::move(ai), color));
+	}
+	catch (const std::invalid_argument& e)
+	{
+		std::cout << "Wyjatek: " << e.what() << '\n';
+		std::cout << "Element: " << "moving wall" << '\n';
+		std::cout << "Check vertices" << '\n';
+	}
+	catch (const std::out_of_range& e)
+	{
+		std::cout << "Wyjatek: " << e.what() << '\n';
+		std::cout << "Element: " << "moving wall" << '\n';
+		std::cout << "Check texture" << '\n';
+	}
+	throw std::runtime_error("Moving polygon error");
+}
+
+std::pair<std::optional<int>, std::shared_ptr<Animated_moving_polygon>> 
+Parser::parse_animated_moving_wall(tinyxml2::XMLElement* element,
+	Vectori level_pos)
+{
+	try
+	{
+		Vectorf pos = get_position(element, level_pos);
+		std::pair<int, float> fliprot = parse_flip_rotation(element);
+		string val = get_attribute_by_name("texture", element);
+		const std::vector<const sf::Texture*>* tex = &assets->animations.at(val);
+		float frame_time = get_and_parse_var<float>("frame_time", element, 1.f);
+		float frame_offset = get_and_parse_var<float>("offset", element, 0.f);
+		int layer = parse_layer(element, DEFAULT_OBJECT_LAYER);
+		Static_animation_struct sas(tex, frame_time);
+		std::unique_ptr<Animation> animation = std::make_unique<Static_animation>(sas, frame_offset);
+		std::unique_ptr<Simple_AI> ai;
+		std::vector<sf::Vertex> points;
+		sf::Color color = get_and_parse_var<sf::Color>("color", element, sf::Color::White);
+		tinyxml2::XMLElement* e = element->FirstChildElement();
+		while (e != NULL)
+		{
+			string n = e->Name();
+			if (n == "v")
+			{
+				points.push_back(parse_vertex(e->GetText(), fliprot));
+			}
+			else if (n == "vt")
+			{
+				points.push_back(parse_textured_vertex(e->GetText()));
+			}
+			else if (n == "move")
+			{
+				ai = parse_move(e);
+			}
+			e = e->NextSiblingElement();
+		}
+		return std::make_pair(layer, std::make_shared<Animated_moving_polygon>(pos,
+			std::move(animation), points, std::move(ai), color));
+	}
+	catch (const std::invalid_argument& e)
+	{
+		std::cout << "Wyjatek: " << e.what() << '\n';
+		std::cout << "Element: " << "animated_wall" << '\n';
+		std::cout << "Check vertices" << '\n';
+	}
+	catch (const std::out_of_range& e)
+	{
+		std::cout << "Wyjatek: " << e.what() << '\n';
+		std::cout << "Element: " << "animated_wall" << '\n';
+		std::cout << "Check texture" << '\n';
+	}
+	throw std::runtime_error("Textured_polygon error");
 }
 
 Map_sound Parser::parse_sound(tinyxml2::XMLElement* element, Vectori level_pos, int id)
