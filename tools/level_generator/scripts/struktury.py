@@ -19,10 +19,10 @@ def schody(x=0, y=0, warstwa=5, kolor=[255,255,255], obrót=1, długość=2, wys
         s = s + podstawy.platforma(x=x,y=y,warstwa=warstwa,tekstura=tekstura,R=kolor[0],G=kolor[1],B=kolor[2],wierzchołki=v,jednostronna=True,zwróć_tekst=True)
     for i in range(stopnie):
         v = ["v",4,]
-        v += [przesunięcie*obrót,-wysokość/stopnie*i]
+        v += [0,-wysokość/stopnie*i]
         v += [(długość-(długość-przesunięcie)/stopnie*i)*obrót,-wysokość/stopnie*i]
         v += [(długość-(długość-przesunięcie)/stopnie*i)*obrót,-wysokość/stopnie*(i+1)]
-        v += [przesunięcie*obrót,-wysokość/stopnie*(i+1)]
+        v += [0,-wysokość/stopnie*(i+1)]
         s = s + podstawy.platforma(x=x,y=y,warstwa=warstwa,tekstura=tekstura,R=kolor[0],G=kolor[1],B=kolor[2],wierzchołki=v,jednostronna=True,zwróć_tekst=True)
     if zwróć_tekst:
         return s

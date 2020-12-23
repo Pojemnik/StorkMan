@@ -38,6 +38,14 @@ typy_bariera = [2,"position","surface"]
 domyślne_wartości_bariera = [None,None,"none"]
 typy_dźwięk = [6,"position","volume","sound","attenuation","min_distance","range"]
 domyślne_wartości_dźwięk = [None,None,100,None,1,1,8]
+typy_strefa_zdarzeń = [2,"position","player_only"]
+domyślne_wartości_strefa_zdarzeń = [None,None,False]
+typy_wyzwalacz_stanu = [2,"state","trigger"]
+domyślne_wartości_wyzwalacz_stanu = [None,None]
+typy_czasowe_zdarzenie = [3,"state","event","time"]
+domyślne_wartości_czasowe_zdarzenie = [None,None,None]
+typy_zdarzenie = [1,"name"]
+domyślne_wartości_zdarzenie = [None]
 
 def znaczniki(nazwa):
     if nazwa == "accelerated":
@@ -52,6 +60,8 @@ def znaczniki(nazwa):
         return 4
     if nazwa == "d":
         return 2
+    if nazwa == "e":
+        return 1
     return 0
 def podział_na_elementy(s):
     r = []
@@ -104,6 +114,20 @@ def przypisanie_tabeli_wartości(typ):
         return domyślne_wartości_animowany_obiekt,typy_animowany_obiekt
     if typ=="sound":
         return domyślne_wartości_dźwięk,typy_dźwięk
+    if typ=="moving_wall":
+        return domyślne_wartości_ściana,typy_ściana
+    if typ=="animated_moving_wall" or typ=="moving_animated_wall":
+        return domyślne_wartości_animowana_ściana,typy_animowana_ściana
+    if typ=="event_zone":
+        return domyślne_wartości_strefa_zdarzeń,typy_strefa_zdarzeń
+    if typ=="clickable_zone":
+        return domyślne_wartości_strefa_obrażeń,typy_strefa_obrażeń
+    if typ=="state_trigger":
+        return domyślne_wartości_wyzwalacz_stanu,typy_wyzwalacz_stanu
+    if typ=="timed_event":
+        return domyślne_wartości_czasowe_zdarzenie,typy_czasowe_zdarzenie
+    if typ=="event":
+        return domyślne_wartości_zdarzenie,typy_zdarzenie
     return [],[]
 def ilość_wartości_parametru(typ):
     if typ=="color":
@@ -184,7 +208,7 @@ def odczyt_elementu(s):
         if p>=0 and p<l:
             k = s.find('"',p+1)
             r += [t,]
-            if t=="texture" or t=="surface" or t=="line" or t=="one_sided" or t=="sound":
+            if t=="texture" or t=="surface" or t=="line" or t=="one_sided" or t=="sound" or t=="player_only" or t=="trigger" or t=="event" or t=="name":
                 r += [s[p+1:k],]
             else:
                 f = s[p+1:k]
@@ -214,17 +238,22 @@ def odczyt_elementu(s):
                         r = r + ["vt",]
                     if t == "d":
                         r = r + ["d",]
+                    if t == "e":
+                        r = r + ["e",]
                     while p>0:
                         k = s.find("</"+t+">",p)
                         f = s[p+2+len(t):k]
                         n = 1
                         while n>0:
                             n = f.find(",")
-                            if n>0:
-                                z = z + [float(f[0:n]),]
-                                f = f[n+1:]
+                            if t=="e":
+                                z += f
                             else:
-                                z = z + [float(f),]
+                                if n>0:
+                                    z = z + [float(f[0:n]),]
+                                    f = f[n+1:]
+                                else:
+                                    z = z + [float(f),]
                         i = i + 1
                         p=s.find("<"+t+">",k)
                     p = k + 1
@@ -245,9 +274,9 @@ def indeks_ruchu_elementu(e):
     if e[0]=="moving_platform":
         return 12
     if e[0]=="wall":
-        return 0
+        return -11
     if e[0]=="animated_wall":
-        return 0
+        return -13
     if e[0]=="animated_moving_platform" or e[0]=="moving_animated_platform":
         return 14
     if e[0]=="damage_zone":
@@ -261,6 +290,18 @@ def indeks_ruchu_elementu(e):
     if e[0]=="animated_moving_object" or e[0]=="moving_animated_object":
         return 14
     if e[0]=="sound":
+        return 0
+    if e[0]=="event_zone":
+        return 0
+    if e[0]=="clickable_zone":
+        return 0
+    if e[0]=="moving_wall":
+        return 11
+    if e[0]=="animated_moving_wall" or e[0]=="moving_animated_wall":
+        return 13
+    if e[0]=="state_trigger":
+        return 0
+    if e[0]=="timed_event":
         return 0
     return 0
 def indeks_wierzchołków_elementu(e):
@@ -294,14 +335,36 @@ def indeks_wierzchołków_elementu(e):
         return -1
     if e[0]=="sound":
         return -1
+    if e[0]=="event_zone":
+        return 4
+    if e[0]=="clickable_zone":
+        return 3
+    if e[0]=="moving_wall":
+        return 0
+    if e[0]=="animated_moving_wall":
+        return 0
+    if e[0]=="state_trigger":
+        return -1
+    if e[0]=="timed_event":
+        return -1
     return 0
+def zapis_stanów(stany,s,domyślny=0,zwróć_tekst=False):
+    s_chunk = "<dynamic_chunk>\n"
+    for i in range(stany[0]):
+        s_chunk += "<state>\n" + stany[i+1] + "</state>\n"
+    s_chunk += s + wyzwalacz_stanu(stan=domyślny,wyzwalacz="default",zwróć_tekst=True) + "</dynamic_chunk>\n"
+    lvl.add(s_chunk)
 def zapis(s):
+    if s.find("<state>")!=-1:
+        chunk_name = "dynamic_chunk"
+    else:
+        chunk_name = "chunk"
     s_chunk = ""
     s_no_chunk = ""
     t = podział_na_elementy(s)
     for i in range(t[0]):
         t[i+1] = odczyt_elementu(t[i+1])
-        if t[i+1][0]=="sound":
+        if t[i+1][0]=="sound" or t[i+1][0]=="event":
             s_no_chunk += zapis_elementu(t[i+1],zwróć_tekst=True)
         else:
             s_chunk += zapis_elementu(t[i+1],zwróć_tekst=True)
@@ -316,7 +379,7 @@ def wyznaczanie_zakresu_ruchu_w_tablicy_elementu(e, n):
             p += e[p+1]*znaczniki(e[p])+2
     else:
         p = e[n+1]*znaczniki(e[n])+(n+2)
-    return p
+    return int(p)
 def zapis_elementu(e ,zwróć_tekst=False):
     s = ""
     p = 0
@@ -382,6 +445,28 @@ def zapis_elementu(e ,zwróć_tekst=False):
         s = animowany_ruchomy_obiekt(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8],e[9],e[10],e[11],e[12],e[13],e[n:p],True)
     if e[0]=="sound":
         s = dźwięk(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8:],zwróć_tekst=True)
+    if e[0]=="event_zone":
+        v = round(e[n+1]*znaczniki(e[n])+(n+2))
+        d = round(v+e[v+1]*znaczniki(e[v])+2)
+        s = strefa_zdarzeń(e[1],e[2],e[3],e[n:v],e[v:d],True)
+    if e[0]=="clickable_zone":
+        v = round(e[n+1]*znaczniki(e[n])+(n+2))
+        d = round(v+e[v+1]*znaczniki(e[v])+2)
+        s = strefa_klikalna(e[1],e[2],e[n:v],e[v:d],True)
+    if e[0]=="moving_wall":
+        p = wyznaczanie_zakresu_ruchu_w_tablicy_elementu(e,n)
+        v = round(p+e[p+1]*znaczniki(e[p])+2)
+        s = ruchoma_ściana(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8],e[9],e[10],e[n:p],e[p:v],True)
+    if e[0]=="animated_moving_wall" or e[0]=="moving_animated_wall":
+        p = wyznaczanie_zakresu_ruchu_w_tablicy_elementu(e,n)
+        v = round(p+e[p+1]*znaczniki(e[p])+2)
+        s = animowana_ruchoma_ściana(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8],e[9],e[10],e[11],e[12],e[n:p],e[p:v],True)
+    if e[0]=="state_trigger":
+        s = wyzwalacz_stanu(e[1],e[2],True)
+    if e[0]=="timed_event":
+        s = czasowe_zdarzenie(e[1],e[2],e[3],True)
+    if e[0]=="event":
+        s = zdarzenie(e[1],True)
     if zwróć_tekst:
         return s
     else:
@@ -431,6 +516,12 @@ def złożenie_obrażeń(obrażenia=["d",2,100,60,0,60]):
     if obrażenia[0] == "d":
         for i in range(obrażenia[1]):
             s += """\n        <d>{0},{1}</d>""".format(round(obrażenia[i*2+2],zaokr),round(obrażenia[i*2+3],zaokr))
+    return s
+def złożenie_zdarzeń(zdarzenia=["e",1,"event"]):
+    s = ""
+    if zdarzenia[0] == "e":
+        for i in range(zdarzenia[1]):
+            s += """\n        <e>{0}</e>""".format(zdarzenia[i+2])
     return s
 def parametr_pojedyńczy(s, n, typ, wartości, domyślne, zaokrąglenie):
     if zaokrąglenie[0] == True:
@@ -521,6 +612,18 @@ def parametry(typy, wartości, domyślne):
             s,n = parametr_pojedyńczy(s,n,typy[i+1],wartości,domyślne,[True,3])
         if typy[i+1] == "range":
             s,n = parametr_pojedyńczy(s,n,typy[i+1],wartości,domyślne,[True,3])
+        if typy[i+1] == "player_only":
+            s,n = parametr_pojedyńczy(s,n,typy[i+1],wartości,domyślne,[False,])
+        if typy[i+1] == "state":
+            s,n = parametr_pojedyńczy(s,n,typy[i+1],wartości,domyślne,[True,0])
+        if typy[i+1] == "event":
+            s,n = parametr_pojedyńczy(s,n,typy[i+1],wartości,domyślne,[False,])
+        if typy[i+1] == "trigger":
+            s,n = parametr_pojedyńczy(s,n,typy[i+1],wartości,domyślne,[False,])
+        if typy[i+1] == "time":
+            s,n = parametr_pojedyńczy(s,n,typy[i+1],wartości,domyślne,[True,3])
+        if typy[i+1] == "name":
+            s,n = parametr_pojedyńczy(s,n,typy[i+1],wartości,domyślne,[False,])
     return s
 def platforma(x=0, y=0, tekstura=domyślna_tekstura, warstwa=5, rotacja=0, odbicie_x=1, odbicie_y=1, powierzchnia=domyślna_powierzchnia, jednostronna=False, R=255, G=255, B=255, wierzchołki=["v",4,0,0,0,1,1,1,1,0], zwróć_tekst=False):
     s = ""
@@ -541,7 +644,7 @@ def obiekt(x=0, y=0, tekstura=domyślny_obiekt, wysokość=1, rotacja=0, odbicie
     s = ""
     wartości = [x,y,tekstura,wysokość,rotacja,odbicie_x,odbicie_y,warstwa,R,G,B]
     w,t = przypisanie_tabeli_wartości("object")
-    s += "    <object " + parametry(t,wartości,w) + "/>"
+    s += "    <object " + parametry(t,wartości,w) + "/>\n"
     if zwróć_tekst:
         return s
     else:
@@ -550,7 +653,7 @@ def animowany_obiekt(x=0, y=0, tekstura=domyślny_animowany_obiekt, wysokość=1
     s = ""
     wartości = [x,y,tekstura,wysokość,rotacja,odbicie_x,odbicie_y,warstwa,czas_klatki,przesunięcie,R,G,B]
     w,t = przypisanie_tabeli_wartości("animated_object")
-    s += "    <animated_object " + parametry(t,wartości,w) + "/>"
+    s += "    <animated_object " + parametry(t,wartości,w) + "/>\n"
     if zwróć_tekst:
         return s
     else:
@@ -682,12 +785,87 @@ def dźwięk(x=0, y=0, głośność=100, dźwięk=domyślny_dźwięk, wyciszanie
     s = ""
     wartości = [x,y,głośność,dźwięk,wyciszanie,próg_głośności,zasięg]
     w,t = przypisanie_tabeli_wartości("sound")
-    s += "    <sound " + parametry(t,wartości,w) + "/>"
+    s += "    <sound " + parametry(t,wartości,w)
     v = złożenie_wierzchołków(wierzchołki)
     if v == "":
         s += "/>\n"
     else:
         s += """>\n""" + v + """    </sound>\n"""
+    if zwróć_tekst:
+        return s
+    else:
+        zapis(s)
+def strefa_zdarzeń(x=0, y=0, tylko_gracz=False, wierzchołki=["v",4,0,0,0,1,1,1,1,0], zdarzenia=["e",1,"event"], zwróć_tekst=False):
+    s = ""
+    if tylko_gracz: #SPECJALNA TRANSFORMACJA TRUE/FALSE Z XML-A DO PYTHONA
+        tekst = "true"
+    else:
+        tekst = "false"
+    wartości = [x,y,tekst]
+    w,t = przypisanie_tabeli_wartości("event_zone")
+    s += "    <event_zone " + parametry(t,wartości,w) + ">"
+    s += złożenie_wierzchołków(wierzchołki) + złożenie_zdarzeń(zdarzenia)
+    s += """\n    </event_zone>\n"""
+    if zwróć_tekst:
+        return s
+    else:
+        zapis(s)
+def strefa_klikalna(x=0, y=0, wierzchołki=["v",4,0,0,0,1,1,1,1,0], zdarzenia=["e",1,"event"], zwróć_tekst=False):
+    s = ""
+    wartości = [x,y]
+    w,t = przypisanie_tabeli_wartości("clickable_zone")
+    s += "    <clickable_zone " + parametry(t,wartości,w) + ">"
+    s += złożenie_wierzchołków(wierzchołki) + złożenie_zdarzeń(zdarzenia)
+    s += """\n    </clickable_zone>\n"""
+    if zwróć_tekst:
+        return s
+    else:
+        zapis(s)
+def ruchoma_ściana(x=0, y=0, tekstura=domyślna_tekstura, warstwa=1, odbicie_x=1, odbicie_y=1, rotacja=0, R=255, G=255, B=255, ruch=["linear",2,0,0,60,1,1,60], wierzchołki=["v",4,0,0,0,1,1,1,1,0], zwróć_tekst=False):
+    s = ""
+    wartości = [x,y,tekstura,warstwa,odbicie_x,odbicie_y,rotacja,R,G,B]
+    w,t = przypisanie_tabeli_wartości("moving_wall")
+    s += "    <moving_wall " + parametry(t,wartości,w) + ">"
+    s += złożenie_ruchu(ruch) + złożenie_wierzchołków(wierzchołki)
+    s += """\n    </moving_wall>\n"""
+    if zwróć_tekst:
+        return s
+    else:
+        zapis(s)
+def animowana_ruchoma_ściana(x=0, y=0, tekstura=domyślna_animowana_tekstura, warstwa=1, czas_klatki=1, przesunięcie=0, odbicie_x=1, odbicie_y=1, rotacja=0, R=255, G=255, B=255, ruch=["linear",2,0,0,60,1,1,60], wierzchołki=["v",4,0,0,0,1,1,1,1,0], zwróć_tekst=False):
+    s = ""
+    wartości = [x,y,tekstura,warstwa,czas_klatki,przesunięcie,odbicie_x,odbicie_y,rotacja,R,G,B]
+    w,t = przypisanie_tabeli_wartości("animated_moving_wall")
+    s += "    <animated_moving_wall " + parametry(t,wartości,w) + ">"
+    s += złożenie_ruchu(ruch) + złożenie_wierzchołków(wierzchołki)
+    s += """\n    </animated_moving_wall>\n"""
+    if zwróć_tekst:
+        return s
+    else:
+        zapis(s)
+def wyzwalacz_stanu(stan=0, wyzwalacz="event", zwróć_tekst=False):
+    s = ""
+    wartości = [stan,wyzwalacz]
+    w,t = przypisanie_tabeli_wartości("state_trigger")
+    s += "    <state_trigger " + parametry(t,wartości,w) + "/>\n"
+    if zwróć_tekst:
+        return s
+    else:
+        zapis(s)
+def czasowe_zdarzenie(stan=0, zdarzenie="event", czas=60, zwróć_tekst=False):
+    s = ""
+    wartości = [stan,zdarzenie,czas]
+    w,t = przypisanie_tabeli_wartości("timed_event")
+    s += "    <timed_event " + parametry(t,wartości,w) + "/>\n"
+    if zwróć_tekst:
+        return s
+    else:
+        zapis(s)
+def zdarzenie(nazwa="event", zwróć_tekst=False):
+    s = ""
+    wartości = [nazwa]
+    w,t = przypisanie_tabeli_wartości("event")
+    s += "    <event " + parametry(t,wartości,w) + "/>\n"
     if zwróć_tekst:
         return s
     else:
