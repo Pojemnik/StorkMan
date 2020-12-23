@@ -262,7 +262,7 @@ def odczyt_elementu(s):
     return r
 def indeks_ruchu_elementu(e):
     if e[0]=="platform":
-        return -12
+        return -13
     if e[0]=="object":
         return -12
     if e[0]=="animated_object":
@@ -278,7 +278,7 @@ def indeks_ruchu_elementu(e):
     if e[0]=="animated_wall":
         return -13
     if e[0]=="animated_moving_platform" or e[0]=="moving_animated_platform":
-        return 14
+        return 15
     if e[0]=="damage_zone":
         return -3
     if e[0]=="barrier":
