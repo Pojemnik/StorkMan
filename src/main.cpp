@@ -168,7 +168,7 @@ int main(int argc, char** argv)
 		window.getPosition()) + camera_pos;
 	mouse_pos += {-6.f, -31.f};
 	float camera_zoom = 1.f;
-	const auto map_events = parser.get_event_map();
+	auto [map_events, reverse_map_events] = parser.get_event_map();
 
 	//Config file
 	execute_init_file("config.cfg");
@@ -235,6 +235,7 @@ int main(int argc, char** argv)
 				}
 				break;
 			case Message::Message_type::RELOAD_MAP:
+			{
 				engine_sender.remove_receiver(map);
 				map->remove_receiver(&engine_receiver);
 				delete map;
@@ -245,7 +246,11 @@ int main(int argc, char** argv)
 				map->add_receiver(&sound_system);
 				map->add_receiver(&engine_receiver);
 				engine_sender.add_receiver(map);
+				auto temp = parser.get_event_map();
+				map_events = temp.first;
+				reverse_map_events = temp.second;
 				break;
+			}
 			case Message::Message_type::DIED:
 				if (msg.sender->id.get_type() == Message_sender_type::PLAYER)
 				{
@@ -262,7 +267,7 @@ int main(int argc, char** argv)
 				else
 				{
 					engine_sender.send_message<string>(Message::Message_type::LOG,
-						"Map event: " + std::to_string(std::get<int>(msg.args)) + '\n');
+						"Map event: " + reverse_map_events[std::get<int>(msg.args)] + '\n');
 				}
 				break;
 			case Message::Message_type::MOUSE_CLICKED:

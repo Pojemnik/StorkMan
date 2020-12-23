@@ -23,6 +23,7 @@ class Parser
 	Id_generator collidable_id_gen;
 	std::unordered_map<string, int> name_to_surface = { {"none", 0} };
 	std::unordered_map<string, int> events = { {"default", 0} };
+	std::vector<string> reverse_events = { "default" };
 
 	std::pair<Vectori, Vectori> parse_map_element(tinyxml2::XMLElement* element);
 	std::tuple<Vectori, string, string> parse_level_element(tinyxml2::XMLElement* element, Vectori map_size);
@@ -104,6 +105,6 @@ public:
 	void load_music_config(string path);
 	std::unordered_map<int, string> load_steps_config(string path);
 	std::vector<string> load_map_sound_config(string path);
-	std::unordered_map<string, int> get_event_map() const;
+	std::pair<std::unordered_map<string, int>, std::vector<string>> get_event_map() const;
 	Parser(Assets* _assets);
 };

@@ -99,7 +99,9 @@ Level Parser::parse_level(tinyxml2::XMLElement* root, Vectori global_pos, int co
 		}
 		if (name == "event")
 		{
-			events.insert({ get_attribute_by_name("name", element), event_index++ });
+			string name = get_attribute_by_name("name", element);
+			events.insert({name , event_index++ });
+			reverse_events.push_back(name);
 		}
 		if (name == "sound")
 		{
@@ -200,14 +202,29 @@ std::unique_ptr<Chunk> Parser::parse_dynamic_chunk(tinyxml2::XMLElement* root, V
 				trigger_val = "default";
 			}
 			int state = get_and_parse_var<int>("state", element);
-			transition_array.insert({ events.at(trigger_val), state });
+			try
+			{
+				transition_array.insert({ events.at(trigger_val), state });
+			}
+			catch (...)
+			{
+				std::cout << "Incorrect event: " + name << std::endl;
+			}
 		}
 		if (name == "timed_event")
 		{
 			string trigger_val = get_attribute_by_name("event", element);
 			int state = get_and_parse_var<int>("state", element);
 			float time = get_and_parse_var<float>("time", element);
-			auto pair = std::make_pair(time, events.at(trigger_val));
+			std::pair<float, int> pair;
+			try
+			{
+				pair = std::make_pair(time, events.at(trigger_val));
+			}
+			catch (...)
+			{
+				std::cout << "Incorrect event: " + name << std::endl;
+			}
 			if (!time_events.contains(state))
 			{
 				time_events[state] = std::vector <std::pair<float, int>>();
@@ -379,6 +396,10 @@ Parser::parse_animated_moving_object(tinyxml2::XMLElement* element, Vectori leve
 
 Map* Parser::parse_map(tinyxml2::XMLElement* root)
 {
+	events.clear();
+	events.insert({ "default", 0 });
+	reverse_events.clear();
+	reverse_events.push_back("default");
 	auto map_data = parse_map_element(root);
 	Vectori map_size = map_data.first;
 	Vectori player_pos = map_data.second;
@@ -552,9 +573,9 @@ std::vector<string> Parser::load_map_sound_config(string path)
 	return paths;
 }
 
-std::unordered_map<string, int> Parser::get_event_map() const
+std::pair<std::unordered_map<string, int>, std::vector<string>> Parser::get_event_map() const
 {
-	return events;
+	return std::make_pair(events, reverse_events);
 }
 
 std::pair<std::optional<int>, std::shared_ptr<Moving_platform>>
@@ -951,7 +972,14 @@ std::pair<std::optional<int>, std::shared_ptr<Event_zone>> Parser::parse_event_z
 			if (n == "e")
 			{
 				string name = e->GetText();
-				zone_events.push_back(events.at(name));
+				try
+				{
+					zone_events.push_back(events.at(name));
+				}
+				catch (...)
+				{
+					std::cout << "Incorrect event: " + name << std::endl;
+				}
 			}
 			e = e->NextSiblingElement();
 		}
@@ -987,7 +1015,14 @@ std::pair<std::optional<int>, std::shared_ptr<Clickable_zone>> Parser::parse_cli
 			if (n == "e")
 			{
 				string name = e->GetText();
-				zone_events.push_back(events.at(name));
+				try
+				{
+					zone_events.push_back(events.at(name));
+				}
+				catch (...)
+				{
+					std::cout << "Incorrect event: " + name << std::endl;
+				}
 			}
 			e = e->NextSiblingElement();
 		}
