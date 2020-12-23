@@ -1,16 +1,13 @@
 #include "dynamic_chunk.h"
 
-Dynamic_chunk::Dynamic_chunk(std::vector<std::unique_ptr<Chunk>>&& chunks_, 
+Dynamic_chunk::Dynamic_chunk(std::vector<std::unique_ptr<Chunk>>&& chunks_,
 	std::unordered_map<int, int>&& transition_array_,
 	std::unordered_map<int, std::vector<std::pair<float, int>>>&& time_events_) :
 	chunks(std::move(chunks_)), transition_array(transition_array_),
 	time_events(time_events_), Message_sender(Message_sender_type::CHUNK)
 {
 	current_chunk = &*chunks.at(transition_array.at(0));
-	for (auto& it : chunks)
-	{
-		add_receiver(&*it);
-	}
+	add_receiver(current_chunk);
 }
 
 void Dynamic_chunk::update_graphics(float dt)
@@ -30,7 +27,9 @@ void Dynamic_chunk::update_physics(float dt, std::vector<int>& msg_up)
 			int event_index = std::get<int>(msg.args);
 			if (transition_array.contains(event_index))
 			{
+				remove_receiver(current_chunk);
 				current_chunk = &*chunks.at(transition_array.at(event_index));
+				add_receiver(current_chunk);
 				current_chunk_index = transition_array.at(event_index);
 				time = 0;
 			}
