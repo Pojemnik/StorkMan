@@ -6,7 +6,7 @@
 #include "chunk_base.h"
 #include "messaging.h"
 
-class Dynamic_chunk : public Chunk
+class Dynamic_chunk : public Chunk, public Message_sender
 {
 	std::vector<std::unique_ptr<Chunk>> chunks;
 	Chunk* current_chunk;
