@@ -29,6 +29,8 @@ def dodanie_ruchu(obiekt, ścieżka_ruchu, zwróć_tekst=False):
         if n<0:
             n = -n
             element = ["moving_" + element[0],] + element[1:n] + ścieżka_ruchu + element[n:]
+            if element[0]=="moving_platform":
+                element = element[:9] + element[10:]
         else:
             if element[n] == "container" or ścieżka_ruchu[0] == "container":
                 if element[n] == "container" and ścieżka_ruchu[0] == "container":
