@@ -8,10 +8,14 @@ std::vector<string> parse::split_string(string s, string d)
 	size_t pos;
 	while ((pos = s.find(d, i)) != string::npos)
 	{
-		vect.push_back(s.substr(i, pos - i));
+		string temp = s.substr(i, pos - i);
+		temp = trim(temp);
+		vect.push_back(temp);
 		i = pos + 1;
 	}
-	vect.push_back(s.substr(i));
+	string temp = s.substr(i);
+	temp = trim(temp);
+	vect.push_back(temp);
 	return vect;
 }
 
@@ -156,4 +160,29 @@ Vectorf parse::get_position(tinyxml2::XMLElement* element, const Vectori& level_
 		float(level_pos.y * context.level_size.y));
 	pos *= context.global_scale;
 	return pos;
+}
+
+std::string& parse::ltrim(std::string& s)
+{
+	auto it = std::find_if(s.begin(), s.end(), 
+		[](unsigned char c) {
+		return !std::isspace(c);
+	});
+	s.erase(s.begin(), it);
+	return s;
+}
+
+std::string& parse::rtrim(std::string& s)
+{
+	auto it = std::find_if(s.rbegin(), s.rend(),
+		[](unsigned char c) {
+		return !std::isspace(c);
+	});
+	s.erase(it.base(), s.end());
+	return s;
+}
+
+std::string& parse::trim(std::string& s)
+{
+	return ltrim(rtrim(s));
 }

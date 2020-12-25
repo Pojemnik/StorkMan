@@ -107,7 +107,7 @@ void Map::update_physics(float dt, Vectorf player_pos, sf::FloatRect screen_rect
 		int(player_pos.x / context.global_scale / context.level_size.x),
 		int(player_pos.y / context.global_scale / context.level_size.y));
 	bool out_of_map = false;
-	const Level* current_level = &*levels.at(current_pos.x).at(current_pos.y);
+	Level* current_level = &*levels.at(current_pos.x).at(current_pos.y);
 	if (player_pos_on_map != current_pos)
 	{
 		current_pos = player_pos_on_map;

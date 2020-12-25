@@ -29,6 +29,9 @@ namespace parse
 	std::vector<sf::Vertex> parse_vertices(tinyxml2::XMLElement* element, std::pair<int, float> fliprot);
 	void add_vertices(std::vector<sf::Vertex>& vec, const Collision* col);
 	Vectorf get_position(tinyxml2::XMLElement* element, const Vectori& level_pos);
+	std::string& ltrim(std::string& s);
+	std::string& rtrim(std::string& s);
+	std::string& trim(std::string& s);
 
 	template <typename T>
 	T get_and_parse_var(string name, tinyxml2::XMLElement* element);

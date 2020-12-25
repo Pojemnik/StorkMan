@@ -16,6 +16,7 @@ class Level : public Message_sender, public Message_receiver
 	Vectori global_pos;
 	std::vector<Map_sound> sounds;
 	std::vector<sf::CircleShape> sound_sources;
+	std::vector<int> received_events;
 	sf::VertexBuffer sound_borders;
 	bool draw_border = false;//Currently unused
 	bool draw_chunks_borders = false;
@@ -40,6 +41,6 @@ public:
 	void draw_static_collisions(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_zones(sf::RenderTarget& target, sf::RenderStates states) const;
 	std::unordered_set<const Map_sound*, std::hash<const Map_sound*>, Map_sound_compare>
-		get_current_map_sounds(Vectorf player_pos) const;
+		get_current_map_sounds(Vectorf player_pos);
 	Vectori get_global_pos() const;
 };

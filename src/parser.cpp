@@ -99,9 +99,9 @@ Level Parser::parse_level(tinyxml2::XMLElement* root, Vectori global_pos, int co
 		}
 		if (name == "event")
 		{
-			string name = get_attribute_by_name("name", element);
-			events.insert({name , event_index++ });
-			reverse_events.push_back(name);
+			string event_name = get_attribute_by_name("name", element);
+			events.insert({ event_name , event_index++ });
+			reverse_events.push_back(event_name);
 		}
 		if (name == "sound")
 		{
@@ -190,7 +190,6 @@ std::unique_ptr<Chunk> Parser::parse_dynamic_chunk(tinyxml2::XMLElement* root, V
 	std::unordered_map<int, int> transition_array;
 	std::unordered_map<int, std::vector<std::pair<float, int>>> time_events;
 	tinyxml2::XMLElement* element = root->FirstChildElement();
-	int chunk_index = 0;
 	while (element != nullptr)
 	{
 		string name = element->Name();
@@ -1156,6 +1155,7 @@ Map_sound Parser::parse_sound(tinyxml2::XMLElement* element, Vectori level_pos, 
 		info.min_distance = get_and_parse_var<float>("min_distance", element, 1.f);
 		info.range = get_and_parse_var<float>("range", element, 8.f) * context.global_scale;
 		std::vector<Vectorf> vert;
+		std::unordered_map<int, bool> sound_events;
 		tinyxml2::XMLElement* e = element->FirstChildElement();
 		while (e != NULL)
 		{
@@ -1166,15 +1166,29 @@ Map_sound Parser::parse_sound(tinyxml2::XMLElement* element, Vectori level_pos, 
 				v *= context.global_scale;
 				vert.push_back(v);
 			}
+			if (n == "e")
+			{
+				std::vector<string> s = split_string(e->GetText());
+				try
+				{
+					int event = events.at(s[0]);
+					bool val = parse_var<bool>(s[1]);
+					sound_events.insert({ event, val });
+				}
+				catch (...)
+				{
+					std::cout << "Incorrect event: " + s[0] << std::endl;
+				}
+			}
 			e = e->NextSiblingElement();
 		}
 		if (vert.size() > 0)
 		{
-			return Map_sound(std::move(vert), info);
+			return Map_sound(std::move(vert), info, std::move(sound_events));
 		}
 		else
 		{
-			return Map_sound(info);
+			return Map_sound(info, std::move(sound_events));
 		}
 	}
 	catch (const std::out_of_range& e)

@@ -326,5 +326,9 @@ timed_event:
 		time (float) [1/60s] - czas, po którym zostanie wywołane dane zdarzenie (liczone od rozpoczęcia stanu określonego atrybutem state)
 		
 e:
-	zawartość: (string) nazwa eventu do wywołania
+	zawartość:
+	W przypadku producentów eventów:
+	(string) - nazwa eventu do wywołania
+	W przypadku konsumentow eventów:
+	(string, bool) - nazwa eventu, na który należy zareagować; wartość, jaką należy przyjąć po jego wystąpieniu
 		

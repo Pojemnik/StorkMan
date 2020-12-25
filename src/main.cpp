@@ -249,6 +249,7 @@ int main(int argc, char** argv)
 				auto temp = parser.get_event_map();
 				map_events = temp.first;
 				reverse_map_events = temp.second;
+				execute_init_file("config.cfg");
 				break;
 			}
 			case Message::Message_type::DIED:

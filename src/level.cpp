@@ -67,17 +67,23 @@ void Level::update_graphics(float dt, sf::FloatRect screen_rect)
 void Level::update_physics(float dt, sf::FloatRect screen_rect, std::vector<int>& msg_up)
 {
 	int i = 0;
+	received_events.clear();
 	while (message_available())
 	{
 		Message msg = pop_message();
 		if (msg.type == Message::Message_type::MAP_EVENT)
 		{
 			send_message(Message::Message_type::MAP_EVENT, msg.args);
+			received_events.push_back(std::get<int>(msg.args));
 		}
 		if (msg.type == Message::Message_type::MOUSE_CLICKED)
 		{
 			send_message(Message::Message_type::MOUSE_CLICKED, msg.args);
 		}
+	}
+	for (auto& it : sounds)
+	{
+
 	}
 	for (auto& it : chunks)
 	{
@@ -243,7 +249,7 @@ void Level::draw_zones(sf::RenderTarget& target, sf::RenderStates states) const
 }
 
 std::unordered_set<const Map_sound*, std::hash<const Map_sound*>, Map_sound_compare>
-Level::get_current_map_sounds(Vectorf player_pos) const
+Level::get_current_map_sounds(Vectorf player_pos)
 {
 	std::unordered_set<const Map_sound*, std::hash<const Map_sound*>, Map_sound_compare>
 		current_sounds;
@@ -251,14 +257,17 @@ Level::get_current_map_sounds(Vectorf player_pos) const
 	std::vector<Vectorf> player_mesh = { Vectorf(0,0), Vectorf(0,1),
 		Vectorf(1,1), Vectorf(1,0) };
 	Collision player_col(player_mesh, player_pos);
-	for (const auto& it : sounds)
+	for (auto& it : sounds)
 	{
 		Collision sound_col = it.get_collision();
 		if (player_rect.intersects(sound_col.rect))
 		{
 			if (util::contained_in_polygon(player_pos, it.get_max_x() + 1.f, sound_col.mesh))
 			{
-				current_sounds.insert(&it);
+				if (it.update_and_get_state(received_events))
+				{
+					current_sounds.insert(&it);
+				}
 			}
 		}
 	}
