@@ -18,4 +18,6 @@ public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual sf::FloatRect get_bounding_rect() const;
 	virtual Vectorf get_speed() const;
+	virtual void reset_graphics();
+	virtual void reset_physics();
 };

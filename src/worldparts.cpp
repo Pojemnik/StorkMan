@@ -45,6 +45,11 @@ sf::FloatRect Moving_object::get_bounding_rect() const
 	return rect;
 }
 
+void Moving_object::reset_graphics()
+{
+	ai->reset();
+}
+
 void Moving_object::update_graphics(float dt)
 {
 	ai->calc_pos(dt);
@@ -52,7 +57,8 @@ void Moving_object::update_graphics(float dt)
 
 Animated_object::Animated_object(Vectorf pos_, std::unique_ptr<Animation>&& animation_,
 	float height_, int flip_, float angle_, sf::Color color) :
-	Object(pos_, animation_->get_texture(), height_, flip_, angle_, color), animation(std::move(animation_))
+	Object(pos_, animation_->get_texture(), height_, flip_, angle_, color),
+	animation(std::move(animation_))
 {
 	update_frame();
 }
@@ -73,10 +79,17 @@ void Animated_object::update_graphics(float dt)
 	update_frame();
 }
 
+void Animated_object::reset_graphics()
+{
+	animation->reset();
+	update_frame();
+}
+
 Moving_animated_object::Moving_animated_object(Vectorf pos_,
 	std::unique_ptr<Animation> animation_, float height_,
 	std::unique_ptr<Simple_AI> ai_, int flip_, float angle_, sf::Color color) :
-	Animated_object({ 0,0 }, std::move(animation_), height_, flip_, angle_, color), ai(std::move(ai_))
+	Animated_object({ 0,0 }, std::move(animation_), height_, flip_, angle_, color),
+	ai(std::move(ai_))
 {
 	pos = pos_;
 }
@@ -94,6 +107,12 @@ sf::FloatRect Moving_animated_object::get_bounding_rect() const
 	rect.left += pos.x;
 	rect.top += pos.y;
 	return rect;
+}
+
+void Moving_animated_object::reset_graphics()
+{
+	Animated_object::reset_graphics();
+	ai->reset();
 }
 
 void Moving_animated_object::update_graphics(float dt)

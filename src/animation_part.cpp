@@ -1,8 +1,8 @@
 #include "animation_part.h"
 
-Static_animation_part::Static_animation_part(Static_animation_struct& animation_, float time_offset) :
-animation(animation_), time(time_offset), frame_info(Vectori((*animation_.it)->getSize()),
-	Vectori((*animation_.it)->getSize()), { 0,0 })
+Static_animation_part::Static_animation_part(Static_animation_struct& animation_, float time_offset_) :
+animation(animation_), time(time_offset_), frame_info(Vectori((*animation_.it)->getSize()),
+	Vectori((*animation_.it)->getSize()), { 0,0 }), time_offset(time_offset_)
 {
 	while (time >= animation.frame_time)
 	{
@@ -30,6 +30,17 @@ void Static_animation_part::advance(float dt)
 Vectori Static_animation_part::get_texture_size()
 {
 	return frame_info.frame_size;
+}
+
+void Static_animation_part::reset()
+{
+	time = time_offset;
+	while (time >= animation.frame_time)
+	{
+		time -= animation.frame_time;
+		animation.it = util::increment_iterator(animation.it, *animation.animation);
+	}
+	advance(.0f);
 }
 
 const sf::Texture* const Const_animation_part::get_texture()

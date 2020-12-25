@@ -11,11 +11,14 @@ class Physical_updatable
 {
 public:
 	virtual void update_physics(float dt) = 0;
+	virtual void reset_physics() = 0;
 };
+
 class Graphical_updatable
 {
 public:
 	virtual void update_graphics(float dt) = 0;
+	virtual void reset_graphics() = 0;
 };
 
 class Renderable : public sf::Drawable

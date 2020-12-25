@@ -50,6 +50,11 @@ void Damage_zone::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(buffer, states);
 }
 
+void Damage_zone::reset_physics()
+{
+	current_damage = damage.begin();
+}
+
 void Damage_zone::update_physics(float dt)
 {
 	time += dt;
@@ -87,6 +92,12 @@ void Moving_damage_zone::draw(sf::RenderTarget& target, sf::RenderStates states)
 {
 	states.transform *= ai->get_pos();
 	Damage_zone::draw(target, states);
+}
+
+void Moving_damage_zone::reset_physics()
+{
+	ai->reset();
+	Damage_zone::reset_physics();
 }
 
 Event_zone::Event_zone(const std::vector<Vectorf>& vert, Vectorf p,

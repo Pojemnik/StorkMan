@@ -28,6 +28,7 @@ void Dynamic_chunk::update_physics(float dt, std::vector<int>& msg_up)
 			if (transition_array.contains(event_index))
 			{
 				remove_receiver(current_chunk);
+				current_chunk->reset();
 				current_chunk = &*chunks.at(transition_array.at(event_index));
 				add_receiver(current_chunk);
 				current_chunk_index = transition_array.at(event_index);
@@ -95,4 +96,12 @@ std::pair<std::vector<Vectorf>, std::vector<std::pair<Vectorf, Vectorf>>> Dynami
 sf::FloatRect Dynamic_chunk::get_bounding_rect() const
 {
 	return current_chunk->get_bounding_rect();
+}
+
+void Dynamic_chunk::reset()
+{
+	for (auto& it : chunks)
+	{
+		it->reset();
+	}
 }

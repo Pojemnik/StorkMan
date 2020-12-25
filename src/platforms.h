@@ -42,7 +42,7 @@ protected:
 	Vectorf pos;
 
 public:
-	const Collision* const get_collision() const;
+	virtual const Collision* const get_collision() const;
 	Moving_platform(Vectorf pos_, const sf::Texture* texture_,
 		std::vector<sf::Vertex> points_, std::unique_ptr<Simple_AI> ai_,
 		int surface_, sf::Color color);
@@ -50,6 +50,7 @@ public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual void draw_dynamic_collision(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual Vectorf get_speed() const;
+	virtual void reset_physics();
 };
 
 class Animated_polygon : public Textured_polygon, public Animatable, public Graphical_updatable
@@ -65,6 +66,7 @@ public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual sf::FloatRect get_bounding_rect() const;
 	virtual void update_graphics(float dt);
+	virtual void reset_graphics();
 };
 
 class Animated_moving_platform : public Moving_platform, public Animatable, public Graphical_updatable
@@ -82,6 +84,7 @@ public:
 	virtual void next_frame(float dt);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual void draw_dynamic_collision(sf::RenderTarget& target, sf::RenderStates states) const;
+	virtual void reset_graphics();
 };
 
 class Moving_polygon : public Textured_polygon, public Graphical_updatable
@@ -95,6 +98,7 @@ public:
 		sf::Color color);
 	void update_graphics(float dt);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	virtual void reset_graphics();
 };
 
 class Animated_moving_polygon : public Moving_polygon, public Animatable
@@ -110,4 +114,5 @@ public:
 	virtual void update_frame();
 	virtual void next_frame(float dt);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	virtual void reset_graphics();
 };

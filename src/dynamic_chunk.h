@@ -30,4 +30,5 @@ public:
 	void make_zones_interactions(Entity& entity) const;
 	std::pair<std::vector<Vectorf>, std::vector<std::pair<Vectorf, Vectorf>>> get_chunk_vertices() const;
 	sf::FloatRect get_bounding_rect() const;
+	void reset();
 };

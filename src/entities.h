@@ -62,6 +62,8 @@ public:
 	void set_textures_set(int set);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	void push_state(Entity_state* state);
+	void reset_physics() {}
+	void reset_graphics() {}
 	Entity(std::unique_ptr<Animation>&& animation_, Physical& physical_,
 		std::unique_ptr<Entity_state_machine>&& state_,
 		std::unique_ptr<Controller>&& controller_, std::pair<float, int> height_,

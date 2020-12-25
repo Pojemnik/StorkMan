@@ -34,6 +34,7 @@ public:
 	virtual void update_physics(float dt);
 	virtual void interact(Entity& entity);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	virtual void reset_physics();
 };
 
 class Moving_damage_zone : public Damage_zone
@@ -47,6 +48,7 @@ public:
 		std::vector<std::pair<int, float>>& dmg, std::unique_ptr<Simple_AI>&& ai_);
 	virtual void update_physics(float dt);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	virtual void reset_physics();
 };
 
 class Event_zone : public Zone, public Interactive

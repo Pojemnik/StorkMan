@@ -209,6 +209,17 @@ void Key_frame_animation::change_textures_set(int set)
 	}
 }
 
+void Key_frame_animation::reset()
+{
+	key = 0;
+	last_key = &animations[static_cast<int>(animation)]->key_frames[key];
+	time_to_next_frame = animations[static_cast<int>(animation)]->lengths[key];
+	key++;
+	next_key = &animations[static_cast<int>(animation)]->key_frames[key];
+	actual_frame = *last_key;
+	next_frame(.0f);
+}
+
 Static_animation::Static_animation(Static_animation_struct& animation_, float time_offset) :
 	part(animation_, time_offset) {}
 
@@ -246,6 +257,11 @@ void Static_animation::change_textures_set(int set)
 	part.set_image(set);
 }
 
+void Static_animation::reset()
+{
+	part.reset();
+}
+
 One_frame_animation::One_frame_animation(const sf::Texture* _tex) : tex(_tex) {}
 
 void One_frame_animation::next_frame(float dt){ (void)dt; }
@@ -274,3 +290,5 @@ void One_frame_animation::change_textures_set(int set)
 {
 	(void)set;
 }
+
+void One_frame_animation::reset() {}

@@ -104,6 +104,12 @@ Vectorf Moving_platform::get_speed() const
 	return speed;
 }
 
+void Moving_platform::reset_physics()
+{
+	ai->reset();
+	update_physics(0.f);
+}
+
 Animated_polygon::Animated_polygon(Vectorf pos,
 	std::unique_ptr<Animation>&& animation_, std::vector<sf::Vertex> points,
 	sf::Color color) : animation(std::move(animation_)),
@@ -137,6 +143,12 @@ void Animated_polygon::update_graphics(float dt)
 {
 	next_frame(dt);
 	update_frame();
+}
+
+void Animated_polygon::reset_graphics()
+{
+	animation->reset();
+	update_graphics(.0f);
 }
 
 Animated_moving_platform::Animated_moving_platform(Vectorf pos_,
@@ -182,6 +194,13 @@ void Animated_moving_platform::draw_dynamic_collision(sf::RenderTarget& target, 
 	target.draw(vertex, states);
 }
 
+void Animated_moving_platform::reset_graphics()
+{
+	Moving_platform::reset_physics();
+	animation->reset();
+	update_graphics(.0f);
+}
+
 Moving_polygon::Moving_polygon(Vectorf pos_, const sf::Texture* texture_,
 	std::vector<sf::Vertex> points_, std::unique_ptr<Simple_AI> ai_,
 	sf::Color color) : Textured_polygon(pos_, texture_, points_, color),
@@ -198,14 +217,16 @@ void Moving_polygon::draw(sf::RenderTarget& target, sf::RenderStates states) con
 	Textured_polygon::draw(target, states);
 }
 
+void Moving_polygon::reset_graphics()
+{
+	ai->reset();
+}
+
 Animated_moving_polygon::Animated_moving_polygon(Vectorf pos_,
 	std::unique_ptr<Animation>&& animation_, std::vector<sf::Vertex> points_,
 	std::unique_ptr<Simple_AI> ai_, sf::Color color) : 
 	Moving_polygon(pos_, nullptr, points_, std::move(ai_), color),
-	animation(std::move(animation_))
-{
-
-}
+	animation(std::move(animation_)) {}
 
 void Animated_moving_polygon::update_graphics(float dt)
 {
@@ -230,4 +251,10 @@ void Animated_moving_polygon::draw(sf::RenderTarget& target, sf::RenderStates st
 	states.texture = texture;
 	states.transform *= ai->get_pos();
 	target.draw(polygon, states);
+}
+
+void Animated_moving_polygon::reset_graphics()
+{
+	Moving_polygon::reset_graphics();
+	animation->reset();
 }

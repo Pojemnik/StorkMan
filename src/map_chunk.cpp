@@ -110,6 +110,18 @@ sf::FloatRect Map_chunk::get_bounding_rect() const
 	return bound;
 }
 
+void Map_chunk::reset()
+{
+	for (auto& it : g_updatables)
+	{
+		it->reset_graphics();
+	}
+	for (auto& it : p_updatables)
+	{
+		it->reset_physics();
+	}
+}
+
 std::pair<std::vector<Vectorf>, std::vector<std::pair<Vectorf, Vectorf>>> Map_chunk::get_chunk_vertices() const
 {
 	std::vector<Vectorf> vert;

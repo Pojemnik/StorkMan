@@ -58,3 +58,16 @@ Vectorf Pendulum::get_speed() const
 {
 	return platform.get_speed();
 }
+
+void Pendulum::reset_graphics()
+{
+	for (auto& it : lines)
+	{
+		it.reset_graphics();
+	}
+}
+
+void Pendulum::reset_physics()
+{
+	platform.reset_physics();
+}

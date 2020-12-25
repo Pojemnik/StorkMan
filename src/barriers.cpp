@@ -45,6 +45,11 @@ Vectorf Moving_barrier::get_speed() const
 	return speed;
 }
 
+void Moving_barrier::reset_physics()
+{
+	ai->reset();
+}
+
 void Moving_barrier::update_physics(float dt)
 {
 	ai->calc_pos(dt);

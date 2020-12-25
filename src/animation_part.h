@@ -38,12 +38,14 @@ class Static_animation_part : public Animation_part
 	Static_animation_struct animation;
 	Frame_info frame_info;
 	float time = 0;
+	const float time_offset;
 
 public:
 	Static_animation_part(Static_animation_struct& animation_, float time_offset);
 	virtual const sf::Texture* const get_texture();
 	virtual void advance(float dt);
 	virtual Vectori get_texture_size();
+	virtual void reset();
 
 	friend class Static_animation;
 };

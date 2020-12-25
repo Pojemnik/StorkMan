@@ -25,7 +25,16 @@ sf::Transform Linear_AI::get_pos()
 	return sf::Transform().translate(pos);
 }
 
-Linear_AI::Linear_AI(std::vector<std::pair<Vectorf, float>> points_, float time_offset) : points(points_), time(time_offset)
+void Linear_AI::reset()
+{
+	time = time_offset;
+	it = points.cbegin();
+	calc_pos(0);
+}
+
+Linear_AI::Linear_AI(std::vector<std::pair<Vectorf, float>> points_,
+	float time_offset_) : points(points_), time(time_offset_),
+	time_offset(time_offset_)
 {
 	it = points.cbegin();
 	calc_pos(0);
@@ -50,9 +59,14 @@ sf::Transform Swing_AI::get_pos()
 	return sf::Transform().translate(pos);
 }
 
-Swing_AI::Swing_AI(const float line_len_, float angle_) : line_len(line_len_), rad_angle(angle_)
+void Swing_AI::reset()
 {
+	time = 0;
+	rad_angle = start_angle;
 }
+
+Swing_AI::Swing_AI(const float line_len_, float angle_) : line_len(line_len_),
+rad_angle(angle_), start_angle(angle_) {}
 
 void Swing_rotation_AI::calc_pos(float dt)
 {
@@ -76,14 +90,20 @@ sf::Transform Swing_rotation_AI::get_pos()
 		0, 0, 1);
 }
 
+void Swing_rotation_AI::reset()
+{
+	time = 0;
+	rad_angle = start_angle;
+}
+
 Swing_rotation_AI::Swing_rotation_AI(const float line_len_, float angle_, Vectorf pivot_)
-	: line_len(line_len_), rad_angle(angle_), pivot(pivot_)
+	: line_len(line_len_), rad_angle(angle_), pivot(pivot_), start_angle(angle_)
 {
 }
 
 Accelerated_linear_AI::Accelerated_linear_AI(
-	std::vector<std::tuple<Vectorf, float, float>> points_, float time_offset) :
-	points(points_), time(time_offset)
+	std::vector<std::tuple<Vectorf, float, float>> points_, float time_offset_) :
+	points(points_), time(time_offset_), time_offset(time_offset_)
 {
 	it = points.cbegin();
 	calc_pos(0);
@@ -92,6 +112,13 @@ Accelerated_linear_AI::Accelerated_linear_AI(
 sf::Transform Accelerated_linear_AI::get_pos()
 {
 	return sf::Transform().translate(pos);
+}
+
+void Accelerated_linear_AI::reset()
+{
+	time = time_offset;
+	it = points.cbegin();
+	calc_pos(0);
 }
 
 void Accelerated_linear_AI::calc_pos(float dt)
@@ -150,9 +177,16 @@ sf::Transform Rotation_AI::get_pos()
 		0, 0, 1);
 }
 
+void Rotation_AI::reset()
+{
+	time = time_offset;
+	it = angles.cbegin();
+	calc_pos(0);
+}
+
 Rotation_AI::Rotation_AI(Vectorf pivot_,
-	std::vector<std::pair<float, float>> angles_, float time_offset) :
-	time(time_offset), pivot(pivot_), angles(angles_)
+	std::vector<std::pair<float, float>> angles_, float time_offset_) :
+	time(time_offset), pivot(pivot_), angles(angles_), time_offset(time_offset_)
 {
 	it = angles.cbegin();
 	calc_pos(0);
@@ -176,4 +210,12 @@ void Container_AI::calc_pos(float dt)
 sf::Transform Container_AI::get_pos()
 {
 	return transform;
+}
+
+void Container_AI::reset()
+{
+	for (auto& it : ais)
+	{
+		it.reset();
+	}
 }

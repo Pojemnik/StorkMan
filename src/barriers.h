@@ -30,4 +30,5 @@ public:
 	void update_physics(float dt);
 	virtual void draw_dynamic_collision(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual Vectorf get_speed() const;
+	virtual void reset_physics();
 };

@@ -30,6 +30,7 @@ public:
 	void update_graphics(float dt);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual sf::FloatRect get_bounding_rect() const;
+	virtual void reset_graphics();
 };
 
 class Animated_object : public Animatable, public Object, public Graphical_updatable
@@ -43,6 +44,7 @@ public:
 	void update_frame();
 	void next_frame(float dt);
 	void update_graphics(float dt);
+	virtual void reset_graphics();
 };
 
 class Moving_animated_object : public Animated_object
@@ -56,4 +58,5 @@ public:
 	void update_graphics(float dt);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual sf::FloatRect get_bounding_rect() const;
+	virtual void reset_graphics();
 };

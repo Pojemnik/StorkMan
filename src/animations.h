@@ -20,6 +20,7 @@ public:
 	virtual Animation_index get_current_animation() const = 0;
 	virtual Frame_info get_frame_info() const = 0;
 	virtual void change_textures_set(int set) = 0;
+	virtual void reset() = 0;
 	virtual ~Animation() {}
 };
 
@@ -78,6 +79,7 @@ public:
 	Animation_index get_current_animation() const;
 	Frame_info get_frame_info() const;
 	void change_textures_set(int set);
+	void reset();
 };
 
 class Static_animation : public Animation
@@ -94,6 +96,7 @@ public:
 	Animation_index get_current_animation() const;
 	Frame_info get_frame_info() const;
 	void change_textures_set(int set);
+	void reset();
 };
 
 class One_frame_animation : public Animation
@@ -108,4 +111,5 @@ public:
 	Animation_index get_current_animation() const;
 	Frame_info get_frame_info() const;
 	void change_textures_set(int set);
+	void reset();
 };
