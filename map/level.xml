@@ -1298,7 +1298,7 @@
 <state>
     <moving_object position="7.5,43" texture="OBJLever_Arm_Red" height="1" layer="5" >
         <move type="rotational">
-            <p>0,31</p>
+            <p>0,32</p>
             <p>-90,30</p>
         </move>
     </moving_object>
@@ -1306,7 +1306,7 @@
 <state>
     <moving_object position="7.5,43" texture="OBJLever_Arm_Red" height="1" rotation="-90" layer="5" >
         <move type="rotational">
-            <p>0,31</p>
+            <p>0,32</p>
             <p>90,0</p>
         </move>
     </moving_object>
@@ -1490,7 +1490,7 @@
 <state>
     <moving_object position="42.5,41.75" texture="OBJLever_Arm_Red" height="1" layer="5" >
         <move type="rotational">
-            <p>0,31</p>
+            <p>0,32</p>
             <p>-90,30</p>
         </move>
     </moving_object>
@@ -1498,7 +1498,7 @@
 <state>
     <moving_object position="42.5,41.75" texture="OBJLever_Arm_Red" height="1" rotation="-90" layer="5" >
         <move type="rotational">
-            <p>0,31</p>
+            <p>0,32</p>
             <p>90,0</p>
         </move>
     </moving_object>
@@ -1546,7 +1546,7 @@
 <state>
     <moving_object position="48,44.5" texture="OBJLever_Arm_Red" height="1" flip="-1,1" layer="5" >
         <move type="rotational">
-            <p>0,31</p>
+            <p>0,32</p>
             <p>90,30</p>
         </move>
     </moving_object>
@@ -1554,7 +1554,7 @@
 <state>
     <moving_object position="48,44.5" texture="OBJLever_Arm_Red" height="1" rotation="90" flip="-1,1" layer="5" >
         <move type="rotational">
-            <p>0,31</p>
+            <p>0,32</p>
             <p>-90,0</p>
         </move>
     </moving_object>
@@ -3848,7 +3848,7 @@
 <state>
     <moving_object position="7.5,25" texture="OBJLever_Arm_Red" height="1" layer="5" >
         <move type="rotational">
-            <p>0,31</p>
+            <p>0,32</p>
             <p>-90,30</p>
         </move>
     </moving_object>
@@ -3856,7 +3856,7 @@
 <state>
     <moving_object position="7.5,25" texture="OBJLever_Arm_Red" height="1" rotation="-90" layer="5" >
         <move type="rotational">
-            <p>0,31</p>
+            <p>0,32</p>
             <p>90,0</p>
         </move>
     </moving_object>
