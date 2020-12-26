@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include <unordered_set>
+#include <unordered_map>
 #include "entities.h"
 #include "level.h"
 #include "messaging.h"
@@ -14,12 +14,16 @@ class Map : public Message_sender, public Message_receiver
 	std::vector<Entity*> entities;
 	sf::Sprite background;
 	std::vector<Level*> considered_levels;
-	std::unordered_set<const Map_sound*, std::hash<const Map_sound*>, Map_sound_compare> last_map_sounds;
-	sf::RectangleShape players_sound_receiver;
+	std::unordered_map<const Map_sound*, int, std::hash<const Map_sound*>, Map_sound_compare> last_map_sounds;
+	std::vector<sf::RectangleShape> players_sound_receivers;
+	std::vector<Vectorf> receivers_pos;
 	bool draw_players_receiver = false;
 	std::vector<int> msg_upstream;
 
 	void get_considered_levels();
+	void init_receivers();
+	void set_receivers_pos(Vectorf pos);
+	void draw_receivers(sf::RenderTarget& target, sf::RenderStates states) const;
 
 public:
 	Map(Vectori size_, Vectori pos, const sf::Texture* bg_tex);

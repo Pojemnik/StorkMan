@@ -241,34 +241,34 @@ void Level::draw_zones(sf::RenderTarget& target, sf::RenderStates states) const
 		}
 		i++;
 	}
-	//Add, when moving damage zones are added
-	//for (const auto& it : moving)
-	//{
-	//	it.draw_zones(target, states);
-	//}
 }
 
-std::unordered_set<const Map_sound*, std::hash<const Map_sound*>, Map_sound_compare>
-Level::get_current_map_sounds(Vectorf player_pos)
+std::unordered_map<const Map_sound*, int, std::hash<const Map_sound*>, Map_sound_compare>
+Level::get_current_map_sounds(std::vector<Vectorf> player_pos)
 {
-	std::unordered_set<const Map_sound*, std::hash<const Map_sound*>, Map_sound_compare>
+	std::unordered_map<const Map_sound*, int, std::hash<const Map_sound*>, Map_sound_compare>
 		current_sounds;
-	sf::FloatRect player_rect(player_pos, { 1.f,1.f });
-	std::vector<Vectorf> player_mesh = { Vectorf(0,0), Vectorf(0,1),
-		Vectorf(1,1), Vectorf(1,0) };
-	Collision player_col(player_mesh, player_pos);
 	for (auto& it : sounds)
 	{
+		int n = 0;
 		Collision sound_col = it.get_collision();
-		if (player_rect.intersects(sound_col.rect))
+		for (const auto& receiver : player_pos)
 		{
-			if (util::contained_in_polygon(player_pos, it.get_max_x() + 1.f, sound_col.mesh))
+			sf::FloatRect player_rect(receiver, { 1.f,1.f });
+			if (player_rect.intersects(sound_col.rect))
 			{
-				if (it.update_and_get_state(received_events))
+				if (util::contained_in_polygon(receiver, it.get_max_x() + 1.f, sound_col.mesh))
 				{
-					current_sounds.insert(&it);
+					if (it.update_and_get_state(received_events))
+					{
+						n++;
+					}
 				}
 			}
+		}
+		if (n != 0)
+		{
+			current_sounds.insert({ &it,n });
 		}
 	}
 	return current_sounds;

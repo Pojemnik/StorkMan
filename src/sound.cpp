@@ -258,7 +258,15 @@ int Sound_pool::play_sound(const sf::SoundBuffer& sb, Map_sound_info info)
 
 void Sound_pool::play_map_sound(const sf::SoundBuffer& sb, Map_sound_info info, int lvl_id)
 {
-	map_sounds.insert({ {lvl_id, info.id}, play_sound(sb, info) });
+	std::pair<int, int> id = { lvl_id, info.id };
+	if (map_sounds.contains(id))
+	{
+		pool[map_sounds.at(id)].set_volume(info.volume);
+	}
+	else
+	{
+		map_sounds.insert({ id, play_sound(sb, info) });
+	}
 }
 
 void Sound_pool::set_volume(int volume)
@@ -271,9 +279,12 @@ void Sound_pool::set_volume(int volume)
 
 void Sound_pool::stop_sound(std::pair<int, int> id)
 {
-	int sound_i = map_sounds.at(id);
-	map_sounds.erase(id);
-	pool[sound_i].stop();
+	if (map_sounds.contains(id))
+	{
+		int sound_i = map_sounds.at(id);
+		map_sounds.erase(id);
+		pool[sound_i].stop();
+	}
 }
 
 void Sound_pool::stop_all()

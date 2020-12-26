@@ -27,9 +27,36 @@ void Map::get_considered_levels()
 	}
 }
 
+void Map::init_receivers()
+{
+	for (int i = 0; i < 5; i++)
+	{
+		players_sound_receivers.push_back(sf::RectangleShape(Vectorf(1, 1)));
+		players_sound_receivers[i].setFillColor(sf::Color::Magenta);
+		receivers_pos.push_back(Vectorf());
+	}
+}
+
+void Map::set_receivers_pos(Vectorf pos)
+{
+	Vectorf tab[5] = { {-48, -48}, {48, -48}, {0, 0}, {-48, 48}, {48, 48} };
+	for (int i = 0; i < 5; i++)
+	{
+		players_sound_receivers[i].setPosition(pos + tab[i]);
+		receivers_pos[i] = pos + tab[i];
+	}
+}
+
+void Map::draw_receivers(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	for (const auto& it : players_sound_receivers)
+	{
+		target.draw(it, states);
+	}
+}
+
 Map::Map(Vectori size_, Vectori pos, const sf::Texture* bg_tex) : size(size_),
-current_pos(pos), background(*bg_tex), Message_sender(Message_sender_type::MAP),
-players_sound_receiver(Vectorf(1,1))
+current_pos(pos), background(*bg_tex), Message_sender(Message_sender_type::MAP)
 {
 	background.setPosition(-1000, -2500);
 	levels.resize(size.x);
@@ -37,7 +64,7 @@ players_sound_receiver(Vectorf(1,1))
 	{
 		it.resize(size.y);
 	}
-	players_sound_receiver.setFillColor(sf::Color::Magenta);
+	init_receivers();
 }
 
 void Map::add_level(std::unique_ptr<Level>&& lvl)
@@ -80,7 +107,7 @@ void Map::draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) con
 	}
 	if (draw_players_receiver)
 	{
-		target.draw(players_sound_receiver, states);
+		draw_receivers(target, states);
 	}
 }
 
@@ -149,20 +176,32 @@ void Map::update_physics(float dt, Vectorf player_pos, sf::FloatRect screen_rect
 	{
 		Vectorf sound_player_pos = player_pos;
 		sound_player_pos -= Vectorf(0.35f, 1.05f) * context.global_scale;
-		players_sound_receiver.setPosition(sound_player_pos);
-		auto current_map_sounds = current_level->get_current_map_sounds(sound_player_pos);
+		set_receivers_pos(sound_player_pos);
+		auto current_map_sounds = current_level->get_current_map_sounds(receivers_pos);
 		for (const auto& it : current_map_sounds)
 		{
-			if (!last_map_sounds.contains(it))
+			auto info = it.first->get_info();
+			float volume = static_cast<float>(it.second) / 5.f;
+			info.volume *= volume;
+			//Enetred sound
+			if (!last_map_sounds.contains(it.first))
 			{
-				send_message(Message::Message_type::ENTERED_SOUND, it->get_info());
+				send_message(Message::Message_type::ENTERED_SOUND, info);
+			}
+			else
+			{
+				//Volume changed
+				if (last_map_sounds.at(it.first) != it.second)
+				{
+					send_message(Message::Message_type::ENTERED_SOUND, info);
+				}
 			}
 		}
 		for (const auto& it : last_map_sounds)
 		{
-			if (!current_map_sounds.contains(it))
+			if (!current_map_sounds.contains(it.first))
 			{
-				send_message(Message::Message_type::LEFT_SOUND, it->get_info());
+				send_message(Message::Message_type::LEFT_SOUND, it.first->get_info());
 			}
 		}
 		last_map_sounds = current_map_sounds;

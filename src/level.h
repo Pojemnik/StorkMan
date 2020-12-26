@@ -1,5 +1,5 @@
 #pragma once
-#include <unordered_set>
+#include <unordered_map>
 #include "compound_map_objects.h"
 #include "map_sounds.h"
 #include "map_chunk.h"
@@ -40,7 +40,7 @@ public:
 	void draw_moving_collisions(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_static_collisions(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_zones(sf::RenderTarget& target, sf::RenderStates states) const;
-	std::unordered_set<const Map_sound*, std::hash<const Map_sound*>, Map_sound_compare>
-		get_current_map_sounds(Vectorf player_pos);
+	std::unordered_map<const Map_sound*, int, std::hash<const Map_sound*>, Map_sound_compare>
+		get_current_map_sounds(std::vector<Vectorf> player_pos);
 	Vectori get_global_pos() const;
 };
