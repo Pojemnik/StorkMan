@@ -8,7 +8,7 @@
 #include "edit_tools.h"
 #include "event_handler.h"
 
-const std::string VERSION = "pre-alpha 0.5.3.1";
+const std::string VERSION = "pre-alpha 0.5.4";
 
 void execute_init_file(string path)
 {

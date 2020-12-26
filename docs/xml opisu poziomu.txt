@@ -19,6 +19,7 @@ Często używane atrybuty:
 - offset (float [1/60s]) - od którego momentu zacząć animację 
 - surface (string {none, ...}) - typ powierzchni. Należy wybrać z dotępnych - patrz plik data/surfaces.txt
 - color (float, float, float) - filtr koloru - wartość poszczególnych składowych (RGB) koloru elementu jest mnożona przez {wartość}/255
+- parallax (float) - współczynnik paralaksy, 0 oznacza brak. Warości mogą być dodatnie i ujemne
 
 Znaczniki główne:
 
@@ -62,6 +63,7 @@ object:
 		flip* (domyślnie 1,1)
 		layer* (domyślne 3)
 		color* (domyślnie 255,255,255)
+		parallax* (domyślnie 0)
 		
 animated_object:
 	atrybuty:
@@ -74,6 +76,7 @@ animated_object:
 		frame_time* (domyślnie 1)
 		offset* (domyślnie 0)
 		color* (domyślnie 255,255,255)
+		parallax* (domyślnie 0)
 		
 moving_object:
 	atrybuty:
@@ -85,6 +88,7 @@ moving_object:
 		layer* (domyślne 3)
 		frame_time* (domyślnie 1)
 		color* (domyślnie 255,255,255)
+		parallax* (domyślnie 0)
 	
 	zawartość:
 		<move>
@@ -207,6 +211,7 @@ animated_moving_object:
 		frame_time* (domyślnie 1)
 		offset* (domyślnie 0)
 		color* (domyślnie 255,255,255)
+		parallax* (domyślnie 0)
 		
 	znaczniki:
 		<move>

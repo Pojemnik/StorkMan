@@ -314,8 +314,9 @@ Parser::parse_object(tinyxml2::XMLElement* element, Vectori level_pos)
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		int layer = parse_layer(element, DEFAULT_OBJECT_LAYER);
 		sf::Color color = get_and_parse_var<sf::Color>("color", element, sf::Color::White);
+		float parallax = get_and_parse_var<float>("parallax", element, 0.f);
 		return std::make_pair(layer, std::make_shared<Object>(pos, tex, height,
-			fliprot.first, fliprot.second, color));
+			fliprot.first, fliprot.second, color, parallax));
 	}
 	catch (const std::out_of_range& e)
 	{
@@ -342,8 +343,9 @@ Parser::parse_animated_object(tinyxml2::XMLElement* element, Vectori level_pos)
 		std::unique_ptr<Animation> animation = std::make_unique<Static_animation>(sas, frame_offset);
 		int layer = parse_layer(element, DEFAULT_OBJECT_LAYER);
 		sf::Color color = get_and_parse_var<sf::Color>("color", element, sf::Color::White);
+		float parallax = get_and_parse_var<float>("parallax", element, 0.f);
 		return std::make_pair(layer, std::make_shared<Animated_object>(pos, std::move(animation),
-			height, fliprot.first, fliprot.second, color));
+			height, fliprot.first, fliprot.second, color, parallax));
 	}
 	catch (const std::out_of_range& e)
 	{
@@ -367,6 +369,7 @@ Parser::parse_animated_moving_object(tinyxml2::XMLElement* element, Vectori leve
 		float frame_time = get_and_parse_var<float>("frame_time", element, 1.f);
 		float frame_offset = get_and_parse_var<float>("offset", element, 0.f);
 		sf::Color color = get_and_parse_var<sf::Color>("color", element, sf::Color::White);
+		float parallax = get_and_parse_var<float>("parallax", element, 0.f);
 		std::unique_ptr<Simple_AI> ai;
 		tinyxml2::XMLElement* e = element->FirstChildElement();
 		while (e != NULL)
@@ -382,7 +385,7 @@ Parser::parse_animated_moving_object(tinyxml2::XMLElement* element, Vectori leve
 		std::unique_ptr<Animation> animation = std::make_unique<Static_animation>(sas, frame_offset);
 		int layer = parse_layer(element, DEFAULT_OBJECT_LAYER);
 		return std::make_pair(layer, std::make_shared<Moving_animated_object>(pos, std::move(animation),
-			height, std::move(ai), fliprot.first, fliprot.second, color));
+			height, std::move(ai), fliprot.first, fliprot.second, color, parallax));
 	}
 	catch (const std::out_of_range& e)
 	{
@@ -640,6 +643,7 @@ Parser::parse_moving_object(tinyxml2::XMLElement* element, Vectori level_pos)
 		float height = get_and_parse_var<float>("height", element);
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		sf::Color color = get_and_parse_var<sf::Color>("color", element, sf::Color::White);
+		float parallax = get_and_parse_var<float>("parallax", element, 0.f);
 		std::unique_ptr<Simple_AI> ai;
 		tinyxml2::XMLElement* e = element->FirstChildElement();
 		while (e != NULL)
@@ -653,7 +657,7 @@ Parser::parse_moving_object(tinyxml2::XMLElement* element, Vectori level_pos)
 		}
 		int layer = parse_layer(element, DEFAULT_OBJECT_LAYER);
 		return std::make_pair(layer, std::make_shared<Moving_object>(pos, tex,
-			height, std::move(ai), fliprot.first, fliprot.second, color));
+			height, std::move(ai), fliprot.first, fliprot.second, color, parallax));
 	}
 	catch (const std::out_of_range& e)
 	{
