@@ -1170,7 +1170,7 @@ Map_sound Parser::parse_sound(tinyxml2::XMLElement* element, Vectori level_pos, 
 				v *= context.global_scale;
 				vert.push_back(v);
 			}
-			if (n == "e")
+			if (n == "et")
 			{
 				std::vector<string> s = split_string(e->GetText());
 				try
