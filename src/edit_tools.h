@@ -28,7 +28,7 @@ private:
 	float radius;
 
 public:
-	Grid_point(Vectorf pos, sf::Color c, float r);
+	Grid_point(Vectorf point_pos, Vectorf pos_on_level, sf::Color c, float r);
 	void set_position(Vectorf pos);
 	Vectorf get_position();
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

@@ -420,8 +420,8 @@ int main(int argc, char** argv)
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
 		{
-			string s = std::to_string(mouse_pos.x / context.global_scale)
-				+ " " + std::to_string(mouse_pos.y / context.global_scale);
+			string s = std::to_string(std::fmodf(mouse_pos.x / context.global_scale, context.level_size.x))
+				+ " " + std::to_string(std::fmodf(mouse_pos.y / context.global_scale, context.level_size.y));
 			tooltip.set_content(s);
 			tooltip.set_position((Vectorf)sf::Mouse::getPosition() -
 				(Vectorf)window.getPosition());

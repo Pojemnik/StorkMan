@@ -39,7 +39,7 @@ Grid::Grid(float scale_, float density_, Vectorf level_size_, Vectori map_size_,
 	: scale(scale_), density(density_),
 	level_size(level_size_* context.global_scale), color(grid_color),
 	font(&font_), tooltip_color(tooltip_color_),
-	cursor_point({}, sf::Color(grid_color.r, grid_color.g, grid_color.b, grid_color.a + 50), 5.f),
+	cursor_point({}, {}, sf::Color(grid_color.r, grid_color.g, grid_color.b, grid_color.a + 50), 5.f),
 	map_size(map_size_)
 {
 	grid_size = Vectorf(level_size.x * map_size.x, level_size.y * map_size.y);
@@ -95,19 +95,19 @@ void Grid::add_point(Vectorf map_mouse_pos)
 {
 	Vectorf pos = get_closest_node_pos(map_mouse_pos);
 	const sf::Color c = sf::Color(color.r, color.g, color.b, color.a + 50);
-	points.push_back(Grid_point(pos - Vectorf(5.f, 5.f), c, 5.f));
 	Vectorf tooltip_pos = Vectorf(pos.x + 5.f, pos.y + 5.f);
 	point_tooltips.push_back(Tooltip(tooltip_pos, *font, tooltip_color));
+	Vectorf pos_on_level = Vectorf(std::fmodf(pos.x, level_size.x), std::fmodf(pos.y, level_size.y));
+	points.push_back(Grid_point(pos - Vectorf(5.f, 5.f), pos_on_level, c, 5.f));
 	string s;
 	if (points.size() == 1)
 	{
-		s = std::to_string(pos.x / scale) + " " + std::to_string(pos.y / scale);
+		s = std::to_string(pos_on_level.x / scale) + " " + std::to_string(pos_on_level.y / scale);
 	}
 	else
 	{
-		pos -= points[0].get_position();
-		pos -= Vectorf(5.f, 5.f);
-		s = std::to_string(pos.x / scale) + " " + std::to_string(pos.y / scale);
+		pos_on_level -= points[0].get_position();
+		s = std::to_string(pos_on_level.x / scale) + " " + std::to_string(pos_on_level.y / scale);
 	}
 	point_tooltips.back().set_content(s);
 }
@@ -169,11 +169,11 @@ void Tooltip::set_content(string s)
 		txt.getGlobalBounds().height * 2 });
 }
 
-Grid_point::Grid_point(Vectorf pos, sf::Color c, float r)
-	: position(pos), color(c), radius(r), point(r)
+Grid_point::Grid_point(Vectorf point_pos, Vectorf pos_on_level, sf::Color c, float r)
+	: position(pos_on_level), color(c), radius(r), point(r)
 {
 	point.setFillColor(c);
-	point.setPosition(pos);
+	point.setPosition(point_pos);
 }
 
 void Grid_point::set_position(Vectorf pos)
