@@ -128,6 +128,11 @@ void Map::draw_zones(sf::RenderTarget& target, sf::RenderStates states) const
 	}
 }
 
+Vectori Map::get_size() const
+{
+	return size;
+}
+
 void Map::update_physics(float dt, Vectorf player_pos, sf::FloatRect screen_rect)
 {
 	Vectori player_pos_on_map = Vectori(

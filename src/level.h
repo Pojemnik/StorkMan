@@ -18,7 +18,6 @@ class Level : public Message_sender, public Message_receiver
 	std::vector<sf::CircleShape> sound_sources;
 	std::vector<int> received_events;
 	sf::VertexBuffer sound_borders;
-	bool draw_border = false;//Currently unused
 	bool draw_chunks_borders = false;
 	bool draw_sound_sources = false;
 
@@ -33,7 +32,6 @@ public:
 	void draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) const;
 	void resolve_collisions(std::vector<Entity*>& entities);
-	void set_draw_border(bool draw);//Currently unused
 	void set_draw_chunks_borders(bool draw);
 	void set_draw_sound_sources(bool draw);
 	void make_zones_interactions(std::vector<Entity*>& entities);

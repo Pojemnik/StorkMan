@@ -139,7 +139,8 @@ int main(int argc, char** argv)
 
 	//Tools
 	Grid grid(context.global_scale, 0.5, static_cast<Vectorf>(context.level_size),
-		sf::Color(255, 255, 255, 50), sf::Color(0, 0, 0, 170), assets.consola);
+		map->get_size(), sf::Color(255, 255, 255, 50), sf::Color(0, 0, 0, 170),
+		assets.consola);
 	Tooltip tooltip({ 0, 0 }, assets.consola, sf::Color(0, 0, 0, 170));
 
 	//Other

@@ -41,6 +41,8 @@ private:
 	float density;
 	float scale;
 	const Vectorf level_size;
+	const Vectori map_size;
+	Vectorf grid_size;
 	Vectori lines_n;
 	sf::Color color;
 	Grid_point cursor_point;
@@ -48,13 +50,15 @@ private:
 	std::vector<Grid_point> points;
 	sf::Font* font;
 	sf::Color tooltip_color;
+	const sf::Color edge_color = sf::Color::Magenta;
 	bool add_point_next_update = false;
 
 	void init();
 	Vectorf get_closest_node_pos(Vectorf t);//Position on map in pixels
+	void append_line(int& n, sf::Vertex* arr, Vectorf begin, Vectorf end, sf::Color line_color);
 
 public:
-	Grid(float scale_, float density_, Vectorf level_size_,
+	Grid(float scale_, float density_, Vectorf level_size_, Vectori map_size_,
 		sf::Color grid_color, sf::Color tooltip_color_, sf::Font& font_);
 	void set_density(float d);
 	void set_color(sf::Color c);

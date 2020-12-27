@@ -178,11 +178,6 @@ void Level::resolve_collisions(std::vector<Entity*>& entities)
 	}
 }
 
-void Level::set_draw_border(bool draw)
-{
-	draw_border = draw;
-}
-
 void Level::set_draw_chunks_borders(bool draw)
 {
 	draw_chunks_borders = draw;
