@@ -2,9 +2,9 @@ img/tex/objects/instalations.png
 
 6
 
-OBJSteam_Turbine	0	0	2048	1024	0
-OBJSteam_Generator	2560	0	512	512	0
-OBJGrated_Vent		2048	512	512	512	0
-OBJSteel_Technical_Gate	2560	512	512	512	0
-OBJLever_Base		2048	0	128	256	0
-OBJLever_Arm_Red	2048	256	256	256	0
+OBJSteam_turbine	0	0	2048	1024	0
+OBJSteam_generator	2560	0	512	512	0
+OBJGrated_vent		2048	512	512	512	0
+OBJSteel_technical_gate	2560	512	512	512	0
+OBJLever_base		2048	0	128	256	0
+OBJLever_arm_red	2048	256	256	256	0

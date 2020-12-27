@@ -29,7 +29,7 @@ def spadający_obiekt(x=0, y=0, prędkość_początkowa=0, przyspieszenie=0.02, 
         return s
     else:
         podstawy.zapis(s)
-def emiter(x=0, y=0, warstwa=3, kolor=[255,255,255], obrót=0, kąt_emisji=30, promień_początkowy=0.2, długość=4, zakończenie=0, intensywność=3, czas_klatki=0.5, obrażenia=15, ponawianie_obrażeń=6, długość_tekstury=512, szerokość_tekstury=512, początek_emisji=podstawy.animowany_obiekt(x=-0.5,y=-0.5,wysokość=1,tekstura="AOBSteam_Cloud_Concentrated",zwróć_tekst=True), koniec_emisji=podstawy.animowany_obiekt(x=-1.5,y=-1.5,wysokość=3,tekstura="AOBSteam_Cloud_Concentrated",zwróć_tekst=True), tekstura_emisji="ATXSteam_Clouds_Concentrated", zwróć_tekst=False):
+def emiter(x=0, y=0, warstwa=3, kolor=[255,255,255], obrót=0, kąt_emisji=30, promień_początkowy=0.2, długość=4, zakończenie=0, intensywność=3, czas_klatki=0.5, obrażenia=15, ponawianie_obrażeń=6, długość_tekstury=512, szerokość_tekstury=512, początek_emisji=podstawy.animowany_obiekt(x=-0.5,y=-0.5,wysokość=1,tekstura="AOBSteam_cloud_concentrated",zwróć_tekst=True), koniec_emisji=podstawy.animowany_obiekt(x=-1.5,y=-1.5,wysokość=3,tekstura="AOBSteam_cloud_concentrated",zwróć_tekst=True), tekstura_emisji="ATXSteam_clouds_concentrated", zwróć_tekst=False):
     s = ""
     n = długość/math.cos(math.radians(kąt_emisji/2))
     r = n*math.sin(math.radians(kąt_emisji/2))

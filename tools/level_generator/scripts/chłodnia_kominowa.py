@@ -1,7 +1,7 @@
 import math
 import random
 import podstawy
-def słup_chłodniczy_potrójny(x=0, y=0, warstwa=8, warstwa_poprzeczki=5, rozstaw=3, odbicie=1, wysokość=10, poprzeczki=6, szerokość=0.5, szerokość_poprzeczki=0.3, szerokość_animacji=0.2, szerokość_animacji_poprzeczki=0.15, szerokość_tekstury=64, czas_klatki=1, czas_klatki_poprzeczki=2, tekstura="TEXSteel_stick", szerokość_animowanej_tekstury=64, animowana_tekstura="ATXWater_Drops_Flowing", losowość=True, obecność_wody=True, zwróć_tekst=False):
+def słup_chłodniczy_potrójny(x=0, y=0, warstwa=8, warstwa_poprzeczki=5, rozstaw=3, odbicie=1, wysokość=10, poprzeczki=6, szerokość=0.5, szerokość_poprzeczki=0.3, szerokość_animacji=0.2, szerokość_animacji_poprzeczki=0.15, szerokość_tekstury=64, czas_klatki=1, czas_klatki_poprzeczki=2, tekstura="TEXSteel_stick", szerokość_animowanej_tekstury=64, animowana_tekstura="ATXWater_drops_flowing", losowość=True, obecność_wody=True, zwróć_tekst=False):
     s = ""
     v = ["vt",4]
     if losowość:
@@ -98,7 +98,7 @@ def słup_chłodniczy_potrójny(x=0, y=0, warstwa=8, warstwa_poprzeczki=5, rozst
         return s
     else:
         podstawy.zapis(s)
-def słup_chłodniczy_poczwórny(x=0, y=0, warstwa=8, warstwa_poprzeczki=5, rozstaw=3, odbicie=1, wysokość=10, poprzeczki=4, szerokość=0.5, szerokość_poprzeczki=0.3, szerokość_animacji=0.2, szerokość_animacji_poprzeczki=0.15, szerokość_tekstury=64, czas_klatki=1, czas_klatki_poprzeczki=2, tekstura="TEXSteel_stick", szerokość_animowanej_tekstury=64, animowana_tekstura="ATXWater_Drops_Flowing", losowość=True, obecność_wody=True, zwróć_tekst=False):
+def słup_chłodniczy_poczwórny(x=0, y=0, warstwa=8, warstwa_poprzeczki=5, rozstaw=3, odbicie=1, wysokość=10, poprzeczki=4, szerokość=0.5, szerokość_poprzeczki=0.3, szerokość_animacji=0.2, szerokość_animacji_poprzeczki=0.15, szerokość_tekstury=64, czas_klatki=1, czas_klatki_poprzeczki=2, tekstura="TEXSteel_stick", szerokość_animowanej_tekstury=64, animowana_tekstura="ATXWater_drops_flowing", losowość=True, obecność_wody=True, zwróć_tekst=False):
     s = ""
     v = ["vt",4]
     if losowość:

@@ -25,30 +25,33 @@ def dodanie_ruchu(obiekt, ścieżka_ruchu, zwróć_tekst=False):
     tablica_elementów = podstawy.podział_na_elementy(obiekt)
     for j in range(tablica_elementów[0]):
         element = podstawy.odczyt_elementu(tablica_elementów[j+1])
-        n = podstawy.indeks_ruchu_elementu(element)
-        if n<0:
-            n = -n
-            element = ["moving_" + element[0],] + element[1:n] + ścieżka_ruchu + element[n:]
-            if element[0]=="moving_platform":
-                element = element[:9] + element[10:]
-        else:
-            if element[n] == "container" or ścieżka_ruchu[0] == "container":
-                if element[n] == "container" and ścieżka_ruchu[0] == "container":
-                    idx1 = n+2
-                    for i in range(element[n+1]-1):
-                        idx1 += element[idx1+1]*podstawy.znaczniki(element[idx1])+2
-                    element = element[0:n+1] + [element[n+1]+ścieżka_ruchu[1]] + element[n+2:idx1] + ścieżka_ruchu[2:] + element[idx1:]
-                else:
-                    if element[n] == "container":
+        if element!="<state>" and element!="</state>":
+            n = podstawy.indeks_ruchu_elementu(element)
+            if n<0:
+                n = -n
+                element = ["moving_" + element[0],] + element[1:n] + ścieżka_ruchu + element[n:]
+                if element[0]=="moving_platform":
+                    element = element[:9] + element[10:]
+            else:
+                if element[n] == "container" or ścieżka_ruchu[0] == "container":
+                    if element[n] == "container" and ścieżka_ruchu[0] == "container":
                         idx1 = n+2
                         for i in range(element[n+1]-1):
                             idx1 += element[idx1+1]*podstawy.znaczniki(element[idx1])+2
-                        element = element[0:n+1] + [element[n+1]+1] + element[n+2:idx1] + ścieżka_ruchu + element[idx1:]
+                        element = element[0:n+1] + [element[n+1]+ścieżka_ruchu[1]] + element[n+2:idx1] + ścieżka_ruchu[2:] + element[idx1:]
                     else:
-                        element = element[0:n] + [ścieżka_ruchu[0],ścieżka_ruchu[1]+1] + ścieżka_ruchu[2:] + element[n:]
-            else:
-                element = element[0:n] + ["container",2] + ścieżka_ruchu + element[n:]
-        zwrot = zwrot + podstawy.zapis_elementu(e=element,zwróć_tekst=True)
+                        if element[n] == "container":
+                            idx1 = n+2
+                            for i in range(element[n+1]-1):
+                                idx1 += element[idx1+1]*podstawy.znaczniki(element[idx1])+2
+                            element = element[0:n+1] + [element[n+1]+1] + element[n+2:idx1] + ścieżka_ruchu + element[idx1:]
+                        else:
+                            element = element[0:n] + [ścieżka_ruchu[0],ścieżka_ruchu[1]+1] + ścieżka_ruchu[2:] + element[n:]
+                else:
+                    element = element[0:n] + ["container",2] + ścieżka_ruchu + element[n:]
+            zwrot = zwrot + podstawy.zapis_elementu(e=element,zwróć_tekst=True)
+        else:
+            zwrot += element + "\n"
     if zwróć_tekst:
         return zwrot
     else:

@@ -62,6 +62,8 @@ def znaczniki(nazwa):
         return 2
     if nazwa == "e":
         return 1
+    if nazwa == "et":
+        return 2
     return 0
 def podział_na_elementy(s):
     r = []
@@ -71,16 +73,22 @@ def podział_na_elementy(s):
         p = s.find("<",k)
         k = s.find(" ",p)
         if k>=0:
-            a = p
-            t = s[p+1:k]
-            p = s.find("/",k)
-            k = s.find(">",k)
-            if k<p:
-                k = s.find(t,k)
+            if s.find("<state>",p-1,k)==-1 and s.find("</state>",p-1,k)==-1:
+                a = p
+                t = s[p+1:k]
+                p = s.find("/",k)
                 k = s.find(">",k)
-            b = k
-            r = r + [s[a:b+1],]
-            i = i + 1
+                if k<p:
+                    k = s.find(t,k)
+                    k = s.find(">",k)
+                b = k
+                r = r + [s[a:b+1],]
+                i = i + 1
+            else:
+                if s.find("<state>",p-1,k)==-1:
+                    r += ["<state>"]
+                else:
+                    r += ["<state>"]
     r = [i,] + r
     return r
 def przypisanie_tabeli_wartości(typ):
@@ -240,6 +248,8 @@ def odczyt_elementu(s):
                         r = r + ["d",]
                     if t == "e":
                         r = r + ["e",]
+                    if t == "et":
+                        r = r + ["et",]
                     while p>0:
                         k = s.find("</"+t+">",p)
                         f = s[p+2+len(t):k]
@@ -334,7 +344,7 @@ def indeks_wierzchołków_elementu(e):
     if e[0]=="animated_moving_object" or e[0]=="moving_animated_object":
         return -1
     if e[0]=="sound":
-        return -1
+        return 8
     if e[0]=="event_zone":
         return 4
     if e[0]=="clickable_zone":
@@ -348,12 +358,6 @@ def indeks_wierzchołków_elementu(e):
     if e[0]=="timed_event":
         return -1
     return 0
-def zapis_stanów(stany,s,domyślny=0,zwróć_tekst=False):
-    s_chunk = "<dynamic_chunk>\n"
-    for i in range(stany[0]):
-        s_chunk += "<state>\n" + stany[i+1] + "</state>\n"
-    s_chunk += s + wyzwalacz_stanu(stan=domyślny,wyzwalacz="default",zwróć_tekst=True) + "</dynamic_chunk>\n"
-    lvl.add(s_chunk)
 def zapis(s):
     if s.find("<state>")!=-1:
         chunk_name = "dynamic_chunk"
@@ -363,13 +367,19 @@ def zapis(s):
     s_no_chunk = ""
     t = podział_na_elementy(s)
     for i in range(t[0]):
-        t[i+1] = odczyt_elementu(t[i+1])
-        if t[i+1][0]=="sound" or t[i+1][0]=="event":
-            s_no_chunk += zapis_elementu(t[i+1],zwróć_tekst=True)
+        if t[i+1]=="<state>" or t[i+1]=="</state>":
+            if t[i+1]=="<state>":
+                s_chunk += "<state>\n"
+            else:
+                s_chunk += "</state>\n"
         else:
-            s_chunk += zapis_elementu(t[i+1],zwróć_tekst=True)
+            t[i+1] = odczyt_elementu(t[i+1])
+            if t[i+1][0]=="sound" or t[i+1][0]=="event":
+                s_no_chunk += zapis_elementu(t[i+1],zwróć_tekst=True)
+            else:
+                s_chunk += zapis_elementu(t[i+1],zwróć_tekst=True)
     if s_chunk != "":
-        s_chunk = """<chunk>\n""" + s_chunk + """</chunk>"""
+        s_chunk = """<"""+chunk_name+""">\n""" + s_chunk + """</"""+chunk_name+""">"""
     s_final = s_no_chunk + s_chunk
     lvl.add(s_final)
 def wyznaczanie_zakresu_ruchu_w_tablicy_elementu(e, n):
@@ -444,7 +454,14 @@ def zapis_elementu(e ,zwróć_tekst=False):
         p = wyznaczanie_zakresu_ruchu_w_tablicy_elementu(e,n)
         s = animowany_ruchomy_obiekt(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8],e[9],e[10],e[11],e[12],e[13],e[n:p],True)
     if e[0]=="sound":
-        s = dźwięk(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8:],zwróć_tekst=True)
+        if e[8:]==[]:
+            s = dźwięk(e[1],e[2],e[3],e[4],e[5],e[6],e[7],[],[],zwróć_tekst=True)
+        else:
+            if e[8]=="v":
+                v = round(e[n+1]*znaczniki(e[n])+(n+2))
+                s = dźwięk(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8:v],e[v:],zwróć_tekst=True)
+            else:
+                s = dźwięk(e[1],e[2],e[3],e[4],e[5],e[6],e[7],[],e[8:],zwróć_tekst=True)
     if e[0]=="event_zone":
         v = round(e[n+1]*znaczniki(e[n])+(n+2))
         d = round(v+e[v+1]*znaczniki(e[v])+2)
@@ -522,6 +539,9 @@ def złożenie_zdarzeń(zdarzenia=["e",1,"event"]):
     if zdarzenia[0] == "e":
         for i in range(zdarzenia[1]):
             s += """\n        <e>{0}</e>""".format(zdarzenia[i+2])
+    if zdarzenia[0] == "et":
+        for i in range(zdarzenia[1]):
+            s += """\n        <et>{0},{1}</et>""".format(zdarzenia[i*2+2,i*2+3])
     return s
 def parametr_pojedyńczy(s, n, typ, wartości, domyślne, zaokrąglenie):
     if zaokrąglenie[0] == True:
@@ -781,7 +801,7 @@ def animowany_ruchomy_obiekt(x=0, y=0, tekstura=domyślny_animowany_obiekt, wyso
         return s
     else:
         zapis(s)
-def dźwięk(x=0, y=0, głośność=100, dźwięk=domyślny_dźwięk, wyciszanie=1, próg_głośności=2, zasięg=8, wierzchołki=["v",0], zwróć_tekst=False):
+def dźwięk(x=0, y=0, głośność=100, dźwięk=domyślny_dźwięk, wyciszanie=1, próg_głośności=2, zasięg=8, wierzchołki=["v",0], zdarzenia=["et",0], zwróć_tekst=False):
     s = ""
     wartości = [x,y,głośność,dźwięk,wyciszanie,próg_głośności,zasięg]
     w,t = przypisanie_tabeli_wartości("sound")

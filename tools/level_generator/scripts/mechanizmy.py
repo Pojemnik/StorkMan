@@ -24,55 +24,64 @@ def taśmociąg_jednostronny(x=0, y=0, warstwa=5, długość=10, grubość=0.5, 
     else:
         podstawy.zapis(s)
 def dźwignia(x=0, y=0, promień=0.5, promień_strefy=1, warstwa=5, zdarzenia=["event1","event2"], zdarzenia_wewnętrzne=["L1","L2","L3","L4"], czas_przełożenia=30, wydłużenie=1, pozycja_początkowa=0, obrót=1, zwróć_tekst=False):
-    s1 = ""
-    s1 += podstawy.zdarzenie(zdarzenia_wewnętrzne[0],True)
-    s1 += podstawy.zdarzenie(zdarzenia_wewnętrzne[1],True)
-    s1 += podstawy.zdarzenie(zdarzenia_wewnętrzne[2],True)
-    s1 += podstawy.zdarzenie(zdarzenia_wewnętrzne[3],True)
-    s2 = podstawy.obiekt(x=x,y=y-promień,odbicie_x=obrót,wysokość=2*promień,warstwa=warstwa,tekstura="OBJLever_Base",zwróć_tekst=True)
-    stany = [4,"","","",""]
+    s = ""
+    s += podstawy.zdarzenie(zdarzenia_wewnętrzne[0],True)
+    s += podstawy.zdarzenie(zdarzenia_wewnętrzne[1],True)
+    s += podstawy.zdarzenie(zdarzenia_wewnętrzne[2],True)
+    s += podstawy.zdarzenie(zdarzenia_wewnętrzne[3],True)
     v = ["v",4]
     v += [0,-promień_strefy]
     v += [promień_strefy*obrót,-promień_strefy]
     v += [promień_strefy*obrót,promień_strefy]
     v += [0,promień_strefy]
-    stany[1] += podstawy.strefa_klikalna(x=x,y=y,wierzchołki=v,zdarzenia=["e",2,zdarzenia[0],zdarzenia_wewnętrzne[3]],zwróć_tekst=True)
-    stany[1] += podstawy.obiekt(x=x,y=y,odbicie_x=obrót,wysokość=2*promień,warstwa=warstwa,tekstura="OBJLever_Arm_Red",rotacja=90*-obrót,zwróć_tekst=True)
-    stany[2] += podstawy.strefa_klikalna(x=x,y=y,wierzchołki=v,zdarzenia=["e",2,zdarzenia[1],zdarzenia_wewnętrzne[2]],zwróć_tekst=True)
-    stany[2] += podstawy.obiekt(x=x,y=y,odbicie_x=obrót,wysokość=2*promień,warstwa=warstwa,tekstura="OBJLever_Arm_Red",rotacja=0,zwróć_tekst=True)
-    stany[3] += podstawy.ruchomy_obiekt(x=x,y=y,odbicie_x=obrót,wysokość=2*promień,warstwa=warstwa,tekstura="OBJLever_Arm_Red",rotacja=0,ruch=["rotational",2,0,czas_przełożenia+wydłużenie,90*-obrót,czas_przełożenia],zwróć_tekst=True)
-    stany[4] += podstawy.ruchomy_obiekt(x=x,y=y,odbicie_x=obrót,wysokość=2*promień,warstwa=warstwa,tekstura="OBJLever_Arm_Red",rotacja=90*-obrót,ruch=["rotational",2,0,czas_przełożenia+wydłużenie,90*obrót,0],zwróć_tekst=True)
-    tekst = ""
-    tekst += podstawy.wyzwalacz_stanu(0,zdarzenia_wewnętrzne[0],True)
-    tekst += podstawy.wyzwalacz_stanu(1,zdarzenia_wewnętrzne[1],True)
-    tekst += podstawy.wyzwalacz_stanu(2,zdarzenia_wewnętrzne[2],True)
-    tekst += podstawy.wyzwalacz_stanu(3,zdarzenia_wewnętrzne[3],True)
-    tekst += podstawy.czasowe_zdarzenie(2,zdarzenia_wewnętrzne[0],czas_przełożenia,True)
-    tekst += podstawy.czasowe_zdarzenie(3,zdarzenia_wewnętrzne[1],czas_przełożenia,True)
+    s += "<state>\n"
+    s += podstawy.strefa_klikalna(x=x,y=y,wierzchołki=v,zdarzenia=["e",2,zdarzenia[0],zdarzenia_wewnętrzne[3]],zwróć_tekst=True)
+    s += podstawy.obiekt(x=x,y=y,odbicie_x=obrót,wysokość=2*promień,warstwa=warstwa,tekstura="OBJLever_arm_red",rotacja=90*-obrót,zwróć_tekst=True)
+    s += "</state>\n"
+    s += "<state>\n"
+    s += podstawy.strefa_klikalna(x=x,y=y,wierzchołki=v,zdarzenia=["e",2,zdarzenia[1],zdarzenia_wewnętrzne[2]],zwróć_tekst=True)
+    s += podstawy.obiekt(x=x,y=y,odbicie_x=obrót,wysokość=2*promień,warstwa=warstwa,tekstura="OBJLever_arm_red",rotacja=0,zwróć_tekst=True)
+    s += "</state>\n"
+    s += "<state>\n"
+    s += podstawy.ruchomy_obiekt(x=x,y=y,odbicie_x=obrót,wysokość=2*promień,warstwa=warstwa,tekstura="OBJLever_arm_red",rotacja=0,ruch=["rotational",2,0,czas_przełożenia+wydłużenie,90*-obrót,czas_przełożenia],zwróć_tekst=True)
+    s += "</state>\n"
+    s += "<state>\n"
+    s += podstawy.ruchomy_obiekt(x=x,y=y,odbicie_x=obrót,wysokość=2*promień,warstwa=warstwa,tekstura="OBJLever_arm_red",rotacja=90*-obrót,ruch=["rotational",2,0,czas_przełożenia+wydłużenie,90*obrót,0],zwróć_tekst=True)
+    s += "</state>\n"
+    s += podstawy.wyzwalacz_stanu(0,zdarzenia_wewnętrzne[0],True)
+    s += podstawy.wyzwalacz_stanu(1,zdarzenia_wewnętrzne[1],True)
+    s += podstawy.wyzwalacz_stanu(2,zdarzenia_wewnętrzne[2],True)
+    s += podstawy.wyzwalacz_stanu(3,zdarzenia_wewnętrzne[3],True)
+    s += podstawy.czasowe_zdarzenie(2,zdarzenia_wewnętrzne[0],czas_przełożenia,True)
+    s += podstawy.czasowe_zdarzenie(3,zdarzenia_wewnętrzne[1],czas_przełożenia,True)
+    s += podstawy.obiekt(x=x,y=y-promień,odbicie_x=obrót,wysokość=2*promień,warstwa=warstwa,tekstura="OBJLever_base",zwróć_tekst=True)
     if zwróć_tekst:
-        return stany,tekst,pozycja_początkowa,s1,s2
+        return s
     else:
-        podstawy.zapis(s1)
-        podstawy.zapis_stanów(stany,tekst,pozycja_początkowa)
-        podstawy.zapis(s2)
+        podstawy.zapis(s)
 def przesuwalny_element(element=podstawy.platforma(zwróć_tekst=True), zdarzenia=["event1","event2"], zdarzenia_wewnętrzne=["event3","event4"], czas_przesunięcia=30, wydłużenie=1, przesunięcie=[1,1], zwróć_tekst=False):
     s = ""
     s += podstawy.zdarzenie(zdarzenia_wewnętrzne[0],True)
     s += podstawy.zdarzenie(zdarzenia_wewnętrzne[1],True)
-    stany = [4,"","","",""]
-    stany[1] += element
-    stany[2] += operacje.element_potomny(element,"punkt",[przesunięcie[0],przesunięcie[1]],True)
-    stany[3] += operacje.element_potomny(element,"ruch",["linear",2,0,0,czas_przesunięcia+wydłużenie,przesunięcie[0],przesunięcie[1],0],True)
-    stany[4] += operacje.element_potomny(element,"ruch",["linear",2,przesunięcie[0],przesunięcie[1],czas_przesunięcia+wydłużenie,0,0,0],True)
-    tekst = ""
-    tekst += podstawy.wyzwalacz_stanu(0,zdarzenia_wewnętrzne[1],True)
-    tekst += podstawy.wyzwalacz_stanu(1,zdarzenia_wewnętrzne[0],True)
-    tekst += podstawy.wyzwalacz_stanu(2,zdarzenia[0],True)
-    tekst += podstawy.wyzwalacz_stanu(3,zdarzenia[1],True)
-    tekst += podstawy.czasowe_zdarzenie(2,zdarzenia_wewnętrzne[0],czas_przesunięcia,True)
-    tekst += podstawy.czasowe_zdarzenie(3,zdarzenia_wewnętrzne[1],czas_przesunięcia,True)
+    s += "<state>\n"
+    s += element
+    s += "</state>\n"
+    s += "<state>\n"
+    s += operacje.element_potomny(element,"punkt",[przesunięcie[0],przesunięcie[1]],True)
+    s += "</state>\n"
+    s += "<state>\n"
+    s += operacje.element_potomny(element,"ruch",["linear",2,0,0,czas_przesunięcia+wydłużenie,przesunięcie[0],przesunięcie[1],0],True)
+    s += "</state>\n"
+    s += "<state>\n"
+    s += operacje.element_potomny(element,"ruch",["linear",2,przesunięcie[0],przesunięcie[1],czas_przesunięcia+wydłużenie,0,0,0],True)
+    s += "</state>\n"
+    s += podstawy.wyzwalacz_stanu(0,zdarzenia_wewnętrzne[1],True)
+    s += podstawy.wyzwalacz_stanu(1,zdarzenia_wewnętrzne[0],True)
+    s += podstawy.wyzwalacz_stanu(2,zdarzenia[0],True)
+    s += podstawy.wyzwalacz_stanu(3,zdarzenia[1],True)
+    s += podstawy.czasowe_zdarzenie(2,zdarzenia_wewnętrzne[0],czas_przesunięcia,True)
+    s += podstawy.czasowe_zdarzenie(3,zdarzenia_wewnętrzne[1],czas_przesunięcia,True)
     if zwróć_tekst:
-        return stany,tekst,0,s
+        return s
     else:
         podstawy.zapis(s)
-        podstawy.zapis_stanów(stany,tekst,0)
