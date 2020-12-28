@@ -261,14 +261,15 @@ Level::get_current_map_sounds(std::vector<Vectorf> player_pos)
 	{
 		int n = 0;
 		Collision sound_col = it.get_collision();
-		for (const auto& receiver : player_pos)
+		bool enabled = it.update_and_get_state(received_events);
+		if (enabled)
 		{
-			sf::FloatRect player_rect(receiver, { 1.f,1.f });
-			if (player_rect.intersects(sound_col.rect))
+			for (const auto& receiver : player_pos)
 			{
-				if (util::contained_in_polygon(receiver, it.get_max_x() + 1.f, sound_col.mesh))
+				sf::FloatRect player_rect(receiver, { 1.f,1.f });
+				if (player_rect.intersects(sound_col.rect))
 				{
-					if (it.update_and_get_state(received_events))
+					if (util::contained_in_polygon(receiver, it.get_max_x() + 1.f, sound_col.mesh))
 					{
 						n++;
 					}
