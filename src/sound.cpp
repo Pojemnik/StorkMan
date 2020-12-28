@@ -163,22 +163,31 @@ void Sound_system::on_window_focus_change(const Message& msg)
 void Sound_system::on_level_change(const Message& msg)
 {
 	lvl_id = std::get<int>(msg.args);
-	if (music_id == -1 || music_paths.at(lvl_id) != music_paths.at(music_id))
+	try
 	{
-		timer = CHANGE_DELTA;
-		next_music_id = lvl_id;
-		if (state == Music_state::UNINITALIZED)
+		if (music_id == -1 || music_paths.at(lvl_id) != music_paths.at(music_id))
 		{
-			state = Music_state::LOUDER;
-			music_id = lvl_id;
-			music.openFromFile(music_paths.at(music_id));
-			music.play();
-		}
-		else
-		{
-			state = Music_state::QUIETER;
+			timer = CHANGE_DELTA;
+			next_music_id = lvl_id;
+			if (state == Music_state::UNINITALIZED)
+			{
+				state = Music_state::LOUDER;
+				music_id = lvl_id;
+				music.openFromFile(music_paths.at(music_id));
+				music.play();
+			}
+			else
+			{
+				state = Music_state::QUIETER;
+			}
 		}
 	}
+	catch (std::out_of_range& e)
+	{
+		string error_msg = "No music found for level with id: " + std::to_string(lvl_id) + "\r\n";
+		send_message<string>(Message::Message_type::ERROR, error_msg);
+	}
+	pool.stop_all();
 }
 
 void Sound_system::update_music_state(float dt)

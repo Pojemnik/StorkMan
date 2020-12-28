@@ -19,6 +19,20 @@ Level::Level(std::vector<std::unique_ptr<Chunk>>&& chunks_,
 		}
 		add_receiver(&*it);
 	}
+	const Vectorf px_level_size = context.global_scale * static_cast<Vectorf>(context.level_size);
+	const Vectorf px_level_pos = { global_pos.x * px_level_size.x, global_pos.y * px_level_size.y };
+	const Vectorf level_vert[4] = { px_level_pos,
+		Vectorf(px_level_pos.x + px_level_size.x, px_level_pos.y),
+		Vectorf(px_level_pos.x + px_level_size.x, px_level_pos.y + px_level_size.y),
+		Vectorf(px_level_pos.x, px_level_pos.y + px_level_size.y) };
+	vertices.insert(vertices.end(), level_vert, level_vert + 4);
+	const std::pair<Vectorf, Vectorf> level_edges[4] = {
+		{level_vert[0], level_vert[1]},
+		{level_vert[1], level_vert[2]},
+		{level_vert[2], level_vert[3]},
+		{level_vert[3], level_vert[0]}
+	};
+	edges.insert(edges.end(), level_edges, level_edges + 4);
 	static util::Color_generator colors("data/colors.txt");
 	std::vector<sf::Vertex> sound_borders_vect;
 	for (auto& it : sounds)

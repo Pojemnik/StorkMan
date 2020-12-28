@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <functional>
 #include <array>
+#include <iostream>
 
 #include "messaging.h"
 #include "util.h"
