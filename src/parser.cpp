@@ -246,7 +246,7 @@ Parser::parse_platform(tinyxml2::XMLElement* element, Vectori level_pos)
 	try
 	{
 		string val = get_attribute_by_name("texture", element);
-		const sf::Texture* tex = assets->textures.at(val);
+		const sf::Texture* tex = assets->textures.at(val)[0];
 		Vectorf pos = get_position(element, level_pos);
 		int surface = parse_surface(element);
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
@@ -279,7 +279,7 @@ Parser::parse_wall(tinyxml2::XMLElement* element, Vectori level_pos)
 	{
 		Vectorf pos = get_position(element, level_pos);
 		string val = get_attribute_by_name("texture", element);
-		const sf::Texture* tex = assets->textures.at(val);
+		const sf::Texture* tex = assets->textures.at(val)[0];
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		std::vector<sf::Vertex> points =
 			parse_vertices(element->FirstChildElement(), fliprot);
@@ -309,7 +309,7 @@ Parser::parse_object(tinyxml2::XMLElement* element, Vectori level_pos)
 	{
 		Vectorf pos = get_position(element, level_pos);
 		string val = get_attribute_by_name("texture", element);
-		const sf::Texture* tex = assets->textures.at(val);
+		const sf::Texture* tex = assets->textures.at(val)[0];
 		float height = get_and_parse_var<float>("height", element);
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		int layer = parse_layer(element, DEFAULT_OBJECT_LAYER);
@@ -586,7 +586,7 @@ Parser::parse_moving_platform(tinyxml2::XMLElement* element, Vectori level_pos)
 	try
 	{
 		string val = get_attribute_by_name("texture", element);
-		const sf::Texture* tex = assets->textures.at(val);
+		const sf::Texture* tex = assets->textures.at(val)[0];
 		Vectorf pos = get_position(element, level_pos);
 		int surface = parse_surface(element);
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
@@ -639,7 +639,7 @@ Parser::parse_moving_object(tinyxml2::XMLElement* element, Vectori level_pos)
 		const sf::Texture* tex;
 		Vectorf pos = get_position(element, level_pos);
 		string val = get_attribute_by_name("texture", element);
-		tex = assets->textures.at(val);
+		tex = assets->textures.at(val)[0];
 		float height = get_and_parse_var<float>("height", element);
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		sf::Color color = get_and_parse_var<sf::Color>("color", element, sf::Color::White);
@@ -674,9 +674,9 @@ Parser::parse_pendulum(tinyxml2::XMLElement* element, Vectori level_pos)
 	try
 	{
 		string tex_string = get_attribute_by_name("texture", element);
-		const sf::Texture* tex = assets->textures.at(tex_string);
+		const sf::Texture* tex = assets->textures.at(tex_string)[0];
 		string line_tex_string = get_attribute_by_name("line", element);
-		const sf::Texture* line_tex = assets->textures.at(line_tex_string);
+		const sf::Texture* line_tex = assets->textures.at(line_tex_string)[0];
 		Vectorf pos = get_position(element, level_pos);
 		int surface = parse_surface(element);
 		float line_len = get_and_parse_var<float>("length", element);
@@ -1046,7 +1046,7 @@ std::pair<std::optional<int>, std::shared_ptr<Moving_polygon>> Parser::parse_mov
 	try
 	{
 		string val = get_attribute_by_name("texture", element);
-		const sf::Texture* tex = assets->textures.at(val);
+		const sf::Texture* tex = assets->textures.at(val)[0];
 		Vectorf pos = get_position(element, level_pos);
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		std::vector<sf::Vertex> vert;

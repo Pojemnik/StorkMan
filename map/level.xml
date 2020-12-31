@@ -1,0 +1,68 @@
+﻿<level name="Budowa domu - poziom testowy 01" background="bg1">
+	<chunk>
+	/-------------------------------------------------PODŁOŻE
+		<platform position="0,29.5" texture="dirt,0">
+			<v>0,0</v>
+			<v>30,0</v>
+			<v>30,0.5</v>
+			<v>0,0.5</v>
+		</platform>
+		<platform position="0,29" texture="grass,0">
+			<v>0,0</v>
+			<v>30,0</v>
+			<v>30,0.5</v>
+			<v>0,0.5</v>
+		</platform>
+	</chunk>
+	<chunk>
+		<platform position="5,22" texture="bricks,0">
+			<v>0,0</v>
+			<v>0.5,0</v>
+			<v>0.5,4.5</v>
+			<v>0,4.5</v>
+		</platform>
+		<platform position="14.5,22" texture="bricks,0">
+			<v>0,0</v>
+			<v>0.5,0</v>
+			<v>0.5,4.5</v>
+			<v>0,4.5</v>
+		</platform>
+		<platform position="5,22" texture="bricks,0">
+			<v>0,0</v>
+			<v>10,0</v>
+			<v>10,0.5</v>
+			<v>0,0.5</v>
+		</platform>
+		<platform position="5,25.5" texture="bricks,0">
+			<v>0,0</v>
+			<v>8.5,0</v>
+			<v>8.5,0.5</v>
+			<v>0,0.5</v>
+		</platform>
+		<wall position="5.5,22.5" texture="wood,1">
+			<v>0,0</v>
+			<v>9,0</v>
+			<v>9,6.5</v>
+			<v>0,6.5</v>
+		</wall>
+	</chunk>
+	<chunk>
+		<platform position="5,17" texture="bricks,2">
+			<v>5,-0.5</v>
+			<v>5,0</v>
+			<v>0.5,5</v>
+			<v>0,5</v>
+		</platform>
+		<platform position="10,16.5" texture="bricks,2">
+			<v>0,0</v>
+			<v>5,5.5</v>
+			<v>4.5,5.5</v>
+			<v>0,0.5</v>
+		</platform>
+		<wall position="10,17" texture="bricks,1">
+			<v>0,0</v>
+			<v>4.5,5</v>
+			<v>-4.5,5</v>
+		</wall>
+	</chunk>
+</level>

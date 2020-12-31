@@ -1,8 +1,8 @@
 #pragma once
 #include "animations.h"
 #include <unordered_map>
-
-struct Entity_config
+enum class Tex_type : int {ALBEDO=0,NORMAL,HEIGHT};
+struct Entity_config  
 {
 	std::vector<Vectorf> mesh;
 	std::vector<string> animation_files;
@@ -29,8 +29,8 @@ class Assets
 	void load_sound(sf::SoundBuffer& buf, string path);
 	void load_hp_bar();
 	std::tuple<Vectori, Vectori, std::vector<string>> load_texture_file_config(string path);
-	void load_concatenated_texture_file(string path);
-	void load_concatenated_texture_file_group(string path);
+	void load_concatenated_texture_file(string path,Tex_type type);
+	void load_concatenated_texture_file_group(string path,Tex_type type);
 public:
 	struct Hp_bar
 	{
@@ -42,7 +42,7 @@ public:
 		std::shared_ptr<std::vector<sf::Texture>> content_bot;
 	} hp_bar;
 	std::vector<std::vector<const sf::Texture*>> pieces;
-	std::unordered_map<std::string, const sf::Texture*> textures;
+	std::unordered_map<std::string, std::array<const sf::Texture*, 3>> textures;
 	std::unordered_map<std::string, std::vector<const sf::Texture*>> animations;
 	std::unordered_map<std::string, const sf::Texture*> backgrounds;
 	const sf::Texture* console_bg = nullptr;
@@ -55,7 +55,7 @@ public:
 	void add_entity_sounds(int type, std::vector<string>& paths);
 	std::vector<const Dynamic_animation_struct*>* load_dynamic_animations(std::vector<string> paths);
 	const Animation_tree load_animation_tree(std::string path);
-	void parse_additional_textures(std::string path);
+	void parse_additional_textures(std::string path,Tex_type type);
 	void parse_additional_animations(std::string path);
 	std::vector<std::vector<const sf::Texture*>>
 		load_entity_textures(

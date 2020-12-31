@@ -1,6 +1,6 @@
 #include "assets.h"
 
-void Assets::load_concatenated_texture_file(string path)
+void Assets::load_concatenated_texture_file(string path,Tex_type type)
 {
 	std::ifstream config_file(path, std::ios::in);
 	string img_path;
@@ -20,20 +20,20 @@ void Assets::load_concatenated_texture_file(string path)
 		sf::Texture* tmp = new sf::Texture;
 		tmp->loadFromImage(image, sf::IntRect(pos, size));
 		tmp->setRepeated(repeated);
-		if(textures.contains(name))
-			throw std::runtime_error("Duplicated texture name");
-		textures[name] = tmp;
+		//if(textures.contains(name))
+			//throw std::runtime_error("Duplicated texture name");
+		textures[name][static_cast<int>(type)] = tmp;
 	}
 }
 
-void Assets::load_concatenated_texture_file_group(string path)
+void Assets::load_concatenated_texture_file_group(string path,Tex_type type)
 {
 	std::ifstream config_file(path, std::ios::in);
 	std::stringstream config_file_stripped = util::remove_comments(config_file);
 	string tmp;
 	while(getline(config_file_stripped,tmp))
 	{
-		load_concatenated_texture_file(tmp);
+		load_concatenated_texture_file(tmp,type);
 	}
 }
 
@@ -286,7 +286,9 @@ void Assets::load_assets()
 	//Background
 	backgrounds["main_bg"] = load_texture("img/bg/bg.jpg", false);
 	//User interface
-	load_concatenated_texture_file_group("img/textures.cfg");
+	load_concatenated_texture_file_group("img/textures.cfg",Tex_type::ALBEDO);
+	load_concatenated_texture_file_group("img/textures_normal.cfg",Tex_type::NORMAL);
+	load_concatenated_texture_file_group("img/textures_height.cfg",Tex_type::HEIGHT);
 	{
 		sf::Texture* tmp_t = new sf::Texture();
 		sf::Image tmp_i;
@@ -296,7 +298,7 @@ void Assets::load_assets()
 	}
 	load_hp_bar();
 	//Textures
-	parse_additional_textures("img/textures.txt");
+	parse_additional_textures("img/textures.txt",Tex_type::ALBEDO);
 	parse_additional_animations("img/animations.txt");
 	//Icon
 	icon.loadFromFile("img/ikona.png");
@@ -310,7 +312,7 @@ void Assets::add_entity_sounds(int type, std::vector<string>& paths)
 	entity_sounds.insert({ type, paths });
 }
 
-void Assets::parse_additional_textures(string path)
+void Assets::parse_additional_textures(string path,Tex_type type)
 {
 	string p, name;
 	int repeat;
@@ -324,7 +326,7 @@ void Assets::parse_additional_textures(string path)
 	while (!file.eof())
 	{
 		file >> p >> name >> repeat;
-		textures[name] = load_texture(p, repeat);
+		textures[name][static_cast<int>(type)] = load_texture(p, repeat);
 	}
 }
 
