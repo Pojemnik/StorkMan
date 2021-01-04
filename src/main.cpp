@@ -68,6 +68,17 @@ int main(int argc, char** argv)
 	sf::Vector2u icon_size = assets.icon.getSize();
 	window.setIcon(icon_size.x, icon_size.y, assets.icon.getPixelsPtr());
 
+	//Derefered shading buffers and shaders
+	Gbuffer gbuffer;
+	gbuffer.albedo.create(context.resolution.x,context.resolution.y);
+	gbuffer.normal.create(context.resolution.x,context.resolution.y);
+	gbuffer.position.create(context.resolution.x,context.resolution.y);
+	sf::Shader light_shader;
+	light_shader.loadFromFile("img/shaders/shader.frag", sf::Shader::Fragment);
+	light_shader.setUniform("gAlbedo", gbuffer.albedo.getTexture());
+	light_shader.setUniform("gNormal", gbuffer.normal.getTexture());
+	light_shader.setUniform("gPosition", gbuffer.position.getTexture());
+
 	//Map
 	Map* map = load_map((argc == 2) ? argv[1] : "map/map.xml", parser);
 
