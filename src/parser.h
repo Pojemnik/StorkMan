@@ -70,7 +70,7 @@ class Parser
 		parse_animated_moving_wall(tinyxml2::XMLElement* element, Vectori level_pos);
 	Map_sound parse_sound(tinyxml2::XMLElement* element, Vectori level_pos, int id);
 	sf::FloatRect calculate_chunk_bounds(tinyxml2::XMLElement* root,
-		std::vector<std::shared_ptr<Map_object>>& objects);
+		std::vector<std::shared_ptr<Map_object>>& objects, Vectori level_pos);
 	const std::unordered_map<
 		std::string, std::function<std::pair<std::optional<int>, std::shared_ptr<Map_object>>(tinyxml2::XMLElement*, Vectori)>>
 		element_name_to_function_returning_pair =

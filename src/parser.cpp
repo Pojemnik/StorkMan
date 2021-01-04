@@ -173,7 +173,7 @@ std::unique_ptr<Chunk> Parser::parse_chunk(tinyxml2::XMLElement* root, Vectori l
 		}
 		element = element->NextSiblingElement();
 	}
-	sf::FloatRect bound = calculate_chunk_bounds(root, map_objects);
+	sf::FloatRect bound = calculate_chunk_bounds(root, map_objects, level_pos);
 	sf::VertexBuffer collision_buffer(sf::Lines, sf::VertexBuffer::Static);
 	collision_buffer.create(collision_vertices.size());
 	collision_buffer.update(collision_vertices.data());
@@ -1205,29 +1205,42 @@ Map_sound Parser::parse_sound(tinyxml2::XMLElement* element, Vectori level_pos, 
 }
 
 sf::FloatRect Parser::calculate_chunk_bounds(tinyxml2::XMLElement* root,
-	std::vector<std::shared_ptr<Map_object>>& objects)
+	std::vector<std::shared_ptr<Map_object>>& objects, Vectori level_pos)
 {
 	sf::FloatRect bound = sf::FloatRect(INFINITY, INFINITY, 0, 0);
-	for (const auto& it : objects)
+	if (objects.size() == 0)
 	{
-		sf::FloatRect object_rect = it->get_bounding_rect();
-		if (bound.left != INFINITY)
-		{
-			bound = util::merge_bounds(bound, object_rect);
-		}
-		else
-		{
-			bound = object_rect;
-		}
+		Vectorf pos = get_position(root, level_pos);
+		Vectorf size = get_and_parse_var<Vectorf>("size", root);
+		size *= context.global_scale;
+		bound.left = pos.x;
+		bound.top = pos.y;
+		bound.width = size.x;
+		bound.height = size.y;
 	}
-	float left = get_and_parse_var<float>("left", root, 0) * context.global_scale;
-	bound.left -= left;
-	float top = get_and_parse_var<float>("top", root, 0) * context.global_scale;
-	bound.top -= top;
-	float right = get_and_parse_var<float>("right", root, 0) * context.global_scale;
-	bound.width += right + left;
-	float bottom = get_and_parse_var<float>("bottom", root, 0) * context.global_scale;
-	bound.height += bottom + top;
+	else
+	{
+		for (const auto& it : objects)
+		{
+			sf::FloatRect object_rect = it->get_bounding_rect();
+			if (bound.left != INFINITY)
+			{
+				bound = util::merge_bounds(bound, object_rect);
+			}
+			else
+			{
+				bound = object_rect;
+			}
+		}
+		float left = get_and_parse_var<float>("left", root, 0) * context.global_scale;
+		bound.left -= left;
+		float top = get_and_parse_var<float>("top", root, 0) * context.global_scale;
+		bound.top -= top;
+		float right = get_and_parse_var<float>("right", root, 0) * context.global_scale;
+		bound.width += right + left;
+		float bottom = get_and_parse_var<float>("bottom", root, 0) * context.global_scale;
+		bound.height += bottom + top;
+	}
 	return bound;
 }
 

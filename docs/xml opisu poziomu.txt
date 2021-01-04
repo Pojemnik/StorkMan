@@ -34,9 +34,33 @@ level:
 chunk:
 	atrybuty:
 		top, bottom, left, right (float [m]) - powiększenie chunka w wybranym kierunku, wartości bowinny być > 0, w przeciwnym razie nie ma sensu
+		W przypadku pustego chunka (mającego sens tylko jako state w dynamic_chunk) atrybuty to:
+		position (float [m], float [m]) - pozycja chunka
+		size (float [m], float [m]) - rozmiar chunka
 		
 	zawartość:
 		znaczniki elementów mapy
+		
+dynamic chunk:
+	znaczniki:
+		<state>
+		<timed_event>
+		<state_trigger>
+		(patrz znaczniki pomocnicze)
+		
+sound:
+	atrybuty:
+		position
+		volume* (int) (domyślne 100) - głośność maksymalna
+		sound (string) - nazwa dźwięku do odtworzenia (patrz plik sound/sound/map_sounds.cfg)
+		attenuation* (float) (domyślnie 1) - szybkość zanikania dźwięku wraz z odległością
+		min_distance* (float) (domyślnie 1) [m] - odległość, w jakiej dźwięk osiąga maksymalną głośność
+		range* (float) (domyślnie 8) [m] - maksymalna odległość, w której dźwięk jest słyszalny - w przypadku braku obiektów blokujących dźwięk zakres słyszlności jest kwadratem o boku range*2
+	
+	znaczniki:
+		opcjonalne znaczniki <v> opisujące kolejne wierzchołki strefy słyszalności dźwięku. Jeśli nie zostaną podane strefa zostanie wygenerowana automatycznie.
+		opcjonalne znaczniki <et> opisujące w wyniku jakich evemtów pownienien zmienić się stan odtwarzania dźwięku
+	
 		
 Znaczniki elementów mapy:
 
@@ -215,29 +239,10 @@ animated_moving_object:
 		
 	znaczniki:
 		<move>
-		
-sound:
-	atrybuty:
-		position
-		volume* (int) (domyślne 100) - głośność maksymalna
-		sound (string) - nazwa dźwięku do odtworzenia (patrz plik sound/sound/map_sounds.cfg)
-		attenuation* (float) (domyślnie 1) - szybkość zanikania dźwięku wraz z odległością
-		min_distance* (float) (domyślnie 1) [m] - odległość, w jakiej dźwięk osiąga maksymalną głośność
-		range* (float) (domyślnie 8) [m] - maksymalna odległość, w której dźwięk jest słyszalny - w przypadku braku obiektów blokujących dźwięk zakres słyszlności jest kwadratem o boku range*2
-	
-	znaczniki:
-		opcjonalne znaczniki <v> opisujące kolejne wierzchołki strefy słyszalności dźwięku. Jeśli nie zostaną podane strefa zostanie wygenerowana automatycznie.
-		
+			
 event:
 	atrybuty:
 		name - nazwa zdarzenia używana póżniej w znacznikach state. UWAGA: nazwa eventu musi zostać zadeklarowany powyżej znacznika state_trigger, który jej używa
-		
-dynamic chunk:
-	znaczniki:
-		<state>
-		<timed_event>
-		<state_trigger>
-		(patrz znaczniki pomocnicze)
 		
 event_zone:
 	atrybuty:
@@ -332,8 +337,9 @@ timed_event:
 		
 e:
 	zawartość:
-	W przypadku producentów eventów:
 	(string) - nazwa eventu do wywołania
-	W przypadku konsumentow eventów:
+
+et:
+	zawartość:
 	(string, bool) - nazwa eventu, na który należy zareagować; wartość, jaką należy przyjąć po jego wystąpieniu
 		

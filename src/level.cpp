@@ -95,10 +95,6 @@ void Level::update_physics(float dt, sf::FloatRect screen_rect, std::vector<int>
 			send_message(Message::Message_type::MOUSE_CLICKED, msg.args);
 		}
 	}
-	for (auto& it : sounds)
-	{
-
-	}
 	for (auto& it : chunks)
 	{
 		if (it->get_bounding_rect().intersects(screen_rect))
