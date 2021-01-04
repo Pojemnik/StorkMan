@@ -139,19 +139,21 @@ void Map::update_physics(float dt, Vectorf player_pos, sf::FloatRect screen_rect
 		int(player_pos.x / context.global_scale / context.level_size.x),
 		int(player_pos.y / context.global_scale / context.level_size.y));
 	bool out_of_map = false;
-	Level* current_level = &*levels.at(current_pos.x).at(current_pos.y);
+	Level* current_level;
+	try
+	{
+		current_level = &*levels.at(current_pos.x).at(current_pos.y);
+	}
+	catch (std::out_of_range)
+	{
+		send_message<string>(Message::Message_type::ERROR, "Level out of range");
+		current_pos = player_pos_on_map;
+		return;
+	}
 	if (player_pos_on_map != current_pos)
 	{
 		current_pos = player_pos_on_map;
-		try
-		{
-			send_message<int>(Message::Message_type::CHANGED_LEVEL, current_level->code);
-		}
-		catch (const std::out_of_range&)
-		{
-			send_message<string>(Message::Message_type::ERROR, "Level out of range");
-			out_of_map = true;
-		}
+		send_message<int>(Message::Message_type::CHANGED_LEVEL, current_level->code);
 	}
 	get_considered_levels();
 	while (message_available())

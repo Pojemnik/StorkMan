@@ -60,7 +60,10 @@ sound:
 	znaczniki:
 		opcjonalne znaczniki <v> opisujące kolejne wierzchołki strefy słyszalności dźwięku. Jeśli nie zostaną podane strefa zostanie wygenerowana automatycznie.
 		opcjonalne znaczniki <et> opisujące w wyniku jakich evemtów pownienien zmienić się stan odtwarzania dźwięku
-	
+		
+event:
+	atrybuty:
+		name - nazwa zdarzenia używana póżniej w znacznikach state. UWAGA: nazwa eventu musi zostać zadeklarowany powyżej znacznika state_trigger, który jej używa
 		
 Znaczniki elementów mapy:
 
@@ -239,10 +242,6 @@ animated_moving_object:
 		
 	znaczniki:
 		<move>
-			
-event:
-	atrybuty:
-		name - nazwa zdarzenia używana póżniej w znacznikach state. UWAGA: nazwa eventu musi zostać zadeklarowany powyżej znacznika state_trigger, który jej używa
 		
 event_zone:
 	atrybuty:

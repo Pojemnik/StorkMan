@@ -100,6 +100,7 @@ Level Parser::parse_level(tinyxml2::XMLElement* root, Vectori global_pos, int co
 		if (name == "event")
 		{
 			string event_name = get_attribute_by_name("name", element);
+			std::lock_guard<std::mutex> guard(event_map_mutex);
 			events.insert({ event_name , event_index++ });
 			reverse_events.push_back(event_name);
 		}
@@ -408,7 +409,6 @@ Map* Parser::parse_map(tinyxml2::XMLElement* root)
 	tinyxml2::XMLElement* element = root->FirstChildElement();
 	Map* map = new Map(map_size, player_pos, assets->backgrounds.at("main_bg"));
 	int lvl_n = 0;
-#define DEBUG_ASYNC__STORK__PARSE
 #ifndef DEBUG_ASYNC__STORK__PARSE
 	std::vector<std::future<std::unique_ptr<Level>>> futures;
 	while (element != NULL)

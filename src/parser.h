@@ -4,6 +4,7 @@
 #include <assert.h>
 #include <future>
 #include <optional>
+#include <mutex>
 #include "map.h"
 #include "assets.h"
 #include "tinyxml2.h"
@@ -24,6 +25,9 @@ class Parser
 	std::unordered_map<string, int> name_to_surface = { {"none", 0} };
 	std::unordered_map<string, int> events = { {"default", 0} };
 	std::vector<string> reverse_events = { "default" };
+
+	//Mutex for events and reverse events
+	std::mutex event_map_mutex;
 
 	std::pair<Vectori, Vectori> parse_map_element(tinyxml2::XMLElement* element);
 	std::tuple<Vectori, string, string> parse_level_element(tinyxml2::XMLElement* element, Vectori map_size);
