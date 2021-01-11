@@ -69,15 +69,21 @@ int main(int argc, char** argv)
 	window.setIcon(icon_size.x, icon_size.y, assets.icon.getPixelsPtr());
 
 	//Derefered shading buffers and shaders
-	Gbuffer gbuffer;
-	gbuffer.albedo.create(context.resolution.x,context.resolution.y);
-	gbuffer.normal.create(context.resolution.x,context.resolution.y);
-	gbuffer.position.create(context.resolution.x,context.resolution.y);
+	Gbuffer gbuffer(context.resolution.x, context.resolution.y);
 	sf::Shader light_shader;
 	light_shader.loadFromFile("img/shaders/shader.frag", sf::Shader::Fragment);
 	light_shader.setUniform("gAlbedo", gbuffer.albedo.getTexture());
 	light_shader.setUniform("gNormal", gbuffer.normal.getTexture());
 	light_shader.setUniform("gPosition", gbuffer.position.getTexture());
+	sf::VertexArray blank_screen_sized_vertex_array(sf::TriangleFan, 4);
+	blank_screen_sized_vertex_array[0].position = Vectorf( 0,0 );
+	blank_screen_sized_vertex_array[1].position = Vectorf( context.resolution.x,0 );
+	blank_screen_sized_vertex_array[2].position = Vectorf( context.resolution.x,context.resolution.y );
+	blank_screen_sized_vertex_array[3].position = Vectorf( 0,context.resolution.y );
+	for (int i = 0; i < 4; i++)
+	{
+		blank_screen_sized_vertex_array[0].texCoords = blank_screen_sized_vertex_array[0].position;
+	}
 
 	//Map
 	Map* map = load_map((argc == 2) ? argv[1] : "map/map.xml", parser);
@@ -92,7 +98,7 @@ int main(int argc, char** argv)
 	std::vector<std::shared_ptr<Animation_part>> stork_parts;
 	for (int i = 0; i < assets.pieces[0].size(); i++)
 	{
-		std::vector<const sf::Texture*> temp;
+		std::vector<const std::array<const sf::Texture*, 3>*> temp;
 		temp.reserve(assets.pieces.size());
 		for (int j = 0; j < assets.pieces.size(); j++)
 		{
@@ -411,11 +417,15 @@ int main(int argc, char** argv)
 
 		//Drawing
 		window.clear();
-		map->draw_bottom_layers(window, rs);
-		window.draw(player, rs);
+		map->draw_bottom_layers(gbuffer, rs);
+		player.draw(gbuffer, rs);
 		//window.draw(test_enemy, rs);
-		map->draw_middle_layers(window, rs);
-		map->draw_top_layers(window, rs);
+		map->draw_middle_layers(gbuffer, rs);
+		map->draw_top_layers(gbuffer, rs);
+		sf::RenderStates tmp_states;
+		tmp_states.shader = &light_shader;
+		window.draw(blank_screen_sized_vertex_array, tmp_states);
+
 		if (context.draw_zones)
 		{
 			map->draw_zones(window, rs);

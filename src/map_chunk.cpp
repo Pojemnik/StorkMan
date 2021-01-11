@@ -97,11 +97,11 @@ void Map_chunk::update_physics(float dt, std::vector<int>& msg_up)
 	}
 }
 
-void Map_chunk::draw_layer(sf::RenderTarget& target, sf::RenderStates states, int layer) const
+void Map_chunk::draw_layer(Gbuffer& target, sf::RenderStates states, int layer)
 {
 	for (const auto& it : layers[layer])
 	{
-		target.draw(*it, states);
+		it->draw(target, states);
 	}
 }
 

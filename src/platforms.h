@@ -8,12 +8,12 @@ class Textured_polygon : public Renderable, public Map_object
 {
 protected:
 	sf::VertexBuffer polygon;
-	const sf::Texture* texture;
+	const std::array<const sf::Texture*, 3>* texture;
 	sf::FloatRect bound;
 
 public:
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-	Textured_polygon(Vectorf pos, const sf::Texture* texture_,
+	virtual void draw(Gbuffer& target, sf::RenderStates states);
+	Textured_polygon(Vectorf pos, const std::array<const sf::Texture*, 3>* texture_,
 		std::vector<sf::Vertex> points, sf::Color color);
 	virtual sf::FloatRect get_bounding_rect() const;
 };
@@ -25,7 +25,7 @@ protected:
 
 public:
 	const Collision* const get_collision() const;
-	Platform(Vectorf pos_, const sf::Texture* texture_,
+	Platform(Vectorf pos_, const std::array<const sf::Texture*, 3>* texture_,
 		std::vector<sf::Vertex> points_, int surface_, bool one_sided,
 		sf::Color color);
 	virtual sf::FloatRect get_bounding_rect() const;
@@ -43,11 +43,11 @@ protected:
 
 public:
 	virtual const Collision* const get_collision() const;
-	Moving_platform(Vectorf pos_, const sf::Texture* texture_,
+	Moving_platform(Vectorf pos_, const std::array<const sf::Texture*, 3>* texture_,
 		std::vector<sf::Vertex> points_, std::unique_ptr<Simple_AI> ai_,
 		int surface_, sf::Color color);
 	void update_physics(float dt);
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	virtual void draw(Gbuffer& target, sf::RenderStates states);
 	virtual void draw_dynamic_collision(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual Vectorf get_speed() const;
 	virtual void reset_physics();
@@ -63,7 +63,7 @@ public:
 		std::vector<sf::Vertex> points, sf::Color color);
 	virtual void update_frame();
 	virtual void next_frame(float dt);
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	virtual void draw(Gbuffer& target, sf::RenderStates states);
 	virtual sf::FloatRect get_bounding_rect() const;
 	virtual void update_graphics(float dt);
 	virtual void reset_graphics();
@@ -82,7 +82,7 @@ public:
 	void update_graphics(float dt);
 	virtual void update_frame();
 	virtual void next_frame(float dt);
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	virtual void draw(Gbuffer& target, sf::RenderStates states);
 	virtual void draw_dynamic_collision(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual void reset_graphics();
 };
@@ -93,11 +93,11 @@ protected:
 	std::unique_ptr<Simple_AI> ai;
 
 public:
-	Moving_polygon(Vectorf pos_, const sf::Texture* texture_,
+	Moving_polygon(Vectorf pos_, const std::array<const sf::Texture*, 3>* texture_,
 		std::vector<sf::Vertex> points_, std::unique_ptr<Simple_AI> ai_,
 		sf::Color color);
 	void update_graphics(float dt);
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	virtual void draw(Gbuffer& target, sf::RenderStates states);
 	virtual void reset_graphics();
 };
 
@@ -113,6 +113,6 @@ public:
 	void update_graphics(float dt);
 	virtual void update_frame();
 	virtual void next_frame(float dt);
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	virtual void draw(Gbuffer& target, sf::RenderStates states);
 	virtual void reset_graphics();
 };

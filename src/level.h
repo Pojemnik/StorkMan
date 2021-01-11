@@ -28,9 +28,9 @@ public:
 	Level(std::vector<std::unique_ptr<Chunk>>&& chunks_, std::vector<Map_sound>&& sounds_, Vectori pos, int code_);
 	void update_physics(float dt, sf::FloatRect screen_rect, std::vector<int>& msg_up);
 	void update_graphics(float dt, sf::FloatRect screen_rect);
-	void draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const;
-	void draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) const;
-	void draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) const;
+	void draw_bottom_layers(Gbuffer& target, sf::RenderStates states);
+	void draw_middle_layers(Gbuffer& target, sf::RenderStates states);
+	void draw_top_layers(Gbuffer& target, sf::RenderStates states);
 	void resolve_collisions(std::vector<Entity*>& entities);
 	void set_draw_chunks_borders(bool draw);
 	void set_draw_sound_sources(bool draw);

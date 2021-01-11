@@ -5,10 +5,11 @@
 uniform sampler2D gPosition;
 uniform sampler2D gNormal;
 uniform sampler2D gAlbedo;
+uniform int lights_n;
 
-const int NR_LIGHTS = 1;
-uniform vec3 lights_color[NR_LIGHTS];
-uniform vec3 lights_position[NR_LIGHTS];
+const int MAX_LIGHTS_N = 128;
+uniform vec3 lights_color[MAX_LIGHTS_N];
+uniform vec3 lights_position[MAX_LIGHTS_N];
 uniform vec3 viewPos;
 
 void main()
@@ -25,8 +26,8 @@ void main()
     vec3 viewDir = normalize(viewPos - FragPos);
 	
 	
-	vec3 specularStrength = vec3(0.15, 0.04, 0.04);
-    for(int i = 0; i < NR_LIGHTS; ++i)
+	vec3 specularStrength = vec3(0.1, 0.1, 0.1);
+    for(int i = 0; i < lights_n; ++i)
     {
         // diffuse
         vec3 lightDir = normalize(lights_position[i] - FragPos);

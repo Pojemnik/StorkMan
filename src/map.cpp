@@ -82,16 +82,16 @@ void Map::add_level(std::unique_ptr<Level>&& lvl)
 	}
 }
 
-void Map::draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const
+void Map::draw_bottom_layers(Gbuffer& target, sf::RenderStates states)
 {
-	target.draw(background);
+	//target.draw(background);
 	for (auto& it : considered_levels)
 	{
 		it->draw_bottom_layers(target, states);
 	}
 }
 
-void Map::draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) const
+void Map::draw_middle_layers(Gbuffer& target, sf::RenderStates states)
 {
 	for (auto& it : considered_levels)
 	{
@@ -99,7 +99,7 @@ void Map::draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) 
 	}
 }
 
-void Map::draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) const
+void Map::draw_top_layers(Gbuffer& target, sf::RenderStates states)
 {
 	for (auto& it : considered_levels)
 	{
@@ -107,7 +107,7 @@ void Map::draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) con
 	}
 	if (draw_players_receiver)
 	{
-		draw_receivers(target, states);
+		//draw_receivers(target, states);
 	}
 }
 

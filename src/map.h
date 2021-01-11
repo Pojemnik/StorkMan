@@ -29,9 +29,9 @@ public:
 	Map(Vectori size_, Vectori pos, const sf::Texture* bg_tex);
 	void init();
 	void add_level(std::unique_ptr<Level>&& lvl);
-	void draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const;
-	void draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) const;
-	void draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) const;
+	void draw_bottom_layers(Gbuffer& target, sf::RenderStates states);
+	void draw_middle_layers(Gbuffer& target, sf::RenderStates states);
+	void draw_top_layers(Gbuffer& target, sf::RenderStates states);
 	void update_physics(float dt, Vectorf player_pos, sf::FloatRect screen_rect);
 	void update_graphics(float dt, sf::FloatRect screen_rect);
 	void add_entity(Entity* entity);

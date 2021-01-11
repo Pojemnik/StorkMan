@@ -116,7 +116,7 @@ void Entity::update_graphics(float dt)
 {
 	sprite.setPosition(physical.get_pos());
 	animation->next_frame(dt);
-	sprite.setTexture(*animation->get_texture());
+	
 	if (draw_collision)
 	{
 		sf::FloatRect rect = physical.get_bounding_rect();
@@ -124,13 +124,13 @@ void Entity::update_graphics(float dt)
 	}
 }
 
-void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void Entity::draw(Gbuffer& target, sf::RenderStates states)
 {
-	if (draw_collision)
+	for (int i = 0; i < 3; i++)
 	{
-		target.draw(coll_shape, states);
+		sprite.setTexture(*animation->get_texture()->at(i));
+		target[i].draw(sprite, states);
 	}
-	target.draw(sprite, states);
 }
 
 void Entity::push_state(Entity_state* state)

@@ -55,40 +55,22 @@ void Key_frame_animation::animate(std::vector<float> frame)
 
 void Key_frame_animation::pre_draw()
 {
-	tex.clear(sf::Color(0, 0, 0, 0));
-	for (int i = 0; i < tree.nodes.size(); i++)
+	for (int i = 0; i < 3; i++)
 	{
-		parts_sprites[i].setTexture(*parts[i]->get_texture());
-		tex.draw(parts_sprites[i]);
+		tex.at(i).clear(sf::Color(0, 0, 0, 0));
+		for (int i = 0; i < tree.nodes.size(); i++)
+		{
+			parts_sprites[i].setTexture(*parts[i]->get_texture()->at(0));
+			tex.at(i).draw(parts_sprites[i]);
+		}
+		tex.at(i).display();
 	}
-	tex.display();
 }
 
 Key_frame_animation::Key_frame_animation(std::vector<std::shared_ptr<Animation_part>>&& parts_,
 	std::vector<const Dynamic_animation_struct*> animations_, const Animation_tree& tree_)
 	: animations(animations_), tree(tree_), key(0), parts(std::move(parts_)),
-	animation(Animation_index::DEFAULT)
-{
-	last_key = &animations[static_cast<int>(animation)]->key_frames[key];
-	time_to_next_frame = animations[static_cast<int>(animation)]->lengths[key];
-	key++;
-	next_key = &animations[static_cast<int>(animation)]->key_frames[key];
-	actual_frame = *last_key;
-	for (int i = 0; i < parts.size(); i++)
-	{
-		Vectori tex_size=parts[i]->get_texture_size();
-		parts_sprites.push_back(sf::Sprite(*parts[i]->get_texture()));
-		parts_sprites[i].setOrigin((float)tex_size.x / 2, (float)tex_size.y / 2);
-	}
-	if (!tex.create(tree.frame_info.frame_size.x, tree.frame_info.frame_size.y))
-		return;
-	next_frame(.0f);
-}
-
-Key_frame_animation::Key_frame_animation(std::vector<std::shared_ptr<Animation_part>> parts_,
-	std::vector<const Dynamic_animation_struct*> animations_, const Animation_tree& tree_)
-	: animations(animations_), tree(tree_), key(0), parts(parts_),
-	animation(Animation_index::DEFAULT)
+	animation(Animation_index::DEFAULT), tex(tree_.frame_info.frame_size.x, tree_.frame_info.frame_size.y)
 {
 	last_key = &animations[static_cast<int>(animation)]->key_frames[key];
 	time_to_next_frame = animations[static_cast<int>(animation)]->lengths[key];
@@ -98,18 +80,35 @@ Key_frame_animation::Key_frame_animation(std::vector<std::shared_ptr<Animation_p
 	for (int i = 0; i < parts.size(); i++)
 	{
 		Vectori tex_size = parts[i]->get_texture_size();
-		parts_sprites.push_back(sf::Sprite(*parts[i]->get_texture()));
+		parts_sprites.push_back(sf::Sprite(*parts[i]->get_texture()->at(0)));
 		parts_sprites[i].setOrigin((float)tex_size.x / 2, (float)tex_size.y / 2);
 	}
-	if (!tex.create(tree.frame_info.frame_size.x, tree.frame_info.frame_size.y))
-		return;
+	next_frame(.0f);
+}
+
+Key_frame_animation::Key_frame_animation(std::vector<std::shared_ptr<Animation_part>> parts_,
+	std::vector<const Dynamic_animation_struct*> animations_, const Animation_tree& tree_)
+	: animations(animations_), tree(tree_), key(0), parts(parts_),
+	animation(Animation_index::DEFAULT), tex(tree_.frame_info.frame_size.x, tree_.frame_info.frame_size.y)
+{
+	last_key = &animations[static_cast<int>(animation)]->key_frames[key];
+	time_to_next_frame = animations[static_cast<int>(animation)]->lengths[key];
+	key++;
+	next_key = &animations[static_cast<int>(animation)]->key_frames[key];
+	actual_frame = *last_key;
+	for (int i = 0; i < parts.size(); i++)
+	{
+		Vectori tex_size = parts[i]->get_texture_size();
+		parts_sprites.push_back(sf::Sprite(*parts[i]->get_texture()->at(0)));
+		parts_sprites[i].setOrigin((float)tex_size.x / 2, (float)tex_size.y / 2);
+	}
 	next_frame(.0f);
 }
 
 void Key_frame_animation::set_animation(Animation_index a)
 {
 	Animation_index alternative = Animation_index::DEFAULT;
-	std::pair<int, int> transition = 
+	std::pair<int, int> transition =
 		std::make_pair(static_cast<int>(animation), static_cast<int>(a));
 	if (tree.alternative_animations.contains(transition))
 	{
@@ -188,7 +187,7 @@ void Key_frame_animation::next_frame(float dt)
 	{
 		actual_frame[i] = (*last_key)[i] * alfa + (*next_key)[i] * (1.f - alfa);
 	}
-	for(auto& it : parts)
+	for (auto& it : parts)
 	{
 		it->advance(dt);
 	}
@@ -196,14 +195,14 @@ void Key_frame_animation::next_frame(float dt)
 	pre_draw();
 }
 
-const sf::Texture* const Key_frame_animation::get_texture()
+const std::array<const sf::Texture*, 3>* const Key_frame_animation::get_texture()
 {
-	return &tex.getTexture();
+	return tex.getTexture();
 }
 
 void Key_frame_animation::change_textures_set(int set)
 {
-	for(auto& it: parts)
+	for (auto& it : parts)
 	{
 		it->set_image(set);
 	}
@@ -233,7 +232,7 @@ void Static_animation::next_frame(float dt)
 	part.advance(dt);
 }
 
-const sf::Texture* const Static_animation::get_texture()
+const std::array<const sf::Texture*, 3>* const Static_animation::get_texture()
 {
 	return part.get_texture();
 }
@@ -262,11 +261,11 @@ void Static_animation::reset()
 	part.reset();
 }
 
-One_frame_animation::One_frame_animation(const sf::Texture* _tex) : tex(_tex) {}
+One_frame_animation::One_frame_animation(const std::array<const sf::Texture*, 3>* _tex) : tex(_tex) {}
 
-void One_frame_animation::next_frame(float dt){ (void)dt; }
+void One_frame_animation::next_frame(float dt) { (void)dt; }
 
-const sf::Texture* const One_frame_animation::get_texture()
+const std::array<const sf::Texture*, 3>* const One_frame_animation::get_texture()
 {
 	return tex;
 }
@@ -284,7 +283,7 @@ Animation_index One_frame_animation::get_current_animation() const
 
 Frame_info One_frame_animation::get_frame_info() const
 {
-	return Frame_info(Vectori(0, 0), static_cast<Vectori>(tex->getSize()), Vectori(0, 0));
+	return Frame_info(Vectori(0, 0), static_cast<Vectori>(tex->at(0)->getSize()), Vectori(0, 0));
 }
 void One_frame_animation::change_textures_set(int set)
 {

@@ -1,4 +1,4 @@
-#pragma once
+ #pragma once
 #include "collisions.h"
 #include "logic.h"
 #include "animations.h"
@@ -12,11 +12,12 @@ protected:
 	sf::Sprite sprite;
 	int flip;
 	const float parallax = 1.f;
+	const std::array<const sf::Texture*, 3>* tex;
 
 public:
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	virtual void draw(Gbuffer& target, sf::RenderStates states);
 	virtual sf::FloatRect get_bounding_rect() const;
-	Object(Vectorf pos_, const sf::Texture* const texture_, float height_,
+	Object(Vectorf pos_, const std::array<const sf::Texture*, 3>* texture_, float height_,
 		int flip_, float angle_, sf::Color color, float parallax_);
 };
 
@@ -26,11 +27,11 @@ protected:
 	std::unique_ptr<Simple_AI> ai;
 
 public:
-	Moving_object(Vectorf pos_, const sf::Texture* texture_, float height_,
+	Moving_object(Vectorf pos_, const std::array<const sf::Texture*, 3>* texture_, float height_,
 		std::unique_ptr<Simple_AI> ai_, int flip_, float angle_,
 		sf::Color color, float parallax_);
 	void update_graphics(float dt);
-	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	void draw(Gbuffer& target, sf::RenderStates states);
 	virtual sf::FloatRect get_bounding_rect() const;
 	virtual void reset_graphics();
 };
@@ -58,7 +59,7 @@ public:
 		float height_, std::unique_ptr<Simple_AI> ai_, int flip_,
 		float angle_, sf::Color color, float parallax_);
 	void update_graphics(float dt);
-	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	virtual void draw(Gbuffer& target, sf::RenderStates states);
 	virtual sf::FloatRect get_bounding_rect() const;
 	virtual void reset_graphics();
 };

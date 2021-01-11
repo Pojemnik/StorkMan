@@ -32,10 +32,10 @@ struct Dynamic_animation_struct
 
 struct Static_animation_struct
 {
-	const std::vector<const sf::Texture*>* animation;
-	std::vector<const sf::Texture*>::const_iterator it;
+	const std::vector<const std::array<const sf::Texture*, 3>*>* animation;
+	std::vector<const std::array<const sf::Texture*, 3>*>::const_iterator it;
 	float frame_time;
 
-	Static_animation_struct(const std::vector<const sf::Texture*>* animation_, float frame_time_);
+	Static_animation_struct(const std::vector<const std::array<const sf::Texture*, 3>*>* animation_, float frame_time_);
 	Static_animation_struct(Static_animation_struct& a);
 };

@@ -1,6 +1,6 @@
 #include "platforms.h"
 
-Textured_polygon::Textured_polygon(Vectorf pos, const sf::Texture* texture_,
+Textured_polygon::Textured_polygon(Vectorf pos, const std::array<const sf::Texture*, 3>* texture_,
 	std::vector<sf::Vertex> points, sf::Color color) : texture(texture_)
 {
 	for (auto& it : points)
@@ -19,10 +19,14 @@ sf::FloatRect Textured_polygon::get_bounding_rect() const
 	return bound;
 }
 
-void Textured_polygon::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void Textured_polygon::draw(Gbuffer& target, sf::RenderStates states)
 {
-	states.texture = texture;
-	target.draw(polygon, states);
+	states.texture = texture->at(0);
+	target.albedo.draw(polygon, states);
+	states.texture = texture->at(1);
+	target.normal.draw(polygon, states);
+	states.texture = texture->at(2);
+	target.position.draw(polygon, states);
 }
 
 const Collision* const Platform::get_collision() const
@@ -30,7 +34,7 @@ const Collision* const Platform::get_collision() const
 	return &collision;
 }
 
-Platform::Platform(Vectorf pos_, const sf::Texture* texture_,
+Platform::Platform(Vectorf pos_, const std::array<const sf::Texture*, 3>* texture_,
 	std::vector<sf::Vertex> points_, int surface_, bool one_sided,
 	sf::Color color) :
 	collision(points_, pos_, surface_), Textured_polygon(pos_, texture_,
@@ -49,7 +53,7 @@ const Collision* const Moving_platform::get_collision() const
 	return &collision;
 }
 
-Moving_platform::Moving_platform(Vectorf pos_, const sf::Texture* texture_,
+Moving_platform::Moving_platform(Vectorf pos_, const std::array<const sf::Texture*, 3>* texture_,
 	std::vector<sf::Vertex> points_, std::unique_ptr<Simple_AI> ai_,
 	int surface_, sf::Color color) : 
 	Platform({ 0,0 }, texture_, points_, surface_, false, color),
@@ -85,7 +89,7 @@ void Moving_platform::update_physics(float dt)
 	speed = (Vectorf(collision.rect.left, collision.rect.top) - old_pos) / dt;
 }
 
-void Moving_platform::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void Moving_platform::draw(Gbuffer& target, sf::RenderStates states)
 {
 	states.transform.translate(pos);
 	states.transform *= ai->get_pos();
@@ -128,10 +132,13 @@ void Animated_polygon::next_frame(float dt)
 	animation->next_frame(dt);
 }
 
-void Animated_polygon::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void Animated_polygon::draw(Gbuffer& target, sf::RenderStates states)
 {
-	states.texture = texture;
-	target.draw(polygon, states);
+	for (int i = 0; i < 3; i++)
+	{
+		states.texture = texture->at(i);
+		target[i].draw(polygon, states);
+	}
 }
 
 sf::FloatRect Animated_polygon::get_bounding_rect() const
@@ -181,11 +188,14 @@ void Animated_moving_platform::next_frame(float dt)
 	animation->next_frame(dt);
 }
 
-void Animated_moving_platform::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void Animated_moving_platform::draw(Gbuffer& target, sf::RenderStates states)
 {
-	states.texture = texture;
 	states.transform *= ai->get_pos();
-	target.draw(polygon, states);
+	for (int i = 0; i < 3; i++)
+	{
+		states.texture = texture->at(i);
+		target[i].draw(polygon, states);
+	}
 }
 
 void Animated_moving_platform::draw_dynamic_collision(sf::RenderTarget& target, sf::RenderStates states) const
@@ -201,7 +211,7 @@ void Animated_moving_platform::reset_graphics()
 	update_graphics(.0f);
 }
 
-Moving_polygon::Moving_polygon(Vectorf pos_, const sf::Texture* texture_,
+Moving_polygon::Moving_polygon(Vectorf pos_, const std::array<const sf::Texture*, 3>* texture_,
 	std::vector<sf::Vertex> points_, std::unique_ptr<Simple_AI> ai_,
 	sf::Color color) : Textured_polygon(pos_, texture_, points_, color),
 	ai(std::move(ai_)) {}
@@ -211,7 +221,7 @@ void Moving_polygon::update_graphics(float dt)
 	ai->calc_pos(dt);
 }
 
-void Moving_polygon::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void Moving_polygon::draw(Gbuffer& target, sf::RenderStates states)
 {
 	states.transform *= ai->get_pos();
 	Textured_polygon::draw(target, states);
@@ -246,11 +256,14 @@ void Animated_moving_polygon::next_frame(float dt)
 	animation->next_frame(dt);
 }
 
-void Animated_moving_polygon::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void Animated_moving_polygon::draw(Gbuffer& target, sf::RenderStates states)
 {
-	states.texture = texture;
 	states.transform *= ai->get_pos();
-	target.draw(polygon, states);
+	for (int i = 0; i < 3; i++)
+	{
+		states.texture = texture->at(i);
+		target[i].draw(polygon, states);
+	}
 }
 
 void Animated_moving_polygon::reset_graphics()

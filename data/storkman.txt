@@ -10,9 +10,8 @@ animations/stork/tree.txt
 256 256
 4
 img/stork/parts_ss_256_256_is_3_9_dmg_0.png
-img/stork/parts_ss_256_256_is_3_9_dmg_1.png
-img/stork/parts_ss_256_256_is_3_9_dmg_2.png
-img/stork/parts_ss_256_256_is_3_9_dmg_3.png
+img/stork/stork_normal.png
+img/stork/stork_heightb.png
 
 #Animation files
 #On lines with - use default

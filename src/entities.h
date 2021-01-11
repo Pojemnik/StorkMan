@@ -60,7 +60,7 @@ public:
 	void update_graphics(float dt);
 	void update_physics(float dt);
 	void set_textures_set(int set);
-	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	void draw(Gbuffer& target, sf::RenderStates states);
 	void push_state(Entity_state* state);
 	void reset_physics() {}
 	void reset_graphics() {}

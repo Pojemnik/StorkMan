@@ -1,6 +1,48 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
+class Gbuffer
+{
+	std::array< const sf::Texture*, 3> arr;
+
+public:
+	sf::RenderTexture albedo;
+	sf::RenderTexture normal;
+	sf::RenderTexture position;
+
+	Gbuffer(int x, int y)
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			if (!at(i).create(x, y))
+				throw std::runtime_error("Failed constructing Gbuffer");
+			arr[i] = &at(i).getTexture();
+		}
+	}
+
+	sf::RenderTexture& at(int i)
+	{
+		if (i == 0)
+			return albedo;
+		else if (i == 1)
+			return normal;
+		else if (i == 2)
+			return position;
+		else
+			throw std::runtime_error("tex type out of range");
+	}
+
+	sf::RenderTexture& operator[](int i)
+	{
+		return at(i);
+	}
+
+	const std::array<const sf::Texture*, 3>* const getTexture()
+	{
+		return &arr;
+	}
+};
+
 class Map_object
 {
 public:
@@ -21,9 +63,10 @@ public:
 	virtual void reset_graphics() = 0;
 };
 
-class Renderable : public sf::Drawable
+class Renderable
 {
-	void draw(sf::RenderTarget& target, sf::RenderStates states) const = 0;
+public:
+	virtual void draw(Gbuffer& target, sf::RenderStates states) = 0;
 };
 
 class Interactive

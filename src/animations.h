@@ -3,6 +3,7 @@
 #include "util.h"
 #include "animation_part.h"
 #include "animation_core.h"
+#include "interfaces.h"
 
 class Animatable
 {
@@ -15,7 +16,7 @@ class Animation
 {
 public:
 	virtual void next_frame(float dt) = 0;
-	virtual const sf::Texture* const get_texture() = 0;
+	virtual const std::array<const sf::Texture*, 3>* const get_texture() = 0;
 	virtual void set_animation(Animation_index a) = 0;
 	virtual Animation_index get_current_animation() const = 0;
 	virtual Frame_info get_frame_info() const = 0;
@@ -51,7 +52,7 @@ protected:
 	const Animation_tree tree;
 	std::vector<std::shared_ptr<Animation_part>> parts;
 	std::vector<sf::Sprite> parts_sprites;
-	sf::RenderTexture tex;
+	Gbuffer tex;
 	std::vector<const Dynamic_animation_struct*> animations;
 	int key;
 	float time_to_next_frame;
@@ -74,7 +75,7 @@ public:
 	Key_frame_animation(std::vector<std::shared_ptr<Animation_part>> parts_,
 		std::vector<const Dynamic_animation_struct*> animations_, const Animation_tree& tree_);
 	void next_frame(float dt);
-	const sf::Texture* const get_texture();
+	const std::array<const sf::Texture*, 3>* const get_texture();
 	void set_animation(Animation_index a);
 	Animation_index get_current_animation() const;
 	Frame_info get_frame_info() const;
@@ -91,7 +92,7 @@ public:
 	Static_animation(Static_animation_struct& animation_, float time_offset);
 	~Static_animation() {}
 	void next_frame(float dt);
-	const sf::Texture* const get_texture();
+	const std::array<const sf::Texture*, 3>* const get_texture();
 	void set_animation(Animation_index a);
 	Animation_index get_current_animation() const;
 	Frame_info get_frame_info() const;
@@ -102,11 +103,11 @@ public:
 class One_frame_animation : public Animation
 {
 protected:
-	const sf::Texture* tex;
+	const std::array<const sf::Texture*, 3>* tex;
 public:
-	One_frame_animation(const sf::Texture*);
+	One_frame_animation(const std::array<const sf::Texture*, 3>*);
 	void next_frame(float dt);
-	const sf::Texture* const get_texture();
+	const std::array<const sf::Texture*, 3>* const get_texture();
 	void set_animation(Animation_index a);
 	Animation_index get_current_animation() const;
 	Frame_info get_frame_info() const;

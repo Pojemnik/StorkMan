@@ -179,7 +179,7 @@ std::unique_ptr<Chunk> Parser::parse_chunk(tinyxml2::XMLElement* root, Vectori l
 	collision_buffer.update(collision_vertices.data());
 	return std::make_unique<Map_chunk>(std::move(p_updatables),
 		std::move(g_updatables), std::move(drawables), std::move(collidables),
-		std::move(zones), std::move(interactives), bound, 
+		std::move(zones), std::move(interactives), bound,
 		std::move(collision_buffer));
 
 }
@@ -334,7 +334,7 @@ Parser::parse_animated_object(tinyxml2::XMLElement* element, Vectori level_pos)
 	{
 		Vectorf pos = get_position(element, level_pos);
 		string val = get_attribute_by_name("texture", element);
-		const std::vector<const sf::Texture*>* tex = &assets->animations.at(val);
+		const std::vector<const std::array<const sf::Texture*, 3>*>* tex = &assets->animations.at(val);
 		float height = get_and_parse_var <float>("height", element);
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		float frame_time = get_and_parse_var<float>("frame_time", element, 1.f);
@@ -363,7 +363,7 @@ Parser::parse_animated_moving_object(tinyxml2::XMLElement* element, Vectori leve
 	{
 		Vectorf pos = get_position(element, level_pos);
 		string val = get_attribute_by_name("texture", element);
-		const std::vector<const sf::Texture*>* tex = &assets->animations.at(val);
+		const std::vector<const std::array<const sf::Texture*, 3>*>* tex = &assets->animations.at(val);
 		float height = get_and_parse_var<float>("height", element);
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		float frame_time = get_and_parse_var<float>("frame_time", element, 1.f);
@@ -478,8 +478,8 @@ Entity_config Parser::parse_entity_config(string path)
 	file >> textures_n;
 	for (int i = 0; i < textures_n; i++)
 	{
-		string tmp;
-		file >> tmp;
+		std::array<string, 3> tmp;
+		file >> tmp[0] >> tmp[1] >> tmp[2];
 		config.texture_paths.push_back(tmp);
 	}
 	for (int i = 0; i < ANIMATIONS_N; i++)
@@ -674,9 +674,9 @@ Parser::parse_pendulum(tinyxml2::XMLElement* element, Vectori level_pos)
 	try
 	{
 		string tex_string = get_attribute_by_name("texture", element);
-		const sf::Texture* tex = assets->textures.at(tex_string)[0];
+		const std::array<const sf::Texture*, 3>* tex = &assets->textures.at(tex_string);
 		string line_tex_string = get_attribute_by_name("line", element);
-		const sf::Texture* line_tex = assets->textures.at(line_tex_string)[0];
+		const std::array<const sf::Texture*, 3>* line_tex = &assets->textures.at(line_tex_string);
 		Vectorf pos = get_position(element, level_pos);
 		int surface = parse_surface(element);
 		float line_len = get_and_parse_var<float>("length", element);
@@ -739,7 +739,7 @@ std::pair<std::optional<int>, std::shared_ptr<Animated_polygon>> Parser::parse_a
 		std::vector<sf::Vertex> points =
 			parse_vertices(element->FirstChildElement(), fliprot);
 		string val = get_attribute_by_name("texture", element);
-		const std::vector<const sf::Texture*>* tex = &assets->animations.at(val);
+		const std::vector<const std::array<const sf::Texture*, 3>*>* tex = &assets->animations.at(val);
 		float frame_time = get_and_parse_var<float>("frame_time", element, 1.f);
 		float frame_offset = get_and_parse_var<float>("offset", element, 0.f);
 		int layer = parse_layer(element, DEFAULT_OBJECT_LAYER);
@@ -773,7 +773,7 @@ std::pair<std::optional<int>, std::shared_ptr<Animated_moving_platform>> Parser:
 		int surface = parse_surface(element);
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		string val = get_attribute_by_name("texture", element);
-		const std::vector<const sf::Texture*>* tex = &assets->animations.at(val);
+		const std::vector<const std::array<const sf::Texture*, 3>*>* tex = &assets->animations.at(val);
 		float frame_time = get_and_parse_var<float>("frame_time", element, 1.f);
 		float frame_offset = get_and_parse_var<float>("offset", element, 0.f);
 		int layer = parse_layer(element, DEFAULT_OBJECT_LAYER);
@@ -1090,7 +1090,7 @@ std::pair<std::optional<int>, std::shared_ptr<Moving_polygon>> Parser::parse_mov
 	throw std::runtime_error("Moving polygon error");
 }
 
-std::pair<std::optional<int>, std::shared_ptr<Animated_moving_polygon>> 
+std::pair<std::optional<int>, std::shared_ptr<Animated_moving_polygon>>
 Parser::parse_animated_moving_wall(tinyxml2::XMLElement* element,
 	Vectori level_pos)
 {
@@ -1099,7 +1099,7 @@ Parser::parse_animated_moving_wall(tinyxml2::XMLElement* element,
 		Vectorf pos = get_position(element, level_pos);
 		std::pair<int, float> fliprot = parse_flip_rotation(element);
 		string val = get_attribute_by_name("texture", element);
-		const std::vector<const sf::Texture*>* tex = &assets->animations.at(val);
+		const std::vector<const std::array<const sf::Texture*, 3>*>* tex = &assets->animations.at(val);
 		float frame_time = get_and_parse_var<float>("frame_time", element, 1.f);
 		float frame_offset = get_and_parse_var<float>("offset", element, 0.f);
 		int layer = parse_layer(element, DEFAULT_OBJECT_LAYER);

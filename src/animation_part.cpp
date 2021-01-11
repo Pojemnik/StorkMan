@@ -1,8 +1,9 @@
 #include "animation_part.h"
 
 Static_animation_part::Static_animation_part(Static_animation_struct& animation_, float time_offset_) :
-animation(animation_), time(time_offset_), frame_info(Vectori((*animation_.it)->getSize()),
-	Vectori((*animation_.it)->getSize()), { 0,0 }), time_offset(time_offset_)
+	animation(animation_), time(time_offset_),
+	frame_info(Vectori((*animation_.it)->at(0)->getSize()),
+	Vectori((*animation_.it)->at(0)->getSize()), { 0,0 }), time_offset(time_offset_)
 {
 	while (time >= animation.frame_time)
 	{
@@ -12,7 +13,7 @@ animation(animation_), time(time_offset_), frame_info(Vectori((*animation_.it)->
 	advance(.0f);
 }
 
-const sf::Texture* const Static_animation_part::get_texture()
+const std::array<const sf::Texture*, 3>* const Static_animation_part::get_texture()
 {
 	return *animation.it;
 }
@@ -43,24 +44,24 @@ void Static_animation_part::reset()
 	advance(.0f);
 }
 
-const sf::Texture* const Const_animation_part::get_texture()
+const std::array<const sf::Texture*, 3>* const Const_animation_part::get_texture()
 {
 	return tex;
 }
 
 Vectori Const_animation_part::get_texture_size()
 {
-	return static_cast<Vectori>(tex->getSize());
+	return static_cast<Vectori>(tex->at(0)->getSize());
 }
 
 Multi_texture_animtion_part::Multi_texture_animtion_part(
-	const std::vector<const sf::Texture*> textures_, int start) : 
+	const std::vector<const std::array<const sf::Texture*, 3>*> textures_, int start) :
 	textures(textures_)
 {
 	current_tex = textures.at(start);
 }
 
-const sf::Texture* const Multi_texture_animtion_part::get_texture()
+const std::array<const sf::Texture*, 3>* const Multi_texture_animtion_part::get_texture()
 {
 	return current_tex;
 }
@@ -72,5 +73,5 @@ void Multi_texture_animtion_part::set_image(int image)
 
 Vectori Multi_texture_animtion_part::get_texture_size()
 {
-	return static_cast<Vectori>(current_tex->getSize());
+	return static_cast<Vectori>(current_tex->at(0)->getSize());
 }

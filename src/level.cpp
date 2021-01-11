@@ -115,7 +115,7 @@ void Level::update_physics(float dt, sf::FloatRect screen_rect, std::vector<int>
 	}
 }
 
-void Level::draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const
+void Level::draw_bottom_layers(Gbuffer& target, sf::RenderStates states)
 {
 	for (int i = 0; i < BOTTOM_LAYERS; i++)
 	{
@@ -131,7 +131,7 @@ void Level::draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states
 	}
 }
 
-void Level::draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states) const
+void Level::draw_middle_layers(Gbuffer& target, sf::RenderStates states) 
 {
 	for (int i = BOTTOM_LAYERS; i < BOTTOM_LAYERS + MIDDLE_LAYERS; i++)
 	{
@@ -148,14 +148,14 @@ void Level::draw_middle_layers(sf::RenderTarget& target, sf::RenderStates states
 		{
 			for (const auto& it : sound_sources)
 			{
-				target.draw(it, states);
+				//target.draw(it, states);
 			}
-			target.draw(sound_borders, states);
+			//target.draw(sound_borders, states);
 		}
 	}
 }
 
-void Level::draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) const
+void Level::draw_top_layers(Gbuffer& target, sf::RenderStates states)
 {
 	for (int i = BOTTOM_LAYERS + MIDDLE_LAYERS; i < TOTAL_LAYERS; i++)
 	{
@@ -173,7 +173,7 @@ void Level::draw_top_layers(sf::RenderTarget& target, sf::RenderStates states) c
 	{
 		if (draw_chunks_borders)
 		{
-			it->draw_border(target, states);
+			//it->draw_border(target, states);
 		}
 	}
 }

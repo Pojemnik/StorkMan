@@ -1,6 +1,6 @@
 #include "assets.h"
 
-void Assets::load_concatenated_texture_file(string path,Tex_type type)
+void Assets::load_concatenated_texture_file(string path, Tex_type type)
 {
 	std::ifstream config_file(path, std::ios::in);
 	string img_path;
@@ -26,18 +26,36 @@ void Assets::load_concatenated_texture_file(string path,Tex_type type)
 	}
 }
 
-void Assets::load_concatenated_texture_file_group(string path,Tex_type type)
+void Assets::load_concatenated_texture_file_group(string path, Tex_type type)
 {
 	std::ifstream config_file(path, std::ios::in);
 	std::stringstream config_file_stripped = util::remove_comments(config_file);
 	string tmp;
-	while(getline(config_file_stripped,tmp))
+	while (getline(config_file_stripped, tmp))
 	{
-		load_concatenated_texture_file(tmp,type);
+		load_concatenated_texture_file(tmp, type);
 	}
 }
 
-const  sf::Texture* Assets::load_texture(sf::Image& img, Vectori pos, Vectori size, bool repeat)
+std::vector<const std::array<const sf::Texture*, 3>*> Assets::load_entity_texture_set(std::array<string, 3> paths, Vectori tex_n, Vectori tex_size)
+{
+	sf::Image albedo, normal, position;
+	albedo.loadFromFile(paths[0]);
+	normal.loadFromFile(paths[1]);
+	position.loadFromFile(paths[2]);
+	auto albedo_vec = load_textures(albedo, tex_n, tex_size, false);
+	auto normal_vec = load_textures(normal, tex_n, tex_size, false);
+	auto position_vec = load_textures(position, tex_n, tex_size, false);
+	std::vector<const std::array<const sf::Texture*, 3>*> vect;
+	for(int i = 0; i < albedo_vec.size(); i++)
+	{
+		const std::array<const sf::Texture*, 3>* temp = new const std::array<const sf::Texture*, 3>({ albedo_vec[i], normal_vec[i], position_vec[i] });
+		vect.push_back(temp);
+	}
+	return vect;
+}
+
+const sf::Texture* Assets::load_texture(sf::Image& img, Vectori pos, Vectori size, bool repeat)
 {
 	sf::Texture* tex = new sf::Texture();
 	if (!tex->loadFromImage(img, sf::IntRect(pos, size)))
@@ -286,9 +304,9 @@ void Assets::load_assets()
 	//Background
 	backgrounds["main_bg"] = load_texture("img/bg/bg.jpg", false);
 	//User interface
-	load_concatenated_texture_file_group("img/textures.cfg",Tex_type::ALBEDO);
-	load_concatenated_texture_file_group("img/textures_normal.cfg",Tex_type::NORMAL);
-	load_concatenated_texture_file_group("img/textures_height.cfg",Tex_type::HEIGHT);
+	load_concatenated_texture_file_group("img/textures.cfg", Tex_type::ALBEDO);
+	load_concatenated_texture_file_group("img/textures_normal.cfg", Tex_type::NORMAL);
+	load_concatenated_texture_file_group("img/textures_height.cfg", Tex_type::HEIGHT);
 	{
 		sf::Texture* tmp_t = new sf::Texture();
 		sf::Image tmp_i;
@@ -298,7 +316,7 @@ void Assets::load_assets()
 	}
 	load_hp_bar();
 	//Textures
-	parse_additional_textures("img/textures.txt",Tex_type::ALBEDO);
+	parse_additional_textures("img/textures.txt", Tex_type::ALBEDO);
 	parse_additional_animations("img/animations.txt");
 	//Icon
 	icon.loadFromFile("img/ikona.png");
@@ -312,7 +330,7 @@ void Assets::add_entity_sounds(int type, std::vector<string>& paths)
 	entity_sounds.insert({ type, paths });
 }
 
-void Assets::parse_additional_textures(string path,Tex_type type)
+void Assets::parse_additional_textures(string path, Tex_type type)
 {
 	string p, name;
 	int repeat;
@@ -332,7 +350,7 @@ void Assets::parse_additional_textures(string path,Tex_type type)
 
 void Assets::parse_additional_animations(string path)
 {
-	string p, name;
+	string p1, p2, p3, name;
 	Vectori n, size;
 	bool repeat;
 	std::ifstream file_raw;
@@ -342,20 +360,30 @@ void Assets::parse_additional_animations(string path)
 		throw std::runtime_error("Can't open file: " + path);
 	}
 	std::stringstream file = util::remove_comments(file_raw);
+	(void)file.peek();
 	while (!file.eof())
 	{
-		file >> p >> name >> n.x >> n.y >> size.x >> size.y >> repeat;
-		animations[name] = load_textures(p, n, size, repeat);
+		file >> p1 >> p2 >> p3 >> name >> n.x >> n.y >> size.x >> size.y >> repeat;
+		auto albedo_vec = load_textures(p1, n, size, false);
+		auto normal_vec = load_textures(p2, n, size, false);
+		auto position_vec = load_textures(p3, n, size, false);
+		std::vector<const std::array<const sf::Texture*, 3>*> vect;
+		for (int i = 0; i < albedo_vec.size(); i++)
+		{
+			const std::array<const sf::Texture*, 3>* temp = new const std::array<const sf::Texture*, 3>({ albedo_vec[i], normal_vec[i], position_vec[i] });
+			vect.push_back(temp);
+		}
+		animations[name] = vect;
 	}
 }
 
-std::vector<std::vector<const sf::Texture*>> Assets::load_entity_textures(
-	std::vector<string> paths, Vectori textures_n, Vectori texture_size)
+std::vector<std::vector<const std::array<const sf::Texture*, 3>*>> Assets::load_entity_textures(
+	std::vector<std::array<string, 3>> paths, Vectori textures_n, Vectori texture_size)
 {
-	std::vector<std::vector<const sf::Texture*>> temp;
+	std::vector<std::vector<const std::array<const sf::Texture*, 3>*>> temp;
 	for (const auto& it : paths)
 	{
-		temp.push_back(load_textures(it, textures_n, texture_size, false));
+		temp.push_back(load_entity_texture_set(it, textures_n, texture_size));
 	}
 	return temp;
 }

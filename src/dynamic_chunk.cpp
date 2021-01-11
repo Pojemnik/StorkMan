@@ -53,7 +53,7 @@ void Dynamic_chunk::update_physics(float dt, std::vector<int>& msg_up)
 	current_chunk->update_physics(dt, msg_up);
 }
 
-void Dynamic_chunk::draw_layer(sf::RenderTarget& target, sf::RenderStates states, int layer) const
+void Dynamic_chunk::draw_layer(Gbuffer& target, sf::RenderStates states, int layer)
 {
 	current_chunk->draw_layer(target, states, layer);
 }
