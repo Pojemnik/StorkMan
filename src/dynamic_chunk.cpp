@@ -19,6 +19,21 @@ void Dynamic_chunk::update_physics(float dt, std::vector<int>& msg_up)
 {
 	float last_time = time;
 	time += dt;
+	if (time_events.contains(current_chunk_index))
+	{
+		for (const auto& it : time_events.at(current_chunk_index))
+		{
+			if (time >= it.first && last_time < it.first)
+			{
+				msg_up.push_back(it.second);
+			}
+		}
+	}
+	current_chunk->update_physics(dt, msg_up);
+}
+
+void Dynamic_chunk::process_messages()
+{
 	while (message_available())
 	{
 		Message msg = pop_message();
@@ -40,17 +55,6 @@ void Dynamic_chunk::update_physics(float dt, std::vector<int>& msg_up)
 			send_message(Message::Message_type::MOUSE_CLICKED, msg.args);
 		}
 	}
-	if (time_events.contains(current_chunk_index))
-	{
-		for (const auto& it : time_events.at(current_chunk_index))
-		{
-			if (time >= it.first && last_time < it.first)
-			{
-				msg_up.push_back(it.second);
-			}
-		}
-	}
-	current_chunk->update_physics(dt, msg_up);
 }
 
 void Dynamic_chunk::draw_layer(sf::RenderTarget& target, sf::RenderStates states, int layer) const

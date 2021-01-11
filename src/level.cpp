@@ -97,6 +97,7 @@ void Level::update_physics(float dt, sf::FloatRect screen_rect, std::vector<int>
 	}
 	for (auto& it : chunks)
 	{
+		it->process_messages();
 		if (it->get_bounding_rect().intersects(screen_rect))
 		{
 			chunks_on_screen[i] = true;

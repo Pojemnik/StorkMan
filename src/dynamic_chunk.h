@@ -21,6 +21,7 @@ public:
 		std::unordered_map<int, std::vector<std::pair<float, int>>>&& time_events_);
 	void update_graphics(float dt);
 	void update_physics(float dt, std::vector<int>& msg_up);
+	void process_messages();
 	void draw_layer(sf::RenderTarget& target, sf::RenderStates states, int layer) const;
 	void draw_border(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_moving_collisions(sf::RenderTarget& target, sf::RenderStates states) const;
