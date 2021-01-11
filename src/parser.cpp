@@ -556,7 +556,17 @@ std::unordered_map<int, string> Parser::load_steps_config(string path)
 		{
 			return steps_config;
 		}
-		steps_config.insert({ static_cast<int>(name_to_surface.at(a)), b });
+		try
+		{
+			steps_config.insert({ static_cast<int>(name_to_surface.at(a)), b });
+		}
+		catch (std::out_of_range &e)
+		{
+			std::cout << "Steps config loading error" << std::endl;
+			std::cout << "Surface name: " << a << std::endl;
+			std::cout << "Path: " << b << std::endl;
+			std::cout << "Check sufraces' definitions" << std::endl;
+		}
 	}
 	return steps_config;
 }
