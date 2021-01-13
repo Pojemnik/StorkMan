@@ -56,3 +56,16 @@ def dodanie_ruchu(obiekt, ścieżka_ruchu, zwróć_tekst=False):
         return zwrot
     else:
         podstawy.zapis(zwrot)
+def znikanie_zdarzeniowe(obiekt=podstawy.platforma(zwróć_tekst=True), zdarzenia_znikające=[1,"event1"], zdarzenia_pojawiające=[1,"event2"], zwróć_tekst=False):
+    s = ""
+    s += "<state>\n"
+    s += obiekt
+    s += "</state>\n<state>\n</state>\n"
+    for i in range(zdarzenia_znikające[0]):
+        s += podstawy.wyzwalacz_stanu(1,zdarzenia_znikające[i+1],True)
+    for i in range(zdarzenia_pojawiające[0]):
+        s += podstawy.wyzwalacz_stanu(0,zdarzenia_pojawiające[i+1],True)
+    if zwróć_tekst:
+        return s
+    else:
+        podstawy.zapis(s)

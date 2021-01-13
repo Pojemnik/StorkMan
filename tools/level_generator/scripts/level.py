@@ -229,4 +229,4 @@ struktury.element_podłużny(x=6.5,y=25.8,warstwa=4,tekstura="TEXSteel_stick",gr
 podstawy.obiekt(x=9,y=28.5,wysokość=1.5,tekstura="OBJGrated_vent",warstwa=4)
 struktury.element_podłużny(x=7,y=31.5,warstwa=7,tekstura="TEXSteel_stick_rusted",grubość=0.35,trasa=[3,0,0,1,1,1,4.5])
 
-lvl.save('level.xml')
+lvl.save('Elektrownia_Weglowa_X3Y2.xml')

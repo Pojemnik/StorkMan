@@ -2,5 +2,7 @@
 grass
 concrete
 ice
-metal
+metal_rura
 wood
+posadzka_hala
+piach

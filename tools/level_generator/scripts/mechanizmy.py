@@ -37,24 +37,28 @@ def dźwignia(x=0, y=0, promień=0.5, promień_strefy=1, warstwa=5, zdarzenia=["
     s += "<state>\n"
     s += podstawy.strefa_klikalna(x=x,y=y,wierzchołki=v,zdarzenia=["e",2,zdarzenia[0],zdarzenia_wewnętrzne[3]],zwróć_tekst=True)
     s += podstawy.obiekt(x=x,y=y,odbicie_x=obrót,wysokość=2*promień,warstwa=warstwa,tekstura="OBJLever_arm_red",rotacja=90*-obrót,zwróć_tekst=True)
+    s += podstawy.obiekt(x=x,y=y-promień,odbicie_x=obrót,wysokość=2*promień,warstwa=warstwa,tekstura="OBJLever_base",zwróć_tekst=True)
     s += "</state>\n"
     s += "<state>\n"
     s += podstawy.strefa_klikalna(x=x,y=y,wierzchołki=v,zdarzenia=["e",2,zdarzenia[1],zdarzenia_wewnętrzne[2]],zwróć_tekst=True)
     s += podstawy.obiekt(x=x,y=y,odbicie_x=obrót,wysokość=2*promień,warstwa=warstwa,tekstura="OBJLever_arm_red",rotacja=0,zwróć_tekst=True)
+    s += podstawy.obiekt(x=x,y=y-promień,odbicie_x=obrót,wysokość=2*promień,warstwa=warstwa,tekstura="OBJLever_base",zwróć_tekst=True)
     s += "</state>\n"
     s += "<state>\n"
     s += podstawy.ruchomy_obiekt(x=x,y=y,odbicie_x=obrót,wysokość=2*promień,warstwa=warstwa,tekstura="OBJLever_arm_red",rotacja=0,ruch=["rotational",2,0,czas_przełożenia+wydłużenie,90*-obrót,czas_przełożenia],zwróć_tekst=True)
+    s += podstawy.obiekt(x=x,y=y-promień,odbicie_x=obrót,wysokość=2*promień,warstwa=warstwa,tekstura="OBJLever_base",zwróć_tekst=True)
     s += "</state>\n"
     s += "<state>\n"
     s += podstawy.ruchomy_obiekt(x=x,y=y,odbicie_x=obrót,wysokość=2*promień,warstwa=warstwa,tekstura="OBJLever_arm_red",rotacja=90*-obrót,ruch=["rotational",2,0,czas_przełożenia+wydłużenie,90*obrót,0],zwróć_tekst=True)
+    s += podstawy.obiekt(x=x,y=y-promień,odbicie_x=obrót,wysokość=2*promień,warstwa=warstwa,tekstura="OBJLever_base",zwróć_tekst=True)
     s += "</state>\n"
+    s += podstawy.wyzwalacz_stanu(pozycja_początkowa,"default",True)
     s += podstawy.wyzwalacz_stanu(0,zdarzenia_wewnętrzne[0],True)
     s += podstawy.wyzwalacz_stanu(1,zdarzenia_wewnętrzne[1],True)
     s += podstawy.wyzwalacz_stanu(2,zdarzenia_wewnętrzne[2],True)
     s += podstawy.wyzwalacz_stanu(3,zdarzenia_wewnętrzne[3],True)
     s += podstawy.czasowe_zdarzenie(2,zdarzenia_wewnętrzne[0],czas_przełożenia,True)
     s += podstawy.czasowe_zdarzenie(3,zdarzenia_wewnętrzne[1],czas_przełożenia,True)
-    s += podstawy.obiekt(x=x,y=y-promień,odbicie_x=obrót,wysokość=2*promień,warstwa=warstwa,tekstura="OBJLever_base",zwróć_tekst=True)
     if zwróć_tekst:
         return s
     else:
@@ -75,12 +79,40 @@ def przesuwalny_element(element=podstawy.platforma(zwróć_tekst=True), zdarzeni
     s += "<state>\n"
     s += operacje.element_potomny(element,"ruch",["linear",2,przesunięcie[0],przesunięcie[1],czas_przesunięcia+wydłużenie,0,0,0],True)
     s += "</state>\n"
+    s += podstawy.wyzwalacz_stanu(0,"default",True)
     s += podstawy.wyzwalacz_stanu(0,zdarzenia_wewnętrzne[1],True)
     s += podstawy.wyzwalacz_stanu(1,zdarzenia_wewnętrzne[0],True)
     s += podstawy.wyzwalacz_stanu(2,zdarzenia[0],True)
     s += podstawy.wyzwalacz_stanu(3,zdarzenia[1],True)
     s += podstawy.czasowe_zdarzenie(2,zdarzenia_wewnętrzne[0],czas_przesunięcia,True)
     s += podstawy.czasowe_zdarzenie(3,zdarzenia_wewnętrzne[1],czas_przesunięcia,True)
+    if zwróć_tekst:
+        return s
+    else:
+        podstawy.zapis(s)
+def obracalny_element(element=podstawy.platforma(zwróć_tekst=True), zdarzenia=["event1","event2"], zdarzenia_wewnętrzne=["event3","event4"], czas_obrotu=30, wydłużenie=1, obrót=90, zwróć_tekst=False):
+    s = ""
+    s += podstawy.zdarzenie(zdarzenia_wewnętrzne[0],True)
+    s += podstawy.zdarzenie(zdarzenia_wewnętrzne[1],True)
+    s += "<state>\n"
+    s += element
+    s += "</state>\n"
+    s += "<state>\n"
+    s += operacje.element_potomny(element,"ruch",["rotational",2,obrót,60,obrót,60],True)
+    s += "</state>\n"
+    s += "<state>\n"
+    s += operacje.element_potomny(element,"ruch",["rotational",2,0,czas_obrotu+wydłużenie,obrót,0],True)
+    s += "</state>\n"
+    s += "<state>\n"
+    s += operacje.element_potomny(element,"ruch",["rotational",2,obrót,czas_obrotu+wydłużenie,0,0],True)
+    s += "</state>\n"
+    s += podstawy.wyzwalacz_stanu(0,"default",True)
+    s += podstawy.wyzwalacz_stanu(0,zdarzenia_wewnętrzne[1],True)
+    s += podstawy.wyzwalacz_stanu(1,zdarzenia_wewnętrzne[0],True)
+    s += podstawy.wyzwalacz_stanu(2,zdarzenia[0],True)
+    s += podstawy.wyzwalacz_stanu(3,zdarzenia[1],True)
+    s += podstawy.czasowe_zdarzenie(2,zdarzenia_wewnętrzne[0],czas_obrotu,True)
+    s += podstawy.czasowe_zdarzenie(3,zdarzenia_wewnętrzne[1],czas_obrotu,True)
     if zwróć_tekst:
         return s
     else:

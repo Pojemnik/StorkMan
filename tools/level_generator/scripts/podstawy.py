@@ -73,7 +73,7 @@ def podział_na_elementy(s):
         p = s.find("<",k)
         k = s.find(" ",p)
         if k>=0:
-            if s.find("<state>",p-1,k)==-1 and s.find("</state>",p-1,k)==-1:
+            if s.find("state>",p,k)==-1 and s.find("/state>",p,k)==-1:
                 a = p
                 t = s[p+1:k]
                 p = s.find("/",k)
@@ -83,12 +83,13 @@ def podział_na_elementy(s):
                     k = s.find(">",k)
                 b = k
                 r = r + [s[a:b+1],]
-                i = i + 1
             else:
-                if s.find("<state>",p-1,k)==-1:
+                k = s.find("\n",p)
+                if s.find("/state>",p,k)==-1:
                     r += ["<state>"]
                 else:
-                    r += ["<state>"]
+                    r += ["</state>"]
+            i = i + 1
     r = [i,] + r
     return r
 def przypisanie_tabeli_wartości(typ):
@@ -240,24 +241,20 @@ def odczyt_elementu(s):
                 if t.find("move") != -1:
                     r,s,t,p,k,i = odczyt_ruchu(r,s,t,p,k,i)
                 else:
-                    if t == "v":
-                        r = r + ["v",]
-                    if t == "vt":
-                        r = r + ["vt",]
-                    if t == "d":
-                        r = r + ["d",]
-                    if t == "e":
-                        r = r + ["e",]
-                    if t == "et":
-                        r = r + ["et",]
+                    if t == "v" or t == "vt" or t == "d" or t == "e" or t == "et":
+                        r = r + [t,]
                     while p>0:
                         k = s.find("</"+t+">",p)
                         f = s[p+2+len(t):k]
                         n = 1
                         while n>0:
                             n = f.find(",")
-                            if t=="e":
-                                z += f
+                            if t=="e" or t=="et":
+                                if n>0:
+                                    z += [f[0:n]]
+                                    f = f[n+1:]
+                                else:
+                                    z += [f]
                             else:
                                 if n>0:
                                     z = z + [float(f[0:n]),]
@@ -265,7 +262,7 @@ def odczyt_elementu(s):
                                 else:
                                     z = z + [float(f),]
                         i = i + 1
-                        p=s.find("<"+t+">",k)
+                        p = s.find("<"+t+">",k)
                     p = k + 1
                     k = s.find(">",p)
                     r = r + [i,] + z
@@ -369,7 +366,10 @@ def zapis(s):
     for i in range(t[0]):
         if t[i+1]=="<state>" or t[i+1]=="</state>":
             if t[i+1]=="<state>":
-                s_chunk += "<state>\n"
+                if t[i+2]=="</state>":
+                    s_chunk += '<state position="0,0" size="0,0">\n'
+                else:
+                    s_chunk += "<state>\n"
             else:
                 s_chunk += "</state>\n"
         else:
@@ -536,12 +536,13 @@ def złożenie_obrażeń(obrażenia=["d",2,100,60,0,60]):
     return s
 def złożenie_zdarzeń(zdarzenia=["e",1,"event"]):
     s = ""
-    if zdarzenia[0] == "e":
-        for i in range(zdarzenia[1]):
-            s += """\n        <e>{0}</e>""".format(zdarzenia[i+2])
-    if zdarzenia[0] == "et":
-        for i in range(zdarzenia[1]):
-            s += """\n        <et>{0},{1}</et>""".format(zdarzenia[i*2+2,i*2+3])
+    if zdarzenia != []:
+        if zdarzenia[0] == "e":
+            for i in range(zdarzenia[1]):
+                s += """\n        <e>{0}</e>""".format(zdarzenia[i+2])
+        if zdarzenia[0] == "et":
+            for i in range(zdarzenia[1]):
+                s += """\n        <et>{0},{1}</et>""".format(zdarzenia[i*2+2],zdarzenia[i*2+3])
     return s
 def parametr_pojedyńczy(s, n, typ, wartości, domyślne, zaokrąglenie):
     if zaokrąglenie[0] == True:
@@ -806,11 +807,11 @@ def dźwięk(x=0, y=0, głośność=100, dźwięk=domyślny_dźwięk, wyciszanie
     wartości = [x,y,głośność,dźwięk,wyciszanie,próg_głośności,zasięg]
     w,t = przypisanie_tabeli_wartości("sound")
     s += "    <sound " + parametry(t,wartości,w)
-    v = złożenie_wierzchołków(wierzchołki)
+    v = złożenie_wierzchołków(wierzchołki) + złożenie_zdarzeń(zdarzenia)
     if v == "":
         s += "/>\n"
     else:
-        s += """>\n""" + v + """    </sound>\n"""
+        s += """>""" + v + """\n    </sound>\n"""
     if zwróć_tekst:
         return s
     else:

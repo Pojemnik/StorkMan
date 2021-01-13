@@ -21,16 +21,18 @@ def interaktywna_świetlówka(x=0, y=0, obrót=1, długość=2, włącznik="even
     else:
         zd = ["et",3,"default","false",włącznik,"true",wyłącznik,"false"]
     s += podstawy.dźwięk(x=x+(długość/2)*obrót,y=y+długość/8,głośność=głośność,dźwięk=dźwięk,wyciszanie=wyciszanie,próg_głośności=długość/2,zasięg=zasięg_dźwięku,zdarzenia=zd,zwróć_tekst=True)
-    stany = [2,"",""]
     animacja = "AOBFluorescent_shining_instable"
     tekstura = "OBJFluorescent_off"
-    stany[1] += podstawy.animowany_obiekt(x=x,y=y,warstwa=warstwa,tekstura=animacja,wysokość=długość/4,czas_klatki=czas_klatki,przesunięcie=przesunięcie,zwróć_tekst=True)
-    stany[2] += podstawy.obiekt(x=x,y=y,warstwa=warstwa,tekstura=tekstura,wysokość=długość/4,zwróć_tekst=True)
-    tekst = ""
-    tekst += podstawy.wyzwalacz_stanu(0,wyłącznik,True)
-    tekst += podstawy.wyzwalacz_stanu(1,włącznik,True)
+    s += "<state>\n"
+    s += podstawy.animowany_obiekt(x=x,y=y,warstwa=warstwa,tekstura=animacja,wysokość=długość/4,czas_klatki=czas_klatki,przesunięcie=przesunięcie,zwróć_tekst=True)
+    s += "</state>\n"
+    s += "<state>\n"
+    s += podstawy.obiekt(x=x,y=y,warstwa=warstwa,tekstura=tekstura,wysokość=długość/4,zwróć_tekst=True)
+    s += "</state>\n"
+    s += podstawy.wyzwalacz_stanu(pozycja_początkowa,"default",True)
+    s += podstawy.wyzwalacz_stanu(0,włącznik,True)
+    s += podstawy.wyzwalacz_stanu(1,wyłącznik,True)
     if zwróć_tekst:
-        return stany,tekst,pozycja_początkowa,s
+        return s
     else:
         podstawy.zapis(s)
-        podstawy.zapis_stanów(stany,tekst,pozycja_początkowa)
