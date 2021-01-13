@@ -2,10 +2,11 @@
 #include "zones.h"
 
 Level::Level(std::vector<std::unique_ptr<Chunk>>&& chunks_,
-	std::vector<Map_sound>&& sounds_, Vectori pos, int code_) : chunks(std::move(chunks_)),
+	std::vector<Map_sound>&& sounds_, std::vector<Timed_event> timed_events_,
+	Vectori pos, int code_) : chunks(std::move(chunks_)),
 	sounds(sounds_), global_pos(pos), code(code_),
 	sound_borders(sf::PrimitiveType::Lines, sf::VertexBuffer::Usage::Static),
-	Message_sender(Message_sender_type::LEVEL)
+	Message_sender(Message_sender_type::LEVEL), timed_events(timed_events_)
 {
 	std::vector<Vectorf> vertices;
 	std::vector<std::pair<Vectorf, Vectorf>> edges;
@@ -93,6 +94,18 @@ void Level::update_physics(float dt, sf::FloatRect screen_rect, std::vector<int>
 		if (msg.type == Message::Message_type::MOUSE_CLICKED)
 		{
 			send_message(Message::Message_type::MOUSE_CLICKED, msg.args);
+		}
+	}
+	for (auto& it : timed_events)
+	{
+		for (const auto& event : received_events)
+		{
+			it.change_state(event);
+		}
+		const auto val = it.update(dt);
+		if (val.has_value())
+		{
+			msg_up.push_back(val.value());
 		}
 	}
 	for (auto& it : chunks)

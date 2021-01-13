@@ -1,10 +1,9 @@
 #include "dynamic_chunk.h"
 
 Dynamic_chunk::Dynamic_chunk(std::vector<std::unique_ptr<Chunk>>&& chunks_,
-	std::unordered_map<int, int>&& transition_array_,
-	std::unordered_map<int, std::vector<std::pair<float, int>>>&& time_events_) :
+	std::unordered_map<int, int>&& transition_array_) :
 	chunks(std::move(chunks_)), transition_array(transition_array_),
-	time_events(time_events_), Message_sender(Message_sender_type::CHUNK)
+	Message_sender(Message_sender_type::CHUNK)
 {
 	current_chunk = &*chunks.at(transition_array.at(0));
 	add_receiver(current_chunk);
@@ -17,18 +16,6 @@ void Dynamic_chunk::update_graphics(float dt)
 
 void Dynamic_chunk::update_physics(float dt, std::vector<int>& msg_up)
 {
-	float last_time = time;
-	time += dt;
-	if (time_events.contains(current_chunk_index))
-	{
-		for (const auto& it : time_events.at(current_chunk_index))
-		{
-			if (time >= it.first && last_time < it.first)
-			{
-				msg_up.push_back(it.second);
-			}
-		}
-	}
 	current_chunk->update_physics(dt, msg_up);
 }
 
@@ -47,7 +34,6 @@ void Dynamic_chunk::process_messages()
 				current_chunk = &*chunks.at(transition_array.at(event_index));
 				add_receiver(current_chunk);
 				current_chunk_index = transition_array.at(event_index);
-				time = 0;
 			}
 		}
 		if (msg.type == Message::Message_type::MOUSE_CLICKED)

@@ -73,6 +73,7 @@ class Parser
 	std::pair<std::optional<int>, std::shared_ptr<Animated_moving_polygon>>
 		parse_animated_moving_wall(tinyxml2::XMLElement* element, Vectori level_pos);
 	Map_sound parse_sound(tinyxml2::XMLElement* element, Vectori level_pos, int id);
+	Timed_event parse_timed_event(tinyxml2::XMLElement* element);
 	sf::FloatRect calculate_chunk_bounds(tinyxml2::XMLElement* root,
 		std::vector<std::shared_ptr<Map_object>>& objects, Vectori level_pos);
 	const std::unordered_map<
@@ -96,7 +97,7 @@ class Parser
 		{"event_zone", std::bind(&Parser::parse_event_zone, this, std::placeholders::_1, std::placeholders::_2)},
 		{"clickable_zone", std::bind(&Parser::parse_clickable_zone, this, std::placeholders::_1, std::placeholders::_2)},
 		{"moving_wall", std::bind(&Parser::parse_moving_wall, this, std::placeholders::_1, std::placeholders::_2)},
-		{"animated_moving_wall", std::bind(&Parser::parse_animated_moving_wall, this, std::placeholders::_1, std::placeholders::_2)}
+		{"animated_moving_wall", std::bind(&Parser::parse_animated_moving_wall, this, std::placeholders::_1, std::placeholders::_2)},
 	};
 
 public:

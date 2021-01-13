@@ -64,7 +64,6 @@ std::tuple<Vectori, string, string> Parser::parse_level_element(tinyxml2::XMLEle
 	}
 	filepath = get_attribute_by_name("filename", element);
 	string code = get_attribute_by_name("code", element);
-	std::vector<string> s = split_string("a,b,c,d,e");
 	return std::make_tuple(pos, filepath, code);
 }
 
@@ -84,6 +83,7 @@ Level Parser::parse_level(tinyxml2::XMLElement* root, Vectori global_pos, int co
 	tinyxml2::XMLElement* element = root->FirstChildElement();
 	std::vector<std::unique_ptr<Chunk>> chunks;
 	std::vector<Map_sound> sounds;
+	std::vector<Timed_event> timed_events;
 	int sound_id = 0;
 	int event_index = 1;
 	while (element != nullptr)
@@ -109,10 +109,14 @@ Level Parser::parse_level(tinyxml2::XMLElement* root, Vectori global_pos, int co
 			sounds.push_back(parse_sound(element, global_pos, sound_id));
 			sound_id++;
 		}
+		if (name == "timed_event")
+		{
+			timed_events.push_back(parse_timed_event(element));
+		}
 		element = element->NextSiblingElement();
 	}
 	return Level(std::move(chunks),
-		std::move(sounds), global_pos, code);
+		std::move(sounds), std::move(timed_events), global_pos, code);
 }
 
 std::unique_ptr<Level> Parser::open_and_parse_level(Vectori pos, string filepath, int code)
@@ -189,7 +193,6 @@ std::unique_ptr<Chunk> Parser::parse_dynamic_chunk(tinyxml2::XMLElement* root, V
 {
 	std::vector<std::unique_ptr<Chunk>> chunks;
 	std::unordered_map<int, int> transition_array;
-	std::unordered_map<int, std::vector<std::pair<float, int>>> time_events;
 	tinyxml2::XMLElement* element = root->FirstChildElement();
 	while (element != nullptr)
 	{
@@ -211,26 +214,6 @@ std::unique_ptr<Chunk> Parser::parse_dynamic_chunk(tinyxml2::XMLElement* root, V
 				std::cout << "Incorrect event: " + name << std::endl;
 			}
 		}
-		if (name == "timed_event")
-		{
-			string trigger_val = get_attribute_by_name("event", element);
-			int state = get_and_parse_var<int>("state", element);
-			float time = get_and_parse_var<float>("time", element);
-			std::pair<float, int> pair;
-			try
-			{
-				pair = std::make_pair(time, events.at(trigger_val));
-			}
-			catch (...)
-			{
-				std::cout << "Incorrect event: " + name << std::endl;
-			}
-			if (!time_events.contains(state))
-			{
-				time_events[state] = std::vector <std::pair<float, int>>();
-			}
-			time_events[state].push_back(pair);
-		}
 		if (name == "state")
 		{
 			chunks.emplace_back(std::move(parse_chunk(element, level_pos)));
@@ -238,7 +221,7 @@ std::unique_ptr<Chunk> Parser::parse_dynamic_chunk(tinyxml2::XMLElement* root, V
 		element = element->NextSiblingElement();
 	}
 	return std::make_unique<Dynamic_chunk>(std::move(chunks),
-		std::move(transition_array), std::move(time_events));
+		std::move(transition_array));
 }
 
 std::pair<std::optional<int>, std::shared_ptr<Platform>>
@@ -421,6 +404,7 @@ Map* Parser::parse_map(tinyxml2::XMLElement* root)
 	tinyxml2::XMLElement* element = root->FirstChildElement();
 	Map* map = new Map(map_size, player_pos, assets->backgrounds.at("main_bg"));
 	int lvl_n = 0;
+#define DEBUG_ASYNC__STORK__PARSE
 #ifndef DEBUG_ASYNC__STORK__PARSE
 	std::vector<std::future<std::unique_ptr<Level>>> futures;
 	while (element != NULL)
@@ -1258,6 +1242,26 @@ Map_sound Parser::parse_sound(tinyxml2::XMLElement* element, Vectori level_pos, 
 		std::cout << "Check texture" << '\n';
 	}
 	throw std::runtime_error("Object error");
+}
+
+Timed_event Parser::parse_timed_event(tinyxml2::XMLElement* element)
+{
+	string event_val = get_attribute_by_name("event", element);
+	string start_val = get_attribute_by_name("start", element);
+	string stop_val = get_attribute_by_name("stop", element);
+	float time = get_and_parse_var<float>("time", element);
+	int event, start, stop;
+	try
+	{
+		event = events.at(event_val);
+		start = events.at(start_val);
+		stop = events.at(stop_val);
+	}
+	catch (...)
+	{
+		std::cout << "Incorrect event: " + event_val + " or " + start_val + " or " + stop_val << std::endl;
+	}
+	return Timed_event(time, event, start, stop);
 }
 
 sf::FloatRect Parser::calculate_chunk_bounds(tinyxml2::XMLElement* root,

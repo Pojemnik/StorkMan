@@ -5,6 +5,7 @@
 #include "map_chunk.h"
 #include "dynamic_chunk.h"
 #include "messaging.h"
+#include "timed_events.h"
 
 class Zone;
 class Entity;
@@ -15,6 +16,7 @@ class Level : public Message_sender, public Message_receiver
 	std::vector<bool> chunks_on_screen;
 	Vectori global_pos;
 	std::vector<Map_sound> sounds;
+	std::vector<Timed_event> timed_events;
 	std::vector<sf::CircleShape> sound_sources;
 	std::vector<int> received_events;
 	sf::VertexBuffer sound_borders;
@@ -25,7 +27,9 @@ public:
 	const int code;
 
 	Level() = default;
-	Level(std::vector<std::unique_ptr<Chunk>>&& chunks_, std::vector<Map_sound>&& sounds_, Vectori pos, int code_);
+	Level(std::vector<std::unique_ptr<Chunk>>&& chunks_,
+		std::vector<Map_sound>&& sounds_, std::vector<Timed_event> timed_events_,
+		Vectori pos, int code_);
 	void update_physics(float dt, sf::FloatRect screen_rect, std::vector<int>& msg_up);
 	void update_graphics(float dt, sf::FloatRect screen_rect);
 	void draw_bottom_layers(sf::RenderTarget& target, sf::RenderStates states) const;

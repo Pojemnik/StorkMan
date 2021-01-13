@@ -44,7 +44,6 @@ chunk:
 dynamic chunk:
 	znaczniki:
 		<state>
-		<timed_event>
 		<state_trigger>
 		(patrz znaczniki pomocnicze)
 		
@@ -64,6 +63,13 @@ sound:
 event:
 	atrybuty:
 		name - nazwa zdarzenia używana póżniej w znacznikach state. UWAGA: nazwa eventu musi zostać zadeklarowany powyżej znacznika state_trigger, który jej używa
+		
+timed_event:
+	atrybuty:
+		start (string) - nazwa zdarzenia, po którym zdarzenie czasowe ma być wywoływane
+		stop (string) - nazwa zdarzenia mającego przerwać odliczanie
+		event (string) - nazwa wywoływanego zdarzenia
+		time (float) [1/60s] - czas, po którym zostanie wywołane dane zdarzenie (liczone od zdarzenia określonego atrybutem state)
 		
 Znaczniki elementów mapy:
 
@@ -327,12 +333,6 @@ state_trigger:
 	atrybuty:
 		state (int) - stan, do którego ma nastąpić przejście
 		trigger (string) - nazwa zdarzena przełączającego stan na zadany
-
-timed_event:
-	atrybuty:
-		state (int) - stan, w którym zdarzenie czasowe ma być wywoływane
-		event (string) - nazwa wywoływanego zdarzenia
-		time (float) [1/60s] - czas, po którym zostanie wywołane dane zdarzenie (liczone od rozpoczęcia stanu określonego atrybutem state)
 		
 e:
 	zawartość:

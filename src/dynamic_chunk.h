@@ -11,14 +11,11 @@ class Dynamic_chunk : public Chunk, public Message_sender
 	std::vector<std::unique_ptr<Chunk>> chunks;
 	Chunk* current_chunk;
 	std::unordered_map<int, int> transition_array;
-	std::unordered_map<int, std::vector<std::pair<float, int>>> time_events;
-	float time = 0;
 	int current_chunk_index = 0;
 
 public:
 	Dynamic_chunk(std::vector<std::unique_ptr<Chunk>>&& chunks_,
-		std::unordered_map<int, int>&& transition_array_,
-		std::unordered_map<int, std::vector<std::pair<float, int>>>&& time_events_);
+		std::unordered_map<int, int>&& transition_array_);
 	void update_graphics(float dt);
 	void update_physics(float dt, std::vector<int>& msg_up);
 	void process_messages();
