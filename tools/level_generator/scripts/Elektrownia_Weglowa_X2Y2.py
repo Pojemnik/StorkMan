@@ -15,7 +15,8 @@ import elektrownia_węglowa
 import grafiki
 
 #zdarzenia
-
+podstawy.zdarzenie("OpenCanalDoor")
+podstawy.zdarzenie("CloseCanalDoor")
 #ziemia
 podstawy.platforma(x=0,y=49,wierzchołki=["v",4,0,0,0,1,13,1,13,0],tekstura="concrete,0",R=128,G=128,B=128,warstwa=7)
 podstawy.platforma(x=13,y=47,wierzchołki=["v",4,0,0,0,3,15.5,3,15.5,0],tekstura="dirt,0",powierzchnia="piach")
@@ -54,10 +55,16 @@ struktury.element_podłużny(x=0,y=23.25,tekstura="TEXSteel_stick",grubość=0.5
 podstawy.platforma(x=4.5,y=19.5,wierzchołki=["v",3,0.1,1,2.9,0,3.5,1.5],tekstura="concrete,0",R=128,G=128,B=128,warstwa=7)
 podstawy.platforma(x=6,y=23.5,wierzchołki=["v",3,-0.2,0,3,0,0.45,1.5],tekstura="concrete,0",R=128,G=128,B=128,warstwa=7)
 podstawy.platforma(x=29,y=40,wierzchołki=["v",5,1.5,0,2,0,2,2,0,2,0,1.5],tekstura="concrete,0",R=128,G=128,B=128,warstwa=9)
-podstawy.platforma(x=35,y=40,wierzchołki=["v",5,-1.5,0,-2,0,-2,2,0,2,0,1.5],tekstura="concrete,0",R=128,G=128,B=128,warstwa=9)
+podstawy.platforma(x=35,y=40,wierzchołki=["v",5,0,2,-2,2,-2,0,-1.5,0,0,1.5],tekstura="concrete,0",R=128,G=128,B=128,warstwa=9)
 podstawy.platforma(x=28.5,y=47,wierzchołki=["v",4,0,0,0.5,0,0.5,2.5,0,2.5],tekstura="concrete,0",R=128,G=128,B=128,warstwa=9)
 podstawy.platforma(x=35,y=47,wierzchołki=["v",4,0,0,0.5,0,0.5,2.5,0,2.5],tekstura="concrete,0",R=128,G=128,B=128,warstwa=9)
 podstawy.platforma(x=28.5,y=49.5,wierzchołki=["v",4,0,0,2,0,2,0.5,0,0.5],tekstura="concrete,0",R=128,G=128,B=128,warstwa=9)
 podstawy.platforma(x=33.5,y=49.5,wierzchołki=["v",4,0,0,2,0,2,0.5,0,0.5],tekstura="concrete,0",R=128,G=128,B=128,warstwa=9)
+podstawy.platforma(x=28.5,y=42,wierzchołki=["v",4,0,0,1,0,1,1.5,0,1.5],tekstura="concrete,0",R=128,G=128,B=128,warstwa=9)
+podstawy.platforma(x=34.5,y=42,wierzchołki=["v",4,0,0,1,0,1,1.5,0,1.5],tekstura="concrete,0",R=128,G=128,B=128,warstwa=9)
+grodzie = podstawy.platforma(x=29,y=46.5,wierzchołki=["v",4,-0.5,0.5,-0.5,-3,0.5,-3,0.5,0.5],tekstura="panels,1",R=192,G=192,B=192,zwróć_tekst=True,warstwa=9)
+mechanizmy.obracalny_element(grodzie,["OpenCanalDoor","CloseCanalDoor"],["CanalDoorOpening","CanalDoorClosing"],czas_obrotu=20,obrót=90)
+grodzie = podstawy.platforma(x=35,y=46.5,wierzchołki=["v",4,-0.5,0.5,-0.5,-3,0.5,-3,0.5,0.5],tekstura="panels,1",R=192,G=192,B=192,zwróć_tekst=True,warstwa=9)
+mechanizmy.obracalny_element(grodzie,["OpenCanalDoor","CloseCanalDoor"],["CanalDoorOpening","CanalDoorClosing"],czas_obrotu=20,obrót=-90)
 
 lvl.save('Elektrownia_Weglowa_X2Y2.xml')

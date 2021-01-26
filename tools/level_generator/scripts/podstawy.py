@@ -18,10 +18,10 @@ domyślny_dźwięk = "coal_grinder"
 
 typy_platforma = [8,"position","texture","layer","rotation","flip","surface","one_sided","color"]
 domyślne_wartości_platforma = [None,None,None,5,0,1,1,"none","false",255,255,255]
-typy_obiekt = [7,"position","texture","height","rotation","flip","layer","color"]
-domyślne_wartości_obiekt = [None,None,None,None,0,1,1,3,255,255,255]
-typy_animowany_obiekt = [9,"position","texture","height","rotation","flip","layer","frame_time","offset","color"]
-domyślne_wartości_animowany_obiekt = [None,None,None,None,0,1,1,3,1,0,255,255,255]
+typy_obiekt = [8,"position","texture","height","rotation","flip","layer","color","paralax"]
+domyślne_wartości_obiekt = [None,None,None,None,0,1,1,3,255,255,255,0]
+typy_animowany_obiekt = [10,"position","texture","height","rotation","flip","layer","frame_time","offset","color","paralax"]
+domyślne_wartości_animowany_obiekt = [None,None,None,None,0,1,1,3,1,0,255,255,255,0]
 typy_wahadło = [11,"position","texture","line","length","angle","layer","rotation","flip","line_offset","surface","color"]
 domyślne_wartości_wahadło = [None,None,None,None,None,5,0,1,1,None,"none",255,255,255]
 typy_ruchoma_platforma = [7,"position","texture","layer","rotation","flip","surface","color"]
@@ -42,8 +42,8 @@ typy_strefa_zdarzeń = [2,"position","player_only"]
 domyślne_wartości_strefa_zdarzeń = [None,None,False]
 typy_wyzwalacz_stanu = [2,"state","trigger"]
 domyślne_wartości_wyzwalacz_stanu = [None,None]
-typy_czasowe_zdarzenie = [3,"state","event","time"]
-domyślne_wartości_czasowe_zdarzenie = [None,None,None]
+typy_czasowe_zdarzenie = [4,"start","stop","event","time"]
+domyślne_wartości_czasowe_zdarzenie = [None,None,None,None]
 typy_zdarzenie = [1,"name"]
 domyślne_wartości_zdarzenie = [None]
 
@@ -217,7 +217,7 @@ def odczyt_elementu(s):
         if p>=0 and p<l:
             k = s.find('"',p+1)
             r += [t,]
-            if t=="texture" or t=="surface" or t=="line" or t=="one_sided" or t=="sound" or t=="player_only" or t=="trigger" or t=="event" or t=="name":
+            if t=="texture" or t=="surface" or t=="line" or t=="one_sided" or t=="sound" or t=="player_only" or t=="trigger" or t=="event" or t=="start" or t=="stop" or t=="name":
                 r += [s[p+1:k],]
             else:
                 f = s[p+1:k]
@@ -271,11 +271,11 @@ def indeks_ruchu_elementu(e):
     if e[0]=="platform":
         return -13
     if e[0]=="object":
-        return -12
+        return -13
     if e[0]=="animated_object":
-        return -14
+        return -15
     if e[0]=="moving_object":
-        return 12
+        return 13
     if e[0]=="pendulum":
         return 0
     if e[0]=="moving_platform":
@@ -295,7 +295,7 @@ def indeks_ruchu_elementu(e):
     if e[0]=="moving_barrier":
         return 4
     if e[0]=="animated_moving_object" or e[0]=="moving_animated_object":
-        return 14
+        return 15
     if e[0]=="sound":
         return 0
     if e[0]=="event_zone":
@@ -374,7 +374,7 @@ def zapis(s):
                 s_chunk += "</state>\n"
         else:
             t[i+1] = odczyt_elementu(t[i+1])
-            if t[i+1][0]=="sound" or t[i+1][0]=="event":
+            if t[i+1][0]=="sound" or t[i+1][0]=="event" or t[i+1][0]=="timed_event":
                 s_no_chunk += zapis_elementu(t[i+1],zwróć_tekst=True)
             else:
                 s_chunk += zapis_elementu(t[i+1],zwróć_tekst=True)
@@ -408,12 +408,12 @@ def zapis_elementu(e ,zwróć_tekst=False):
         v = round(e[n+1]*znaczniki(e[n])+(n+2))
         s = platforma(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8],e[9],e[10],e[11],e[12],e[n:v],True)
     if e[0]=="object":
-        s = obiekt(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8],e[9],e[10],e[11],True)
+        s = obiekt(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8],e[9],e[10],e[11],e[12],True)
     if e[0]=="animated_object":
-        s = animowany_obiekt(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8],e[9],e[10],e[11],e[12],e[13],True)
+        s = animowany_obiekt(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8],e[9],e[10],e[11],e[12],e[13],e[14],True)
     if e[0]=="moving_object":
         p = wyznaczanie_zakresu_ruchu_w_tablicy_elementu(e,n)
-        s = ruchomy_obiekt(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8],e[9],e[10],e[11],e[n:p],True)
+        s = ruchomy_obiekt(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8],e[9],e[10],e[11],e[12],e[n:p],True)
     if e[0]=="pendulum":
         v = round(e[n+1]*znaczniki(e[n])+(n+2))
         for i in range(e[v]):
@@ -452,7 +452,7 @@ def zapis_elementu(e ,zwróć_tekst=False):
         s = ruchoma_bariera(e[1],e[2],e[3],e[4:p],e[p:v],True)
     if e[0]=="animated_moving_object" or e[0]=="moving_animated_object":
         p = wyznaczanie_zakresu_ruchu_w_tablicy_elementu(e,n)
-        s = animowany_ruchomy_obiekt(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8],e[9],e[10],e[11],e[12],e[13],e[n:p],True)
+        s = animowany_ruchomy_obiekt(e[1],e[2],e[3],e[4],e[5],e[6],e[7],e[8],e[9],e[10],e[11],e[12],e[13],e[14],e[n:p],True)
     if e[0]=="sound":
         if e[8:]==[]:
             s = dźwięk(e[1],e[2],e[3],e[4],e[5],e[6],e[7],[],[],zwróć_tekst=True)
@@ -481,7 +481,7 @@ def zapis_elementu(e ,zwróć_tekst=False):
     if e[0]=="state_trigger":
         s = wyzwalacz_stanu(e[1],e[2],True)
     if e[0]=="timed_event":
-        s = czasowe_zdarzenie(e[1],e[2],e[3],True)
+        s = czasowe_zdarzenie(e[1],e[2],e[3],e[4],True)
     if e[0]=="event":
         s = zdarzenie(e[1],True)
     if zwróć_tekst:
@@ -637,6 +637,10 @@ def parametry(typy, wartości, domyślne):
             s,n = parametr_pojedyńczy(s,n,typy[i+1],wartości,domyślne,[False,])
         if typy[i+1] == "state":
             s,n = parametr_pojedyńczy(s,n,typy[i+1],wartości,domyślne,[True,0])
+        if typy[i+1] == "start":
+            s,n = parametr_pojedyńczy(s,n,typy[i+1],wartości,domyślne,[False,])
+        if typy[i+1] == "stop":
+            s,n = parametr_pojedyńczy(s,n,typy[i+1],wartości,domyślne,[False,])
         if typy[i+1] == "event":
             s,n = parametr_pojedyńczy(s,n,typy[i+1],wartości,domyślne,[False,])
         if typy[i+1] == "trigger":
@@ -645,6 +649,8 @@ def parametry(typy, wartości, domyślne):
             s,n = parametr_pojedyńczy(s,n,typy[i+1],wartości,domyślne,[True,3])
         if typy[i+1] == "name":
             s,n = parametr_pojedyńczy(s,n,typy[i+1],wartości,domyślne,[False,])
+        if typy[i+1] == "paralax":
+            s,n = parametr_pojedyńczy(s,n,typy[i+1],wartości,domyślne,[True,3])
     return s
 def platforma(x=0, y=0, tekstura=domyślna_tekstura, warstwa=5, rotacja=0, odbicie_x=1, odbicie_y=1, powierzchnia=domyślna_powierzchnia, jednostronna=False, R=255, G=255, B=255, wierzchołki=["v",4,0,0,0,1,1,1,1,0], zwróć_tekst=False):
     s = ""
@@ -661,27 +667,27 @@ def platforma(x=0, y=0, tekstura=domyślna_tekstura, warstwa=5, rotacja=0, odbic
         return s
     else:
         zapis(s)
-def obiekt(x=0, y=0, tekstura=domyślny_obiekt, wysokość=1, rotacja=0, odbicie_x=1, odbicie_y=1, warstwa=3, R=255, G=255, B=255, zwróć_tekst=False):
+def obiekt(x=0, y=0, tekstura=domyślny_obiekt, wysokość=1, rotacja=0, odbicie_x=1, odbicie_y=1, warstwa=3, R=255, G=255, B=255, paralaksa=0, zwróć_tekst=False):
     s = ""
-    wartości = [x,y,tekstura,wysokość,rotacja,odbicie_x,odbicie_y,warstwa,R,G,B]
+    wartości = [x,y,tekstura,wysokość,rotacja,odbicie_x,odbicie_y,warstwa,R,G,B,paralaksa]
     w,t = przypisanie_tabeli_wartości("object")
     s += "    <object " + parametry(t,wartości,w) + "/>\n"
     if zwróć_tekst:
         return s
     else:
         zapis(s)
-def animowany_obiekt(x=0, y=0, tekstura=domyślny_animowany_obiekt, wysokość=1, rotacja=0, odbicie_x=1, odbicie_y=1, warstwa=3, czas_klatki=1, przesunięcie=0, R=255, G=255, B=255, zwróć_tekst=False):
+def animowany_obiekt(x=0, y=0, tekstura=domyślny_animowany_obiekt, wysokość=1, rotacja=0, odbicie_x=1, odbicie_y=1, warstwa=3, czas_klatki=1, przesunięcie=0, R=255, G=255, B=255, paralaksa=0, zwróć_tekst=False):
     s = ""
-    wartości = [x,y,tekstura,wysokość,rotacja,odbicie_x,odbicie_y,warstwa,czas_klatki,przesunięcie,R,G,B]
+    wartości = [x,y,tekstura,wysokość,rotacja,odbicie_x,odbicie_y,warstwa,czas_klatki,przesunięcie,R,G,B,paralaksa]
     w,t = przypisanie_tabeli_wartości("animated_object")
     s += "    <animated_object " + parametry(t,wartości,w) + "/>\n"
     if zwróć_tekst:
         return s
     else:
         zapis(s)
-def ruchomy_obiekt(x=0, y=0, tekstura=domyślny_obiekt, wysokość=1, rotacja=0, odbicie_x=1, odbicie_y=1, warstwa=3, R=255, G=255, B=255, ruch=["linear",2,0,0,60,1,1,60], zwróć_tekst=False):
+def ruchomy_obiekt(x=0, y=0, tekstura=domyślny_obiekt, wysokość=1, rotacja=0, odbicie_x=1, odbicie_y=1, warstwa=3, R=255, G=255, B=255, paralaksa=0, ruch=["linear",2,0,0,60,1,1,60], zwróć_tekst=False):
     s = ""
-    wartości = [x,y,tekstura,wysokość,rotacja,odbicie_x,odbicie_y,warstwa,R,G,B]
+    wartości = [x,y,tekstura,wysokość,rotacja,odbicie_x,odbicie_y,warstwa,R,G,B,paralaksa]
     w,t = przypisanie_tabeli_wartości("moving_object")
     s += "    <moving_object " + parametry(t,wartości,w) + ">"
     s += złożenie_ruchu(ruch)
@@ -791,9 +797,9 @@ def ruchoma_bariera(x=0, y=0, powierzchnia=domyślna_powierzchnia, ruch=["linear
         return s
     else:
         zapis(s)
-def animowany_ruchomy_obiekt(x=0, y=0, tekstura=domyślny_animowany_obiekt, wysokość=1, rotacja=0, odbicie_x=1, odbicie_y=1, warstwa=3, czas_klatki=1, przesunięcie=0, R=255, G=255, B=255, ruch=["linear",2,0,0,60,1,1,60], zwróć_tekst=False):
+def animowany_ruchomy_obiekt(x=0, y=0, tekstura=domyślny_animowany_obiekt, wysokość=1, rotacja=0, odbicie_x=1, odbicie_y=1, warstwa=3, czas_klatki=1, przesunięcie=0, R=255, G=255, B=255, paralaksa=0, ruch=["linear",2,0,0,60,1,1,60], zwróć_tekst=False):
     s = ""
-    wartości = [x,y,tekstura,wysokość,rotacja,odbicie_x,odbicie_y,warstwa,czas_klatki,przesunięcie,R,G,B]
+    wartości = [x,y,tekstura,wysokość,rotacja,odbicie_x,odbicie_y,warstwa,czas_klatki,przesunięcie,R,G,B,paralaksa]
     w,t = przypisanie_tabeli_wartości("animated_moving_object")
     s += "    <animated_moving_object " + parametry(t,wartości,w) + ">"
     s += złożenie_ruchu(ruch)
@@ -873,9 +879,9 @@ def wyzwalacz_stanu(stan=0, wyzwalacz="event", zwróć_tekst=False):
         return s
     else:
         zapis(s)
-def czasowe_zdarzenie(stan=0, zdarzenie="event", czas=60, zwróć_tekst=False):
+def czasowe_zdarzenie(start="event1", stop="event2", zdarzenie="event3", czas=60, zwróć_tekst=False):
     s = ""
-    wartości = [stan,zdarzenie,czas]
+    wartości = [start,stop,zdarzenie,czas]
     w,t = przypisanie_tabeli_wartości("timed_event")
     s += "    <timed_event " + parametry(t,wartości,w) + "/>\n"
     if zwróć_tekst:
