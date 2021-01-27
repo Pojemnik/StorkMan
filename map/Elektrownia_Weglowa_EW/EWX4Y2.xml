@@ -1,0 +1,10 @@
+<level name="EWX4Y2" background="bg1">
+<chunk>
+    <platform position="0,47" texture="dirt,0" >
+        <v>0.0,0.0</v>
+        <v>0.0,3.0</v>
+        <v>50.0,3.0</v>
+        <v>50.0,0.0</v>
+    </platform>
+</chunk>
+</level>
