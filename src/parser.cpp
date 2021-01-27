@@ -18,13 +18,13 @@ std::pair<Vectori, Vectori> Parser::parse_map_element(tinyxml2::XMLElement* elem
 {
 	if (element == nullptr)
 	{
-		std::cout << "File error - corrupted XML" << '\n';
+		std::cout << "Map error - corrupted map XML file" << '\n';
 		throw std::invalid_argument("NULL pointer");
 	}
 	string root_name = element->Name();
 	if (root_name != "map")
 	{
-		std::cout << "No map element" << '\n';
+		std::cout << "No map element in map file" << '\n';
 		throw std::invalid_argument("No Map node");
 	}
 	Vectori map_player_pos, map_size;
@@ -35,15 +35,20 @@ std::pair<Vectori, Vectori> Parser::parse_map_element(tinyxml2::XMLElement* elem
 	}
 	catch (...)
 	{
-		std::cout << "Error in map definition" << '\n';
+		std::cout << "Error in map definition: "
+			<< "Player position or map size undefined" << '\n';
 		throw std::invalid_argument("Invalid map attributes");
 	}
 	if (map_player_pos.x < 0 || map_player_pos.y < 0)
 	{
+		std::cout << "Error in map definition: "
+			<< "Negative player position" << '\n';
 		throw std::invalid_argument("Negative player pos");
 	}
 	if (map_size.x < 0 || map_size.y < 0)
 	{
+		std::cout << "Error in map definition: "
+			<< "Negative map size" << '\n';
 		throw std::invalid_argument("Negative map size");
 	}
 	return std::make_pair(map_size, map_player_pos);
@@ -56,10 +61,14 @@ std::tuple<Vectori, string, string> Parser::parse_level_element(tinyxml2::XMLEle
 	pos = get_and_parse_var<Vectori>("position", element);
 	if (pos.x < 0 || pos.y < 0)
 	{
+		std::cout << "Error in level header: "
+			<< "Negative level postion" << '\n';
 		throw std::invalid_argument("Negative level pos");
 	}
 	if (pos.x >= map_size.x || pos.y >= map_size.y)
 	{
+		std::cout << "Error in level header: "
+			<< "Level outside of map size" << '\n';
 		throw std::invalid_argument("Level outside of map size");
 	}
 	filepath = get_attribute_by_name("filename", element);
@@ -71,13 +80,16 @@ Level Parser::parse_level(tinyxml2::XMLElement* root, Vectori global_pos, int co
 {
 	if (root == nullptr)
 	{
-		std::cout << "Error in first level element" << '\n';
+		std::cout << "Level on position "
+			<< global_pos.x << ' ' << global_pos.y
+			<< " is incorrect or doesn't exist." << '\n';
 		throw std::invalid_argument("NULL pointer in level file");
 	}
 	string root_name = root->Name();
 	if (root_name != "level")
 	{
-		std::cout << "No level element" << '\n';
+		std::cout << "No level element in level file on position: "
+			<< global_pos.x << ' ' << global_pos.y << '\n';
 		throw std::invalid_argument("No level node");
 	}
 	tinyxml2::XMLElement* element = root->FirstChildElement();
@@ -122,7 +134,14 @@ Level Parser::parse_level(tinyxml2::XMLElement* root, Vectori global_pos, int co
 std::unique_ptr<Level> Parser::open_and_parse_level(Vectori pos, string filepath, int code)
 {
 	tinyxml2::XMLDocument lvl_root;
-	lvl_root.LoadFile(filepath.c_str());
+	const auto err = lvl_root.LoadFile(filepath.c_str());
+	if (err != tinyxml2::XMLError::XML_SUCCESS)
+	{
+		std::cout << "Can't load level on position: "
+			<< pos.x << ' ' << pos.y
+			<< " path (" << filepath << ") is propably incorrect" << '\n';
+		throw std::invalid_argument("Incorrect level file path");
+	}
 	return std::make_unique<Level>(parse_level(lvl_root.FirstChildElement(), pos, code));
 }
 
