@@ -11,6 +11,7 @@
 
 typedef sf::Vector2f Vectorf;
 typedef sf::Vector2i Vectori;
+typedef std::string string;
 
 class Message_sender;
 
@@ -39,15 +40,15 @@ struct Message
 		LEFT_SOUND, ADD_GRID_POINT, REMOVE_GRID_POINTS, WINDOW_CLOSED,
 		CAMERA_MOVED, CONSOLE_ACTIVATED, CONSOLE_DEACTIVATED, WINDOW_RESIZED,
 		CONSOLE_HISTORY, CONSOLE_INPUT, CONSOLE_COMMAND_RECEIVED, MOUSE_SCROLLED,
-		RELOAD_MAP, DYING, MAP_EVENT, LOG, MOUSE_CLICKED
+		RELOAD_MAP, DYING, MAP_EVENT, LOG, MOUSE_CLICKED, MOVE_PLAYER
 	};
 	Message_type type;
-	std::variant<int, std::string, float, bool, Vectori, Vectorf, Map_sound_info, char> args;
+	std::variant<int, string, float, bool, Vectori, Vectorf, Map_sound_info, char, std::pair<string, Vectorf>> args;
 	const Message_sender* sender;
 
 	Message(Message_type type_, const Message_sender* sender_);
 	Message(Message_type type_, const Message_sender* sender_,
-		std::variant<int, std::string, float, bool, Vectori, Vectorf, Map_sound_info, char> args_) :
+		std::variant<int, string, float, bool, Vectori, Vectorf, Map_sound_info, char, std::pair<string, Vectorf>> args_) :
 		type(type_), sender(sender_), args(args_) {}
 };
 
@@ -88,7 +89,7 @@ public:
 template <typename T>
 void Message_sender::send_message(Message::Message_type type, T args) const
 {
-	std::variant<int, std::string, float, bool, Vectori, Vectorf, Map_sound_info, char> args_variant = args;
+	std::variant<int, string, float, bool, Vectori, Vectorf, Map_sound_info, char, std::pair<string, Vectorf>> args_variant = args;
 	Message msg(type, this, args_variant);
 	for (const auto& it : receivers)
 	{

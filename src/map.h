@@ -39,5 +39,6 @@ public:
 	void set_draw_sound_sources(bool draw);
 	void draw_vertices(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw_zones(sf::RenderTarget& target, sf::RenderStates states) const;
+	Vectorf get_level_pos(int level_id);
 	Vectori get_size() const;
 };

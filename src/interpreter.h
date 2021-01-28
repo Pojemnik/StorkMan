@@ -29,7 +29,7 @@ private:
 	Command get_command(string s);
 	std::pair<Command_code, Vectorf> execute_command(Command cmd);
 	std::pair<Command_code, Vectorf> execute_command_raw(Command cmd);
-	Vectorf get_vectorf(const Command& cmd, std::string var_name);
+	Vectorf get_vectorf(const Command& cmd, std::string var_name, int start_pos = 0);
 	Vectori get_vectori(const Command& cmd, std::string var_name);
 	float get_float(const Command& cmd, std::string var_name);
 	bool get_bool(const Command& cmd, std::string var_name,

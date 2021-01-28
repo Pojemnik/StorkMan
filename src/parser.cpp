@@ -580,7 +580,7 @@ std::vector<string> Parser::load_map_sound_config(string path)
 	file_raw.open(path);
 	if (!file_raw.good())
 	{
-		throw std::invalid_argument("MAp sounds config file not found");
+		throw std::invalid_argument("Map sounds config file not found");
 	}
 	std::vector<string> paths;
 	auto file = util::remove_comments(file_raw);

@@ -279,6 +279,27 @@ int main(int argc, char** argv)
 						sf::Mouse::getPosition() - window.getPosition() + static_cast<Vectori>(camera_pos));
 				}
 				break;
+			case Message::Message_type::MOVE_PLAYER:
+				if (std::holds_alternative<Vectorf>(msg.args))
+				{
+					player.set_position(std::get<Vectorf>(msg.args) * context.global_scale);
+				}
+				else
+				{
+					const auto [lvl_name, pos] = std::get<std::pair<string, Vectorf>>(msg.args);
+					int lvl_id;
+					try
+					{
+						lvl_id = parser.level_names.at(lvl_name);
+					}
+					catch (std::out_of_range)
+					{
+						engine_sender.send_message(Message::Message_type::ERROR, "Incorrect level name!");
+						break;
+					}
+					player.set_position((pos + map->get_level_pos(lvl_id)) * context.global_scale);
+				}
+				break;
 			case Message::Message_type::CONSOLE_COMMAND_RECEIVED:
 			{
 				string command = std::get<string>(msg.args);
@@ -296,9 +317,6 @@ int main(int argc, char** argv)
 					engine_sender.send_message<Vectori>(Message::Message_type::RESOLUTION_CHANGED, context.resolution);
 				}
 				break;
-				case Commands_interpreter::Command_code::MOVE_PLAYER:
-					player.set_position(code.second * context.global_scale);
-					break;
 				case Commands_interpreter::Command_code::GET_POSITION:
 					context.console->out <<
 						player.get_position() / context.global_scale << '\n';

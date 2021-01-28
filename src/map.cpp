@@ -128,6 +128,23 @@ void Map::draw_zones(sf::RenderTarget& target, sf::RenderStates states) const
 	}
 }
 
+Vectorf Map::get_level_pos(int level_id)
+{
+	for (const auto& vect : levels)
+	{
+		for (const auto& lvl : vect)
+		{
+			if (lvl->code == level_id)
+			{
+				Vectori map_pos = lvl->get_global_pos();
+				map_pos = { map_pos.x * context.level_size.x,
+				map_pos.y * context.level_size.y };
+				return static_cast<Vectorf>(map_pos);
+			}
+		}
+	}
+}
+
 Vectori Map::get_size() const
 {
 	return size;

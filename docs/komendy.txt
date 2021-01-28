@@ -23,6 +23,7 @@ storkmovespeed			float			4.6					Prędkość ruchu Storkmana
 
 Inne:
 tp						float float		-					Przenosi gracza do zadanej pozycji
+tp						string float float					Przenosi gracza do zadanej pozycji w zadanym poziomie
 getpos					brak			-					Wypisuje aktualną pozycję gracza
 clear 					brak			-					Czyści konsolę
 heal					brak			-					Uzdrawia gracza

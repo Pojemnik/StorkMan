@@ -19,18 +19,18 @@ void Commands_interpreter::load_help_page()
 	}
 }
 
-Vectorf Commands_interpreter::get_vectorf(const Command& cmd, std::string var_name)
+Vectorf Commands_interpreter::get_vectorf(const Command& cmd, std::string var_name, int start_pos)
 {
 	Vectorf vector = { 0,0 };
-	if (cmd.args.size() == 2)
+	if (cmd.args.size() >= 2 + start_pos)
 	{
-		float tab[2];
+		float tab[2]{};
 		bool err = 0;
-		for (int i = 0; i < 2; i++)
+		for (int i = start_pos; i < 2 + start_pos; i++)
 		{
 			try
 			{
-				tab[i] = std::stof(cmd.args[i]);
+				tab[i - start_pos] = std::stof(cmd.args[i]);
 			}
 			catch (std::invalid_argument e)
 			{
@@ -45,11 +45,10 @@ Vectorf Commands_interpreter::get_vectorf(const Command& cmd, std::string var_na
 			context.console->out << var_name + " set to "
 				<< (Vectorf)vector << '\n';
 		}
-
 	}
 	else
 	{
-		print_argument_number_error(2);
+		print_argument_number_error(2 + start_pos);
 		throw std::invalid_argument("Invalid argument");
 	}
 	return vector;
@@ -60,7 +59,7 @@ Vectori Commands_interpreter::get_vectori(const Command& cmd, std::string var_na
 	Vectori vector = { 0,0 };
 	if (cmd.args.size() == 2)
 	{
-		int tab[2];
+		int tab[2]{};
 		bool err = 0;
 		for (int i = 0; i < 2; i++)
 		{
@@ -226,8 +225,17 @@ std::pair<Commands_interpreter::Command_code, Vectorf> Commands_interpreter::exe
 	}
 	else if (cmd.name == "tp")
 	{
-		Vectorf target = get_vectorf(cmd, "Player moved");
-		return std::make_pair(Command_code::MOVE_PLAYER, target);
+		if (cmd.args.size() == 2)
+		{
+			Vectorf target = get_vectorf(cmd, "Player moved");
+			send_message<Vectorf>(Message::Message_type::MOVE_PLAYER, target);
+		}
+		else if (cmd.args.size() == 3)
+		{
+			string lvl_name = cmd.args[0];
+			Vectorf target = get_vectorf(cmd, "Player moved", 1);
+			send_message(Message::Message_type::MOVE_PLAYER, std::make_pair(lvl_name, target));
+		}
 	}
 	else if (cmd.name == "getpos")
 	{

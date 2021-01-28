@@ -21,6 +21,7 @@ storkmovespeed (float) (4.6) Sets player's speed
 
 Misc:
 tp (float, float) (-) Moves player to a position
+tp (string, float, float) (-) Moves player to a position in a level
 getpos (none) (-) Prints player's position
 clear (none) (-) Clears console
 heal (none) (-) Heals player
