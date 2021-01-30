@@ -8,7 +8,7 @@ animations/stork/tree.txt
 #Textures
 3 9
 256 256
-4
+1
 img/stork/parts_ss_256_256_is_3_9_dmg_0.png
 img/stork/stork_normal.png
 img/stork/stork_heightb.png
