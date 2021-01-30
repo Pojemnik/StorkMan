@@ -2,9 +2,9 @@ img/tex/normals.png
 
 6
 
-wood,1 0 0 64 64
-bricks,0 64 0 64 64
-bricks,1 64 0 64 64
-bricks,2 64 0 64 64
-dirt,0 0 64 64 64
-grass,0 64 64 64 64
+wood,1 0 0 64 64 1
+bricks,0 64 0 64 64 1
+bricks,1 64 0 64 64 1
+bricks,2 64 0 64 64 1
+dirt,0 0 64 64 64 1
+grass,0 64 64 64 64 1

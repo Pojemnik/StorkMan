@@ -417,11 +417,16 @@ int main(int argc, char** argv)
 
 		//Drawing
 		window.clear();
+		gbuffer.clear();
 		map->draw_bottom_layers(gbuffer, rs);
 		player.draw(gbuffer, rs);
 		//window.draw(test_enemy, rs);
 		map->draw_middle_layers(gbuffer, rs);
 		map->draw_top_layers(gbuffer, rs);
+		gbuffer.display();
+		//gbuffer.albedo.getTexture().copyToImage().saveToFile("albedo.png");
+		//gbuffer.normal.getTexture().copyToImage().saveToFile("normal.png");
+		//gbuffer.position.getTexture().copyToImage().saveToFile("position.png");
 		sf::RenderStates tmp_states;
 		tmp_states.shader = &light_shader;
 		window.draw(blank_screen_sized_vertex_array, tmp_states);

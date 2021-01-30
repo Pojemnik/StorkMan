@@ -60,7 +60,7 @@ void Key_frame_animation::pre_draw()
 		tex.at(i).clear(sf::Color(0, 0, 0, 0));
 		for (int j = 0; j < tree.nodes.size(); j++)
 		{
-			parts_sprites[i].setTexture(*parts[j]->get_texture()->at(i));
+			parts_sprites[j].setTexture(*parts[j]->get_texture()->at(i));
 			tex.at(i).draw(parts_sprites[j]);
 		}
 		tex.at(i).display();

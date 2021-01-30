@@ -41,6 +41,20 @@ public:
 	{
 		return &arr;
 	}
+
+	void clear()
+	{
+		albedo.clear();
+		normal.clear();
+		position.clear();
+	}
+
+	void display()
+	{
+		albedo.display();
+		normal.display();
+		position.display();
+	}
 };
 
 class Map_object
