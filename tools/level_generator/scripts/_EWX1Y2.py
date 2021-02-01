@@ -1,6 +1,6 @@
 from level_base import level
 
-lvl = level('Elektrownia_Weglowa_X1Y2')
+lvl = level('EWX1Y2')
 
 import podstawy
 podstawy.lvl = lvl
@@ -64,4 +64,4 @@ podstawy.platforma(x=35,y=25,wierzchołki=["v",4,0,0,1,0,1,24,0,24],warstwa=7,te
 podstawy.platforma(x=40.5,y=25,wierzchołki=["v",4,0,0,1,0,1,24,0,24],warstwa=7,tekstura="concrete,0",R=192,G=192,B=192,jednostronna=True)
 podstawy.ściana(x=35,y=24,warstwa=8,tekstura="TEXSteel_guardrail",wierzchołki=["vt",4,0,0,256,0,6.5,0,256,1664,6.5,1,0,1664,0,1,0,0])
 
-lvl.save('Elektrownia_Weglowa_X1Y2.xml')
+lvl.save('EWX1Y2.xml')

@@ -29,8 +29,8 @@ def dźwignia(x=0, y=0, promień=0.5, promień_strefy=1, warstwa=5, zdarzenia=["
     s += podstawy.zdarzenie(zdarzenia_wewnętrzne[1],True)
     s += podstawy.zdarzenie(zdarzenia_wewnętrzne[2],True)
     s += podstawy.zdarzenie(zdarzenia_wewnętrzne[3],True)
-    s += podstawy.czasowe_zdarzenie(zdarzenia_wewnętrzne[2],zdarzenia_wewnętrzne[0],"default",czas_przełożenia,True)
-    s += podstawy.czasowe_zdarzenie(zdarzenia_wewnętrzne[3],zdarzenia_wewnętrzne[1],"default",czas_przełożenia,True)
+    s += podstawy.czasowe_zdarzenie(zdarzenia_wewnętrzne[2],"default",zdarzenia_wewnętrzne[0],czas_przełożenia,True)
+    s += podstawy.czasowe_zdarzenie(zdarzenia_wewnętrzne[3],"default",zdarzenia_wewnętrzne[1],czas_przełożenia,True)
     v = ["v",4]
     v += [0,-promień_strefy]
     v += [promień_strefy*obrót,-promień_strefy]
@@ -67,8 +67,8 @@ def przesuwalny_element(element=podstawy.platforma(zwróć_tekst=True), zdarzeni
     s = ""
     s += podstawy.zdarzenie(zdarzenia_wewnętrzne[0],True)
     s += podstawy.zdarzenie(zdarzenia_wewnętrzne[1],True)
-    s += podstawy.czasowe_zdarzenie(zdarzenia[0],zdarzenia_wewnętrzne[0],"default",czas_przesunięcia,True)
-    s += podstawy.czasowe_zdarzenie(zdarzenia[1],zdarzenia_wewnętrzne[1],"default",czas_przesunięcia,True)
+    s += podstawy.czasowe_zdarzenie(zdarzenia[0],"default",zdarzenia_wewnętrzne[0],czas_przesunięcia,True)
+    s += podstawy.czasowe_zdarzenie(zdarzenia[1],"default",zdarzenia_wewnętrzne[1],czas_przesunięcia,True)
     s += "<state>\n"
     s += element
     s += "</state>\n"
@@ -94,8 +94,8 @@ def obracalny_element(element=podstawy.platforma(zwróć_tekst=True), zdarzenia=
     s = ""
     s += podstawy.zdarzenie(zdarzenia_wewnętrzne[0],True)
     s += podstawy.zdarzenie(zdarzenia_wewnętrzne[1],True)
-    s += podstawy.czasowe_zdarzenie(zdarzenia[0],zdarzenia_wewnętrzne[0],"default",czas_obrotu,True)
-    s += podstawy.czasowe_zdarzenie(zdarzenia[1],zdarzenia_wewnętrzne[1],"default",czas_obrotu,True)
+    s += podstawy.czasowe_zdarzenie(zdarzenia[0],"default",zdarzenia_wewnętrzne[0],czas_obrotu,True)
+    s += podstawy.czasowe_zdarzenie(zdarzenia[1],"default",zdarzenia_wewnętrzne[1],czas_obrotu,True)
     s += "<state>\n"
     s += element
     s += "</state>\n"

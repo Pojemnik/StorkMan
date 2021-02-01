@@ -1,6 +1,6 @@
 from level_base import level
 
-lvl = level('Elektrownia_Weglowa_X1Y1')
+lvl = level('EWX4Y1')
 
 import podstawy
 podstawy.lvl = lvl
@@ -18,4 +18,4 @@ import grafiki
 
 #ziemia
 
-lvl.save('Elektrownia_Weglowa_X1Y1.xml')
+lvl.save('EWX4Y1.xml')

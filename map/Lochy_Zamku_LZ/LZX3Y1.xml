@@ -1,14 +1,737 @@
-<level name="Elektrownia_Weglowa_X4Y2" background="bg1">
-<event name="test"/>
-<event name="timed"/>
-<event name="stop"/>
-<timed_event event="timed" start="test" time="1200" stop="stop"/>
+<level name="LZX3Y1" background="bg1">
+    <event name="Room1Entered" />
+
+    <event name="Room1Left" />
+
+    <event name="Room2Entered" />
+
+    <event name="Room2Left" />
+
+    <event name="Room2FloorDoorOpen" />
+
+    <event name="Room2FloorDoorClose" />
+
+    <event name="Room3Entered" />
+
+    <event name="Room3Left" />
+
+    <event name="Room4Entered" />
+
+    <event name="Room4Left" />
+
+    <event name="Corridor1Entered" />
+
+    <event name="Corridor1Left" />
+
+    <event name="Corridor1Room4Entered" />
+
+    <event name="Corridor1Room4Left" />
+
 <chunk>
-    <platform position="0,47" texture="dirt,0" >
+    <barrier position="27,4" surface="posadzka_hala" >
         <v>0.0,0.0</v>
-        <v>0.0,3.0</v>
-        <v>50.0,3.0</v>
-        <v>50.0,0.0</v>
+        <v>-5.0,0.0</v>
+        <v>0.0,-5.0</v>
+        <v>0.0,-5.0</v>
+    </barrier>
+    <platform position="27,4" texture="bricks,3" layer="8" surface="posadzka_hala" one_sided="true" >
+        <v>0.0,-0.0</v>
+        <v>-5.0,-0.0</v>
+        <v>-5.0,-0.5</v>
+        <v>0.0,-0.5</v>
     </platform>
+    <platform position="27,4" texture="bricks,3" layer="8" surface="posadzka_hala" one_sided="true" >
+        <v>0.0,-0.5</v>
+        <v>-4.5,-0.5</v>
+        <v>-4.5,-1.0</v>
+        <v>0.0,-1.0</v>
+    </platform>
+    <platform position="27,4" texture="bricks,3" layer="8" surface="posadzka_hala" one_sided="true" >
+        <v>0.0,-1.0</v>
+        <v>-4.0,-1.0</v>
+        <v>-4.0,-1.5</v>
+        <v>0.0,-1.5</v>
+    </platform>
+    <platform position="27,4" texture="bricks,3" layer="8" surface="posadzka_hala" one_sided="true" >
+        <v>0.0,-1.5</v>
+        <v>-3.5,-1.5</v>
+        <v>-3.5,-2.0</v>
+        <v>0.0,-2.0</v>
+    </platform>
+    <platform position="27,4" texture="bricks,3" layer="8" surface="posadzka_hala" one_sided="true" >
+        <v>0.0,-2.0</v>
+        <v>-3.0,-2.0</v>
+        <v>-3.0,-2.5</v>
+        <v>0.0,-2.5</v>
+    </platform>
+    <platform position="27,4" texture="bricks,3" layer="8" surface="posadzka_hala" one_sided="true" >
+        <v>0.0,-2.5</v>
+        <v>-2.5,-2.5</v>
+        <v>-2.5,-3.0</v>
+        <v>0.0,-3.0</v>
+    </platform>
+    <platform position="27,4" texture="bricks,3" layer="8" surface="posadzka_hala" one_sided="true" >
+        <v>0.0,-3.0</v>
+        <v>-2.0,-3.0</v>
+        <v>-2.0,-3.5</v>
+        <v>0.0,-3.5</v>
+    </platform>
+    <platform position="27,4" texture="bricks,3" layer="8" surface="posadzka_hala" one_sided="true" >
+        <v>0.0,-3.5</v>
+        <v>-1.5,-3.5</v>
+        <v>-1.5,-4.0</v>
+        <v>0.0,-4.0</v>
+    </platform>
+    <platform position="27,4" texture="bricks,3" layer="8" surface="posadzka_hala" one_sided="true" >
+        <v>0.0,-4.0</v>
+        <v>-1.0,-4.0</v>
+        <v>-1.0,-4.5</v>
+        <v>0.0,-4.5</v>
+    </platform>
+    <platform position="27,4" texture="bricks,3" layer="8" surface="posadzka_hala" one_sided="true" >
+        <v>0.0,-4.5</v>
+        <v>-0.5,-4.5</v>
+        <v>-0.5,-5.0</v>
+        <v>0.0,-5.0</v>
+    </platform>
+</chunk>
+<chunk>
+    <platform position="27,0" texture="bricks,3" layer="8" surface="posadzka_hala" >
+        <v>0.0,0.0</v>
+        <v>1.0,0.0</v>
+        <v>1.0,5.0</v>
+        <v>0.0,5.0</v>
+    </platform>
+</chunk>
+<chunk>
+    <platform position="18.5,4" texture="bricks,3" layer="8" surface="posadzka_hala" >
+        <v>0.0,0.0</v>
+        <v>8.5,0.0</v>
+        <v>8.5,1.0</v>
+        <v>0.0,1.0</v>
+    </platform>
+</chunk>
+<chunk>
+    <platform position="18,0" texture="bricks,3" layer="8" surface="posadzka_hala" >
+        <v>0.0,0.0</v>
+        <v>1.0,0.0</v>
+        <v>1.0,1.0</v>
+        <v>0.0,1.0</v>
+    </platform>
+</chunk>
+<chunk>
+    <wall position="18.5,0" texture="wall0" >
+        <v>0.0,0.0</v>
+        <v>9.5,0.0</v>
+        <v>9.5,5.0</v>
+        <v>0.0,5.0</v>
+    </wall>
+</chunk>
+<dynamic_chunk>
+<state>
+    <wall position="18.5,0" texture="bricks,3" layer="9" >
+        <v>0.0,0.0</v>
+        <v>9.5,0.0</v>
+        <v>9.5,5.0</v>
+        <v>0.0,5.0</v>
+    </wall>
+</state>
+<state position="0,0" size="0,0">
+</state>
+    <state_trigger state="1" trigger="default" />
+    <state_trigger state="1" trigger="Room1Entered" />
+    <state_trigger state="0" trigger="Room1Left" />
+</dynamic_chunk>
+<chunk>
+    <event_zone position="19,1" player_only="true" >
+        <v>0.0,0.0</v>
+        <v>0.5,0.0</v>
+        <v>0.5,3.0</v>
+        <v>0.0,3.0</v>
+        <e>Room1Entered</e>
+        <e>Room2Left</e>
+    </event_zone>
+</chunk>
+<chunk>
+    <barrier position="18.5,6" surface="posadzka_hala" >
+        <v>0.0,0.0</v>
+        <v>-2.0,0.0</v>
+        <v>0.0,-2.0</v>
+        <v>0.0,-2.0</v>
+    </barrier>
+    <platform position="18.5,6" texture="bricks,3" layer="8" surface="posadzka_hala" one_sided="true" >
+        <v>0.0,-0.0</v>
+        <v>-2.0,-0.0</v>
+        <v>-2.0,-0.5</v>
+        <v>0.0,-0.5</v>
+    </platform>
+    <platform position="18.5,6" texture="bricks,3" layer="8" surface="posadzka_hala" one_sided="true" >
+        <v>0.0,-0.5</v>
+        <v>-1.5,-0.5</v>
+        <v>-1.5,-1.0</v>
+        <v>0.0,-1.0</v>
+    </platform>
+    <platform position="18.5,6" texture="bricks,3" layer="8" surface="posadzka_hala" one_sided="true" >
+        <v>0.0,-1.0</v>
+        <v>-1.0,-1.0</v>
+        <v>-1.0,-1.5</v>
+        <v>0.0,-1.5</v>
+    </platform>
+    <platform position="18.5,6" texture="bricks,3" layer="8" surface="posadzka_hala" one_sided="true" >
+        <v>0.0,-1.5</v>
+        <v>-0.5,-1.5</v>
+        <v>-0.5,-2.0</v>
+        <v>0.0,-2.0</v>
+    </platform>
+</chunk>
+<chunk>
+    <platform position="15.5,6" texture="bricks,3" layer="8" surface="posadzka_hala" >
+        <v>0.0,0.0</v>
+        <v>3.0,0.0</v>
+        <v>3.0,1.0</v>
+        <v>0.0,1.0</v>
+    </platform>
+</chunk>
+<chunk>
+    <barrier position="9,6" surface="posadzka_hala" >
+        <v>0.0,0.0</v>
+        <v>0.0,-2.0</v>
+        <v>0.0,-2.0</v>
+        <v>2.0,0.0</v>
+    </barrier>
+    <platform position="9,6" texture="bricks,3" layer="8" surface="posadzka_hala" one_sided="true" >
+        <v>0.0,-0.0</v>
+        <v>2.0,-0.0</v>
+        <v>2.0,-0.5</v>
+        <v>0.0,-0.5</v>
+    </platform>
+    <platform position="9,6" texture="bricks,3" layer="8" surface="posadzka_hala" one_sided="true" >
+        <v>0.0,-0.5</v>
+        <v>1.5,-0.5</v>
+        <v>1.5,-1.0</v>
+        <v>0.0,-1.0</v>
+    </platform>
+    <platform position="9,6" texture="bricks,3" layer="8" surface="posadzka_hala" one_sided="true" >
+        <v>0.0,-1.0</v>
+        <v>1.0,-1.0</v>
+        <v>1.0,-1.5</v>
+        <v>0.0,-1.5</v>
+    </platform>
+    <platform position="9,6" texture="bricks,3" layer="8" surface="posadzka_hala" one_sided="true" >
+        <v>0.0,-1.5</v>
+        <v>0.5,-1.5</v>
+        <v>0.5,-2.0</v>
+        <v>0.0,-2.0</v>
+    </platform>
+</chunk>
+<chunk>
+    <platform position="9,6" texture="bricks,3" layer="8" surface="posadzka_hala" >
+        <v>0.0,0.0</v>
+        <v>3.0,0.0</v>
+        <v>3.0,1.0</v>
+        <v>0.0,1.0</v>
+    </platform>
+</chunk>
+<chunk>
+    <platform position="8.5,0" texture="bricks,3" layer="8" surface="posadzka_hala" >
+        <v>0.0,0.0</v>
+        <v>1.0,0.0</v>
+        <v>1.0,1.0</v>
+        <v>0.0,1.0</v>
+    </platform>
+</chunk>
+    <event name="Room2FloorDoorOpening" />
+    <event name="Room2FloorDoorClosing" />
+    <timed_event start="Room2FloorDoorOpen" stop="default" event="Room2FloorDoorOpening" time="120" />
+    <timed_event start="Room2FloorDoorClose" stop="default" event="Room2FloorDoorClosing" time="120" />
+<dynamic_chunk>
+<state>
+    <platform position="12.25,6.25" texture="rivets,0" surface="metal_rura" >
+        <v>-0.25,-0.25</v>
+        <v>3.25,-0.25</v>
+        <v>3.25,0.25</v>
+        <v>-0.25,0.25</v>
+    </platform>
+</state>
+<state>
+    <moving_platform position="12.25,6.25" texture="rivets,0" surface="metal_rura" >
+        <move type="rotational">
+            <p>-70.0,60.0</p>
+            <p>-70.0,60.0</p>
+        </move>
+        <v>-0.25,-0.25</v>
+        <v>3.25,-0.25</v>
+        <v>3.25,0.25</v>
+        <v>-0.25,0.25</v>
+    </moving_platform>
+</state>
+<state>
+    <moving_platform position="12.25,6.25" texture="rivets,0" surface="metal_rura" >
+        <move type="rotational">
+            <p>0.0,121.0</p>
+            <p>-70.0,0.0</p>
+        </move>
+        <v>-0.25,-0.25</v>
+        <v>3.25,-0.25</v>
+        <v>3.25,0.25</v>
+        <v>-0.25,0.25</v>
+    </moving_platform>
+</state>
+<state>
+    <moving_platform position="12.25,6.25" texture="rivets,0" surface="metal_rura" >
+        <move type="rotational">
+            <p>-70.0,121.0</p>
+            <p>0.0,0.0</p>
+        </move>
+        <v>-0.25,-0.25</v>
+        <v>3.25,-0.25</v>
+        <v>3.25,0.25</v>
+        <v>-0.25,0.25</v>
+    </moving_platform>
+</state>
+    <state_trigger state="0" trigger="default" />
+    <state_trigger state="0" trigger="Room2FloorDoorClosing" />
+    <state_trigger state="1" trigger="Room2FloorDoorOpening" />
+    <state_trigger state="2" trigger="Room2FloorDoorOpen" />
+    <state_trigger state="3" trigger="Room2FloorDoorClose" />
+</dynamic_chunk>
+<chunk>
+    <wall position="9,0" texture="wall0" >
+        <v>0.0,0.0</v>
+        <v>9.5,0.0</v>
+        <v>9.5,7.0</v>
+        <v>0.0,7.0</v>
+    </wall>
+</chunk>
+<dynamic_chunk>
+<state>
+    <wall position="9,0" texture="bricks,3" layer="9" >
+        <v>0.0,0.0</v>
+        <v>9.5,0.0</v>
+        <v>9.5,6.0</v>
+        <v>0.0,6.0</v>
+    </wall>
+</state>
+<state position="0,0" size="0,0">
+</state>
+    <state_trigger state="1" trigger="Room2Entered" />
+    <state_trigger state="0" trigger="default" />
+    <state_trigger state="0" trigger="Room2Left" />
+</dynamic_chunk>
+<chunk>
+    <event_zone position="17.5,1" player_only="true" >
+        <v>0.0,0.0</v>
+        <v>0.5,0.0</v>
+        <v>0.5,3.0</v>
+        <v>0.0,3.0</v>
+        <e>Room2Entered</e>
+        <e>Room1Left</e>
+    </event_zone>
+</chunk>
+<chunk>
+    <event_zone position="9.5,1" player_only="true" >
+        <v>0.0,0.0</v>
+        <v>0.5,0.0</v>
+        <v>0.5,3.0</v>
+        <v>0.0,3.0</v>
+        <e>Room2Entered</e>
+        <e>Room3Left</e>
+    </event_zone>
+</chunk>
+<chunk>
+    <platform position="0,0" texture="bricks,3" layer="8" surface="posadzka_hala" >
+        <v>0.0,0.0</v>
+        <v>0.5,0.0</v>
+        <v>0.5,1.0</v>
+        <v>0.0,1.0</v>
+    </platform>
+</chunk>
+<chunk>
+    <platform position="0,4" texture="bricks,3" layer="8" surface="posadzka_hala" >
+        <v>0.0,0.0</v>
+        <v>0.5,0.0</v>
+        <v>0.5,5.5</v>
+        <v>0.0,5.5</v>
+    </platform>
+</chunk>
+<chunk>
+    <platform position="9,7" texture="bricks,3" layer="8" surface="posadzka_hala" >
+        <v>0.0,0.0</v>
+        <v>1.0,0.0</v>
+        <v>1.0,2.5</v>
+        <v>0.0,2.5</v>
+    </platform>
+</chunk>
+<chunk>
+    <platform position="0,9.5" texture="bricks,3" layer="8" surface="posadzka_hala" >
+        <v>0.0,0.0</v>
+        <v>10.0,0.0</v>
+        <v>10.0,1.0</v>
+        <v>0.0,1.0</v>
+    </platform>
+</chunk>
+<chunk>
+    <platform position="9,4.1" texture="TEXSteel_stick_rusted" layer="7" surface="metal_rura" one_sided="true" color="128,128,255" >
+        <vt>0.5,-0.1,64.0,345.396</vt>
+        <vt>-2.541,-0.1,64.0,1318.651</vt>
+        <vt>-2.459,0.1,0.0,1318.651</vt>
+        <vt>0.5,0.1,0.0,345.396</vt>
+    </platform>
+    <platform position="9,4.1" texture="TEXSteel_stick_rusted" layer="7" surface="metal_rura" one_sided="true" color="128,128,255" >
+        <vt>-2.541,-0.1,64.0,1318.651</vt>
+        <vt>-3.1,0.459,64.0,1571.435</vt>
+        <vt>-2.9,0.541,0.0,1571.435</vt>
+        <vt>-2.459,0.1,0.0,1318.651</vt>
+    </platform>
+    <platform position="9,4.1" texture="TEXSteel_stick_rusted" layer="7" surface="metal_rura" one_sided="true" color="128,128,255" >
+        <vt>-3.1,0.459,64.0,1571.435</vt>
+        <vt>-3.1,5.4,64.0,3152.69</vt>
+        <vt>-2.9,5.4,0.0,3152.69</vt>
+        <vt>-2.9,0.541,0.0,1571.435</vt>
+    </platform>
+</chunk>
+<chunk>
+    <platform position="0.5,4.1" texture="TEXSteel_stick_rusted" layer="7" surface="metal_rura" one_sided="true" color="128,128,255" >
+        <vt>0.0,0.1,64.0,668.685</vt>
+        <vt>2.459,0.1,64.0,1481.94</vt>
+        <vt>2.541,-0.1,0.0,1481.94</vt>
+        <vt>0.0,-0.1,0.0,668.685</vt>
+    </platform>
+    <platform position="0.5,4.1" texture="TEXSteel_stick_rusted" layer="7" surface="metal_rura" one_sided="true" color="128,128,255" >
+        <vt>2.459,0.1,64.0,1481.94</vt>
+        <vt>2.9,0.541,64.0,1734.723</vt>
+        <vt>3.1,0.459,0.0,1734.723</vt>
+        <vt>2.541,-0.1,0.0,1481.94</vt>
+    </platform>
+    <platform position="0.5,4.1" texture="TEXSteel_stick_rusted" layer="7" surface="metal_rura" one_sided="true" color="128,128,255" >
+        <vt>2.9,0.541,64.0,1734.723</vt>
+        <vt>2.9,5.4,64.0,3315.978</vt>
+        <vt>3.1,5.4,0.0,3315.978</vt>
+        <vt>3.1,0.459,0.0,1734.723</vt>
+    </platform>
+</chunk>
+<chunk>
+    <platform position="0.5,4.1" texture="TEXSteel_stick_rusted" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,393.543</vt>
+        <vt>8.5,0.1,64.0,3113.543</vt>
+        <vt>8.5,-0.1,0.0,3113.543</vt>
+        <vt>0.0,-0.1,0.0,393.543</vt>
+    </platform>
+</chunk>
+<chunk>
+    <platform position="4.15,4.611" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,93.668</vt>
+        <vt>1.2,0.1,64.0,477.668</vt>
+        <vt>1.2,-0.1,0.0,477.668</vt>
+        <vt>0.0,-0.1,0.0,93.668</vt>
+    </platform>
+    <platform position="4.15,5.222" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,763.301</vt>
+        <vt>1.2,0.1,64.0,1147.301</vt>
+        <vt>1.2,-0.1,0.0,1147.301</vt>
+        <vt>0.0,-0.1,0.0,763.301</vt>
+    </platform>
+    <platform position="4.15,5.833" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,581.252</vt>
+        <vt>1.2,0.1,64.0,965.252</vt>
+        <vt>1.2,-0.1,0.0,965.252</vt>
+        <vt>0.0,-0.1,0.0,581.252</vt>
+    </platform>
+    <platform position="4.15,6.444" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,426.882</vt>
+        <vt>1.2,0.1,64.0,810.882</vt>
+        <vt>1.2,-0.1,0.0,810.882</vt>
+        <vt>0.0,-0.1,0.0,426.882</vt>
+    </platform>
+    <platform position="4.15,7.056" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,183.429</vt>
+        <vt>1.2,0.1,64.0,567.429</vt>
+        <vt>1.2,-0.1,0.0,567.429</vt>
+        <vt>0.0,-0.1,0.0,183.429</vt>
+    </platform>
+    <platform position="4.15,7.667" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,237.008</vt>
+        <vt>1.2,0.1,64.0,621.008</vt>
+        <vt>1.2,-0.1,0.0,621.008</vt>
+        <vt>0.0,-0.1,0.0,237.008</vt>
+    </platform>
+    <platform position="4.15,8.278" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,227.92</vt>
+        <vt>1.2,0.1,64.0,611.92</vt>
+        <vt>1.2,-0.1,0.0,611.92</vt>
+        <vt>0.0,-0.1,0.0,227.92</vt>
+    </platform>
+    <platform position="4.15,8.889" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,617.12</vt>
+        <vt>1.2,0.1,64.0,1001.12</vt>
+        <vt>1.2,-0.1,0.0,1001.12</vt>
+        <vt>0.0,-0.1,0.0,617.12</vt>
+    </platform>
+    <platform position="4.15,4" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="128,128,255" >
+        <vt>-0.1,0.0,64.0,902.771</vt>
+        <vt>-0.1,5.5,64.0,2662.771</vt>
+        <vt>0.1,5.5,0.0,2662.771</vt>
+        <vt>0.1,0.0,0.0,902.771</vt>
+    </platform>
+    <platform position="5.35,4" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="128,128,255" >
+        <vt>-0.1,0.0,64.0,19.86</vt>
+        <vt>-0.1,5.5,64.0,1779.86</vt>
+        <vt>0.1,5.5,0.0,1779.86</vt>
+        <vt>0.1,0.0,0.0,19.86</vt>
+    </platform>
+</chunk>
+<chunk>
+    <wall position="0,0" texture="wall0" >
+        <v>0.0,0.0</v>
+        <v>9.0,0.0</v>
+        <v>9.0,10.5</v>
+        <v>0.0,10.5</v>
+    </wall>
+</chunk>
+<dynamic_chunk>
+<state>
+    <wall position="0,0" texture="bricks,3" layer="9" >
+        <v>0.0,0.0</v>
+        <v>9.0,0.0</v>
+        <v>9.0,10.5</v>
+        <v>0.0,10.5</v>
+    </wall>
+</state>
+<state position="0,0" size="0,0">
+</state>
+    <state_trigger state="1" trigger="Room3Entered" />
+    <state_trigger state="0" trigger="default" />
+    <state_trigger state="0" trigger="Room3Left" />
+</dynamic_chunk>
+<chunk>
+    <event_zone position="8,1" player_only="true" >
+        <v>0.0,0.0</v>
+        <v>0.5,0.0</v>
+        <v>0.5,3.0</v>
+        <v>0.0,3.0</v>
+        <e>Room3Entered</e>
+        <e>Room2Left</e>
+    </event_zone>
+</chunk>
+<chunk>
+    <event_zone position="0.5,1" player_only="true" >
+        <v>0.0,0.0</v>
+        <v>0.5,0.0</v>
+        <v>0.5,3.0</v>
+        <v>0.0,3.0</v>
+        <e>Room3Entered</e>
+        <e>Room2Left</e>
+    </event_zone>
+</chunk>
+<chunk>
+    <platform position="0,16" texture="bricks,3" layer="8" surface="posadzka_hala" >
+        <v>0.0,0.0</v>
+        <v>5.5,0.0</v>
+        <v>5.5,1.0</v>
+        <v>0.0,1.0</v>
+    </platform>
+</chunk>
+<chunk>
+    <platform position="0,10.5" texture="bricks,3" layer="8" surface="posadzka_hala" >
+        <v>0.0,0.0</v>
+        <v>0.5,0.0</v>
+        <v>0.5,3.0</v>
+        <v>0.0,3.0</v>
+    </platform>
+</chunk>
+<chunk>
+    <platform position="9.5,10.5" texture="bricks,3" layer="8" surface="posadzka_hala" >
+        <v>0.0,0.0</v>
+        <v>1.0,0.0</v>
+        <v>1.0,6.5</v>
+        <v>0.0,6.5</v>
+    </platform>
+</chunk>
+<chunk>
+    <platform position="10,7" texture="bricks,3" layer="8" surface="posadzka_hala" >
+        <v>0.0,0.0</v>
+        <v>0.5,0.0</v>
+        <v>0.5,3.5</v>
+        <v>0.0,3.5</v>
+    </platform>
+</chunk>
+<chunk>
+    <wall position="0,10.5" texture="wall0" >
+        <v>0.0,0.0</v>
+        <v>10.0,0.0</v>
+        <v>10.0,6.0</v>
+        <v>0.0,6.0</v>
+    </wall>
+</chunk>
+<dynamic_chunk>
+<state>
+    <wall position="0,10.5" texture="bricks,3" layer="9" >
+        <v>0.0,0.0</v>
+        <v>10.0,0.0</v>
+        <v>10.0,6.0</v>
+        <v>0.0,6.0</v>
+    </wall>
+</state>
+<state position="0,0" size="0,0">
+</state>
+    <state_trigger state="1" trigger="Room4Entered" />
+    <state_trigger state="0" trigger="default" />
+    <state_trigger state="0" trigger="Room4Left" />
+</dynamic_chunk>
+<chunk>
+    <event_zone position="0.5,13.5" player_only="true" >
+        <v>0.0,0.0</v>
+        <v>0.5,0.0</v>
+        <v>0.5,2.5</v>
+        <v>0.0,2.5</v>
+        <e>Room4Entered</e>
+        <e>Corridor1Room4Entered</e>
+    </event_zone>
+</chunk>
+<chunk>
+    <event_zone position="5.5,15" player_only="true" >
+        <v>0.0,0.0</v>
+        <v>3.0,0.0</v>
+        <v>3.0,0.5</v>
+        <v>0.0,0.5</v>
+        <e>Corridor1Left</e>
+        <e>Room4Entered</e>
+    </event_zone>
+</chunk>
+<chunk>
+    <platform position="9.5,20.5" texture="bricks,3" surface="posadzka_hala" one_sided="true" >
+        <v>0.0,0.0</v>
+        <v>-5.0,0.0</v>
+        <v>-0.5,-4.5</v>
+        <v>0.0,-4.5</v>
+    </platform>
+    <platform position="9.5,20.5" texture="bricks,3" surface="posadzka_hala" one_sided="true" >
+        <v>0.0,-0.0</v>
+        <v>-5.0,-0.0</v>
+        <v>-5.0,-0.5</v>
+        <v>0.0,-0.5</v>
+    </platform>
+    <platform position="9.5,20.5" texture="bricks,3" surface="posadzka_hala" one_sided="true" >
+        <v>0.0,-0.5</v>
+        <v>-4.5,-0.5</v>
+        <v>-4.5,-1.0</v>
+        <v>0.0,-1.0</v>
+    </platform>
+    <platform position="9.5,20.5" texture="bricks,3" surface="posadzka_hala" one_sided="true" >
+        <v>0.0,-1.0</v>
+        <v>-4.0,-1.0</v>
+        <v>-4.0,-1.5</v>
+        <v>0.0,-1.5</v>
+    </platform>
+    <platform position="9.5,20.5" texture="bricks,3" surface="posadzka_hala" one_sided="true" >
+        <v>0.0,-1.5</v>
+        <v>-3.5,-1.5</v>
+        <v>-3.5,-2.0</v>
+        <v>0.0,-2.0</v>
+    </platform>
+    <platform position="9.5,20.5" texture="bricks,3" surface="posadzka_hala" one_sided="true" >
+        <v>0.0,-2.0</v>
+        <v>-3.0,-2.0</v>
+        <v>-3.0,-2.5</v>
+        <v>0.0,-2.5</v>
+    </platform>
+    <platform position="9.5,20.5" texture="bricks,3" surface="posadzka_hala" one_sided="true" >
+        <v>0.0,-2.5</v>
+        <v>-2.5,-2.5</v>
+        <v>-2.5,-3.0</v>
+        <v>0.0,-3.0</v>
+    </platform>
+    <platform position="9.5,20.5" texture="bricks,3" surface="posadzka_hala" one_sided="true" >
+        <v>0.0,-3.0</v>
+        <v>-2.0,-3.0</v>
+        <v>-2.0,-3.5</v>
+        <v>0.0,-3.5</v>
+    </platform>
+    <platform position="9.5,20.5" texture="bricks,3" surface="posadzka_hala" one_sided="true" >
+        <v>0.0,-3.5</v>
+        <v>-1.5,-3.5</v>
+        <v>-1.5,-4.0</v>
+        <v>0.0,-4.0</v>
+    </platform>
+    <platform position="9.5,20.5" texture="bricks,3" surface="posadzka_hala" one_sided="true" >
+        <v>0.0,-4.0</v>
+        <v>-1.0,-4.0</v>
+        <v>-1.0,-4.5</v>
+        <v>0.0,-4.5</v>
+    </platform>
+</chunk>
+<chunk>
+    <platform position="0,20.5" texture="bricks,3" layer="8" surface="posadzka_hala" >
+        <v>0.0,0.0</v>
+        <v>23.0,0.0</v>
+        <v>23.0,1.0</v>
+        <v>0.0,1.0</v>
+    </platform>
+</chunk>
+<chunk>
+    <platform position="10.5,16" texture="bricks,3" layer="8" surface="posadzka_hala" >
+        <v>0.0,0.0</v>
+        <v>12.5,0.0</v>
+        <v>12.5,1.0</v>
+        <v>0.0,1.0</v>
+    </platform>
+</chunk>
+<chunk>
+    <wall position="0,16.5" texture="wall0" >
+        <v>0.0,0.0</v>
+        <v>23.0,0.0</v>
+        <v>23.0,5.0</v>
+        <v>0.0,5.0</v>
+    </wall>
+</chunk>
+<dynamic_chunk>
+<state>
+    <wall position="0,16.5" texture="bricks,3" layer="9" >
+        <v>0.0,0.0</v>
+        <v>10.0,0.0</v>
+        <v>10.0,5.0</v>
+        <v>0.0,5.0</v>
+    </wall>
+</state>
+<state position="0,0" size="0,0">
+</state>
+    <state_trigger state="1" trigger="Corridor1Room4Entered" />
+    <state_trigger state="0" trigger="default" />
+    <state_trigger state="0" trigger="Corridor1Room4Left" />
+</dynamic_chunk>
+<dynamic_chunk>
+<state>
+    <wall position="10,16.5" texture="bricks,3" layer="9" >
+        <v>0.0,0.0</v>
+        <v>13.0,0.0</v>
+        <v>13.0,5.0</v>
+        <v>0.0,5.0</v>
+    </wall>
+</state>
+<state position="0,0" size="0,0">
+</state>
+    <state_trigger state="1" trigger="Corridor1Room4Entered" />
+    <state_trigger state="0" trigger="default" />
+    <state_trigger state="0" trigger="Corridor1Room4Left" />
+</dynamic_chunk>
+<chunk>
+    <event_zone position="5.5,18" player_only="true" >
+        <v>0.0,0.0</v>
+        <v>3.0,0.0</v>
+        <v>3.0,0.5</v>
+        <v>0.0,0.5</v>
+        <e>Corridor1Entered</e>
+        <e>Room4Left</e>
+    </event_zone>
+</chunk>
+<chunk>
+    <event_zone position="22,17" player_only="true" >
+        <v>0.0,0.0</v>
+        <v>0.5,0.0</v>
+        <v>0.5,3.5</v>
+        <v>0.0,3.5</v>
+        <e>Corridor1Entered</e>
+        <e>Corridor1Room4Entered</e>
+    </event_zone>
 </chunk>
 </level>

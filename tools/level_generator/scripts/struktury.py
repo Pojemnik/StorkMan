@@ -14,7 +14,7 @@ def schody(x=0, y=0, warstwa=5, powierzchnia=podstawy.domyślna_powierzchnia, ko
         v += [przesunięcie*obrót,-wysokość]
         v += [0,-wysokość]
     if blokada:
-        s = s + podstawy.bariera(x=x,y=y,wierzchołki=v,zwróć_tekst=True)
+        s = s + podstawy.bariera(x=x,y=y,wierzchołki=v,powierzchnia=powierzchnia,zwróć_tekst=True)
     else:
         s = s + podstawy.platforma(x=x,y=y,warstwa=warstwa,tekstura=tekstura,R=kolor[0],G=kolor[1],B=kolor[2],wierzchołki=v,jednostronna=True,zwróć_tekst=True, powierzchnia=powierzchnia)
     for i in range(stopnie):
@@ -271,6 +271,24 @@ def element_podłużny(x=0, y=0, warstwa=5, kolor=[255,255,255], powierzchnia=po
             s += podstawy.platforma(x=x,y=y,warstwa=warstwa,tekstura=tekstura,wierzchołki=v,jednostronna=jednostronność,R=kolor[0],G=kolor[1],B=kolor[2],zwróć_tekst=True,powierzchnia=powierzchnia)
         else:
             s += podstawy.ściana(x=x,y=y,warstwa=warstwa,tekstura=tekstura,R=kolor[0],G=kolor[1],B=kolor[2],wierzchołki=v,zwróć_tekst=True)
+    if zwróć_tekst:
+        return s
+    else:
+        podstawy.zapis(s)
+def drabina(x=0,y=0,szerokość=1,długość=5,szczeble=3,grubość_szczebla=0.2,grubość_poprzeczki=0.2,tekstura_poprzeczek=podstawy.domyślna_tekstura,tekstura_szczebli=podstawy.domyślna_tekstura,powierzchnia=podstawy.domyślna_powierzchnia,warstwa=5,szerokość_tekstury_poprzeczek=64,szerokość_tekstury_szczebli=64,kolor_szczebli=[255,255,255],kolor_poprzeczek=[255,255,255],szczebel_górny=False,szczebel_dolny=False,szczeble_nad_poprzeczkami=True,zwróć_tekst=False):
+    s = ""
+    if szczeble_nad_poprzeczkami:
+        s += element_podłużny(x=x-szerokość/2,y=y,trasa=[2,0,0,0,długość],grubość=grubość_poprzeczki,tekstura=tekstura_poprzeczek,szerokość_tekstury=szerokość_tekstury_poprzeczek,powierzchnia=powierzchnia,warstwa=warstwa,kolor=kolor_poprzeczek,kolizja=True,jednostronność=True,zwróć_tekst=True)
+        s += element_podłużny(x=x+szerokość/2,y=y,trasa=[2,0,0,0,długość],grubość=grubość_poprzeczki,tekstura=tekstura_poprzeczek,szerokość_tekstury=szerokość_tekstury_poprzeczek,powierzchnia=powierzchnia,warstwa=warstwa,kolor=kolor_poprzeczek,kolizja=True,jednostronność=True,zwróć_tekst=True)
+    if szczebel_górny:
+        s += element_podłużny(x=x-szerokość/2,y=y,trasa=[2,0,0,szerokość,0],grubość=grubość_szczebla,tekstura=tekstura_szczebli,szerokość_tekstury=szerokość_tekstury_szczebli,powierzchnia=powierzchnia,warstwa=warstwa,kolor=kolor_szczebli,kolizja=True,jednostronność=True,zwróć_tekst=True)
+    if szczebel_górny:
+        s += element_podłużny(x=x-szerokość/2,y=y+długość,trasa=[2,0,0,szerokość,0],grubość=grubość_szczebla,tekstura=tekstura_szczebli,szerokość_tekstury=szerokość_tekstury_szczebli,powierzchnia=powierzchnia,warstwa=warstwa,kolor=kolor_szczebli,kolizja=True,jednostronność=True,zwróć_tekst=True)
+    for i in range(szczeble):
+        s += element_podłużny(x=x-szerokość/2,y=y+długość/(szczeble+1)*(i+1),trasa=[2,0,0,szerokość,0],grubość=grubość_szczebla,tekstura=tekstura_szczebli,szerokość_tekstury=szerokość_tekstury_szczebli,powierzchnia=powierzchnia,kolor=kolor_szczebli,warstwa=warstwa,kolizja=True,jednostronność=True,zwróć_tekst=True)
+    if not(szczeble_nad_poprzeczkami):
+        s += element_podłużny(x=x-szerokość/2,y=y,trasa=[2,0,0,0,długość],grubość=grubość_poprzeczki,tekstura=tekstura_poprzeczek,szerokość_tekstury=szerokość_tekstury_poprzeczek,powierzchnia=powierzchnia,warstwa=warstwa,kolor=kolor_poprzeczek,kolizja=True,jednostronność=True,zwróć_tekst=True)
+        s += element_podłużny(x=x+szerokość/2,y=y,trasa=[2,0,0,0,długość],grubość=grubość_poprzeczki,tekstura=tekstura_poprzeczek,szerokość_tekstury=szerokość_tekstury_poprzeczek,powierzchnia=powierzchnia,warstwa=warstwa,kolor=kolor_poprzeczek,kolizja=True,jednostronność=True,zwróć_tekst=True)
     if zwróć_tekst:
         return s
     else:

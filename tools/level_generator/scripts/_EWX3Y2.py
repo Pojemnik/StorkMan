@@ -1,6 +1,6 @@
 from level_base import level
 
-lvl = level('Elektrownia_Weglowa_X3Y2')
+lvl = level('EWX3Y2')
 
 import podstawy
 podstawy.lvl = lvl
@@ -32,9 +32,9 @@ podstawy.platforma(x=6.5,y=48,wierzchołki=["v",4,0,0,0,2,43.5,2,43.5,0],tekstur
 struktury.komnata(x=6.5,y=0,warstwa=8,kolor=[128,128,128],szerokość=43.5,wysokość=48,grubość_prawej=1,grubość_lewej=1,grubość_górnej=1,grubość_dolnej=1,tekstura="bricks,0",tekstura_tła="asphalt,0",otwory_lewe=[3,8.5,3,27.5,3,43.5,2.5],powierzchnia="posadzka_hala")
 #budynek generatora - parter
 generator = "<state>\n"
-generator += elektrownia_węglowa.generator(x=9.5,y=47.1,warstwa=5,turbiny=[3,"TURBINA_04","TURBINA_05","TURBINA_06"],zdarzenia_dźwięku=["et",3,"default","false","PowerPlantOn","true","PowerPlantOff","false"],zwróć_tekst=True)
+generator += grafiki.generator(x=9.5,y=47.1,warstwa=5,turbiny=[3,"TURBINA_04","TURBINA_05","TURBINA_06"],zdarzenia_dźwięku=["et",3,"default","false","PowerPlantOn","true","PowerPlantOff","false"],zwróć_tekst=True)
 generator += "</state>\n<state>\n"
-generator += elektrownia_węglowa.generator(x=9.5,y=47.1,warstwa=5,turbiny=[3,None,None,None],wstrząsy=[False],podstawa_wzmocnienia=1,czas_obrotu_wału=360,zwróć_tekst=True)
+generator += grafiki.generator(x=9.5,y=47.1,warstwa=5,turbiny=[3,None,None,None],wstrząsy=[False],podstawa_wzmocnienia=1,czas_obrotu_wału=360,zwróć_tekst=True)
 generator += "</state>\n"
 generator += podstawy.wyzwalacz_stanu(0,"PowerPlantOn",True)
 generator += podstawy.wyzwalacz_stanu(1,"PowerPlantOff",True)
@@ -261,4 +261,4 @@ struktury.element_podłużny(x=6.5,y=25.8,warstwa=4,tekstura="TEXSteel_stick",gr
 podstawy.obiekt(x=9,y=28.5,wysokość=1.5,tekstura="OBJGrated_vent",warstwa=4)
 struktury.element_podłużny(x=7,y=31.5,warstwa=7,tekstura="TEXSteel_stick_rusted",grubość=0.35,trasa=[3,0,0,1,1,1,4.5])
 
-lvl.save('Elektrownia_Weglowa_X3Y2.xml')
+lvl.save('EWX3Y2.xml')

@@ -1,14 +1,18 @@
-<level name="Elektrownia_Weglowa_X4Y2" background="bg1">
-<event name="test"/>
-<event name="timed"/>
-<event name="stop"/>
-<timed_event event="timed" start="test" time="1200" stop="stop"/>
+<level name="RZX2Y2" background="bg1">
 <chunk>
-    <platform position="0,47" texture="dirt,0" >
+    <platform position="0,49" texture="bricks,3" surface="posadzka_hala" >
         <v>0.0,0.0</v>
-        <v>0.0,3.0</v>
-        <v>50.0,3.0</v>
-        <v>50.0,0.0</v>
+        <v>23.0,0.0</v>
+        <v>23.0,1.0</v>
+        <v>0.0,1.0</v>
+    </platform>
+</chunk>
+<chunk>
+    <platform position="27,49" texture="bricks,3" surface="posadzka_hala" >
+        <v>0.0,0.0</v>
+        <v>23.0,0.0</v>
+        <v>23.0,1.0</v>
+        <v>0.0,1.0</v>
     </platform>
 </chunk>
 </level>

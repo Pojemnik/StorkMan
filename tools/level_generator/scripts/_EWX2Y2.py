@@ -1,6 +1,6 @@
 from level_base import level
 
-lvl = level('Elektrownia_Weglowa_X2Y2')
+lvl = level('EWX2Y2')
 
 import podstawy
 podstawy.lvl = lvl
@@ -67,4 +67,4 @@ mechanizmy.obracalny_element(grodzie,["OpenCanalDoor","CloseCanalDoor"],["CanalD
 grodzie = podstawy.platforma(x=35,y=46.5,wierzchołki=["v",4,-0.5,0.5,-0.5,-3,0.5,-3,0.5,0.5],tekstura="panels,1",R=192,G=192,B=192,zwróć_tekst=True,warstwa=9)
 mechanizmy.obracalny_element(grodzie,["OpenCanalDoor","CloseCanalDoor"],["CanalDoorOpening","CanalDoorClosing"],czas_obrotu=20,obrót=-90)
 
-lvl.save('Elektrownia_Weglowa_X2Y2.xml')
+lvl.save('EWX2Y2.xml')

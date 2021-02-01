@@ -1,14 +1,319 @@
-<level name="Elektrownia_Weglowa_X4Y2" background="bg1">
-<event name="test"/>
-<event name="timed"/>
-<event name="stop"/>
-<timed_event event="timed" start="test" time="1200" stop="stop"/>
+<level name="LZX2Y1" background="bg1">
+    <event name="Room1Entered" />
+
+    <event name="Room1Left" />
+
 <chunk>
-    <platform position="0,47" texture="dirt,0" >
+    <platform position="49.5,0" texture="bricks,3" layer="8" surface="posadzka_hala" >
         <v>0.0,0.0</v>
-        <v>0.0,3.0</v>
-        <v>50.0,3.0</v>
-        <v>50.0,0.0</v>
+        <v>0.5,0.0</v>
+        <v>0.5,1.0</v>
+        <v>0.0,1.0</v>
     </platform>
+</chunk>
+<chunk>
+    <platform position="49.5,4" texture="bricks,3" layer="8" surface="posadzka_hala" >
+        <v>0.0,0.0</v>
+        <v>0.5,0.0</v>
+        <v>0.5,6.5</v>
+        <v>0.0,6.5</v>
+    </platform>
+</chunk>
+<chunk>
+    <platform position="46.5,0" texture="bricks,3" layer="8" surface="posadzka_hala" >
+        <v>0.0,0.0</v>
+        <v>1.0,0.0</v>
+        <v>1.0,8.0</v>
+        <v>0.0,8.0</v>
+    </platform>
+</chunk>
+<chunk>
+    <platform position="46.5,10.5" texture="bricks,3" layer="8" surface="posadzka_hala" >
+        <v>0.0,0.0</v>
+        <v>1.0,0.0</v>
+        <v>1.0,3.0</v>
+        <v>0.0,3.0</v>
+    </platform>
+</chunk>
+<chunk>
+    <platform position="46.5,16" texture="bricks,3" layer="8" surface="posadzka_hala" >
+        <v>0.0,0.0</v>
+        <v>3.5,0.0</v>
+        <v>3.5,1.0</v>
+        <v>0.0,1.0</v>
+    </platform>
+</chunk>
+<chunk>
+    <platform position="49.5,10.5" texture="bricks,3" layer="8" surface="posadzka_hala" >
+        <v>0.0,0.0</v>
+        <v>0.5,0.0</v>
+        <v>0.5,3.0</v>
+        <v>0.0,3.0</v>
+    </platform>
+</chunk>
+<chunk>
+    <platform position="47.75,0.485" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,340.654</vt>
+        <vt>1.5,0.1,64.0,820.654</vt>
+        <vt>1.5,-0.1,0.0,820.654</vt>
+        <vt>0.0,-0.1,0.0,340.654</vt>
+    </platform>
+    <platform position="47.75,0.97" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,774.555</vt>
+        <vt>1.5,0.1,64.0,1254.555</vt>
+        <vt>1.5,-0.1,0.0,1254.555</vt>
+        <vt>0.0,-0.1,0.0,774.555</vt>
+    </platform>
+    <platform position="47.75,1.455" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,582.838</vt>
+        <vt>1.5,0.1,64.0,1062.838</vt>
+        <vt>1.5,-0.1,0.0,1062.838</vt>
+        <vt>0.0,-0.1,0.0,582.838</vt>
+    </platform>
+    <platform position="47.75,1.939" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,230.689</vt>
+        <vt>1.5,0.1,64.0,710.689</vt>
+        <vt>1.5,-0.1,0.0,710.689</vt>
+        <vt>0.0,-0.1,0.0,230.689</vt>
+    </platform>
+    <platform position="47.75,2.424" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,601.902</vt>
+        <vt>1.5,0.1,64.0,1081.902</vt>
+        <vt>1.5,-0.1,0.0,1081.902</vt>
+        <vt>0.0,-0.1,0.0,601.902</vt>
+    </platform>
+    <platform position="47.75,2.909" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,516.593</vt>
+        <vt>1.5,0.1,64.0,996.593</vt>
+        <vt>1.5,-0.1,0.0,996.593</vt>
+        <vt>0.0,-0.1,0.0,516.593</vt>
+    </platform>
+    <platform position="47.75,3.394" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,480.626</vt>
+        <vt>1.5,0.1,64.0,960.626</vt>
+        <vt>1.5,-0.1,0.0,960.626</vt>
+        <vt>0.0,-0.1,0.0,480.626</vt>
+    </platform>
+    <platform position="47.75,3.879" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,817.137</vt>
+        <vt>1.5,0.1,64.0,1297.137</vt>
+        <vt>1.5,-0.1,0.0,1297.137</vt>
+        <vt>0.0,-0.1,0.0,817.137</vt>
+    </platform>
+    <platform position="47.75,4.364" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,599.114</vt>
+        <vt>1.5,0.1,64.0,1079.114</vt>
+        <vt>1.5,-0.1,0.0,1079.114</vt>
+        <vt>0.0,-0.1,0.0,599.114</vt>
+    </platform>
+    <platform position="47.75,4.848" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,111.576</vt>
+        <vt>1.5,0.1,64.0,591.576</vt>
+        <vt>1.5,-0.1,0.0,591.576</vt>
+        <vt>0.0,-0.1,0.0,111.576</vt>
+    </platform>
+    <platform position="47.75,5.333" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,256.535</vt>
+        <vt>1.5,0.1,64.0,736.535</vt>
+        <vt>1.5,-0.1,0.0,736.535</vt>
+        <vt>0.0,-0.1,0.0,256.535</vt>
+    </platform>
+    <platform position="47.75,5.818" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,90.625</vt>
+        <vt>1.5,0.1,64.0,570.625</vt>
+        <vt>1.5,-0.1,0.0,570.625</vt>
+        <vt>0.0,-0.1,0.0,90.625</vt>
+    </platform>
+    <platform position="47.75,6.303" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,650.719</vt>
+        <vt>1.5,0.1,64.0,1130.719</vt>
+        <vt>1.5,-0.1,0.0,1130.719</vt>
+        <vt>0.0,-0.1,0.0,650.719</vt>
+    </platform>
+    <platform position="47.75,6.788" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,219.191</vt>
+        <vt>1.5,0.1,64.0,699.191</vt>
+        <vt>1.5,-0.1,0.0,699.191</vt>
+        <vt>0.0,-0.1,0.0,219.191</vt>
+    </platform>
+    <platform position="47.75,7.273" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,1000.39</vt>
+        <vt>1.5,0.1,64.0,1480.39</vt>
+        <vt>1.5,-0.1,0.0,1480.39</vt>
+        <vt>0.0,-0.1,0.0,1000.39</vt>
+    </platform>
+    <platform position="47.75,7.758" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,827.223</vt>
+        <vt>1.5,0.1,64.0,1307.223</vt>
+        <vt>1.5,-0.1,0.0,1307.223</vt>
+        <vt>0.0,-0.1,0.0,827.223</vt>
+    </platform>
+    <platform position="47.75,8.242" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,84.612</vt>
+        <vt>1.5,0.1,64.0,564.612</vt>
+        <vt>1.5,-0.1,0.0,564.612</vt>
+        <vt>0.0,-0.1,0.0,84.612</vt>
+    </platform>
+    <platform position="47.75,8.727" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,10.741</vt>
+        <vt>1.5,0.1,64.0,490.741</vt>
+        <vt>1.5,-0.1,0.0,490.741</vt>
+        <vt>0.0,-0.1,0.0,10.741</vt>
+    </platform>
+    <platform position="47.75,9.212" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,177.496</vt>
+        <vt>1.5,0.1,64.0,657.496</vt>
+        <vt>1.5,-0.1,0.0,657.496</vt>
+        <vt>0.0,-0.1,0.0,177.496</vt>
+    </platform>
+    <platform position="47.75,9.697" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,27.481</vt>
+        <vt>1.5,0.1,64.0,507.481</vt>
+        <vt>1.5,-0.1,0.0,507.481</vt>
+        <vt>0.0,-0.1,0.0,27.481</vt>
+    </platform>
+    <platform position="47.75,10.182" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,916.271</vt>
+        <vt>1.5,0.1,64.0,1396.271</vt>
+        <vt>1.5,-0.1,0.0,1396.271</vt>
+        <vt>0.0,-0.1,0.0,916.271</vt>
+    </platform>
+    <platform position="47.75,10.667" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,116.096</vt>
+        <vt>1.5,0.1,64.0,596.096</vt>
+        <vt>1.5,-0.1,0.0,596.096</vt>
+        <vt>0.0,-0.1,0.0,116.096</vt>
+    </platform>
+    <platform position="47.75,11.152" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,713.181</vt>
+        <vt>1.5,0.1,64.0,1193.181</vt>
+        <vt>1.5,-0.1,0.0,1193.181</vt>
+        <vt>0.0,-0.1,0.0,713.181</vt>
+    </platform>
+    <platform position="47.75,11.636" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,847.743</vt>
+        <vt>1.5,0.1,64.0,1327.743</vt>
+        <vt>1.5,-0.1,0.0,1327.743</vt>
+        <vt>0.0,-0.1,0.0,847.743</vt>
+    </platform>
+    <platform position="47.75,12.121" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,758.826</vt>
+        <vt>1.5,0.1,64.0,1238.826</vt>
+        <vt>1.5,-0.1,0.0,1238.826</vt>
+        <vt>0.0,-0.1,0.0,758.826</vt>
+    </platform>
+    <platform position="47.75,12.606" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,654.716</vt>
+        <vt>1.5,0.1,64.0,1134.716</vt>
+        <vt>1.5,-0.1,0.0,1134.716</vt>
+        <vt>0.0,-0.1,0.0,654.716</vt>
+    </platform>
+    <platform position="47.75,13.091" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,731.743</vt>
+        <vt>1.5,0.1,64.0,1211.743</vt>
+        <vt>1.5,-0.1,0.0,1211.743</vt>
+        <vt>0.0,-0.1,0.0,731.743</vt>
+    </platform>
+    <platform position="47.75,13.576" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,354.165</vt>
+        <vt>1.5,0.1,64.0,834.165</vt>
+        <vt>1.5,-0.1,0.0,834.165</vt>
+        <vt>0.0,-0.1,0.0,354.165</vt>
+    </platform>
+    <platform position="47.75,14.061" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,258.171</vt>
+        <vt>1.5,0.1,64.0,738.171</vt>
+        <vt>1.5,-0.1,0.0,738.171</vt>
+        <vt>0.0,-0.1,0.0,258.171</vt>
+    </platform>
+    <platform position="47.75,14.545" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,666.135</vt>
+        <vt>1.5,0.1,64.0,1146.135</vt>
+        <vt>1.5,-0.1,0.0,1146.135</vt>
+        <vt>0.0,-0.1,0.0,666.135</vt>
+    </platform>
+    <platform position="47.75,15.03" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,57.229</vt>
+        <vt>1.5,0.1,64.0,537.229</vt>
+        <vt>1.5,-0.1,0.0,537.229</vt>
+        <vt>0.0,-0.1,0.0,57.229</vt>
+    </platform>
+    <platform position="47.75,15.515" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="100,100,220" >
+        <vt>0.0,0.1,64.0,416.431</vt>
+        <vt>1.5,0.1,64.0,896.431</vt>
+        <vt>1.5,-0.1,0.0,896.431</vt>
+        <vt>0.0,-0.1,0.0,416.431</vt>
+    </platform>
+    <platform position="47.75,0" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="128,128,255" >
+        <vt>-0.2,0.0,64.0,496.129</vt>
+        <vt>-0.2,16.0,64.0,3056.129</vt>
+        <vt>0.2,16.0,0.0,3056.129</vt>
+        <vt>0.2,0.0,0.0,496.129</vt>
+    </platform>
+    <platform position="49.25,0" texture="TEXSteel_stick_rusted" layer="4" surface="metal_rura" one_sided="true" color="128,128,255" >
+        <vt>-0.2,0.0,64.0,698.656</vt>
+        <vt>-0.2,16.0,64.0,3258.656</vt>
+        <vt>0.2,16.0,0.0,3258.656</vt>
+        <vt>0.2,0.0,0.0,698.656</vt>
+    </platform>
+</chunk>
+<chunk>
+    <wall position="47,0" texture="wall0" >
+        <v>0.0,0.0</v>
+        <v>3.0,0.0</v>
+        <v>3.0,16.0</v>
+        <v>0.0,16.0</v>
+    </wall>
+</chunk>
+<dynamic_chunk>
+<state>
+    <wall position="47,0" texture="bricks,3" layer="9" >
+        <v>0.0,0.0</v>
+        <v>3.0,0.0</v>
+        <v>3.0,16.0</v>
+        <v>0.0,16.0</v>
+    </wall>
+</state>
+<state position="0,0" size="0,0">
+</state>
+    <state_trigger state="1" trigger="default" />
+    <state_trigger state="1" trigger="Room1Entered" />
+    <state_trigger state="0" trigger="Room1Left" />
+</dynamic_chunk>
+<chunk>
+    <event_zone position="49,1" player_only="true" >
+        <v>0.0,0.0</v>
+        <v>0.5,0.0</v>
+        <v>0.5,3.0</v>
+        <v>0.0,3.0</v>
+        <e>Room1Entered</e>
+    </event_zone>
+</chunk>
+<chunk>
+    <event_zone position="49,13.5" player_only="true" >
+        <v>0.0,0.0</v>
+        <v>0.5,0.0</v>
+        <v>0.5,3.0</v>
+        <v>0.0,3.0</v>
+        <e>Room1Entered</e>
+    </event_zone>
+</chunk>
+<chunk>
+    <event_zone position="47,13.5" player_only="true" >
+        <v>0.0,0.0</v>
+        <v>0.5,0.0</v>
+        <v>0.5,3.0</v>
+        <v>0.0,3.0</v>
+        <e>Room1Entered</e>
+    </event_zone>
+</chunk>
+<chunk>
+    <event_zone position="47,8" player_only="true" >
+        <v>0.0,0.0</v>
+        <v>0.5,0.0</v>
+        <v>0.5,2.5</v>
+        <v>0.0,2.5</v>
+        <e>Room1Entered</e>
+    </event_zone>
 </chunk>
 </level>

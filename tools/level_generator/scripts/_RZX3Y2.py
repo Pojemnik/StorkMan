@@ -1,6 +1,6 @@
 from level_base import level
 
-lvl = level('Elektrownia_Weglowa_X1Y1')
+lvl = level('RZX3Y2')
 
 import podstawy
 podstawy.lvl = lvl
@@ -9,13 +9,12 @@ import pułapki
 import struktury
 import mechanizmy
 import obiekty
-import chłodnia_kominowa
 import ruchy
-import elektrownia_węglowa
 import grafiki
 
 #zdarzenia
 
 #ziemia
+podstawy.platforma(x=0,y=49,wierzchołki=["v",4,0,0,50,0,50,1,0,1],tekstura="bricks,3",powierzchnia="posadzka_hala")
 
-lvl.save('Elektrownia_Weglowa_X1Y1.xml')
+lvl.save('RZX3Y2.xml')
